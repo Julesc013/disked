@@ -1,0 +1,110 @@
+{
+  "schema": "org.disked.project-graph/1",
+  "modules": [
+    {
+      "id": "portable",
+      "path_prefixes": [
+        "portable/"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-032"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "runtime",
+      "path_prefixes": [
+        "runtime/"
+      ],
+      "spec_ids": [
+        "DE-010",
+        "DE-030",
+        "DE-042"
+      ],
+      "depends_on": [
+        "portable"
+      ]
+    },
+    {
+      "id": "interaction",
+      "path_prefixes": [
+        "apps/disked/",
+        "runtime/invocation/",
+        "runtime/presentation/"
+      ],
+      "spec_ids": [
+        "DE-020",
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-024"
+      ],
+      "depends_on": [
+        "runtime"
+      ]
+    },
+    {
+      "id": "windows",
+      "path_prefixes": [
+        "platform/windows/",
+        "providers/windows/"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-050",
+        "DE-041"
+      ],
+      "depends_on": [
+        "runtime"
+      ]
+    },
+    {
+      "id": "providers",
+      "path_prefixes": [
+        "providers/"
+      ],
+      "spec_ids": [
+        "DE-033",
+        "DE-044"
+      ],
+      "depends_on": [
+        "runtime"
+      ]
+    },
+    {
+      "id": "delivery",
+      "path_prefixes": [
+        "release/",
+        "targets/"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-061",
+        "DE-062",
+        "DE-050"
+      ],
+      "depends_on": [
+        "interaction",
+        "providers"
+      ]
+    },
+    {
+      "id": "development",
+      "path_prefixes": [
+        ".aide/",
+        "tools/",
+        "tests/",
+        "spec/tools/"
+      ],
+      "spec_ids": [
+        "DE-070",
+        "DE-071",
+        "DE-074",
+        "DE-076"
+      ],
+      "depends_on": []
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:target:1",
+  "title": "target",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "os_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "os_floor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "architecture": {
+      "type": "string",
+      "minLength": 1
+    },
+    "abi": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executable_format": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gui": {
+      "type": "string",
+      "minLength": 1
+    },
+    "terminal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "initial",
+        "follow-on",
+        "future",
+        "research"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "buildable",
+        "qualified"
+      ]
+    },
+    "gui_exception": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "runtime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery": {
+      "type": "object",
+      "properties": {
+        "single_entrypoint": {
+          "type": "boolean"
+        },
+        "single_file_goal": {
+          "type": "boolean"
+        },
+        "zero_extraction_goal": {
+          "type": "boolean"
+        },
+        "app_bundle": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "single_entrypoint",
+        "single_file_goal",
+        "zero_extraction_goal",
+        "app_bundle"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "qualification_notes": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "os_family",
+    "os_floor",
+    "architecture",
+    "abi",
+    "executable_format",
+    "gui",
+    "terminal",
+    "stage",
+    "status",
+    "gui_exception",
+    "runtime",
+    "delivery",
+    "evidence",
+    "qualification_notes"
+  ],
+  "additionalProperties": false
+}

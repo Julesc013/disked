@@ -1,0 +1,55 @@
+{
+  "id": "DE-W010",
+  "title": "Build a minimal native single-entrypoint composition",
+  "phase": "M1",
+  "status": "planned",
+  "risk": "R2",
+  "dependencies": [
+    "DE-W000"
+  ],
+  "decision_gates": [],
+  "context": [
+    "DE-010",
+    "DE-012",
+    "DE-020",
+    "DE-060"
+  ],
+  "allowed_paths": [
+    "apps/disked/**",
+    "runtime/invocation/**",
+    "targets/**",
+    "tools/build*",
+    "tests/invocation/**"
+  ],
+  "forbidden_paths": [
+    "customer-data/**",
+    "secrets/**",
+    "signing-keys/**",
+    ".git/**"
+  ],
+  "forbidden_operations": [
+    "raw physical-device access",
+    "administrator/root execution",
+    "customer-data access",
+    "release signing",
+    "unrequested GitHub mutation",
+    "automatic protected-branch promotion",
+    "executing fetched scripts",
+    "claiming unrun tests passed"
+  ],
+  "deliverables": [
+    "Native executable with build inspect and fake command discovery.",
+    "Exact toolchain/import declaration for current Windows and XP prototype lane."
+  ],
+  "acceptance": [
+    "Clean native build log retained.",
+    "No provider opens physical devices.",
+    "Public basename is disked."
+  ],
+  "validation_commands": [
+    "python spec/tools/specctl.py check",
+    "python -m unittest discover -s spec/tools/tests -v"
+  ],
+  "stop_state": "needs_review",
+  "authorization": "separate-grant-required"
+}

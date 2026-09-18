@@ -1,0 +1,344 @@
+{
+  "schema": "org.disked.intent-ledger/1",
+  "provenance": "Synthesis of user requests and superseded assistant proposals in the supplied conversation, not a verbatim transcript.",
+  "authority": "design input; normative requirements are in linked concepts",
+  "inputs": [
+    {
+      "id": "DE-INPUT-001",
+      "key": "identity",
+      "statement": "Use DiskEd / disked, not the FacMan names copied into earlier sketches.",
+      "spec_ids": [
+        "DE-001",
+        "DE-020"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-002",
+      "key": "one-entrypoint",
+      "statement": "Prefer one disked binary per target with CLI, JSON, TUI and the target native GUI.",
+      "spec_ids": [
+        "DE-001",
+        "DE-060"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-003",
+      "key": "auto-mode",
+      "statement": "Bare desktop versus terminal launch should select a suitable frontend with explicit overrides.",
+      "spec_ids": [
+        "DE-020"
+      ],
+      "status": "requires-platform-experiment"
+    },
+    {
+      "id": "DE-INPUT-004",
+      "key": "filename-case",
+      "statement": "DiskEd and disked are one identity, not two files distinguished only by case.",
+      "spec_ids": [
+        "DE-060"
+      ],
+      "status": "retained-design-constraint"
+    },
+    {
+      "id": "DE-INPUT-005",
+      "key": "packaging-properties",
+      "statement": "Distinguish one entrypoint, one distributable, zero extraction and runtime independence.",
+      "spec_ids": [
+        "DE-060",
+        "DE-050"
+      ],
+      "status": "retained-design-constraint"
+    },
+    {
+      "id": "DE-INPUT-006",
+      "key": "same-file-processes",
+      "statement": "Allow same signed file in separate broker/provider processes where exact-image trust can be proven.",
+      "spec_ids": [
+        "DE-041"
+      ],
+      "status": "requires-security-experiment"
+    },
+    {
+      "id": "DE-INPUT-007",
+      "key": "setup-boundary",
+      "statement": "Universal Setup optionally installs the exact portable payload; DiskEd does not depend on it to run.",
+      "spec_ids": [
+        "DE-061"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-008",
+      "key": "native-interfaces",
+      "statement": "Use the target system controls and conventions rather than a fake universal skin.",
+      "spec_ids": [
+        "DE-024"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-009",
+      "key": "windows-first",
+      "statement": "Make XP, 7, 10 and 11 useful first, without pretending one API/toolchain covers all.",
+      "spec_ids": [
+        "DE-034",
+        "DE-050",
+        "DE-080"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-010",
+      "key": "dos-carbon",
+      "statement": "Preserve first-class DOS, JC-DOS and Carbon pathways; inspect exact upstream ABIs before coding.",
+      "spec_ids": [
+        "DE-051"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-011",
+      "key": "underserved-hosts",
+      "statement": "Include NT4, Win9x, Win16, OS2, RT/OEM constraints and other historical targets as scoped profiles.",
+      "spec_ids": [
+        "DE-050",
+        "DE-051",
+        "DE-052"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-012",
+      "key": "other-native-guis",
+      "statement": "AppKit, SwiftUI, GTK, Qt and managed Windows alternatives remain profile-selected ports.",
+      "spec_ids": [
+        "DE-024",
+        "DE-052"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-013",
+      "key": "all-storage",
+      "statement": "Represent block, image, pool/array, encryption, tape, optical, flux and remote domains without flattening semantics.",
+      "spec_ids": [
+        "DE-031",
+        "DE-052"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-014",
+      "key": "gparted",
+      "statement": "Use GParted capabilities as a parity reference, not a mandatory native Windows runtime or Intel-only conceptual limit.",
+      "spec_ids": [
+        "DE-033",
+        "DE-101",
+        "DE-112"
+      ],
+      "status": "design-input-revalidate-upstream"
+    },
+    {
+      "id": "DE-INPUT-015",
+      "key": "reuse",
+      "statement": "Prefer qualified OS APIs and upstream providers before rewriting filesystem internals.",
+      "spec_ids": [
+        "DE-033"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-016",
+      "key": "expert-freedom",
+      "statement": "Expose advanced semantic operations and provider choices without a generic safety-bypass flag.",
+      "spec_ids": [
+        "DE-021",
+        "DE-033",
+        "DE-040"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-017",
+      "key": "workshop",
+      "statement": "Support asset/case evidence, acquisition, health, redaction and recovery before risky physical transforms.",
+      "spec_ids": [
+        "DE-111",
+        "DE-080"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-018",
+      "key": "single-authority",
+      "statement": "CLI, TUI, GUI and scripts dispatch one semantic command and outcome model.",
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023"
+      ],
+      "status": "retained-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-019",
+      "key": "read-only-first",
+      "statement": "Fake and image slices precede privileged physical mutation.",
+      "spec_ids": [
+        "DE-080"
+      ],
+      "status": "retained-safety-boundary"
+    },
+    {
+      "id": "DE-INPUT-020",
+      "key": "no-false-transaction",
+      "statement": "A pending queue and small journal do not make multi-terabyte mutations atomic or fully rollbackable.",
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ],
+      "status": "supersedes-earlier-overstatement"
+    },
+    {
+      "id": "DE-INPUT-021",
+      "key": "no-hidden-journal",
+      "statement": "Unknown gaps and hidden sectors are not free journal storage.",
+      "spec_ids": [
+        "DE-043"
+      ],
+      "status": "retained-safety-boundary"
+    },
+    {
+      "id": "DE-INPUT-022",
+      "key": "no-ordinal-authority",
+      "statement": "Transient disk numbers are display locators, not sufficient write authorization.",
+      "spec_ids": [
+        "DE-030",
+        "DE-041"
+      ],
+      "status": "retained-safety-boundary"
+    },
+    {
+      "id": "DE-INPUT-023",
+      "key": "license",
+      "statement": "Earlier MIT/Apache/dual-license suggestions are proposals; the repository owner has not selected one here.",
+      "spec_ids": [
+        "DE-062",
+        "DE-081"
+      ],
+      "status": "owner-decision-pending"
+    },
+    {
+      "id": "DE-INPUT-024",
+      "key": "language",
+      "statement": "Small portable C plus target-qualified native implementations; no universal Rust/C++/C89 edict substitutes for target proof.",
+      "spec_ids": [
+        "DE-012",
+        "DE-081"
+      ],
+      "status": "experiment-gated"
+    },
+    {
+      "id": "DE-INPUT-025",
+      "key": "releases",
+      "statement": "One product version can publish many exact target-profile assets; do not fork source history per OS version.",
+      "spec_ids": [
+        "DE-060",
+        "DE-050"
+      ],
+      "status": "retained-design-constraint"
+    },
+    {
+      "id": "DE-INPUT-026",
+      "key": "spec-root",
+      "statement": "Root spec owns authored OKF requirements and schema/catalogs; docs owns human publication.",
+      "spec_ids": [
+        "DE-002",
+        "DE-003",
+        "DE-073"
+      ],
+      "status": "latest-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-027",
+      "key": "no-model-memory",
+      "statement": "Use revision-bound work/context/handoff records instead of requiring old chats.",
+      "spec_ids": [
+        "DE-070",
+        "DE-071",
+        "DE-072"
+      ],
+      "status": "latest-user-requirement"
+    },
+    {
+      "id": "DE-INPUT-028",
+      "key": "aide-reality",
+      "statement": "AIDE integration must reflect inspected protocol surfaces and actual round-trip evidence, not assumed schedulers.",
+      "spec_ids": [
+        "DE-070"
+      ],
+      "status": "current-source-observation"
+    },
+    {
+      "id": "DE-INPUT-029",
+      "key": "no-empty-cathedral",
+      "statement": "Create code directories with ownership when implementations exist; do not precreate every future subtree.",
+      "spec_ids": [
+        "DE-011"
+      ],
+      "status": "supersedes-earlier-layout-expansion"
+    },
+    {
+      "id": "DE-INPUT-030",
+      "key": "upstream-quality",
+      "statement": "Aim for independently auditable OEM/upstream use, without claiming Microsoft/Sysinternals adoption or certification.",
+      "spec_ids": [
+        "DE-001",
+        "DE-075"
+      ],
+      "status": "retained-user-goal"
+    },
+    {
+      "id": "DE-INPUT-031",
+      "key": "stale-technical-claims",
+      "statement": "Earlier .NET/VDS/FSCTL/platform and Carbon details must be verified against pinned primary sources before target claims.",
+      "spec_ids": [
+        "DE-050",
+        "DE-051",
+        "DE-090"
+      ],
+      "status": "revalidation-required"
+    },
+    {
+      "id": "DE-INPUT-032",
+      "key": "two-binaries",
+      "statement": "Earlier separate public CLI/GUI binaries are superseded by one product entrypoint per target.",
+      "spec_ids": [
+        "DE-081",
+        "DE-060"
+      ],
+      "status": "superseded"
+    },
+    {
+      "id": "DE-INPUT-033",
+      "key": "universal-polyglot",
+      "statement": "One standard MZ/NE/PE/PE+ executable for every loader is not the release architecture.",
+      "spec_ids": [
+        "DE-060"
+      ],
+      "status": "rejected-general-strategy"
+    },
+    {
+      "id": "DE-INPUT-034",
+      "key": "agent-control",
+      "statement": "Model choice, subagent permissions, budgets and execution privilege are separate axes; verification preserves quality.",
+      "spec_ids": [
+        "DE-070",
+        "DE-071",
+        "DE-075"
+      ],
+      "status": "retained-cross-project-doctrine"
+    }
+  ]
+}

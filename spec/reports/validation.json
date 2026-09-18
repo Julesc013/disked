@@ -1,0 +1,52 @@
+{
+  "schema": "org.disked.bootstrap-validation/1",
+  "observed_at": "2026-09-17T12:15:56.483870+00:00",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "dependencies": {
+      "PyYAML": "6.0.3",
+      "jsonschema": "4.26.0",
+      "attrs": "26.1.0",
+      "jsonschema-specifications": "2025.9.1",
+      "referencing": "0.37.0",
+      "rpds-py": "2026.5.1",
+      "typing_extensions": "4.16.0"
+    }
+  },
+  "tests": {
+    "command": "python -m unittest discover -s spec/tools/tests -v",
+    "exit_code": 0,
+    "count": 100,
+    "elapsed_seconds": 9.079,
+    "status": "PASS",
+    "log": "reports/test-results.txt"
+  },
+  "subjects": {
+    "tools/specctl.py": "sha256:e204e0e5a5ad8f72486b8b2252c08e67557c0363936075268ef92017b6ad18e0",
+    "tools/tests/test_specctl.py": "sha256:20f55633475ccf2a93547b918542d2109af5f6f962d47e423488704cf6b154ad"
+  },
+  "scope": "Specification/bootstrap tooling, not product implementation or storage qualification.",
+  "owner_accepted": false,
+  "remote_writes": false,
+  "structural_check": {
+    "schema": "org.disked.spec-check/1",
+    "status": "PASS",
+    "checks": 638,
+    "concepts": 53,
+    "requirements": 110,
+    "work_units": 29,
+    "schemas": 19,
+    "errors": [],
+    "scope": "Specification structure, local contracts, fixtures and tool projections only.",
+    "not_validated": [
+      "DiskEd runtime",
+      "Windows binaries/GUI",
+      "physical storage",
+      "power-loss recovery",
+      "live AIDE CLI",
+      "Universal Setup integration",
+      "owner acceptance"
+    ]
+  }
+}

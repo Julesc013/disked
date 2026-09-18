@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command:1",
+  "title": "command",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "words": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 2
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "effect": {
+      "type": "string",
+      "enum": [
+        "none",
+        "observe",
+        "output-write",
+        "plan",
+        "mutate",
+        "cancel-request"
+      ]
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "fake-only",
+        "implemented"
+      ]
+    },
+    "requires_plan": {
+      "type": "boolean"
+    },
+    "privilege": {
+      "type": "string",
+      "enum": [
+        "none",
+        "read-elevation-optional",
+        "broker"
+      ]
+    },
+    "request_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spec_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+      }
+    },
+    "handler": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "words",
+    "aliases",
+    "effect",
+    "availability",
+    "requires_plan",
+    "privilege",
+    "request_schema",
+    "result_schema",
+    "spec_ids",
+    "handler",
+    "summary"
+  ],
+  "additionalProperties": false
+}

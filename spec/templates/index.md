@@ -1,0 +1,26 @@
+# Templates
+
+[Bundle index](../index.md). These files are not additional independent sources of normative authority.
+
+- [aide-integration.txt](aide-integration.txt)
+- [bootstrap-map.json](bootstrap-map.json)
+- [chat-resume.txt](chat-resume.txt)
+- [ci-workflow.example.txt](ci-workflow.example.txt)
+- [docs-agent-workflow.txt](docs-agent-workflow.txt)
+- [docs-architecture.txt](docs-architecture.txt)
+- [docs-compatibility.txt](docs-compatibility.txt)
+- [docs-contributing.txt](docs-contributing.txt)
+- [docs-getting-started.txt](docs-getting-started.txt)
+- [docs-index.txt](docs-index.txt)
+- [docs-maintenance.txt](docs-maintenance.txt)
+- [review-start.txt](review-start.txt)
+- [root-agents.txt](root-agents.txt)
+- [root-claude.txt](root-claude.txt)
+- [root-contributing.txt](root-contributing.txt)
+- [root-editorconfig.txt](root-editorconfig.txt)
+- [root-gitattributes.txt](root-gitattributes.txt)
+- [root-gitignore.txt](root-gitignore.txt)
+- [root-readme.txt](root-readme.txt)
+- [root-security.txt](root-security.txt)
+- [root-tool-wrapper.txt](root-tool-wrapper.txt)
+- [worker-start.txt](worker-start.txt)

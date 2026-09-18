@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:handoff:1",
+  "title": "handoff",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.handoff/1"
+    },
+    "work_id": {
+      "type": "string",
+      "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "base_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spec_manifest_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "needs_review",
+        "blocked",
+        "partial"
+      ]
+    },
+    "files_read": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "files_changed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cwd": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "not_run",
+              "pass",
+              "fail",
+              "blocked"
+            ]
+          },
+          "exit_code": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "evidence_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "status",
+          "exit_code",
+          "evidence_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "next_safe_step": {
+      "type": "string",
+      "minLength": 1
+    },
+    "performed_remote_writes": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema",
+    "work_id",
+    "base_revision",
+    "spec_manifest_digest",
+    "status",
+    "files_read",
+    "files_changed",
+    "summary",
+    "tests",
+    "artifacts",
+    "blockers",
+    "next_safe_step",
+    "performed_remote_writes"
+  ],
+  "additionalProperties": false
+}

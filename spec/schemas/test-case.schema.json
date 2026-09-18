@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:test-case:1",
+  "title": "test-case",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "requirement_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+      },
+      "minItems": 1
+    },
+    "method": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "const": "definition_only"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "id",
+    "requirement_ids",
+    "method",
+    "status",
+    "evidence"
+  ],
+  "additionalProperties": false
+}

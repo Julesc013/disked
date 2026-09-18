@@ -1,0 +1,38 @@
+# Planned DiskEd command reference
+
+Generated from `spec/catalog/commands.json`; all listed commands are planned, not executable in this archive.
+
+Source digest: `sha256:4bd62bc71ab9a0332c49d79e371900253c6225794b38eb74a5ea3ceb59db3688`.
+
+| Command | Semantic ID | Effect | Summary |
+|---|---|---|---|
+| `disked build inspect` | `build.inspect` | none | Inspect embedded target and build manifest |
+| `disked mode explain` | `mode.explain` | none | Explain invocation policy without storage effects |
+| `disked command list` | `command.list` | none | List descriptors and actual availability |
+| `disked target list` | `target.list` | observe | Bounded target enumeration |
+| `disked target inspect` | `target.inspect` | observe | Inspect identity and source observations |
+| `disked topology show` | `topology.show` | observe | Show layered current topology |
+| `disked table verify` | `table.verify` | observe | Validate independent partition-map observations |
+| `disked image inspect` | `image.inspect` | observe | Inspect image without mounting it |
+| `disked image acquire` | `image.acquire` | output-write | Acquire to an explicitly owned destination |
+| `disked image verify` | `image.verify` | observe | Verify image against explicit coverage |
+| `disked health assess` | `health.assess` | observe | Collect bounded health evidence |
+| `disked capability explain` | `capability.explain` | none | Explain availability and refusals |
+| `disked provider list` | `provider.list` | none | List included providers and qualification |
+| `disked provider inspect` | `provider.inspect` | none | Inspect exact provider/version closure |
+| `disked evidence export` | `evidence.export` | output-write | Export reviewed/redacted evidence |
+| `disked partition resize` | `partition.resize.plan` | plan | Construct a typed size/start/end plan |
+| `disked partition move` | `partition.move.plan` | plan | Construct a separately qualified move plan |
+| `disked table repair` | `table.gpt.repair.plan` | plan | Propose explicit GPT-copy repair |
+| `disked filesystem migrate` | `filesystem.migrate.plan` | plan | Plan metadata-aware migration |
+| `disked plan show` | `plan.show` | none | Review exact plan and its requirements |
+| `disked plan validate` | `plan.validate` | observe | Validate current preconditions without effects |
+| `disked plan simulate` | `plan.simulate` | observe | Project expected effects and limits |
+| `disked plan apply` | `plan.apply` | mutate | Apply exact admitted plan through broker |
+| `disked operation inspect` | `operation.inspect` | none | Inspect durable execution outcome |
+| `disked operation watch` | `operation.watch` | none | Observe events with sequence continuity |
+| `disked operation cancel` | `operation.cancel.request` | cancel-request | Request cancellation at a safe checkpoint |
+| `disked recovery inspect` | `recovery.inspect` | observe | Inspect journal/capsule without writes |
+| `disked recovery plan` | `recovery.plan` | plan | Build a plan from observed interrupted state |
+| `disked recovery apply` | `recovery.apply` | mutate | Apply independently admitted recovery |
+| `disked resource list` | `resource.list` | none | List embedded resources and notices |

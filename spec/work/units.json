@@ -1,0 +1,1510 @@
+{
+  "schema": "org.disked.work-units/1",
+  "units": [
+    {
+      "id": "DE-W000",
+      "title": "Review and ratify the specification baseline",
+      "phase": "M0",
+      "status": "planned",
+      "risk": "R1",
+      "dependencies": [],
+      "decision_gates": [],
+      "context": [
+        "DE-001",
+        "DE-002",
+        "DE-003",
+        "DE-080",
+        "DE-081"
+      ],
+      "allowed_paths": [
+        "spec/**",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "docs/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Record retained user requirements, disagreements and baseline acceptance at a real Git revision.",
+        "Resolve or explicitly retain scoped open decisions; do not invent a license or safety approval."
+      ],
+      "acceptance": [
+        "Bootstrap and structural tests run with actual logs.",
+        "No product or hardware test reported as passed.",
+        "Owner-approved baseline or explicit changes/blockers recorded."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W010",
+      "title": "Build a minimal native single-entrypoint composition",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W000"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-010",
+        "DE-012",
+        "DE-020",
+        "DE-060"
+      ],
+      "allowed_paths": [
+        "apps/disked/**",
+        "runtime/invocation/**",
+        "targets/**",
+        "tools/build*",
+        "tests/invocation/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Native executable with build inspect and fake command discovery.",
+        "Exact toolchain/import declaration for current Windows and XP prototype lane."
+      ],
+      "acceptance": [
+        "Clean native build log retained.",
+        "No provider opens physical devices.",
+        "Public basename is disked."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W011",
+      "title": "Measure Windows launch and console ownership behavior",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-020",
+        "DE-024",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "runtime/invocation/**",
+        "platform/windows/**",
+        "tests/invocation/**",
+        "spec/catalog/decisions.json"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Record Explorer/cmd/PowerShell/redirection/absent-handle behavior.",
+        "Decision DE-DEC-002 with subsystem alternatives and measured limitations."
+      ],
+      "acceptance": [
+        "Caller-owned console never hidden/detached.",
+        "Explicit mode and conflict fixture parity.",
+        "No no-flash claim without observed evidence."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W012",
+      "title": "Implement descriptor-owned CLI and machine envelopes",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-021",
+        "DE-022"
+      ],
+      "allowed_paths": [
+        "runtime/command/**",
+        "apps/disked/cli/**",
+        "tests/contracts/**",
+        "include/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Registry-driven dispatch and help with planned commands unavailable.",
+        "Bounded JSON/NDJSON framing and typed errors."
+      ],
+      "acceptance": [
+        "Duplicate keys/oversized requests rejected.",
+        "Machine stdout has only valid framed JSON.",
+        "Exit codes and no-prompt behavior tested."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W013",
+      "title": "Implement fake graph and frontend service",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W012"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-023",
+        "DE-030"
+      ],
+      "allowed_paths": [
+        "runtime/graph/**",
+        "runtime/presentation/**",
+        "providers/fake/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Immutable snapshots and typed actions over deterministic fake targets.",
+        "Revision-conflict refusal and stable selection identity."
+      ],
+      "acceptance": [
+        "No UI-specific safety logic.",
+        "Target removal cannot select another row implicitly."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W014",
+      "title": "Implement linear and full-screen TUI over fake state",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W013"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-023",
+        "DE-024"
+      ],
+      "allowed_paths": [
+        "apps/disked/tui/**",
+        "platform/windows/console/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Same-binary TUI with linear accessible fallback and command explorer."
+      ],
+      "acceptance": [
+        "All implemented fake actions available through TUI.",
+        "Small terminal and missing features degrade without losing semantic outcomes."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W015",
+      "title": "Implement minimal native Win32 GUI over fake state",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W013",
+        "DE-W011"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-023",
+        "DE-024",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "apps/disked/gui/win32/**",
+        "platform/windows/ui/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Native navigator/inspector/current-proposed view with structured equivalent."
+      ],
+      "acceptance": [
+        "GUI initializes only when requested.",
+        "Keyboard and high-contrast checks recorded on actual tested host.",
+        "Parity transcript matches CLI and TUI."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W016",
+      "title": "Prove same-file process roles without privilege",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W012",
+        "DE-W013"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-022",
+        "DE-040",
+        "DE-041"
+      ],
+      "allowed_paths": [
+        "runtime/transport/**",
+        "apps/disked/entry/**",
+        "tests/transport/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Unprivileged fake provider-host self-spawn and operation reconnect.",
+        "Threat-model findings for later elevation."
+      ],
+      "acceptance": [
+        "No elevation or raw access.",
+        "Killed client leaves an inspectable honest fake operation outcome."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W020",
+      "title": "Implement portable checked arithmetic and extents",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-005",
+        "DE-012",
+        "DE-031"
+      ],
+      "allowed_paths": [
+        "portable/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "include/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bounded views, endian helpers, checked u64 arithmetic and half-open extents."
+      ],
+      "acceptance": [
+        "Overflow/underflow/device-end and nonstandard-unit tests pass.",
+        "No OS headers in portable code."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W021",
+      "title": "Implement bounded MBR and EBR readers",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-032",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "portable/mbr/**",
+        "portable/ebr/**",
+        "providers/image/**",
+        "tests/fixtures/**",
+        "tests/fuzz/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Read-only MBR/EBR parser preserving opaque fields."
+      ],
+      "acceptance": [
+        "Cycles, relative EBR bases, overlaps and truncated images covered.",
+        "Parser never writes or mounts an image."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W022",
+      "title": "Implement independent GPT readers and diagnostics",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-032",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "portable/gpt/**",
+        "runtime/verification/**",
+        "tests/fixtures/**",
+        "tests/fuzz/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Primary/backup validation with exact upstream format revision and bounded allocation."
+      ],
+      "acceptance": [
+        "Valid-disagreeing copies not auto-repaired.",
+        "GUID/UTF16/endpoints and checksum vectors covered."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W023",
+      "title": "Build differential corpus and parser fault campaign",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W021",
+        "DE-W022"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-074",
+        "DE-032",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "tests/fuzz/**",
+        "tests/differential/**",
+        "tests/corpus/**",
+        "tools/tests*"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Generated malformed-image corpus and reproducible external-oracle adapters."
+      ],
+      "acceptance": [
+        "Disagreements retained rather than majority-voted away.",
+        "Exact tool versions/source identities recorded."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W024",
+      "title": "Expose read-only image inspection in all frontends",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W014",
+        "DE-W015",
+        "DE-W021",
+        "DE-W022"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-021",
+        "DE-023",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "providers/image/**",
+        "runtime/capture/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Raw image capture and verification through shared actions."
+      ],
+      "acceptance": [
+        "No host mounting or physical writes.",
+        "CLI/TUI/GUI fixtures produce equivalent diagnostics."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W030",
+      "title": "Implement native NT read-only inventory",
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R3",
+      "dependencies": [
+        "DE-W023",
+        "DE-W024"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-030",
+        "DE-034",
+        "DE-050",
+        "DE-101"
+      ],
+      "allowed_paths": [
+        "providers/windows/**",
+        "platform/windows/storage/**",
+        "tests/windows/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Read-only disk/volume/mount identity observations with explicit denial/unknown state."
+      ],
+      "acceptance": [
+        "XP and modern import floors audited.",
+        "No deep test or elevation triggered by bare startup.",
+        "Duplicate identity and removal cases retained."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W031",
+      "title": "Qualify initial Windows target launch and frontend matrix",
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W030",
+        "DE-W011",
+        "DE-W015"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-050",
+        "DE-020",
+        "DE-074"
+      ],
+      "allowed_paths": [
+        "targets/**",
+        "tests/vm/**",
+        "release/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Real launch logs for XP/7/10/11 artifacts and optional ARM64 lane."
+      ],
+      "acceptance": [
+        "Untested targets remain planned.",
+        "Native GUI and redirected machine mode both exercised."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W032",
+      "title": "Add bounded health observations and redaction",
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W030"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-111",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "providers/health/**",
+        "runtime/evidence/**",
+        "tests/health/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Admitted read-only observer adapters and explicit unavailable data."
+      ],
+      "acceptance": [
+        "No health oracle implies safe media.",
+        "Deep/self-test actions are not auto-issued."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W033",
+      "title": "Implement resumable image acquisition against fixtures",
+      "phase": "M4",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W024",
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-103",
+        "DE-044",
+        "DE-071"
+      ],
+      "allowed_paths": [
+        "providers/image/**",
+        "runtime/acquisition/**",
+        "tests/images/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bounded data pipeline, acquisition map and explicit substitution semantics."
+      ],
+      "acceptance": [
+        "Source/destination alias and no-clobber protection tested.",
+        "Resume verifies identity and map; failing-media policy documented."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W034",
+      "title": "Implement case evidence and reports",
+      "phase": "M4",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W032",
+        "DE-W033"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-111",
+        "DE-073",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "runtime/evidence/**",
+        "runtime/case/**",
+        "docs/**",
+        "tests/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Before/after capture, custody records, redacted support export."
+      ],
+      "acceptance": [
+        "Actual facts separated from inference.",
+        "No secrets/customer filenames exported without policy."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W040",
+      "title": "Design and model runtime journal encoding",
+      "phase": "M5",
+      "status": "planned",
+      "risk": "R4",
+      "dependencies": [
+        "DE-W023",
+        "DE-W016"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-043",
+        "DE-042",
+        "DE-074"
+      ],
+      "allowed_paths": [
+        "spec/safety/**",
+        "spec/schemas/**",
+        "tests/model/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Exact byte format and durability/failure model proposal.",
+        "Decision DE-DEC-004 with recovery and torn-write tests."
+      ],
+      "acceptance": [
+        "No product writes while format is only proposed.",
+        "Checksum/record/flush/unknown-effect behavior fully specified."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W041",
+      "title": "Implement table mutation only in disposable images",
+      "phase": "M5",
+      "status": "planned",
+      "risk": "R4",
+      "dependencies": [
+        "DE-W040",
+        "DE-W024"
+      ],
+      "decision_gates": [
+        "DE-DEC-004"
+      ],
+      "context": [
+        "DE-104",
+        "DE-105",
+        "DE-042",
+        "DE-043"
+      ],
+      "allowed_paths": [
+        "runtime/planner/**",
+        "runtime/journal/**",
+        "providers/image/**",
+        "tests/images/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Image-only reviewed plans, bounded writers and independent verifier."
+      ],
+      "acceptance": [
+        "Fault injection around every write/flush.",
+        "Unrelated bytes preserved and no raw devices accepted."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W042",
+      "title": "Exercise interrupted image recovery and cancellation",
+      "phase": "M5",
+      "status": "planned",
+      "risk": "R4",
+      "dependencies": [
+        "DE-W041"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-043",
+        "DE-044",
+        "DE-074"
+      ],
+      "allowed_paths": [
+        "runtime/recovery/**",
+        "tests/interruption/**",
+        "tests/recovery/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Replay/resume/uncertain outcome test harness and recovery capsule fixtures."
+      ],
+      "acceptance": [
+        "No false atomicity/rollback claims.",
+        "Unknown commit state requires recapture."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W050",
+      "title": "Design and qualify the elevated NT broker boundary",
+      "phase": "M6",
+      "status": "planned",
+      "risk": "R4",
+      "dependencies": [
+        "DE-W016",
+        "DE-W042"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-041",
+        "DE-040",
+        "DE-060"
+      ],
+      "allowed_paths": [
+        "runtime/broker/**",
+        "platform/windows/security/**",
+        "tests/security/**",
+        "spec/catalog/decisions.json"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Exact-image/IPC/approval design with security review.",
+        "Decision DE-DEC-005; no raw hardware execution under this WorkUnit."
+      ],
+      "acceptance": [
+        "Swap/replay/spoofing/static-initializer concerns evaluated.",
+        "Any real elevation test needs a separate authorized lab procedure."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W051",
+      "title": "Prepare separately authorized physical qualification procedures",
+      "phase": "M6",
+      "status": "planned",
+      "risk": "R4",
+      "dependencies": [
+        "DE-W050"
+      ],
+      "decision_gates": [
+        "DE-DEC-005"
+      ],
+      "context": [
+        "DE-074",
+        "DE-034",
+        "DE-043"
+      ],
+      "allowed_paths": [
+        "tests/hardware/**",
+        "spec/operations/**",
+        "release/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Sacrificial-device procedures, input forms and required reviewers; no device commands executed."
+      ],
+      "acceptance": [
+        "No production claim without actual independent hardware/recovery evidence.",
+        "Explicit permissions and scope for every subsequent lab run."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W060",
+      "title": "Pin and map Universal Setup package integration",
+      "phase": "M3+",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-061",
+        "DE-060",
+        "DE-062"
+      ],
+      "allowed_paths": [
+        "release/bindings/universal-setup/**",
+        "tests/setup/**",
+        "external/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Exact source contract mapping and payload equality tests on fixture directories."
+      ],
+      "acceptance": [
+        "No assumed unsupported Setup modes.",
+        "Occupied roots and customer evidence retention covered."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W061",
+      "title": "Verify AIDE WorkUnit export against pinned upstream",
+      "phase": "M0+",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W000"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-070",
+        "DE-071",
+        "DE-076"
+      ],
+      "allowed_paths": [
+        ".aide/**",
+        "spec/tools/**",
+        "tests/aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Run actual pinned AIDE validation when authorized and accessible.",
+        "Record real round-trip results or blockers; update DE-DEC-007."
+      ],
+      "acceptance": [
+        "Do not claim runtime scheduler/interoperability from shape matching.",
+        "Exports remain non-authorizing until an actual grant."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W070",
+      "title": "Inspect and design current JC-DOS/Carbon integration",
+      "phase": "M8",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-051",
+        "DE-031"
+      ],
+      "allowed_paths": [
+        "platform/jcdos/**",
+        "targets/**",
+        "spec/references/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Pinned current ABI and filesystem source references; bounded adapter design only."
+      ],
+      "acceptance": [
+        "No inherited ABI constants treated as verified.",
+        "No parallel hardware driver stack invented."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W071",
+      "title": "Prototype DOS and OS/2 read-only image profiles",
+      "phase": "M8",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W021",
+        "DE-W022"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-051",
+        "DE-012",
+        "DE-024"
+      ],
+      "allowed_paths": [
+        "platform/dos/**",
+        "platform/os2/**",
+        "targets/**",
+        "tests/legacy/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Native constrained image reader/terminal prototype with exact toolchains."
+      ],
+      "acceptance": [
+        "Address/memory ceilings enforced.",
+        "No unsupported GUI or physical-write claim."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W080",
+      "title": "Design advanced operation/provider admission slices",
+      "phase": "M7/M8",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W042"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-106",
+        "DE-107",
+        "DE-108",
+        "DE-109",
+        "DE-110",
+        "DE-112"
+      ],
+      "allowed_paths": [
+        "spec/operations/**",
+        "spec/work/**",
+        "spec/catalog/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Separate plans for each move/resize/boot/encryption/media family."
+      ],
+      "acceptance": [
+        "No giant implement-everything task.",
+        "Each family has failure model, provider evidence and phase gates."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W090",
+      "title": "Ratify licensing and prepare read-only release criteria",
+      "phase": "M3+",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W031",
+        "DE-W034",
+        "DE-W060"
+      ],
+      "decision_gates": [
+        "DE-DEC-001"
+      ],
+      "context": [
+        "DE-062",
+        "DE-060",
+        "DE-075"
+      ],
+      "allowed_paths": [
+        "LICENSES/**",
+        "NOTICE*",
+        "release/**",
+        "docs/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Owner license decision and exact clean dependency closure.",
+        "Read-only release checklist, not an automatic release."
+      ],
+      "acceptance": [
+        "No false Microsoft/Sysinternals endorsement.",
+        "Actual target evidence accompanies support claims."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Example only: not an enabled workflow and not an approved supply-chain pin.
+# Before activation: pin checkout/setup-python actions to reviewed immutable SHAs,
+# use read-only contents permissions, verify dependency locks, and run only
+# unprivileged fixture tests. Never use pull_request_target with untrusted code.
+# Minimum steps after checkout and Python 3.10+ are provisioned:
+#   python -m pip install -r spec/tools/requirements.txt -c spec/tools/constraints-tested.txt
+#   python spec/tools/specctl.py index --check
+#   python spec/tools/specctl.py check
+#   python -m unittest discover -s spec/tools/tests -v
+#   python spec/tools/specctl.py verify-manifest
+# Run on Windows and Linux before claiming either coordinator host qualified.
+# Product native/VM/hardware qualification is a separate later pipeline.

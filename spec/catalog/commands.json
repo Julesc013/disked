@@ -1,0 +1,579 @@
+{
+  "schema": "org.disked.commands/1",
+  "grammar": "disked [global-options] <domain> <verb> [arguments]",
+  "commands": [
+    {
+      "id": "build.inspect",
+      "words": [
+        "build",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-060"
+      ],
+      "handler": null,
+      "summary": "Inspect embedded target and build manifest"
+    },
+    {
+      "id": "mode.explain",
+      "words": [
+        "mode",
+        "explain"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-020"
+      ],
+      "handler": null,
+      "summary": "Explain invocation policy without storage effects"
+    },
+    {
+      "id": "command.list",
+      "words": [
+        "command",
+        "list"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-021"
+      ],
+      "handler": null,
+      "summary": "List descriptors and actual availability"
+    },
+    {
+      "id": "target.list",
+      "words": [
+        "target",
+        "list"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-101",
+        "DE-034"
+      ],
+      "handler": null,
+      "summary": "Bounded target enumeration"
+    },
+    {
+      "id": "target.inspect",
+      "words": [
+        "target",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-030"
+      ],
+      "handler": null,
+      "summary": "Inspect identity and source observations"
+    },
+    {
+      "id": "topology.show",
+      "words": [
+        "topology",
+        "show"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-030"
+      ],
+      "handler": null,
+      "summary": "Show layered current topology"
+    },
+    {
+      "id": "table.verify",
+      "words": [
+        "table",
+        "verify"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-102"
+      ],
+      "handler": null,
+      "summary": "Validate independent partition-map observations"
+    },
+    {
+      "id": "image.inspect",
+      "words": [
+        "image",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-032"
+      ],
+      "handler": null,
+      "summary": "Inspect image without mounting it"
+    },
+    {
+      "id": "image.acquire",
+      "words": [
+        "image",
+        "acquire"
+      ],
+      "aliases": [],
+      "effect": "output-write",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-103"
+      ],
+      "handler": null,
+      "summary": "Acquire to an explicitly owned destination"
+    },
+    {
+      "id": "image.verify",
+      "words": [
+        "image",
+        "verify"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-044"
+      ],
+      "handler": null,
+      "summary": "Verify image against explicit coverage"
+    },
+    {
+      "id": "health.assess",
+      "words": [
+        "health",
+        "assess"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-111"
+      ],
+      "handler": null,
+      "summary": "Collect bounded health evidence"
+    },
+    {
+      "id": "capability.explain",
+      "words": [
+        "capability",
+        "explain"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-033"
+      ],
+      "handler": null,
+      "summary": "Explain availability and refusals"
+    },
+    {
+      "id": "provider.list",
+      "words": [
+        "provider",
+        "list"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-033"
+      ],
+      "handler": null,
+      "summary": "List included providers and qualification"
+    },
+    {
+      "id": "provider.inspect",
+      "words": [
+        "provider",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-033"
+      ],
+      "handler": null,
+      "summary": "Inspect exact provider/version closure"
+    },
+    {
+      "id": "evidence.export",
+      "words": [
+        "evidence",
+        "export"
+      ],
+      "aliases": [],
+      "effect": "output-write",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-044"
+      ],
+      "handler": null,
+      "summary": "Export reviewed/redacted evidence"
+    },
+    {
+      "id": "partition.resize.plan",
+      "words": [
+        "partition",
+        "resize"
+      ],
+      "aliases": [],
+      "effect": "plan",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-106",
+        "DE-107"
+      ],
+      "handler": null,
+      "summary": "Construct a typed size/start/end plan"
+    },
+    {
+      "id": "partition.move.plan",
+      "words": [
+        "partition",
+        "move"
+      ],
+      "aliases": [],
+      "effect": "plan",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-108"
+      ],
+      "handler": null,
+      "summary": "Construct a separately qualified move plan"
+    },
+    {
+      "id": "table.gpt.repair.plan",
+      "words": [
+        "table",
+        "repair"
+      ],
+      "aliases": [],
+      "effect": "plan",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-104"
+      ],
+      "handler": null,
+      "summary": "Propose explicit GPT-copy repair"
+    },
+    {
+      "id": "filesystem.migrate.plan",
+      "words": [
+        "filesystem",
+        "migrate"
+      ],
+      "aliases": [],
+      "effect": "plan",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-109"
+      ],
+      "handler": null,
+      "summary": "Plan metadata-aware migration"
+    },
+    {
+      "id": "plan.show",
+      "words": [
+        "plan",
+        "show"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-042"
+      ],
+      "handler": null,
+      "summary": "Review exact plan and its requirements"
+    },
+    {
+      "id": "plan.validate",
+      "words": [
+        "plan",
+        "validate"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-042"
+      ],
+      "handler": null,
+      "summary": "Validate current preconditions without effects"
+    },
+    {
+      "id": "plan.simulate",
+      "words": [
+        "plan",
+        "simulate"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-042"
+      ],
+      "handler": null,
+      "summary": "Project expected effects and limits"
+    },
+    {
+      "id": "plan.apply",
+      "words": [
+        "plan",
+        "apply"
+      ],
+      "aliases": [],
+      "effect": "mutate",
+      "availability": "planned",
+      "requires_plan": true,
+      "privilege": "broker",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-041",
+        "DE-043"
+      ],
+      "handler": null,
+      "summary": "Apply exact admitted plan through broker"
+    },
+    {
+      "id": "operation.inspect",
+      "words": [
+        "operation",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-022"
+      ],
+      "handler": null,
+      "summary": "Inspect durable execution outcome"
+    },
+    {
+      "id": "operation.watch",
+      "words": [
+        "operation",
+        "watch"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-022"
+      ],
+      "handler": null,
+      "summary": "Observe events with sequence continuity"
+    },
+    {
+      "id": "operation.cancel.request",
+      "words": [
+        "operation",
+        "cancel"
+      ],
+      "aliases": [],
+      "effect": "cancel-request",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-043"
+      ],
+      "handler": null,
+      "summary": "Request cancellation at a safe checkpoint"
+    },
+    {
+      "id": "recovery.inspect",
+      "words": [
+        "recovery",
+        "inspect"
+      ],
+      "aliases": [],
+      "effect": "observe",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-043"
+      ],
+      "handler": null,
+      "summary": "Inspect journal/capsule without writes"
+    },
+    {
+      "id": "recovery.plan",
+      "words": [
+        "recovery",
+        "plan"
+      ],
+      "aliases": [],
+      "effect": "plan",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-043"
+      ],
+      "handler": null,
+      "summary": "Build a plan from observed interrupted state"
+    },
+    {
+      "id": "recovery.apply",
+      "words": [
+        "recovery",
+        "apply"
+      ],
+      "aliases": [],
+      "effect": "mutate",
+      "availability": "planned",
+      "requires_plan": true,
+      "privilege": "broker",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-043"
+      ],
+      "handler": null,
+      "summary": "Apply independently admitted recovery"
+    },
+    {
+      "id": "resource.list",
+      "words": [
+        "resource",
+        "list"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-013"
+      ],
+      "handler": null,
+      "summary": "List embedded resources and notices"
+    }
+  ]
+}

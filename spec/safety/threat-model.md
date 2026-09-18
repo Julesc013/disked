@@ -1,0 +1,74 @@
+---
+type: DiskEd Specification
+title: Threat model and trust boundaries
+description: Adversarial media, local privilege boundaries and recovery failures are first-class inputs.
+resource: disked://spec/de-040
+tags:
+- disked
+- safety
+generated:
+  by: chatgpt/gpt-6-astra-pro
+  at: '2026-09-17T12:00:00Z'
+status: draft
+disked:
+  id: DE-040
+  profile: disked-spec/1
+  version: 0.1.0
+  authority: proposed-normative
+  review: pending
+  risk: R2
+  depends_on:
+  - DE-010
+  - DE-033
+  requirements:
+  - DE-REQ-040-01
+  - DE-REQ-040-02
+  - DE-REQ-040-03
+---
+
+# Threat model and trust boundaries
+
+## Assets and adversaries
+
+Protect customer data, host bootability, device firmware state, encryption material, evidence integrity, operator intent, release keys and trustworthy support claims. Treat on-disk bytes, removable device descriptors, file names, provider output, repository issues, copied logs and fetched web pages as untrusted input. Malicious metadata may attempt parser exploitation; local users may swap plans, binaries or IPC endpoints; media can lie or fail without malice.
+
+A valid partition CRC, TLS connection, code signature or administrator token proves only its narrow property. None proves the operation is semantically correct. Prompt injection in a file or issue must not grant tools, expand allowed paths or authorize release/storage actions. Tool credentials remain outside context packs and logs.
+
+## Boundaries
+
+The unprivileged frontend handles interaction and research. Core parsers use bounded views and sandboxing where practical. The broker authenticates peers and binds plans to live target state. Providers receive only the resources their enforcement model can actually constrain. Network acquisition and updates never run inside the privileged mutation path. Recovery executes only after independent target reidentification.
+
+Single-binary self-spawning provides process separation, not minimal loaded-code attack surface. CRT startup, static initializers, delay loads, framework extraction and DLL search behavior occur before a dispatch flag may be processed. Audit all pre-dispatch work. When a minimal helper is required to achieve a real boundary, document the one-file exception instead of claiming a command-line mode is a sandbox.
+
+## Failure taxonomy
+
+Wrong target, stale plan, corrupted layout, provider substitution, concurrent host access, unreported cache loss, partial metadata write, device disappearance, insufficient backing capacity, unsupported encryption, parser resource exhaustion, corrupt journal, forged approval, poisoned test evidence and inaccessible recovery closure are distinct hazards. Each gets a negative test or explicit qualification blocker.
+
+## Authority
+
+No global `--force`. Typed risk acknowledgement cannot override unknown identity, invalid arithmetic, unqualified operations or missing recovery resources. Expert visibility is not privilege. Local policy changes require their own authorization and must not silently affect an already reviewed plan.
+
+## Normative requirements
+
+### DE-REQ-040-01
+
+Untrusted media, provider output and retrieved repository text MUST NOT expand execution authority.
+
+**Verification:** Adversarial strings and prompt-injection fixtures across parsers/context ingestion.
+
+### DE-REQ-040-02
+
+Broker pre-dispatch loading and self-spawn assumptions MUST be threat-modeled; one-file packaging MUST NOT be asserted as sandboxing.
+
+**Verification:** Inspect imports/initializers and substitution attacks before elevation.
+
+### DE-REQ-040-03
+
+Hard target/range/recovery invariants MUST NOT be bypassable through a generic force or expert-mode flag.
+
+**Verification:** Negative command and policy tests.
+
+## Related specifications
+
+- [DE-010](../architecture/system.md)
+- [DE-033](../storage/providers.md)
