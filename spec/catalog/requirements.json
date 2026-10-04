@@ -403,6 +403,56 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-026-01",
+      "spec": "DE-026",
+      "statement": "Terminal detection and rendering MUST use bounded channel-specific capabilities and explicit ownership, preserving usable linear output and caller state.",
+      "verification": "Qualify native/VT/DOS/serial backends under narrow, monochrome, redirected, absent-mouse and interrupted-exit fixtures; no runtime result is claimed by the schema fixture.",
+      "test_ids": [
+        "DE-TEST-026-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-026-02",
+      "spec": "DE-026",
+      "statement": "Untrusted presentation text and pasted input MUST remain data until explicit command submission; presentation changes MUST NOT change storage identity or authority.",
+      "verification": "Exercise control characters, multiline paste, stale selection, completion/history and resize during review; verify no implicit dispatch or loss of critical context.",
+      "test_ids": [
+        "DE-TEST-026-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-027-01",
+      "spec": "DE-027",
+      "statement": "The persistent shell MUST be explicitly selected, use canonical typed dispatch and preserve inert editing/completion until submission.",
+      "verification": "Compare the fake inventory/inspect/propose/review/simulate journey with CLI/TUI/GUI, including ambiguous aliases, multiline paste and disconnected selection.",
+      "test_ids": [
+        "DE-TEST-027-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-027-02",
+      "spec": "DE-027",
+      "statement": "Shell history, prompts and transcripts MUST have explicit ownership, bounds and redaction without substituting for operation evidence.",
+      "verification": "Exercise disabled and session-only history, read-only payload roots, secret-bearing inputs and transient prompts; closing the shell must not fabricate operation completion.",
+      "test_ids": [
+        "DE-TEST-027-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-028-01",
+      "spec": "DE-028",
+      "statement": "Every presentation MUST derive progress and completion from operation truth, preserving uncertainty and channel separation.",
+      "verification": "Compare rich, linear and captured fake transcripts for unknown totals, stale/late events, slow consumers, cancellation and failed verification; accepted submission cannot appear as completed success.",
+      "test_ids": [
+        "DE-TEST-028-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-030-01",
       "spec": "DE-030",
       "statement": "A destructive target MUST use composite identity and fresh state, never only disk number, path, letter or cloned GUID.",

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-075
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   requirements:
   - DE-REQ-075-01
   - DE-REQ-075-02
+updated:
+  by: codex
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
+sources:
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Governance, review and change safety
@@ -48,6 +55,10 @@ Refactors preserve stable IDs, command semantics, public ABI and durable formats
 ## Release gates
 
 Separate a spec release, developer image build, public read-only preview, physical-write beta and production operation admission. Each has different evidence. No broad support badge is generated from a successful compile. Signing, security reporting and licensing must be real before public product distribution.
+
+## Enforcement follow-up from the 08a8246 review
+
+The supplied review reports an unprotected main branch and no required checks at its lookup. That is a dated external observation, not current settings verified or changed by this corrective pass. Before routine native contributions, configure a concrete PR gate for structural checks, generated freshness, tooling tests and relevant native tests, with separate scrutiny of writer/recovery/privilege changes. The existing workflow example is preparation, not an active required check. Activation and repository merge-policy changes need explicit owner scope and a successful real check run; a prose update cannot establish enforcement.
 
 ## Normative requirements
 

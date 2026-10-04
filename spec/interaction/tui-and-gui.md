@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,11 +24,13 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # TUI and OEM+ GUI experience
@@ -58,6 +60,14 @@ No bare launch scans deeply, spins up sleeping media, repairs metadata or prompt
 Organize normal tasks around Inspect, Change, Protect/Recover and Verify/Report, with advanced command discovery over the same actions. Qualify keyboard navigation, visible focus, screen-reader semantics, contrast, text scaling/DPI, locale/encoding, small/remote displays, exact units and stable selection. Maps retain structured equivalents. Themes cannot hide warning meaning, alter capability availability or suppress recovery state.
 
 Test healthy, denied, malformed, delayed and crashed fake providers while interacting with other targets. Display freshness and omission reasons, bounded wait state and the next available action. [DE-045](../safety/degraded-operation.md) owns budgets and cancellation uncertainty; [DE-025](native-integration.md) owns optional installed surfaces. Native integration is not a prerequisite for the standalone GUI.
+
+## Terminal qualification and optional icon selection
+
+Terminal backend qualification follows [DE-026](terminal-session.md), including text-console widgets without assuming VT, narrow layouts, linear accessibility and independent input/output channels. The built-in shell in DE-027 is an explicit interaction style, not a side effect of permitting prompts. Interface parity tests include the shell once DE-W019 exists.
+
+The supplied icon report describes 18 extracted ICO files/107 frames and decoder disagreements; the ZIP, individual assets, inventory and provenance/permission records were **not supplied** here. Those counts are attributed claims, not local decoding results. No default icon, OS era or redistribution permission is inferred. Retain original stable IDs (including the reported numbering gap) and exact source bytes if assets are later admitted. A reviewed catalog needs source OS/build/module/resource IDs, content hashes, sizes/depths and evidence of rights for intended uses. Keep source assets separate from reviewed derived build assets.
+
+For qualified Win32 assets, [ICON resources](https://learn.microsoft.com/en-us/windows/win32/menurc/icon-resource) can hold alternatives and [WM_SETICON](https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-seticon) selects a window icon. Configuration selects an admitted stable icon ID without rewriting executable resources; retain one stable executable default. Window, shortcut, pinned/taskbar and packaged logos are separate surfaces. Setup may update only explicitly owned shortcuts in the requested scope. Native loader/resource-compiler, DPI/background and legacy mask tests remain unrun; PNG previews cannot settle every AND/XOR case.
 
 ## Normative requirements
 

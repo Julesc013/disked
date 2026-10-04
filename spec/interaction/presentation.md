@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -28,10 +28,12 @@ sources:
   resource: ../references/sources.json#ulk-readme
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 ---
 
 # FrontendSession and semantic parity
@@ -59,6 +61,10 @@ The Windows reference uses Win32 controls and host fonts/metrics. WinForms and W
 Every surface renders the same denied/stale/unknown capability dimensions, plan consequences and recovery state. An inventory refresh can add observations without waiting for every provider; it cannot silently change selected identity or erase outstanding errors. UI-local animation or timeout never becomes operation truth.
 
 A runtime fallback exists only after the executable loads. Mandatory framework imports belong in the composition's loader closure; optional GUI initialization must not raise a declared headless loader floor. Availability reasons and native accessibility outcomes are tested independently of pixel equality.
+
+## Terminal, shell and shared widgets
+
+[Terminal sessions](terminal-session.md), [the explicit shell](interactive-shell.md) and [output/progress](output-and-progress.md) extend the existing frontend service. Tables, trees, lists, forms, plan review, operation timeline and command explorer share actions and identity-bound selection. Every rich widget has keyboard behavior and a usable linear equivalent. An action without a dedicated menu remains discoverable through the typed command explorer; it does not gain authority from a UI control.
 
 ## Normative requirements
 

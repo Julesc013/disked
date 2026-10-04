@@ -19,7 +19,11 @@
         "DE-060"
       ],
       "handler": null,
-      "summary": "Inspect embedded target and build manifest"
+      "summary": "Inspect embedded target and build manifest",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "mode.explain",
@@ -38,7 +42,11 @@
         "DE-020"
       ],
       "handler": null,
-      "summary": "Explain invocation policy without storage effects"
+      "summary": "Explain invocation policy without storage effects",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "command.list",
@@ -57,7 +65,11 @@
         "DE-021"
       ],
       "handler": null,
-      "summary": "List descriptors and actual availability"
+      "summary": "List descriptors and actual availability",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "target.list",
@@ -65,7 +77,9 @@
         "target",
         "list"
       ],
-      "aliases": [],
+      "aliases": [
+        "tgt ls"
+      ],
       "effect": "observe",
       "availability": "planned",
       "requires_plan": false,
@@ -77,7 +91,11 @@
         "DE-034"
       ],
       "handler": null,
-      "summary": "Bounded target enumeration"
+      "summary": "Bounded target enumeration",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "target.inspect",
@@ -96,7 +114,11 @@
         "DE-030"
       ],
       "handler": null,
-      "summary": "Inspect identity and source observations"
+      "summary": "Inspect identity and source observations",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "topology.show",
@@ -115,7 +137,11 @@
         "DE-030"
       ],
       "handler": null,
-      "summary": "Show layered current topology"
+      "summary": "Show layered current topology",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "table.verify",
@@ -134,7 +160,11 @@
         "DE-102"
       ],
       "handler": null,
-      "summary": "Validate independent partition-map observations"
+      "summary": "Validate independent partition-map observations",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "image.inspect",
@@ -153,7 +183,11 @@
         "DE-032"
       ],
       "handler": null,
-      "summary": "Inspect image without mounting it"
+      "summary": "Inspect image without mounting it",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "image.acquire",
@@ -172,7 +206,11 @@
         "DE-103"
       ],
       "handler": null,
-      "summary": "Acquire to an explicitly owned destination"
+      "summary": "Acquire to an explicitly owned destination",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "image.verify",
@@ -191,7 +229,11 @@
         "DE-044"
       ],
       "handler": null,
-      "summary": "Verify image against explicit coverage"
+      "summary": "Verify image against explicit coverage",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "health.assess",
@@ -210,7 +252,11 @@
         "DE-111"
       ],
       "handler": null,
-      "summary": "Collect bounded health evidence"
+      "summary": "Collect bounded health evidence",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "capability.explain",
@@ -229,7 +275,11 @@
         "DE-033"
       ],
       "handler": null,
-      "summary": "Explain availability and refusals"
+      "summary": "Explain availability and refusals",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "provider.list",
@@ -248,7 +298,11 @@
         "DE-033"
       ],
       "handler": null,
-      "summary": "List included providers and qualification"
+      "summary": "List included providers and qualification",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "provider.inspect",
@@ -267,7 +321,11 @@
         "DE-033"
       ],
       "handler": null,
-      "summary": "Inspect exact provider/version closure"
+      "summary": "Inspect exact provider/version closure",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "evidence.export",
@@ -286,7 +344,11 @@
         "DE-044"
       ],
       "handler": null,
-      "summary": "Export reviewed/redacted evidence"
+      "summary": "Export reviewed/redacted evidence",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "partition.resize.plan",
@@ -294,7 +356,9 @@
         "partition",
         "resize"
       ],
-      "aliases": [],
+      "aliases": [
+        "part resize"
+      ],
       "effect": "plan",
       "availability": "planned",
       "requires_plan": false,
@@ -306,7 +370,11 @@
         "DE-107"
       ],
       "handler": null,
-      "summary": "Construct a typed size/start/end plan"
+      "summary": "Construct a typed size/start/end plan",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "partition.move.plan",
@@ -325,7 +393,11 @@
         "DE-108"
       ],
       "handler": null,
-      "summary": "Construct a separately qualified move plan"
+      "summary": "Construct a separately qualified move plan",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "table.gpt.repair.plan",
@@ -344,7 +416,11 @@
         "DE-104"
       ],
       "handler": null,
-      "summary": "Propose explicit GPT-copy repair"
+      "summary": "Propose explicit GPT-copy repair",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "filesystem.migrate.plan",
@@ -363,7 +439,11 @@
         "DE-109"
       ],
       "handler": null,
-      "summary": "Plan metadata-aware migration"
+      "summary": "Plan metadata-aware migration",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "plan.show",
@@ -382,7 +462,11 @@
         "DE-042"
       ],
       "handler": null,
-      "summary": "Review exact plan and its requirements"
+      "summary": "Review exact plan and its requirements",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "plan.validate",
@@ -401,7 +485,11 @@
         "DE-042"
       ],
       "handler": null,
-      "summary": "Validate current preconditions without effects"
+      "summary": "Validate current preconditions without effects",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "plan.simulate",
@@ -420,7 +508,11 @@
         "DE-042"
       ],
       "handler": null,
-      "summary": "Project expected effects and limits"
+      "summary": "Project expected effects and limits",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "plan.apply",
@@ -440,7 +532,11 @@
         "DE-043"
       ],
       "handler": null,
-      "summary": "Apply exact admitted plan through broker"
+      "summary": "Apply exact admitted plan through broker",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "operation.inspect",
@@ -459,7 +555,11 @@
         "DE-022"
       ],
       "handler": null,
-      "summary": "Inspect durable execution outcome"
+      "summary": "Inspect durable execution outcome",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "operation.watch",
@@ -467,7 +567,9 @@
         "operation",
         "watch"
       ],
-      "aliases": [],
+      "aliases": [
+        "op watch"
+      ],
       "effect": "none",
       "availability": "planned",
       "requires_plan": false,
@@ -478,7 +580,11 @@
         "DE-022"
       ],
       "handler": null,
-      "summary": "Observe events with sequence continuity"
+      "summary": "Observe events with sequence continuity",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "operation.cancel.request",
@@ -497,7 +603,11 @@
         "DE-043"
       ],
       "handler": null,
-      "summary": "Request cancellation at a safe checkpoint"
+      "summary": "Request cancellation at a safe checkpoint",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "recovery.inspect",
@@ -516,7 +626,11 @@
         "DE-043"
       ],
       "handler": null,
-      "summary": "Inspect journal/capsule without writes"
+      "summary": "Inspect journal/capsule without writes",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "recovery.plan",
@@ -535,7 +649,11 @@
         "DE-043"
       ],
       "handler": null,
-      "summary": "Build a plan from observed interrupted state"
+      "summary": "Build a plan from observed interrupted state",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "recovery.apply",
@@ -554,7 +672,11 @@
         "DE-043"
       ],
       "handler": null,
-      "summary": "Apply independently admitted recovery"
+      "summary": "Apply independently admitted recovery",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "resource.list",
@@ -573,7 +695,11 @@
         "DE-013"
       ],
       "handler": null,
-      "summary": "List embedded resources and notices"
+      "summary": "List embedded resources and notices",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "filesystem.format.plan",
@@ -581,7 +707,9 @@
         "filesystem",
         "format"
       ],
-      "aliases": [],
+      "aliases": [
+        "fs format"
+      ],
       "effect": "plan",
       "availability": "planned",
       "requires_plan": false,
@@ -592,7 +720,11 @@
         "DE-113"
       ],
       "handler": null,
-      "summary": "Propose filesystem creation with exact feature, loss and discard policy"
+      "summary": "Propose filesystem creation with exact feature, loss and discard policy",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "setup.inspect",
@@ -612,7 +744,11 @@
         "DE-063"
       ],
       "handler": null,
-      "summary": "Inspect local declared software lifecycle ownership without installation effects"
+      "summary": "Inspect local declared software lifecycle ownership without installation effects",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     },
     {
       "id": "provider.resolve",
@@ -632,7 +768,33 @@
         "DE-064"
       ],
       "handler": null,
-      "summary": "Explain candidate compatibility and missing providers without acquisition"
+      "summary": "Explain candidate compatibility and missing providers without acquisition",
+      "syntax_status": "unresolved",
+      "parameter_schema": null,
+      "argument_bindings": [],
+      "completion_policy": "static-only"
+    },
+    {
+      "id": "shell.open",
+      "words": [
+        "shell"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-027"
+      ],
+      "handler": null,
+      "summary": "Open an explicit persistent DiskEd command session; no implicit storage effect",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
     }
   ]
 }

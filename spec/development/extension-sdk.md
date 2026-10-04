@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-078
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,13 @@ disked:
   - DE-REQ-078-01
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Extension tiers and compatibility
@@ -47,6 +49,10 @@ Compatibility dialects and PowerShell projections translate into canonical comma
 Version product, ABI, command/protocol, plan, journal, recovery, target and package contracts independently. Negotiate required features; refuse unknown mutation-critical fields; retain opaque observational fields where allowed without changing signed source bytes. Define readers/migration windows, deprecation and tombstones per durable format. Retain older recovery-compatible closures while operations depend on them. No future-system compatibility claim follows from extensibility alone.
 
 Conformance includes independent C/C++ clients, cross-bitness framing, allocation/cancellation behavior, provider positive/negative fixtures and frontend semantic transcripts. Passing a shape check never qualifies the provider's effects.
+
+## Evidence applicability and retained generations
+
+An applicable claim names exact code/artifact, provider, fixture, toolchain and host/target identities plus the test procedure/outcome. Historical evidence can remain valid for its old inputs while no longer qualifying a new build. Retention needed to inspect a past journal is separate from permission to execute a writer. Revocation blocks the relevant capability; it does not authorize deleting recovery material or executing a retained revoked component without a separately reviewed recovery policy.
 
 ## Normative requirements
 

@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.bootstrap-validation/1",
-  "observed_at": "2026-10-03T17:32:09.645996+00:00",
-  "base_revision": "3035eaf383d9e2051b6afdb1bc45cdcc415162d8",
-  "bundle_version": "0.1.1-proposed.2",
+  "observed_at": "2026-10-04T06:58:18.489894+00:00",
+  "base_revision": "08a8246ee001c9a77b9df8d228fe05b1f3375244",
+  "bundle_version": "0.1.2-proposed.1",
   "environment": {
     "python": "3.14.7",
     "platform": "Windows-10-10.0.19045-SP0",
@@ -18,24 +18,25 @@
   "tests": {
     "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
     "exit_code": 0,
-    "count": 117,
+    "count": 144,
     "skipped": 2,
     "status": "PASS",
     "log": "reports/test-results.txt",
-    "limits": "Symlink tests skipped where creating symlinks is unavailable; not claimed passed."
+    "limits": "Symlink tests skipped when fixture symlinks cannot be created; skips are not passes."
   },
   "subjects": {
-    "tools/specctl.py": "sha256:2302179ea54174e575383f51a9354552d4b5b861e96775b9be398748a7969972",
-    "tools/tests/test_specctl.py": "sha256:ddc8c5e7ba048dc4ce10f68d2010d843d2ccfee6acb9654d2be75c22d6c1a13c"
+    "tools/specctl.py": "sha256:4fced96ecb7ec821046c843181cf21d92b27604f2188d00125e22dd6a3211120",
+    "tools/tests/test_specctl.py": "sha256:e9bc6dfadb4f828f3fbeedc98b1c2e0b89fc734a1d19f94ff490b5d0ba5f31d0",
+    "tools/tests/test_corrective.py": "sha256:fda0da4ef599a66c8dd0361be685c9e91d511d513610a2795f6e22efdd7e1a4e"
   },
   "structural_check": {
     "schema": "org.disked.spec-check/1",
     "status": "PASS",
-    "checks": 792,
-    "concepts": 67,
-    "requirements": 139,
-    "work_units": 35,
-    "schemas": 22,
+    "checks": 840,
+    "concepts": 71,
+    "requirements": 144,
+    "work_units": 36,
+    "schemas": 27,
     "errors": [],
     "scope": "Specification structure, local contracts, fixtures and tool projections only.",
     "not_validated": [
@@ -48,14 +49,14 @@
       "owner acceptance"
     ]
   },
-  "scope": "Actual local specification/bootstrap checks; no product runtime, storage, installer, live AIDE or owner-acceptance qualification.",
+  "scope": "Actual local specification/tooling checks only; no native build, terminal/icon, provider, recovery, physical storage, live AIDE or Setup qualification.",
   "aide_passive_schema_validation": {
     "status": "PASS",
     "revision": "5be37bd6510977e6cb2e960859c45b33b048dade",
-    "records": 35,
+    "records": 36,
     "live_runtime": "not_run"
   },
   "owner_accepted": false,
-  "remote_writes": false,
-  "prior_observation": "The inherited September report and initial failing Windows checks are retained under .aide/evidence/2026-10-04-spec-reconciliation."
+  "remote_writes_during_validation": false,
+  "prior_observation": "Inherited 08a8246 reports and independently reproduced original-tool behaviours are retained under .aide/evidence/2026-10-04-corrective."
 }

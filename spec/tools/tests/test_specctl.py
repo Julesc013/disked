@@ -342,18 +342,18 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_context_is_deterministic_without_git(self):
         one=Path(self.temp.name)/'one';two=Path(self.temp.name)/'two'
-        self.bundle.context('DE-W010',one);self.bundle.context('DE-W010',two)
+        self.bundle.context('DE-W010',one,180000);self.bundle.context('DE-W010',two,180000)
         self.assertEqual((one/'context.md').read_bytes(),(two/'context.md').read_bytes())
         self.assertEqual((one/'manifest.json').read_bytes(),(two/'manifest.json').read_bytes())
         self.assertEqual('PASS',self.bundle.verify_context(one)['status'])
 
     def test_context_detects_source_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,180000)
         with (self.root/'foundation/charter.md').open('a') as f:f.write('\nChanged source.\n')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
     def test_context_detects_payload_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,180000)
         with (out/'context.md').open('a') as f:f.write('tampered')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
@@ -364,7 +364,7 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_context_refuses_populated_destination(self):
         out=Path(self.temp.name)/'context';out.mkdir();(out/'keep').write_text('x')
-        with self.assertRaises(sc.SpecError):self.bundle.context('DE-W010',out)
+        with self.assertRaisesRegex(sc.SpecError,'destination must be empty'):self.bundle.context('DE-W010',out,180000)
         self.assertFalse((out/'manifest.json').exists())
 
     def test_aide_exports_all_planned_non_authorizing(self):
@@ -399,25 +399,26 @@ class TemporaryBundleTests(unittest.TestCase):
         result=self.bundle.check(False)
         self.assertTrue(any('Broken link' in x for x in result['errors']))
 
-    def test_acceptance_input_hash_must_match(self):
+    def test_legacy_acceptance_is_retained_but_cannot_authorize(self):
         w=self.bundle.work['DE-W000'];ids=self.bundle.context_ids(self.bundle.meta['mandatory_context']+w['context'])
         records=[{'schema':'org.disked.acceptance/1','subject_id':'DE-W000','subject_digest':sc.digest_bytes(sc.canonical(w)),
                   'reviewer':'human:test-fixture-not-real-approval','at':'2026-09-17T12:00:00Z','decision':'accept',
                   'evidence_refs':['fixture-only'],'limitations':['Test fixture; not runtime approval.'],
                   'input_files':[{'path':self.bundle.concepts[id]['path'],'sha256':sc.digest_bytes((self.root/self.bundle.concepts[id]['path']).read_bytes())} for id in ids]}]
         sc.write_json(self.root/'work/acceptances.json',{'records':records})
-        self.assertIn('DE-W000',self.bundle.accepted())
+        self.assertEqual(set(),self.bundle.accepted())
+        self.assertEqual('unverified_legacy',self.bundle.acceptance_projection()['receipts'][0]['historical_validity'])
         with (self.root/'foundation/charter.md').open('a') as f:f.write('\nDrift\n')
-        with self.assertRaises(sc.SpecError):self.bundle.accepted()
+        self.assertEqual(set(),self.bundle.accepted())
 
-    def test_acceptance_subject_hash_must_match(self):
+    def test_legacy_claim_with_unverifiable_digest_cannot_authorize(self):
         # Shape is valid, but a fake digest cannot admit the work unit.
         p=self.root/'foundation/charter.md'
         record={'schema':'org.disked.acceptance/1','subject_id':'DE-W000','subject_digest':'sha256:'+'0'*64,
                 'reviewer':'human:fixture','at':'2026-09-17T12:00:00Z','decision':'accept','evidence_refs':['fixture-only'],
                 'limitations':[],'input_files':[{'path':'foundation/charter.md','sha256':sc.digest_bytes(p.read_bytes())}]}
         sc.write_json(self.root/'work/acceptances.json',{'records':[record]})
-        with self.assertRaises(sc.SpecError):self.bundle.accepted()
+        self.assertEqual(set(),self.bundle.accepted())
 
 class InvocationFixtures(unittest.TestCase):
     pass

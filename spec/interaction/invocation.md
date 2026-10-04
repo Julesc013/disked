@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-020
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -31,10 +31,12 @@ sources:
   resource: ../references/sources.json#windows-console
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 ---
 
 # InvocationPolicy v1
@@ -62,6 +64,12 @@ The reference hypothesis is a console-subsystem native EXE containing a Win32 GU
 ## Setup and essential routing
 
 Built-in build/mode/command discovery stays in the essential tier without probe, network or setup effects. Explicit `setup inspect` uses local declared maintenance metadata; future setup-changing commands require a separate reviewed lifecycle contract and cannot dispatch through the storage broker. Existing machine-format conflicts and no-prompt rules apply unchanged. Unimplemented verbs return unavailable; attached command sketches are not an additional command registry.
+
+## Prompt permission and a persistent shell
+
+`--interactive=yes` permits prompts for a human CLI/plain command; explicit `--cli` and inferred CLI honor it identically. It does **not** open a persistent shell. `--interactive=auto` on a one-shot command remains noninteractive; `no` forbids prompts. A capable or limited terminal can supply a prompt channel. Without usable input/output, an explicit prompt request returns `interaction_unavailable`, never silently false. A caller may explicitly provide a separate verified prompt channel while result stdout is redirected; the renderer must not read answers from pipeline data or mix prompts into machine results. The policy oracle accepts normalized observations, not actual OS handles or command-line tokens.
+
+Machine JSON/NDJSON plus `interactive=yes` remains `argument_conflict`. GUI/TUI interaction rules are unchanged. Bare `interactive=yes` selects bounded CLI interaction/help; persistent sessions require the planned `disked shell` entry described by [DE-027](interactive-shell.md). Native detection of channels and flag-alias parsing remain DE-W011/012 work, not behavior proven by the pure oracle.
 
 ## Normative requirements
 

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-042
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -28,11 +28,13 @@ disked:
   - DE-REQ-042-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Planner, action graph and simulation
@@ -60,6 +62,12 @@ Idempotency keys apply only to a defined semantic scope and current state. A ste
 Include executable and provider generations, scratch, journal, capsule, backups and required credential references in the plan's storage dependency analysis. Model their backing devices/failure domains, not just directories. Refuse an action that would destroy its only execution/recovery path or that lacks durable independent capacity where required. Temporary/volatile state is insufficient for a persistence requirement.
 
 Quiescence, shared ownership, media-specific irreversible boundaries and capacity are fresh preconditions. Tape positioning, optical finalization and discard are not generic reversible block writes. Optional assistance may propose an intent but cannot waive these checks. The v1 JSON plan remains a review model; concrete production encoding and typed operation parameters must be extended and tested before their writers are admitted.
+
+## Required evolution before executable plans
+
+The v1 JSON schema remains a prototype review model. Its mutable `status` and supplied acknowledgements are not the final immutable plan ABI. Before signing/admitting real effects, separate PlanDefinition (immutable effects/constraints/required acknowledgements) from ReviewReceipt, Approval/Grant, attempt-specific AdmissionReceipt and ExecutionRecord. Those receipts bind an exact plan digest rather than rewriting plan bytes. DE-W040 and DE-DEC-008 gate production encoding; the first fake interface may continue to use clearly labeled review fixtures.
+
+Before acquisition or multi-resource execution, bind **each** source, destination, scratch, journal, backup and executable/provider dependency by identity, expected epoch, access mode, effect footprint, aliases/failure domain and required verification. A step's free-form target ID or root fingerprint is insufficient for another resource. Source-read, destination-write and host/quiescence effects have separate authority. DE-W033 must extend typed operation parameters/resource fixtures before claiming coherent acquisition; writer work must complete these contracts before admission.
 
 ## Normative requirements
 

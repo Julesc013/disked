@@ -27,7 +27,7 @@ The constraints record the generator environment's tested versions, not an offli
 ```text
 python spec/tools/specctl.py next
 python spec/tools/specctl.py show DE-080
-python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review
+python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000
 python spec/tools/specctl.py verify-context .aide-local/context/review
 ```
 

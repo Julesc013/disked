@@ -38,7 +38,7 @@ The authoritative entry is [index.md](index.md). This bootstrap file is a routin
 2. Install the tested Python dependencies with `python -m pip install -r spec/tools/requirements.txt` on a development coordinator.
 3. Run `python spec/tools/specctl.py check` and `python -m unittest discover -s spec/tools/tests -v`.
 4. Run `python spec/tools/specctl.py next`; `DE-W000` is the initial review unit.
-5. Build a bounded pack: `python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review`.
+5. Build a bounded pack: `python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000`.
 6. Read the [amendment review](roadmap/amendment-review.md), then review before granting code work. No command here authorizes storage writes.
 
 The spec-only ZIP can create optional root entrypoints with `python spec/tools/specctl.py bootstrap --root .` (preview) then `--apply`. The repository overlay already includes those same entrypoints. Do not use bootstrap to overwrite an existing project.

@@ -30,3 +30,13 @@ Status: proposed amended baseline, awaiting DE-W000 review. This checklist summa
 - [ ] DE-W080/090: qualify exact target/operation compositions and satisfy scoped release gates.
 
 No DiskEd runtime, provider, recovery, hardware, installer or release test is marked passed by this list. Current local validation evidence is retained with the DE-W000 handoff under `.aide/`.
+
+## Corrective review at 08a8246
+
+- [x] Reproduce the six reported tool/policy behaviours in disposable local fixtures.
+- [x] Correct per-path impact, declared input closure, historical receipt applicability, protocol bounds/identities and CLI prompt permission.
+- [x] Define terminal-session, explicit shell, output/progress and command-metadata contracts; retain icon-report claims without adopting unavailable assets.
+- [ ] Review the corrective diff and its actual regression evidence at the DE-W000 boundary.
+- [ ] DE-W019: implement the bounded persistent command shell after shared command/TUI foundations.
+- [ ] Before routine native contributions, activate and verify the owner-selected required PR/check gate on GitHub.
+- [ ] At protocol/acquisition/writer gates, qualify typed resources, compatible readers, guarded epochs, immutable-plan receipts and composable recovery properties.

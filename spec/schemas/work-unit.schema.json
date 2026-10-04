@@ -109,6 +109,14 @@
     },
     "authorization": {
       "const": "separate-grant-required"
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
     }
   },
   "required": [
@@ -127,7 +135,8 @@
     "acceptance",
     "validation_commands",
     "stop_state",
-    "authorization"
+    "authorization",
+    "required_inputs"
   ],
   "additionalProperties": false
 }

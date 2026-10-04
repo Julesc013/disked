@@ -15,7 +15,8 @@
         "DE-003",
         "DE-080",
         "DE-081",
-        "DE-082"
+        "DE-082",
+        "DE-083"
       ],
       "allowed_paths": [
         "spec/**",
@@ -46,7 +47,8 @@
         "Record retained user requirements, disagreements and baseline acceptance at a real Git revision.",
         "Resolve or explicitly retain scoped open decisions; do not invent a license or safety approval.",
         "Reconcile all supplied October/September proposals with scoped disposition, source hashes and independent current tooling results.",
-        "Fetch the requested AIDE dev pin without executing upstream scripts; record refresh policy and passive schema compatibility."
+        "Fetch the requested AIDE dev pin without executing upstream scripts; record refresh policy and passive schema compatibility.",
+        "Address review R01-R05 with independent local regressions; record terminal/shell/output and icon-report disposition without claiming runtime or asset qualification."
       ],
       "acceptance": [
         "Bootstrap and structural tests run with actual logs.",
@@ -58,7 +60,14 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/tools/tests/test_specctl.py",
+        "spec/tools/tests/test_corrective.py",
+        "spec/catalog/validation-cases.json",
+        "spec/tools/requirements.txt",
+        "spec/tools/constraints-tested.txt"
+      ]
     },
     {
       "id": "DE-W010",
@@ -124,7 +133,13 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W011",
@@ -139,7 +154,8 @@
       "context": [
         "DE-020",
         "DE-024",
-        "DE-050"
+        "DE-050",
+        "DE-026"
       ],
       "allowed_paths": [
         "source/runtime/invocation/**",
@@ -177,7 +193,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W012",
@@ -191,7 +208,9 @@
       "decision_gates": [],
       "context": [
         "DE-021",
-        "DE-022"
+        "DE-022",
+        "DE-027",
+        "DE-028"
       ],
       "allowed_paths": [
         "source/runtime/command/**",
@@ -222,14 +241,22 @@
       "acceptance": [
         "Duplicate keys/oversized requests rejected.",
         "Machine stdout has only valid framed JSON.",
-        "Exit codes and no-prompt behavior tested."
+        "Exit codes and no-prompt behavior tested.",
+        "Typed argument bindings and alias/canonical collision checks drive parser/help/completion; unavailable unresolved syntax cannot be advertised as implemented.",
+        "Strict producer and compatible-reader fixtures, operation/attempt/epoch identities and native exit/wait outcomes are defined before protocol admission."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W013",
@@ -281,7 +308,13 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W014",
@@ -295,7 +328,8 @@
       "decision_gates": [],
       "context": [
         "DE-023",
-        "DE-024"
+        "DE-024",
+        "DE-026"
       ],
       "allowed_paths": [
         "source/apps/disked/tui/**",
@@ -330,7 +364,13 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W015",
@@ -375,14 +415,21 @@
       "acceptance": [
         "GUI initializes only when requested.",
         "Keyboard and high-contrast checks recorded on actual tested host.",
-        "Parity transcript matches CLI and TUI."
+        "Parity transcript matches CLI and TUI.",
+        "Use original/licensed fixture artwork until source provenance and exact redistribution rights are evidenced; a supplied icon inspection report alone grants none."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W016",
@@ -436,7 +483,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W020",
@@ -487,7 +535,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W021",
@@ -539,7 +588,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W022",
@@ -589,7 +639,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W023",
@@ -641,7 +692,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W024",
@@ -694,7 +746,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W030",
@@ -750,7 +803,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W031",
@@ -802,7 +856,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W032",
@@ -851,7 +906,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W033",
@@ -897,14 +953,16 @@
       ],
       "acceptance": [
         "Source/destination alias and no-clobber protection tested.",
-        "Resume verifies identity and map; failing-media policy documented."
+        "Resume verifies identity and map; failing-media policy documented.",
+        "Typed source/destination/host resource bindings and epochs are checked independently before acquisition implementation claims."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W034",
@@ -957,7 +1015,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W040",
@@ -1002,14 +1061,16 @@
       ],
       "acceptance": [
         "No product writes while format is only proposed.",
-        "Checksum/record/flush/unknown-effect behavior fully specified."
+        "Checksum/record/flush/unknown-effect behavior fully specified.",
+        "Separate immutable plan definitions from review/approval/admission/execution receipts and define composable per-step recovery properties before a real writer."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W041",
@@ -1065,7 +1126,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W042",
@@ -1115,7 +1177,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W050",
@@ -1168,7 +1231,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W051",
@@ -1220,7 +1284,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W060",
@@ -1273,7 +1338,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W061",
@@ -1332,7 +1398,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W070",
@@ -1381,7 +1448,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W071",
@@ -1433,7 +1501,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W080",
@@ -1488,7 +1557,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W090",
@@ -1546,7 +1616,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W017",
@@ -1557,7 +1628,8 @@
       "dependencies": [
         "DE-W014",
         "DE-W015",
-        "DE-W016"
+        "DE-W016",
+        "DE-W019"
       ],
       "decision_gates": [],
       "context": [
@@ -1593,14 +1665,17 @@
       ],
       "acceptance": [
         "Unknown cancellation never becomes quiescence or an automatic writer retry.",
-        "Input latency, worker/retry/memory/event ceilings and retained observations have actual logs."
+        "Input latency, worker/retry/memory/event ceilings and retained observations have actual logs.",
+        "Guard logical operation, attempt, worker/capture epochs, effect certainty, cancellation and recovery independently; late events never transfer writer ownership.",
+        "Once DE-W019 is implemented, include its shell in frontend semantic/failure transcripts."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W018",
@@ -1615,7 +1690,8 @@
       "context": [
         "DE-012",
         "DE-051",
-        "DE-024"
+        "DE-024",
+        "DE-026"
       ],
       "allowed_paths": [
         "source/portable/**",
@@ -1654,7 +1730,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W035",
@@ -1707,7 +1784,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W043",
@@ -1759,7 +1837,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W062",
@@ -1813,7 +1892,8 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
     },
     {
       "id": "DE-W063",
@@ -1862,7 +1942,70 @@
         "python -m unittest discover -s spec/tools/tests -v"
       ],
       "stop_state": "needs_review",
-      "authorization": "separate-grant-required"
+      "authorization": "separate-grant-required",
+      "required_inputs": []
+    },
+    {
+      "id": "DE-W019",
+      "title": "Implement bounded interactive shell and descriptor completion",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W012",
+        "DE-W014"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-021",
+        "DE-026",
+        "DE-027",
+        "DE-028"
+      ],
+      "allowed_paths": [
+        "source/apps/disked/**",
+        "source/runtime/command/**",
+        "source/runtime/presentation/**",
+        "tests/interaction/**",
+        ".aide/handoffs/**",
+        ".aide/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Explicit persistent DiskEd shell using the shared typed dispatcher and qualified terminal channels.",
+        "Bounded completion/history, canonical aliases, inert paste/editing and readable transcripts."
+      ],
+      "acceptance": [
+        "Native fixture tests cover inventory/inspect/propose/review/simulate parity without storage access.",
+        "Completion/history never dispatch, probe devices or acquire providers; malformed display data remains escaped.",
+        "Linear/monochrome/narrow/redirected channels preserve target and outcome meaning."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/commands.json",
+        "spec/schemas/terminal-capabilities.schema.json",
+        "spec/fixtures/invocation.json"
+      ]
     }
   ]
 }

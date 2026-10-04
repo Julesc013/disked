@@ -28,4 +28,6 @@
 - [target-14.json](target-14.json)
 - [target-18.json](target-18.json)
 - [target-5.json](target-5.json)
+- [terminal-invalid-dimensions.json](terminal-invalid-dimensions.json)
+- [terminal-plain.json](terminal-plain.json)
 - [work-unit.json](work-unit.json)

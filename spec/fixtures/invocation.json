@@ -272,6 +272,57 @@
       "expected": {
         "error": "argument_conflict"
       }
+    },
+    {
+      "id": "explicit-cli-prompts",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "capable"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-frontend"
+      }
+    },
+    {
+      "id": "inferred-cli-prompts",
+      "inputs": {
+        "command": true,
+        "interactive": "yes",
+        "terminal": "limited"
+      },
+      "expected": {
+        "frontend": "cli",
+        "format": "human",
+        "interactive": true,
+        "reason": "explicit-command"
+      }
+    },
+    {
+      "id": "explicit-prompts-no-channel",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "none"
+      },
+      "expected": {
+        "error": "interaction_unavailable"
+      }
+    },
+    {
+      "id": "explicit-prompts-redirected",
+      "inputs": {
+        "frontend": "cli",
+        "interactive": "yes",
+        "terminal": "capable",
+        "stdout": "pipe"
+      },
+      "expected": {
+        "error": "interaction_unavailable"
+      }
     }
   ]
 }

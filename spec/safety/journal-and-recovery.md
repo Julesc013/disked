@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,11 +26,13 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Journal, recovery and durability
@@ -62,6 +64,12 @@ There is no universal cancellation point or atomic GPT switch. Mark safe checkpo
 Timeout, client loss or cancellation request does not seal an unobserved effect. Preserve the affected target's quarantine and exact journal/provider/executor identities until quiescence and postconditions are established. A replacement worker cannot blindly replay. Software maintenance must retain required generations, including when the operation is unreachable, until reconciliation permits retirement.
 
 The recovery closure includes independent code access, state, reconstruction data, credential references and physical dependencies. Configuration caches and another partition on a failing disk do not meet an independent-backup requirement. DE-DEC-004 remains unresolved: state-model checks do not prove durable runtime encoding or power-loss safety.
+
+## Independent recovery properties and operation dimensions
+
+The prototype plan's scalar recovery summary is insufficient for executable writers. Before DE-W040/041, define per-step resumability, backup dependence, cancellation checkpoints and irreversible boundaries, and derive a conservative plan summary. These properties can coexist; do not enumerate every combination into another scalar status.
+
+Separate logical operation state, execution attempt, worker liveness, effect certainty, cancellation request/acknowledgement and recovery state. The current `catalog/journal-model.json` is an unguarded design graph only; reachability does not prove legal transitions. DE-W017 adds guarded fake scenarios with operation/attempt IDs, capture and worker epochs, sequence domains and explicit ownership transfer. Cover old worker late completion, client disconnect/reconnect, cancellation followed by normal effect completion and failed verification. Starting another observer cannot retire a possibly active writer or release its dependencies.
 
 ## Normative requirements
 

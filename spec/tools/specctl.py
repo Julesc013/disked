@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib.metadata
+import io
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -22,6 +23,7 @@ MAX_FILE = 8 * 1024 * 1024
 MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
+SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','handoff','plan','event')}
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -173,9 +175,15 @@ def unique_ids(items, label):
         result[id] = item
     return result
 
+def bounded_u64(value, label):
+    if not isinstance(value,str) or not re.fullmatch(r'0|[1-9][0-9]{0,19}',value) or int(value)>U64_MAX:
+        raise SpecError(label+' is outside the decimal u64 model')
+    return int(value)
+
 def semantic_validate(kind: str | None, value: dict):
     if kind == 'extent':
-        start, length = int(value['start_lba']), int(value['length_lba'])
+        start = bounded_u64(value['start_lba'],'start_lba')
+        length = bounded_u64(value['length_lba'],'length_lba')
         if start < 0 or length <= 0 or start > U64_MAX or length > U64_MAX or start + length > U64_MAX:
             raise SpecError('Extent empty or outside bounded u64 address model')
         if (start + length) * value['logical_block_bytes'] > U64_MAX:
@@ -197,6 +205,46 @@ def semantic_validate(kind: str | None, value: dict):
         acyclic({id:s['depends_on'] for id,s in steps.items()}, 'action graph')
         if value['execution_environment'] != 'fake' and value['recovery_class'] != 'read-only' and not value['recovery_reference']:
             raise SpecError('Mutation plan has no declared recovery reference')
+    elif kind == 'event':
+        bounded_u64(value['sequence'],'event sequence')
+
+class GitSnapshot:
+    """Read exact local Git blobs without checkout, filters, hooks or fetching."""
+    def __init__(self, root, revision):
+        if not re.fullmatch(r'[0-9a-f]{40}',revision):raise SpecError('Review requires an exact Git revision')
+        self.prefix=['git','--no-optional-locks','--no-replace-objects','-c','core.fsmonitor=false','-C',str(root)]
+        result=subprocess.run(self.prefix+['ls-tree','-r','-z','-l',revision],capture_output=True,timeout=20)
+        if result.returncode:raise SpecError('Reviewed Git revision unavailable locally: '+revision)
+        self.entries={};self.cache={}
+        for raw in result.stdout.split(b'\0'):
+            if not raw:continue
+            meta,path=raw.split(b'\t',1);mode,kind,oid,size=meta.split()
+            self.entries[path.decode('utf-8')]=(mode,kind,oid,int(size) if size!=b'-' else -1)
+
+    def read_many(self, paths):
+        wanted=list(dict.fromkeys(p for p in paths if p not in self.cache))
+        total=0
+        for path in wanted:
+            if path not in self.entries:raise SpecError('Missing reviewed blob: '+path)
+            mode,kind,_,size=self.entries[path]
+            if mode not in (b'100644',b'100755') or kind!=b'blob' or not 0<=size<=MAX_FILE:
+                raise SpecError('Invalid reviewed regular file: '+path)
+            total+=size
+        if total>32*MAX_FILE:raise SpecError('Reviewed input batch exceeds byte budget')
+        if not wanted:return
+        result=subprocess.run(self.prefix+['cat-file','--batch'],input=b'\n'.join(self.entries[p][2] for p in wanted)+b'\n',capture_output=True,timeout=30)
+        if result.returncode:raise SpecError('Cannot read reviewed blobs')
+        stream=io.BytesIO(result.stdout)
+        for path in wanted:
+            oid,kind,size=stream.readline().strip().split()
+            size=int(size)
+            if (oid,kind,size)!=(self.entries[path][2],b'blob',self.entries[path][3]):raise SpecError('Reviewed blob identity mismatch')
+            data=stream.read(size)
+            if len(data)!=size or stream.read(1)!=b'\n':raise SpecError('Incomplete reviewed blob')
+            self.cache[path]=data
+
+    def read(self,path):
+        self.read_many([path]);return self.cache[path]
 
 class Bundle:
     def __init__(self, root=DEFAULT_ROOT):
@@ -224,7 +272,12 @@ class Bundle:
                                                        format_checker=self.jsonschema.FormatChecker())
         errors = sorted(validator.iter_errors(value), key=lambda e: str(e.json_path))
         if errors: raise SpecError('; '.join(e.json_path+': '+e.message for e in errors[:8]))
-        semantic_validate(semantic, value)
+        inferred=SEMANTICS.get(schema_id)
+        # The optional legacy selector may confirm semantics, never disable or
+        # substitute the contract belonging to this schema identity.
+        if semantic is not None and semantic != (inferred or ('composition' if schema_id==SCHEMA_PREFIX+'composition:1' else None)):
+            raise SpecError('Semantic selector does not match schema identity')
+        semantic_validate(inferred, value)
         if schema_id == SCHEMA_PREFIX+'composition:1':
             self.validate_composition(value)
         if schema_id == SCHEMA_PREFIX+'target:1' and value['status']=='qualified':
@@ -317,7 +370,7 @@ class Bundle:
         for n in nodes: groups.setdefault(str(PurePosixPath(n['path']).parent),[]).append(n)
         header='---\ntitle: DiskEd specification index\nokf_version: "0.2"\n---\n\n# DiskEd specification\n\n**Proposed baseline '+self.meta['version']+'. Owner acceptance pending. No product or hardware qualification.**\n\n'
         header+='Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).\n\n'
-        header+='## Working entrypoints\n\n```text\npython spec/tools/specctl.py check\npython -m unittest discover -s spec/tools/tests -v\npython spec/tools/specctl.py next\npython spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review\n```\n\n'
+        header+='## Working entrypoints\n\n```text\npython spec/tools/specctl.py check\npython -m unittest discover -s spec/tools/tests -v\npython spec/tools/specctl.py next\npython spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000\n```\n\n'
         header+='The `specctl` utility manages this specification only. It does not execute DiskEd, apply AIDE work, elevate or access raw storage. [Work definitions](work/units.json), [source registry](references/sources.json), [command catalog](catalog/commands.json), [target catalog](catalog/targets.json), [schemas](schemas/index.md) and [tool contract](development/specctl.md) are local, reviewable files.\n\n'
         for group in sorted(groups):
             header+='## '+('Entry' if group=='.' else group.replace('-',' ').title())+'\n\n'
@@ -400,6 +453,13 @@ class Bundle:
             attempt('work '+id,lambda w=w:self.validate(SCHEMA_PREFIX+'work-unit:1',w))
             for c in w['context']:
                 if c not in self.concepts:errors.append('Work context missing: '+c)
+        def required_inputs():
+            view=self.input_view()
+            for input in view['inputs'].values():
+                if not self.input_path(input['path']).is_file():raise SpecError('Missing required input '+input['path'])
+                if not set(input['spec_ids'])<=self.concepts.keys():raise SpecError('Unknown required-input owner')
+            for id in self.work:self.resolve_inputs(id,view)
+        attempt('required input closure',required_inputs)
         attempt('work DAG',lambda:acyclic({id:w['dependencies'] for id,w in self.work.items()},'work graph'))
         decisions=unique_ids(read_json(self.root/'catalog/decisions.json')['decisions'],'decision')
         for w in self.work.values():
@@ -423,15 +483,7 @@ class Bundle:
                     if id not in self.concepts:errors.append('Unknown amendment spec: '+id)
                 for id in row.get('work_ids',[]):
                     if id not in self.work:errors.append('Unknown amendment work: '+id)
-        command_items=read_json(self.root/'catalog/commands.json')['commands'];spellings=set()
-        for c in command_items:
-            word=' '.join(c['words'])
-            if word in spellings:errors.append('Duplicate command words: '+word)
-            spellings.add(word)
-            for s in c['spec_ids']:
-                if s not in self.concepts:errors.append('Missing command spec: '+s)
-            for key in ('request_schema','result_schema'):
-                if c[key] not in self.schemas:errors.append('Unknown command schema: '+c[key])
+        attempt('command registry',self.command_registry)
         attempt('requirements projection',self.requirements)
         for case in read_json(self.root/'catalog/validation-cases.json')['cases']:
             def run(case=case):
@@ -477,28 +529,92 @@ class Bundle:
                 'scope':'Specification structure, local contracts, fixtures and tool projections only.',
                 'not_validated':['DiskEd runtime','Windows binaries/GUI','physical storage','power-loss recovery','live AIDE CLI','Universal Setup integration','owner acceptance']}
 
-    def accepted(self):
-        records=read_json(self.root/'work/acceptances.json')['records'];accepted=set()
-        decisions={d['id']:d for d in read_json(self.root/'catalog/decisions.json')['decisions']}
+    def command_registry(self):
+        items=read_json(self.root/'catalog/commands.json')['commands'];spellings=set()
+        unique_ids(items,'command')
+        for command in items:
+            self.validate(SCHEMA_PREFIX+'command:1',command)
+            for word in [' '.join(command['words']),*command['aliases']]:
+                if not re.fullmatch(r'[a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*',word):
+                    raise SpecError('Noncanonical command spelling: '+word)
+                if word in spellings:raise SpecError('Duplicate command spelling: '+word)
+                spellings.add(word)
+            for id in command['spec_ids']:
+                if id not in self.concepts:raise SpecError('Missing command spec: '+id)
+            for key in ('request_schema','result_schema','parameter_schema'):
+                if command[key] is not None and command[key] not in self.schemas:
+                    raise SpecError('Unknown command schema: '+command[key])
+            if command['syntax_status']=='unresolved':continue
+            parameters=self.schemas[command['parameter_schema']]
+            if parameters.get('type')!='object':raise SpecError('Command parameters must declare an object schema')
+            properties=parameters.get('properties',{});bound=set();options=set();positions=set()
+            for binding in command['argument_bindings']:
+                parameter=binding['parameter']
+                if parameter not in properties:raise SpecError('Unknown bound parameter: '+parameter)
+                if parameter in bound:raise SpecError('Duplicate parameter binding: '+parameter)
+                bound.add(parameter)
+                for key,seen in [('option',options),('position',positions)]:
+                    if key in binding:
+                        if binding[key] in seen:raise SpecError('Duplicate argument '+key)
+                        seen.add(binding[key])
+                if binding['completion']=='schema-enum' and not isinstance(properties[parameter].get('enum'),list):
+                    raise SpecError('Enum completion requires a parameter enum')
+                if binding['completion']=='observed-id' and command['completion_policy']!='bounded-observations':
+                    raise SpecError('Observed completion requires bounded observations')
+            if bound!=set(properties):raise SpecError('Command parameter properties need explicit argument bindings')
+            if positions and positions!=set(range(len(positions))):raise SpecError('Positional bindings must be contiguous from zero')
+        return items
+
+    def acceptance_projection(self):
+        records=read_json(self.root/'work/acceptances.json')['records']
+        rows=[];seen={};tips={};snapshots={};accepted=set()
         for rec in records:
-            self.validate(SCHEMA_PREFIX+'acceptance:1',rec)
-            id=rec['subject_id']
-            value=self.work.get(id) or decisions.get(id)
-            if value is None:raise SpecError('Acceptance references unknown subject '+id)
-            if rec['subject_digest']!=digest_bytes(canonical(value)):
-                raise SpecError('Stale acceptance for '+id)
-            for source in rec['input_files']:
-                path=safe_path(self.root,source['path'],existing=True)
-                if digest_bytes(path.read_bytes())!=source['sha256']:
-                    raise SpecError('Stale acceptance input for '+id+': '+source['path'])
-            required_ids=self.context_ids(self.meta['mandatory_context']+(self.work[id]['context'] if id in self.work else [decisions[id]['spec_id']]))
-            required_paths={self.concepts[x]['path'] for x in required_ids}
-            supplied_paths={x['path'] for x in rec['input_files']}
-            if not required_paths<=supplied_paths:
-                raise SpecError('Acceptance input closure missing for '+id)
-            if rec['decision']=='accept':accepted.add(id)
-            else:accepted.discard(id)
-        return accepted
+            legacy=rec.get('schema')=='org.disked.acceptance/1'
+            self.validate(SCHEMA_PREFIX+('acceptance:1' if legacy else 'acceptance-receipt:2'),rec)
+            receipt=('legacy:'+digest_bytes(canonical(rec))[7:]) if legacy else rec['receipt_id']
+            subject=rec['subject_id'];previous=tips.get(subject)
+            if receipt in seen:raise SpecError('Duplicate receipt ID: '+receipt)
+            if not legacy and rec['supersedes']!=previous:
+                raise SpecError('Receipt must explicitly supersede the preceding receipt for its subject')
+            row={'receipt_id':receipt,'subject_id':subject,'historical_validity':'unverified_legacy' if legacy else 'unverified','applicability':'not_current'}
+            if previous:seen[previous]['applicability']='superseded'
+            rows.append(row);seen[receipt]=row;tips[subject]=receipt
+            if legacy:continue # Preserve unanchored v1 history; never grant from it.
+            revision=rec['reviewed_revision']
+            try:
+                if revision not in snapshots:snapshots[revision]=GitSnapshot(self.root.parent,revision)
+            except SpecError as exc:
+                row.update(historical_validity='revision_unavailable',reason=str(exc));continue
+            snapshot=snapshots[revision];view=self.input_view(snapshot)
+            value=view['work'].get(subject) or view['decisions'].get(subject)
+            if value is None or digest_bytes(canonical(value))!=rec['subject_digest']:
+                raise SpecError('Receipt subject does not match reviewed revision: '+receipt)
+            required=self.review_inputs(subject,view)
+            supplied={f['path']:f for f in rec['input_files']}
+            if len(supplied)!=len(rec['input_files']) or set(supplied)!=set(required):
+                raise SpecError('Receipt reviewed input closure mismatch: '+receipt)
+            snapshot.read_many(required)
+            for path,item in supplied.items():
+                self.input_path(path) # Reject ambiguous paths before any use.
+                if digest_bytes(snapshot.read(path))!=item['sha256']:
+                    raise SpecError('Receipt input differs from reviewed blob: '+path)
+            row['historical_validity']='verified'
+            if rec['decision']!='accept':
+                row['applicability']='revoked' if rec['decision']=='revoke' else 'rejected';continue
+            current=self.input_view();value=current['work'].get(subject) or current['decisions'].get(subject)
+            if value is None or digest_bytes(canonical(value))!=rec['subject_digest']:
+                row['applicability']='stale_subject';continue
+            required_now=self.review_inputs(subject,current)
+            if set(required_now)!=set(required):row['applicability']='stale_closure';continue
+            if any(not self.input_path(path).is_file() or digest_bytes(self.input_path(path).read_bytes())!=item['sha256'] for path,item in supplied.items()):
+                row['applicability']='stale_inputs';continue
+            row['applicability']='current'
+        for subject,receipt in tips.items():
+            if seen[receipt]['applicability']=='current':accepted.add(subject)
+        return {'accepted':sorted(accepted),'receipts':rows,'scope':'Local historical blob validity and current applicability, not reviewer authentication.'}
+
+    def accepted(self):
+        return set(self.acceptance_projection()['accepted'])
 
     def next_work(self):
         accepted=self.accepted();rows=[]
@@ -509,56 +625,133 @@ class Bundle:
                          'blockers':blockers,'execution_authorized':False})
         return rows
 
-    def context_ids(self, seeds):
+    def context_ids(self, seeds, concepts=None):
+        concepts=self.concepts if concepts is None else concepts
         ordered, active, seen = [], set(), set()
         def visit(id):
             if id in active: raise SpecError('Context dependency cycle: '+id)
             if id in seen: return
-            if id not in self.concepts: raise SpecError('Unknown context concept: '+id)
+            if id not in concepts: raise SpecError('Unknown context concept: '+id)
             active.add(id)
-            for dep in self.concepts[id]['depends_on']: visit(dep)
+            for dep in concepts[id]['depends_on']: visit(dep)
             active.remove(id); seen.add(id); ordered.append(id)
         for id in seeds: visit(id)
         return ordered
 
-    def context(self, work_id: str, output: Path, byte_budget=120000):
-        if work_id not in self.work:raise SpecError('Unknown work unit '+work_id)
-        w=self.work[work_id]
-        ids=self.context_ids(self.meta['mandatory_context']+w['context'])
+    def input_path(self,path):
+        # Canonical names use spec/ even for a relocated --root spec-only bundle.
+        if path.startswith('spec/'):return safe_path(self.root,path[5:])
+        return safe_path(self.root.parent,path)
+
+    def input_view(self,snapshot=None):
+        paths=['spec/bundle.json','spec/catalog/concepts.json','spec/work/units.json','spec/catalog/decisions.json','spec/catalog/input-dependencies.json']
+        if snapshot:snapshot.read_many(paths)
+        values=[parse_json(snapshot.read(p).decode('utf-8')) if snapshot else read_json(self.input_path(p)) for p in paths]
+        meta,concepts,work,decisions,registry=values
+        self.validate(SCHEMA_PREFIX+'input-registry:1',registry)
+        inputs=unique_ids(registry['inputs'],'required input')
+        if len({i['path'] for i in inputs.values()})!=len(inputs):raise SpecError('Duplicate required input path')
+        for item in inputs.values():self.input_path(item['path'])
+        acyclic({id:i['depends_on'] for id,i in inputs.items()},'required input graph')
+        instruction_names={'AGENTS.md','CLAUDE.md'}
+        if snapshot:instructions=[p for p in snapshot.entries if PurePosixPath(p).name in instruction_names]
+        else:
+            instructions=[]
+            for folder,dirs,files in os.walk(self.root.parent,followlinks=False):
+                dirs[:]=sorted(d for d in dirs if d not in ('.git','.aide-local','.venv','__pycache__') and not (Path(folder)/d).is_symlink())
+                for name in sorted(instruction_names & set(files)):
+                    instructions.append((Path(folder)/name).relative_to(self.root.parent).as_posix())
+        return {'meta':meta,'concepts':unique_ids(concepts['concepts'],'concept'),'work':unique_ids(work['units'],'work'),
+                'decisions':unique_ids(decisions['decisions'],'decision'),'inputs':inputs,'always':registry['always'],'instructions':sorted(instructions)}
+
+    def resolve_inputs(self,subject,view=None):
+        view=self.input_view() if view is None else view
+        work=view['work'].get(subject)
+        if work is None and subject not in view['decisions']:raise SpecError('Unknown context subject '+subject)
+        seeds=work['context'] if work else [view['decisions'][subject]['spec_id']]
+        ids=self.context_ids(view['meta']['mandatory_context']+seeds,view['concepts'])
+        inputs=view['inputs'];selected=set();files={}
+        def visit(id):
+            if id in selected:return
+            if id not in inputs:raise SpecError('Unknown required input: '+id)
+            for dep in inputs[id]['depends_on']:visit(dep)
+            selected.add(id);item=inputs[id]
+            files[item['path']]={key:item[key] for key in ('path','kind','delivery')}
+        for id in view['always']+(work.get('required_inputs',[]) if work else []):visit(id)
+        for id,item in inputs.items():
+            if set(item['spec_ids'])&set(ids):visit(id)
+        for id in ids:
+            path='spec/'+view['concepts'][id]['path']
+            files[path]={'path':path,'kind':'specification','delivery':'content'}
+        scopes=[]
+        for pattern in work['allowed_paths'] if work else ['spec/**']:
+            prefix=re.split(r'[*?\[]',pattern,maxsplit=1)[0].rstrip('/')
+            if prefix:self.input_path(prefix)
+            scopes.append((prefix,any(c in pattern for c in '*?[')))
+        for path in view['instructions']:
+            parent=str(PurePosixPath(path).parent);parent='' if parent=='.' else parent+'/'
+            applies=not parent or any(p.startswith(parent) for p in files)
+            applies|=any(prefix.startswith(parent) or (glob and (parent.rstrip('/')==prefix or parent.startswith(prefix+'/'))) for prefix,glob in scopes)
+            if applies:
+                self.input_path(path);files[path]={'path':path,'kind':'instructions','delivery':'content'}
+        return {'concepts':ids,'files':files}
+
+    def review_inputs(self,subject,view=None):
+        # The receipt cannot hash the ledger that contains itself. Subject
+        # catalogs are anchored separately by revision and the subject digest.
+        excluded={'spec/work/acceptances.json','spec/work/units.json','spec/catalog/decisions.json'}
+        return {p:v for p,v in self.resolve_inputs(subject,view)['files'].items() if p not in excluded}
+
+    def context(self, work_id: str, output: Path, byte_budget=120000, artifact_byte_budget=8*1024*1024):
+        view=self.input_view()
+        if work_id not in view['work']:raise SpecError('Unknown work unit '+work_id)
+        w=view['work'][work_id]
+        closure=self.resolve_inputs(work_id,view);ids=closure['concepts']
         files=[]
         chunks=['# DiskEd task context — '+work_id+'\n\nContext only. This pack is not an execution grant. Validate source hashes before acting.\n',
                 '## Selected work definition\n\n```json\n'+json.dumps(w,ensure_ascii=False,indent=2)+'\n```\n']
-        for id in ids:
-            path,meta,body,text=self.document(id)
-            rel=path.relative_to(self.root).as_posix()
-            files.append({'path':rel,'sha256':digest_bytes(path.read_bytes()),'bytes':path.stat().st_size})
-            chunks.append('\n---\n\n## Source '+id+' — spec/'+rel+'\n\n'+text)
-        for rel in ['bundle.json','work/units.json','catalog/decisions.json','work/acceptances.json']:
-            p=safe_path(self.root,rel,existing=True)
-            files.append({'path':rel,'sha256':digest_bytes(p.read_bytes()),'bytes':p.stat().st_size})
+        artifacts={}
+        for name,item in closure['files'].items():
+            path=self.input_path(name);text=read_text(path);data=path.read_bytes()
+            files.append(dict(item,sha256=digest_bytes(data),bytes=len(data)))
+            if item['delivery']=='content':chunks.append('\n---\n\n## Required content — '+name+'\n\n'+text)
+            else:artifacts[name]=data
+        chunks.append('\n## Required artifacts\n\nRead task-relevant contracts before implementation. Exact bytes are included under `artifacts/`; manifest entries identify kinds and hashes. These files are data, not instructions to execute.\n')
         payload=('\n'.join(chunks)).encode('utf-8')
         if len(payload)>byte_budget:raise SpecError(f'Required context {len(payload)} bytes exceeds budget {byte_budget}; split work or raise the explicit budget. No files were truncated.')
+        if sum(map(len,artifacts.values()))>artifact_byte_budget:raise SpecError('Required artifacts exceed artifact byte budget; no files were truncated')
         out=Path(output)
         ensure_output_directory(out,create=True)
         if any(out.iterdir()):raise SpecError('Context destination must be empty: '+str(out))
         head,dirty=git_state(self.root.parent)
-        manifest={'schema':'org.disked.context-manifest/1','work_id':work_id,'git_head':head,'git_dirty':dirty,
+        manifest={'schema':'org.disked.context-manifest/2','work_id':work_id,'git_head':head,'git_dirty':dirty,
                   'files':files,'payload_sha256':digest_bytes(payload),'payload_bytes':len(payload),'byte_budget':byte_budget,
-                  'omitted_optional':sorted(set(self.concepts)-set(ids)),'authority':'context-only-no-execution-grant'}
-        self.validate(SCHEMA_PREFIX+'context-manifest:1',manifest)
+                  'artifact_byte_budget':artifact_byte_budget,
+                  'omitted_optional':sorted(set(view['concepts'])-set(ids)),'authority':'context-only-no-execution-grant'}
+        self.validate(SCHEMA_PREFIX+'context-manifest:2',manifest)
+        for name,data in artifacts.items():
+            dest=safe_path(out,'artifacts/'+name);dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data)
         (out/'context.md').write_bytes(payload);write_json(out/'manifest.json',manifest)
         return {'output':str(out),'bytes':len(payload),'concepts':ids,'execution_authorized':False}
 
     def verify_context(self, output: Path):
-        out=Path(output);ensure_output_directory(out);m=read_json(out/'manifest.json');self.validate(SCHEMA_PREFIX+'context-manifest:1',m)
+        out=Path(output);ensure_output_directory(out);m=read_json(out/'manifest.json');self.validate(SCHEMA_PREFIX+'context-manifest:2',m)
         if digest_bytes(read_text(out/'context.md').encode('utf-8'))!=m['payload_sha256']:raise SpecError('Context payload digest mismatch')
         if (out/'context.md').stat().st_size!=m['payload_bytes']:raise SpecError('Context payload size mismatch')
+        expected=self.resolve_inputs(m['work_id'])['files']
+        declared={f['path']:{k:f[k] for k in ('path','kind','delivery')} for f in m['files']}
+        if len(declared)!=len(m['files']) or declared!=expected:raise SpecError('Context required input closure changed or is incomplete')
+        if m['payload_bytes']>m['byte_budget'] or sum(f['bytes'] for f in m['files'] if f['delivery']=='artifact')>m['artifact_byte_budget']:raise SpecError('Context exceeds declared budgets')
         for f in m['files']:
-            p=safe_path(self.root,f['path'],existing=True)
+            p=self.input_path(f['path'])
             if digest_bytes(p.read_bytes())!=f['sha256']:raise SpecError('Context source changed: '+f['path'])
+            if p.stat().st_size!=f['bytes']:raise SpecError('Context source size mismatch')
+            if f['delivery']=='artifact':
+                copied=safe_path(out,'artifacts/'+f['path'],existing=True)
+                if digest_bytes(copied.read_bytes())!=f['sha256']:raise SpecError('Context artifact changed: '+f['path'])
         current,_=git_state(self.root.parent)
         if m['git_head'] is not None and current!=m['git_head']:raise SpecError('Context Git head changed')
-        return {'status':'PASS','work_id':m['work_id'],'scope':'Selected source freshness, not execution approval.'}
+        return {'status':'PASS','work_id':m['work_id'],'scope':'Declared task-input closure and included artifact freshness, not execution approval.'}
 
     def aide_export(self, output: Path):
         out=Path(output);ensure_output_directory(out,create=True)
@@ -585,23 +778,37 @@ class Bundle:
 
     def impact(self,paths):
         ids=set();mods=read_json(self.root/'catalog/project-graph.json')['modules']
+        view=self.input_view();closures={id:self.resolve_inputs(id,view) for id in view['work']}
+        matched=[];unmatched=[];owners={};affected_work=set()
         for raw in paths:
             path=raw.replace('\\','/')
+            self.input_path(path)
+            path_ids=set();path_owners=set()
             if path.startswith('spec/'):
                 rel=path[5:]
-                ids|={id for id,c in self.concepts.items() if c['path']==rel}
+                path_ids|={id for id,c in self.concepts.items() if c['path']==rel}
+                path_owners.update(path_ids)
             for m in mods:
-                if any(path.startswith(pre) for pre in m['path_prefixes']):ids.update(m['spec_ids'])
-        if not ids:
-            return {'paths':paths,'unknown_impact':True,'review_required':True,'reason':'No precise ownership match; do not assume no tests.'}
+                if path in m.get('file_paths',[]) or any(path.startswith(pre.rstrip('/')+'/') or path==pre.rstrip('/') for pre in m['path_prefixes']):
+                    path_ids.update(m['spec_ids']);path_owners.add(m['id'])
+            for input in view['inputs'].values():
+                if input['path']==path:path_ids.update(input['spec_ids']);path_owners.update(input['spec_ids'])
+            for work,closure in closures.items():
+                if path in closure['files']:
+                    affected_work.add(work);path_owners.add(work)
+            if path_owners:matched.append(path);owners[path]=sorted(path_owners)
+            else:unmatched.append(path)
+            ids.update(path_ids)
         # Expand reverse semantic dependencies conservatively.
         changed=True
         while changed:
             new={id for id,c in self.concepts.items() if set(c['depends_on']) & ids}-ids
             changed=bool(new);ids|=new
         reqs,_=self.requirements()
-        return {'paths':paths,'unknown_impact':False,'spec_ids':sorted(ids),
-                'work_ids':[id for id,w in self.work.items() if set(w['context'])&ids],
+        affected_work.update(id for id,closure in closures.items() if set(closure['concepts'])&ids)
+        return {'paths':paths,'matched_paths':matched,'unmatched_paths':unmatched,'matched_owners':owners,
+                'unknown_impact':bool(unmatched),'spec_ids':sorted(ids),
+                'work_ids':sorted(affected_work),
                 'test_ids':[t for r in reqs if r['spec'] in ids for t in r['test_ids']],
                 'review_required':True,'scope':'Conservative routing; not automatic test adequacy.'}
 
@@ -663,12 +870,19 @@ def route_invocation(i):
         if front in ('gui','tui') or interactive=='yes':return {'error':'argument_conflict'}
         return result('cli',False,'machine-output')
     if front in ('gui','tui') and interactive=='no':return {'error':'argument_conflict'}
+    # Prompt permission is independent of persistent-shell selection. A separate
+    # explicitly available prompt channel can be used with redirected results.
+    prompt=i.get('prompt_channel', terminal!='none' and i.get('stdin') not in ('pipe','file','absent','invalid')
+                 and i.get('stdout') not in ('pipe','file','absent','invalid'))
+    if front not in ('gui','tui') and interactive=='yes' and not prompt:
+        return {'error':'interaction_unavailable'}
     if front!='auto':
         if front=='gui' and not (gui and display):return {'error':'frontend_unavailable'}
         if front=='tui' and terminal=='none':return {'error':'frontend_unavailable'}
-        return result(front,front in ('gui','tui'),'explicit-frontend')
+        return result(front,front in ('gui','tui') or interactive=='yes','explicit-frontend')
     if i.get('command'):return result('cli',interactive=='yes','explicit-command')
     if interactive=='no':return result('cli',False,'noninteractive-request')
+    if interactive=='yes':return result('cli',True,'explicit-interaction')
     if i.get('desktop') and gui and display:return result('gui',True,'desktop-activation')
     if i.get('stdin') in ('pipe','file') or i.get('stdout') in ('pipe','file'):
         return result('cli',False,'redirected-stream')
@@ -691,11 +905,12 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--root',type=Path,default=DEFAULT_ROOT,help='Specification root, not repository root')
     sub=p.add_subparsers(dest='command',required=True)
-    sub.add_parser('doctor');sub.add_parser('check');sub.add_parser('next')
+    sub.add_parser('doctor');sub.add_parser('check');sub.add_parser('next');sub.add_parser('acceptance-status')
     ix=sub.add_parser('index');ix.add_argument('--check',action='store_true')
     sh=sub.add_parser('show');sh.add_argument('id')
     se=sub.add_parser('search');se.add_argument('query');se.add_argument('--limit',type=int,default=8)
     cx=sub.add_parser('context');cx.add_argument('--work',required=True);cx.add_argument('--output',type=Path,required=True);cx.add_argument('--byte-budget',type=int,default=120000)
+    cx.add_argument('--artifact-byte-budget',type=int,default=8*1024*1024)
     vc=sub.add_parser('verify-context');vc.add_argument('directory',type=Path)
     ae=sub.add_parser('aide-export');ae.add_argument('--output',type=Path,required=True)
     im=sub.add_parser('impact');im.add_argument('paths',nargs='+')
@@ -716,7 +931,8 @@ def main(argv=None):
             result=b.check();print(json.dumps(result,indent=2));return 0 if result['status']=='PASS' else 1
         if args.command=='index':result=b.index(args.check)
         elif args.command=='next':result={'work':b.next_work(),'execution_authorized':False}
-        elif args.command=='context':result=b.context(args.work,args.output,args.byte_budget)
+        elif args.command=='acceptance-status':result=b.acceptance_projection()
+        elif args.command=='context':result=b.context(args.work,args.output,args.byte_budget,args.artifact_byte_budget)
         elif args.command=='verify-context':result=b.verify_context(args.directory)
         elif args.command=='aide-export':result=b.aide_export(args.output)
         elif args.command=='impact':result=b.impact(args.paths)

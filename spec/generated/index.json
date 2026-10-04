@@ -1,14 +1,14 @@
 {
   "schema": "org.disked.spec-index/1",
-  "bundle_version": "0.1.1-proposed.2",
+  "bundle_version": "0.1.2-proposed.1",
   "concepts": [
     {
       "id": "DE-000",
       "path": "START-HERE.md",
       "title": "Start here",
       "summary": "Read the bundle in task-sized pieces and run its local checks.",
-      "sha256": "sha256:3a0913e6de4c13d735ae5003555021a662e9313d2c2aef34f3b6ba34f4e45a9d",
-      "bytes": 1791,
+      "sha256": "sha256:71e92f5c8db646d38c1860f2de9dfc0af19a26bc530e7ce4e2b2830984c9de68",
+      "bytes": 1812,
       "depends_on": [
         "DE-002",
         "DE-080"
@@ -35,8 +35,8 @@
       "path": "foundation/authority.md",
       "title": "Authority, acceptance and source ownership",
       "summary": "Separate requirements, contracts, implementation facts, evidence and public explanations.",
-      "sha256": "sha256:e5c921984b5c218cc9fe2c47d56ef80e488dd920fb94cf9622407f01007c6052",
-      "bytes": 5649,
+      "sha256": "sha256:e08692911c59ce2999a93534e210258eb2d08d7a9653358f7da95fe3324d72ad",
+      "bytes": 7359,
       "depends_on": [
         "DE-001"
       ],
@@ -160,8 +160,8 @@
       "path": "architecture/component-model.md",
       "title": "Components and immutable compositions",
       "summary": "Small static compositions with explicit loader, provider and delivery closures.",
-      "sha256": "sha256:b93e4f57fcbb18cdd9f06fa44988a20bd15cb3e4182601ba7e9b32dec94f92e8",
-      "bytes": 3801,
+      "sha256": "sha256:b7625d4eeb4df0c827fa27eb141e63cd45a4374e0dedd1252d2b1faeda649867",
+      "bytes": 4335,
       "depends_on": [
         "DE-010",
         "DE-012"
@@ -192,8 +192,8 @@
       "path": "interaction/invocation.md",
       "title": "InvocationPolicy v1",
       "summary": "Deterministic mode routing with explicit overrides and honest ambiguity handling.",
-      "sha256": "sha256:0a961d82754a8a4117badb6116fc5a2328b60989c376687344c9876ce684c4f0",
-      "bytes": 5286,
+      "sha256": "sha256:c6cb87d29ae3cc4ee0ae49cfbef682907e0d9a9de09d23cb93e0409437d7941a",
+      "bytes": 6527,
       "depends_on": [
         "DE-010",
         "DE-005"
@@ -209,8 +209,8 @@
       "path": "interaction/commands.md",
       "title": "Command grammar and canonical registry",
       "summary": "A descriptor-owned CLI shared with TUI and native GUI command discovery.",
-      "sha256": "sha256:1fbb94aef317cdf175fb74590e3a364186e0952b3c6d300d35b27a9f70e404b4",
-      "bytes": 4588,
+      "sha256": "sha256:58cf9a1e68e8bae069bbfec4e95f73c29ae4852b72d2e3a7c7c0ca79f5608000",
+      "bytes": 6765,
       "depends_on": [
         "DE-020",
         "DE-005"
@@ -226,8 +226,8 @@
       "path": "interaction/protocol.md",
       "title": "Machine protocol and transport",
       "summary": "Versioned envelopes, bounded messages and honest operation outcomes.",
-      "sha256": "sha256:1afb3a769777860a4588b81b21eac96a478abf90059577654e434a662223b6d1",
-      "bytes": 4453,
+      "sha256": "sha256:10cc3a6cacfdca0f5b1a5a8386e633da1b8833f1faac03ef9c3533ae98cb2122",
+      "bytes": 5684,
       "depends_on": [
         "DE-021",
         "DE-010"
@@ -242,8 +242,8 @@
       "path": "interaction/presentation.md",
       "title": "FrontendSession and semantic parity",
       "summary": "One presentation model for terminal and native visual interfaces.",
-      "sha256": "sha256:87af9930be3f6b9ca3e807b38ea782bf09e63f5998512b173de4aad3cba12e4e",
-      "bytes": 4184,
+      "sha256": "sha256:65aa4eba30d1b7f5717fc910eeeb24b5895b50c0ca53b47beaa228b9c19bae77",
+      "bytes": 4811,
       "depends_on": [
         "DE-021",
         "DE-022"
@@ -258,8 +258,8 @@
       "path": "interaction/tui-and-gui.md",
       "title": "TUI and OEM+ GUI experience",
       "summary": "Task-oriented interfaces with progressive disclosure and accessible fallback.",
-      "sha256": "sha256:25a97152c0227c81ad16dccd317b7f7c025ee6a390d6f52c7af9168b88abff16",
-      "bytes": 4875,
+      "sha256": "sha256:5f284f78e83dd8c021db5f6e165d6372701fd7536f62674a5f5a7929cd377373",
+      "bytes": 6671,
       "depends_on": [
         "DE-023"
       ],
@@ -286,6 +286,54 @@
       ]
     },
     {
+      "id": "DE-026",
+      "path": "interaction/terminal-session.md",
+      "title": "Terminal sessions and capabilities",
+      "summary": "Channel-specific terminal capabilities, bounded rendering and owned restoration.",
+      "sha256": "sha256:2512eda5d748d1845ba5a3a42fa068029631f0f7cd5967d905457900014809d5",
+      "bytes": 4161,
+      "depends_on": [
+        "DE-020",
+        "DE-045"
+      ],
+      "requirement_ids": [
+        "DE-REQ-026-01",
+        "DE-REQ-026-02"
+      ]
+    },
+    {
+      "id": "DE-027",
+      "path": "interaction/interactive-shell.md",
+      "title": "Interactive command shell",
+      "summary": "Explicit persistent DiskEd sessions over the shared command model.",
+      "sha256": "sha256:55b4f7caa7475174c86b1bbde374ba02d16f2ee4cf42c23f94ed4c5b48173f7c",
+      "bytes": 3263,
+      "depends_on": [
+        "DE-021",
+        "DE-026"
+      ],
+      "requirement_ids": [
+        "DE-REQ-027-01",
+        "DE-REQ-027-02"
+      ]
+    },
+    {
+      "id": "DE-028",
+      "path": "interaction/output-and-progress.md",
+      "title": "Output, progress and completion",
+      "summary": "Separate human display, protocol events, diagnostics and recovery records.",
+      "sha256": "sha256:a9fbe26e48793ad047b60e0f466f8f76443465722e213ac14e6affad15a87975",
+      "bytes": 2879,
+      "depends_on": [
+        "DE-022",
+        "DE-023",
+        "DE-026"
+      ],
+      "requirement_ids": [
+        "DE-REQ-028-01"
+      ]
+    },
+    {
       "id": "DE-030",
       "path": "storage/identity-and-graph.md",
       "title": "Storage graph, identity and leases",
@@ -308,8 +356,8 @@
       "path": "storage/address-spaces.md",
       "title": "Address spaces, geometry and data fidelity",
       "summary": "Checked half-open extents and multiple media semantics.",
-      "sha256": "sha256:f1b5b07d61eda7802db48a5b90a2915745f2e60bfa61b22dadbacccf13ed442b",
-      "bytes": 4229,
+      "sha256": "sha256:d0da5c78c0cd0d282ebd535734b1beef4bcabd9736bc200b542713cc82dea48f",
+      "bytes": 4830,
       "depends_on": [
         "DE-030"
       ],
@@ -456,8 +504,8 @@
       "path": "safety/planning.md",
       "title": "Planner, action graph and simulation",
       "summary": "Compile intents into explicit dependencies, resources and recovery obligations.",
-      "sha256": "sha256:af45d2db7da72f20500664f76c13bf20dc66393b76c59c18869d24d9fd3997fc",
-      "bytes": 5168,
+      "sha256": "sha256:6cb36e6459424f8066e8fa1aeb474b69a2a2900ae6d1951691ad6421493d1316",
+      "bytes": 6442,
       "depends_on": [
         "DE-030",
         "DE-033",
@@ -475,8 +523,8 @@
       "path": "safety/journal-and-recovery.md",
       "title": "Journal, recovery and durability",
       "summary": "Explicit recovery classes without false transactional or rollback claims.",
-      "sha256": "sha256:58ddb1ec91a78ae4f53e737dccd426b9f1617a83507befb624352e4b1e7ac5bc",
-      "bytes": 5179,
+      "sha256": "sha256:813ef4e15afa1bf082217bb7d3db0afe7aaa36c8713dffe0cd753f81f925b8aa",
+      "bytes": 6306,
       "depends_on": [
         "DE-042",
         "DE-041"
@@ -542,8 +590,8 @@
       "path": "platforms/dos-carbon-os2.md",
       "title": "DOS, JC-DOS, Carbon and OS/2 portability",
       "summary": "Constrained native profiles without inventing device or BIOS guarantees.",
-      "sha256": "sha256:959669d99d75d1c312e1bab92fa7af2385805aafbf579f5fae87135e48c40fec",
-      "bytes": 4824,
+      "sha256": "sha256:502eb8d4cf576c5d11641d5eda65047f666bffd0f669edf838845c920a455cc2",
+      "bytes": 5386,
       "depends_on": [
         "DE-031",
         "DE-012"
@@ -691,8 +739,8 @@
       "path": "development/context-and-handoffs.md",
       "title": "Context packs, handoffs and retrieval",
       "summary": "Continue work without carrying the entire conversation or specification into every session.",
-      "sha256": "sha256:30877a43e50706150d088076ba6c433f3d5bb7135941f07804160a850efbb809",
-      "bytes": 4086,
+      "sha256": "sha256:61eeeb3903edb0e30ff5e6a4caa0922d60bd3020e3033c9188ddcbda19eae651",
+      "bytes": 6462,
       "depends_on": [
         "DE-070",
         "DE-002"
@@ -756,8 +804,8 @@
       "path": "development/governance-and-review.md",
       "title": "Governance, review and change safety",
       "summary": "Lean ownership with risk-scaled review rather than ceremonial committees.",
-      "sha256": "sha256:8caaaf5b2a0be041b803a58e40df03c1451654a9ba1d85199cb01b7d0ca63f12",
-      "bytes": 3505,
+      "sha256": "sha256:08d57995b82f60f3f45431d5b06dbc455e478407c5c9217902b1f343e4244d51",
+      "bytes": 4431,
       "depends_on": [
         "DE-070",
         "DE-074"
@@ -772,8 +820,8 @@
       "path": "development/specctl.md",
       "title": "Specification tool contract",
       "summary": "Local indexing, checks, contexts and safe bootstrap without a product runtime.",
-      "sha256": "sha256:76dafef5aacc1ca0c6b8ade187e173502e9bc85b3ec8b81414d8c3925cb81028",
-      "bytes": 5171,
+      "sha256": "sha256:5acb6a145336e5693a4e97b7f2be0369446d43579f7d4f79ee497b46ef13b475",
+      "bytes": 6566,
       "depends_on": [
         "DE-003",
         "DE-071",
@@ -807,8 +855,8 @@
       "path": "development/extension-sdk.md",
       "title": "Extension tiers and compatibility",
       "summary": "Stabilize real C/protocol consumers and require conformance without granting implicit privilege.",
-      "sha256": "sha256:0a44bfd5a7ca5f691cdc690bb19143cdf78cbfe13bc8d30a997c8472deff11c5",
-      "bytes": 3122,
+      "sha256": "sha256:e36c13187ccada78c76b87ecb14368c97aa156e045d10b961ba54cfa94b47103",
+      "bytes": 3762,
       "depends_on": [
         "DE-012",
         "DE-033",
@@ -823,8 +871,8 @@
       "path": "roadmap/implementation.md",
       "title": "Implementation sequence and first usable release",
       "summary": "A small Windows-native vertical slice before expanding storage authority.",
-      "sha256": "sha256:c419b9b164b399bd3fd5189aa50e48b347c23d10571fc97d0ea469379b435704",
-      "bytes": 6286,
+      "sha256": "sha256:6853acf06af9b88cad30912100c68df35a3539b5d085eded31444ed3216328e2",
+      "bytes": 7256,
       "depends_on": [
         "DE-001",
         "DE-074",
@@ -860,6 +908,19 @@
       "depends_on": [
         "DE-002",
         "DE-081"
+      ],
+      "requirement_ids": []
+    },
+    {
+      "id": "DE-083",
+      "path": "roadmap/corrective-review.md",
+      "title": "Review corrections at 08a8246",
+      "summary": "Disposition of reproduced tool defects and staged terminal, protocol and asset recommendations.",
+      "sha256": "sha256:f83bf3e7069f6d8d465857c1857c2a7f6446fe3cd706661fb9db96d6a68a83b2",
+      "bytes": 2984,
+      "depends_on": [
+        "DE-002",
+        "DE-076"
       ],
       "requirement_ids": []
     },

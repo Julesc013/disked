@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-076
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,6 +25,13 @@ disked:
   - DE-REQ-076-01
   - DE-REQ-076-02
   - DE-REQ-076-03
+updated:
+  by: codex
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
+sources:
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Specification tool contract
@@ -52,6 +59,14 @@ The first native task uses DE-014's small composition contract; full Setup/relea
 ## Known limits
 
 Structural checks cannot prove a filesystem algorithm, detect every factual mistake, validate unavailable OS environments or enforce a malicious worker's privileges. Work-unit readiness is computed from local acceptance records; it is not a distributed scheduler or lock. The Markdown link checker supports the authored project's link forms, not every possible Markdown extension. Schema validation is offline and resolves local references only.
+
+## Review corrections at 08a8246
+
+Impact resolves each path independently and returns matched paths, unmatched paths, owners and aggregated spec/work/test IDs. Any unresolved path keeps `unknown_impact` true, including mixed inputs. Exact file ownership and directory-boundary matching cover machine inputs, instruction and build files; a matched path never hides an unmatched one. This is conservative routing, not proof of sufficient testing.
+
+Context and acceptance use the declared input resolver in DE-071. `acceptance-status` shows historical validity, supersession and current applicability separately. Revision-bound receipt v2 uses exact local Git blobs; it does not fetch missing history or authenticate reviewers. Unanchored v1 receipts remain visible but cannot authorize current work.
+
+Semantic checks dispatch from the schema identity. A legacy semantic selector can confirm that identity but cannot suppress or substitute its constraints. Shared decimal-u64 checks enforce numeric bounds; accepted-running responses require operation identity. Strict producer schema conformance remains separate from a future compatible reader's negotiated behavior.
 
 ## Normative requirements
 

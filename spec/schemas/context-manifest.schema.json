@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:disked:schema:context-manifest:1",
+  "$id": "urn:disked:schema:context-manifest:2",
   "title": "context-manifest",
   "type": "object",
   "properties": {
     "schema": {
-      "const": "org.disked.context-manifest/1"
+      "const": "org.disked.context-manifest/2"
     },
     "work_id": {
       "type": "string",
@@ -39,15 +39,28 @@
           "bytes": {
             "type": "integer",
             "minimum": 0
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delivery": {
+            "enum": [
+              "content",
+              "artifact"
+            ]
           }
         },
         "required": [
           "path",
           "sha256",
-          "bytes"
+          "bytes",
+          "kind",
+          "delivery"
         ],
         "additionalProperties": false
-      }
+      },
+      "minItems": 1
     },
     "payload_sha256": {
       "type": "string",
@@ -70,6 +83,10 @@
     },
     "authority": {
       "const": "context-only-no-execution-grant"
+    },
+    "artifact_byte_budget": {
+      "type": "integer",
+      "minimum": 0
     }
   },
   "required": [
@@ -82,7 +99,8 @@
     "payload_bytes",
     "byte_budget",
     "omitted_optional",
-    "authority"
+    "authority",
+    "artifact_byte_budget"
   ],
   "additionalProperties": false
 }

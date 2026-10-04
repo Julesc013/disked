@@ -9,6 +9,7 @@
 - [compositions.json](compositions.json)
 - [concepts.json](concepts.json)
 - [decisions.json](decisions.json)
+- [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)
 - [operations.json](operations.json)
 - [project-graph.json](project-graph.json)

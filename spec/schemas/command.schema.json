@@ -14,14 +14,15 @@
         "type": "string",
         "minLength": 1
       },
-      "minItems": 2
+      "minItems": 1
     },
     "aliases": {
       "type": "array",
       "items": {
         "type": "string",
         "minLength": 1
-      }
+      },
+      "uniqueItems": true
     },
     "effect": {
       "type": "string",
@@ -77,6 +78,69 @@
     "summary": {
       "type": "string",
       "minLength": 1
+    },
+    "syntax_status": {
+      "enum": [
+        "unresolved",
+        "defined"
+      ]
+    },
+    "parameter_schema": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "argument_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "option": {
+            "type": "string",
+            "pattern": "^--[a-z][a-z0-9-]*$"
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "completion": {
+            "enum": [
+              "none",
+              "schema-enum",
+              "observed-id"
+            ]
+          }
+        },
+        "required": [
+          "parameter",
+          "completion"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "option"
+            ]
+          },
+          {
+            "required": [
+              "position"
+            ]
+          }
+        ]
+      }
+    },
+    "completion_policy": {
+      "enum": [
+        "static-only",
+        "bounded-observations"
+      ]
     }
   },
   "required": [
@@ -91,7 +155,59 @@
     "result_schema",
     "spec_ids",
     "handler",
-    "summary"
+    "summary",
+    "syntax_status",
+    "parameter_schema",
+    "argument_bindings",
+    "completion_policy"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "syntax_status": {
+            "const": "defined"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parameter_schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "parameter_schema": {
+            "type": "null"
+          },
+          "argument_bindings": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "availability": {
+            "enum": [
+              "fake-only",
+              "implemented"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "syntax_status": {
+            "const": "defined"
+          }
+        }
+      }
+    }
+  ]
 }

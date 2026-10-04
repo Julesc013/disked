@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-022
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,13 @@ disked:
   - DE-REQ-022-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Machine protocol and transport
@@ -57,6 +59,12 @@ Stdio is suitable for a spawned unprivileged provider or client. It is not authe
 Partial responses retain per-source freshness, omission and failure reasons; an unavailable contributor is not a successful empty list. Backpressure may coalesce replaceable progress only with detectable sequence loss and an explicit snapshot recovery route. Durable outcomes and journal transitions cannot be dropped to keep a view responsive.
 
 Use decimal strings for exact wide counters/ranges. Required mutation features are negotiated and unknown critical fields refused before effects. Product, protocol, plan, journal and target versions evolve independently. A remote session requires separate authenticated policy, explicit host/job identity and reconnection semantics; the initial product has no network listener.
+
+## Producer conformance, reader evolution and identities
+
+The current request/response/event JSON Schemas are **strict producer-conformance review contracts**. Their `additionalProperties: false` rules are not a claim that every compatible older observational reader must reject every new field. DE-W012 must define versioned reader fixtures: safely ignorable/preserved observational extensions, unknown required-feature refusal, and limits before claiming a stable API. Mutation requests remain strict; unknown critical fields or required features cannot be ignored.
+
+Every `accepted_running` response includes a nonempty durable `operation_id`. A completed bounded read may have `operation_id: null`. Event sequence is an exact decimal u64 and semantic validation is selected by schema identity. Sequence alone is not freshness: before native asynchronous protocol admission, define operation, attempt, worker/capture epochs and sequence domains. Late results cannot overwrite a newer observation or imply an uncertain writer stopped. Typed event payloads and resource bindings are DE-W012/017/033 gates, not inferred from the generic envelopes.
 
 ## Normative requirements
 

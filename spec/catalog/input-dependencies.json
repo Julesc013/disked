@@ -1,0 +1,908 @@
+{
+  "schema": "org.disked.input-registry/1",
+  "always": [
+    "spec/bundle.json",
+    "spec/catalog/concepts.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/work/units.json",
+    "spec/catalog/decisions.json",
+    "spec/work/acceptances.json",
+    "spec/tools/specctl.py",
+    "spec/schemas/context-manifest.schema.json",
+    "spec/catalog/project-graph.json"
+  ],
+  "inputs": [
+    {
+      "id": "spec/schemas/acceptance-receipt.schema.json",
+      "path": "spec/schemas/acceptance-receipt.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-075"
+      ]
+    },
+    {
+      "id": "spec/schemas/acceptance.schema.json",
+      "path": "spec/schemas/acceptance.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-075"
+      ]
+    },
+    {
+      "id": "spec/schemas/aide-workunit-projection.schema.json",
+      "path": "spec/schemas/aide-workunit-projection.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-070"
+      ]
+    },
+    {
+      "id": "spec/schemas/capability-assessment.schema.json",
+      "path": "spec/schemas/capability-assessment.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-035"
+      ]
+    },
+    {
+      "id": "spec/schemas/command.schema.json",
+      "path": "spec/schemas/command.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/schemas/composition.schema.json",
+      "path": "spec/schemas/composition.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/schemas/context-manifest.schema.json",
+      "path": "spec/schemas/context-manifest.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-071"
+      ]
+    },
+    {
+      "id": "spec/schemas/diagnostic.schema.json",
+      "path": "spec/schemas/diagnostic.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/event.schema.json",
+      "path": "spec/schemas/event.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/extent.schema.json",
+      "path": "spec/schemas/extent.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "spec/schemas/frontmatter.schema.json",
+      "path": "spec/schemas/frontmatter.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-003"
+      ]
+    },
+    {
+      "id": "spec/schemas/grant.schema.json",
+      "path": "spec/schemas/grant.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-075"
+      ]
+    },
+    {
+      "id": "spec/schemas/graph.schema.json",
+      "path": "spec/schemas/graph.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030"
+      ]
+    },
+    {
+      "id": "spec/schemas/handoff.schema.json",
+      "path": "spec/schemas/handoff.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-071"
+      ]
+    },
+    {
+      "id": "spec/schemas/input-registry.schema.json",
+      "path": "spec/schemas/input-registry.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/required-input.schema.json"
+      ],
+      "spec_ids": [
+        "DE-071"
+      ]
+    },
+    {
+      "id": "spec/schemas/plan.schema.json",
+      "path": "spec/schemas/plan.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/schemas/provider.schema.json",
+      "path": "spec/schemas/provider.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-033"
+      ]
+    },
+    {
+      "id": "spec/schemas/request.schema.json",
+      "path": "spec/schemas/request.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/required-input.schema.json",
+      "path": "spec/schemas/required-input.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-071"
+      ]
+    },
+    {
+      "id": "spec/schemas/requirement.schema.json",
+      "path": "spec/schemas/requirement.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-004"
+      ]
+    },
+    {
+      "id": "spec/schemas/resource-budget.schema.json",
+      "path": "spec/schemas/resource-budget.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/response.schema.json",
+      "path": "spec/schemas/response.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/diagnostic.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/target.schema.json",
+      "path": "spec/schemas/target.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/schemas/test-case.schema.json",
+      "path": "spec/schemas/test-case.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/schemas/work-unit.schema.json",
+      "path": "spec/schemas/work-unit.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-080"
+      ]
+    },
+    {
+      "id": "spec/catalog/aliases.json",
+      "path": "spec/catalog/aliases.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-003"
+      ]
+    },
+    {
+      "id": "spec/catalog/amendments.json",
+      "path": "spec/catalog/amendments.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-082"
+      ]
+    },
+    {
+      "id": "spec/catalog/commands.json",
+      "path": "spec/catalog/commands.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/command-empty-parameters.schema.json",
+        "spec/schemas/command.schema.json",
+        "spec/schemas/request.schema.json",
+        "spec/schemas/response.schema.json"
+      ],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/catalog/components.json",
+      "path": "spec/catalog/components.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/catalog/compositions.json",
+      "path": "spec/catalog/compositions.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/composition.schema.json",
+        "spec/catalog/components.json",
+        "spec/catalog/targets.json"
+      ],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/catalog/concepts.json",
+      "path": "spec/catalog/concepts.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/frontmatter.schema.json"
+      ],
+      "spec_ids": [
+        "DE-003"
+      ]
+    },
+    {
+      "id": "spec/catalog/decisions.json",
+      "path": "spec/catalog/decisions.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-081"
+      ]
+    },
+    {
+      "id": "spec/catalog/journal-model.json",
+      "path": "spec/catalog/journal-model.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "spec/catalog/operations.json",
+      "path": "spec/catalog/operations.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/catalog/project-graph.json",
+      "path": "spec/catalog/project-graph.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-011"
+      ]
+    },
+    {
+      "id": "spec/catalog/requirements.json",
+      "path": "spec/catalog/requirements.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/requirement.schema.json"
+      ],
+      "spec_ids": [
+        "DE-004"
+      ]
+    },
+    {
+      "id": "spec/catalog/targets.json",
+      "path": "spec/catalog/targets.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/catalog/tests.json",
+      "path": "spec/catalog/tests.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/test-case.schema.json"
+      ],
+      "spec_ids": [
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/catalog/validation-cases.json",
+      "path": "spec/catalog/validation-cases.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/catalog/input-dependencies.json",
+      "path": "spec/catalog/input-dependencies.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/input-registry.schema.json"
+      ],
+      "spec_ids": [
+        "DE-071",
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/examples/request-inventory.json",
+      "path": "spec/examples/request-inventory.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/request.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/examples/response-refused.json",
+      "path": "spec/examples/response-refused.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/response.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/examples/event-progress.json",
+      "path": "spec/examples/event-progress.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/event.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/examples/extent-valid.json",
+      "path": "spec/examples/extent-valid.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/extent.schema.json"
+      ],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "spec/examples/extent-invalid-numeric.json",
+      "path": "spec/examples/extent-invalid-numeric.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/extent.schema.json"
+      ],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "spec/examples/extent-overflow.json",
+      "path": "spec/examples/extent-overflow.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/extent.schema.json"
+      ],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "spec/examples/graph.json",
+      "path": "spec/examples/graph.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/graph.schema.json"
+      ],
+      "spec_ids": [
+        "DE-030"
+      ]
+    },
+    {
+      "id": "spec/examples/plan-gpt-image.json",
+      "path": "spec/examples/plan-gpt-image.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/plan.schema.json"
+      ],
+      "spec_ids": [
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/examples/plan-invalid-cycle.json",
+      "path": "spec/examples/plan-invalid-cycle.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/plan.schema.json"
+      ],
+      "spec_ids": [
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/examples/plan-invalid-force.json",
+      "path": "spec/examples/plan-invalid-force.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/plan.schema.json"
+      ],
+      "spec_ids": [
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/examples/provider-unadmitted.json",
+      "path": "spec/examples/provider-unadmitted.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/provider.schema.json"
+      ],
+      "spec_ids": [
+        "DE-033"
+      ]
+    },
+    {
+      "id": "spec/examples/handoff-unrun.json",
+      "path": "spec/examples/handoff-unrun.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/handoff.schema.json"
+      ],
+      "spec_ids": [
+        "DE-071"
+      ]
+    },
+    {
+      "id": "spec/examples/grant-fixture.json",
+      "path": "spec/examples/grant-fixture.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/grant.schema.json"
+      ],
+      "spec_ids": [
+        "DE-075"
+      ]
+    },
+    {
+      "id": "spec/examples/target-0.json",
+      "path": "spec/examples/target-0.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/examples/target-1.json",
+      "path": "spec/examples/target-1.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/examples/target-5.json",
+      "path": "spec/examples/target-5.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/examples/target-14.json",
+      "path": "spec/examples/target-14.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/examples/target-18.json",
+      "path": "spec/examples/target-18.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/target.schema.json"
+      ],
+      "spec_ids": [
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/examples/work-unit.json",
+      "path": "spec/examples/work-unit.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/work-unit.schema.json"
+      ],
+      "spec_ids": [
+        "DE-080"
+      ]
+    },
+    {
+      "id": "spec/examples/composition-fake.json",
+      "path": "spec/examples/composition-fake.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/composition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/examples/composition-missing-dependency.json",
+      "path": "spec/examples/composition-missing-dependency.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/composition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/examples/composition-recursive-carrier.json",
+      "path": "spec/examples/composition-recursive-carrier.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/composition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/examples/composition-recursive-hash.json",
+      "path": "spec/examples/composition-recursive-hash.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/composition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-014"
+      ]
+    },
+    {
+      "id": "spec/examples/capability-denied.json",
+      "path": "spec/examples/capability-denied.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/capability-assessment.schema.json"
+      ],
+      "spec_ids": [
+        "DE-035"
+      ]
+    },
+    {
+      "id": "spec/examples/capability-invalid-eligibility.json",
+      "path": "spec/examples/capability-invalid-eligibility.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/capability-assessment.schema.json"
+      ],
+      "spec_ids": [
+        "DE-035"
+      ]
+    },
+    {
+      "id": "spec/examples/resource-budget-proposed.json",
+      "path": "spec/examples/resource-budget-proposed.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/resource-budget.schema.json"
+      ],
+      "spec_ids": [
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/examples/resource-budget-unmeasured.json",
+      "path": "spec/examples/resource-budget-unmeasured.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/resource-budget.schema.json"
+      ],
+      "spec_ids": [
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/fixtures/invocation.json",
+      "path": "spec/fixtures/invocation.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020"
+      ]
+    },
+    {
+      "id": "spec/bundle.json",
+      "path": "spec/bundle.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-002"
+      ]
+    },
+    {
+      "id": "spec/work/units.json",
+      "path": "spec/work/units.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-080"
+      ]
+    },
+    {
+      "id": "spec/work/acceptances.json",
+      "path": "spec/work/acceptances.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-075"
+      ]
+    },
+    {
+      "id": "spec/tools/specctl.py",
+      "path": "spec/tools/specctl.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_specctl.py",
+      "path": "spec/tools/tests/test_specctl.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/tools/requirements.txt",
+      "path": "spec/tools/requirements.txt",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/tools/constraints-tested.txt",
+      "path": "spec/tools/constraints-tested.txt",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/templates/bootstrap-map.json",
+      "path": "spec/templates/bootstrap-map.json",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-072"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_corrective.py",
+      "path": "spec/tools/tests/test_corrective.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-076"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-empty-parameters.schema.json",
+      "path": "spec/schemas/command-empty-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/schemas/terminal-capabilities.schema.json",
+      "path": "spec/schemas/terminal-capabilities.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-026"
+      ]
+    },
+    {
+      "id": "spec/examples/terminal-plain.json",
+      "path": "spec/examples/terminal-plain.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/terminal-capabilities.schema.json"
+      ],
+      "spec_ids": [
+        "DE-026"
+      ]
+    },
+    {
+      "id": "spec/examples/terminal-invalid-dimensions.json",
+      "path": "spec/examples/terminal-invalid-dimensions.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/terminal-capabilities.schema.json"
+      ],
+      "spec_ids": [
+        "DE-026"
+      ]
+    }
+  ]
+}

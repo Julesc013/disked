@@ -1,0 +1,39 @@
+{
+  "base_revision": "08a8246ee001c9a77b9df8d228fe05b1f3375244",
+  "tool_sha256": "sha256:2302179ea54174e575383f51a9354552d4b5b861e96775b9be398748a7969972",
+  "scope": "Actual local correctness probes using disposable ordinary fixture directories; no storage/runtime tests.",
+  "results": [
+    {
+      "probe": "mixed impact",
+      "actual": false,
+      "expected": true
+    },
+    {
+      "probe": "event",
+      "actual": "accepted",
+      "expected": "rejected"
+    },
+    {
+      "probe": "response",
+      "actual": "accepted",
+      "expected": "rejected"
+    },
+    {
+      "probe": "explicit CLI prompts",
+      "actual": false,
+      "expected": true
+    },
+    {
+      "probe": "command context staleness",
+      "actual": "PASS",
+      "expected": "failure"
+    },
+    {
+      "probe": "old plus new acceptance",
+      "actual": "Stale acceptance input for DE-W000: foundation/charter.md",
+      "expected": [
+        "DE-W000"
+      ]
+    }
+  ]
+}

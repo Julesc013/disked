@@ -8,6 +8,7 @@
 - [ci-workflow.example.txt](ci-workflow.example.txt)
 - [docs-agent-workflow.txt](docs-agent-workflow.txt)
 - [docs-architecture.txt](docs-architecture.txt)
+- [docs-command-experience.txt](docs-command-experience.txt)
 - [docs-compatibility.txt](docs-compatibility.txt)
 - [docs-contributing.txt](docs-contributing.txt)
 - [docs-development-plan.txt](docs-development-plan.txt)

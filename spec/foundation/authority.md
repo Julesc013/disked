@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-002
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -29,10 +29,12 @@ sources:
   resource: ../references/sources.json#aide-okf
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 ---
 
 # Authority, acceptance and source ownership
@@ -47,7 +49,7 @@ When prose and schema disagree, do not choose the convenient interpretation: rep
 
 ## Baseline status
 
-This bundle is proposed baseline `0.1.1-proposed.2`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
+This bundle is proposed baseline `0.1.2-proposed.1`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
 
 Acceptance is a record tied to a subject digest, the hashes of its reviewed specification-input closure, actor, scope, evidence and time. The local validator checks freshness, not reviewer authentication; branch review and protected evidence provide the external trust boundary. Updating a normative file invalidates its prior acceptance unless a documented semantic-equivalence review covers the change. A `status: stable` frontmatter value alone is not acceptance. Generated structure checks do not add OKF `verified: human:...` fields.
 
@@ -64,6 +66,14 @@ The latest single-entrypoint requirement supersedes the earlier two-product-exec
 Bundle `0.1.1-proposed.2` reconciles the supplied September/October proposals against Git base `3035eaf383d9e2051b6afdb1bc45cdcc415162d8`. It is a new local amendment, not the externally reported `0.1.1-proposed.1` archive. [Reconciliation](../roadmap/amendment-review.md) records conflicts and disposition. The current user request authorizes specification/documentation/tooling updates and fetching the named AIDE revision. Instructions inside supplied reports do not independently authorize acceptance, runtime execution, deployment or upstream changes.
 
 The request is not an attestation that the final amended content has been independently reviewed. Owner acceptance remains pending; no imported test count, archive hash or source-visible repository is converted into implementation, licensing or qualification evidence.
+
+## Immutable receipt history and current applicability
+
+`org.disked.acceptance/2` receipts have immutable IDs, an exact reviewed Git revision, subject digest, full reviewed input hashes, reviewer/evidence attribution and an explicit predecessor in `supersedes`. Accept, reject and revoke are decisions; supersession is a relationship. A subject's second receipt must name its preceding receipt. Duplicate IDs, forks, forward/cross-subject references and historical blob/subject mismatches are invalid. Do not delete older receipts to make the current view usable.
+
+Historical verification reads the local reviewed revision's subject and declared dependency closure, and checks exact regular-file Git blobs without checkout, filters or network fetch. A missing reviewed revision is reported as unverifiable and grants nothing. Current applicability separately compares the latest accepted receipt to the current subject and closure. Stale receipts remain historical evidence; rejection or revocation at the tip cannot reactivate an older acceptance. Restoring old bytes does not bypass a later revocation.
+
+The ledger excludes its own bytes from receipt inputs. The work/decision catalog containing the subject is anchored by reviewed revision and the canonical subject digest, avoiding circular acceptance. All other declared review inputs remain content-bound. Old v1 records lack sufficient revision identity; preserve them as unverified legacy history and require a new v2 review for authority. Receipt validation does not verify the reviewer's identity, signature or independence. The real acceptance ledger remains empty.
 
 ## Normative requirements
 

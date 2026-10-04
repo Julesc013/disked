@@ -2,9 +2,11 @@
 
 [Bundle index](../index.md). These files are not additional independent sources of normative authority.
 
+- [acceptance-receipt.schema.json](acceptance-receipt.schema.json)
 - [acceptance.schema.json](acceptance.schema.json)
 - [aide-workunit-projection.schema.json](aide-workunit-projection.schema.json)
 - [capability-assessment.schema.json](capability-assessment.schema.json)
+- [command-empty-parameters.schema.json](command-empty-parameters.schema.json)
 - [command.schema.json](command.schema.json)
 - [composition.schema.json](composition.schema.json)
 - [context-manifest.schema.json](context-manifest.schema.json)
@@ -15,12 +17,15 @@
 - [grant.schema.json](grant.schema.json)
 - [graph.schema.json](graph.schema.json)
 - [handoff.schema.json](handoff.schema.json)
+- [input-registry.schema.json](input-registry.schema.json)
 - [plan.schema.json](plan.schema.json)
 - [provider.schema.json](provider.schema.json)
 - [request.schema.json](request.schema.json)
+- [required-input.schema.json](required-input.schema.json)
 - [requirement.schema.json](requirement.schema.json)
 - [resource-budget.schema.json](resource-budget.schema.json)
 - [response.schema.json](response.schema.json)
 - [target.schema.json](target.schema.json)
+- [terminal-capabilities.schema.json](terminal-capabilities.schema.json)
 - [test-case.schema.json](test-case.schema.json)
 - [work-unit.schema.json](work-unit.schema.json)

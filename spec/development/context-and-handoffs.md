@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-071
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-071-01
   - DE-REQ-071-02
   - DE-REQ-071-03
+updated:
+  by: codex
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
+sources:
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Context packs, handoffs and retrieval
@@ -49,6 +56,16 @@ Search and indexes are rebuildable. Git history and exact records remain authori
 ## Multi-agent work
 
 One owner per active work unit; isolated worktrees and explicit allowed paths. Parallel tasks require independent outputs or a declared integration owner. A lock file in Git is not a distributed lock. Conflicting edits are reviewed against current base and affected requirements. Do not regenerate the whole spec to resolve a local merge conflict.
+
+## Declared task-input closure (v2)
+
+`catalog/input-dependencies.json` owns typed input declarations: canonical path, kind, content/artifact delivery, concept owners and dependency IDs. Each work unit names additional `required_inputs`. A shared resolver combines the selected work, mandatory concept prerequisites, registry edges and applicable repository `AGENTS.md`/`CLAUDE.md` chain. Context generation and impact routing consume that same closure. Unknown inputs, dependency cycles and missing required files fail explicitly. Instruction discovery stays within the selected repository; session-level instructions supplied outside it remain the coordinator's responsibility.
+
+Context manifest v2 uses repository-relative names (`spec/` is the logical bundle root even with `--root`). Required content appears in `context.md`; required artifacts are copied byte-for-byte beneath `artifacts/`, with kinds, lengths and hashes in the manifest. Optional background is listed separately. A hash with no available artifact is insufficient for a portable work pack. Artifacts remain data: their existence does not authorize executing scripts or media content.
+
+Verification resolves the current closure again, compares the complete input set and delivery kinds, checks source and copied bytes, and detects added instructions or removed manifest entries even when Git HEAD is unchanged or unavailable. Unrelated optional background does not invalidate a task. It proves freshness of the **declared** dependencies, not completeness of all possible semantic dependencies or an authenticated approval.
+
+The existing default content budget remains 120,000 UTF-8 bytes. A separately declared artifact budget defaults to 8 MiB. Either overflow fails before files are written; neither permits truncation. The corrective review and broader native contexts explicitly request 180,000 content bytes because instruction and contract coverage increased. Split narrower work when its full prerequisites will not fit; never silently omit authority or safety text. Old v1 packs must be regenerated because they did not bind the full machine-input closure.
 
 ## Normative requirements
 

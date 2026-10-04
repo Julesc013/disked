@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-051
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,13 @@ disked:
   - DE-REQ-051-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # DOS, JC-DOS, Carbon and OS/2 portability
@@ -59,6 +61,10 @@ Run identical format vectors on the host and constrained implementations. Simula
 DOS 1.x and 2.x, Windows 1.x and 2.x, OS/2 1.x text and PM-capable variants, and OS/2 2.x text/PM are explicit unqualified research profiles. DOS real mode and an extender are separate candidates; the inherited broad `dos.386.lba` and `os2.x86.pm` rows remain research leads rather than exact artifact contracts. An extender identity and its executable wrapper remain unresolved until pinned; neither a slash nor the word selected is an ABI qualification.
 
 DE-W018 brings harmless loader, checked-arithmetic, encoding and text probes into M1. The later DE-W071 image-reader work remains separate. Record exact release, memory/CPU floor, APIs, file/directory assumptions, terminal behavior and toolchain limits. Do not change DOS 3+ to DOS 1+ by editing a label. Missing tools/emulators yield a documented blocker, never a support claim or a mandatory delay to the modern slice.
+
+## Command and terminal consistency
+
+Share command meanings and available typed outcomes across profiles; do not infer identical storage authority or UI richness. Qualify local DOS text display/keyboard/mouse independently from serial/VT channels. Primitive profiles need deliberate linear or cell-based interfaces and exact encoding/memory bounds, not a universal executable trick. DE-W018 records harmless terminal/loader probes; DE-026 owns capability detection and fallback.
 
 ## Normative requirements
 

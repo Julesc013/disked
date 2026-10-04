@@ -5,7 +5,7 @@ okf_version: "0.2"
 
 # DiskEd specification
 
-**Proposed baseline 0.1.1-proposed.2. Owner acceptance pending. No product or hardware qualification.**
+**Proposed baseline 0.1.2-proposed.1. Owner acceptance pending. No product or hardware qualification.**
 
 Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).
 
@@ -15,7 +15,7 @@ Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [r
 python spec/tools/specctl.py check
 python -m unittest discover -s spec/tools/tests -v
 python spec/tools/specctl.py next
-python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review
+python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000
 ```
 
 The `specctl` utility manages this specification only. It does not execute DiskEd, apply AIDE work, elevate or access raw storage. [Work definitions](work/units.json), [source registry](references/sources.json), [command catalog](catalog/commands.json), [target catalog](catalog/targets.json), [schemas](schemas/index.md) and [tool contract](development/specctl.md) are local, reviewable files.
@@ -70,6 +70,9 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-023 — FrontendSession and semantic parity](interaction/presentation.md): One presentation model for terminal and native visual interfaces.
 - [DE-024 — TUI and OEM+ GUI experience](interaction/tui-and-gui.md): Task-oriented interfaces with progressive disclosure and accessible fallback.
 - [DE-025 — Owned native integration surfaces](interaction/native-integration.md): Thin optional host adapters retain exact local or remote targeting and independent teardown.
+- [DE-026 — Terminal sessions and capabilities](interaction/terminal-session.md): Channel-specific terminal capabilities, bounded rendering and owned restoration.
+- [DE-027 — Interactive command shell](interaction/interactive-shell.md): Explicit persistent DiskEd sessions over the shared command model.
+- [DE-028 — Output, progress and completion](interaction/output-and-progress.md): Separate human display, protocol events, diagnostics and recovery records.
 
 ## Operations
 
@@ -102,6 +105,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-080 — Implementation sequence and first usable release](roadmap/implementation.md): A small Windows-native vertical slice before expanding storage authority.
 - [DE-081 — Decision register and experiments](roadmap/decisions.md): Resolve high-cost ambiguities before treating a proposed baseline as frozen.
 - [DE-082 — October amendment reconciliation](roadmap/amendment-review.md): Disposition of all supplied proposals, conflicting candidate IDs and bounded development readiness.
+- [DE-083 — Review corrections at 08a8246](roadmap/corrective-review.md): Disposition of reproduced tool defects and staged terminal, protocol and asset recommendations.
 
 ## Safety
 

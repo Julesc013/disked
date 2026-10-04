@@ -11,7 +11,7 @@ Run `python spec/tools/specctl.py next` for dependency readiness. This does not 
 Create a task context pack:
 
 ```text
-python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review
+python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000
 python spec/tools/specctl.py verify-context .aide-local/context/review
 ```
 

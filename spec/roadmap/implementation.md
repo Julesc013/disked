@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,11 +26,13 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Implementation sequence and first usable release
@@ -72,6 +74,12 @@ Keep DE-W010 small: one native executable, essential build/mode/command discover
 M2/M3 image parsing and inspection can proceed without finished Setup or production journal work. DE-W035 later proves optional read-only native integration. DE-W060/062 cover pinned Setup and finite carrier/owner contracts; DE-W063 covers artifact completeness. DE-W043 covers image-only formatting after the journal gate. Shared storage, tape/optical, conversions and repair split into operation-specific work through DE-W080. The existing M0-M8 risk order remains.
 
 License, launch, journal, elevation, canonicalization, setup-host, channel and historical-terminal decisions block only their affected implementation or release claim. A first public inspector is a selected qualified release, not completion of all historical targets. AIDE remains optional development infrastructure; roughly weekly pin reviews are tracked as DE-W061 follow-up.
+
+## Corrective pass and scoped follow-up
+
+Address review R01-R05 inside DE-W000: mixed-path impact, complete declared task inputs, revision-bound receipt projection, protocol bounds/identities and explicit CLI prompt policy. These fixes are specification tooling, not storage-runtime implementation. The architecture/source prefix and finite portable-first delivery stay in place.
+
+DE-W010-016 remain the native fake slice. DE-W019 adds the explicit shell using shared command/terminal contracts; DE-W017 then covers shell parity and guarded late-result/cancellation scenarios. DE-W012 owns typed parser/help/completion and producer/reader protocol compatibility. DE-W033 gates multi-resource acquisition; DE-W040/041 gate immutable-plan receipts, recovery traits and real journal encoding. None makes every future storage or legacy decision a prerequisite for the first fake executable.
 
 ## Normative requirements
 

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-014
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,13 @@ disked:
   - DE-REQ-014-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T06:41:03.817694+00:00'
+  scope: 08a8246 review corrections; proposed, not accepted
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
 ---
 
 # Components and immutable compositions
@@ -47,6 +49,10 @@ The first build uses a small explicit manifest and static registry, not a genera
 Record mandatory loader/CRT/static-initialization dependencies separately from optional post-start providers. The loader inventory is explicitly pending or inspected; an inspected empty inventory is distinct from an unknown one. Buildable/qualified declarations require an inspected inventory and evidence references, which still require independent review. A statically imported missing GUI library can prevent even CLI startup. One GUI adapter per desktop composition is the default. Console-only or constrained compositions use the same semantics, declare exclusions, and remain explicit exceptions to the full desktop profile.
 
 Static components change only by replacing the finalized executable. Optional coarse-grained packages retain separate identities. Never patch a signed executable on the endpoint to implement a component checkbox. A missing optional provider cannot prevent built-in help, build identity or saved-report inspection. Composition tests inspect final binaries, not only source-level dependencies.
+
+## Buildable-composition gate
+
+Current local validation proves dependency/shape consistency only. Before promoting a real composition to buildable/qualified, add typed OS/ABI/import/provider compatibility predicates and evidence references that resolve to matching artifact/host outcomes. A nonempty evidence string is not qualification. Keep this as a small real-consumer contract in DE-W010/031 rather than constructing a general solver in advance.
 
 ## Normative requirements
 
