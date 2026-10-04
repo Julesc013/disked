@@ -10,7 +10,8 @@
       "requirement_ids": [
         "DE-REQ-001-01",
         "DE-REQ-001-02",
-        "DE-REQ-001-03"
+        "DE-REQ-001-03",
+        "DE-REQ-001-04"
       ]
     },
     {
@@ -105,7 +106,8 @@
       ],
       "requirement_ids": [
         "DE-REQ-012-01",
-        "DE-REQ-012-02"
+        "DE-REQ-012-02",
+        "DE-REQ-012-03"
       ]
     },
     {
@@ -204,7 +206,8 @@
       "requirement_ids": [
         "DE-REQ-030-01",
         "DE-REQ-030-02",
-        "DE-REQ-030-03"
+        "DE-REQ-030-03",
+        "DE-REQ-030-04"
       ]
     },
     {
@@ -309,7 +312,8 @@
       "requirement_ids": [
         "DE-REQ-042-01",
         "DE-REQ-042-02",
-        "DE-REQ-042-03"
+        "DE-REQ-042-03",
+        "DE-REQ-042-04"
       ]
     },
     {
@@ -399,7 +403,8 @@
       "requirement_ids": [
         "DE-REQ-060-01",
         "DE-REQ-060-02",
-        "DE-REQ-060-03"
+        "DE-REQ-060-03",
+        "DE-REQ-060-04"
       ]
     },
     {
@@ -760,6 +765,203 @@
       "depends_on": [
         "DE-002",
         "DE-080"
+      ],
+      "requirement_ids": []
+    },
+    {
+      "id": "DE-014",
+      "path": "architecture/component-model.md",
+      "title": "Components and immutable compositions",
+      "summary": "Small static compositions with explicit loader, provider and delivery closures.",
+      "depends_on": [
+        "DE-010",
+        "DE-012"
+      ],
+      "requirement_ids": [
+        "DE-REQ-014-01",
+        "DE-REQ-014-02"
+      ]
+    },
+    {
+      "id": "DE-015",
+      "path": "architecture/execution-topology.md",
+      "title": "Essential startup and execution roles",
+      "summary": "Keep built-in diagnostics available before probes and bind roles to explicit hosts and resources.",
+      "depends_on": [
+        "DE-010",
+        "DE-022"
+      ],
+      "requirement_ids": [
+        "DE-REQ-015-01",
+        "DE-REQ-015-02"
+      ]
+    },
+    {
+      "id": "DE-035",
+      "path": "storage/capability-resolution.md",
+      "title": "Explainable capability resolution",
+      "summary": "Keep implementation, qualification, permissions, freshness and resource eligibility independent.",
+      "depends_on": [
+        "DE-030",
+        "DE-033"
+      ],
+      "requirement_ids": [
+        "DE-REQ-035-01",
+        "DE-REQ-035-02"
+      ]
+    },
+    {
+      "id": "DE-036",
+      "path": "storage/acquisition-consistency.md",
+      "title": "Acquisition consistency and observation effects",
+      "summary": "Distinguish byte capture from point-in-time consistency and separately authorize destination effects.",
+      "depends_on": [
+        "DE-031",
+        "DE-044"
+      ],
+      "requirement_ids": [
+        "DE-REQ-036-01",
+        "DE-REQ-036-02"
+      ]
+    },
+    {
+      "id": "DE-037",
+      "path": "storage/filesystem-capabilities.md",
+      "title": "Filesystem features and media capabilities",
+      "summary": "Qualify each operation against exact format features, consumers and address-space semantics.",
+      "depends_on": [
+        "DE-031",
+        "DE-035"
+      ],
+      "requirement_ids": [
+        "DE-REQ-037-01"
+      ]
+    },
+    {
+      "id": "DE-045",
+      "path": "safety/degraded-operation.md",
+      "title": "Bounded responsiveness and failure containment",
+      "summary": "Bound waiting and resources without treating timeout as proof that effects stopped.",
+      "depends_on": [
+        "DE-015",
+        "DE-043"
+      ],
+      "requirement_ids": [
+        "DE-REQ-045-01",
+        "DE-REQ-045-02"
+      ]
+    },
+    {
+      "id": "DE-025",
+      "path": "interaction/native-integration.md",
+      "title": "Owned native integration surfaces",
+      "summary": "Thin optional host adapters retain exact local or remote targeting and independent teardown.",
+      "depends_on": [
+        "DE-023",
+        "DE-060",
+        "DE-061"
+      ],
+      "requirement_ids": [
+        "DE-REQ-025-01",
+        "DE-REQ-025-02"
+      ]
+    },
+    {
+      "id": "DE-063",
+      "path": "delivery/deployment-profiles.md",
+      "title": "Deployment effects and state ownership",
+      "summary": "Portable, user, machine and native-package modes declare effects and preservation separately.",
+      "depends_on": [
+        "DE-013",
+        "DE-061"
+      ],
+      "requirement_ids": [
+        "DE-REQ-063-01",
+        "DE-REQ-063-02"
+      ]
+    },
+    {
+      "id": "DE-064",
+      "path": "delivery/component-acquisition.md",
+      "title": "Provider packages and acquisition policy",
+      "summary": "Separate implementation choice, version selection, source location, ownership and storage admission.",
+      "depends_on": [
+        "DE-033",
+        "DE-061",
+        "DE-062"
+      ],
+      "requirement_ids": [
+        "DE-REQ-064-01",
+        "DE-REQ-064-02"
+      ]
+    },
+    {
+      "id": "DE-065",
+      "path": "delivery/channels-and-servicing.md",
+      "title": "Distribution channels and servicing owners",
+      "summary": "Generate carriers from finalized payloads and assign one owner to each managed resource.",
+      "depends_on": [
+        "DE-060",
+        "DE-063"
+      ],
+      "requirement_ids": [
+        "DE-REQ-065-01",
+        "DE-REQ-065-02"
+      ]
+    },
+    {
+      "id": "DE-077",
+      "path": "development/artifact-completeness.md",
+      "title": "Artifact completeness and publication checks",
+      "summary": "Verify required content independently of archive integrity and distinguish historical audit claims.",
+      "depends_on": [
+        "DE-004",
+        "DE-060",
+        "DE-074"
+      ],
+      "requirement_ids": [
+        "DE-REQ-077-01",
+        "DE-REQ-077-02"
+      ]
+    },
+    {
+      "id": "DE-078",
+      "path": "development/extension-sdk.md",
+      "title": "Extension tiers and compatibility",
+      "summary": "Stabilize real C/protocol consumers and require conformance without granting implicit privilege.",
+      "depends_on": [
+        "DE-012",
+        "DE-033",
+        "DE-023"
+      ],
+      "requirement_ids": [
+        "DE-REQ-078-01"
+      ]
+    },
+    {
+      "id": "DE-113",
+      "path": "operations/filesystem-format.md",
+      "title": "Create a filesystem through an explicit format plan",
+      "summary": "Formatting is a separately admitted destructive operation with consumer compatibility and verification.",
+      "depends_on": [
+        "DE-037",
+        "DE-042",
+        "DE-043",
+        "DE-044"
+      ],
+      "requirement_ids": [
+        "DE-REQ-113-01",
+        "DE-REQ-113-02"
+      ]
+    },
+    {
+      "id": "DE-082",
+      "path": "roadmap/amendment-review.md",
+      "title": "October amendment reconciliation",
+      "summary": "Disposition of all supplied proposals, conflicting candidate IDs and bounded development readiness.",
+      "depends_on": [
+        "DE-002",
+        "DE-081"
       ],
       "requirement_ids": []
     }

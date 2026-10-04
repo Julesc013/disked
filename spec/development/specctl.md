@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-076
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -41,7 +41,13 @@ Resolve the bundle from the script's own path. Reject path traversal, symlink de
 
 ## Determinism and integrity
 
-Generated indexes sort by stable IDs/paths and record exact source hashes. The manifest excludes itself and documented ephemeral files to avoid recursive hashing. Context packs state the selected input closure. No tool labels content as approved or verified on behalf of a person. A user can edit the source and regenerate; integrity mismatch is expected after legitimate edits until a new manifest is created. Signing/authenticity is outside this bootstrap tool.
+Generated indexes sort by stable IDs/paths and record exact source hashes. Manifest paths sort by serialized POSIX relative strings on every coordinator, avoiding Windows/POSIX case-order differences. The manifest excludes itself and documented ephemeral files to avoid recursive hashing. Context packs state the selected input closure. No tool labels content as approved or verified on behalf of a person. A user can edit the source and regenerate; integrity mismatch is expected after legitimate edits until a new manifest is created. Signing/authenticity is outside this bootstrap tool.
+
+## Local composition and claim checks
+
+`check` validates the small component registry, composition dependencies, target references, exactly one entrypoint, default single GUI, declared scope and finite containment/hash graphs. Buildable compositions distinguish inspected loader inventories from unresolved ones. Target qualification declarations require exact-artifact fields and reject visibly unresolved ABI labels; this does not authenticate their evidence. Capability assessments keep eligibility separate from authority. Amendment and acceptance-design mappings resolve canonical concept and work IDs.
+
+The first native task uses DE-014's small composition contract; full Setup/release context is allocated to DE-W060/062. Mandatory safety closure and the default 120,000-byte refusal remain intact. Tests derive corpus coverage from authored requirement IDs, not a frozen historical count. Relative-root tests create fixtures on the current working drive, since Windows cannot express a cross-drive relative path.
 
 ## Known limits
 

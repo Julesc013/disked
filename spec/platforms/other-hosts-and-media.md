@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-052
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   requirements:
   - DE-REQ-052-01
   - DE-REQ-052-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Other hosts and storage domains
@@ -45,6 +52,10 @@ Enterprise arrays, SAN, multipath and cluster storage require lease/fencing and 
 ## Portable integration discipline
 
 Use contracts and fixture vectors across systems, not binary interchangeability. Where required primitives are unavailable, offer inspection, image-based planning or an offline/remote workflow with explicit limits. Retain the same operation ID and capability explanation across hosts so users can understand why a plan is recognized but not executable locally.
+
+## Selected domain contracts
+
+Broader host/media support follows the feature predicates in [DE-037](../storage/filesystem-capabilities.md). Tape record/position and optical session/finalization contracts, mount bridges, shared arrays and remote controllers enter as separately bounded work when selected. A local lock does not establish multi-host ownership. Preserve distinct application launch, controller access, format interpretation, mount/boot compatibility and vendor lifecycle claims.
 
 ## Normative requirements
 

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-062
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   requirements:
   - DE-REQ-062-01
   - DE-REQ-062-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Licensing, provenance and release trust
@@ -44,6 +51,12 @@ Define trusted publishers, timestamping, revocation and offline recovery policy 
 ## Security response
 
 Before public physical-write release, create a real vulnerability reporting route, owner roster, triage, key compromise procedure, provider revocation and supported-version policy. Do not invent a staffed safety council or security email address in the bootstrap. Branch protections and two-person approval are operational settings to establish, not assurances achieved by adding Markdown.
+
+## Retained owner choice
+
+The supplied proposals recommend both Apache-2.0 alone and MIT OR Apache-2.0. Neither is an explicit owner license selection in the current request. DE-DEC-001 remains open before public code distribution/external contribution policy and dependency bundling claims. This does not prevent authorized local fake-provider prototyping. DCO/CLA choices, actual security-response staffing and release signing remain explicit governance work.
+
+Do not infer distribution rights from public source, process isolation or a proposed rescue recipe. Retain component provenance and separately review toolkit icons, historical SDKs, recovery OS images and provider packages. AIDE dev is a pinned development input, not a stable product dependency or license grant for DiskEd.
 
 ## Normative requirements
 

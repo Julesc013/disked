@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -22,6 +22,13 @@ disked:
   requirements:
   - DE-REQ-024-01
   - DE-REQ-024-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # TUI and OEM+ GUI experience
@@ -44,7 +51,13 @@ Simple, Advanced, Expert, Forensic and Laboratory are visibility/workflow modes.
 
 ## Startup and reconnection
 
-No bare launch scans deeply, spins up sleeping media, repairs metadata or prompts for elevation without a requested task. Basic inventory is bounded and cancellable. Long operations reconnect through durable identity. Frontend exit does not kill an admitted mutation at an unsafe checkpoint; operation lifetime is a separate policy.
+No bare launch scans deeply, spins up sleeping media, repairs metadata or prompts for elevation without a requested task. Basic inventory has bounded frontend waiting and requests cancellation where supported; completion and device quiescence require observation. Long operations reconnect through durable identity. Frontend exit does not kill an admitted mutation at an unsafe checkpoint; operation lifetime is a separate policy.
+
+## Native experience qualification
+
+Organize normal tasks around Inspect, Change, Protect/Recover and Verify/Report, with advanced command discovery over the same actions. Qualify keyboard navigation, visible focus, screen-reader semantics, contrast, text scaling/DPI, locale/encoding, small/remote displays, exact units and stable selection. Maps retain structured equivalents. Themes cannot hide warning meaning, alter capability availability or suppress recovery state.
+
+Test healthy, denied, malformed, delayed and crashed fake providers while interacting with other targets. Display freshness and omission reasons, bounded wait state and the next available action. [DE-045](../safety/degraded-operation.md) owns budgets and cancellation uncertainty; [DE-025](native-integration.md) owns optional installed surfaces. Native integration is not a prerequisite for the standalone GUI.
 
 ## Normative requirements
 

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-074
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-074-01
   - DE-REQ-074-02
   - DE-REQ-074-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Testing, validation and CI strategy
@@ -45,6 +52,14 @@ The baseline overlay includes a workflow template, not a silently activated supp
 ## Efficient validation
 
 Map module inputs to tests and record dependency hashes for reuse. Rerun impacted tests during iteration, then qualify the exact composed release. Translation or prose edits should not trigger multi-hour hardware campaigns; range arithmetic, journal, provider version or toolchain changes may invalidate broad evidence. A test command, working directory, exit code, logs, environment and artifact hashes are retained. Never mark skipped/unsupported tests as passes.
+
+## Amendment acceptance programme
+
+M1 adds essential startup with broken optional settings, missing providers and offline networking; healthy/denied/malformed/stalled/crashed fake targets; bounded worker replacement, queues/memory and truthful cancellation; native keyboard/accessibility/locale/scale; and CLI/TUI/GUI semantic transcripts. DE-W018 performs small constrained portability probes in parallel with independently authorized M1 work, without blocking the modern slice.
+
+Later work adds snapshot/epoch/writer consistency, dependency/failure-domain aliases, interrupted formatting, Setup containment/payload identity, tamper refusal, external-tool ownership, selection-preserving upgrades, servicing interlocks, native adapter teardown, publication completeness and SDK compatibility. `catalog/amendments.json` maps supplied scenarios to owners/work; all product scenarios remain definition-only until executed.
+
+Specification regressions validate new schema cross-field constraints and negative fixtures. Requirement coverage is checked against authored IDs rather than a frozen corpus count. On Windows, tests must work when TEMP and checkout reside on different drives, and manifests must sort relative POSIX paths consistently across hosts. Skipped platform-dependent tests remain explicitly skipped, not passed.
 
 ## Normative requirements
 

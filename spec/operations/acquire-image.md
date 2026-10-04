@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-103
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-044
   requirements:
   - DE-REQ-103-01
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Read-only image acquisition
@@ -51,6 +58,10 @@ Resume only with matching identities/map/destination state. An interrupted map r
 ## Required adversarial cases
 
 Destination equals source through alias, full destination, thin-provisioning exhaustion, disconnected device, corrupt map, resumed different disk, read substitution and destination file preexistence.
+
+## Consistency and observational effects
+
+[DE-036](../storage/acquisition-consistency.md) governs source consistency and capture epoch. Bind participating volumes/writers, snapshot scope/lifetime, source-read and destination-write permissions, host side effects and resume limits. Report live-uncoordinated/unknown rather than coherent when evidence is absent. Hash coverage, filesystem validity, restore readiness and bootability are independent results.
 
 ## Normative requirements
 

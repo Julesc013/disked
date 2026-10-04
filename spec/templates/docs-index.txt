@@ -5,6 +5,7 @@ This is the publication layer for people using and developing DiskEd. The normat
 | Guide | Purpose |
 |---|---|
 | [Getting started](getting-started.md) | Validate the baseline and choose bounded work. |
+| [Development plan](development-plan.md) | Follow the amended roadmap, review boundaries and AIDE cadence. |
 | [Architecture](architecture.md) | Understand the product and process boundaries. |
 | [Contributing](contributing.md) | Work safely with humans, agents and evidence. |
 | [Compatibility](compatibility.md) | Read target and capability claims correctly. |

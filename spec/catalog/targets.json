@@ -362,7 +362,7 @@
       "executable_format": "MZ",
       "gui": "none",
       "terminal": "cli+tui",
-      "stage": "future",
+      "stage": "research",
       "status": "planned",
       "gui_exception": "No standard native desktop GUI.",
       "runtime": "native system APIs",
@@ -373,7 +373,7 @@
         "app_bundle": false
       },
       "evidence": [],
-      "qualification_notes": "Exact toolchain/API floor and runtime qualification remain required."
+      "qualification_notes": "Inherited broad research lead, not an exact build profile. Select a separate real-mode/extender or OS2 16/32-bit text/PM candidate before build qualification; no ABI is inferred from this ID."
     },
     {
       "id": "jcdos.carbon.native",
@@ -406,7 +406,7 @@
       "executable_format": "LX-or-profile-selected",
       "gui": "presentation-manager",
       "terminal": "cli+tui",
-      "stage": "future",
+      "stage": "research",
       "status": "planned",
       "gui_exception": null,
       "runtime": "native system APIs",
@@ -417,7 +417,7 @@
         "app_bundle": false
       },
       "evidence": [],
-      "qualification_notes": "Exact toolchain/API floor and runtime qualification remain required."
+      "qualification_notes": "Inherited broad research lead, not an exact build profile. Select a separate real-mode/extender or OS2 16/32-bit text/PM candidate before build qualification; no ABI is inferred from this ID."
     },
     {
       "id": "macos.7.6.m68k",
@@ -660,6 +660,248 @@
       },
       "evidence": [],
       "qualification_notes": "Exact toolchain/API floor and runtime qualification remain required."
+    },
+    {
+      "id": "dos.1.8086.research",
+      "os_family": "dos",
+      "os_floor": "DOS 1.x exact release to investigate",
+      "architecture": "8086",
+      "abi": "real-mode",
+      "executable_format": "MZ candidate; loader to verify",
+      "gui": "none",
+      "terminal": "text I/O research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "dos.2.8086.research",
+      "os_family": "dos",
+      "os_floor": "DOS 2.x exact release to investigate",
+      "architecture": "8086",
+      "abi": "real-mode",
+      "executable_format": "MZ",
+      "gui": "none",
+      "terminal": "cli+tui research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "dos.386.real-mode.research",
+      "os_family": "dos",
+      "os_floor": "DOS release and LBA services to qualify",
+      "architecture": "i386",
+      "abi": "real-mode",
+      "executable_format": "MZ",
+      "gui": "none",
+      "terminal": "cli+tui research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "dos.386.extender.research",
+      "os_family": "dos",
+      "os_floor": "Exact DOS and extender not selected",
+      "architecture": "i386",
+      "abi": "extender identity unresolved",
+      "executable_format": "extender wrapper unresolved",
+      "gui": "none",
+      "terminal": "cli+tui research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "windows.1.x86.win16.research",
+      "os_family": "windows-16",
+      "os_floor": "Windows 1.x exact release to investigate",
+      "architecture": "x86-16",
+      "abi": "win16 release-specific research",
+      "executable_format": "NE candidate; loader to verify",
+      "gui": "win16 research",
+      "terminal": "terminal behavior unresolved",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "windows.2.x86.win16.research",
+      "os_family": "windows-16",
+      "os_floor": "Windows 2.x exact release to investigate",
+      "architecture": "x86-16",
+      "abi": "win16 release-specific research",
+      "executable_format": "NE candidate; loader to verify",
+      "gui": "win16 research",
+      "terminal": "terminal behavior unresolved",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "os2.1.x86.text.research",
+      "os_family": "os2",
+      "os_floor": "OS/2 1.x exact text environment",
+      "architecture": "x86-16",
+      "abi": "os2-16",
+      "executable_format": "NE candidate; loader to verify",
+      "gui": "none",
+      "terminal": "native text research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "os2.1.x86.pm.research",
+      "os_family": "os2",
+      "os_floor": "OS/2 1.x PM-capable release to select",
+      "architecture": "x86-16",
+      "abi": "os2-16",
+      "executable_format": "NE candidate; loader to verify",
+      "gui": "presentation-manager research",
+      "terminal": "native text research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "os2.2.x86.text.research",
+      "os_family": "os2",
+      "os_floor": "OS/2 2.x exact release to qualify",
+      "architecture": "x86",
+      "abi": "os2-32",
+      "executable_format": "LX",
+      "gui": "none",
+      "terminal": "native text research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "os2.2.x86.pm.research",
+      "os_family": "os2",
+      "os_floor": "OS/2 2.x exact PM release to qualify",
+      "architecture": "x86",
+      "abi": "os2-32",
+      "executable_format": "LX",
+      "gui": "presentation-manager research",
+      "terminal": "native text research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
+    },
+    {
+      "id": "windows.server-core.x64.research",
+      "os_family": "windows-nt",
+      "os_floor": "Exact Windows Server Core build to select",
+      "architecture": "x64",
+      "abi": "win64",
+      "executable_format": "PE32+",
+      "gui": "none",
+      "terminal": "cli+tui research",
+      "stage": "research",
+      "status": "planned",
+      "gui_exception": "Research profile; graphical/terminal behavior and loader not qualified.",
+      "runtime": "Exact runtime/import and host-service closure unresolved",
+      "delivery": {
+        "single_entrypoint": true,
+        "single_file_goal": true,
+        "zero_extraction_goal": true,
+        "app_bundle": false
+      },
+      "evidence": [],
+      "qualification_notes": "Coverage intent only. Exact CPU/memory/address limits, toolchain, loader/imports and host/provider evidence required; no physical access in early probes."
     }
   ]
 }

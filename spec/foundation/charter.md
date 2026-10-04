@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-001
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R1
@@ -22,6 +22,14 @@ disked:
   - DE-REQ-001-01
   - DE-REQ-001-02
   - DE-REQ-001-03
+  - DE-REQ-001-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Product charter and scope
@@ -48,6 +56,12 @@ Microsoft, Sysinternals and OEM adoption are possible integration destinations, 
 
 No production physical writes, kernel driver, arbitrary privileged plugin loading, automatic boot modification, online system-volume movement, AI-generated execution authorization, or customer media in development. Tape, optical, flux, object and distributed storage remain explicit future domains rather than being erased from the model.
 
+## Useful under partial failure
+
+Where the host permits execution, retain useful inspection, image-file work, saved reports, simulation and explanations at the authority actually available. Denied, absent, unsupported, stale and uncertain are different outcomes. Neither an expert view nor installation scope bypasses host policy, encryption, ownership or missing recovery resources. The essential interface precedes discovery; see [execution roles](../architecture/execution-topology.md).
+
+The product direction spans DOS 1.x/2.x onward, early Windows and OS/2, with explicit research profiles. Release scope is a selected, qualified subset. Compare GParted/Disk Management by named tasks, features, preservation, recovery and measured equivalent work; no present superiority or universal-success claim is made.
+
 ## Normative requirements
 
 ### DE-REQ-001-01
@@ -67,3 +81,9 @@ Every advertised operation MUST bind support to target, provider, object state a
 Initial development MUST use fake targets and disposable images; production physical-write admission is outside this baseline.
 
 **Verification:** Inspect work grants and exercise a denied raw-device request.
+
+### DE-REQ-001-04
+
+DiskEd MUST preserve available permitted functions and explicit refusal/uncertainty reasons when optional capabilities fail; it MUST NOT represent denied or unknown observations as empty success.
+
+**Verification:** Combine healthy, denied, absent and stalled fake targets and compare the retained observations and reasons across all frontends.

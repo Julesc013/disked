@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,6 +26,12 @@ disked:
 sources:
 - id: windows-shrink
   resource: ../references/sources.json#windows-shrink
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # Windows NT provider strategy
@@ -51,6 +57,12 @@ An XP x86 profile uses period-compatible imports and tested native CRT behavior;
 Use no custom kernel driver in the initial plan. Driver need, lifecycle, signing, vulnerability response and qualification require a separate decision, justified by an essential capability that documented user-mode and offline paths cannot supply.
 
 [^windows-shrink]: Microsoft FSCTL_SHRINK_VOLUME documentation, recorded in the source registry.
+
+## Permission and consistency boundaries
+
+Report native API availability separately from raw-access permission and fresh target eligibility. Standard-user image and saved-report work stays available when physical-device access is denied. VSS acquisition must follow [DE-036](acquisition-consistency.md), with participating writers/volumes and snapshot lifetime, rather than equating live raw reads with a coherent backup.
+
+Server/Core/recovery, hypervisor attachments, event-log/ETW reporting, PowerShell and enterprise policy are separate qualified adapters. None is an initial loader dependency. Computer Management and shell entrypoints follow [native integration](../interaction/native-integration.md); they do not change the storage driver's capabilities.
 
 ## Normative requirements
 

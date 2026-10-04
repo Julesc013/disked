@@ -97,6 +97,67 @@
     "qualification_notes": {
       "type": "string",
       "minLength": 1
+    },
+    "qualification": {
+      "type": "object",
+      "properties": {
+        "artifact_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "toolchain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpu_floor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "memory_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address_bits": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "provider_closure": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "host_records": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "artifact_sha256",
+        "toolchain",
+        "cpu_floor",
+        "memory_model",
+        "address_bits",
+        "imports",
+        "provider_closure",
+        "host_records"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [
@@ -116,5 +177,26 @@
     "evidence",
     "qualification_notes"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "qualified"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "qualification"
+        ],
+        "properties": {
+          "evidence": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
 }

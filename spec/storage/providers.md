@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-033
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-033-01
   - DE-REQ-033-02
   - DE-REQ-033-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Provider roles, admission and upstream reuse
@@ -45,6 +52,12 @@ If an external tool accepts only a device path and requires raw privileges, the 
 Windows documented APIs lead the native lane. DiskPart is a narrow compatibility executor, never the canonical parser. libparted/libfdisk/GPT fdisk are candidate table providers or differential oracles. Filesystem tools, TestDisk, ddrescue, Partclone and smartmontools have different roles. Their exact versions, licenses and capabilities require review before bundling; this archive does not grant redistribution or imply native Windows builds exist.
 
 A replacement provider runs the same semantic fixtures and adversarial tests as its predecessor. Selection is policy-visible and pinned in plans. On failure, do not silently switch implementation during partially executed work. Recovery uses the admitted compatible closure or refuses with a required-environment explanation.
+
+## Acquisition, ownership and feature gates
+
+[Capability resolution](capability-resolution.md) keeps presence, implementation, qualification, permission, freshness and resources independent. [Package acquisition](../delivery/component-acquisition.md) separates version policy from source location and servicing ownership. Existing tools are not silently adopted; package trust does not admit storage effects. A denied or failed provider preserves other successful observations.
+
+Each provider must qualify the exact format features and intended operation. Recognition is not repair; creation is not mounting or boot compatibility. Retain old recovery-compatible generations during servicing or withdrawal. SDK conformance follows [DE-078](../development/extension-sdk.md); installing an SDK enables no privileged discovery or listener.
 
 ## Normative requirements
 

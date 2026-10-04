@@ -4,7 +4,7 @@
     {
       "id": "portable",
       "path_prefixes": [
-        "portable/"
+        "source/portable/"
       ],
       "spec_ids": [
         "DE-012",
@@ -16,12 +16,15 @@
     {
       "id": "runtime",
       "path_prefixes": [
-        "runtime/"
+        "source/runtime/"
       ],
       "spec_ids": [
         "DE-010",
         "DE-030",
-        "DE-042"
+        "DE-042",
+        "DE-015",
+        "DE-035",
+        "DE-045"
       ],
       "depends_on": [
         "portable"
@@ -30,9 +33,9 @@
     {
       "id": "interaction",
       "path_prefixes": [
-        "apps/disked/",
-        "runtime/invocation/",
-        "runtime/presentation/"
+        "source/apps/disked/",
+        "source/runtime/invocation/",
+        "source/runtime/presentation/"
       ],
       "spec_ids": [
         "DE-020",
@@ -48,8 +51,8 @@
     {
       "id": "windows",
       "path_prefixes": [
-        "platform/windows/",
-        "providers/windows/"
+        "source/platform/windows/",
+        "source/providers/windows/"
       ],
       "spec_ids": [
         "DE-034",
@@ -63,7 +66,7 @@
     {
       "id": "providers",
       "path_prefixes": [
-        "providers/"
+        "source/providers/"
       ],
       "spec_ids": [
         "DE-033",
@@ -83,7 +86,12 @@
         "DE-060",
         "DE-061",
         "DE-062",
-        "DE-050"
+        "DE-050",
+        "DE-014",
+        "DE-063",
+        "DE-064",
+        "DE-065",
+        "DE-077"
       ],
       "depends_on": [
         "interaction",
@@ -105,6 +113,19 @@
         "DE-076"
       ],
       "depends_on": []
+    },
+    {
+      "id": "integrations",
+      "path_prefixes": [
+        "source/integrations/"
+      ],
+      "spec_ids": [
+        "DE-025",
+        "DE-061"
+      ],
+      "depends_on": [
+        "interaction"
+      ]
     }
   ]
 }

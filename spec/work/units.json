@@ -5,7 +5,7 @@
       "id": "DE-W000",
       "title": "Review and ratify the specification baseline",
       "phase": "M0",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R1",
       "dependencies": [],
       "decision_gates": [],
@@ -14,13 +14,17 @@
         "DE-002",
         "DE-003",
         "DE-080",
-        "DE-081"
+        "DE-081",
+        "DE-082"
       ],
       "allowed_paths": [
         "spec/**",
         "AGENTS.md",
         "CLAUDE.md",
-        "docs/**"
+        "docs/**",
+        "TODO.MD",
+        "README.md",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -40,7 +44,9 @@
       ],
       "deliverables": [
         "Record retained user requirements, disagreements and baseline acceptance at a real Git revision.",
-        "Resolve or explicitly retain scoped open decisions; do not invent a license or safety approval."
+        "Resolve or explicitly retain scoped open decisions; do not invent a license or safety approval.",
+        "Reconcile all supplied October/September proposals with scoped disposition, source hashes and independent current tooling results.",
+        "Fetch the requested AIDE dev pin without executing upstream scripts; record refresh policy and passive schema compatibility."
       ],
       "acceptance": [
         "Bootstrap and structural tests run with actual logs.",
@@ -68,14 +74,22 @@
         "DE-010",
         "DE-012",
         "DE-020",
-        "DE-060"
+        "DE-014",
+        "DE-015"
       ],
       "allowed_paths": [
-        "apps/disked/**",
-        "runtime/invocation/**",
+        "source/apps/disked/**",
+        "source/runtime/invocation/**",
         "targets/**",
         "tools/build*",
-        "tests/invocation/**"
+        "tests/invocation/**",
+        "source/providers/fake/**",
+        "source/runtime/command/**",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tests/native/**",
+        ".aide/handoffs/**",
+        ".aide/evidence/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -95,12 +109,15 @@
       ],
       "deliverables": [
         "Native executable with build inspect and fake command discovery.",
-        "Exact toolchain/import declaration for current Windows and XP prototype lane."
+        "Exact toolchain/import declaration for current Windows and XP prototype lane.",
+        "Use DE-014 for the bounded fake composition; full delivery/Setup design in DE-060 is deferred to DE-W060/062, not a native-slice prerequisite."
       ],
       "acceptance": [
         "Clean native build log retained.",
         "No provider opens physical devices.",
-        "Public basename is disked."
+        "Public basename is disked.",
+        "Essential build/help/command path opens no devices, initializes no optional providers and requires no network/Setup/elevation.",
+        "Retain exact native build/test commands, compiler/import closure and tested host; spec-only checks are insufficient."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
@@ -125,8 +142,8 @@
         "DE-050"
       ],
       "allowed_paths": [
-        "runtime/invocation/**",
-        "platform/windows/**",
+        "source/runtime/invocation/**",
+        "source/platform/windows/**",
         "tests/invocation/**",
         "spec/catalog/decisions.json"
       ],
@@ -177,8 +194,8 @@
         "DE-022"
       ],
       "allowed_paths": [
-        "runtime/command/**",
-        "apps/disked/cli/**",
+        "source/runtime/command/**",
+        "source/apps/disked/cli/**",
         "tests/contracts/**",
         "include/**"
       ],
@@ -226,12 +243,13 @@
       "decision_gates": [],
       "context": [
         "DE-023",
-        "DE-030"
+        "DE-030",
+        "DE-035"
       ],
       "allowed_paths": [
-        "runtime/graph/**",
-        "runtime/presentation/**",
-        "providers/fake/**",
+        "source/runtime/graph/**",
+        "source/runtime/presentation/**",
+        "source/providers/fake/**",
         "tests/frontend/**"
       ],
       "forbidden_paths": [
@@ -280,8 +298,8 @@
         "DE-024"
       ],
       "allowed_paths": [
-        "apps/disked/tui/**",
-        "platform/windows/console/**",
+        "source/apps/disked/tui/**",
+        "source/platform/windows/console/**",
         "tests/frontend/**"
       ],
       "forbidden_paths": [
@@ -331,8 +349,8 @@
         "DE-050"
       ],
       "allowed_paths": [
-        "apps/disked/gui/win32/**",
-        "platform/windows/ui/**",
+        "source/apps/disked/gui/win32/**",
+        "source/platform/windows/ui/**",
         "tests/frontend/**"
       ],
       "forbidden_paths": [
@@ -380,11 +398,13 @@
       "context": [
         "DE-022",
         "DE-040",
-        "DE-041"
+        "DE-041",
+        "DE-015",
+        "DE-045"
       ],
       "allowed_paths": [
-        "runtime/transport/**",
-        "apps/disked/entry/**",
+        "source/runtime/transport/**",
+        "source/apps/disked/entry/**",
         "tests/transport/**"
       ],
       "forbidden_paths": [
@@ -434,7 +454,7 @@
         "DE-031"
       ],
       "allowed_paths": [
-        "portable/**",
+        "source/portable/**",
         "tests/unit/**",
         "tests/property/**",
         "include/**"
@@ -485,9 +505,9 @@
         "DE-102"
       ],
       "allowed_paths": [
-        "portable/mbr/**",
-        "portable/ebr/**",
-        "providers/image/**",
+        "source/portable/mbr/**",
+        "source/portable/ebr/**",
+        "source/providers/image/**",
         "tests/fixtures/**",
         "tests/fuzz/**"
       ],
@@ -536,8 +556,8 @@
         "DE-102"
       ],
       "allowed_paths": [
-        "portable/gpt/**",
-        "runtime/verification/**",
+        "source/portable/gpt/**",
+        "source/runtime/verification/**",
         "tests/fixtures/**",
         "tests/fuzz/**"
       ],
@@ -642,8 +662,8 @@
         "DE-102"
       ],
       "allowed_paths": [
-        "providers/image/**",
-        "runtime/capture/**",
+        "source/providers/image/**",
+        "source/runtime/capture/**",
         "tests/frontend/**"
       ],
       "forbidden_paths": [
@@ -684,18 +704,21 @@
       "risk": "R3",
       "dependencies": [
         "DE-W023",
-        "DE-W024"
+        "DE-W024",
+        "DE-W017"
       ],
       "decision_gates": [],
       "context": [
         "DE-030",
         "DE-034",
         "DE-050",
-        "DE-101"
+        "DE-101",
+        "DE-035",
+        "DE-045"
       ],
       "allowed_paths": [
-        "providers/windows/**",
-        "platform/windows/storage/**",
+        "source/providers/windows/**",
+        "source/platform/windows/storage/**",
         "tests/windows/**"
       ],
       "forbidden_paths": [
@@ -796,8 +819,8 @@
         "DE-044"
       ],
       "allowed_paths": [
-        "providers/health/**",
-        "runtime/evidence/**",
+        "source/providers/health/**",
+        "source/runtime/evidence/**",
         "tests/health/**"
       ],
       "forbidden_paths": [
@@ -838,17 +861,19 @@
       "risk": "R2",
       "dependencies": [
         "DE-W024",
-        "DE-W020"
+        "DE-W020",
+        "DE-W017"
       ],
       "decision_gates": [],
       "context": [
         "DE-103",
         "DE-044",
-        "DE-071"
+        "DE-071",
+        "DE-036"
       ],
       "allowed_paths": [
-        "providers/image/**",
-        "runtime/acquisition/**",
+        "source/providers/image/**",
+        "source/runtime/acquisition/**",
         "tests/images/**"
       ],
       "forbidden_paths": [
@@ -895,11 +920,12 @@
       "context": [
         "DE-111",
         "DE-073",
-        "DE-044"
+        "DE-044",
+        "DE-036"
       ],
       "allowed_paths": [
-        "runtime/evidence/**",
-        "runtime/case/**",
+        "source/runtime/evidence/**",
+        "source/runtime/case/**",
         "docs/**",
         "tests/evidence/**"
       ],
@@ -993,7 +1019,8 @@
       "risk": "R4",
       "dependencies": [
         "DE-W040",
-        "DE-W024"
+        "DE-W024",
+        "DE-W017"
       ],
       "decision_gates": [
         "DE-DEC-004"
@@ -1005,9 +1032,9 @@
         "DE-043"
       ],
       "allowed_paths": [
-        "runtime/planner/**",
-        "runtime/journal/**",
-        "providers/image/**",
+        "source/runtime/planner/**",
+        "source/runtime/journal/**",
+        "source/providers/image/**",
         "tests/images/**"
       ],
       "forbidden_paths": [
@@ -1056,7 +1083,7 @@
         "DE-074"
       ],
       "allowed_paths": [
-        "runtime/recovery/**",
+        "source/runtime/recovery/**",
         "tests/interruption/**",
         "tests/recovery/**"
       ],
@@ -1107,8 +1134,8 @@
         "DE-060"
       ],
       "allowed_paths": [
-        "runtime/broker/**",
-        "platform/windows/security/**",
+        "source/runtime/broker/**",
+        "source/platform/windows/security/**",
         "tests/security/**",
         "spec/catalog/decisions.json"
       ],
@@ -1208,7 +1235,10 @@
       "context": [
         "DE-061",
         "DE-060",
-        "DE-062"
+        "DE-062",
+        "DE-063",
+        "DE-064",
+        "DE-065"
       ],
       "allowed_paths": [
         "release/bindings/universal-setup/**",
@@ -1263,7 +1293,14 @@
       "allowed_paths": [
         ".aide/**",
         "spec/tools/**",
-        "tests/aide/**"
+        "tests/aide/**",
+        "spec/references/**",
+        "spec/development/aide-integration.md",
+        "spec/templates/aide-integration.txt",
+        "spec/schemas/aide-workunit-projection.schema.json",
+        "spec/catalog/decisions.json",
+        "docs/agent-workflow.md",
+        "TODO.MD"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1283,7 +1320,8 @@
       ],
       "deliverables": [
         "Run actual pinned AIDE validation when authorized and accessible.",
-        "Record real round-trip results or blockers; update DE-DEC-007."
+        "Record real round-trip results or blockers; update DE-DEC-007.",
+        "Review the pinned dev source about weekly until stable; preserve old/new identities and update sources, integration declaration and export-schema evidence atomically."
       ],
       "acceptance": [
         "Do not claim runtime scheduler/interoperability from shape matching.",
@@ -1311,7 +1349,7 @@
         "DE-031"
       ],
       "allowed_paths": [
-        "platform/jcdos/**",
+        "source/platform/jcdos/**",
         "targets/**",
         "spec/references/**"
       ],
@@ -1362,8 +1400,8 @@
         "DE-024"
       ],
       "allowed_paths": [
-        "platform/dos/**",
-        "platform/os2/**",
+        "source/platform/dos/**",
+        "source/platform/os2/**",
         "targets/**",
         "tests/legacy/**"
       ],
@@ -1413,7 +1451,9 @@
         "DE-108",
         "DE-109",
         "DE-110",
-        "DE-112"
+        "DE-112",
+        "DE-037",
+        "DE-113"
       ],
       "allowed_paths": [
         "spec/operations/**",
@@ -1459,7 +1499,7 @@
       "dependencies": [
         "DE-W031",
         "DE-W034",
-        "DE-W060"
+        "DE-W063"
       ],
       "decision_gates": [
         "DE-DEC-001"
@@ -1467,7 +1507,8 @@
       "context": [
         "DE-062",
         "DE-060",
-        "DE-075"
+        "DE-075",
+        "DE-077"
       ],
       "allowed_paths": [
         "LICENSES/**",
@@ -1497,7 +1538,324 @@
       ],
       "acceptance": [
         "No false Microsoft/Sysinternals endorsement.",
-        "Actual target evidence accompanies support claims."
+        "Actual target evidence accompanies support claims.",
+        "Portable read-only release has no mandatory Setup dependency; any claimed managed channel additionally needs DE-W060/062 acceptance and its exact ownership/carrier evidence."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W017",
+      "title": "Measure fake-provider resilience and resource bounds",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W014",
+        "DE-W015",
+        "DE-W016"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-045",
+        "DE-035",
+        "DE-074"
+      ],
+      "allowed_paths": [
+        "source/runtime/**",
+        "source/providers/fake/**",
+        "tests/frontend/**",
+        "tests/transport/**",
+        ".aide/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Run combined healthy/denied/malformed/slow/crashed provider campaign; select and measure per-host budgets."
+      ],
+      "acceptance": [
+        "Unknown cancellation never becomes quiescence or an automatic writer retry.",
+        "Input latency, worker/retry/memory/event ceilings and retained observations have actual logs."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W018",
+      "title": "Run early constrained primitive and terminal probes",
+      "phase": "M1",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-051",
+        "DE-024"
+      ],
+      "allowed_paths": [
+        "source/portable/**",
+        "source/platform/dos/**",
+        "source/platform/os2/**",
+        "source/platform/windows/**",
+        "targets/**",
+        "tests/legacy/**",
+        ".aide/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Small 8086, Win16, Win9x and OS2 loader/arithmetic/text experiments with exact tools or explicit blockers."
+      ],
+      "acceptance": [
+        "No device access; large addresses refuse or round-trip exactly.",
+        "Do not advertise terminal/piping/GUI behavior from an emulator compile or block the independent modern slice."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W035",
+      "title": "Prototype optional read-only native integration",
+      "phase": "M3",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W030",
+        "DE-W015",
+        "DE-W060"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-025",
+        "DE-063"
+      ],
+      "allowed_paths": [
+        "source/integrations/**",
+        "release/bindings/**",
+        "tests/integration/**",
+        ".aide/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Thin read-only MMC/shell adapter prototypes and fixture installation ownership."
+      ],
+      "acceptance": [
+        "Retargeting/disconnect cannot redirect to local storage.",
+        "Strict portable remains registration-free; fixture teardown preserves foreign registrations.",
+        "Real host registration/elevation needs a separate grant; no host changes under the fixture-only task."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W043",
+      "title": "Implement separately admitted image-only formatting",
+      "phase": "M5",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W042"
+      ],
+      "decision_gates": [
+        "DE-DEC-004"
+      ],
+      "context": [
+        "DE-113",
+        "DE-036"
+      ],
+      "allowed_paths": [
+        "source/providers/image/**",
+        "source/runtime/planner/**",
+        "tests/images/**",
+        "tests/interruption/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "One exact format/feature profile on disposable images with reviewed footprint and independent verifier."
+      ],
+      "acceptance": [
+        "No physical-device handles or unsupported option substitution.",
+        "Interruption/discard/loss/consumer-compatibility cases covered; no format-as-sanitize claim."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W062",
+      "title": "Qualify finite carriers and servicing-owner contracts",
+      "phase": "delivery",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W060"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-014",
+        "DE-060",
+        "DE-063",
+        "DE-064",
+        "DE-065"
+      ],
+      "allowed_paths": [
+        "release/**",
+        "tests/setup/**",
+        "tests/composition/**",
+        "external/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Pin consumer source and test H/D/S, offline payload equality and ownership on fixture directories."
+      ],
+      "acceptance": [
+        "No recursive package/hash construction, silent provider acquisition or competing native owner.",
+        "Active/unknown storage dependencies retain exact generations; damaged D has an independent recovery route.",
+        "Shipping carrier/channel claims require separate decision acceptance and actual qualification."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required"
+    },
+    {
+      "id": "DE-W063",
+      "title": "Implement and qualify publication completeness tooling",
+      "phase": "delivery",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W010"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-077"
+      ],
+      "allowed_paths": [
+        "tools/release/**",
+        "tests/artifacts/**",
+        "release/**",
+        ".aide/evidence/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Independent expected staging inventory and safe archive completeness checker."
+      ],
+      "acceptance": [
+        "Reject valid-but-empty, missing/extra/duplicate/case-colliding/traversal and changed-byte artifacts.",
+        "No archive code is executed by verification; publication and authenticity remain separate."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",

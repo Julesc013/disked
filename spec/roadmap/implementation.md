@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   requirements:
   - DE-REQ-080-01
   - DE-REQ-080-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Implementation sequence and first usable release
@@ -46,7 +53,7 @@ disked:
 
 **M7 — Offline recovery and system tasks.** Exact recovery closures, cross-boot identification, boot/BitLocker dependencies and interruption exercises. Only then admit nonoverlapping moves, overlapping moves and start-boundary movement as separate capabilities.
 
-**M8 — Broader systems and media.** Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
+**M8 — Broader systems and media.** Following early nonblocking primitive/text probes, full Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
 
 ## Work model
 
@@ -55,6 +62,16 @@ disked:
 ## First public usefulness
 
 The first public software can be an honest Windows Storage Inspector with one native entrypoint, exact inventory, image validation, table backup and evidence export. A later release earns "partition editor" for the operations it actually qualifies. Public docs distinguish planned, implemented and tested capability.
+
+## Bounded development-readiness plan
+
+The October amendment is specification/tooling work within DE-W000, stopped at needs-review. Owner acceptance binds the actual amended content; it is not manufactured from a recommendation to ratify. Once the relevant baseline review and bounded code grant exist, DE-W010 is the next native implementation unit.
+
+Keep DE-W010 small: one native executable, essential build/mode/command discovery, declared loader closure, fake-only composition and actual build/import evidence. DE-W011-016 add invocation, command/protocol, graph and frontends, and unprivileged process roles. DE-W017 verifies the combined failure matrix; DE-W018 runs nonblocking historical primitive/text probes. Record actual native build/test commands when the toolchain is selected, not fictional commands or only the spec-tool floor.
+
+M2/M3 image parsing and inspection can proceed without finished Setup or production journal work. DE-W035 later proves optional read-only native integration. DE-W060/062 cover pinned Setup and finite carrier/owner contracts; DE-W063 covers artifact completeness. DE-W043 covers image-only formatting after the journal gate. Shared storage, tape/optical, conversions and repair split into operation-specific work through DE-W080. The existing M0-M8 risk order remains.
+
+License, launch, journal, elevation, canonicalization, setup-host, channel and historical-terminal decisions block only their affected implementation or release claim. A first public inspector is a selected qualified release, not completion of all historical targets. AIDE remains optional development infrastructure; roughly weekly pin reviews are tracked as DE-W061 follow-up.
 
 ## Normative requirements
 

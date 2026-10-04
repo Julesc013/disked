@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-040
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-040-01
   - DE-REQ-040-02
   - DE-REQ-040-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Threat model and trust boundaries
@@ -47,6 +54,12 @@ Wrong target, stale plan, corrupted layout, provider substitution, concurrent ho
 ## Authority
 
 No global `--force`. Typed risk acknowledgement cannot override unknown identity, invalid arithmetic, unqualified operations or missing recovery resources. Expert visibility is not privilege. Local policy changes require their own authorization and must not silently affect an already reviewed plan.
+
+## Added failure and lifecycle boundaries
+
+Include stalled driver I/O, exhausted destination/scratch, hostile nested containers, event floods, corrupt optional settings, source/destination aliases, provider withdrawal, embedded-host substitution and competing servicing owners. [DE-045](degraded-operation.md) defines containment and uncertainty; storage policy remains effective in safe startup.
+
+Optional intelligence is advisory. Untrusted media, retrieved reports and model output cannot choose authority, approve a plan, certify a result or silently export private storage data. Offline local operation requires neither a model nor AIDE. Setup staging and source binding need their own qualified lifecycle boundary, even when embedded in the same distribution.
 
 ## Normative requirements
 

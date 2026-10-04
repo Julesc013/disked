@@ -7,3 +7,6 @@
 - [DE-032 — Partition-map parsing and validation](partition-tables.md): Independent bounded readers for MBR, EBR and GPT before any writer.
 - [DE-033 — Provider roles, admission and upstream reuse](providers.md): Replace implementations without redefining operations or trusting claims as proof.
 - [DE-034 — Windows NT provider strategy](windows.md): Windows-native depth without treating storage restrictions as bypass targets.
+- [DE-035 — Explainable capability resolution](capability-resolution.md): Keep implementation, qualification, permissions, freshness and resource eligibility independent.
+- [DE-036 — Acquisition consistency and observation effects](acquisition-consistency.md): Distinguish byte capture from point-in-time consistency and separately authorize destination effects.
+- [DE-037 — Filesystem features and media capabilities](filesystem-capabilities.md): Qualify each operation against exact format features, consumers and address-space semantics.

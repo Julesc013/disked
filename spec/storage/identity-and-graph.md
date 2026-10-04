@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,14 @@ disked:
   - DE-REQ-030-01
   - DE-REQ-030-02
   - DE-REQ-030-03
+  - DE-REQ-030-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Storage graph, identity and leases
@@ -44,6 +52,12 @@ Distinguish storage identity from observation identity and content digest. A has
 
 External changes invalidate affected plans. A successful earlier step yields a new expected intermediate state for subsequent steps; do not compare the whole disk forever against its pre-operation hash. Each step names the relevant pre/postconditions and its allowed changes. Recapture records unexpected writes as deviations requiring stop/recovery, not as harmless noise.
 
+## Aliases, footprints and shared ownership
+
+Preserve alias sets, media generations and address-translation provenance across physical paths, mounts, image files/backing chains, hypervisor attachments and shared LUNs. An effect footprint names all affected ranges/metadata/resources. Detect source/destination self-alias, an image stored on its own destination, overlapping jobs and destroyed recovery dependencies before admission.
+
+Before shared or remote mutation, establish host/controller identity, delegated role and applicable reservation/fencing/quiescence through a qualified provider. Persisted leases and local mutexes are not fencing. Expired or superseded ownership prevents new effects; uncertain in-flight work follows its recovery contract. Reconnection binds the same host/job/target, never substitutes a reachable local disk. Shared mutation remains later separately granted work.
+
 ## Normative requirements
 
 ### DE-REQ-030-01
@@ -63,6 +77,13 @@ Before each dependent effect, the broker MUST check the relevant expected interm
 Unknown or conflicting layers MUST remain visible and MUST block unsafe dependent mutation.
 
 **Verification:** Supply disagreeing map providers and assert a typed refusal.
+
+
+### DE-REQ-030-04
+
+Plans MUST account for storage aliases, dependent resources and conflicting actors; unresolved ownership or aliasing MUST block the affected mutation.
+
+**Verification:** Use multipath, attached-image, same-device recovery and shared-LUN fixtures; a second path or partition must not be mistaken for independent ownership or backup.
 
 ## Related specifications
 

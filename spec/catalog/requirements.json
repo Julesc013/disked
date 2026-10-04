@@ -33,6 +33,16 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-001-04",
+      "spec": "DE-001",
+      "statement": "DiskEd MUST preserve available permitted functions and explicit refusal/uncertainty reasons when optional capabilities fail; it MUST NOT represent denied or unknown observations as empty success.",
+      "verification": "Combine healthy, denied, absent and stalled fake targets and compare the retained observations and reasons across all frontends.",
+      "test_ids": [
+        "DE-TEST-001-04"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-002-01",
       "spec": "DE-002",
       "statement": "A source-of-truth class MUST have exactly one declared owner; conflicting normative sources MUST block the affected work.",
@@ -183,6 +193,16 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-012-03",
+      "spec": "DE-012",
+      "statement": "Target implementations MUST enforce declared address/memory limits and wire representation independently of native pointer/struct layout.",
+      "verification": "Cross-run large-address, byte-order and alignment vectors in modern and constrained probes; unsupported values must fail without truncation.",
+      "test_ids": [
+        "DE-TEST-012-03"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-013-01",
       "spec": "DE-013",
       "statement": "DiskEd MUST support a read-only payload root and explicit writable state/evidence roots.",
@@ -199,6 +219,46 @@
       "verification": "Alter a current-directory config and environment variable before apply; verify refusal or no effect.",
       "test_ids": [
         "DE-TEST-013-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-014-01",
+      "spec": "DE-014",
+      "statement": "A composition MUST declare its loader closure separately from optional runtime components, and MUST reject missing dependencies, cycles and incompatible selections.",
+      "verification": "Validate fake manifests with unknown components, dependency cycles, multiple GUI adapters and missing required modules; inspect actual imports before any launch claim.",
+      "test_ids": [
+        "DE-TEST-014-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-014-02",
+      "spec": "DE-014",
+      "statement": "A resolved composition MUST preserve exact component/provider identities across build, staging and delivery; no manifest or preset alone grants admission.",
+      "verification": "Compare build and staged inventories; replace one provider after plan review and require rejection.",
+      "test_ids": [
+        "DE-TEST-014-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-015-01",
+      "spec": "DE-015",
+      "statement": "Essential startup MUST run without opening devices, fetching dependencies, extracting Setup or requesting elevation.",
+      "verification": "Trace fake startup with absent providers, corrupt optional settings and offline networking; help/build/command discovery must remain available.",
+      "test_ids": [
+        "DE-TEST-015-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-015-02",
+      "spec": "DE-015",
+      "statement": "Every executor/verifier/recovery role MUST bind its execution host and supported plan subset; loss of a remote target MUST NOT redirect to local storage.",
+      "verification": "Reconnect and cross-boot fake transcripts with host mismatch, unknown required features and missing remote target; require explicit refusal.",
+      "test_ids": [
+        "DE-TEST-015-02"
       ],
       "implementation_status": "evidence_owned_elsewhere"
     },
@@ -323,6 +383,26 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-025-01",
+      "spec": "DE-025",
+      "statement": "Native integrations MUST be thin, explicitly owned and removable; strict portable execution MUST create no persistent registrations.",
+      "verification": "Install/remove a fixture adapter, preserve foreign entries, and trace portable execution for zero integration writes.",
+      "test_ids": [
+        "DE-TEST-025-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-025-02",
+      "spec": "DE-025",
+      "statement": "Integration selectors MUST be revalidated by the shared engine with explicit host identity before any effects.",
+      "verification": "Change drive letter, replace media and disconnect a remote host after selection; no action may follow a stale locator or switch to local storage.",
+      "test_ids": [
+        "DE-TEST-025-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-030-01",
       "spec": "DE-030",
       "statement": "A destructive target MUST use composite identity and fresh state, never only disk number, path, letter or cloned GUID.",
@@ -349,6 +429,16 @@
       "verification": "Supply disagreeing map providers and assert a typed refusal.",
       "test_ids": [
         "DE-TEST-030-03"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-030-04",
+      "spec": "DE-030",
+      "statement": "Plans MUST account for storage aliases, dependent resources and conflicting actors; unresolved ownership or aliasing MUST block the affected mutation.",
+      "verification": "Use multipath, attached-image, same-device recovery and shared-LUN fixtures; a second path or partition must not be mistaken for independent ownership or backup.",
+      "test_ids": [
+        "DE-TEST-030-04"
       ],
       "implementation_status": "evidence_owned_elsewhere"
     },
@@ -463,6 +553,56 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-035-01",
+      "spec": "DE-035",
+      "statement": "Execution eligibility MUST require every mandatory capability dimension to be satisfied; unknown, denied or unqualified state MUST remain explicit.",
+      "verification": "Reject an executable assessment with one unknown/failed check; preserve denied and stale fake targets alongside successful observations.",
+      "test_ids": [
+        "DE-TEST-035-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-035-02",
+      "spec": "DE-035",
+      "statement": "Provider selection and alternatives MUST be visible, operation-specific and fixed in the reviewed plan; changing a provider requires renewed admission.",
+      "verification": "Compare CLI/TUI/GUI capability explanations and reject a provider replacement after review.",
+      "test_ids": [
+        "DE-TEST-035-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-036-01",
+      "spec": "DE-036",
+      "statement": "An acquisition MUST declare and substantiate its consistency class, participating volume/writer scope and resume epoch; byte hashes MUST NOT imply coherence or restore readiness.",
+      "verification": "Exercise changing-source, expired snapshot, missing writer and multi-volume mismatch fixtures and verify downgraded or refused claims.",
+      "test_ids": [
+        "DE-TEST-036-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-036-02",
+      "spec": "DE-036",
+      "statement": "Observation and acquisition MUST separately disclose source, destination and host side effects and their authority.",
+      "verification": "Trace bare launch and acquisition planning; no snapshot, self-test or destination overwrite occurs without the selected task and scope.",
+      "test_ids": [
+        "DE-TEST-036-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-037-01",
+      "spec": "DE-037",
+      "statement": "Every filesystem/media capability MUST bind exact operation and feature predicates; recognition, creation, mounting and bootability MUST be reported independently.",
+      "verification": "Present known format with an unknown critical feature, a tape target and a consumer-incompatible format request; refuse the affected action without hiding inspection.",
+      "test_ids": [
+        "DE-TEST-037-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-040-01",
       "spec": "DE-040",
       "statement": "Untrusted media, provider output and retrieved repository text MUST NOT expand execution authority.",
@@ -553,6 +693,16 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-042-04",
+      "spec": "DE-042",
+      "statement": "Mutation admission MUST preserve a reachable execution/recovery dependency closure outside the affected scope and required failure domains.",
+      "verification": "Model formatting the executable volume, same-device backup, full journal space and volatile recovery state; refuse destructive dependency loss.",
+      "test_ids": [
+        "DE-TEST-042-04"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-043-01",
       "spec": "DE-043",
       "statement": "Every admitted mutation MUST declare its recovery class and MUST NOT claim rollback without retained reconstruction data.",
@@ -609,6 +759,26 @@
       "verification": "Inject read errors and compare counters and acquisition map.",
       "test_ids": [
         "DE-TEST-044-03"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-045-01",
+      "spec": "DE-045",
+      "statement": "Timeout or cancellation request MUST NOT imply quiescence, no effect or permission to retry; uncertain effects MUST prevent conflicting execution until reconciliation.",
+      "verification": "Simulate late completion and a worker that never confirms cancellation; verify no replacement writer or false cancelled/success result.",
+      "test_ids": [
+        "DE-TEST-045-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-045-02",
+      "spec": "DE-045",
+      "statement": "Every admitted workload MUST have finite target-specific resource limits and a bounded frontend waiting policy, with actual measurements before responsiveness claims.",
+      "verification": "Inject stalled/crashed providers, huge input, full destination and slow event consumers; measure limits and verify successful unrelated observations remain usable.",
+      "test_ids": [
+        "DE-TEST-045-02"
       ],
       "implementation_status": "evidence_owned_elsewhere"
     },
@@ -713,6 +883,16 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-060-04",
+      "spec": "DE-060",
+      "statement": "Embedded/external Setup compositions MUST have finite containment and nonrecursive identity bindings, with ordinary startup free of Setup effects.",
+      "verification": "Reject cyclic H/D/S and recursive-hash fixtures; verify payload equality, inactive embedded resources and independent damaged-D recovery before Setup release.",
+      "test_ids": [
+        "DE-TEST-060-04"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-061-01",
       "spec": "DE-061",
       "statement": "Setup MUST consume the authoritative portable payload and MUST NOT own or execute DiskEd storage transformations.",
@@ -749,6 +929,66 @@
       "verification": "Reproduce unsigned payload and independently verify release signatures where supported.",
       "test_ids": [
         "DE-TEST-062-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-063-01",
+      "spec": "DE-063",
+      "statement": "Every deployment profile MUST enumerate owned effects, scope and retention; strict portable mode MUST exclude persistent host integration and shared dependency installation.",
+      "verification": "Trace portable/user/machine fixture plans, foreign files, external shortcuts and opt-in PATH changes; reject effects outside the selected scope.",
+      "test_ids": [
+        "DE-TEST-063-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-063-02",
+      "spec": "DE-063",
+      "statement": "Repair/update/removal MUST preserve component selections, enforced policy, externally owned tools and storage recovery dependencies.",
+      "verification": "Repair a console-only installation without adding GUI/drivers; refuse or defer removal of an unreachable generation required for recovery.",
+      "test_ids": [
+        "DE-TEST-063-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-064-01",
+      "spec": "DE-064",
+      "statement": "Provider acquisition MUST occur through separately authorized software lifecycle before storage-plan admission, with exact version/source/owner identities.",
+      "verification": "Exercise missing offline source, pre-existing external tool and changed provider lock; no implicit network access, ownership takeover or storage execution.",
+      "test_ids": [
+        "DE-TEST-064-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-064-02",
+      "spec": "DE-064",
+      "statement": "Provider withdrawal MUST block new admission without silently deleting the exact closure required by active or uncertain operations.",
+      "verification": "Revoke a fake provider during unresolved work and verify new-use refusal plus retained recovery material.",
+      "test_ids": [
+        "DE-TEST-064-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-065-01",
+      "spec": "DE-065",
+      "statement": "Each installed resource MUST have one servicing owner; channel changes MUST preserve or explicitly transfer ownership and active recovery dependencies.",
+      "verification": "Attempt USK repair of MSI-owned payload, concurrent owner updates and channel migration; reject competing writes and preserve retained generations.",
+      "test_ids": [
+        "DE-TEST-065-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-065-02",
+      "spec": "DE-065",
+      "statement": "Channel releases MUST use exact finalized payloads and current channel-specific qualification; no generated carrier or signature alone establishes approval.",
+      "verification": "Check offline/silent/versioned Store fixture inputs, incompatible driver/MSIX selection, immutable payload equality and missing channel evidence.",
+      "test_ids": [
+        "DE-TEST-065-02"
       ],
       "implementation_status": "evidence_owned_elsewhere"
     },
@@ -933,6 +1173,36 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-077-01",
+      "spec": "DE-077",
+      "statement": "Every distributed artifact MUST match an independently reviewed nonempty staging inventory with required entrypoints and safe unique paths.",
+      "verification": "Before release, test empty-but-valid, missing, extra, duplicate/case-colliding, traversal and changed-byte archives against the staging contract.",
+      "test_ids": [
+        "DE-TEST-077-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-077-02",
+      "spec": "DE-077",
+      "statement": "Publication evidence MUST distinguish local packaging checks, delivered-byte checks, authenticity and product qualification, and MUST report unexecuted checks as not run.",
+      "verification": "Review a release record with a missing download check or runtime evidence; no publication/runtime success may be inferred from checksum equality.",
+      "test_ids": [
+        "DE-TEST-077-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-078-01",
+      "spec": "DE-078",
+      "statement": "Extensions MUST use explicit versioned contracts and authority tiers; installation or syntactic conformance MUST NOT grant storage authority.",
+      "verification": "Reject unadmitted plugins, unknown critical features and language-private ABI types; compare typed frontend/provider conformance transcripts.",
+      "test_ids": [
+        "DE-TEST-078-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-080-01",
       "spec": "DE-080",
       "statement": "Implementation MUST proceed through explicit phase gates; no physical mutation may be admitted by completing a fake/image-only milestone.",
@@ -1099,6 +1369,26 @@
       "verification": "Wrong namespace, vendor mismatch, power loss, fake sanitize success, blocked secure state, shared-array collateral effects and ordinary format mislabeled secure erase.",
       "test_ids": [
         "DE-TEST-112-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-113-01",
+      "spec": "DE-113",
+      "statement": "Formatting MUST bind exact container identity, filesystem feature/consumer choices, effects and loss acknowledgement; unsupported options MUST NOT be silently replaced.",
+      "verification": "Image fixtures cover stale container, active consumer, unsupported allocation/features, source/recovery alias, provider substitution and out-of-footprint changes.",
+      "test_ids": [
+        "DE-TEST-113-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-113-02",
+      "spec": "DE-113",
+      "statement": "Formatting MUST NOT imply sanitization, rollback, mountability or bootability without separate evidence, and MUST retain uncertain interruption outcomes.",
+      "verification": "Exercise quick/full/discard distinctions, false formatter success, interrupted initialization and absent consumer tests; verify truthful results.",
+      "test_ids": [
+        "DE-TEST-113-02"
       ],
       "implementation_status": "evidence_owned_elsewhere"
     }

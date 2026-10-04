@@ -13,6 +13,7 @@ This repository starts with a **proposed specification and working specification
 ## Start here
 
 - [Specification entrypoint](spec/START-HERE.md) and [complete specification index](spec/index.md).
+- [Development plan](docs/development-plan.md) and [TODO](TODO.MD) for the amended roadmap and outstanding decisions.
 - [Getting started](docs/getting-started.md) for local validation and the first work unit.
 - [Architecture overview](docs/architecture.md), [contribution workflow](docs/contributing.md), and [compatibility policy](docs/compatibility.md).
 

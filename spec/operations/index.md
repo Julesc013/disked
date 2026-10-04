@@ -14,3 +14,4 @@
 - [DE-110 — Offline system and boot-dependent operations](offline-boot.md): Independent operation contract for boot.offline.plan.
 - [DE-111 — Health assessment and forensic workflow](health-forensics.md): Independent operation contract for health.assess.
 - [DE-112 — Sanitize, firmware and advanced administration](destructive-admin.md): Independent operation contract for media.destructive.plan.
+- [DE-113 — Create a filesystem through an explicit format plan](filesystem-format.md): Formatting is a separately admitted destructive operation with consumer compatibility and verification.

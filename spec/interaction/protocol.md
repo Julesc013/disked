@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-022
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   requirements:
   - DE-REQ-022-01
   - DE-REQ-022-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Machine protocol and transport
@@ -44,6 +51,12 @@ Events carry sequence number, operation ID, type and typed payload. Sequence gap
 ## Security
 
 Stdio is suitable for a spawned unprivileged provider or client. It is not authentication by itself. Elevated IPC requires target-specific peer authentication, restrictive access, fresh session binding and bounded messages. Never accept arbitrary shell text as an execution plan. Bulk images and block data use separately authorized bounded handles or streams. Do not expose a network listener in the first product; future remote control needs a separate threat model.
+
+## Bounded observations and evolution
+
+Partial responses retain per-source freshness, omission and failure reasons; an unavailable contributor is not a successful empty list. Backpressure may coalesce replaceable progress only with detectable sequence loss and an explicit snapshot recovery route. Durable outcomes and journal transitions cannot be dropped to keep a view responsive.
+
+Use decimal strings for exact wide counters/ranges. Required mutation features are negotiated and unknown critical fields refused before effects. Product, protocol, plan, journal and target versions evolve independently. A remote session requires separate authenticated policy, explicit host/job identity and reconnection semantics; the initial product has no network listener.
 
 ## Normative requirements
 

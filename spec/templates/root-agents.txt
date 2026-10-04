@@ -25,7 +25,7 @@ Packs include normative prerequisites and exact hashes. They are context, not ex
 - `.aide/`: selected durable work, handoffs, acceptance and evidence.
 - `.aide-local/`: disposable context packs, temporary exports, caches and scratch output.
 
-There is no competing root `canon/`, `contracts/` or `content/command-spec/`. Do not create `src/` or an empty directory hierarchy. Add implementation ownership roots only when code requires them. Keep README a product homepage; do not replace it with the most recent engineering report.
+There is no competing root `canon/`, `contracts/` or `content/command-spec/`. Do not create `src/` or an empty directory hierarchy. The amended proposal places implementation ownership under `source/` (DE-DEC-010); add those roots only when code requires them. Keep README a product homepage; do not replace it with the most recent engineering report.
 
 ## Non-negotiable safety
 

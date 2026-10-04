@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-013
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -22,6 +22,13 @@ disked:
   requirements:
   - DE-REQ-013-01
   - DE-REQ-013-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Configuration, state roots and resource packs
@@ -43,6 +50,12 @@ Compile command descriptors, schemas, help, default policies, manifests, icons a
 ## Concurrency and migration
 
 Writable roots need ownership, ACL or capability checks, locking, atomic replacement and crash behavior. Never migrate state silently if an older running process might consume it. Keep old journal readers longer than writers. A failed migration retains the original artifact and explicit recovery instructions. Secret deletion and cache cleanup must not masquerade as media sanitization.
+
+## Degraded startup and lifecycle roots
+
+Safe startup may disable optional personalization and external resource overlays; it cannot disable enforced organization/system policy. If required policy is unreadable, explain that failure and withhold dependent effects. Keep cache/log quotas separate from durable recovery retention. Configuration migration never retires an active reader or its only original state.
+
+Provider stores and theme/keymap roots have separate authority. Resolve host-native folders for each scope without assuming a system drive. The [deployment profiles](../delivery/deployment-profiles.md) define explicit integration effects; [planning](../safety/planning.md) includes executable, provider, scratch, recovery and secret-reference storage dependencies.
 
 ## Normative requirements
 

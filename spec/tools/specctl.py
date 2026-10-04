@@ -225,6 +225,50 @@ class Bundle:
         errors = sorted(validator.iter_errors(value), key=lambda e: str(e.json_path))
         if errors: raise SpecError('; '.join(e.json_path+': '+e.message for e in errors[:8]))
         semantic_validate(semantic, value)
+        if schema_id == SCHEMA_PREFIX+'composition:1':
+            self.validate_composition(value)
+        if schema_id == SCHEMA_PREFIX+'target:1' and value['status']=='qualified':
+            # Evidence references are still claims; refuse visibly unresolved profiles.
+            for field in ('architecture','abi','executable_format','runtime'):
+                if re.search(r'unknown|unresolved|\bselected\b|\btbd\b|\bor\b|/', value[field], re.I):
+                    raise SpecError('Qualified target has unresolved '+field)
+
+    def component_registry(self):
+        components=unique_ids(read_json(self.root/'catalog/components.json')['components'],'component')
+        for component in components.values():
+            if component['role'] not in ('core','frontend','gui','provider','entry'):
+                raise SpecError('Unknown component role: '+component['id'])
+            if component['storage_authority'] not in ('none','fake','image','physical'):
+                raise SpecError('Unknown component storage authority: '+component['id'])
+            for spec in component['spec_ids']:
+                if spec not in self.concepts:raise SpecError('Unknown component spec: '+spec)
+        acyclic({id:c['depends_on'] for id,c in components.items()},'component graph')
+        return components
+
+    def validate_composition(self, value):
+        components=self.component_registry()
+        targets=unique_ids(read_json(self.root/'catalog/targets.json')['targets'],'target')
+        if value['target_id'] not in targets:raise SpecError('Unknown composition target')
+        selected=set(value['components'])
+        if not selected <= components.keys():raise SpecError('Unknown composition component')
+        if not set(value['optional_runtime_components']) <= selected:
+            raise SpecError('Optional runtime component is not selected')
+        for id in selected:
+            if not set(components[id]['depends_on']) <= selected:
+                raise SpecError('Missing component dependency: '+id)
+        if sum(components[id]['role']=='gui' for id in selected)>1:
+            raise SpecError('Composition selects multiple GUI adapters')
+        if sum(components[id]['role']=='entry' for id in selected)!=1:
+            raise SpecError('Composition must select exactly one entrypoint')
+        permitted={'fake-only':{'none','fake'},'image-only':{'none','fake','image'},
+                   'qualified-operations':{'none','fake','image','physical'}}[value['scope']]
+        if any(components[id]['storage_authority'] not in permitted for id in selected):
+            raise SpecError('Component authority exceeds composition scope')
+        artifacts=unique_ids(value['artifacts'],'composition artifact')
+        # Containment also depends on the finalized child bytes. Check the union
+        # so a mixed containment/hash cycle cannot slip through separate DAGs.
+        acyclic({id:list(set(a['contains']+a['hash_dependencies'])) for id,a in artifacts.items()},
+                'artifact finalization graph')
 
     def document(self, id):
         aliases = read_json(self.root/'catalog/aliases.json')['aliases']
@@ -365,6 +409,20 @@ class Bundle:
             items=read_json(self.root/f'catalog/{catalog}.json')[field]
             attempt(catalog+' IDs',lambda i=items,c=catalog:unique_ids(i,c))
             for it in items:attempt(catalog+' '+it['id'],lambda x=it,s=sch:self.validate(SCHEMA_PREFIX+s+':1',x))
+        attempt('component registry',self.component_registry)
+        compositions=read_json(self.root/'catalog/compositions.json')['compositions']
+        attempt('composition IDs',lambda:unique_ids(compositions,'composition'))
+        for composition in compositions:
+            attempt('composition '+composition['id'],lambda v=composition:self.validate(SCHEMA_PREFIX+'composition:1',v))
+        amendments=read_json(self.root/'catalog/amendments.json')
+        for collection in ('amendments','audit_findings','acceptance_designs'):
+            rows=amendments[collection]
+            attempt(collection+' IDs',lambda rows=rows:unique_ids(rows,collection))
+            for row in rows:
+                for id in row['spec_ids']:
+                    if id not in self.concepts:errors.append('Unknown amendment spec: '+id)
+                for id in row.get('work_ids',[]):
+                    if id not in self.work:errors.append('Unknown amendment work: '+id)
         command_items=read_json(self.root/'catalog/commands.json')['commands'];spellings=set()
         for c in command_items:
             word=' '.join(c['words'])
@@ -509,7 +567,7 @@ class Bundle:
         for id,w in self.work.items():
             v={'apiVersion':'aide.disked-projection/v1','kind':'WorkUnit',
                'metadata':{'id':id,'createdAt':self.meta['generated_at'],'sourcePath':'spec/work/units.json',
-                           'producer':{'name':'disked-specctl','version':'0.1.0'},
+                           'producer':{'name':'disked-specctl','version':self.meta['version']},
                            'compatibility':{'schemaVersion':'1','protocolVersion':'1','minReaderVersion':'1','minWriterVersion':'1','featureFlags':['disked-non-authorizing-projection']}},
                'spec':{'task_id':id,'title':w['title'],'work_type':'check' if id=='DE-W000' else 'build',
                        'authorizes_implementation':False,'check_only':id=='DE-W000','acceptance_review':id=='DE-W000',
@@ -567,7 +625,9 @@ class Bundle:
     def manifest(self,verify=False):
         path=self.root/'manifest.json'
         files=[]
-        for p in sorted(self.root.rglob('*')):
+        # Path ordering differs on Windows (case folded) and POSIX. Use the
+        # serialized relative path so a byte-identical bundle travels intact.
+        for p in sorted(self.root.rglob('*'), key=lambda p:p.relative_to(self.root).as_posix()):
             if not p.is_file() or any(x in ('__pycache__','.pytest_cache') for x in p.parts):continue
             rel=p.relative_to(self.root).as_posix()
             if rel=='manifest.json' or rel.endswith('.tmp'):continue

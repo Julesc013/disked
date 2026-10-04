@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-050
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,6 +27,12 @@ disked:
 sources:
 - id: winui-deployment
   resource: ../references/sources.json#winui-deployment
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # Windows target profiles and qualification
@@ -52,6 +58,12 @@ NT4, Windows 2000, earlier NT, Win9x ANSI, Win16 and RT ARM32 are deliberate lat
 Record `planned`, `buildable`, `vm-qualified` and operation-specific hardware/recovery evidence separately. This archive lists target ambitions only. No Windows binary was built or run during specification generation. A profile cannot be advertised as supported until its exact artifact passes clean-VM launch, import audit, frontend parity and relevant provider tests.
 
 [^winui]: Microsoft unpackaged WinUI deployment documentation; source registry `winui-deployment`.
+
+## Artifact targets and host evidence
+
+`catalog/targets.json` is the authored coverage/profile ledger. Planned research rows can retain unresolved fields; qualified artifacts require exact CPU, ABI, loader/import/static initialization, memory/address model, toolchain/runtime, provider closure and host records. One artifact may carry several exact host qualifications. The legacy ID `windows.nt11.x64.win32` remains unchanged and is not an NT 11.0 kernel claim. Do not silently rename public IDs or generate a Cartesian product of marketing releases and frameworks.
+
+Win16 terminal behavior needs a separate piping/redirection/exit-status experiment: a rendered text window is not a proven CLI. XP x86 and XP x64, Win9x and NT, ARM32 RT and ARM64 Windows retain separate profiles. Server Core and recovery compositions declare absent desktop/installer facilities. Setup hosts and distribution channels have independent compatibility floors. Historical research never blocks a separately qualified current-Windows inspector.
 
 ## Normative requirements
 

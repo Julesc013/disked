@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-060
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,6 +25,14 @@ disked:
   - DE-REQ-060-01
   - DE-REQ-060-02
   - DE-REQ-060-03
+  - DE-REQ-060-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Single-entrypoint composition and release identity
@@ -47,6 +55,14 @@ One staging manifest owns the portable payload. A direct binary, portable archiv
 
 Avoid overwriting a running broker or provider closure. Use side-by-side versioned payload roots and explicit activation when installed. Keep the version that can recover an in-progress operation. Uninstalling DiskEd must not delete customer images, evidence, unknown files or recovery state still needed by an operation. Portable copy-and-run remains independent of setup registration.
 
+## Finite optional Setup construction
+
+Let H be a payload-free, product-bound Setup host; D the finalized DiskEd executable optionally containing inactive H; and S an offline Setup carrier containing exact finalized D and selected extras. Build/finalize H, embed it in D, finalize/sign D, then construct/finalize/sign S. H contains neither D nor S; D does not contain S. H cannot embed D's final whole-file hash. External release/source bindings carry final identities.
+
+Ordinary D startup does not extract or execute H. Explicit maintenance validates H and the source/package binding through a qualified upstream adapter and protected staging where needed. Exporting H does not recreate publisher-signed S. Corrupt D requires an independent verified host/carrier and source. A linked minimal SDK adapter or external wrapper is a separately identified alternative; it cannot inherit qualification from the embedded-host design.
+
+One entrypoint is independent of process count and installed adapter/driver footprint. The first fake build needs only a small manifest/registry from [DE-014](../architecture/component-model.md); complete H/D/S implementation and channel generators are later delivery work, not prerequisites for image parsing.
+
 ## Normative requirements
 
 ### DE-REQ-060-01
@@ -66,6 +82,13 @@ Published portable and setup-installed product payloads MUST be byte-identical f
 Servicing MUST preserve the exact execution/recovery closure needed by in-progress operations.
 
 **Verification:** Update/uninstall during a fake active operation and require defer/refusal.
+
+
+### DE-REQ-060-04
+
+Embedded/external Setup compositions MUST have finite containment and nonrecursive identity bindings, with ordinary startup free of Setup effects.
+
+**Verification:** Reject cyclic H/D/S and recursive-hash fixtures; verify payload equality, inactive embedded resources and independent damaged-D recovery before Setup release.
 
 ## Related specifications
 

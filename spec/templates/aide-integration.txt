@@ -1,10 +1,10 @@
 {
   "schema": "org.disked.aide-integration/1",
-  "status": "proposed-mapping-not-live-runtime",
+  "status": "pinned-dev-source-not-live-runtime",
   "canonical_work": "spec/work/units.json",
   "canonical_specs": "spec/",
   "upstream_repository": "Julesc013/aide",
-  "observed_revision": "aec53b1d3675f02e2fdd17cc718fdcff6cd4e9f3",
+  "observed_revision": "5be37bd6510977e6cb2e960859c45b33b048dade",
   "observed_schema": ".aide/protocol/aide-workunit.schema.json",
   "export_command": "python spec/tools/specctl.py aide-export --output .aide-local/aide-export",
   "runtime_verified": false,
@@ -17,5 +17,14 @@
     "events": ".aide/events/"
   },
   "ephemeral_root": ".aide-local/",
-  "note": "Thin binding only. No AIDE implementation is vendored; imported WorkUnits remain projections of the canonical definition."
+  "note": "Exact dev source fetched; queue schema unchanged. Passive schema matching is separate from live AIDE import, worker isolation and runtime qualification. No upstream implementation vendored or executed.",
+  "source_lock": "spec/references/aide-lock.json",
+  "upstream_checkout": ".aide-local/upstream/aide",
+  "refresh_policy": {
+    "cadence_days_approximate": 7,
+    "next_review_date": "2026-10-11",
+    "timezone": "Australia/Sydney",
+    "automatic_fetch_or_execution": false,
+    "until": "An exact stable upstream release has been reviewed and qualified for the selected consumer scope."
+  }
 }

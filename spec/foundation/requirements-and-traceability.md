@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-004
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -22,6 +22,13 @@ disked:
   requirements:
   - DE-REQ-004-01
   - DE-REQ-004-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Requirements and traceability
@@ -45,6 +52,12 @@ Additive clarification retains the requirement ID with a revised owning document
 ## Release statement
 
 Publish three separate fields: designed, implemented, and qualified. A profile can compile but remain unqualified; an image-only provider can pass all image tests but lack physical-write admission. Required coverage percentages are not meaningful unless the denominator, target and evidence scope are specified.
+
+## Independent evidence axes
+
+Represent buildability, binary launch compatibility, semantic conformance, VM results, hardware/recovery qualification, channel eligibility and vendor support lifecycle separately. A successful reader does not qualify its writer; a compiled legacy build does not establish modern isolation. Public support is a join over the exact artifact, operation/provider, environment and evidence, not a hand-edited supported boolean.
+
+The supplied acceptance designs are mapped into `catalog/amendments.json` and authored requirement procedures. They remain definitions with no product evidence. Historical audit results remain attributed claims; this amendment's own tool logs are retained separately.
 
 ## Normative requirements
 

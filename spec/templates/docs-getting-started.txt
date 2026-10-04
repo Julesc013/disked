@@ -28,9 +28,10 @@ The constraints record the generator environment's tested versions, not an offli
 python spec/tools/specctl.py next
 python spec/tools/specctl.py show DE-080
 python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review
+python spec/tools/specctl.py verify-context .aide-local/context/review
 ```
 
-Review the context, the current owner request and the decision register. `DE-W000` ratifies or corrects the proposed baseline. The next fake-provider vertical slice has no physical storage access.
+Review the context, the current owner request and the decision register. `DE-W000` ratifies or corrects the proposed baseline. The next fake-provider vertical slice has no physical storage access. Read the [amendment review](../spec/roadmap/amendment-review.md), [development plan](development-plan.md) and [TODO](../TODO.MD) before selecting implementation work. Final acceptance is still pending; supplied historical audit results are not current test evidence.
 
 ## Spec-only import
 

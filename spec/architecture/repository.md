@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   requirements:
   - DE-REQ-011-01
   - DE-REQ-011-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Repository architecture and ownership
@@ -37,11 +44,11 @@ spec/           authored OKF specs, schemas, catalogs, work definitions, tools
  docs/          publication-oriented guides and generated reference pages
 .aide/          integration declarations and durable development records
 .aide-local/    ignored context packs, temporary runs, caches and tool outputs
-portable/       implemented bounded platform-free primitives
-runtime/        implemented semantic application modules
-platform/       implemented host services
-providers/      implemented storage adapters
-apps/disked/    composition and frontend hosts
+source/portable/       implemented bounded platform-free primitives
+source/runtime/        implemented semantic application modules
+source/platform/       implemented host services
+source/providers/      implemented storage adapters
+source/apps/disked/    composition and frontend hosts
 include/        implemented public C headers only when needed
 sdk/            implemented bindings and provider examples
  tests/         executable product tests and corpus manifests
@@ -50,7 +57,7 @@ release/        composition locks, setup binding and release metadata
 external/       exact dependency provenance and approved patches
 ```
 
-The indentation above is descriptive, not literal directory names. Do not generate an empty directory for every future platform. Avoid `src/`, parallel modern/legacy source copies and OS-specific long-lived branches. Differences belong to target profiles and adapter modules. Keep raw images, builds and old distributions outside Git; retain recipes and content hashes.
+The indentation above is descriptive, not literal directory names. Do not generate an empty directory for every future platform. Use only the declared `source/` ownership tree; avoid `src/`, parallel modern/legacy source copies and OS-specific long-lived branches. Differences belong to target profiles and adapter modules. Keep raw images, builds and old distributions outside Git; retain recipes and content hashes.
 
 ## Spec substructure
 
@@ -63,6 +70,22 @@ Use protected `main` once initialized, an optional integrated `dev`, bounded tas
 ## Interfaces, not incidental paths
 
 Stable command IDs, schema IDs and requirement IDs are public contracts. Internal filenames and functions are not. The generated index permits lookup by ID after movement. Spec links must remain valid or have deliberate aliases; code tools should resolve ownership through the project graph rather than hard-coding directory folklore.
+
+## Explicit source-map amendment
+
+The supplied reviews disagree about root implementation modules versus `source/`. This amendment proposes one `source/` prefix before implementation, retaining the existing ownership names and stable module IDs. It does not adopt a second parallel tree or the larger base/domain/application renaming. This bounded choice is recorded in DE-DEC-010 for baseline review.
+
+| Prior proposed prefix | Current proposed owner |
+|---|---|
+| `portable/` | `source/portable/` |
+| `runtime/` | `source/runtime/` |
+| `platform/` | `source/platform/` |
+| `providers/` | `source/providers/` |
+| `apps/disked/` | `source/apps/disked/` |
+
+Public headers, tests, build tooling, targets and release metadata keep their existing roots. Native integration modules may be added under `source/integrations/` when implemented. No implementation directory is created by this specification change. Work allowlists and project-graph ownership use the new prefixes together; old proposals are historical, not active alternative paths. Do not relocate upstream AIDE or Universal Setup layouts.
+
+Root `TODO.MD` is a human work queue pointing to canonical work IDs; it cannot accept work or redefine dependencies. Plans and roadmap remain in `spec/work/units.json` and `spec/roadmap/`.
 
 ## Normative requirements
 

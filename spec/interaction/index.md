@@ -7,3 +7,4 @@
 - [DE-022 — Machine protocol and transport](protocol.md): Versioned envelopes, bounded messages and honest operation outcomes.
 - [DE-023 — FrontendSession and semantic parity](presentation.md): One presentation model for terminal and native visual interfaces.
 - [DE-024 — TUI and OEM+ GUI experience](tui-and-gui.md): Task-oriented interfaces with progressive disclosure and accessible fallback.
+- [DE-025 — Owned native integration surfaces](native-integration.md): Thin optional host adapters retain exact local or remote targeting and independent teardown.

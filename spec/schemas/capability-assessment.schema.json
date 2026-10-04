@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:capability-assessment:1",
+  "title": "capability-assessment",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.capability-assessment/1"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basis_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "implementation": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "provider": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "qualification": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "host_media": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "permission": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "policy": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "freshness": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "target_state": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "resources": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        },
+        "recovery": {
+          "enum": [
+            "satisfied",
+            "denied",
+            "unknown",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "implementation",
+        "provider",
+        "qualification",
+        "host_media",
+        "permission",
+        "policy",
+        "freshness",
+        "target_state",
+        "resources",
+        "recovery"
+      ],
+      "additionalProperties": false
+    },
+    "execution_eligible": {
+      "type": "boolean"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "authorizes_execution": {
+      "const": false
+    }
+  },
+  "required": [
+    "schema",
+    "operation",
+    "target_id",
+    "basis_revision",
+    "provider_reference",
+    "checks",
+    "execution_eligible",
+    "blockers",
+    "alternatives",
+    "authorizes_execution"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_eligible": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "checks": {
+            "properties": {
+              "implementation": {
+                "const": "satisfied"
+              },
+              "provider": {
+                "const": "satisfied"
+              },
+              "qualification": {
+                "const": "satisfied"
+              },
+              "host_media": {
+                "const": "satisfied"
+              },
+              "permission": {
+                "const": "satisfied"
+              },
+              "policy": {
+                "const": "satisfied"
+              },
+              "freshness": {
+                "const": "satisfied"
+              },
+              "target_state": {
+                "const": "satisfied"
+              },
+              "resources": {
+                "const": "satisfied"
+              },
+              "recovery": {
+                "const": "satisfied"
+              }
+            }
+          },
+          "provider_reference": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blockers": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "blockers": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

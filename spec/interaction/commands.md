@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-021
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-021-01
   - DE-REQ-021-02
   - DE-REQ-021-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Command grammar and canonical registry
@@ -47,6 +54,10 @@ Aliases deprecate gradually and always resolve to the original descriptor. Retir
 ## Early command slice
 
 Build/mode/command discovery, target enumeration, topology inspection, image inspection, table validation, capability explanation and evidence export come first. All storage-modifying descriptors remain plan-only or unavailable until their exact admission gate is met. Compatibility dialects for DiskPart/parted are optional translators into intents and must never silently emulate immediate mutation semantics.
+
+## Amendment command scope
+
+The catalog adds only `filesystem.format.plan` (`filesystem format`), `setup.inspect` and `provider.resolve` as planned descriptors. Provider resolution explains compatibility without acquisition; formatting produces a plan without writing. Setup apply/update/uninstall, compatibility dialects, diagnostic bundles and PowerShell projections remain explicitly deferred contracts until selected work defines their effects. No command in this bundle has a runtime handler.
 
 ## Normative requirements
 

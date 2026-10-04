@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-012
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,14 @@ disked:
   requirements:
   - DE-REQ-012-01
   - DE-REQ-012-02
+  - DE-REQ-012-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Language, ABI and build policy
@@ -45,6 +53,12 @@ One target descriptor supplies compiler, SDK/sysroot, import policy, GUI choice,
 
 Run import-table and minimum-CPU audits on outputs, not just source checks. Dynamic API probing prevents a modern optional import from raising the loader floor before startup. Build optimizations must preserve range checks and undefined-behavior protections. Static runtime linkage creates update obligations; it is not zero-dependency security.
 
+## Constrained execution and representation
+
+Declare pointer, integer and address widths separately, memory model, alignment, calling convention, minimum CPU, import floor and static initialization. Never serialize an in-memory C struct by copying its layout. Large addresses round-trip exactly or are refused; they cannot be narrowed silently for a legacy compiler. A constrained executor consumes only a declared plan subset and independently validates local target, range and required features.
+
+The modern coordinator invokes exact target build drivers. Early harmless 8086/Win16/9x/OS2 probes compare checked arithmetic, encoding, loader and text behavior; they do not require the whole planner or modern Python on the target. Build-time composition starts with a manifest/registry, with fuller compiler automation added only when needed. Setup host compatibility is qualified independently of the contained DiskEd payload.
+
 ## Normative requirements
 
 ### DE-REQ-012-01
@@ -58,6 +72,13 @@ Public native interfaces MUST have explicit ownership, versioning and calling co
 Every target MUST have an exact toolchain/runtime/import declaration and a real launch test before a compatibility claim.
 
 **Verification:** Inspect PE imports and run a clean target VM; do not count successful compilation alone.
+
+
+### DE-REQ-012-03
+
+Target implementations MUST enforce declared address/memory limits and wire representation independently of native pointer/struct layout.
+
+**Verification:** Cross-run large-address, byte-order and alignment vectors in modern and constrained probes; unsupported values must fail without truncation.
 
 ## Related specifications
 

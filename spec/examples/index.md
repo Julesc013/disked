@@ -2,6 +2,12 @@
 
 [Bundle index](../index.md). These files are not additional independent sources of normative authority.
 
+- [capability-denied.json](capability-denied.json)
+- [capability-invalid-eligibility.json](capability-invalid-eligibility.json)
+- [composition-fake.json](composition-fake.json)
+- [composition-missing-dependency.json](composition-missing-dependency.json)
+- [composition-recursive-carrier.json](composition-recursive-carrier.json)
+- [composition-recursive-hash.json](composition-recursive-hash.json)
 - [event-progress.json](event-progress.json)
 - [extent-invalid-numeric.json](extent-invalid-numeric.json)
 - [extent-overflow.json](extent-overflow.json)
@@ -14,6 +20,8 @@
 - [plan-invalid-force.json](plan-invalid-force.json)
 - [provider-unadmitted.json](provider-unadmitted.json)
 - [request-inventory.json](request-inventory.json)
+- [resource-budget-proposed.json](resource-budget-proposed.json)
+- [resource-budget-unmeasured.json](resource-budget-unmeasured.json)
 - [response-refused.json](response-refused.json)
 - [target-0.json](target-0.json)
 - [target-1.json](target-1.json)

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-010
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-010-01
   - DE-REQ-010-02
   - DE-REQ-010-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # System architecture and module boundaries
@@ -43,7 +50,7 @@ Core semantics have no GUI, shell, network or physical-device dependencies. Plat
 
 ## Initial modules
 
-`portable/` owns checked arithmetic, byte order, bounded byte views, extents and small parsers. `runtime/` owns observations, graph, policy, planning, invocation, command dispatch and operation state. `providers/` owns actual storage integration. `apps/disked/` composes CLI, TUI and one GUI. `platform/` contains host process, console, filesystem and security adapters. Create directories only when they have implementations or build targets.
+`source/portable/` owns checked arithmetic, byte order, bounded byte views, extents and small parsers. `source/runtime/` owns observations, graph, policy, planning, invocation, command dispatch and operation state. `source/providers/` owns actual storage integration. `source/apps/disked/` composes CLI, TUI and one GUI. `source/platform/` contains host process, console, filesystem and security adapters. Create directories only when they have implementations or build targets.
 
 The public SDK initially uses process contracts and a narrow C ABI. Avoid freezing internal classes before a second consumer exists. Static linking is a composition decision, not permission for modules to reach across ownership boundaries. A single-file build can contain many libraries and launch multiple isolated processes.
 
@@ -54,6 +61,12 @@ Each implemented module has a stable ID, owned paths, public surfaces, required 
 ## Failure propagation
 
 Typed errors preserve the original platform code, operation context and safe remediation. Do not convert access-denied or identity-ambiguous into an empty list. Partial capture preserves successful observations with explicit omissions. No action is inferred from a display label. An unknown provider result transitions to uncertain/recovery-required state rather than success.
+
+## Composition and execution
+
+[DE-014](component-model.md) defines the small component model and build-time composition checks. [DE-015](execution-topology.md) separates essential startup, inspection and execution roles. Control/presentation, bounded data transfer and independent recovery keep their own contracts. Select process boundaries for actual fault/privilege needs; do not create a mandatory microservice framework.
+
+Optional end-user assistance can explain observations and propose typed intents. It never authorizes effects, chooses an ambiguous physical target, certifies results or silently uploads storage data. AIDE remains development-only and is not a product runtime dependency.
 
 ## Normative requirements
 

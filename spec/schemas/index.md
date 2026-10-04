@@ -4,7 +4,9 @@
 
 - [acceptance.schema.json](acceptance.schema.json)
 - [aide-workunit-projection.schema.json](aide-workunit-projection.schema.json)
+- [capability-assessment.schema.json](capability-assessment.schema.json)
 - [command.schema.json](command.schema.json)
+- [composition.schema.json](composition.schema.json)
 - [context-manifest.schema.json](context-manifest.schema.json)
 - [diagnostic.schema.json](diagnostic.schema.json)
 - [event.schema.json](event.schema.json)
@@ -17,6 +19,7 @@
 - [provider.schema.json](provider.schema.json)
 - [request.schema.json](request.schema.json)
 - [requirement.schema.json](requirement.schema.json)
+- [resource-budget.schema.json](resource-budget.schema.json)
 - [response.schema.json](response.schema.json)
 - [target.schema.json](target.schema.json)
 - [test-case.schema.json](test-case.schema.json)

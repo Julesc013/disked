@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-041
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,6 +25,13 @@ disked:
   - DE-REQ-041-01
   - DE-REQ-041-02
   - DE-REQ-041-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Broker identity and bounded authorization
@@ -46,6 +53,12 @@ An approval binds a plan and scope, not arbitrary future changes. Two-person app
 The broker owns a durable operation identity and can outlive the frontend where the OS supports it. Client loss does not cause abrupt termination during an unsafe step. Cancellation takes effect only at documented checkpoints. Access denial, malformed request, stale state and unknown outcome are separate stable errors. The broker has no update client, network fetching, UI customization or automatic user-plugin discovery.
 
 Legacy platforms without enforceable separation use a constrained execution profile and explicit lower assurance claim. They do not silently receive the modern broker's certification label.
+
+## Scope and useful refusal
+
+The initial broker is local-only. Client inability to reach it is not proof that effects stopped. Refusal retains unprivileged diagnostics/inspection and distinguishes policy denial, missing provider, stale target and insufficient recovery resources. Scope of installation is separate from effect authority.
+
+Shared-storage fencing and delegated remote approval are later contracts with real enforcing providers. Exact-image staging, authenticated IPC and cryptographic plan binding remain DE-DEC-005/008 gates. No supplied recommendation or schema-valid plan closes those experiments.
 
 ## Normative requirements
 

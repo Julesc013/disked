@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-043-01
   - DE-REQ-043-02
   - DE-REQ-043-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Journal, recovery and durability
@@ -49,6 +56,12 @@ Include reviewed plan, original map/boot metadata, target identity, expected sta
 ## Cancellation and flush
 
 There is no universal cancellation point or atomic GPT switch. Mark safe checkpoints by operation, and distinguish user cancellation request from confirmed quiescence. Flush is a provider capability whose guarantees depend on stack and hardware. Successful API return may not prove power-loss persistence; qualification must describe cache/controller assumptions and physical tests where claimed.
+
+## Lifetime and generation retention
+
+Timeout, client loss or cancellation request does not seal an unobserved effect. Preserve the affected target's quarantine and exact journal/provider/executor identities until quiescence and postconditions are established. A replacement worker cannot blindly replay. Software maintenance must retain required generations, including when the operation is unreachable, until reconciliation permits retirement.
+
+The recovery closure includes independent code access, state, reconstruction data, credential references and physical dependencies. Configuration caches and another partition on a failing disk do not meet an independent-backup requirement. DE-DEC-004 remains unresolved: state-model checks do not prove durable runtime encoding or power-loss safety.
 
 ## Normative requirements
 

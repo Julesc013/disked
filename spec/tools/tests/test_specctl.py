@@ -31,7 +31,9 @@ class BundleTests(unittest.TestCase):
 
     def test_real_requirements_have_test_specifications(self):
         reqs, tests = self.bundle.requirements()
-        self.assertEqual(110, len(reqs))
+        authored={rid for id in self.bundle.concepts for rid in self.bundle.document(id)[1]['disked']['requirements']}
+        self.assertTrue(authored)
+        self.assertEqual(authored, {r['id'] for r in reqs})
         self.assertEqual(len(reqs), len(tests))
         self.assertEqual({r['id'] for r in reqs}, {t['requirement_ids'][0] for t in tests})
         self.assertTrue(all(t['status']=='definition_only' and not t['evidence'] for t in tests))
@@ -76,7 +78,7 @@ class BundleTests(unittest.TestCase):
         self.assertNotIn('"hardware-qualified"', text)
 
     def test_impact_is_conservative_and_named(self):
-        result=self.bundle.impact(['runtime/journal/writer.cpp'])
+        result=self.bundle.impact(['source/runtime/journal/writer.cpp'])
         self.assertFalse(result['unknown_impact'])
         self.assertTrue(result['review_required'])
         self.assertTrue(result['test_ids'])
@@ -217,6 +219,55 @@ class SemanticTests(unittest.TestCase):
         v=sc.read_json(ROOT/'examples/grant-fixture.json');v['elevation']=True
         with self.assertRaises(sc.SpecError):self.bundle.validate(sc.SCHEMA_PREFIX+'grant:1',v)
 
+    def test_composition_rejects_unknown_target_and_optional_component(self):
+        for field,value in [('target_id','missing'),('optional_runtime_components',['missing'])]:
+            v=sc.read_json(ROOT/'examples/composition-fake.json');v[field]=value
+            with self.subTest(field=field),self.assertRaises(sc.SpecError):
+                self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',v)
+
+    def test_artifact_finalization_rejects_mixed_cycles_and_accepts_finite_carrier(self):
+        v=sc.read_json(ROOT/'examples/composition-fake.json')
+        v['artifacts']=[{'id':'H','contains':[],'hash_dependencies':[]},
+                        {'id':'D','contains':['H'],'hash_dependencies':[]},
+                        {'id':'S','contains':['D'],'hash_dependencies':[]}]
+        self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',v)
+        v['artifacts'][0]['hash_dependencies']=['D']
+        with self.assertRaisesRegex(sc.SpecError,'finalization graph cycle'):
+            self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',v)
+
+    def test_buildable_composition_requires_inspected_loader_inventory(self):
+        v=sc.read_json(ROOT/'examples/composition-fake.json');v['status']='buildable'
+        v['evidence']=['fixture only, not build evidence']
+        with self.assertRaises(sc.SpecError):self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',v)
+        v['loader_inventory_status']='inspected'
+        # An explicitly inspected empty inventory is valid for a dependency-free
+        # artifact; schema conformance does not establish that it was built.
+        self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',v)
+
+    def test_target_qualification_needs_evidence_and_resolved_abi(self):
+        v=copy.deepcopy(sc.read_json(ROOT/'catalog/targets.json')['targets'][0]);v['status']='qualified'
+        with self.assertRaises(sc.SpecError):self.bundle.validate(sc.SCHEMA_PREFIX+'target:1',v)
+        v['evidence']=['fixture only'];v['qualification']={
+            'artifact_sha256':'sha256:'+'0'*64,'toolchain':'fixture','cpu_floor':'fixture',
+            'memory_model':'fixture','address_bits':32,'imports':[],
+            'provider_closure':[],'host_records':['fixture only']}
+        self.bundle.validate(sc.SCHEMA_PREFIX+'target:1',v)
+        v['abi']='real-mode or extender'
+        with self.assertRaisesRegex(sc.SpecError,'unresolved abi'):
+            self.bundle.validate(sc.SCHEMA_PREFIX+'target:1',v)
+
+    def test_capability_eligibility_requires_every_dimension_and_never_grants(self):
+        v=sc.read_json(ROOT/'examples/capability-denied.json')
+        v.update(execution_eligible=True,blockers=[],provider_reference='fixture-provider')
+        v['checks']={key:'satisfied' for key in v['checks']}
+        self.bundle.validate(sc.SCHEMA_PREFIX+'capability-assessment:1',v)
+        for key in v['checks']:
+            invalid=copy.deepcopy(v);invalid['checks'][key]='unknown'
+            with self.subTest(key=key),self.assertRaises(sc.SpecError):
+                self.bundle.validate(sc.SCHEMA_PREFIX+'capability-assessment:1',invalid)
+        v['authorizes_execution']=True
+        with self.assertRaises(sc.SpecError):self.bundle.validate(sc.SCHEMA_PREFIX+'capability-assessment:1',v)
+
 class TemporaryBundleTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.repo=Path(self.temp.name)/'repo'
@@ -249,10 +300,45 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_bootstrap_relative_root(self):
         # Check relative path handling without changing the process working directory.
+        # Windows TEMP may be on a different drive, where no relative path exists.
         import os
-        relative=Path(os.path.relpath(self.repo,Path.cwd()))
-        result=self.bundle.bootstrap(relative,False)
-        self.assertIn('AGENTS.md',result['files'])
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            relative=Path(os.path.relpath(directory,Path.cwd()))
+            self.assertFalse(relative.is_absolute())
+            result=self.bundle.bootstrap(relative,False)
+            self.assertIn('AGENTS.md',result['files'])
+
+    def test_manifest_order_uses_serialized_paths_on_every_platform(self):
+        (self.root/'Z-order.txt').write_text('upper')
+        (self.root/'a-order.txt').write_text('lower')
+        self.bundle.manifest()
+        paths=[r['path'] for r in sc.read_json(self.root/'manifest.json')['files']]
+        self.assertEqual(sorted(paths),paths)
+        self.assertLess(paths.index('Z-order.txt'),paths.index('a-order.txt'))
+        self.assertEqual('PASS',self.bundle.manifest(verify=True)['status'])
+
+    def test_composition_rejects_component_cycle(self):
+        registry=sc.read_json(self.root/'catalog/components.json')
+        registry['components'][0]['depends_on']=['runtime']
+        sc.write_json(self.root/'catalog/components.json',registry)
+        with self.assertRaisesRegex(sc.SpecError,'component graph cycle'):
+            self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',sc.read_json(self.root/'examples/composition-fake.json'))
+
+    def test_composition_rejects_physical_provider_in_fake_scope(self):
+        registry=sc.read_json(self.root/'catalog/components.json')
+        next(c for c in registry['components'] if c['id']=='provider.fake')['storage_authority']='physical'
+        sc.write_json(self.root/'catalog/components.json',registry)
+        with self.assertRaisesRegex(sc.SpecError,'authority exceeds'):
+            self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',sc.read_json(self.root/'examples/composition-fake.json'))
+
+    def test_composition_rejects_multiple_gui_adapters(self):
+        registry=sc.read_json(self.root/'catalog/components.json')
+        other=copy.deepcopy(next(c for c in registry['components'] if c['role']=='gui'))
+        other['id']='gui.fixture';registry['components'].append(other)
+        sc.write_json(self.root/'catalog/components.json',registry)
+        value=sc.read_json(self.root/'examples/composition-fake.json');value['components'].append(other['id'])
+        with self.assertRaisesRegex(sc.SpecError,'multiple GUI'):
+            self.bundle.validate(sc.SCHEMA_PREFIX+'composition:1',value)
 
     def test_context_is_deterministic_without_git(self):
         one=Path(self.temp.name)/'one';two=Path(self.temp.name)/'two'

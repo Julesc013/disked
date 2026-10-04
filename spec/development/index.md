@@ -9,3 +9,5 @@
 - [DE-074 — Testing, validation and CI strategy](testing-and-ci.md): Differentiate schema checks, product tests, hardware evidence and recovery qualification.
 - [DE-075 — Governance, review and change safety](governance-and-review.md): Lean ownership with risk-scaled review rather than ceremonial committees.
 - [DE-076 — Specification tool contract](specctl.md): Local indexing, checks, contexts and safe bootstrap without a product runtime.
+- [DE-077 — Artifact completeness and publication checks](artifact-completeness.md): Verify required content independently of archive integrity and distinguish historical audit claims.
+- [DE-078 — Extension tiers and compatibility](extension-sdk.md): Stabilize real C/protocol consumers and require conformance without granting implicit privilege.

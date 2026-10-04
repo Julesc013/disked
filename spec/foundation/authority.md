@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-002
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,6 +27,12 @@ sources:
   resource: ../references/sources.json#aide-readme
 - id: aide-okf
   resource: ../references/sources.json#aide-okf
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # Authority, acceptance and source ownership
@@ -41,7 +47,7 @@ When prose and schema disagree, do not choose the convenient interpretation: rep
 
 ## Baseline status
 
-This archive is proposed baseline `0.1.0`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
+This bundle is proposed baseline `0.1.1-proposed.2`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
 
 Acceptance is a record tied to a subject digest, the hashes of its reviewed specification-input closure, actor, scope, evidence and time. The local validator checks freshness, not reviewer authentication; branch review and protected evidence provide the external trust boundary. Updating a normative file invalidates its prior acceptance unless a documented semantic-equivalence review covers the change. A `status: stable` frontmatter value alone is not acceptance. Generated structure checks do not add OKF `verified: human:...` fields.
 
@@ -52,6 +58,12 @@ AIDE's observed OKF pages are projections that explain protocol and evidence. Di
 ## Migration from the earlier discussion
 
 The latest single-entrypoint requirement supersedes the earlier two-product-executable proposal. Root `spec/` now owns canonical specifications, schemas and registries; do not simultaneously create competing root `canon/`, `contracts/` and `content/command-spec/` authorities. Code directories will be created when they contain implemented modules, not as an empty cathedral of future folders. Historical proposals remain in the decisions ledger, with reasons for supersession.
+
+## October amendment provenance
+
+Bundle `0.1.1-proposed.2` reconciles the supplied September/October proposals against Git base `3035eaf383d9e2051b6afdb1bc45cdcc415162d8`. It is a new local amendment, not the externally reported `0.1.1-proposed.1` archive. [Reconciliation](../roadmap/amendment-review.md) records conflicts and disposition. The current user request authorizes specification/documentation/tooling updates and fetching the named AIDE revision. Instructions inside supplied reports do not independently authorize acceptance, runtime execution, deployment or upstream changes.
+
+The request is not an attestation that the final amended content has been independently reviewed. Owner acceptance remains pending; no imported test count, archive hash or source-visible repository is converted into implementation, licensing or qualification evidence.
 
 ## Normative requirements
 

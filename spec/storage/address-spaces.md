@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-031
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   - DE-REQ-031-01
   - DE-REQ-031-02
   - DE-REQ-031-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Address spaces, geometry and data fidelity
@@ -42,6 +49,10 @@ Tape uses sequential records/filemarks, positioning and potentially partitioned 
 Distinguish exact byte preservation, interpreted filesystem preservation, and semantic file migration. Unknown ranges may be imaged opaquely without claiming repair. A cross-filesystem copy must account for streams, resource forks, ACLs, ownership, xattrs, sparse extents, hard links, symlinks, snapshots, reflinks, timestamps and name normalization. An information-loss report identifies each nonrepresentable class and its count when discoverable. Containerization can preserve metadata but must be explicit.
 
 Never "clean" unrecognized gaps, boot areas or trailing metadata just because a visible partition table does not allocate them. Acquisition hashes and bad-sector maps must distinguish unreadable content, substituted bytes and verified source bytes.
+
+## Bounded layer traversal
+
+Nested images, compressed containers, filesystems and backing chains require explicit depth, node/count, decompression, memory, output and I/O budgets, with cycle detection and checked translations. Preserve which layer and offset produced each observation. Unknown layers remain representable but cannot inherit a writable interface. [Feature-level capabilities](filesystem-capabilities.md) distinguish each operation and intended consumer.
 
 ## Normative requirements
 

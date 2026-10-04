@@ -21,7 +21,7 @@ A changed digest after an intentional edit is expected; regenerate integrity met
 ```text
 python spec/tools/specctl.py search "broker identity"
 python spec/tools/specctl.py show DE-041
-python spec/tools/specctl.py impact runtime/journal/writer.cpp
+python spec/tools/specctl.py impact source/runtime/journal/writer.cpp
 ```
 
 Impact routing is conservative and reports unknown ownership rather than pretending no tests are needed. Stable logical IDs survive file moves. Update the path registry and links when moving a concept; never silently reuse a retired ID.
@@ -32,4 +32,6 @@ These human-written guide pages link to the specification. A command reference c
 
 ## Returning to the project
 
-Commit the reviewed archive to GitHub once. Future sessions can start from the root instructions and selected work ID rather than the original long discussion. Record new decisions, failed experiments and handoffs in the repository so progress survives a change of model or service.
+Retain a reviewed repository revision. Any push or publication requires its own authorization. Future sessions can start from the root instructions and selected work ID rather than the original long discussion. Record new decisions, failed experiments and handoffs in the repository so progress survives a change of model or service.
+
+For this amendment, [review-inputs.json](../spec/references/review-inputs.json) preserves supplied-file hashes and [amendments.json](../spec/catalog/amendments.json) maps proposals to their owners and planned acceptance scenarios. Update the canonical text, schema and work record together. Preserve old IDs and attribute unresolved disagreements; do not silently turn an attachment into authority. Bootstrap templates mirror their corresponding root/docs publications.

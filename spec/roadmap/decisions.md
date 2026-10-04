@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-081
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -22,6 +22,13 @@ disked:
   requirements:
   - DE-REQ-081-01
   - DE-REQ-081-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Decision register and experiments
@@ -53,6 +60,19 @@ Two separate public CLI/GUI binaries are superseded by the single-entrypoint pre
 ## Refinement without paralysis
 
 Review M0 and start fake/image work while high-risk runtime decisions remain open. A journal encoding blocker does not stop CLI parsing or native inventory development. Task gates are granular so unresolved future systems do not block today's useful safe slice.
+
+## October reconciliation decisions
+
+| ID | Proposed direction | Scope blocked pending applicable review/evidence |
+|---|---|---|
+| DE-DEC-010 | One `source/` prefix retaining current module names/IDs | Initial source-map ratification in DE-W000. |
+| DE-DEC-011 | Small static composition manifest first; finite optional H/D/S | Setup/carrier release, not the first fake executable. |
+| DE-DEC-012 | Exactly one servicing owner; separate channel projections | Managed/channel release. |
+| DE-DEC-013 | Early Win16 terminal and constrained loader probes | Historical terminal/compatibility claims. |
+| DE-DEC-014 | Per-target failure/resource budgets, measured during fake slice | Responsiveness/containment claims. |
+| DE-DEC-015 | Explicit acquisition consistency and snapshot epoch | Coherent/application-consistent acquisition claims. |
+
+The external candidate IDs were not canonical allocations: DE-014/035/036/045/063/064/065/077 each had competing meanings. [Amendment review](amendment-review.md) and the canonical concept index resolve those proposals once. No acceptance field has been populated. Source recommendations for separate CLI/GUI applications, exhaustive composition solvers before a first binary, mandatory installer-before-reader ordering and independent root contracts are not adopted.
 
 ## Normative requirements
 

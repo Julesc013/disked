@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,6 +26,12 @@ disked:
 sources:
 - id: ulk-readme
   resource: ../references/sources.json#ulk-readme
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # FrontendSession and semantic parity
@@ -47,6 +53,12 @@ Design common journeys deliberately: inventory, topology, health, acquire, plan,
 ## Native composition
 
 The Windows reference uses Win32 controls and host fonts/metrics. WinForms and WinUI are alternate target compositions; macOS uses AppKit/SwiftUI, other targets their native adapters. No toolkit initializes during headless command execution. Missing optional GUI dependencies in auto mode can degrade to terminal/plain operation; explicit GUI mode must report the precise unavailable dependency rather than silently changing meaning.
+
+## Partial-result and dependency semantics
+
+Every surface renders the same denied/stale/unknown capability dimensions, plan consequences and recovery state. An inventory refresh can add observations without waiting for every provider; it cannot silently change selected identity or erase outstanding errors. UI-local animation or timeout never becomes operation truth.
+
+A runtime fallback exists only after the executable loads. Mandatory framework imports belong in the composition's loader closure; optional GUI initialization must not raise a declared headless loader floor. Availability reasons and native accessibility outcomes are tested independently of pixel equality.
 
 ## Normative requirements
 

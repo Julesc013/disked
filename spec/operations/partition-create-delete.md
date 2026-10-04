@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-105
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-044
   requirements:
   - DE-REQ-105-01
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Create or delete a partition entry
@@ -51,6 +58,10 @@ Recovery class depends on metadata retention and subsequent writes. Recreating a
 ## Required adversarial cases
 
 Active page-file volume, stale partition ID, hidden metadata in a gap, delete-vs-erase confusion, duplicate GUID, interrupted table write and follow-up format without approval.
+
+## Formatting dependency
+
+[DE-113](filesystem-format.md) owns filesystem creation and its data-loss, discard and verification rules. A table edit does not authorize a subsequent format, mount or sanitization. Any composite plan binds and admits each operation separately.
 
 ## Normative requirements
 

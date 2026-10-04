@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-044
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-REQ-044-01
   - DE-REQ-044-02
   - DE-REQ-044-03
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Independent verification and efficient execution
@@ -45,6 +52,12 @@ Cache source specifications, immutable image descriptions bound to content diges
 ## Residual risk
 
 Independent verification can discover damage after irreversible effects. It is not prevention or rollback. Report verified, unverified and failed postconditions separately and prevent automatic success promotion when any mandatory postcondition is unknown. Preserve failure evidence before cleanup. Limit support-bundle contents so customer data is not leaked during troubleshooting.
+
+## Measurements under failure
+
+Measure cold startup, input response during stalls, memory, event backlog, verified throughput, resume overhead and interruption outcome for named target/workload profiles. Define proposed budgets before measurement using [DE-045](degraded-operation.md); report actual samples and limits rather than universal millisecond guarantees. Compare equivalent preservation, verification and recovery work, with cache and media-health conditions disclosed.
+
+Acquisition consistency is independent of byte integrity; [DE-036](../storage/acquisition-consistency.md) owns live/snapshot/application claims. Future compatibility needs exact contract/reader windows and retained recovery closure, not a promise about unknown operating systems.
 
 ## Normative requirements
 

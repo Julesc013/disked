@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-070
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -31,13 +31,19 @@ sources:
   resource: ../references/sources.json#aide-workunit
 - id: aide-okf
   resource: ../references/sources.json#aide-okf
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # AIDE integration without a second control plane
 
 ## AIDE relationship
 
-AIDE is a repository development control plane, not a library in DiskEd's runtime. At the observed revision its README explicitly distinguishes implemented protocol/projection slices from later runtime, scheduler, patch engine and automatic promotion. Use the actual WorkUnit shape inspected from that revision. Do not fabricate `aide run-all`, an autonomous scheduler, or a certification service.
+AIDE is a repository development control plane, not a library in DiskEd's runtime. At the current pinned dev revision, its README reports implemented local foundations while retaining separate runtime, isolation and stable-distribution gates; historical main-only descriptions must not be treated as current dev status. Use the actual WorkUnit shape inspected from that revision. Do not fabricate `aide run-all`, an autonomous scheduler, or a certification service.
 
 This bundle keeps canonical planned work in `work/units.json`. `specctl aide-export` produces AIDE WorkUnit queue-shaped objects using the inspected fields, with `authorizes_implementation: false`, `status: planned`, `result: NOT_RUN` and real scope restrictions. The exporter is a mapping utility, not a claim of live AIDE admission or execution. Its schema projection and upstream revision are recorded. Full upstream CLI round-trip remains a qualification task.
 
@@ -52,6 +58,14 @@ Suggested durable records are WorkUnit, WorkerRun, TestJob, EvidencePacket, Even
 Read-only review may run automatically within a given workspace permission. Code edits require a grant; protected-path, release, hardware and signing operations remain separate. A task cannot approve its own evidence or rewrite the tests to make a failure disappear. Structured metadata is useful but not enforcement: OS sandboxing, tool ACLs, branch rules and review provide the boundary.
 
 Model choice, reasoning level, provider generation, token budget and execution permissions are separate controls. AIDE may route subtasks economically only under authorized constraints and demonstrated quality. Do not assume a smaller subagent reduces cost after context duplication; record actual usage where available. No provider name or model tier is embedded in product semantics.
+
+## Pinned dev refresh policy
+
+The user requested AIDE dev at `5be37bd6510977e6cb2e960859c45b33b048dade`. It was fetched into ignored `.aide-local/upstream/aide` as a detached checkout; branch dev matched that identity when checked. `references/aide-lock.json` records upstream tree and inspected-file hashes. No upstream script, worker, scheduler, install/import lifecycle or external write is run by fetching source.
+
+The current README reports repo-native and Windows lifecycle/runtime foundations in dev, while stable integrated/delivered-artifact, restricted-principal and model-enabled qualification remain gated. Its queue WorkUnit schema is unchanged from the prior pin. Source/schema inspection and passive local schema validation are narrower than live consumer installation or runtime interoperability; DE-W061 and DE-DEC-007 remain open for those claims.
+
+Review upstream roughly every seven days until an explicitly stable, qualified release is selected. Next review target: 2026-10-11, Australia/Sydney; no unattended task is installed. Fetch/read a candidate into ignored storage, retain old and candidate identities, inspect release notes and changed contracts/security limits, validate exports against the exact schema, run authorized consumer checks, and update lock/source records in one reviewable change. Never float the accepted pin or execute a mutable dev checkout automatically. Stable promotion requires an exact release identity and applicable evidence, not a branch name.
 
 ## Normative requirements
 

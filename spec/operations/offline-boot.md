@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-110
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-044
   requirements:
   - DE-REQ-110-01
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Offline system and boot-dependent operations
@@ -51,6 +58,12 @@ Failed reboot, missing drivers, unavailable keys or ambiguous disk match causes 
 ## Required adversarial cases
 
 USB order change, BitLocker protector mismatch, invalid BCD, missing NVMe driver, inaccessible recovery medium, power interruption and normal boot returning before operation completion.
+
+## Rescue environment admission
+
+Record exact rescue OS build, boot method, native architecture, storage/network components, available API/runtime closure, persistent state roots and maximum continuous lifetime. [Microsoft's WinPE documentation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro?view=windows-11) excludes MSI installation and ordinary cross-architecture application execution, and documents a 240-hour restart window for 1803-and-later WinPE (72 hours for older listed versions). Recheck the selected environment before admission.
+
+Use its native portable payload. Budget enough time to finish or reach a genuinely recoverable checkpoint before unavoidable reset. Reboot must not erase the only journal/capsule. Other rescue providers need their own contracts. A build recipe does not establish redistribution rights to an OS image, and WinPE recovery use is not hardware qualification.
 
 ## Normative requirements
 

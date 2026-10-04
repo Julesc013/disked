@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-051
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -23,6 +23,13 @@ disked:
   requirements:
   - DE-REQ-051-01
   - DE-REQ-051-02
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # DOS, JC-DOS, Carbon and OS/2 portability
@@ -46,6 +53,12 @@ Plan native CLI/TUI and Presentation Manager projection through an OS/2 target a
 ## Qualification
 
 Run identical format vectors on the host and constrained implementations. Simulator tests establish emulator behavior, not physical controller persistence. Retain source, toolchain provenance and hardware observations separately. Do not ship proprietary SDKs or ROM images without permission. Obsolete environments may require a modern build coordinator; installed product portability is distinct from build-tool portability.
+
+## Early research without support claims
+
+DOS 1.x and 2.x, Windows 1.x and 2.x, OS/2 1.x text and PM-capable variants, and OS/2 2.x text/PM are explicit unqualified research profiles. DOS real mode and an extender are separate candidates; the inherited broad `dos.386.lba` and `os2.x86.pm` rows remain research leads rather than exact artifact contracts. An extender identity and its executable wrapper remain unresolved until pinned; neither a slash nor the word selected is an ABI qualification.
+
+DE-W018 brings harmless loader, checked-arithmetic, encoding and text probes into M1. The later DE-W071 image-reader work remains separate. Record exact release, memory/CPU floor, APIs, file/directory assumptions, terminal behavior and toolchain limits. Do not change DOS 3+ to DOS 1+ by editing a label. Missing tools/emulators yield a documented blocker, never a support claim or a mandatory delay to the modern slice.
 
 ## Normative requirements
 

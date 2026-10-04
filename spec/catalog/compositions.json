@@ -1,0 +1,38 @@
+{
+  "schema": "org.disked.compositions/1",
+  "compositions": [
+    {
+      "schema": "org.disked.composition/1",
+      "id": "windows.native.fake.desktop",
+      "target_id": "windows.nt10.x64.win32",
+      "status": "planned",
+      "scope": "fake-only",
+      "components": [
+        "portable",
+        "runtime",
+        "cli",
+        "machine",
+        "tui",
+        "gui.win32",
+        "provider.fake",
+        "entry.disked"
+      ],
+      "mandatory_loader_dependencies": [],
+      "optional_runtime_components": [
+        "provider.fake"
+      ],
+      "single_entrypoint": true,
+      "zero_extraction_on_normal_startup": true,
+      "artifacts": [
+        {
+          "id": "D",
+          "contains": [],
+          "hash_dependencies": []
+        }
+      ],
+      "evidence": [],
+      "loader_inventory_status": "pending"
+    }
+  ],
+  "note": "Planned fake selection only. Empty loader inventory is unresolved, not a zero-dependency claim; exact toolchain/import evidence required in DE-W010."
+}

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-020
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -29,6 +29,12 @@ sources:
   resource: ../references/sources.json#windows-pe
 - id: windows-console
   resource: ../references/sources.json#windows-console
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
 ---
 
 # InvocationPolicy v1
@@ -52,6 +58,10 @@ The reference hypothesis is a console-subsystem native EXE containing a Win32 GU
 `disked mode explain --format=json` reports observations, selected mode, reason code and fallbacks without changing state. The fixture catalog covers pipes, explicit modes, headless operation, inherited consoles, desktop-created consoles and conflicts. Later native integration tests cover Explorer, cmd, PowerShell, Windows Terminal, SSH, RDP, scheduled tasks and file associations. The included fixture oracle tests the policy only; it cannot prove OS launch behavior.
 
 [^windows-pe]: Microsoft PE format and console documentation; see the source registry.
+
+## Setup and essential routing
+
+Built-in build/mode/command discovery stays in the essential tier without probe, network or setup effects. Explicit `setup inspect` uses local declared maintenance metadata; future setup-changing commands require a separate reviewed lifecycle contract and cannot dispatch through the storage broker. Existing machine-format conflicts and no-prompt rules apply unchanged. Unimplemented verbs return unavailable; attached command sketches are not an additional command registry.
 
 ## Normative requirements
 

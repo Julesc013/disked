@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-112
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,13 @@ disked:
   - DE-044
   requirements:
   - DE-REQ-112-01
+updated:
+  by: codex
+  at: '2026-10-03T17:24:09.000824+00:00'
+  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
 ---
 
 # Sanitize, firmware and advanced administration
@@ -51,6 +58,10 @@ Many operations are irreversible and may render hardware unusable on interruptio
 ## Required adversarial cases
 
 Wrong namespace, vendor mismatch, power loss, fake sanitize success, blocked secure state, shared-array collateral effects and ordinary format mislabeled secure erase.
+
+## Decomposition gate
+
+This umbrella is a routing concept only. Before implementation, allocate an operation-specific contract for each sanitize, firmware, tape, optical or vendor effect with exact footprint, failure model, recovery limits and verifier. Formatting is [DE-113](filesystem-format.md), not a sanitization method. Conversion and filesystem repair likewise require their own scoped contracts, not a generic force executor.
 
 ## Normative requirements
 

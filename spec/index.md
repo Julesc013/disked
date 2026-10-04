@@ -5,7 +5,7 @@ okf_version: "0.2"
 
 # DiskEd specification
 
-**Proposed baseline 0.1.0. Owner acceptance pending. No product or hardware qualification.**
+**Proposed baseline 0.1.1-proposed.2. Owner acceptance pending. No product or hardware qualification.**
 
 Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).
 
@@ -30,12 +30,17 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-011 — Repository architecture and ownership](architecture/repository.md): Root spec authority, deliberate source modules and no duplicated canonical trees.
 - [DE-012 — Language, ABI and build policy](architecture/languages-and-build.md): Small portable C strata with target-qualified native implementations behind stable contracts.
 - [DE-013 — Configuration, state roots and resource packs](architecture/configuration.md): Portable payloads remain immutable while state and evidence have explicit ownership.
+- [DE-014 — Components and immutable compositions](architecture/component-model.md): Small static compositions with explicit loader, provider and delivery closures.
+- [DE-015 — Essential startup and execution roles](architecture/execution-topology.md): Keep built-in diagnostics available before probes and bind roles to explicit hosts and resources.
 
 ## Delivery
 
 - [DE-060 — Single-entrypoint composition and release identity](delivery/composition.md): One product command with explicit dependency, extraction and isolation properties.
 - [DE-061 — Universal Setup boundary and installation modes](delivery/universal-setup.md): Setup owns software lifecycle; DiskEd owns storage operations.
 - [DE-062 — Licensing, provenance and release trust](delivery/licensing-and-supply-chain.md): Keep licensing decisions explicit and qualify the actual dependency closure.
+- [DE-063 — Deployment effects and state ownership](delivery/deployment-profiles.md): Portable, user, machine and native-package modes declare effects and preservation separately.
+- [DE-064 — Provider packages and acquisition policy](delivery/component-acquisition.md): Separate implementation choice, version selection, source location, ownership and storage admission.
+- [DE-065 — Distribution channels and servicing owners](delivery/channels-and-servicing.md): Generate carriers from finalized payloads and assign one owner to each managed resource.
 
 ## Development
 
@@ -46,6 +51,8 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-074 — Testing, validation and CI strategy](development/testing-and-ci.md): Differentiate schema checks, product tests, hardware evidence and recovery qualification.
 - [DE-075 — Governance, review and change safety](development/governance-and-review.md): Lean ownership with risk-scaled review rather than ceremonial committees.
 - [DE-076 — Specification tool contract](development/specctl.md): Local indexing, checks, contexts and safe bootstrap without a product runtime.
+- [DE-077 — Artifact completeness and publication checks](development/artifact-completeness.md): Verify required content independently of archive integrity and distinguish historical audit claims.
+- [DE-078 — Extension tiers and compatibility](development/extension-sdk.md): Stabilize real C/protocol consumers and require conformance without granting implicit privilege.
 
 ## Foundation
 
@@ -62,6 +69,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-022 — Machine protocol and transport](interaction/protocol.md): Versioned envelopes, bounded messages and honest operation outcomes.
 - [DE-023 — FrontendSession and semantic parity](interaction/presentation.md): One presentation model for terminal and native visual interfaces.
 - [DE-024 — TUI and OEM+ GUI experience](interaction/tui-and-gui.md): Task-oriented interfaces with progressive disclosure and accessible fallback.
+- [DE-025 — Owned native integration surfaces](interaction/native-integration.md): Thin optional host adapters retain exact local or remote targeting and independent teardown.
 
 ## Operations
 
@@ -77,6 +85,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-110 — Offline system and boot-dependent operations](operations/offline-boot.md): Independent operation contract for boot.offline.plan.
 - [DE-111 — Health assessment and forensic workflow](operations/health-forensics.md): Independent operation contract for health.assess.
 - [DE-112 — Sanitize, firmware and advanced administration](operations/destructive-admin.md): Independent operation contract for media.destructive.plan.
+- [DE-113 — Create a filesystem through an explicit format plan](operations/filesystem-format.md): Formatting is a separately admitted destructive operation with consumer compatibility and verification.
 
 ## Platforms
 
@@ -92,6 +101,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 
 - [DE-080 — Implementation sequence and first usable release](roadmap/implementation.md): A small Windows-native vertical slice before expanding storage authority.
 - [DE-081 — Decision register and experiments](roadmap/decisions.md): Resolve high-cost ambiguities before treating a proposed baseline as frozen.
+- [DE-082 — October amendment reconciliation](roadmap/amendment-review.md): Disposition of all supplied proposals, conflicting candidate IDs and bounded development readiness.
 
 ## Safety
 
@@ -100,6 +110,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-042 — Planner, action graph and simulation](safety/planning.md): Compile intents into explicit dependencies, resources and recovery obligations.
 - [DE-043 — Journal, recovery and durability](safety/journal-and-recovery.md): Explicit recovery classes without false transactional or rollback claims.
 - [DE-044 — Independent verification and efficient execution](safety/verification-and-performance.md): Optimize verified work, never cache away fresh safety checks.
+- [DE-045 — Bounded responsiveness and failure containment](safety/degraded-operation.md): Bound waiting and resources without treating timeout as proof that effects stopped.
 
 ## Storage
 
@@ -108,6 +119,9 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-032 — Partition-map parsing and validation](storage/partition-tables.md): Independent bounded readers for MBR, EBR and GPT before any writer.
 - [DE-033 — Provider roles, admission and upstream reuse](storage/providers.md): Replace implementations without redefining operations or trusting claims as proof.
 - [DE-034 — Windows NT provider strategy](storage/windows.md): Windows-native depth without treating storage restrictions as bypass targets.
+- [DE-035 — Explainable capability resolution](storage/capability-resolution.md): Keep implementation, qualification, permissions, freshness and resource eligibility independent.
+- [DE-036 — Acquisition consistency and observation effects](storage/acquisition-consistency.md): Distinguish byte capture from point-in-time consistency and separately authorize destination effects.
+- [DE-037 — Filesystem features and media capabilities](storage/filesystem-capabilities.md): Qualify each operation against exact format features, consumers and address-space semantics.
 
 ## Change discipline
 
