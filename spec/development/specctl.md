@@ -1,7 +1,8 @@
 ---
 type: DiskEd Specification
 title: Specification tool contract
-description: Local indexing, checks, contexts and safe bootstrap without a product runtime.
+description: Local indexing, checks, contexts and safe bootstrap without a product
+  runtime.
 resource: disked://spec/de-076
 tags:
 - disked
@@ -13,7 +14,7 @@ status: draft
 disked:
   id: DE-076
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,11 +28,13 @@ disked:
   - DE-REQ-076-03
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 ---
 
 # Specification tool contract
@@ -67,6 +70,10 @@ Impact resolves each path independently and returns matched paths, unmatched pat
 Context and acceptance use the declared input resolver in DE-071. `acceptance-status` shows historical validity, supersession and current applicability separately. Revision-bound receipt v2 uses exact local Git blobs; it does not fetch missing history or authenticate reviewers. Unanchored v1 receipts remain visible but cannot authorize current work.
 
 Semantic checks dispatch from the schema identity. A legacy semantic selector can confirm that identity but cannot suppress or substitute its constraints. Shared decimal-u64 checks enforce numeric bounds; accepted-running responses require operation identity. Strict producer schema conformance remains separate from a future compatible reader's negotiated behavior.
+
+## CLI design metadata checks
+
+The global syntax catalog complements command descriptors with option arity/expansion, help domains, reserved entries and retired spellings. Registry checks reject global/command collisions, inconsistent lexical arity, unsafe command-prefix ownership, incorrect zero-arity/repeatable parameter shapes and broken references. Generated command reference includes explicit alternatives and global options from those owners. Command-syntax fixtures are checked as expected-result definitions only; `check` does not execute their argv or qualify parser conformance. The coordinator's own argparse CLI is separate from the proposed DiskEd grammar.
 
 ## Normative requirements
 

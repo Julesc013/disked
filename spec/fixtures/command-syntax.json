@@ -1,0 +1,869 @@
+{
+  "schema": "org.disked.command-syntax-cases/1",
+  "status": "definition_only",
+  "scope": "Token-vector normalization/help/error expectations. OBJECT_ID names are placeholders; partial alias examples do not define complete storage parameter schemas.",
+  "native_execution": "not_run",
+  "groups": [
+    {
+      "id": "json-inventory-placement",
+      "equivalent_argv": [
+        [
+          "--json",
+          "target",
+          "list"
+        ],
+        [
+          "target",
+          "--json",
+          "list"
+        ],
+        [
+          "target",
+          "list",
+          "--json"
+        ],
+        [
+          "list",
+          "--json"
+        ],
+        [
+          "--json",
+          "list"
+        ],
+        [
+          "list",
+          "--json",
+          "targets"
+        ],
+        [
+          "list",
+          "targets",
+          "--json"
+        ],
+        [
+          "ls",
+          "-j"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.list",
+        "operands": [],
+        "named_options": {},
+        "controls": {
+          "format": "json"
+        }
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "json-inspect-placement",
+      "equivalent_argv": [
+        [
+          "--json",
+          "target",
+          "inspect",
+          "TARGET_ID"
+        ],
+        [
+          "target",
+          "--json",
+          "inspect",
+          "TARGET_ID"
+        ],
+        [
+          "target",
+          "inspect",
+          "--json",
+          "TARGET_ID"
+        ],
+        [
+          "target",
+          "inspect",
+          "TARGET_ID",
+          "--json"
+        ],
+        [
+          "show",
+          "TARGET_ID",
+          "-j"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.inspect",
+        "operands": [
+          "TARGET_ID"
+        ],
+        "named_options": {},
+        "controls": {
+          "format": "json"
+        }
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "resize-option-placement",
+      "equivalent_argv": [
+        [
+          "--length=50GiB",
+          "partition",
+          "resize",
+          "PARTITION_ID",
+          "--json"
+        ],
+        [
+          "partition",
+          "--length",
+          "50GiB",
+          "resize",
+          "PARTITION_ID",
+          "--json"
+        ],
+        [
+          "partition",
+          "resize",
+          "PARTITION_ID",
+          "--length=50GiB",
+          "--json"
+        ],
+        [
+          "part",
+          "resize",
+          "--json",
+          "PARTITION_ID",
+          "--length",
+          "50GiB"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "partition.resize.plan",
+        "operands": [
+          "PARTITION_ID"
+        ],
+        "named_options": {
+          "--length": "50GiB"
+        },
+        "controls": {
+          "format": "json"
+        }
+      },
+      "notes": "Syntax expectation only: typed resize parameters, geometry semantics and native parser are still DE-W012 work; this is never an apply request."
+    },
+    {
+      "id": "separated-format-value",
+      "equivalent_argv": [
+        [
+          "--format",
+          "json",
+          "target",
+          "list"
+        ],
+        [
+          "target",
+          "--format=json",
+          "list"
+        ],
+        [
+          "list",
+          "targets",
+          "--format",
+          "json"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.list",
+        "operands": [],
+        "named_options": {},
+        "controls": {
+          "format": "json"
+        }
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "literal-option-looking-filename",
+      "equivalent_argv": [
+        [
+          "image",
+          "inspect",
+          "--",
+          "--json"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "image.inspect",
+        "operands": [
+          "--json"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "literal-command-looking-filename",
+      "equivalent_argv": [
+        [
+          "image",
+          "inspect",
+          "list"
+        ],
+        [
+          "image",
+          "inspect",
+          "--",
+          "list"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "image.inspect",
+        "operands": [
+          "list"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "literal-tail-preserved",
+      "equivalent_argv": [
+        [
+          "image",
+          "inspect",
+          "--",
+          "--json",
+          "--help"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unexpected_operand"
+      },
+      "notes": "Both tail tokens are operands. No output switch or help request is recognized; image inspect expects one path in this proposed slice."
+    },
+    {
+      "id": "canonical-inventory-scope",
+      "equivalent_argv": [
+        [
+          "target",
+          "list"
+        ],
+        [
+          "list"
+        ],
+        [
+          "ls"
+        ],
+        [
+          "list",
+          "targets"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.list",
+        "operands": [],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "discover-commands",
+      "equivalent_argv": [
+        [
+          "command",
+          "list"
+        ],
+        [
+          "commands"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "command.list",
+        "operands": [],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "partition-move-alias",
+      "equivalent_argv": [
+        [
+          "partition",
+          "move",
+          "OBJECT_ID"
+        ],
+        [
+          "part",
+          "move",
+          "OBJECT_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "partition.move.plan",
+        "operands": [
+          "OBJECT_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+    },
+    {
+      "id": "format-alias",
+      "equivalent_argv": [
+        [
+          "filesystem",
+          "format",
+          "OBJECT_ID"
+        ],
+        [
+          "fs",
+          "format",
+          "OBJECT_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "filesystem.format.plan",
+        "operands": [
+          "OBJECT_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+    },
+    {
+      "id": "migrate-alias",
+      "equivalent_argv": [
+        [
+          "filesystem",
+          "migrate",
+          "OBJECT_ID"
+        ],
+        [
+          "fs",
+          "migrate",
+          "OBJECT_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "filesystem.migrate.plan",
+        "operands": [
+          "OBJECT_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+    },
+    {
+      "id": "watch-alias",
+      "equivalent_argv": [
+        [
+          "operation",
+          "watch",
+          "OBJECT_ID"
+        ],
+        [
+          "op",
+          "watch",
+          "OBJECT_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "operation.watch",
+        "operands": [
+          "OBJECT_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+    },
+    {
+      "id": "cancel-alias",
+      "equivalent_argv": [
+        [
+          "operation",
+          "cancel",
+          "OBJECT_ID"
+        ],
+        [
+          "op",
+          "cancel",
+          "OBJECT_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "operation.cancel.request",
+        "operands": [
+          "OBJECT_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+    },
+    {
+      "id": "contextual-resize-help",
+      "equivalent_argv": [
+        [
+          "partition",
+          "resize",
+          "--help"
+        ],
+        [
+          "partition",
+          "--help",
+          "resize"
+        ],
+        [
+          "--help",
+          "partition",
+          "resize"
+        ],
+        [
+          "help",
+          "partition",
+          "resize"
+        ],
+        [
+          "part",
+          "resize",
+          "-h"
+        ]
+      ],
+      "expected": {
+        "kind": "help",
+        "command_id": "partition.resize.plan",
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "domain-help",
+      "equivalent_argv": [
+        [
+          "partition",
+          "--help"
+        ],
+        [
+          "--help",
+          "part"
+        ],
+        [
+          "help",
+          "partition"
+        ]
+      ],
+      "expected": {
+        "kind": "help",
+        "domain": "partition",
+        "controls": {}
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "machine-help",
+      "equivalent_argv": [
+        [
+          "partition",
+          "resize",
+          "--help",
+          "--json"
+        ],
+        [
+          "-j",
+          "help",
+          "partition",
+          "resize"
+        ]
+      ],
+      "expected": {
+        "kind": "help",
+        "command_id": "partition.resize.plan",
+        "controls": {
+          "format": "json"
+        }
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "headless-meaning",
+      "equivalent_argv": [
+        [
+          "--headless",
+          "target",
+          "list"
+        ],
+        [
+          "target",
+          "list",
+          "--frontend=cli",
+          "--interactive=no"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.list",
+        "operands": [],
+        "named_options": {},
+        "controls": {
+          "frontend": "cli",
+          "interactive": "no"
+        }
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "duplicate-output",
+      "equivalent_argv": [
+        [
+          "list",
+          "--json",
+          "-j"
+        ],
+        [
+          "--format=json",
+          "list",
+          "--json"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "duplicate_option"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "contradictory-output",
+      "equivalent_argv": [
+        [
+          "list",
+          "--format=human",
+          "--json"
+        ],
+        [
+          "--json",
+          "list",
+          "--format=human"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "argument_conflict"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "contradictory-frontend",
+      "equivalent_argv": [
+        [
+          "list",
+          "--gui",
+          "--json"
+        ],
+        [
+          "--json",
+          "list",
+          "--gui"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "argument_conflict"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "unknown-short-option",
+      "equivalent_argv": [
+        [
+          "list",
+          "-f"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unknown_option"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "unknown-prefix-option",
+      "equivalent_argv": [
+        [
+          "list",
+          "--fo=json"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unknown_option"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "unknown-long-option",
+      "equivalent_argv": [
+        [
+          "list",
+          "--jsoon"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unknown_option"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "missing-value",
+      "equivalent_argv": [
+        [
+          "target",
+          "list",
+          "--format"
+        ],
+        [
+          "target",
+          "list",
+          "--format",
+          "--"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "missing_option_value"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "value-is-not-command",
+      "equivalent_argv": [
+        [
+          "--format",
+          "target",
+          "list"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "invalid_option_value"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "value-is-not-option",
+      "equivalent_argv": [
+        [
+          "list",
+          "--format",
+          "--json"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "invalid_option_value"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "wrong-command-option",
+      "equivalent_argv": [
+        [
+          "--length=50GiB",
+          "target",
+          "list"
+        ],
+        [
+          "list",
+          "--length",
+          "50GiB"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "option_not_applicable"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "no-operand-rescue",
+      "equivalent_argv": [
+        [
+          "IMAGE_PATH",
+          "image",
+          "inspect"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "command_not_found"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "literal-boundary-before-command",
+      "equivalent_argv": [
+        [
+          "--",
+          "target",
+          "list"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "command_not_found"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "unknown-command-prefix",
+      "equivalent_argv": [
+        [
+          "p",
+          "resize",
+          "PARTITION_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "command_not_found"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "retired-proposal",
+      "equivalent_argv": [
+        [
+          "tgt",
+          "ls"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "retired_command"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "no-scope-guessing",
+      "equivalent_argv": [
+        [
+          "disks"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "command_not_found"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "no-short-flag-clusters",
+      "equivalent_argv": [
+        [
+          "list",
+          "-jh"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unknown_option"
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "help-does-not-hide-error",
+      "equivalent_argv": [
+        [
+          "partition",
+          "resize",
+          "--help",
+          "--lenght=50GiB"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "unknown_option",
+        "help_requested": true
+      },
+      "notes": "Planned native parser expectation; metadata validation is not execution."
+    },
+    {
+      "id": "root-help",
+      "equivalent_argv": [
+        [
+          "--help"
+        ],
+        [
+          "-h"
+        ],
+        [
+          "help"
+        ]
+      ],
+      "expected": {
+        "kind": "help",
+        "domain": "@root",
+        "controls": {}
+      },
+      "notes": "@root identifies static product help, not a command or target namespace."
+    },
+    {
+      "id": "zero-arity-value-rejected",
+      "equivalent_argv": [
+        [
+          "list",
+          "--json=true"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "invalid_option_value"
+      },
+      "notes": "A flag has no attached or separated value slot."
+    },
+    {
+      "id": "alias-unavailable-keeps-identity",
+      "equivalent_argv": [
+        [
+          "operation",
+          "inspect",
+          "OPERATION_ID"
+        ],
+        [
+          "op",
+          "inspect",
+          "OPERATION_ID"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "operation.inspect",
+        "operands": [
+          "OPERATION_ID"
+        ],
+        "named_options": {},
+        "controls": {}
+      },
+      "notes": "Resolution retains this identity when its runtime capability is unavailable; dispatch reports command_unavailable rather than remapping the alias. Native unavailable-build execution remains not_run."
+    }
+  ]
+}

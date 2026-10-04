@@ -115,6 +115,23 @@
               "schema-enum",
               "observed-id"
             ]
+          },
+          "option_aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(--[a-z][a-z0-9-]*|-[a-z])$"
+            },
+            "uniqueItems": true
+          },
+          "value_arity": {
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "repeatable": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -132,6 +149,43 @@
             "required": [
               "position"
             ]
+          }
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "option"
+              ]
+            },
+            "then": {
+              "required": [
+                "option_aliases",
+                "value_arity",
+                "repeatable"
+              ]
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "option_aliases"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "value_arity"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "repeatable"
+                    ]
+                  }
+                ]
+              }
+            }
           }
         ]
       }

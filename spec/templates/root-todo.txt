@@ -40,3 +40,11 @@ No DiskEd runtime, provider, recovery, hardware, installer or release test is ma
 - [ ] DE-W019: implement the bounded persistent command shell after shared command/TUI foundations.
 - [ ] Before routine native contributions, activate and verify the owner-selected required PR/check gate on GitHub.
 - [ ] At protocol/acquisition/writer gates, qualify typed resources, compatible readers, guarded epochs, immutable-plan receipts and composable recovery properties.
+
+## CLI syntax refinement
+
+- [x] Reconcile flexible option placement, natural aliases and contextual help with current catalogs and docs.
+- [x] Define shared syntax equivalence/error cases, preserving unresolved typed storage parameters and unrun native parser status.
+- [ ] DE-W012: execute the corpus and option-position permutations against the native parser, including pre-dispatch effect traces.
+- [ ] DE-W019: verify editable error recovery and measure shortcut/completion ergonomics on selected keyboards and terminals.
+- [ ] DE-W018/071: qualify actual tokenization/encoding and shared parser semantics for selected constrained targets.

@@ -209,7 +209,7 @@ class CommandCorrections(TemporaryCorrectiveFixture):
         sc.write_json(self.root/'catalog/commands.json',catalog)
         with self.assertRaisesRegex(sc.SpecError,'Unknown command schema'):self.bundle.command_registry()
         command=next(c for c in original['commands'] if c['syntax_status']=='defined')
-        command['argument_bindings']=[{'parameter':'invented','option':'--invented','completion':'none'}]
+        command['argument_bindings']=[{'parameter':'invented','option':'--invented','option_aliases':[],'value_arity':1,'repeatable':False,'completion':'none'}]
         sc.write_json(self.root/'catalog/commands.json',original)
         with self.assertRaisesRegex(sc.SpecError,'Unknown bound parameter'):self.bundle.command_registry()
 
@@ -219,8 +219,8 @@ class CommandCorrections(TemporaryCorrectiveFixture):
         reference='urn:disked:schema:fixture-parameters:1'
         self.bundle.schemas[reference]=dict(self.bundle.schemas[command['parameter_schema']],properties={'first':{'type':'string','enum':['a']},'second':{'type':'string'}})
         command['parameter_schema']=reference
-        command['argument_bindings']=[{'parameter':'first','option':'--first','completion':'schema-enum'},
-            {'parameter':'second','option':'--second','completion':'none'}]
+        command['argument_bindings']=[{'parameter':'first','option':'--first','option_aliases':[],'value_arity':1,'repeatable':False,'completion':'schema-enum'},
+            {'parameter':'second','option':'--second','option_aliases':[],'value_arity':1,'repeatable':False,'completion':'none'}]
         sc.write_json(self.root/'catalog/commands.json',catalog);self.bundle.command_registry()
         bad=command['argument_bindings'][1]
         for update,error in [({'option':'--first'},'Duplicate argument'),({'completion':'schema-enum'},'parameter enum'),

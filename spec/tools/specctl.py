@@ -393,9 +393,19 @@ class Bundle:
             out[directory+'/index.md']=t
         # Reference publication, kept inside spec until explicitly published/bootstrap installed.
         cmds=read_json(self.root/'catalog/commands.json')
-        t='# Planned DiskEd command reference\n\nGenerated from `spec/catalog/commands.json`; all listed commands are planned, not executable in this archive.\n\n'
-        t+='Source digest: `'+digest_bytes((self.root/'catalog/commands.json').read_bytes())+'`.\n\n| Command | Semantic ID | Effect | Summary |\n|---|---|---|---|\n'
-        for c in cmds['commands']:t+=f"| `disked {' '.join(c['words'])}` | `{c['id']}` | {c['effect']} | {c['summary']} |\n"
+        syntax=read_json(self.root/'catalog/cli-syntax.json')
+        t='# Planned DiskEd command reference\n\nGenerated from `spec/catalog/commands.json` and `spec/catalog/cli-syntax.json`; all listed commands are planned, not executable in this archive.\n\n'
+        t+='Command source digest: `'+digest_bytes((self.root/'catalog/commands.json').read_bytes())+'`.\n\n'
+        t+='Syntax source digest: `'+digest_bytes((self.root/'catalog/cli-syntax.json').read_bytes())+'`.\n\n'
+        t+='| Command | Registered alternatives after disked | Semantic ID | Effect | Summary |\n|---|---|---|---|---|\n'
+        for c in cmds['commands']:
+            alternatives=', '.join('`'+a+'`' for a in c['aliases']) or '—'
+            t+=f"| `disked {' '.join(c['words'])}` | {alternatives} | `{c['id']}` | {c['effect']} | {c['summary']} |\n"
+        t+='\n## Global options\n\nOptions are position-independent before `--`; keep a separated value with its option. No parser execution is demonstrated by this reference.\n\n| Spelling | Values consumed | Normalized meaning |\n|---|---|---|\n'
+        for option in syntax['global_options']:
+            meaning=(option['field']+' = '+', '.join(option['choices'])) if option['value_arity'] else json.dumps(option['sets'],sort_keys=True)
+            t+='| '+', '.join('`'+s+'`' for s in option['spellings'])+' | '+str(option['value_arity'])+' | '+meaning+' |\n'
+        t+='\nRetired proposed spellings: '+', '.join('`'+r['spelling']+'`' for r in syntax['retired_command_spellings'])+'. They are reserved against reassignment.\n'
         out['generated/command-reference.txt']=t
         return out
 
@@ -484,6 +494,7 @@ class Bundle:
                 for id in row.get('work_ids',[]):
                     if id not in self.work:errors.append('Unknown amendment work: '+id)
         attempt('command registry',self.command_registry)
+        attempt('command syntax expectations (definitions only)',self.command_syntax_cases)
         attempt('requirements projection',self.requirements)
         for case in read_json(self.root/'catalog/validation-cases.json')['cases']:
             def run(case=case):
@@ -529,8 +540,40 @@ class Bundle:
                 'scope':'Specification structure, local contracts, fixtures and tool projections only.',
                 'not_validated':['DiskEd runtime','Windows binaries/GUI','physical storage','power-loss recovery','live AIDE CLI','Universal Setup integration','owner acceptance']}
 
+    def cli_syntax(self):
+        value=read_json(self.root/'catalog/cli-syntax.json')
+        self.validate(SCHEMA_PREFIX+'cli-syntax:1',value)
+        unique_ids(value['global_options'],'global option')
+        spellings=set();fields=set();domains=set();retired=set()
+        allowed=self.schemas[SCHEMA_PREFIX+'cli-syntax:1']['properties']['global_options']['items']['properties']['sets']['properties']
+        for option in value['global_options']:
+            for word in option['spellings']:
+                if word in spellings:raise SpecError('Duplicate global option spelling: '+word)
+                if word in value['reserved_options']:raise SpecError('Reserved option spelling: '+word)
+                spellings.add(word)
+            if option['value_arity']:
+                field=option['field']
+                if field in fields:raise SpecError('Duplicate global value field: '+field)
+                fields.add(field)
+                if set(option['choices'])!=set(allowed[field]['enum']):raise SpecError('Global option choices drift: '+field)
+        if fields!={'frontend','format','interactive'}:raise SpecError('Missing canonical global value option')
+        for entry in value['domains']:
+            for word in [entry['word'],*entry['aliases']]:
+                if not re.fullmatch(r'[a-z][a-z0-9-]*',word):raise SpecError('Noncanonical domain spelling')
+                if word in domains or word in value['reserved_command_entries']:raise SpecError('Duplicate or reserved domain spelling: '+word)
+                domains.add(word)
+        for entry in value['retired_command_spellings']:
+            word=entry['spelling']
+            if not re.fullmatch(r'[a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*',word):raise SpecError('Noncanonical retired spelling')
+            if word in retired:raise SpecError('Duplicate retired spelling: '+word)
+            retired.add(word)
+        return value
+
     def command_registry(self):
-        items=read_json(self.root/'catalog/commands.json')['commands'];spellings=set()
+        syntax=self.cli_syntax()
+        reserved=set(syntax['reserved_options'])|{word for option in syntax['global_options'] for word in option['spellings']}
+        retired={row['spelling'] for row in syntax['retired_command_spellings']}
+        items=read_json(self.root/'catalog/commands.json')['commands'];spellings={};arities={}
         unique_ids(items,'command')
         for command in items:
             self.validate(SCHEMA_PREFIX+'command:1',command)
@@ -538,7 +581,9 @@ class Bundle:
                 if not re.fullmatch(r'[a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*',word):
                     raise SpecError('Noncanonical command spelling: '+word)
                 if word in spellings:raise SpecError('Duplicate command spelling: '+word)
-                spellings.add(word)
+                if word in retired:raise SpecError('Retired command spelling: '+word)
+                if word.split()[0] in syntax['reserved_command_entries']:raise SpecError('Reserved command entry: '+word)
+                spellings[word]=command['id']
             for id in command['spec_ids']:
                 if id not in self.concepts:raise SpecError('Missing command spec: '+id)
             for key in ('request_schema','result_schema','parameter_schema'):
@@ -553,17 +598,49 @@ class Bundle:
                 if parameter not in properties:raise SpecError('Unknown bound parameter: '+parameter)
                 if parameter in bound:raise SpecError('Duplicate parameter binding: '+parameter)
                 bound.add(parameter)
-                for key,seen in [('option',options),('position',positions)]:
-                    if key in binding:
-                        if binding[key] in seen:raise SpecError('Duplicate argument '+key)
-                        seen.add(binding[key])
-                if binding['completion']=='schema-enum' and not isinstance(properties[parameter].get('enum'),list):
+                parameter_schema=properties[parameter]
+                if 'option' in binding:
+                    for word in [binding['option'],*binding['option_aliases']]:
+                        if word in reserved:raise SpecError('Command uses reserved global option: '+word)
+                        if word in options:raise SpecError('Duplicate argument option: '+word)
+                        options.add(word)
+                        if word in arities and arities[word]!=binding['value_arity']:raise SpecError('Inconsistent option arity: '+word)
+                        arities[word]=binding['value_arity']
+                    if binding['repeatable']:
+                        if parameter_schema.get('type')!='array':raise SpecError('Repeatable option requires an array parameter')
+                        parameter_schema=parameter_schema.get('items',{})
+                    if binding['value_arity']==0 and parameter_schema.get('type')!='boolean':raise SpecError('Zero-arity option requires a boolean parameter')
+                if 'position' in binding:
+                    if binding['position'] in positions:raise SpecError('Duplicate argument position')
+                    positions.add(binding['position'])
+                if binding['completion']=='schema-enum' and not isinstance(parameter_schema.get('enum'),list):
                     raise SpecError('Enum completion requires a parameter enum')
                 if binding['completion']=='observed-id' and command['completion_policy']!='bounded-observations':
                     raise SpecError('Observed completion requires bounded observations')
             if bound!=set(properties):raise SpecError('Command parameter properties need explicit argument bindings')
             if positions and positions!=set(range(len(positions))):raise SpecError('Positional bindings must be contiguous from zero')
+        for spelling,owner in spellings.items():
+            for longer,other in spellings.items():
+                if other!=owner and longer.startswith(spelling+' '):raise SpecError('Command prefix would reinterpret operands: '+spelling+' / '+longer)
+        ids={c['id'] for c in items}
+        if any(row['former_command_id'] not in ids for row in syntax['retired_command_spellings']):raise SpecError('Unknown retired command owner')
+        domains={row['word'] for row in syntax['domains']}
+        if domains!={c['words'][0] for c in items if len(c['words'])>1}:raise SpecError('Command domain catalog drift')
         return items
+
+    def command_syntax_cases(self):
+        """Validate expected-result records; never pretend to execute argv."""
+        value=read_json(self.root/'fixtures/command-syntax.json')
+        self.validate(SCHEMA_PREFIX+'command-syntax-cases:1',value)
+        unique_ids(value['groups'],'syntax expectation group')
+        commands={c['id'] for c in read_json(self.root/'catalog/commands.json')['commands']}
+        domains={'@root'}|{row['word'] for row in self.cli_syntax()['domains']}
+        for group in value['groups']:
+            expected=group['expected']
+            if 'command_id' in expected and expected['command_id'] not in commands:raise SpecError('Unknown expected command')
+            if 'domain' in expected and expected['domain'] not in domains:raise SpecError('Unknown expected help domain')
+        return {'groups':len(value['groups']),'argv_cases':sum(len(g['equivalent_argv']) for g in value['groups']),
+                'validation':'schema and references only','native_execution':'not_run'}
 
     def acceptance_projection(self):
         records=read_json(self.root/'work/acceptances.json')['records']

@@ -1,7 +1,8 @@
 ---
 type: DiskEd Specification
 title: Authority, acceptance and source ownership
-description: Separate requirements, contracts, implementation facts, evidence and public explanations.
+description: Separate requirements, contracts, implementation facts, evidence and
+  public explanations.
 resource: disked://spec/de-002
 tags:
 - disked
@@ -13,7 +14,7 @@ status: draft
 disked:
   id: DE-002
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -31,10 +32,12 @@ sources:
   resource: ../references/sources.json#review-inputs-2026-10-04
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 ---
 
 # Authority, acceptance and source ownership
@@ -49,7 +52,7 @@ When prose and schema disagree, do not choose the convenient interpretation: rep
 
 ## Baseline status
 
-This bundle is proposed baseline `0.1.2-proposed.1`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
+This bundle is proposed baseline `0.1.2-proposed.2`, not an owner-approved standard. The user's repeated product constraints are preserved as requirement inputs. New technical choices are identified as defaults, proposed decisions or experiments. Importing the ZIP does not grant agents access to physical storage, privileged credentials, releases or protected branches. `DE-W000` reviews the baseline; a reviewer must record the actual Git revision and decision hashes.
 
 Acceptance is a record tied to a subject digest, the hashes of its reviewed specification-input closure, actor, scope, evidence and time. The local validator checks freshness, not reviewer authentication; branch review and protected evidence provide the external trust boundary. Updating a normative file invalidates its prior acceptance unless a documented semantic-equivalence review covers the change. A `status: stable` frontmatter value alone is not acceptance. Generated structure checks do not add OKF `verified: human:...` fields.
 

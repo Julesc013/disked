@@ -1,7 +1,8 @@
 ---
 type: DiskEd Specification
 title: Testing, validation and CI strategy
-description: Differentiate schema checks, product tests, hardware evidence and recovery qualification.
+description: Differentiate schema checks, product tests, hardware evidence and recovery
+  qualification.
 resource: disked://spec/de-074
 tags:
 - disked
@@ -13,7 +14,7 @@ status: draft
 disked:
   id: DE-074
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,11 +27,13 @@ disked:
   - DE-REQ-074-03
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 ---
 
 # Testing, validation and CI strategy
@@ -60,6 +63,10 @@ M1 adds essential startup with broken optional settings, missing providers and o
 Later work adds snapshot/epoch/writer consistency, dependency/failure-domain aliases, interrupted formatting, Setup containment/payload identity, tamper refusal, external-tool ownership, selection-preserving upgrades, servicing interlocks, native adapter teardown, publication completeness and SDK compatibility. `catalog/amendments.json` maps supplied scenarios to owners/work; all product scenarios remain definition-only until executed.
 
 Specification regressions validate new schema cross-field constraints and negative fixtures. Requirement coverage is checked against authored IDs rather than a frozen corpus count. On Windows, tests must work when TEMP and checkout reside on different drives, and manifests must sort relative POSIX paths consistently across hosts. Skipped platform-dependent tests remain explicitly skipped, not passed.
+
+## Shared CLI grammar corpus
+
+The command-syntax expectation corpus is not a native test result. DE-W012 runs it against the real parser and generates permutations of complete option/value groups, including help and literal tails. Compare normalized command/arguments, target scope, requested presentation and required plan/authority. Trace no effects before complete validation. At each selected target's parser admission, reuse the same cases with its real command-tail/argv encoding, quoting and resource bounds. DE-W018 can report parser cases not_run while completing unrelated early primitive probes. DE-W019 adds editable error recovery and ergonomic observations; shorter spelling alone is not measured usability.
 
 ## Normative requirements
 

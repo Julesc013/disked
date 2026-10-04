@@ -323,6 +323,36 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-021-04",
+      "spec": "DE-021",
+      "statement": "Moving an accepted complete option/value group among permitted positions MUST preserve normalized command identity, parameters, presentation settings, target scope and safety requirements.",
+      "verification": "Run shared equivalence groups and native metamorphic permutations, including command-specific options before the domain and after operands; preserve literal-tail data and reject misplaced/inapplicable options.",
+      "test_ids": [
+        "DE-TEST-021-04"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-021-05",
+      "spec": "DE-021",
+      "statement": "The entire invocation MUST be resolved and validated before product effects or presentation initialization; parsing MUST NOT guess command words from operands or resolve unknown prefixes implicitly.",
+      "verification": "Inject late conflicting/unknown flags, missing values, option-looking filenames and command-looking values; recording fake handlers, output-open hooks and frontend hooks observe no dispatch or initialization.",
+      "test_ids": [
+        "DE-TEST-021-05"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-021-06",
+      "spec": "DE-021",
+      "statement": "Contextual help MUST use descriptor-owned meanings, expose registered alternatives and remain available without operation operands, target discovery or elevated authority.",
+      "verification": "Compare help at all permitted positions, incomplete domains, unresolved commands and structured output; malformed input remains diagnosed and literal/consumed help tokens stay data.",
+      "test_ids": [
+        "DE-TEST-021-06"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-022-01",
       "spec": "DE-022",
       "statement": "Machine messages MUST be bounded, versioned and reject duplicate keys or unknown required features.",

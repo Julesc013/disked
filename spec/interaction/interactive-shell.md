@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-027
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,13 @@ disked:
   - DE-REQ-027-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 ---
 
 # Interactive command shell
@@ -39,6 +41,10 @@ sources:
 The planned `disked shell` descriptor opens a persistent DiskEd command session. `--interactive=yes` only permits prompts for one invocation. The shell does not replace COMMAND.COM, cmd or PowerShell and supplies no implicit operating-system shell escape, scripting language or privileged execution path. All submitted lines resolve the canonical command descriptors and typed arguments. Unknown or ambiguous shorthand is refused; personal abbreviations cannot become script compatibility guarantees.
 
 Editing, history, completion and a contextual host/selection prompt are capabilities, with linear fallbacks. Static completion reads metadata. Dynamic completion uses bounded existing observations; pressing Tab never scans devices, acquires software or requests elevation. Pending edits/history selection remain inert until explicit submission. A disconnected/retargeted host invalidates affected selection; a session's remembered target is never write authority.
+
+## Editing after diagnostics
+
+After a syntax error, preserve the editable command and token location so the operator can append a missing option or correct the value without reconstructing the line. Keep the buffer inert and apply the same literal boundary, option-group placement and exact alias rules as one-shot CLI. Help/completion display canonical names and available aliases; correction suggestions require explicit acceptance. Token diagnostics must not execute pasted text or expose redacted arguments in logs. Native keyboard/history behavior and usability measurements remain DE-W019 evidence requirements.
 
 ## Prompts, history and transcripts
 

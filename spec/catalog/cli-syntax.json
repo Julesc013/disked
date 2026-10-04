@@ -1,0 +1,215 @@
+{
+  "schema": "org.disked.cli-syntax/1",
+  "status": "proposed",
+  "global_options": [
+    {
+      "id": "frontend",
+      "spellings": [
+        "--frontend"
+      ],
+      "value_arity": 1,
+      "repeatable": false,
+      "field": "frontend",
+      "choices": [
+        "auto",
+        "cli",
+        "tui",
+        "gui",
+        "plain"
+      ]
+    },
+    {
+      "id": "format",
+      "spellings": [
+        "--format"
+      ],
+      "value_arity": 1,
+      "repeatable": false,
+      "field": "format",
+      "choices": [
+        "human",
+        "json",
+        "ndjson"
+      ]
+    },
+    {
+      "id": "interactive",
+      "spellings": [
+        "--interactive"
+      ],
+      "value_arity": 1,
+      "repeatable": false,
+      "field": "interactive",
+      "choices": [
+        "auto",
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "id": "cli",
+      "spellings": [
+        "--cli"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "frontend": "cli"
+      }
+    },
+    {
+      "id": "tui",
+      "spellings": [
+        "--tui"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "frontend": "tui"
+      }
+    },
+    {
+      "id": "gui",
+      "spellings": [
+        "--gui"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "frontend": "gui"
+      }
+    },
+    {
+      "id": "json",
+      "spellings": [
+        "--json",
+        "-j"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "format": "json"
+      }
+    },
+    {
+      "id": "headless",
+      "spellings": [
+        "--headless"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "frontend": "cli",
+        "interactive": "no"
+      }
+    },
+    {
+      "id": "help",
+      "spellings": [
+        "--help",
+        "-h"
+      ],
+      "value_arity": 0,
+      "repeatable": false,
+      "sets": {
+        "help": true
+      }
+    }
+  ],
+  "reserved_options": [
+    "-f",
+    "--force"
+  ],
+  "reserved_command_entries": [
+    "help",
+    "tui",
+    "gui"
+  ],
+  "retired_command_spellings": [
+    {
+      "spelling": "tgt ls",
+      "former_command_id": "target.list",
+      "reason": "Unimplemented proposed spelling at 9493381; superseded by ordinary-word list before any release. Reserved against reuse."
+    }
+  ],
+  "domains": [
+    {
+      "word": "build",
+      "aliases": []
+    },
+    {
+      "word": "capability",
+      "aliases": []
+    },
+    {
+      "word": "command",
+      "aliases": []
+    },
+    {
+      "word": "evidence",
+      "aliases": []
+    },
+    {
+      "word": "filesystem",
+      "aliases": [
+        "fs"
+      ]
+    },
+    {
+      "word": "health",
+      "aliases": []
+    },
+    {
+      "word": "image",
+      "aliases": []
+    },
+    {
+      "word": "mode",
+      "aliases": []
+    },
+    {
+      "word": "operation",
+      "aliases": [
+        "op"
+      ]
+    },
+    {
+      "word": "partition",
+      "aliases": [
+        "part"
+      ]
+    },
+    {
+      "word": "plan",
+      "aliases": []
+    },
+    {
+      "word": "provider",
+      "aliases": []
+    },
+    {
+      "word": "recovery",
+      "aliases": []
+    },
+    {
+      "word": "resource",
+      "aliases": []
+    },
+    {
+      "word": "setup",
+      "aliases": []
+    },
+    {
+      "word": "table",
+      "aliases": []
+    },
+    {
+      "word": "target",
+      "aliases": []
+    },
+    {
+      "word": "topology",
+      "aliases": []
+    }
+  ]
+}

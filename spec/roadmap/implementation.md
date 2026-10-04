@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,13 +26,15 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 ---
 
 # Implementation sequence and first usable release
@@ -80,6 +82,10 @@ License, launch, journal, elevation, canonicalization, setup-host, channel and h
 Address review R01-R05 inside DE-W000: mixed-path impact, complete declared task inputs, revision-bound receipt projection, protocol bounds/identities and explicit CLI prompt policy. These fixes are specification tooling, not storage-runtime implementation. The architecture/source prefix and finite portable-first delivery stay in place.
 
 DE-W010-016 remain the native fake slice. DE-W019 adds the explicit shell using shared command/terminal contracts; DE-W017 then covers shell parity and guarded late-result/cancellation scenarios. DE-W012 owns typed parser/help/completion and producer/reader protocol compatibility. DE-W033 gates multi-resource acquisition; DE-W040/041 gate immutable-plan receipts, recovery traits and real journal encoding. None makes every future storage or legacy decision a prerequisite for the first fake executable.
+
+## CLI syntax refinement after 9493381
+
+The proposed grammar now lets users append or intersperse accepted options, registers ordinary-word shortcuts and makes contextual help independent of storage prerequisites. DE-W012 owns the native parser, typed parameter completion, no-effects-before-validation traces and shared conformance corpus. DE-W019 owns editable error recovery and measured shortcut/completion usability. DE-W018/071 reuse parser cases when a target's parser is admitted; this does not expand the first fake executable or require mature historical ports first. Current local results cover catalogs and expectation definitions, not argv execution.
 
 ## Normative requirements
 

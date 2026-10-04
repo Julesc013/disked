@@ -903,6 +903,67 @@
       "spec_ids": [
         "DE-026"
       ]
+    },
+    {
+      "id": "spec/schemas/cli-syntax.schema.json",
+      "path": "spec/schemas/cli-syntax.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-syntax-cases.schema.json",
+      "path": "spec/schemas/command-syntax-cases.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/catalog/cli-syntax.json",
+      "path": "spec/catalog/cli-syntax.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/cli-syntax.schema.json",
+        "spec/catalog/commands.json"
+      ],
+      "spec_ids": [
+        "DE-020",
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/fixtures/command-syntax.json",
+      "path": "spec/fixtures/command-syntax.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/command-syntax-cases.schema.json",
+        "spec/catalog/cli-syntax.json"
+      ],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_cli_metadata.py",
+      "path": "spec/tools/tests/test_cli_metadata.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
+      ],
+      "spec_ids": [
+        "DE-076"
+      ]
     }
   ]
 }

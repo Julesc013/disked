@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-051
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,13 +25,15 @@ disked:
   - DE-REQ-051-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-04T07:27:09.204646+00:00'
+  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
 ---
 
 # DOS, JC-DOS, Carbon and OS/2 portability
@@ -65,6 +67,10 @@ DE-W018 brings harmless loader, checked-arithmetic, encoding and text probes int
 ## Command and terminal consistency
 
 Share command meanings and available typed outcomes across profiles; do not infer identical storage authority or UI richness. Qualify local DOS text display/keyboard/mouse independently from serial/VT channels. Primitive profiles need deliberate linear or cell-based interfaces and exact encoding/memory bounds, not a universal executable trick. DE-W018 records harmless terminal/loader probes; DE-026 owns capability detection and fallback.
+
+## Portable command interpretation
+
+Qualified parsers share DE-021 command identities, option/value placement, literal boundaries and alias meanings independently of terminal features. A constrained build can explain an unavailable operation or refuse an over-budget input; it cannot silently remap its alias. Raw DOS command-tail tokenization and code-page limits are distinct from the common token-vector grammar. DE-W018/071 must retain actual target evidence before claiming identical interpretation across DOS, OS/2 and Windows. No modern runtime or completion engine becomes a DOS prerequisite merely because the specification fixtures are validated with Python.
 
 ## Normative requirements
 

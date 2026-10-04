@@ -48,7 +48,8 @@
         "Resolve or explicitly retain scoped open decisions; do not invent a license or safety approval.",
         "Reconcile all supplied October/September proposals with scoped disposition, source hashes and independent current tooling results.",
         "Fetch the requested AIDE dev pin without executing upstream scripts; record refresh policy and passive schema compatibility.",
-        "Address review R01-R05 with independent local regressions; record terminal/shell/output and icon-report disposition without claiming runtime or asset qualification."
+        "Address review R01-R05 with independent local regressions; record terminal/shell/output and icon-report disposition without claiming runtime or asset qualification.",
+        "Reconcile the latest CLI placement/help/shortcut proposal, retain unrun native parser expectations and validate descriptor consistency."
       ],
       "acceptance": [
         "Bootstrap and structural tests run with actual logs.",
@@ -66,7 +67,9 @@
         "spec/tools/tests/test_corrective.py",
         "spec/catalog/validation-cases.json",
         "spec/tools/requirements.txt",
-        "spec/tools/constraints-tested.txt"
+        "spec/tools/constraints-tested.txt",
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
       ]
     },
     {
@@ -243,7 +246,9 @@
         "Machine stdout has only valid framed JSON.",
         "Exit codes and no-prompt behavior tested.",
         "Typed argument bindings and alias/canonical collision checks drive parser/help/completion; unavailable unresolved syntax cannot be advertised as implemented.",
-        "Strict producer and compatible-reader fixtures, operation/attempt/epoch identities and native exit/wait outcomes are defined before protocol admission."
+        "Strict producer and compatible-reader fixtures, operation/attempt/epoch identities and native exit/wait outcomes are defined before protocol admission.",
+        "Run the shared command-syntax corpus and option-placement metamorphic cases against the native parser; no pre-parse output, file creation, provider access or frontend initialization.",
+        "Complete typed operation parameter contracts before admitting unresolved commands. Validate exact option arity, reserved names, duplicate aliases, prefix/operand ambiguity, help-only requests and unchanged target/effect semantics."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
@@ -255,7 +260,9 @@
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
-        "spec/fixtures/invocation.json"
+        "spec/fixtures/invocation.json",
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
       ]
     },
     {
@@ -1494,7 +1501,8 @@
       ],
       "acceptance": [
         "Address/memory ceilings enforced.",
-        "No unsupported GUI or physical-write claim."
+        "No unsupported GUI or physical-write claim.",
+        "At parser admission, run the same shared syntax corpus for the selected DOS/OS2/Windows profile; record actual limits and unsupported cases without reassigning aliases. Early primitive probes may report native parser not_run."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
@@ -1502,7 +1510,10 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
+      ]
     },
     {
       "id": "DE-W080",
@@ -1723,7 +1734,8 @@
       ],
       "acceptance": [
         "No device access; large addresses refuse or round-trip exactly.",
-        "Do not advertise terminal/piping/GUI behavior from an emulator compile or block the independent modern slice."
+        "Do not advertise terminal/piping/GUI behavior from an emulator compile or block the independent modern slice.",
+        "At parser admission, run the same shared syntax corpus for the selected DOS/OS2/Windows profile; record actual limits and unsupported cases without reassigning aliases. Early primitive probes may report native parser not_run."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
@@ -1731,7 +1743,10 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
+      ]
     },
     {
       "id": "DE-W035",
@@ -1993,7 +2008,8 @@
       "acceptance": [
         "Native fixture tests cover inventory/inspect/propose/review/simulate parity without storage access.",
         "Completion/history never dispatch, probe devices or acquire providers; malformed display data remains escaped.",
-        "Linear/monochrome/narrow/redirected channels preserve target and outcome meaning."
+        "Linear/monochrome/narrow/redirected channels preserve target and outcome meaning.",
+        "Syntax errors preserve editable input and token location; help/completion expose canonical forms and aliases without executing suggestions. Measure successful entry time, corrections and recall across selected keyboards and constrained terminals."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
@@ -2004,7 +2020,9 @@
       "required_inputs": [
         "spec/catalog/commands.json",
         "spec/schemas/terminal-capabilities.schema.json",
-        "spec/fixtures/invocation.json"
+        "spec/fixtures/invocation.json",
+        "spec/catalog/cli-syntax.json",
+        "spec/fixtures/command-syntax.json"
       ]
     }
   ]
