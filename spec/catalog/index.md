@@ -12,6 +12,7 @@
 - [decisions.json](decisions.json)
 - [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)
+- [native-bootstrap.json](native-bootstrap.json)
 - [operations.json](operations.json)
 - [project-graph.json](project-graph.json)
 - [publications.json](publications.json)

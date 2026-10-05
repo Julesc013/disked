@@ -1,41 +1,34 @@
 {
   "schema": "org.disked.bootstrap-validation/1",
-  "observed_at": "2026-10-04T07:36:38.135143+00:00",
-  "base_revision": "94933816f66bd643f968e5433e108ef42bb581f3",
-  "bundle_version": "0.1.2-proposed.2",
+  "observed_at": "2026-10-05T21:30:50.947891+00:00",
+  "base_revision": "95cce28f801c726ca61816b7d2a974b3c7bce07e",
+  "bundle_version": "0.1.3-proposed.1",
   "environment": {
     "python": "3.14.7",
-    "platform": "Windows-10-10.0.19045-SP0",
-    "dependencies": {
-      "PyYAML": "6.0.3",
-      "jsonschema": "4.26.0",
-      "referencing": "0.37.0",
-      "attrs": "26.1.0",
-      "jsonschema-specifications": "2025.9.1",
-      "rpds-py": "2026.6.3"
-    }
+    "platform": "Windows-10-10.0.19045-SP0"
   },
   "tests": {
     "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
     "exit_code": 0,
-    "count": 154,
+    "count": 155,
+    "passed": 153,
     "skipped": 2,
     "status": "PASS",
     "log": "reports/test-results.txt",
-    "limits": "Symlink tests skipped when fixture symlinks cannot be created; skips are not passes."
+    "limits": "Skipped symlink fixtures are not passes."
   },
   "subjects": {
     "tools/specctl.py": "sha256:6533be987ed582f9e644114d42c7a79d79da4cf1b07af49c061934aada2f010e",
-    "tools/tests/test_specctl.py": "sha256:e9bc6dfadb4f828f3fbeedc98b1c2e0b89fc734a1d19f94ff490b5d0ba5f31d0",
-    "tools/tests/test_corrective.py": "sha256:ac642a9b95908d999a75dacb49314369c829328955a6296dc56e80de18d344b3",
-    "tools/tests/test_cli_metadata.py": "sha256:13dd5a3739f2ea6b14d1e8bd312d30a4cc11dcca11cbf9fee807ba6750a7c08a"
+    "tools/tests/test_cli_metadata.py": "sha256:13dd5a3739f2ea6b14d1e8bd312d30a4cc11dcca11cbf9fee807ba6750a7c08a",
+    "tools/tests/test_corrective.py": "sha256:8a6a21aa0ff9233074edf882cba43d1650378c6ecbec8bb800d65c4c8d6768f5",
+    "tools/tests/test_specctl.py": "sha256:86f11fb0ab22e61425b3d79e84d8812cbda5dc4a2f1d89709a0ec9f1809f6988"
   },
   "structural_check": {
     "schema": "org.disked.spec-check/1",
     "status": "PASS",
-    "checks": 858,
-    "concepts": 71,
-    "requirements": 147,
+    "checks": 872,
+    "concepts": 72,
+    "requirements": 150,
     "work_units": 36,
     "schemas": 29,
     "errors": [],
@@ -50,20 +43,17 @@
       "owner acceptance"
     ]
   },
-  "scope": "Actual local specification/tooling checks only; no native argv parser or native build, terminal/icon, provider, recovery, physical storage, live AIDE or Setup qualification.",
+  "scope": "Specification tooling checks only. Separate DE-W010 native evidence covers the human bootstrap; not the full product.",
+  "native_evidence": ".aide/evidence/2026-10-06-native-bootstrap/native-results.json",
+  "native_syntax_expectations": {
+    "native_execution": "not_run",
+    "scope": "Full DE-W012 command-syntax corpus; distinct from executed DE-W010 subset"
+  },
   "aide_passive_schema_validation": {
     "status": "PASS",
     "revision": "5be37bd6510977e6cb2e960859c45b33b048dade",
     "records": 36,
+    "schema_sha256": "sha256:de82b312e2859191d8dac4153f25ae29237d1e4065a5d4a9837ea52d95dab964",
     "live_runtime": "not_run"
-  },
-  "native_syntax_expectations": {
-    "groups": 38,
-    "argv_cases": 80,
-    "validation": "schema and references only",
-    "native_execution": "not_run"
-  },
-  "owner_accepted": false,
-  "remote_writes_during_validation": false,
-  "prior_observation": "Inherited 9493381 reports are retained separately from current metadata-validation results under .aide/evidence/2026-10-04-cli-refinement."
+  }
 }

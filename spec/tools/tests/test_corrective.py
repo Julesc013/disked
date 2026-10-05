@@ -68,12 +68,32 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
         shutil.copytree(ROOT,self.root,ignore=shutil.ignore_patterns('__pycache__'))
         (self.repo/'AGENTS.md').write_text('Fixture instructions: no real storage.\n')
         (self.repo/'CLAUDE.md').write_text('Fixture entrypoint: read AGENTS.md.\n')
+        for item in sc.read_json(ROOT/'catalog/input-dependencies.json')['inputs']:
+            name=item['path']
+            if not name.startswith('spec/') and name not in ('AGENTS.md','CLAUDE.md'):
+                source=ROOT.parent/name
+                if source.is_file():
+                    destination=self.repo/name;destination.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copy2(source,destination)
         self.bundle=sc.Bundle(self.root);self.pack=Path(self.temp.name)/'pack'
     def tearDown(self):self.temp.cleanup()
     def pack_context(self,work='DE-W012'):
         self.bundle.context(work,self.pack,180000)
 
 class ContextCorrections(TemporaryCorrectiveFixture):
+    def test_native_bootstrap_context_binds_build_source_and_acceptance_fixture(self):
+        self.pack_context('DE-W010')
+        paths={row['path'] for row in sc.read_json(self.pack/'manifest.json')['files']}
+        for name in ['CMakeLists.txt','CMakePresets.json','tools/build-bootstrap.py',
+                     'source/apps/disked/main.cpp','source/providers/fake/bootstrap.cpp',
+                     'spec/catalog/native-bootstrap.json','spec/fixtures/native-bootstrap.json',
+                     'tests/native/test_bootstrap.py','tests/native/provider_guard_probe.cpp']:
+            self.assertIn(name,paths)
+        source=self.repo/'source/apps/disked/main.cpp'
+        source.write_bytes(source.read_bytes()+b'\n// changed after context capture\n')
+        with self.assertRaisesRegex(sc.SpecError,'Context source changed'):
+            self.bundle.verify_context(self.pack)
+
     def test_catalog_schema_fixture_and_instruction_changes_invalidate_same_revision(self):
         self.pack_context();manifest=sc.read_json(self.pack/'manifest.json')
         paths={f['path'] for f in manifest['files']}

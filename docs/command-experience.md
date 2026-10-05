@@ -1,6 +1,6 @@
 # Planned command and terminal experience
 
-DiskEd has no native command handlers yet. The [generated command reference](../spec/generated/command-reference.txt) lists all 34 planned descriptors, their registered alternatives and global controls from the canonical catalogs. The examples here describe intended behavior, not an installed CLI.
+The [native bootstrap](native-bootstrap.md) implements human help, build identity and command discovery. The full command contracts, machine output and other interfaces remain planned. The [generated command reference](../spec/generated/command-reference.txt) lists all 34 planned descriptors, their registered alternatives and global controls from the canonical catalogs. The examples here describe intended behavior, not an installed CLI.
 
 You should be able to append what you forgot. These proposed forms have the same meaning:
 

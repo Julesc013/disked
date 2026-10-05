@@ -47,3 +47,7 @@ The bootstrap command refuses existing destinations and symlink paths. Resolve c
 ## What is not present
 
 There is no DiskEd native executable, filesystem executor, elevated broker or live AIDE scheduler in this archive. Example product requests are fixtures, not commands to execute on workstation drives. Windows, hardware, recovery and installation claims require later evidence.
+
+## Native prototype
+
+The current bounded implementation is DE-W010. Follow the [native bootstrap guide](native-bootstrap.md) for installed prerequisites, exact build/test commands and supported invocations. A separate grant is required for later work; this prototype does not open storage.

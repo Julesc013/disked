@@ -15,6 +15,7 @@
 - [docs-getting-started.txt](docs-getting-started.txt)
 - [docs-index.txt](docs-index.txt)
 - [docs-maintenance.txt](docs-maintenance.txt)
+- [docs-native-bootstrap.txt](docs-native-bootstrap.txt)
 - [review-start.txt](review-start.txt)
 - [root-agents.txt](root-agents.txt)
 - [root-claude.txt](root-claude.txt)

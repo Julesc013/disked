@@ -76,7 +76,7 @@
       "id": "DE-W010",
       "title": "Build a minimal native single-entrypoint composition",
       "phase": "M1",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W000"
@@ -87,7 +87,8 @@
         "DE-012",
         "DE-020",
         "DE-014",
-        "DE-015"
+        "DE-015",
+        "DE-079"
       ],
       "allowed_paths": [
         "source/apps/disked/**",
@@ -121,17 +122,22 @@
       ],
       "deliverables": [
         "Native executable with build inspect and fake command discovery.",
-        "Exact toolchain/import declaration for current Windows and XP prototype lane.",
-        "Use DE-014 for the bounded fake composition; full delivery/Setup design in DE-060 is deferred to DE-W060/062, not a native-slice prerequisite."
+        "Exact current-Windows prototype toolchain/import declaration; inventory available XP tools but retain XP compile/launch as unverified DE-W018/031 work.",
+        "Use DE-014 for the bounded fake composition; full delivery/Setup design in DE-060 is deferred to DE-W060/062, not a native-slice prerequisite.",
+        "DE-079 execution contract, independent clean-checkout reproduction and needs-review evidence; human essential subset only."
       ],
       "acceptance": [
         "Clean native build log retained.",
         "No provider opens physical devices.",
         "Public basename is disked.",
         "Essential build/help/command path opens no devices, initializes no optional providers and requires no network/Setup/elevation.",
-        "Retain exact native build/test commands, compiler/import closure and tested host; spec-only checks are insufficient."
+        "Retain exact native build/test commands, compiler/import closure and tested host; spec-only checks are insufficient.",
+        "Public full command contracts stay planned; composition discovery separates implemented human subset from unavailable planned commands."
       ],
       "validation_commands": [
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap",
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v"
       ],
@@ -141,7 +147,9 @@
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
-        "spec/fixtures/invocation.json"
+        "spec/fixtures/invocation.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/fixtures/native-bootstrap.json"
       ]
     },
     {

@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: proposed amended baseline, awaiting DE-W000 review. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: proposed baseline with scoped DE-W000 review and a native DE-W010 bootstrap; owner acceptance remains pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Specification preparation
 
@@ -13,7 +13,8 @@ Status: proposed amended baseline, awaiting DE-W000 review. This checklist summa
 
 ## First implementation
 
-- [ ] DE-W010: authorize and build the native fake-provider executable, with actual build/launch evidence.
+- [x] DE-W010: implement the granted native fake-only bootstrap and run its bounded build/launch checks.
+- [ ] Review and accept DE-W010 using its clean-build evidence and declared limitations.
 - [ ] DE-W011–016: implement shared interface semantics and bounded local fake planning/execution.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
@@ -29,7 +30,7 @@ Status: proposed amended baseline, awaiting DE-W000 review. This checklist summa
 - [ ] Review AIDE roughly weekly; next review **2026-10-11**. Update exact pins and evidence until a stable release is reviewed and qualified. No automatic schedule is configured.
 - [ ] DE-W080/090: qualify exact target/operation compositions and satisfy scoped release gates.
 
-No DiskEd runtime, provider, recovery, hardware, installer or release test is marked passed by this list. Current local validation evidence is retained with the DE-W000 handoff under `.aide/`.
+The DE-W010 checks cover only the essential native human subset and provider-initialization boundary. Full runtime/provider behavior, recovery, hardware, installer and release qualification remain unverified. Exact results and limitations are retained under `.aide/evidence/2026-10-06-native-bootstrap/`.
 
 ## Corrective review at 08a8246
 

@@ -8,7 +8,7 @@ The initial target is useful inspection, imaging and verification on Windows XP,
 
 ## Project status
 
-This repository starts with a **proposed specification and working specification tooling**, not a released partition manager. There is no DiskEd binary or qualified storage-mutation implementation yet. Importing the specification does not imply hardware safety, runtime compatibility or owner acceptance.
+This repository contains a **proposed specification, working specification tooling and an initial native Windows bootstrap**. The prototype exposes help, build identity and static command discovery with a fake-only composition. Storage operations and the full interface remain under development; no target or storage-mutation capability is qualified. See [build instructions and limits](docs/native-bootstrap.md).
 
 ## Start here
 
@@ -25,6 +25,6 @@ DiskEd keeps storage intent, planned effects, execution and independent verifica
 
 ## Contributing
 
-Begin with [AGENTS.md](AGENTS.md), which is shared by human and automated contributors. Work is decomposed into bounded units with acceptance criteria and explicit limits. The first task is baseline review, followed by a fake-provider native vertical slice.
+Begin with [AGENTS.md](AGENTS.md), which is shared by human and automated contributors. Work is decomposed into bounded units with acceptance criteria and explicit limits. The scoped baseline review and native bootstrap lead into the remaining fake-provider interface work. Owner acceptance and implementation acceptance remain separate review steps.
 
 The original-code license is still an owner decision. No license grant or third-party redistribution rights should be inferred from the proposed design. See [licensing decision](spec/delivery/licensing-and-supply-chain.md).

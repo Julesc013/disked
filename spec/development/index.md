@@ -11,3 +11,4 @@
 - [DE-076 — Specification tool contract](specctl.md): Local indexing, checks, contexts and safe bootstrap without a product runtime.
 - [DE-077 — Artifact completeness and publication checks](artifact-completeness.md): Verify required content independently of archive integrity and distinguish historical audit claims.
 - [DE-078 — Extension tiers and compatibility](extension-sdk.md): Stabilize real C/protocol consumers and require conformance without granting implicit privilege.
+- [DE-079 — Bounded native bootstrap](native-bootstrap.md): Exact DE-W010 executable surface, build identity and acceptance boundary.

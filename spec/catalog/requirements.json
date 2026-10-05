@@ -1283,6 +1283,36 @@
       "implementation_status": "evidence_owned_elsewhere"
     },
     {
+      "id": "DE-REQ-079-01",
+      "spec": "DE-079",
+      "statement": "The bootstrap MUST expose only its declared essential human subset and disclose unavailable commands without provider initialization or application file creation.",
+      "verification": "Run the predefined positive/negative native fixture against the product and poison-provider variant, including literal boundaries, hostile arguments and closed stdin.",
+      "test_ids": [
+        "DE-TEST-079-01"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-079-02",
+      "spec": "DE-079",
+      "statement": "The bootstrap MUST bind product, exact source inputs, revision, target and build configuration, with explicit dirty-state and dependency observations.",
+      "verification": "Compare embedded identity with independently hashed inputs; change an input and rebuild without reconfiguring, then require the new digest; inspect final PE imports and manifest.",
+      "test_ids": [
+        "DE-TEST-079-02"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
+      "id": "DE-REQ-079-03",
+      "spec": "DE-079",
+      "statement": "DE-W010 evidence MUST include a clean-checkout native build and actual host launches while leaving untested environments and owner acceptance explicit.",
+      "verification": "Reproduce the named presets in an independent clean clone and retain commands, exit codes, hashes, limitations and the needs-review handoff.",
+      "test_ids": [
+        "DE-TEST-079-03"
+      ],
+      "implementation_status": "evidence_owned_elsewhere"
+    },
+    {
       "id": "DE-REQ-080-01",
       "spec": "DE-080",
       "statement": "Implementation MUST proceed through explicit phase gates; no physical mutation may be admitted by completing a fake/image-only milestone.",

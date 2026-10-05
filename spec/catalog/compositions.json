@@ -32,7 +32,37 @@
       ],
       "evidence": [],
       "loader_inventory_status": "pending"
+    },
+    {
+      "schema": "org.disked.composition/1",
+      "id": "windows.native.fake.bootstrap",
+      "target_id": "windows.nt10.x64.win32",
+      "status": "buildable",
+      "scope": "fake-only",
+      "components": [
+        "entry.disked.bootstrap",
+        "provider.fake.bootstrap"
+      ],
+      "mandatory_loader_dependencies": [
+        "KERNEL32.dll"
+      ],
+      "optional_runtime_components": [
+        "provider.fake.bootstrap"
+      ],
+      "single_entrypoint": true,
+      "zero_extraction_on_normal_startup": true,
+      "artifacts": [
+        {
+          "id": "disked.exe",
+          "contains": [],
+          "hash_dependencies": []
+        }
+      ],
+      "evidence": [
+        ".aide/evidence/2026-10-06-native-bootstrap/native-results.json"
+      ],
+      "loader_inventory_status": "inspected"
     }
   ],
-  "note": "Planned fake selection only. Empty loader inventory is unresolved, not a zero-dependency claim; exact toolchain/import evidence required in DE-W010."
+  "note": "The full desktop selection remains planned. DE-079 records the smaller buildable human bootstrap with exact native evidence; buildable does not mean qualified or accepted. A pending empty loader inventory remains unresolved, not a zero-dependency claim."
 }

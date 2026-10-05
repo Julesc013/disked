@@ -106,3 +106,7 @@ Every selected work unit MUST have bounded outputs, context, tests and a needs-r
 - [DE-001](../foundation/charter.md)
 - [DE-074](../development/testing-and-ci.md)
 - [DE-075](../development/governance-and-review.md)
+
+## DE-W010 executable boundary
+
+The scoped DE-W000 review at `95cce28f801c726ca61816b7d2a974b3c7bce07e` supports the current explicitly granted fake-only implementation. [DE-079](../development/native-bootstrap.md) closes its execution contract as part of development. This console-only composition implements human help/build/command discovery; it does not complete M1. Owner baseline and implementation acceptance remain separate and pending. Review actual native evidence before proceeding to DE-W011/012; retain legacy and storage decisions at their existing gates.

@@ -44,3 +44,5 @@ The authoritative entry is [index.md](index.md). This bootstrap file is a routin
 The spec-only ZIP can create optional root entrypoints with `python spec/tools/specctl.py bootstrap --root .` (preview) then `--apply`. The repository overlay already includes those same entrypoints. Do not use bootstrap to overwrite an existing project.
 
 No remote repository has been modified by creation of this archive.
+
+The bounded first native executable is described by [DE-079](development/native-bootstrap.md). Its task-specific grant and evidence are distinct from baseline acceptance; the spec-only archive does not contain a built executable.

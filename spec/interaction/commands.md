@@ -64,7 +64,7 @@ Build/mode/command discovery, target enumeration, topology inspection, image ins
 
 ## Amendment command scope
 
-The earlier architecture amendment added `filesystem.format.plan` (`filesystem format`), `setup.inspect` and `provider.resolve` as planned descriptors; the subsequent terminal amendment added the explicit `shell` entry. Provider resolution explains compatibility without acquisition; formatting produces a plan without writing. Setup apply/update/uninstall, compatibility dialects, diagnostic bundles and PowerShell projections remain explicitly deferred contracts until selected work defines their effects. No command in this bundle has a runtime handler.
+The earlier architecture amendment added `filesystem.format.plan` (`filesystem format`), `setup.inspect` and `provider.resolve` as planned descriptors; the subsequent terminal amendment added the explicit `shell` entry. Provider resolution explains compatibility without acquisition; formatting produces a plan without writing. Setup apply/update/uninstall, compatibility dialects, diagnostic bundles and PowerShell projections remain explicitly deferred contracts until selected work defines their effects. The public full command contracts remain planned. DE-079 implements only human build/command inspection in an explicitly limited bootstrap composition; machine handlers and storage commands remain unavailable.
 
 ## Stable shorthand and argument ownership
 

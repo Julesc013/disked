@@ -1,0 +1,58 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/index.log",
+    "sha256": "sha256:c1e4557d36efa783fdcfc74e78f5c25368d9f487d9fdd8e13c56a8a4b0b01a66"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/spec-check.log",
+    "sha256": "sha256:5e0d12e9d5d89c0db8646c4a413e2a93a0d2b3349c2f73eebf7329538e65cb0a"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/spec-tests.log",
+    "sha256": "sha256:109a1f6dfb2fbcd64931693793650b969b74e31f35ed21e95698a332cc96d59b"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/native-configure.log",
+    "sha256": "sha256:9fd20c99921b63f0a2773999d21c04eabb1e186a1e34d662e07351a89ec67426"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --verbose",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/native-build.log",
+    "sha256": "sha256:72ab0db04812346750b7229d7cbda5f2dd5e17e31f336e2ae5f52a042d343eb3"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --verbose",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/native-tests.log",
+    "sha256": "sha256:f044b078e62da151d86912174edb779c9758acd29697357d64028ea48b088514"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/manifest.log",
+    "sha256": "sha256:62294a51ac70d83c8b142958d95afd1b675ae4ea4d61c2a2e4b8706eaec6b6e5"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/verify-manifest.log",
+    "sha256": "sha256:3b373454d31ae69ee6e840506985adb702302ccf2d4e82872643ffc3cd8c998c"
+  }
+]

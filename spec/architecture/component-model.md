@@ -42,7 +42,7 @@ A component is a selectable implementation unit; a provider supplies operation c
 
 The first build uses a small explicit manifest and static registry, not a general dependency solver. The proposed composition compiler is a build-time resolver that checks dependencies/conflicts and emits the link/resource/provider inventory and qualification inputs from canonical descriptors. Add automation as real consumers require it. Do not introduce a mandatory plugin framework or one binary per checkbox combination.
 
-`catalog/components.json` and `catalog/compositions.json` own the initial planned component selections. `schemas/composition.schema.json` owns their composition review shape. These declarations describe the fake Windows slice, not artifacts already built. Exact toolchain, imports, hashes and host evidence are prerequisites for promoting a release composition.
+`catalog/components.json` and `catalog/compositions.json` own the initial planned component selections. `schemas/composition.schema.json` owns their composition review shape. The desktop composition remains planned. The separate DE-079 bootstrap composition has a smaller link closure with its own native evidence; it must not be confused with the full desktop slice. Exact toolchain, imports, hashes and host evidence are prerequisites for promoting a release composition.
 
 ## Load-time closure
 

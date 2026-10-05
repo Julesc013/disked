@@ -1,0 +1,65 @@
+{
+  "schema": "org.disked.native-bootstrap-evidence/1",
+  "stage": "working-tree verification; independent clean reproduction follows this source commit",
+  "observed_at": "2026-10-05T21:34:59.497118+00:00",
+  "source": {
+    "identity": {
+      "product": "DiskEd",
+      "version": "0.1.0-bootstrap.1",
+      "source_revision": "95cce28f801c726ca61816b7d2a974b3c7bce07e",
+      "source_state": "dirty",
+      "input_digest": "sha256:791be2282cdac274a37bedc4137f44e99b741de8fd19231d5c92a2a302469eff",
+      "target": "windows.nt10.x64.win32",
+      "composition": "windows.native.fake.bootstrap",
+      "compiler": "MSVC 19.44.35228.0",
+      "sdk": "10.0.19041.0",
+      "configuration": "Release",
+      "language": "C++14",
+      "crt": "static-release-MT",
+      "configuration_digest": "sha256:22ef4ef52129e160f7240c8b81da718a737413b03fbecb10dc72f55a93c6d0bd"
+    },
+    "inputs": {
+      "CMakeLists.txt": "sha256:c047668302b49a25e44e491ddb88a4c670b97f7797f3b8c83629a9165341783d",
+      "CMakePresets.json": "sha256:0af74442049d0357baadfc6ae8ba62e02824090292bc5c75caf662ca54eab1af",
+      "source/apps/disked/disked.manifest": "sha256:9c19c5a02f858ece84c44839ad2b145d9c1d90442da0b15c87fd045f975974eb",
+      "source/apps/disked/main.cpp": "sha256:8e26ce88a1c1a7b30600ad87f0765f78705551c5ec9c1cf509af2161e083c4a0",
+      "source/providers/fake/bootstrap.cpp": "sha256:3d0a20c3812a168e48d2d36a8df8ef32915741a80d2aa9b20b0def47cf84466f",
+      "source/providers/fake/bootstrap.h": "sha256:76bc13cc40e6b5d239cc5a6d749e0cad56abe06c93af29b794eb56fffd94811d",
+      "spec/catalog/cli-syntax.json": "sha256:242c030d183e3e272e7e546b32148b6272ec774fd38bdc9772c17023fa3599b8",
+      "spec/catalog/commands.json": "sha256:5b864d997f2560f054f5ae254471e54e56a6247e317573eb5510dfc3cd0915bd",
+      "spec/catalog/components.json": "sha256:8f5f5d7fb62c14d3a452d969c8516a172a41c4faf7c2fff4fe2d21e8dda5f247",
+      "spec/catalog/compositions.json": "sha256:536fb498ff556be1c3ff82e9995d8da3615721ddde196896baf0493426ed5ab5",
+      "spec/catalog/native-bootstrap.json": "sha256:02ef413f7daa3ae63ec60b9bb7b3139f75fdfafe382583e956ab69dc6bcd8a4f",
+      "spec/development/native-bootstrap.md": "sha256:6873bf416f823c3cbe69730214e4e49c55db32ac69f35d0354edd5775ddcda97",
+      "spec/fixtures/native-bootstrap.json": "sha256:0935d6e02c5f4926ce289e8bf3268929355975ef5afa5c41ae6f1e4ab7275dac",
+      "tools/build-bootstrap.py": "sha256:4f8512cfba7a6fd80e160b8f8fea7b061205964275de3b8b1080d479459b81d5",
+      "tools/build-inputs.json": "sha256:18f5f439cf629b150aa33f99f7ba10c2c31d3a18bddad62e848143b1a1925566"
+    },
+    "compiler_path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+    "compiler_sha256": "sha256:88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+    "build_settings": {
+      "compiler_sha256": "sha256:88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d",
+      "compile_flags": "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG",
+      "link_flags": "/machine:x64 /INCREMENTAL:NO",
+      "cmake_version": "4.2.3",
+      "generator": "Visual Studio 17 2022",
+      "configuration": "Release",
+      "sdk": "10.0.19041.0",
+      "toolset": "14.44.35207",
+      "target_options_source": "sha256:c047668302b49a25e44e491ddb88a4c670b97f7797f3b8c83629a9165341783d"
+    }
+  },
+  "artifact": {
+    "path": "build/windows-bootstrap/Release/disked.exe",
+    "sha256": "sha256:fe6b0604376b70df91a617a24872a590e2fd32e2074f3e1b582a68cbe3afd796"
+  },
+  "ctest": {
+    "passed": 3,
+    "total": 3
+  },
+  "limitations": [
+    "Not owner accepted",
+    "Not full CLI, GUI, TUI or storage qualification",
+    "Only this Windows 10 x64 host tested; legacy and clean VM checks unrun"
+  ]
+}

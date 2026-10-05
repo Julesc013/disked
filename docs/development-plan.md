@@ -1,6 +1,6 @@
 # Development readiness and delivery plan
 
-The amended baseline is **proposed and awaiting review**. The specification tools work locally; there is no native DiskEd executable, admitted storage provider or qualified target. The [amendment review](../spec/roadmap/amendment-review.md) records conflicts and deferred scope. [Root TODO](../TODO.MD) is the short checklist; [work definitions](../spec/work/units.json) own dependencies, deliverables and acceptance criteria.
+The amended baseline is **proposed and awaiting review**. The specification tools and the bounded DE-W010 native bootstrap work locally; there is no admitted storage provider or qualified product target. See the [native build guide](native-bootstrap.md) for the exact implemented surface. The [amendment review](../spec/roadmap/amendment-review.md) records conflicts and deferred scope. [Root TODO](../TODO.MD) is the short checklist; [work definitions](../spec/work/units.json) own dependencies, deliverables and acceptance criteria.
 
 ## Start development in bounded slices
 
@@ -17,9 +17,9 @@ The amended baseline is **proposed and awaiting review**. The specification tool
 | DE-W060/062/063 | Managed delivery, finite carrier/owner contract and independently staged artifact checks | Portable use remains viable; no signing, publishing or claimed upstream integration here. |
 | DE-W080/090 | Broader target/operation qualification and a scoped release | License, provenance, exact target evidence and release authorization remain required. |
 
-These are work groups, not new IDs or a second dependency graph. Run `python spec/tools/specctl.py next` for current dependency readiness. A dependency-ready result is not an execution grant. The user request covered this reconciliation and AIDE source fetch; a subsequent bounded request can authorize the fake implementation without granting device access.
+These are work groups, not new IDs or a second dependency graph. Run `python spec/tools/specctl.py next` for current dependency readiness. A dependency-ready result is not an execution grant. The current explicit user request authorizes scoped baseline review and DE-W010 fake-only development. The retained baseline review records that grant separately from the still-pending acceptance ledger; `next` therefore continues to show the unaccepted W000 dependency.
 
-The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. Native builds and product tests remain unrun.
+The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. DE-W010 native build/launch results are retained separately under `.aide/evidence/2026-10-06-native-bootstrap/`; they do not qualify the full product or replace historical tooling results.
 
 ## Decisions that remain open
 

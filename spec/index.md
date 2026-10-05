@@ -5,7 +5,7 @@ okf_version: "0.2"
 
 # DiskEd specification
 
-**Proposed baseline 0.1.2-proposed.2. Owner acceptance pending. No product or hardware qualification.**
+**Proposed baseline 0.1.3-proposed.1. Owner acceptance pending. No product or hardware qualification.**
 
 Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).
 
@@ -53,6 +53,7 @@ The `specctl` utility manages this specification only. It does not execute DiskE
 - [DE-076 — Specification tool contract](development/specctl.md): Local indexing, checks, contexts and safe bootstrap without a product runtime.
 - [DE-077 — Artifact completeness and publication checks](development/artifact-completeness.md): Verify required content independently of archive integrity and distinguish historical audit claims.
 - [DE-078 — Extension tiers and compatibility](development/extension-sdk.md): Stabilize real C/protocol consumers and require conformance without granting implicit privilege.
+- [DE-079 — Bounded native bootstrap](development/native-bootstrap.md): Exact DE-W010 executable surface, build identity and acceptance boundary.
 
 ## Foundation
 

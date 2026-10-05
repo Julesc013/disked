@@ -4,3 +4,4 @@
 
 - [command-syntax.json](command-syntax.json)
 - [invocation.json](invocation.json)
+- [native-bootstrap.json](native-bootstrap.json)
