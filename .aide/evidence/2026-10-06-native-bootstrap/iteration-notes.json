@@ -1,5 +1,6 @@
 {
   "initial_configuration": "The first configure selected SDK 10.0.26100.0 and was rejected; the preset now explicitly selects 10.0.19041.0. Toolset path inspection replaced an unset CMake optional version variable.",
   "initial_spec_tests": "154 run: one failure, three errors, two skips because temporary spec fixtures lacked newly bound external build inputs. Both fixture constructors now copy those declared inputs; 155 tests subsequently passed with two skips.",
-  "interpretation": "153 passes plus 2 skips; no skipped check is accepted as a pass. Native clean reproduction follows the source commit."
+  "interpretation": "153 passes plus 2 skips; no skipped check is accepted as a pass. Native clean reproduction follows the source commit.",
+  "evidence_capture": "The disposable evidence collector initially used Windows default text encoding while reading a UTF-8 fixture after all native/probe commands passed. Report assembly was resumed with explicit UTF-8; existing command logs were preserved. The tracked build generator and tests already use explicit UTF-8."
 }

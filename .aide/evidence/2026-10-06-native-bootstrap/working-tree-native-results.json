@@ -1,13 +1,13 @@
 {
   "schema": "org.disked.native-bootstrap-evidence/1",
-  "stage": "clean independent clone; needs_review",
-  "observed_at": "2026-10-05T21:38:07.964751+00:00",
+  "stage": "working-tree verification; independent clean reproduction follows this source commit",
+  "observed_at": "2026-10-05T21:34:59.497118+00:00",
   "source": {
     "identity": {
       "product": "DiskEd",
       "version": "0.1.0-bootstrap.1",
-      "source_revision": "e08a12f620beb5e21efd56e153e256f6efeee625",
-      "source_state": "clean",
+      "source_revision": "95cce28f801c726ca61816b7d2a974b3c7bce07e",
+      "source_state": "dirty",
       "input_digest": "sha256:791be2282cdac274a37bedc4137f44e99b741de8fd19231d5c92a2a302469eff",
       "target": "windows.nt10.x64.win32",
       "composition": "windows.native.fake.bootstrap",
@@ -49,62 +49,17 @@
       "target_options_source": "sha256:c047668302b49a25e44e491ddb88a4c670b97f7797f3b8c83629a9165341783d"
     }
   },
-  "host": {
-    "platform": "Windows-10-10.0.19045-SP0",
-    "machine": "AMD64",
-    "python": "3.14.7",
-    "windows_identity": "BLACKGLASS-WIN1\\Jules",
-    "elevated_administrator_token": false,
-    "os_version": "10.0.19045.0"
-  },
   "artifact": {
-    "path": ".aide-local/artifacts/DE-W010-e08a12f6/disked.exe",
-    "sha256": "sha256:f66737a8437b8a79e2ac050daf0194908b52cef0a9d05e297a42fa12163cda7c",
-    "bytes": 151040
+    "path": "build/windows-bootstrap/Release/disked.exe",
+    "sha256": "sha256:fe6b0604376b70df91a617a24872a590e2fd32e2074f3e1b582a68cbe3afd796"
   },
-  "reproduction": {
-    "clone": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
-    "source_revision": "e08a12f620beb5e21efd56e153e256f6efeee625",
-    "checkout_clean_before_build": true,
-    "checkout_clean_after_tests": true,
-    "build_log": "clean-build.log",
-    "test_log": "clean-tests.log",
-    "commands": "clean-commands.json"
+  "ctest": {
+    "passed": 3,
+    "total": 3
   },
-  "native_tests": {
-    "ctest_passed": 3,
-    "ctest_total": 3,
-    "unittest_methods_per_variant": 6,
-    "predefined_argv_cases": 36,
-    "registered_forms_checked": 46,
-    "planned_forms_refused": 43,
-    "argv_launches_per_variant": 130,
-    "poison_provider_positive_control": true
-  },
-  "pe": {
-    "architecture": "x64",
-    "format": "PE32+",
-    "subsystem": "console 10.00",
-    "direct_imports": [
-      "KERNEL32.dll"
-    ],
-    "elevation": "asInvoker",
-    "closure": "dependency-closure.json",
-    "manifest": "embedded-manifest.xml"
-  },
-  "identity_freshness": "identity-freshness.json",
-  "owner_accepted": false,
   "limitations": [
-    "Only the Windows 10 x64 developer host (build 19045) was exercised; no clean VM or XP/7/11 qualification",
-    "Full DE-W012 parser corpus, machine envelopes, GUI/TUI/shell and launch-ownership matrix remain unrun",
-    "Fake identity/initialization boundary only; no fake graph, device enumeration, physical storage or image I/O",
-    "No system-wide I/O trace or enforced network disconnection; source boundary and temporary-directory/provider checks are the retained evidence",
-    "No installation, elevation, production broker, release signing, hardware/recovery qualification or live AIDE/Setup execution",
-    "Functional clean rebuild, not byte-for-byte reproducibility: PE timestamps and absolute compiler/debug paths can vary"
-  ],
-  "test_inputs": {
-    "tests/native/provider_guard_probe.cpp": "sha256:d44cb447852c20cc5a2a621c2c2a60b2432cd3045c3ae53e776b2d821cb3fa77",
-    "tests/native/test_bootstrap.py": "sha256:a62827c8e91182e9658c0c2a3a7760b55f1422e32853a9b4b07363c07c1eb945",
-    "tests/native/test_provider_guard.py": "sha256:d08bf8a3d117dc49dfb2048e6d12eff100d206a30d315ecccde29e3f74301f28"
-  }
+    "Not owner accepted",
+    "Not full CLI, GUI, TUI or storage qualification",
+    "Only this Windows 10 x64 host tested; legacy and clean VM checks unrun"
+  ]
 }

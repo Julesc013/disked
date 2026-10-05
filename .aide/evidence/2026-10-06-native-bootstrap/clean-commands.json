@@ -1,0 +1,362 @@
+[
+  {
+    "command": "git clone --no-hardlinks D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-clone.log",
+    "sha256": "sha256:7cb16e2dd49b9db5a6c04d61e4a61cf95547fc2b2f1aca862d62ffded88c2548"
+  },
+  {
+    "command": "git rev-parse HEAD",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-revision.log",
+    "sha256": "sha256:a931e96f698f14f3c3f2cda26ab331e089957f3a8373ffb5199d9f0715120049"
+  },
+  {
+    "command": "git status --porcelain",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-status-before.log",
+    "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-spec-check.log",
+    "sha256": "sha256:5e0d12e9d5d89c0db8646c4a413e2a93a0d2b3349c2f73eebf7329538e65cb0a"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-manifest.log",
+    "sha256": "sha256:c8f1fad70f17b4050478b5f95e5127270f8bb76c8338db4540006169ac784856"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-configure.log",
+    "sha256": "sha256:dc1e35c2ff809d77511d65ebe4512325a7821c635de82a0b02d8806b258c5603"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --verbose",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-build.log",
+    "sha256": "sha256:ed9deaa2efd9854773bdadd7958776951b90b494037f7b5faaeea52558186bfa"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --verbose",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-tests.log",
+    "sha256": "sha256:f8886d49154433d53c98e5d76c29fe9c53c9b08acb839e0427cd192fbbf418e8"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe --help",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-help.log",
+    "sha256": "sha256:ef69f6e170db0c5234d1dd91fc5a4b52c694fcbc3d5da1848e8fed03c96aba78"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe build inspect",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-build-inspect.log",
+    "sha256": "sha256:e763310ebd3ecc6ccff17c7d0c856ae1c12a10fd95f81efda783f5c898fc2020"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe commands",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-discovery.log",
+    "sha256": "sha256:b46c315c43dd195b50a3b4996048b471e7a6167c754ff20daecb085411fceb4d"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe target list",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 3,
+    "expected_exit_code": 3,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-unavailable.log",
+    "sha256": "sha256:b79ad70b49fc5d518a2edbe110c8211476409d5277710521eb442a7caba992a0"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-imports.log",
+    "sha256": "sha256:0753bfad8c0b2d7c310c1be20837ecd5a2fdacc8c605fcff4d75bcd46f385bc5"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-headers.log",
+    "sha256": "sha256:c5f2d82f10891634e401968ae701c0ff012fda6e9c71b82bf0a3102a2280ea43"
+  },
+  {
+    "command": "\"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64\\mt.exe\" -inputresource:D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe;#1 -out:D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-manifest-extract.log",
+    "sha256": "sha256:a9e7dae7b8112b0d2849636c7f9c2a78f36986947b30fea037984f8564fee339"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-disked.exe.log",
+    "sha256": "sha256:656a3a88cb5cccd7b3c28ca8248a02ec1fd70971d7e60ea836f7f213c7d94b38"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\KERNEL32.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-kernel32.dll.log",
+    "sha256": "sha256:d9ecf8917d7ac09c5b036892d415f64c08b3647d37114f0446fb36d397a22f61"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\KERNELBASE.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-kernelbase.dll.log",
+    "sha256": "sha256:3c23df9926e89555d68344d0ae86016d2ba636fa6fcacbb482cb48c901100af3"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\ntdll.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-ntdll.dll.log",
+    "sha256": "sha256:3388e2b7c4ed1034d0704527ee7858093f35acea679a105261126dd48f1df6b5"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\RPCRT4.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-rpcrt4.dll.log",
+    "sha256": "sha256:1146688c6a6dc60849ce6509f8517e12239d48031b458ff08b2d8c53ed12b9f4"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-bcryptprimitives.dll.log",
+    "sha256": "sha256:993f5fda9719aa88da79c4d97e7acd652d669dd786f8b4260e904af0f790b5e1"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\IPHLPAPI.DLL",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-iphlpapi.dll.log",
+    "sha256": "sha256:91584196a5d88196004127a3a470cfce8ea3a42d104617094d5eed362f1a930f"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\SspiCli.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-sspicli.dll.log",
+    "sha256": "sha256:7d6b027473a7fbcb610d5c75b38eca34f7362ef3eb8e6dc05acb4523b0ab1ab8"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\WS2_32.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-ws2_32.dll.log",
+    "sha256": "sha256:c028849391869fd7beecdd10a04e00b814d1040a8c8e1ba1cb3aa3557e30e027"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\dhcpcsvc.DLL",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-dhcpcsvc.dll.log",
+    "sha256": "sha256:b7abc96030fb38a124539825d5bade99bb83bdb709531b6b1ae3ffe04ec75a50"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\dhcpcsvc6.DLL",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-dhcpcsvc6.dll.log",
+    "sha256": "sha256:ea10782fb4412a12eead114b8a1053dd0f4d6b319b5d5eacdfe027b0b983541f"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\DNSAPI.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-dnsapi.dll.log",
+    "sha256": "sha256:cef045f032bf55d510ed37e68aebfec19a98a185e69a7ff530b0ab19b639eb81"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\NSI.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-nsi.dll.log",
+    "sha256": "sha256:25c6ec0a7e28dda7d5d85ddda474c992408263a5ba203d3bba07d2b97820ae85"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\WINNSI.DLL",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-winnsi.dll.log",
+    "sha256": "sha256:d0a4545638b527551ed9e33791c1e2eab367b4cffa74377becc4ec6f6170d06d"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS C:\\Windows\\System32\\CRYPTBASE.dll",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W010-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-depends-cryptbase.dll.log",
+    "sha256": "sha256:d8acf23a6bb6104f3ab588f94f35572aa139ebc31de4a5d5f3c5c55fab50b687"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-source-change-build.log",
+    "sha256": "sha256:9e7fe073a71fcc9f7f7a9b5c60970106d9b119082a8f81aabb08c4ead77abc3b"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6\\build\\windows-bootstrap\\Release\\disked.exe build inspect",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-source-change-inspect.log",
+    "sha256": "sha256:dfbccf98a554c99b5e83fac4157e5f366077168f21f64b548e38ba44e551bebf"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-restore-build.log",
+    "sha256": "sha256:9e7fe073a71fcc9f7f7a9b5c60970106d9b119082a8f81aabb08c4ead77abc3b"
+  },
+  {
+    "command": "git -c \"user.name=DiskEd Fixture\" -c user.email=disked-fixture@invalid.example commit --allow-empty -m \"Local build-identity probe; never published\"",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-revision-probe-commit.log",
+    "sha256": "sha256:fabe07beb7f54d33f75d9de76ec574c1de8a614a464c5aa65e6b95c6f78cfac3"
+  },
+  {
+    "command": "git rev-parse HEAD",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-revision-probe-head.log",
+    "sha256": "sha256:aa5c74d9cb0301d9a619c03b4efac4df51c08424750677dc1e2f5b32684a7d76"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-revision-change-build.log",
+    "sha256": "sha256:9e7fe073a71fcc9f7f7a9b5c60970106d9b119082a8f81aabb08c4ead77abc3b"
+  },
+  {
+    "command": "git checkout --detach e08a12f620beb5e21efd56e153e256f6efeee625",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-restore-revision.log",
+    "sha256": "sha256:3b8a3f42ec55c33580233f0046f8070f4a54798cf56080fb1aaa08b93796d3e7"
+  },
+  {
+    "command": "git status --porcelain",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-status-after.log",
+    "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-final-restored-build.log",
+    "sha256": "sha256:9e7fe073a71fcc9f7f7a9b5c60970106d9b119082a8f81aabb08c4ead77abc3b"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6\\build\\windows-bootstrap\\Release\\disked.exe build inspect",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\native-bootstrap\\clean-e08a12f6",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "status": "pass",
+    "log": ".aide/evidence/2026-10-06-native-bootstrap/clean-final-restored-inspect.log",
+    "sha256": "sha256:e763310ebd3ecc6ccff17c7d0c856ae1c12a10fd95f81efda783f5c898fc2020"
+  }
+]
