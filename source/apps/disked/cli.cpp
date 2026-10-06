@@ -5,6 +5,7 @@
 #include "protocol.h"
 #include "session.h"
 #include "graph.h"
+#include "terminal.h"
 #include <cstdio>
 
 namespace disked {
@@ -119,7 +120,19 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
                 if(code=="command_not_found") {code="command_unavailable";outcome.exit_code=3;}
                 outcome.response.fields["diagnostics"].items.push_back(diagnostic(code,Value::object().put("token",*d.find("token"))));
             }
-        } else if(const auto* error=selection.find("error"))outcome=refused("cli",error->text,error->text=="argument_conflict"?2:3);
+        } else if(parsed.help_requested)outcome=completed("cli",discovery(&parsed));
+        else if(const auto* error=selection.find("error"))outcome=refused("cli",error->text,error->text=="argument_conflict"?2:3);
+        else if(selection.find("frontend")->text=="tui") {
+            return run_windows_tui(setting(parsed,"terminal_presentation","auto"),[&]() {
+                session.reset(new FrontendSession(registry,fake_graph()));
+                auto model=std::unique_ptr<TuiModel>(new TuiModel(*session,registry,discovery(),
+                    [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
+                        return dispatch(id,command,parameters,host,inputs,session,revision);
+                    }));
+                if(!parsed.command_id.empty())model->stage(parsed.command_id,parsed.parameters);
+                return model;
+            });
+        }
         else if(parsed.kind=="help")outcome=completed("cli",discovery(&parsed));
         else if(parsed.command_id=="protocol.serve") {
             if(!machine || setting(parsed,"interactive","auto")=="yes")outcome=refused("cli","argument_conflict");

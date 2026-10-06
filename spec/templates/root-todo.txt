@@ -25,7 +25,9 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W011 local slice: native mode inspection, policy parity, stdio and inherited-console tests.
 - [ ] Complete/review Explorer, terminal/remote and other Windows launch qualification before shipping invocation claims.
 - [x] DE-W013 local development: immutable fake graph, shared service, identity selection and stale-revision refusals; owner acceptance pending.
-- [ ] DE-W014–016: implement TUI/Win32 adapters and bounded local fake planning/execution.
+- [x] DE-W014 native console slice: screen/linear views, typed command explorer, service parity and console restoration; owner acceptance pending.
+- [ ] Qualify screen-reader, other terminal backends and remote/legacy environments at their applicable gates.
+- [ ] DE-W015–016: implement Win32 adapter and bounded local fake planning/execution.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020–035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.

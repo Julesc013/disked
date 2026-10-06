@@ -122,7 +122,7 @@ class WindowsInvocation(unittest.TestCase):
                 self.assertEqual('no-interactive-host',observation['bare_selection']['reason'])
             else:
                 self.assertTrue(observation['observations']['console_input_verified'])
-                self.assertEqual('tui-unavailable',observation['bare_selection']['reason'])
+                self.assertEqual('interactive-terminal',observation['bare_selection']['reason'])
             self.assertEqual('--interactive=yes' in flags,observation['selection']['interactive'])
             self.assertEqual(['report.json'],[p.name for p in Path(directory).iterdir()])
             LAUNCHES.append(dict(kind='hidden_test_console_with_inherited_child',flags=flags,**value))

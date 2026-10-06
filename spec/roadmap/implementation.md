@@ -129,3 +129,8 @@ DE-W011 supplies the current Windows invocation subset, and DE-W013 supplies the
 immutable fake graph/shared service. Retained tests and agent review permit
 local continuation into DE-W014/015. This does not close M1, owner acceptance,
 async operation, historical-platform or release/storage qualification gates.
+
+DE-W014 now exercises the native console frontend in screen and linear modes,
+including actual input, Ctrl+C, resize and caller-state restoration. DE-W015 can
+reuse the service/model semantics for the Win32 frontend under the programme
+grant. This leaves screen-reader/remote/legacy and the rest of M1 unqualified.

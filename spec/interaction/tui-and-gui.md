@@ -86,3 +86,12 @@ View modes MUST NOT alter privilege or hard safety constraints; deep scans/eleva
 ## Related specifications
 
 - [DE-023](presentation.md)
+
+## Native terminal slice
+
+DE-W014 implements the shared fake model in full-screen and explicit linear
+console views, with identity selection, staged typed forms and a descriptor
+explorer. [DE-026](terminal-session.md) owns the exact key/entry/lifecycle contract.
+Actual console buffer/input tests and model parity establish the exercised
+Windows lane; screen-reader, GUI, remote and other backend qualification remain
+separate work. The implementation does not imply those checks have passed.

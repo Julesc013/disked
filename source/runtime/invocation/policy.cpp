@@ -52,11 +52,14 @@ Value route_invocation(const Value& input) {
 }
 Value invocation_inputs(const InvocationHost& host,const Value& controls,bool command) {
     Value result=host.policy;
-    for(const auto* key:{"frontend","format","interactive"})if(const auto* value=controls.find(key))result.put(key,*value);
+    for(const auto* key:{"frontend","format","interactive","terminal_presentation"})if(const auto* value=controls.find(key))result.put(key,*value);
     return result.put("command",Value::boolean_value(command));
 }
 Value explain_invocation(const InvocationHost& host,const Value& inputs) {
-    return Value::object().put("observations",host.observations).put("policy_inputs",inputs)
+    auto observations=host.observations;
+    if(observations.find("terminal_capabilities") && inputs.find("terminal_presentation"))
+        observations.fields["terminal_capabilities"].put("prefer_linear",Value::boolean_value(inputs.find("terminal_presentation")->text=="linear"));
+    return Value::object().put("observations",observations).put("policy_inputs",inputs)
         .put("selection",route_invocation(inputs)).put("bare_selection",route_invocation(host.policy));
 }
 }

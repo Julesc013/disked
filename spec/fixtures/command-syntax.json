@@ -864,6 +864,79 @@
         "controls": {}
       },
       "notes": "Resolution retains this identity when its runtime capability is unavailable; dispatch reports command_unavailable rather than remapping the alias. Native unavailable-build execution remains not_run."
+    },
+    {
+      "id": "explicit-linear-tui",
+      "equivalent_argv": [
+        [
+          "tui",
+          "--terminal=linear"
+        ],
+        [
+          "--terminal",
+          "linear",
+          "--tui"
+        ]
+      ],
+      "expected": {
+        "kind": "help",
+        "domain": "@root",
+        "controls": {
+          "frontend": "tui",
+          "terminal_presentation": "linear"
+        }
+      },
+      "notes": "DE-W014 terminal presentation and staged-command contract; native execution recorded separately."
+    },
+    {
+      "id": "tui-staged-inspect",
+      "equivalent_argv": [
+        [
+          "--tui",
+          "target",
+          "inspect",
+          "fake:alpha@1",
+          "--terminal=screen"
+        ],
+        [
+          "target",
+          "--tui",
+          "inspect",
+          "--terminal=screen",
+          "fake:alpha@1"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "target.inspect",
+        "controls": {
+          "frontend": "tui",
+          "terminal_presentation": "screen"
+        },
+        "operands": [
+          "fake:alpha@1"
+        ],
+        "named_options": {}
+      },
+      "notes": "DE-W014 terminal presentation and staged-command contract; native execution recorded separately."
+    },
+    {
+      "id": "terminal-style-needs-tui",
+      "equivalent_argv": [
+        [
+          "--terminal=linear"
+        ],
+        [
+          "build",
+          "inspect",
+          "--terminal=linear"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "argument_conflict"
+      },
+      "notes": "DE-W014 terminal presentation and staged-command contract; native execution recorded separately."
     }
   ]
 }

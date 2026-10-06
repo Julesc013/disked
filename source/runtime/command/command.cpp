@@ -163,6 +163,7 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
     const auto format=result.controls.find("format"), frontend=result.controls.find("frontend"), interactive=result.controls.find("interactive");
     const bool machine=format!=result.controls.end() && format->second!="human";
     const bool graphical=frontend!=result.controls.end() && (frontend->second=="gui" || frontend->second=="tui");
+    if(result.controls.count("terminal_presentation") && (frontend==result.controls.end() || frontend->second!="tui"))result.error("argument_conflict",0);
     if((machine && graphical) || (machine && interactive!=result.controls.end() && interactive->second=="yes") || (graphical && interactive!=result.controls.end() && interactive->second=="no"))result.error("argument_conflict",0);
     if(words.empty()) {
         if(!named.empty())result.error("command_not_found",named.front().token);

@@ -34,6 +34,12 @@ target_link_libraries(disked_presentation PUBLIC disked_json)
 set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_presentation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+add_library(disked_tui STATIC source/apps/disked/tui/model.cpp)
+target_include_directories(disked_tui PUBLIC source/apps/disked/tui)
+target_link_libraries(disked_tui PUBLIC disked_presentation)
+set_target_properties(disked_tui PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_tui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 set(generated "${CMAKE_CURRENT_BINARY_DIR}/generated")
 add_custom_target(bootstrap_registry ALL
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tools/build-bootstrap.py"
@@ -50,10 +56,10 @@ add_custom_target(bootstrap_registry ALL
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
-    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp)
+    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/console/terminal.cpp)
   add_dependencies(${target} bootstrap_registry)
-  target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/apps/disked)
-  target_link_libraries(${target} PRIVATE disked_presentation)
+  target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/apps/disked)
+  target_link_libraries(${target} PRIVATE disked_tui)
   set_target_properties(${target} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(${target} PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
   target_link_options(${target} PRIVATE /SUBSYSTEM:CONSOLE,10.00 /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
@@ -62,6 +68,21 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(tui_model_probe tests/frontend/tui_probe.cpp source/apps/disked/command_registry.cpp
+    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+  add_dependencies(tui_model_probe bootstrap_registry)
+  target_include_directories(tui_model_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
+  target_link_libraries(tui_model_probe PRIVATE disked_tui)
+  set_target_properties(tui_model_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(tui_model_probe PRIVATE /W4 /WX /permissive- /utf-8)
+  add_test(NAME frontend.tui_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_tui_model.py"
+    --probe "$<TARGET_FILE:tui_model_probe>" --exe "$<TARGET_FILE:disked>")
+  set_tests_properties(frontend.tui_model PROPERTIES TIMEOUT 120)
+  bootstrap_executable(disked_tui_fault)
+  target_compile_definitions(disked_tui_fault PRIVATE DISKED_TUI_TEST_FAULT=1)
+  add_test(NAME frontend.tui_windows COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_tui_windows.py"
+    --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --fault "$<TARGET_FILE:disked_tui_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(frontend.tui_windows PROPERTIES TIMEOUT 180)
   add_executable(frontend_service_probe tests/frontend/service_probe.cpp source/apps/disked/command_registry.cpp
     source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(frontend_service_probe bootstrap_registry)

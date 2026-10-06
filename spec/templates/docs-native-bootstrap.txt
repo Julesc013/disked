@@ -4,8 +4,8 @@ The fake-only Windows executable supports human and JSON/NDJSON build informatio
 static command discovery, actual host/mode inspection and contextual help. `protocol serve` admits synchronous
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
-observations. There is no real storage access, GUI, TUI, shell or asynchronous
-operation runtime yet. The [command contract](../spec/interaction/commands.md)
+observations. A native console TUI provides screen and linear presentation.
+There is no real storage access, GUI, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -67,5 +67,24 @@ Windows 10 x64 build 19045 is the current exercised host. Other platforms, clean
 VMs, Explorer/Windows Terminal routing and all storage operations remain unverified.
 DE-W011 tests cover direct/detached launches, cmd/PowerShell and an inherited child
 in a hidden test-owned console. `mode explain` preserves unknown host facts and
-reports why interactive modes are unavailable. Product code does not attach,
-detach, hide, resize or change the console mode/code page.
+reports why interactive modes are unavailable. Startup observation does not attach, detach, hide, resize or change the console
+mode/code page. The interactive TUI temporarily owns input-mode bits and an
+alternate screen buffer, with tested restoration on normal exit, Ctrl+C and
+caught failure.
+
+Run the terminal interface from a real Windows console:
+
+```powershell
+& .\build\windows-bootstrap\Release\disked.exe tui
+& .\build\windows-bootstrap\Release\disked.exe --tui --terminal=linear
+& .\build\windows-bootstrap\Release\disked.exe --tui target inspect fake:alpha@1
+```
+
+Arrows move focus; Enter selects/inspects. F2 opens commands, F3 inventory, F4
+clears selection, F5 refreshes the view, F6 switches presentation. Forms use Tab,
+Shift+Tab and Backspace; F9 opens review and a fresh F9 submits. Enter/pasted
+newlines cannot submit forms. PageUp/PageDown scroll complete data. Escape goes
+back; F10 or Ctrl+C exits. No persistent command shell or disk writes are admitted.
+Small consoles automatically use linear output. Pipes cannot supply TUI input.
+The linear view is available for accessibility workflows, but screen-reader
+qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).

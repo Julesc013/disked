@@ -186,7 +186,7 @@ class NativeProtocol(unittest.TestCase):
             self.assertEqual('pipe',value['observations']['stdout']['kind'])
             self.assertEqual('machine-output',value['selection']['reason'])
             self.assertFalse(value['selection']['interactive'])
-            self.assertFalse(value['policy_inputs']['tui_available'])
+            self.assertTrue(value['policy_inputs']['tui_available'])
 
     def test_broken_output_is_failure(self):
         read_fd,write_fd=os.pipe();os.close(read_fd)

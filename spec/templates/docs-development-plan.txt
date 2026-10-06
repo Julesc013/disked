@@ -45,6 +45,11 @@ DE-W012 now includes flexible placement of complete option/value groups, context
 
 The DE-W013 local slice adds an immutable fake graph and shared frontend service.
 CLI/stdio read commands preserve denied/stale/unknown observations; revision
-checks and selection identity live in the service. TUI, Win32, async operations
+checks and selection identity live in the service. The Win32 GUI, async operations
 and real storage remain later work. Evidence is retained under
 `.aide/evidence/2026-10-06-native-graph/`; owner acceptance remains separate.
+
+DE-W014 adds the native console TUI over that service, with staged typed forms,
+linear/screen presentation and isolated real-console input/restoration evidence
+under `.aide/evidence/2026-10-06-native-tui/`. DE-W015 is the next local frontend
+unit; accessibility and untested-backend qualification remain separate.

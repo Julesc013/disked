@@ -94,9 +94,12 @@ the available console mode/geometry observations. Verify the input-buffer role
 with a non-consuming console-input query; `GetConsoleMode` alone also accepts a
 screen-buffer handle incorrectly passed as stdin. `GetFileType` failure is not
 redirection; `GetConsoleMode` failure is not proof of a pipe. Probe no input bytes,
-send no terminal queries, and open no replacement console handles in the product.
+send no terminal queries, and open no replacement console handles during
+startup observation or essential commands.
 Only usable descriptors may have their private CRT translation set to binary.
-Do not change console modes, code pages, size, visibility, attachment or handles.
+Observation does not change console modes, code pages, size, visibility,
+attachment or handles. An admitted interactive TUI has the separate owned-state
+contract in [DE-026](terminal-session.md).
 
 A bounded console process-list observation may establish sharing, but cannot
 establish creator identity. Protect a shared console as caller-owned; otherwise
@@ -110,6 +113,10 @@ defaults TUI availability to true for its original abstract cases; real product
 compositions pass it explicitly. An explicit unavailable frontend is refused.
 Automatic TUI selection without an implemented TUI falls back to bounded plain
 help with `tui-unavailable`; it never advertises a running screen renderer.
+DE-W014 now supplies the native console TUI in this prototype. Explicit valid
+help is resolved before runtime availability checks. `--terminal=auto|linear|screen`
+requires explicit TUI selection and chooses its presentation; it cannot be used
+to convert pipeline input into interactive input.
 
 Absent input does not prevent help/build/discovery. Explicit transport without
 usable input returns framed `input_error`, exit 4, when stdout is usable. An

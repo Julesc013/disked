@@ -385,7 +385,7 @@
       "id": "DE-W014",
       "title": "Implement linear and full-screen TUI over fake state",
       "phase": "M1",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W013"
@@ -399,7 +399,21 @@
       "allowed_paths": [
         "source/apps/disked/tui/**",
         "source/platform/windows/console/**",
-        "tests/frontend/**"
+        "tests/frontend/**",
+        "source/runtime/command/**",
+        "source/apps/disked/**",
+        "source/platform/windows/**",
+        "tests/invocation/**",
+        "tests/contracts/**",
+        "tests/native/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/**",
+        "source/runtime/invocation/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -426,7 +440,10 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -434,7 +451,9 @@
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
-        "spec/fixtures/invocation.json"
+        "spec/fixtures/invocation.json",
+        "tools/build-inputs.json",
+        "tools/build-bootstrap.py"
       ]
     },
     {

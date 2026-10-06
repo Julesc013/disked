@@ -588,7 +588,7 @@ class Bundle:
                 if field in fields:raise SpecError('Duplicate global value field: '+field)
                 fields.add(field)
                 if set(option['choices'])!=set(allowed[field]['enum']):raise SpecError('Global option choices drift: '+field)
-        if fields!={'frontend','format','interactive'}:raise SpecError('Missing canonical global value option')
+        if fields!={'frontend','format','interactive','terminal_presentation'}:raise SpecError('Missing canonical global value option')
         for entry in value['domains']:
             for word in [entry['word'],*entry['aliases']]:
                 if not re.fullmatch(r'[a-z][a-z0-9-]*',word):raise SpecError('Noncanonical domain spelling')
