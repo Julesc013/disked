@@ -990,8 +990,51 @@
       "path": "tools/build-inputs.json",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "source/apps/disked/cli.cpp",
+        "source/apps/disked/cli.h",
+        "source/apps/disked/command_registry.cpp",
+        "source/apps/disked/command_registry.h",
+        "source/apps/disked/disked.manifest",
+        "source/apps/disked/main.cpp",
+        "source/providers/fake/bootstrap.cpp",
+        "source/providers/fake/bootstrap.h",
+        "source/runtime/command/command.cpp",
+        "source/runtime/command/command.h",
+        "source/runtime/command/json.cpp",
+        "source/runtime/command/json.h",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/command/protocol.h",
+        "spec/catalog/cli-syntax.json",
+        "spec/catalog/commands.json",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/fixtures/command-syntax.json",
+        "spec/fixtures/native-bootstrap.json",
+        "spec/schemas/command-empty-parameters.schema.json",
+        "spec/schemas/command-image-path-parameters.schema.json",
+        "spec/schemas/command-resize-proposal-parameters.schema.json",
+        "spec/schemas/command-target-parameters.schema.json",
+        "spec/schemas/diagnostic.schema.json",
+        "spec/schemas/request.schema.json",
+        "spec/schemas/response.schema.json",
+        "tests/contracts/codec_probe.cpp",
+        "tests/contracts/parser_probe.cpp",
+        "tests/contracts/reader_probe.cpp",
+        "tests/contracts/test_json.py",
+        "tests/contracts/test_parser.py",
+        "tests/contracts/test_reader.py",
+        "tests/native/provider_guard_probe.cpp",
+        "tests/native/test_bootstrap.py",
+        "tests/native/test_protocol.py",
+        "tests/native/test_provider_guard.py"
+      ],
       "spec_ids": [
+        "DE-021",
+        "DE-022",
         "DE-079"
       ]
     },
@@ -1002,6 +1045,8 @@
       "delivery": "artifact",
       "depends_on": [],
       "spec_ids": [
+        "DE-021",
+        "DE-022",
         "DE-079"
       ]
     },
@@ -1052,6 +1097,8 @@
       "delivery": "artifact",
       "depends_on": [],
       "spec_ids": [
+        "DE-021",
+        "DE-022",
         "DE-079"
       ]
     },
@@ -1093,6 +1140,223 @@
       "depends_on": [],
       "spec_ids": [
         "DE-079"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-target-parameters.schema.json",
+      "path": "spec/schemas/command-target-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-image-path-parameters.schema.json",
+      "path": "spec/schemas/command-image-path-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-resize-proposal-parameters.schema.json",
+      "path": "spec/schemas/command-resize-proposal-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021"
+      ]
+    },
+    {
+      "id": "source/runtime/command/command.cpp",
+      "path": "source/runtime/command/command.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/command/command.h",
+      "path": "source/runtime/command/command.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/command/json.cpp",
+      "path": "source/runtime/command/json.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/command/json.h",
+      "path": "source/runtime/command/json.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/command/protocol.cpp",
+      "path": "source/runtime/command/protocol.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/command/protocol.h",
+      "path": "source/runtime/command/protocol.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/apps/disked/cli.cpp",
+      "path": "source/apps/disked/cli.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/apps/disked/cli.h",
+      "path": "source/apps/disked/cli.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/apps/disked/command_registry.cpp",
+      "path": "source/apps/disked/command_registry.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/apps/disked/command_registry.h",
+      "path": "source/apps/disked/command_registry.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/codec_probe.cpp",
+      "path": "tests/contracts/codec_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/parser_probe.cpp",
+      "path": "tests/contracts/parser_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/reader_probe.cpp",
+      "path": "tests/contracts/reader_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/test_json.py",
+      "path": "tests/contracts/test_json.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/test_parser.py",
+      "path": "tests/contracts/test_parser.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/contracts/test_reader.py",
+      "path": "tests/contracts/test_reader.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/native/test_protocol.py",
+      "path": "tests/native/test_protocol.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-021",
+        "DE-022"
       ]
     }
   ]

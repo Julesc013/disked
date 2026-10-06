@@ -23,7 +23,7 @@ MAX_FILE = 8 * 1024 * 1024
 MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
-SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','handoff','plan','event')}
+SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','handoff','plan','event','command-resize-proposal-parameters')}
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -207,6 +207,12 @@ def semantic_validate(kind: str | None, value: dict):
             raise SpecError('Mutation plan has no declared recovery reference')
     elif kind == 'event':
         bounded_u64(value['sequence'],'event sequence')
+    elif kind == 'command-resize-proposal-parameters':
+        match=re.fullmatch(r'([1-9][0-9]{0,19})(B|KiB|MiB|GiB|TiB)',value['length'])
+        if not match:raise SpecError('Length is outside the positive byte-quantity model')
+        integer=bounded_u64(match[1],'length')
+        shift={'B':0,'KiB':10,'MiB':20,'GiB':30,'TiB':40}[match[2]]
+        if integer>(U64_MAX>>shift):raise SpecError('Length unit conversion overflows u64')
 
 class GitSnapshot:
     """Read exact local Git blobs without checkout, filters, hooks or fetching."""

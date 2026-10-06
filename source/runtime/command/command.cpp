@@ -1,0 +1,253 @@
+#include "command.h"
+#include <algorithm>
+#include <cstdint>
+#include <limits>
+#include <set>
+#include <sstream>
+
+namespace disked {
+using json::Value;
+namespace {
+std::string text(const Value& object,const std::string& key) {
+    const auto* p=object.find(key);return p && p->kind==Value::Kind::string ? p->text : "";
+}
+const std::vector<Value>& array(const Value& object,const std::string& key) {
+    static const std::vector<Value> empty;
+    const auto* p=object.find(key);return p && p->kind==Value::Kind::array ? p->items : empty;
+}
+bool boolean(const Value& object,const std::string& key) {const auto* p=object.find(key);return p && p->kind==Value::Kind::boolean && p->boolean;}
+bool contains(const std::vector<Value>& values,const std::string& value) {
+    return std::any_of(values.begin(),values.end(),[&](const Value& v){return v.text==value;});
+}
+std::vector<std::string> split(const std::string& words) {
+    std::istringstream in(words);std::vector<std::string> result;std::string word;
+    while(in>>word) result.push_back(word);return result;
+}
+bool prefix(const std::vector<std::string>& form,const std::vector<std::string>& words,std::size_t boundary) {
+    return form.size()<=boundary && std::equal(form.begin(),form.end(),words.begin());
+}
+const Value* global_option(const Registry& registry,const std::string& word) {
+    for(const auto& option:array(registry.syntax,"global_options")) if(contains(array(option,"spellings"),word))return &option;
+    return nullptr;
+}
+const Value* named_binding(const Value& command,const std::string& word) {
+    for(const auto& binding:array(command,"argument_bindings"))
+        if(text(binding,"option")==word || contains(array(binding,"option_aliases"),word))return &binding;
+    return nullptr;
+}
+const Value* any_binding(const Registry& registry,const std::string& word) {
+    for(const auto& command:registry.commands.items) {const auto* b=named_binding(command,word);if(b)return b;}
+    return nullptr;
+}
+void setting(ParseResult& result,const std::string& field,const std::string& value,std::size_t token) {
+    const auto previous=result.controls.find(field);
+    if(previous!=result.controls.end()) {
+        result.error(previous->second==value?"duplicate_option":"argument_conflict",token);
+        if(field=="format" && previous->second!=value)result.output_ambiguous=true;
+    } else result.controls[field]=value;
+}
+std::string validate_scalar(const Value& shape,const Value& value) {
+    const auto type=text(shape,"type");
+    if(type=="string") {
+        if(value.kind!=Value::Kind::string || !json::valid_utf8(value.text) || value.text.find('\0')!=std::string::npos)return "invalid_parameter";
+        // The admitted scalar schemas contain positive lengths and string IDs/paths.
+        if(shape.find("minLength") && value.text.empty())return "invalid_parameter";
+        if(value.text.size()>32768)return "invalid_parameter";
+        if(shape.find("enum") && !contains(array(shape,"enum"),value.text))return "invalid_parameter";
+        if(text(shape,"x-disked-scalar")=="positive-byte-quantity" && !positive_byte_quantity(value.text))return "invalid_parameter";
+    } else if(type=="boolean") {if(value.kind!=Value::Kind::boolean)return "invalid_parameter";}
+    else if(type=="array") {
+        if(value.kind!=Value::Kind::array || !shape.find("items"))return "invalid_parameter";
+        for(const auto& item:value.items)if(!validate_scalar(*shape.find("items"),item).empty())return "invalid_parameter";
+    } else return "schema_unavailable";
+    return "";
+}
+}
+const Value* Registry::command(const std::string& id) const {
+    for(const auto& c:commands.items)if(text(c,"id")==id)return &c;return nullptr;
+}
+void ParseResult::error(const std::string& code,std::size_t token) {
+    diagnostics.items.push_back(Value::object().put("code",Value::string(code)).put("token",Value::number(std::to_string(token))));
+}
+Value ParseResult::normalized() const {
+    Value out=Value::object();out.put("kind",Value::string(valid()?kind:"error"));
+    Value settings=Value::object();for(const auto& pair:controls)settings.put(pair.first,Value::string(pair.second));
+    out.put("controls",settings).put("help_requested",Value::boolean_value(help_requested));
+    if(!valid()) {out.put("code",*diagnostics.items.front().find("code")).put("diagnostics",diagnostics);return out;}
+    if(!command_id.empty())out.put("command_id",Value::string(command_id));
+    if(!domain.empty())out.put("domain",Value::string(domain));
+    if(kind=="command") {
+        Value args=Value::array();for(const auto& s:operands)args.items.push_back(Value::string(s));
+        Value named=Value::object();for(const auto& pair:named_options)named.put(pair.first,Value::string(pair.second));
+        out.put("operands",args).put("named_options",named).put("parameters",parameters);
+    }
+    return out;
+}
+bool positive_byte_quantity(const std::string& value,std::string* bytes) {
+    if(value.empty() || value[0]<'1' || value[0]>'9')return false;
+    std::size_t count=0;std::uint64_t integer=0;
+    const auto maximum=(std::numeric_limits<std::uint64_t>::max)();
+    while(count<value.size() && value[count]>='0' && value[count]<='9') {
+        const auto digit=static_cast<unsigned>(value[count++]-'0');
+        if(integer>(maximum-digit)/10)return false;integer=integer*10+digit;
+    }
+    const auto unit=value.substr(count);unsigned shift=0;
+    if(unit=="B")shift=0;else if(unit=="KiB")shift=10;else if(unit=="MiB")shift=20;
+    else if(unit=="GiB")shift=30;else if(unit=="TiB")shift=40;else return false;
+    if(integer>(maximum>>shift))return false;
+    if(bytes)*bytes=std::to_string(integer<<shift);return true;
+}
+std::string validate_parameters(const Registry& registry,const Value& command,const Value& parameters,bool help) {
+    if(parameters.kind!=Value::Kind::object)return "invalid_parameters";
+    if(text(command,"syntax_status")!="defined")return "syntax_unavailable";
+    const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
+    if(!schema || !schema->find("properties"))return "schema_unavailable";
+    for(const auto& pair:parameters.fields) {
+        const auto* shape=schema->find("properties")->find(pair.first);
+        if(!shape)return "unexpected_parameter";
+        const auto error=validate_scalar(*shape,pair.second);if(!error.empty())return error;
+    }
+    if(!help)for(const auto& key:array(*schema,"required"))if(!parameters.find(key.text))return "missing_parameter";
+    return "";
+}
+ParseResult parse_invocation(const Registry& registry,const std::vector<std::string>& argv) {
+    ParseResult result;std::vector<std::string> words;std::vector<std::size_t> positions;
+    struct Named {std::string spelling,value;std::size_t token;};std::vector<Named> named;
+    bool literal=false;std::size_t boundary=0, total=0;
+    if(argv.size()>1024) {result.error("argument_limit_exceeded",0);return result;}
+    for(std::size_t i=0;i<argv.size();++i) {
+        const auto& word=argv[i];
+        if(total>65536 || word.size()>65536-total) {result.error("argument_limit_exceeded",i);return result;}
+        if(!json::valid_utf8(word) || word.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",i);return result;}
+        total+=word.size();
+        if(!literal && word=="--") {literal=true;boundary=words.size();continue;}
+        if(!literal && !word.empty() && word[0]=='-') {
+            const auto equal=word.find('=');const auto spelling=word.substr(0,equal);
+            const Value* option=global_option(registry,spelling);
+            const Value* binding=option?nullptr:any_binding(registry,spelling);
+            if(!option && !binding) {result.error("unknown_option",i);continue;}
+            const auto* arity=(option?option:binding)->find("value_arity");
+            const bool consumes=arity && arity->text=="1";std::string value;const auto token=i;
+            if(consumes) {
+                if(equal!=std::string::npos)value=word.substr(equal+1);
+                else if(i+1<argv.size() && argv[i+1]!="--") {
+                    value=argv[++i];
+                    if(value.size()>65536-total) {result.error("argument_limit_exceeded",token);return result;}
+                    total+=value.size();
+                }
+                else {result.error("missing_option_value",token);continue;}
+                if(!json::valid_utf8(value) || value.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",token);return result;}
+            } else if(equal!=std::string::npos) {result.error("invalid_option_value",token);continue;}
+            if(option) {
+                if(consumes) {
+                    if(!contains(array(*option,"choices"),value)) {result.error("invalid_option_value",token);continue;}
+                    setting(result,text(*option,"field"),value,token);
+                } else {
+                    const auto* sets=option->find("sets");
+                    for(const auto& pair:sets->fields) {
+                        if(pair.first=="help") {if(result.help_requested)result.error("duplicate_option",token);result.help_requested=true;}
+                        else setting(result,pair.first,pair.second.text,token);
+                    }
+                }
+            } else named.push_back(Named{spelling,value,token});
+        } else {words.push_back(word);positions.push_back(i);}
+    }
+    if(!literal)boundary=words.size();
+    if(boundary && words[0]=="help") {
+        if(result.help_requested)result.error("duplicate_option",positions[0]);result.help_requested=true;
+        words.erase(words.begin());positions.erase(positions.begin());--boundary;
+    }
+    if(boundary==1 && words.size()==1 && (words[0]=="tui" || words[0]=="gui")) {
+        setting(result,"frontend",words[0],positions[0]);words.clear();positions.clear();boundary=0;
+    }
+    const auto format=result.controls.find("format"), frontend=result.controls.find("frontend"), interactive=result.controls.find("interactive");
+    const bool machine=format!=result.controls.end() && format->second!="human";
+    const bool graphical=frontend!=result.controls.end() && (frontend->second=="gui" || frontend->second=="tui");
+    if((machine && graphical) || (machine && interactive!=result.controls.end() && interactive->second=="yes") || (graphical && interactive!=result.controls.end() && interactive->second=="no"))result.error("argument_conflict",0);
+    if(words.empty()) {
+        if(!named.empty())result.error("command_not_found",named.front().token);
+        result.kind="help";result.domain="@root";return result;
+    }
+    for(const auto& retired:array(registry.syntax,"retired_command_spellings"))
+        if(prefix(split(text(retired,"spelling")),words,boundary)) {result.error("retired_command",positions[0]);return result;}
+    const Value* selected=nullptr;std::size_t consumed=0;
+    for(const auto& command:registry.commands.items) {
+        std::vector<std::vector<std::string>> forms;
+        std::vector<std::string> canonical;for(const auto& w:array(command,"words"))canonical.push_back(w.text);forms.push_back(canonical);
+        for(const auto& alias:array(command,"aliases"))forms.push_back(split(alias.text));
+        for(const auto& form:forms)if(form.size()>consumed && prefix(form,words,boundary)) {selected=&command;consumed=form.size();}
+    }
+    if(!selected) {
+        if(result.help_requested && words.size()==1 && boundary==1) {
+            for(const auto& domain:array(registry.syntax,"domains"))if(text(domain,"word")==words[0] || contains(array(domain,"aliases"),words[0])) {
+                result.kind="help";result.domain=text(domain,"word");
+                if(!named.empty())result.error("option_not_applicable",named.front().token);return result;
+            }
+        }
+        result.error("command_not_found",positions.empty()?0:positions[0]);return result;
+    }
+    result.command_id=text(*selected,"id");result.kind=result.help_requested?"help":"command";
+    result.operands.assign(words.begin()+static_cast<std::ptrdiff_t>(consumed),words.end());
+    std::map<std::string,std::size_t> parameter_tokens;
+    for(const auto& input:named) {
+        const auto* binding=named_binding(*selected,input.spelling);
+        if(!binding) {result.error("option_not_applicable",input.token);continue;}
+        const auto name=text(*binding,"parameter"), spelling=text(*binding,"option");
+        Value value=binding->find("value_arity")->text=="0" ? Value::boolean_value(true) : Value::string(input.value);
+        if(result.parameters.find(name) && !boolean(*binding,"repeatable")) {result.error("duplicate_option",input.token);continue;}
+        if(boolean(*binding,"repeatable")) {
+            if(!result.parameters.find(name))result.parameters.put(name,Value::array());
+            result.parameters.fields[name].items.push_back(value);
+        } else result.parameters.put(name,value);
+        parameter_tokens[name]=input.token;
+        result.named_options[spelling]=input.value;
+    }
+    if(text(*selected,"syntax_status")=="defined") {
+        std::size_t positional_count=0;
+        for(const auto& binding:array(*selected,"argument_bindings"))if(const auto* position=binding.find("position")) {
+            const auto index=static_cast<std::size_t>(std::stoul(position->text));++positional_count;
+            if(index<result.operands.size()) {
+                const auto name=text(binding,"parameter");
+                result.parameters.put(name,Value::string(result.operands[index]));
+                parameter_tokens[name]=positions[consumed+index];
+            }
+        }
+        if(result.operands.size()>positional_count)result.error("unexpected_operand",positions[consumed+positional_count]);
+        const auto validation=validate_parameters(registry,*selected,result.parameters,result.help_requested);
+        if(!validation.empty()) {
+            std::size_t token=positions.empty()?0:positions[0];
+            const auto* schema=registry.parameter_schemas.find(text(*selected,"parameter_schema"));
+            if(schema && schema->find("properties"))for(const auto& pair:result.parameters.fields) {
+                const auto* shape=schema->find("properties")->find(pair.first);
+                if(shape && !validate_scalar(*shape,pair.second).empty()) {token=parameter_tokens[pair.first];break;}
+            }
+            result.error(validation=="invalid_parameter"?"invalid_option_value":validation,token);
+        }
+    }
+    return result;
+}
+Value complete_static(const Registry& registry,const std::vector<std::string>& words,const std::string& fragment) {
+    Value result=Value::array();
+    if(words.size()>16 || fragment.size()>256 || !json::valid_utf8(fragment))return result;
+    for(const auto& word:words)if(word.size()>256 || word=="--" || !json::valid_utf8(word))return result;
+    std::set<std::string> candidates;
+    for(const auto& command:registry.commands.items) {
+        std::vector<std::vector<std::string>> forms;
+        std::vector<std::string> canonical;
+        for(const auto& w:array(command,"words"))canonical.push_back(w.text);
+        forms.push_back(canonical);
+        for(const auto& alias:array(command,"aliases"))forms.push_back(split(alias.text));
+        for(const auto& form:forms) {
+            if(words.size()<form.size() && std::equal(words.begin(),words.end(),form.begin()))candidates.insert(form[words.size()]);
+            if(words==form)for(const auto& binding:array(command,"argument_bindings")) {
+                if(binding.find("option"))candidates.insert(text(binding,"option"));
+                for(const auto& alias:array(binding,"option_aliases"))candidates.insert(alias.text);
+            }
+        }
+    }
+    if(!fragment.empty() && fragment[0]=='-')for(const auto& option:array(registry.syntax,"global_options"))
+        for(const auto& spelling:array(option,"spellings"))candidates.insert(spelling.text);
+    for(const auto& candidate:candidates)if(candidate.compare(0,fragment.size(),fragment)==0)result.items.push_back(Value::string(candidate));
+    return result;
+}
+}

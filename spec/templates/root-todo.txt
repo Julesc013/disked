@@ -11,6 +11,13 @@ Status: proposed baseline with scoped DE-W000 review and a native DE-W010 bootst
 - [x] Run local specification/tooling tests and passive AIDE schema validation; retain actual results and skipped checks in the [validation report](spec/reports/validation.json).
 - [ ] Review and accept the final DE-W000 amendment, including the proposed `source/` ownership map.
 
+## Active 0.1.0 goal
+
+Scope: every currently specified platform and storage operation at base `40ac8ec`.
+Continue local implementation after tests and agent review; owner acceptance and
+release/storage authority remain separate. The programme record is
+`.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
+
 ## First implementation
 
 - [x] DE-W010: implement the granted native fake-only bootstrap and run its bounded build/launch checks.
@@ -46,6 +53,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] Reconcile flexible option placement, natural aliases and contextual help with current catalogs and docs.
 - [x] Define shared syntax equivalence/error cases, preserving unresolved typed storage parameters and unrun native parser status.
-- [ ] DE-W012: execute the corpus and option-position permutations against the native parser, including pre-dispatch effect traces.
+- [x] DE-W012 synchronous subset: execute the shared syntax corpus, option permutations, bounded protocol and provider-initialization trap on Windows.
+- [ ] Complete/review asynchronous protocol identities and remaining DE-W012 admission gates with DE-W016/017.
 - [ ] DE-W019: verify editable error recovery and measure shortcut/completion ergonomics on selected keyboards and terminals.
 - [ ] DE-W018/071: qualify actual tokenization/encoding and shared parser semantics for selected constrained targets.

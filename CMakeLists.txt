@@ -22,6 +22,10 @@ set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "Bootstrap qualification co
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 find_package(Git REQUIRED)
+add_library(disked_json STATIC source/runtime/command/json.cpp source/runtime/command/command.cpp source/runtime/command/protocol.cpp)
+target_include_directories(disked_json PUBLIC source/runtime/command)
+set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 set(generated "${CMAKE_CURRENT_BINARY_DIR}/generated")
 add_custom_target(bootstrap_registry ALL
@@ -37,10 +41,11 @@ add_custom_target(bootstrap_registry ALL
   COMMENT "Bind current Git revision and native input bytes" VERBATIM)
 
 function(bootstrap_executable target)
-  add_executable(${target} source/apps/disked/main.cpp
+  add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake)
+  target_link_libraries(${target} PRIVATE disked_json)
   set_target_properties(${target} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(${target} PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
   target_link_options(${target} PRIVATE /SUBSYSTEM:CONSOLE,10.00 /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
@@ -49,11 +54,28 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(protocol_reader_probe tests/contracts/reader_probe.cpp)
+  target_link_libraries(protocol_reader_probe PRIVATE disked_json)
+  add_test(NAME protocol.compatible_reader COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/contracts/test_reader.py" --exe "$<TARGET_FILE:protocol_reader_probe>")
+  set_tests_properties(protocol.compatible_reader PROPERTIES TIMEOUT 120)
+  add_executable(command_parser_probe tests/contracts/parser_probe.cpp source/apps/disked/command_registry.cpp)
+  add_dependencies(command_parser_probe bootstrap_registry)
+  target_include_directories(command_parser_probe PRIVATE "${generated}" source/apps/disked)
+  target_link_libraries(command_parser_probe PRIVATE disked_json)
+  add_test(NAME command.syntax COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/contracts/test_parser.py" --exe "$<TARGET_FILE:command_parser_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(command.syntax PROPERTIES TIMEOUT 120)
+  add_executable(json_codec_probe tests/contracts/codec_probe.cpp)
+  target_link_libraries(json_codec_probe PRIVATE disked_json)
+  add_test(NAME protocol.json_codec COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/contracts/test_json.py" --exe "$<TARGET_FILE:json_codec_probe>")
+  set_tests_properties(protocol.json_codec PROPERTIES TIMEOUT 120)
   bootstrap_executable(disked_provider_guard)
   target_compile_definitions(disked_provider_guard PRIVATE DISKED_POISON_PROVIDER=1)
   foreach(target disked disked_provider_guard)
     add_test(NAME ${target}.acceptance
-      COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/native/test_bootstrap.py"
+      COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/native/test_protocol.py"
         --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
         --identity "${generated}/build-identity.json")
     set_tests_properties(${target}.acceptance PROPERTIES TIMEOUT 120)

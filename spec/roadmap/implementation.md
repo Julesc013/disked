@@ -59,6 +59,17 @@ sources:
 
 **M8 — Broader systems and media.** Following early nonblocking primitive/text probes, full Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
 
+## Owner-selected 0.1.0 programme
+
+The 2026-10-06 goal explicitly selects **all platforms and storage operations**
+specified at base `40ac8ec02778b7c25100421147fc1e107fa14ed5` as the 0.1.0 finish
+line. This is larger than the first useful inspector milestone below. The retained
+`.aide/programmes/disked-0.1.0.json` records the exact scope and development grant.
+Local implementation may continue across units after tests and recorded agent
+review; owner acceptance, release and storage privilege gates remain separate.
+This policy permits progress without manufacturing accepted prerequisites.
+Missing target environments remain unverified, not implied platform passes.
+
 ## Work model
 
 `work/units.json` defines small dependency-ordered units with source IDs, allowed paths, deliverables, tests, gates and stop states. `specctl next` reports ready-to-review/design work; it does not grant execution. Do not convert this roadmap into one giant agent prompt. Initial units include exact acceptance outcomes and forbid creating a broad untested source tree.
@@ -85,7 +96,7 @@ DE-W010-016 remain the native fake slice. DE-W019 adds the explicit shell using 
 
 ## CLI syntax refinement after 9493381
 
-The proposed grammar now lets users append or intersperse accepted options, registers ordinary-word shortcuts and makes contextual help independent of storage prerequisites. DE-W012 owns the native parser, typed parameter completion, no-effects-before-validation traces and shared conformance corpus. DE-W019 owns editable error recovery and measured shortcut/completion usability. DE-W018/071 reuse parser cases when a target's parser is admitted; this does not expand the first fake executable or require mature historical ports first. Current local results cover catalogs and expectation definitions, not argv execution.
+The proposed grammar now lets users append or intersperse accepted options, registers ordinary-word shortcuts and makes contextual help independent of storage prerequisites. DE-W012 owns the native parser, typed parameter completion, no-effects-before-validation traces and shared conformance corpus. DE-W019 owns editable error recovery and measured shortcut/completion usability. DE-W018/071 reuse parser cases when a target's parser is admitted; this does not expand the first fake executable or require mature historical ports first. DE-W012 now executes the shared vectors and option-position permutations against the native Windows parser. Target-specific evidence remains separate; this does not qualify other tokenizers or hosts.
 
 ## Normative requirements
 

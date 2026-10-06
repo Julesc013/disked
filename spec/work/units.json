@@ -211,7 +211,7 @@
       "id": "DE-W012",
       "title": "Implement descriptor-owned CLI and machine envelopes",
       "phase": "M1",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -227,7 +227,19 @@
         "source/runtime/command/**",
         "source/apps/disked/cli/**",
         "tests/contracts/**",
-        "include/**"
+        "include/**",
+        "source/runtime/invocation/**",
+        "source/apps/disked/main.cpp",
+        "source/apps/disked/command_registry*",
+        "CMakeLists.txt",
+        "tools/build*",
+        "tests/native/**",
+        "spec/**",
+        "docs/**",
+        ".aide/**",
+        "source/apps/disked/cli.cpp",
+        "source/apps/disked/cli.h",
+        "TODO.MD"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -260,7 +272,10 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -270,7 +285,9 @@
         "spec/catalog/compositions.json",
         "spec/fixtures/invocation.json",
         "spec/catalog/cli-syntax.json",
-        "spec/fixtures/command-syntax.json"
+        "spec/fixtures/command-syntax.json",
+        "tools/build-inputs.json",
+        "tools/build-bootstrap.py"
       ]
     },
     {

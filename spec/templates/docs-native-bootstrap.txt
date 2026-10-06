@@ -1,55 +1,53 @@
-# Build and run the native bootstrap
+# Build and run the native development executable
 
-DE-W010 provides a console `disked.exe` with help, build identity and static command
-discovery. It has a fake provider identity, with no disk graph or storage access.
-This is a development prototype. The full CLI, JSON, TUI, GUI and storage commands
-remain future work. The exact [execution contract](../spec/development/native-bootstrap.md)
-owns the supported subset and diagnostics.
+The fake-only Windows executable supports human and JSON/NDJSON build information,
+static command discovery and contextual help. `protocol serve` admits synchronous
+build/command requests over stdin/stdout. There is no disk graph, storage access,
+GUI, TUI, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
+and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
-On Windows x64, use a Git checkout with CMake 3.27+, Python 3.10+, Git, VS 2022's
-MSVC **14.44.35207** toolset (compiler **19.44.35228.0**) and Windows SDK
-**10.0.19041.0** already installed. The checked-in preset chooses that compiler,
-SDK, Release configuration, C++14 and static CRT. It downloads no dependencies.
-These versions describe the tested prototype lane, not a permanent product floor.
-
-From the repository root in PowerShell:
+Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
+MSVC **14.44.35207** (compiler **19.44.35228.0**) and SDK **10.0.19041.0** installed.
+The preset selects Release, C++14 and static CRT; the build downloads nothing.
 
 ```powershell
 cmake --preset windows-bootstrap
 cmake --build --preset windows-bootstrap
 ctest --preset windows-bootstrap
 & .\build\windows-bootstrap\Release\disked.exe --help
-& .\build\windows-bootstrap\Release\disked.exe build inspect
+& .\build\windows-bootstrap\Release\disked.exe build inspect --json
 & .\build\windows-bootstrap\Release\disked.exe commands
+& .\build\windows-bootstrap\Release\disked.exe help part --json
 ```
 
-The public artifact is `build/windows-bootstrap/Release/disked.exe`. Test builds
-also create two internal provider-guard executables; they are not product
-entrypoints. `build/windows-bootstrap/generated/build-identity.json` records the
-exact source closure, compiler hash and embedded identity. Source changes and Git
-revision changes refresh identity on the next build, without requiring configure.
-`source_state=dirty` means the checkout had tracked or untracked changes when the
-identity was generated; it must not be represented as an exact clean commit build.
+The product is `build/windows-bootstrap/Release/disked.exe`; other test executables
+are internal probes. `generated/build-identity.json` records the source closure,
+compiler hash and embedded revision/configuration. Dirty builds explicitly report
+`source_state=dirty`; only a clean rebuild binds the artifact to the named commit.
 
-`commands` shows separate public-contract status, subset implementation status and
-availability. Only `build.inspect` and `command.list` are implemented in this human
-bootstrap. `target list`, JSON, GUI and other unavailable functions return a fixed
-diagnostic and exit 3. Invalid bootstrap arguments return 2; output failure returns
-4. Neither full machine envelopes nor the complete DE-W012 grammar are admitted.
+Commands remain globally planned while discovery reports the actual composition's
+implemented subset. `build.inspect`, `command.list` and the transport selector
+`protocol.serve` are available. Recognizing a storage command's syntax does not
+admit its handler. Machine responses never mix human diagnostics with framed JSON.
+Exit 0 means completed, 2 invalid input, 3 unavailable and 4 output/internal failure.
+The reserved asynchronous outcomes cannot be produced by this synchronous subset.
 
-The tests run predefined cases and every registered command spelling from empty
-temporary directories, with closed stdin and no toolchain on the child PATH. They
-compare output and status and check for created files. A second linked build exits
-97 if a command attempts provider initialization; a positive control verifies that
-instrumentation. These checks do not trace every system call made by Windows or
-the CRT, and are not physical-storage or process-isolation qualification.
+To use transport, pass `protocol serve --format=json` and provide one UTF-8 request
+to EOF, or choose `--format=ndjson` for a bounded sequence of lines. For example:
 
-The retained [native evidence](../.aide/evidence/2026-10-06-native-bootstrap/)
-identifies the actual source commit, clean-clone commands, host, imports and hashes.
-Only Windows 10 x64 build 19045 is exercised here. XP, Windows 7/11, clean VMs,
-Explorer launch/console ownership, installation and storage operations remain
-unverified. Installed legacy SDK files do not establish XP compatibility.
+```json
+{"schema":"org.disked.request/1","request_id":"example-1","command":"build.inspect","parameters":{},"required_features":[]}
+```
 
-The build uses CMake's explicit [VS platform/toolset selection](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2017%202022.html)
-and [static CRT property](https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html).
-Retained PE evidence uses Microsoft's [DUMPBIN dependency inspection](https://learn.microsoft.com/en-us/cpp/build/reference/dependents?view=msvc-170).
+Use a caller that writes UTF-8 bytes; shell text-pipeline encoding differs between
+PowerShell versions. Normal CLI commands do not interpret redirected stdin as requests.
+The protocol contract specifies limits, correlation and refusal behavior.
+
+Native tests exercise the shared syntax corpus, option-placement permutations,
+strict JSON limits, producer/reader compatibility, process output and a provider
+initialization trap. Temporary working directories remain empty. These are
+application-boundary checks, not a system-call trace or storage qualification.
+Historical [DE-W010 evidence](../.aide/evidence/2026-10-06-native-bootstrap/) applies
+only to its original human subset; subsequent work retains separate evidence.
+Windows 10 x64 build 19045 is the current exercised host. Other platforms, clean
+VMs, Explorer/console routing and all storage operations remain unverified.

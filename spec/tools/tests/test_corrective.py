@@ -40,6 +40,14 @@ class ProtocolCorrections(unittest.TestCase):
         response['operation_id']='operation-fixture';self.bundle.validate(sc.SCHEMA_PREFIX+'response:1',response)
         response.update(status='completed',operation_id=None);self.bundle.validate(sc.SCHEMA_PREFIX+'response:1',response)
 
+    def test_resize_quantity_schema_semantics_match_native_bounds(self):
+        schema=sc.SCHEMA_PREFIX+'command-resize-proposal-parameters:1'
+        for length in ['1B','50GiB',str(sc.U64_MAX)+'B','16777215TiB']:
+            self.bundle.validate(schema,{'target_id':'fixture','length':length})
+        for length in ['0B','01B','-1B','1.5GiB',str(sc.U64_MAX+1)+'B','16777216TiB',str(sc.U64_MAX)+'KiB','9'*100+'B']:
+            with self.subTest(length=length),self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema,{'target_id':'fixture','length':length})
+
     def test_explicit_and_inferred_cli_prompt_policy(self):
         for front in ['cli','auto','plain']:
             for terminal in ['capable','limited']:
@@ -116,7 +124,7 @@ class ContextCorrections(TemporaryCorrectiveFixture):
         m['files']=[f for f in m['files'] if f['path']!='spec/catalog/commands.json'];sc.write_json(self.pack/'manifest.json',m)
         with self.assertRaisesRegex(sc.SpecError,'closure'):self.bundle.verify_context(self.pack)
         sc.write_json(self.pack/'manifest.json',old)
-        (self.repo/'source/runtime').mkdir(parents=True);(self.repo/'source/runtime/AGENTS.md').write_text('New local instruction')
+        (self.repo/'source/runtime').mkdir(parents=True,exist_ok=True);(self.repo/'source/runtime/AGENTS.md').write_text('New local instruction')
         with self.assertRaisesRegex(sc.SpecError,'closure'):self.bundle.verify_context(self.pack)
 
     def test_optional_background_does_not_invalidate_pack(self):
@@ -142,7 +150,7 @@ class ContextCorrections(TemporaryCorrectiveFixture):
 
     def test_instruction_discovery_has_canonical_order(self):
         for name in ['source/runtime/z','source/runtime/a']:
-            folder=self.repo/name;folder.mkdir(parents=True);(folder/'AGENTS.md').write_text('Fixture only.\n')
+            folder=self.repo/name;folder.mkdir(parents=True,exist_ok=True);(folder/'AGENTS.md').write_text('Fixture only.\n')
         instructions=self.bundle.input_view()['instructions']
         self.assertEqual(sorted(instructions),instructions)
         self.assertEqual(4,len(instructions))

@@ -96,8 +96,8 @@
       ],
       "handler": null,
       "summary": "Bounded target enumeration",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
       "argument_bindings": [],
       "completion_policy": "static-only"
     },
@@ -121,9 +121,15 @@
       ],
       "handler": null,
       "summary": "Inspect identity and source observations",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
-      "argument_bindings": [],
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-target-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "target_id",
+          "position": 0,
+          "completion": "none"
+        }
+      ],
       "completion_policy": "static-only"
     },
     {
@@ -190,9 +196,15 @@
       ],
       "handler": null,
       "summary": "Inspect image without mounting it",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
-      "argument_bindings": [],
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-image-path-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "path",
+          "position": 0,
+          "completion": "none"
+        }
+      ],
       "completion_policy": "static-only"
     },
     {
@@ -377,9 +389,23 @@
       ],
       "handler": null,
       "summary": "Construct a typed size/start/end plan",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
-      "argument_bindings": [],
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-resize-proposal-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "target_id",
+          "position": 0,
+          "completion": "none"
+        },
+        {
+          "parameter": "length",
+          "option": "--length",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        }
+      ],
       "completion_policy": "static-only"
     },
     {
@@ -805,6 +831,29 @@
       ],
       "handler": null,
       "summary": "Open an explicit persistent DiskEd command session; no implicit storage effect",
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+      "argument_bindings": [],
+      "completion_policy": "static-only"
+    },
+    {
+      "id": "protocol.serve",
+      "words": [
+        "protocol",
+        "serve"
+      ],
+      "aliases": [],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-022"
+      ],
+      "handler": null,
+      "summary": "Serve bounded synchronous requests over standard handles",
       "syntax_status": "defined",
       "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
       "argument_bindings": [],

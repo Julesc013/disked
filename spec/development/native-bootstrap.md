@@ -21,6 +21,15 @@ disked:
 
 # Bounded native bootstrap
 
+## Scope and subsequent slices
+
+This document and `fixtures/native-bootstrap.json` retain the DE-W010 human-only
+contract implemented at `e08a12f620beb5e21efd56e153e256f6efeee625`. The current
+composition extends that bootstrap through DE-W012; DE-021/022 own the new parser,
+structured help and synchronous transport. Historical W010 evidence does not
+qualify those additions. The current catalog selects the active subset; the
+two-command selection below describes the recorded W010 revision.
+
 ## Execution contract
 
 DE-W010 is a console-only, fake-only bootstrap composition, smaller than M1.

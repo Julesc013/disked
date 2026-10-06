@@ -34,7 +34,7 @@ def generate(args):
     commands = read(root / "spec/catalog/commands.json")["commands"]
     syntax = read(root / "spec/catalog/cli-syntax.json")
     implemented = set(profile["implemented_commands"])
-    if implemented != {"build.inspect", "command.list"}:
+    if implemented != {"build.inspect", "command.list", "protocol.serve"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")
@@ -96,6 +96,19 @@ def generate(args):
     header += ["};", "static const char* const fake_provider_id = " + cpp(profile["fake_provider_id"]) + ";"]
     for key, value in identity.items():
         header.append("static const char* const " + key + " = " + cpp(value) + ";")
+    schema_ids = {c['parameter_schema'] for c in commands if c['parameter_schema']}
+    schemas = {s['$id']: s for p in sorted((root/'spec/schemas').glob('*.json'))
+               for s in [read(p)] if s.get('$id') in schema_ids}
+    if set(schemas) != schema_ids:
+        raise ValueError("Missing parameter schema")
+    for path in (root/'spec/schemas').glob('*.json'):
+        if read(path).get('$id') in schema_ids and path.relative_to(root).as_posix() not in inputs:
+            raise ValueError("Parameter schema missing from build input closure: "+str(path))
+    for name, value in [('command_catalog_json', commands), ('syntax_json', syntax), ('parameter_schemas_json', schemas)]:
+        text = json.dumps(value, ensure_ascii=True, separators=(',', ':'))
+        header.append('static const char* const '+name+' =')
+        header.extend(cpp(text[i:i+1024]) for i in range(0, len(text), 1024))
+        header.append(';')
     header += ["}", ""]
     args.output.mkdir(parents=True, exist_ok=True)
     write_changed(args.output / "bootstrap_registry.h", "\n".join(header))

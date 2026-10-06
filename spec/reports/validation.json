@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.bootstrap-validation/1",
-  "observed_at": "2026-10-05T21:30:50.947891+00:00",
-  "base_revision": "95cce28f801c726ca61816b7d2a974b3c7bce07e",
-  "bundle_version": "0.1.3-proposed.1",
+  "observed_at": "2026-10-06T09:47:24.364219+00:00",
+  "base_revision": "40ac8ec02778b7c25100421147fc1e107fa14ed5",
+  "bundle_version": "0.1.4-proposed.1",
   "environment": {
     "python": "3.14.7",
     "platform": "Windows-10-10.0.19045-SP0"
@@ -10,27 +10,26 @@
   "tests": {
     "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
     "exit_code": 0,
-    "count": 155,
-    "passed": 153,
+    "count": 156,
+    "passed": 154,
     "skipped": 2,
     "status": "PASS",
-    "log": "reports/test-results.txt",
-    "limits": "Skipped symlink fixtures are not passes."
+    "log": "reports/test-results.txt"
   },
   "subjects": {
-    "tools/specctl.py": "sha256:6533be987ed582f9e644114d42c7a79d79da4cf1b07af49c061934aada2f010e",
+    "tools/specctl.py": "sha256:e7c0d30655476a278b1a032f90f49b7decab95d03d955a71ebe1ba5449fcbd62",
     "tools/tests/test_cli_metadata.py": "sha256:13dd5a3739f2ea6b14d1e8bd312d30a4cc11dcca11cbf9fee807ba6750a7c08a",
-    "tools/tests/test_corrective.py": "sha256:8a6a21aa0ff9233074edf882cba43d1650378c6ecbec8bb800d65c4c8d6768f5",
+    "tools/tests/test_corrective.py": "sha256:41f49e91a163015565dd250029408ac788621e280cc07a9e739824ada50dd694",
     "tools/tests/test_specctl.py": "sha256:86f11fb0ab22e61425b3d79e84d8812cbda5dc4a2f1d89709a0ec9f1809f6988"
   },
   "structural_check": {
     "schema": "org.disked.spec-check/1",
     "status": "PASS",
-    "checks": 872,
+    "checks": 879,
     "concepts": 72,
     "requirements": 150,
     "work_units": 36,
-    "schemas": 29,
+    "schemas": 32,
     "errors": [],
     "scope": "Specification structure, local contracts, fixtures and tool projections only.",
     "not_validated": [
@@ -43,11 +42,13 @@
       "owner acceptance"
     ]
   },
-  "scope": "Specification tooling checks only. Separate DE-W010 native evidence covers the human bootstrap; not the full product.",
-  "native_evidence": ".aide/evidence/2026-10-06-native-bootstrap/native-results.json",
+  "scope": "Specification/tooling checks. Runtime results retained separately.",
+  "native_evidence": ".aide/evidence/2026-10-06-native-protocol/",
   "native_syntax_expectations": {
-    "native_execution": "not_run",
-    "scope": "Full DE-W012 command-syntax corpus; distinct from executed DE-W010 subset"
+    "native_execution": "pass",
+    "vectors": 80,
+    "global_option_permutations": 384,
+    "scope": "Native Windows parser only; runtime evidence is source bound separately."
   },
   "aide_passive_schema_validation": {
     "status": "PASS",
