@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-031
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.18-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-031-03
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-06T18:59:16.591767+00:00'
+  scope: DE-W020 internal C90 arithmetic, bounded views and named extents; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -41,6 +41,55 @@ sources:
 Internally use half-open extents `[start_lba, end_lba)` or `{start_lba, length_lba}` with checked conversion. A zero-length extent is invalid for a partition. A containing device of N blocks permits end == N but no addressed block >= N. Translate inclusive on-disk endpoints explicitly. Calculate bytes as checked block_count × logical_block_bytes; never multiply before checking range. Use u64 semantic ranges with wider intermediates where available and bounded software arithmetic on constrained targets.
 
 Logical sector size, physical sector size, alignment offset, minimum transfer and optimal transfer are independent observations. Unknown physical alignment is not a guessed 4096. Non-power-of-two units are representable unless a particular provider forbids them. Reject overflows, invalid block counts and device-size inconsistencies before any buffer allocation or I/O.
+
+## DE-W020 portable execution contract
+
+`source/portable/primitives/` owns the internal C90 checked-value, byte-view and
+extent implementation used by subsequent format readers. The earlier DE-W018
+probe exercises this same implementation; there is no parallel arithmetic copy.
+These source-level C interfaces are private, not a frozen SDK or on-disk ABI.
+They allocate nothing, include no OS headers, and perform no I/O. All fallible
+calls leave caller outputs unchanged on refusal. Input objects must be valid for
+their stated lifetime and byte length; null is allowed only for an empty byte view.
+
+An exact u64 uses four 16-bit limbs and a checked 32-bit intermediate. Addition,
+subtraction, multiplication and division/remainder refuse overflow, underflow or
+zero divisors. Results may alias an arithmetic input; quotient and remainder
+outputs must be distinct. Size conversion refuses values above the actual
+target's `size_t` ceiling. Decimal representation remains canonical ASCII;
+no pointer or struct layout is a wire representation.
+
+A byte view borrows one caller-owned array. Slicing validates `offset <= size`
+and `length <= size - offset` before pointer arithmetic, permits an empty slice
+at the end, and can accept exact-u64 offsets/lengths only after checked native
+size conversion. Unsigned endian reads/writes support exactly 1, 2, 4 or 8 bytes
+in explicit little or big endian order, including unaligned offsets. Truncated
+access or a value too wide for the requested field is refused before any write.
+Mutable buffers and immutable views remain distinct C types.
+
+A block-space object borrows a nonempty name of at most 128 bytes (no embedded
+NUL), an exact block count and a logical unit of 1 through 1048576 bytes. Names,
+geometry and the object itself stay immutable while its extents are used. Extent
+operations require the same space object; equal display names alone do not merge
+spaces or establish storage identity. A bytes-to-space constructor requires an
+exact whole number of declared units. Geometry does not invent physical alignment.
+
+Partition extents are nonempty, half-open, and bounded by the containing block
+count; `end == device_blocks` is valid. Inclusive endpoints are converted with
+checked `last + 1`; an unrepresentable end is refused. Overlap excludes adjacency.
+Byte projection checks both endpoint products independently, so no rounded or
+wrapped offset can escape to an I/O adapter. Pure block geometry may be retained
+when the whole device's byte size is not representable; an overflowing byte
+projection remains unavailable. None of these values grants provider authority.
+The extent JSON review contract additionally requires successful byte projection;
+a purely block-coordinate internal value cannot be emitted as that schema until
+it passes the byte check.
+
+Acceptance uses an independent integer oracle, zero/device-end/u64 boundary and
+non-power-of-two-unit vectors, unchanged-output sentinels, unaligned/truncated
+buffer tests and C/C++ linkage. Reuse the vectors across available compilers,
+retaining actual widths and unrun historical targets separately. The initial
+native fake executable gains no real-storage command from this internal module.
 
 ## Non-block semantics
 

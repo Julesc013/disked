@@ -10,6 +10,7 @@ P.add_argument('--include', action='append', default=[])
 P.add_argument('--lib', action='append', default=[])
 P.add_argument('--dumpbin', type=Path, required=True)
 P.add_argument('--output', type=Path, required=True)
+P.add_argument('--suite', choices=['legacy','portable'], default='legacy')
 ARGS = P.parse_args()
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ARGS.output.resolve()
@@ -34,6 +35,8 @@ def run(name, args, success=True):
 
 sources = ['source/portable/primitives/checked.h', 'source/portable/primitives/checked.c',
            'tests/legacy/primitive_probe.c', 'tests/legacy/run_probes.py', 'tests/legacy/README.md']
+if ARGS.suite=='portable':
+    sources += ['source/portable/primitives/view.h','source/portable/primitives/view.c','source/portable/primitives/extent.h','source/portable/primitives/extent.c','tests/unit/portable_probe.c','tests/property/test_primitives.py']
 identity = dict(observed_at=datetime.now(timezone.utc).isoformat(),
     source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
     source_state='dirty' if subprocess.check_output(['git','status','--porcelain'],cwd=ROOT) else 'clean',
@@ -43,6 +46,8 @@ identity = dict(observed_at=datetime.now(timezone.utc).isoformat(),
 write('identity.json', identity)
 exe = OUT / 'primitive-probe.exe'
 inputs = [ROOT/'source/portable/primitives/checked.c', ROOT/'tests/legacy/primitive_probe.c']
+if ARGS.suite=='portable':
+    inputs=[ROOT/'source/portable/primitives'/name for name in ['checked.c','view.c','extent.c']]+[ROOT/'tests/unit/portable_probe.c']
 include = ROOT/'source/portable/primitives'
 if ARGS.family == 'gcc':
     run('compiler-version', [compiler, '-v'])
@@ -57,6 +62,14 @@ else:
 write('identity.json',identity)
 run('build',command)
 for kind in ['HEADERS','IMPORTS','DEPENDENTS']: run(kind.lower(),[dumpbin,'/'+kind,exe])
+
+if ARGS.suite=='portable':
+    run('portable-tests',[sys.executable,ROOT/'tests/property/test_primitives.py','--probe',exe,'--evidence',OUT/'observations.json'])
+    observed=json.loads((OUT/'observations.json').read_text(encoding='utf-8'));assert observed['passed']
+    write('results.json',dict(status='pass',cases=observed['cases'],profile=observed['profile'],source=identity,
+        executable=dict(path=str(exe),sha256=sha(exe),bytes=exe.stat().st_size),scope='Internal portable primitives on the recorded modern host; historical targets and storage are unqualified'))
+    print(json.dumps(dict(status='pass',cases=observed['cases'],profile=observed['profile'],artifact=sha(exe))))
+    raise SystemExit(0)
 
 observations=[]
 def expect(args, code, output):

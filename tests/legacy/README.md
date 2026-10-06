@@ -1,7 +1,8 @@
 # DE-W018 primitive probe contract
 
-These harmless probes compare a private C90 implementation across available
-compilers. They are not the DiskEd command parser, a storage provider, or a public
+These harmless probes compare the shared internal C90 implementation across
+available compilers. DE-W020 now extends the same source with checked arithmetic,
+bounded views and named extents; no second arithmetic implementation is maintained. They are not the DiskEd command parser, a storage provider, or a public
 SDK ABI. They accept explicit argument strings and write results to stdout; they
 do not open files, enumerate devices, elevate, create workers or modify terminals.
 
@@ -44,3 +45,7 @@ Win9x and OS/2 lanes require their own compiler/SDK, executable/CPU/memory model
 and actual launch environment. Missing tools are explicit scoped blockers;
 registered VM names or successful modern builds do not qualify those lanes.
 The shared DiskEd parser corpus is `not_run` until a target parser is admitted.
+
+The coordinator also accepts `--suite portable` to build the DE-W020 C harness and
+run `tests/property/test_primitives.py`. The default suite preserves the original
+411-case primitive control. Compiler/SDK choices remain explicit arguments.

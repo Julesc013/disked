@@ -101,3 +101,13 @@ reproduction belong to `.aide/evidence/2026-10-07-operation-watch/`. The retaine
 and clean reproduction govern continuation to DE-W018;
 owner acceptance, real filesystem/power-loss and other-host qualification remain
 separate. The full 0.1.0 programme is still active.
+
+
+DE-W020 now implements one internal C90 module for exact values, checked arithmetic,
+bounded views, endian fields and named half-open extents. It reuses the DE-W018
+implementation instead of creating a second arithmetic copy. Local independent
+integer/byte vectors and C/C++ linkage/page-boundary checks exercise the core;
+source-bound results and clean reproduction belong to
+`.aide/evidence/2026-10-07-portable-core/`. The module adds no storage command to
+the fake product. Local review governs progression to MBR/EBR and GPT readers;
+DE-W018 historical compilers/launches remain open independently.

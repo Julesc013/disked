@@ -36,7 +36,8 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W012/017 local watch: typed fake events, negotiated live NDJSON, digest-bound reconnect, bounded observers and GUI/TUI/shell parity.
 - [x] Bring DE-W012/017 to the local fake-provider review boundary with recorded native tests; clean reproduction and agent review govern continuation to DE-W018. Owner acceptance and real filesystem/persistence/other-host qualification remain separate.
 - [ ] DE-W018 active: C90 arithmetic/byte/text control probes and exact installed-tool inventory; historical compiler/loader/terminal qualification remains open.
-- [ ] DE-W020-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
+- [x] DE-W020 internal implementation: checked C90 values, bounded byte views, endian fields and named extents; clean reproduction and local review govern continuation.
+- [ ] DE-W021-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
 
 ## Delivery and maintenance

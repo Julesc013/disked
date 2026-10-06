@@ -970,7 +970,20 @@
       "path": "CMakeLists.txt",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/extent.c",
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/view.h",
+        "tests/legacy/README.md",
+        "tests/legacy/primitive_probe.c",
+        "tests/legacy/run_probes.py",
+        "tests/property/test_primitives.py",
+        "tests/unit/portable_cpp.cpp",
+        "tests/unit/portable_probe.c"
+      ],
       "spec_ids": [
         "DE-079"
       ]
@@ -1020,6 +1033,12 @@
         "source/platform/windows/ui/gui.h",
         "source/portable/hash/sha256.cpp",
         "source/portable/hash/sha256.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/extent.c",
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/view.h",
         "source/providers/fake/bootstrap.cpp",
         "source/providers/fake/bootstrap.h",
         "source/providers/fake/graph.cpp",
@@ -1100,6 +1119,9 @@
         "tests/invocation/policy_probe.cpp",
         "tests/invocation/test_policy.py",
         "tests/invocation/test_windows.py",
+        "tests/legacy/README.md",
+        "tests/legacy/primitive_probe.c",
+        "tests/legacy/run_probes.py",
         "tests/native/provider_guard_probe.cpp",
         "tests/native/test_bootstrap.py",
         "tests/native/test_protocol.py",
@@ -1111,6 +1133,7 @@
         "tests/operation/test_watch_reader.py",
         "tests/operation/test_worker.py",
         "tests/operation/watch_probe.cpp",
+        "tests/property/test_primitives.py",
         "tests/resilience/capture_campaign.cpp",
         "tests/resilience/capture_probe.cpp",
         "tests/resilience/console_capture_fixture.py",
@@ -1128,6 +1151,8 @@
         "tests/resilience/test_request_waiting.py",
         "tests/resilience/test_store_failures.py",
         "tests/resilience/test_worker_budget.py",
+        "tests/unit/portable_cpp.cpp",
+        "tests/unit/portable_probe.c",
         "tools/build-bootstrap.py"
       ],
       "spec_ids": [
@@ -2536,6 +2561,7 @@
       "delivery": "artifact",
       "depends_on": [],
       "spec_ids": [
+        "DE-031",
         "DE-051"
       ]
     },
@@ -2548,6 +2574,7 @@
         "source/portable/primitives/checked.h"
       ],
       "spec_ids": [
+        "DE-031",
         "DE-051"
       ]
     },
@@ -2571,6 +2598,13 @@
       "depends_on": [
         "source/portable/primitives/checked.h",
         "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/extent.c",
+        "tests/unit/portable_probe.c",
+        "tests/unit/portable_cpp.cpp",
+        "tests/property/test_primitives.py",
         "tests/legacy/primitive_probe.c",
         "tests/legacy/README.md"
       ],
@@ -2586,6 +2620,96 @@
       "depends_on": [],
       "spec_ids": [
         "DE-051"
+      ]
+    },
+    {
+      "id": "source/portable/primitives/view.h",
+      "path": "source/portable/primitives/view.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-051"
+      ]
+    },
+    {
+      "id": "source/portable/primitives/view.c",
+      "path": "source/portable/primitives/view.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/view.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-051"
+      ]
+    },
+    {
+      "id": "source/portable/primitives/extent.h",
+      "path": "source/portable/primitives/extent.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-051"
+      ]
+    },
+    {
+      "id": "source/portable/primitives/extent.c",
+      "path": "source/portable/primitives/extent.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/extent.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-051"
+      ]
+    },
+    {
+      "id": "tests/unit/portable_probe.c",
+      "path": "tests/unit/portable_probe.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h"
+      ],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/unit/portable_cpp.cpp",
+      "path": "tests/unit/portable_cpp.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h"
+      ],
+      "spec_ids": [
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/property/test_primitives.py",
+      "path": "tests/property/test_primitives.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-031"
       ]
     }
   ]

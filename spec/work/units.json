@@ -635,7 +635,7 @@
       "id": "DE-W020",
       "title": "Implement portable checked arithmetic and extents",
       "phase": "M2",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -650,7 +650,14 @@
         "source/portable/**",
         "tests/unit/**",
         "tests/property/**",
-        "include/**"
+        "include/**",
+        "tests/legacy/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -677,11 +684,32 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/extent.c",
+        "tests/unit/portable_probe.c",
+        "tests/unit/portable_cpp.cpp",
+        "tests/property/test_primitives.py",
+        "tests/legacy/primitive_probe.c",
+        "tests/legacy/run_probes.py",
+        "tests/legacy/README.md",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/schemas/extent.schema.json",
+        "spec/examples/extent-valid.json",
+        "spec/examples/extent-overflow.json"
+      ]
     },
     {
       "id": "DE-W021",

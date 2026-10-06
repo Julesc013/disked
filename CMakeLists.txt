@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(DiskEdBootstrap VERSION 0.1.0 LANGUAGES CXX)
+project(DiskEdBootstrap VERSION 0.1.0 LANGUAGES C CXX)
 
 # This lane is deliberately narrow. Other targets need their own evidence.
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/spec/catalog/native-bootstrap.json" bootstrap)
@@ -22,6 +22,11 @@ set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "Bootstrap qualification co
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 find_package(Git REQUIRED)
+add_library(disked_primitives STATIC source/portable/primitives/checked.c
+  source/portable/primitives/view.c source/portable/primitives/extent.c)
+target_include_directories(disked_primitives PUBLIC source/portable/primitives)
+set_target_properties(disked_primitives PROPERTIES C_STANDARD 90 C_STANDARD_REQUIRED YES C_EXTENSIONS NO)
+target_compile_options(disked_primitives PRIVATE /W4 /WX /GS /sdl /guard:cf)
 add_library(disked_json STATIC source/runtime/command/json.cpp source/runtime/command/command.cpp source/runtime/command/protocol.cpp source/runtime/command/shell_lexer.cpp source/runtime/invocation/policy.cpp)
 target_include_directories(disked_json PUBLIC source/runtime/command source/runtime/invocation)
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -80,6 +85,19 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(portable_probe tests/unit/portable_probe.c)
+  target_link_libraries(portable_probe PRIVATE disked_primitives)
+  set_target_properties(portable_probe PROPERTIES C_STANDARD 90 C_STANDARD_REQUIRED YES C_EXTENSIONS NO)
+  target_compile_options(portable_probe PRIVATE /W4 /WX /GS /sdl)
+  add_test(NAME portable.checked COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/property/test_primitives.py"
+    --probe "$<TARGET_FILE:portable_probe>")
+  set_tests_properties(portable.checked PROPERTIES TIMEOUT 60)
+  add_executable(portable_cpp tests/unit/portable_cpp.cpp)
+  target_link_libraries(portable_cpp PRIVATE disked_primitives)
+  set_target_properties(portable_cpp PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(portable_cpp PRIVATE /W4 /WX /permissive- /GS /sdl)
+  add_test(NAME portable.c_cpp_linkage COMMAND portable_cpp)
+  set_tests_properties(portable.c_cpp_linkage PROPERTIES TIMEOUT 30)
   add_executable(watch_probe tests/operation/watch_probe.cpp)
   target_link_libraries(watch_probe PRIVATE disked_presentation)
   set_target_properties(watch_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

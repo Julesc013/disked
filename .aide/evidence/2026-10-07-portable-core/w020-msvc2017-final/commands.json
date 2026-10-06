@@ -1,0 +1,73 @@
+[
+  {
+    "command": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\cl.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "compiler-version.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\cl.exe",
+      "/nologo",
+      "/TC",
+      "/W4",
+      "/WX",
+      "/O2",
+      "/MT",
+      "/ID:\\Projects\\DiskEd\\disked\\source\\portable\\primitives",
+      "D:\\Projects\\DiskEd\\disked\\source\\portable\\primitives\\checked.c",
+      "D:\\Projects\\DiskEd\\disked\\source\\portable\\primitives\\view.c",
+      "D:\\Projects\\DiskEd\\disked\\source\\portable\\primitives\\extent.c",
+      "D:\\Projects\\DiskEd\\disked\\tests\\unit\\portable_probe.c",
+      "/Fe:D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\primitive-probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "build.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\primitive-probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\primitive-probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\primitive-probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "dependents.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\property\\test_primitives.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\primitive-probe.exe",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final\\observations.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w020-msvc2017-final",
+    "exit_code": 0,
+    "log": "portable-tests.log"
+  }
+]
