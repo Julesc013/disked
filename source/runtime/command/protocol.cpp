@@ -137,7 +137,8 @@ int response_exit(const Value& value) {
     for(const auto& d:value.find("diagnostics")->items) {
         const auto code=d.find("code")->text;
         if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature" || code=="operation_unavailable" ||
-           code=="request_resource_limit" || code=="request_thread_unavailable")return 3;
+           code=="request_resource_limit" || code=="request_thread_unavailable" ||
+           code=="memory_budget_unavailable" || code=="memory_budget_busy" || code=="memory_budget_mismatch" || code=="memory_budget_incompatible")return 3;
     }
     return 2;
 }

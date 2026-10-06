@@ -1,0 +1,188 @@
+{
+  "tests": 6,
+  "passed": false,
+  "executable": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe",
+  "sha256": "50cb18f67d7d06fdca667625a44eaa207002175f85b511900fc1b1ec6dfcaf12",
+  "fault_executable": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked_memory_test.exe",
+  "fault_sha256": "19062043050eb3a49b974598830670221a203278b79788052cddf7e0dde95937",
+  "observations": [
+    {
+      "test": "actual allocation denial with inherited host job",
+      "host_limit": 536870912,
+      "effective_limit": 268435456,
+      "memory": {
+        "private_bytes": 254599168,
+        "peak_commit_bytes": 254599168,
+        "working_set_bytes": 9826304,
+        "peak_working_set_bytes": 9830400
+      },
+      "before": {
+        "flags": 256,
+        "process_bytes": 536870912,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 0,
+        "peak_job_bytes": 0
+      },
+      "after": {
+        "flags": 256,
+        "process_bytes": 536870912,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 254599168,
+        "peak_job_bytes": 261603328
+      },
+      "response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_unavailable",
+            "message_key": "disked.memory_budget_unavailable",
+            "parameters": {
+              "process_limit_bytes": "268435456",
+              "test_allocation_bytes": "251658240"
+            },
+            "platform_code": "1455",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      }
+    },
+    {
+      "test": "actual allocation denial with inherited host job",
+      "host_limit": 67108864,
+      "effective_limit": 67108864,
+      "memory": {
+        "private_bytes": 52891648,
+        "peak_commit_bytes": 52891648,
+        "working_set_bytes": 9834496,
+        "peak_working_set_bytes": 9838592
+      },
+      "before": {
+        "flags": 256,
+        "process_bytes": 67108864,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 0,
+        "peak_job_bytes": 0
+      },
+      "after": {
+        "flags": 256,
+        "process_bytes": 67108864,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 52891648,
+        "peak_job_bytes": 59883520
+      },
+      "response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_unavailable",
+            "message_key": "disked.memory_budget_unavailable",
+            "parameters": {
+              "process_limit_bytes": "268435456",
+              "test_allocation_bytes": "50331648"
+            },
+            "platform_code": "1455",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      }
+    },
+    {
+      "test": "mismatch retained and invalid syntax independent",
+      "before": {
+        "flags": 256,
+        "process_bytes": 134217728,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 0,
+        "peak_job_bytes": 0
+      },
+      "response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_mismatch",
+            "message_key": "disked.memory_budget_mismatch",
+            "parameters": {
+              "process_limit_bytes": "268435456"
+            },
+            "platform_code": "13",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      }
+    },
+    {
+      "test": "initialization contention",
+      "elapsed_seconds": 0.28316649998305365,
+      "response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_busy",
+            "message_key": "disked.memory_budget_busy",
+            "parameters": {
+              "process_limit_bytes": "268435456"
+            },
+            "platform_code": "258",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      }
+    },
+    {
+      "test": "product ignores private memory control",
+      "response": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": {
+          "compiler": "MSVC 19.44.35228.0",
+          "composition": "windows.native.fake.bootstrap",
+          "configuration": "Release",
+          "configuration_digest": "sha256:1669b7378382c182931be113f8aac136523553de7b905f9d30fbd4567e0477bb",
+          "crt": "static-release-MT",
+          "fake_provider": "provider.fake.bootstrap/1",
+          "input_digest": "sha256:917992e98f6c5745353375fc39bf4bcf00b4ebe81b43e2a087b04d4bd5ce494d",
+          "language": "C++14",
+          "product": "DiskEd",
+          "sdk": "10.0.19041.0",
+          "source_revision": "271706b0213e5b15b96e8794f82ce2ede2019a13",
+          "source_state": "dirty",
+          "target": "windows.nt10.x64.win32",
+          "version": "0.1.0-dev.11"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      }
+    }
+  ]
+}

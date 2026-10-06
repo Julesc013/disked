@@ -206,7 +206,21 @@ errors, residual bytes and no-replay checks are retained under
 `.aide/evidence/2026-10-07-store-failures/`. A complete terminal record describes
 observed synthetic truth, not a guarantee that its last flush succeeded.
 
-DE-W017 remains active: whole-frontend memory, public event-stream gaps/resnapshots
-and the combined provider-failure campaign still need evidence. The injected store
+Valid frontend invocations now join a 256 MiB per-process committed-memory job
+before command dispatch. Bounded startup parsing and the Windows loader precede
+assignment. System token/SID/DACL setup dynamically loads `advapi32.dll`, including
+for essential commands; it does not initialize providers or GUI dependencies.
+All cooperating frontends in the current user/Windows session share this memory
+ancestor. Worker jobs retain their stricter quotas, and closing a frontend does
+not terminate an admitted worker. Stricter host limits remain effective; job
+hierarchy conflicts or mismatched named limits produce an explicit unavailable
+refusal. No breakaway or host-policy reset is attempted.
+
+Evidence in `.aide/evidence/2026-10-07-frontend-memory/` records actual commitment
+denial, a stricter inherited budget, conflicting host hierarchies, initialization
+contention, maximum bounded NDJSON requests and repeated GUI/TUI/shell workloads.
+It measures this host and workload, not every possible allocation failure or an
+aggregate host-memory guarantee. DE-W017 remains active: public event-stream
+gaps/resnapshots and the combined provider-failure campaign still need evidence. The injected store
 checks do not qualify a real full filesystem, physical storage, power-loss
 persistence, older hosts or a security sandbox.

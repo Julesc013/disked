@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 import time
 import unittest
+from memory_fixture import name as memory_name, member as memory_member, memory as process_memory, limits as memory_limits
 
 P = argparse.ArgumentParser()
 P.add_argument('--exe', type=Path, required=True)
@@ -112,7 +113,7 @@ class Budget(unittest.TestCase):
     def test_four_workers_hold_the_limit_across_disconnected_clients(self):
         temp = tempfile.TemporaryDirectory(prefix='disked-budget-')
         processes, workers = [], []
-        job = None
+        job = None; frontend_job = None
         try:
             directories = [Path(temp.name) / str(i) for i in range(5)]
             for directory in directories: directory.mkdir()
@@ -121,15 +122,24 @@ class Budget(unittest.TestCase):
             first = eventually(lambda: header(directories[0]))
             name = 'Local\\DiskEd.Fake.Workers.v1.' + first['definition']['host_id']
             job = eventually(lambda: K.OpenJobObjectW(4, False, name))  # query only
+            frontend_job = K.OpenJobObjectW(4, False, memory_name())
+            self.assertTrue(frontend_job)
             eventually(lambda: query(job, 3, Processes()).listed == 1)
             for directory in directories[1:4]: processes.append(launch(directory))
             eventually(lambda: query(job, 3, Processes()).listed == 4)
             members = query(job, 3, Processes())
             self.assertEqual(4, members.assigned)
+            frontend_samples = []
+            for process in processes:
+                self.assertTrue(memory_member(int(process._handle), frontend_job))
+                frontend_samples.append(process_memory(int(process._handle)))
+            frontend_limits = memory_limits(frontend_job)
+            self.assertEqual((0x100, 256*1024*1024), (frontend_limits['flags'], frontend_limits['process_bytes']))
             identities = {}
             for pid in members.ids[:members.listed]:
                 handle = K.OpenProcess(0x1000 | 0x100000, False, pid)
                 self.assertTrue(handle); workers.append(handle)
+                self.assertTrue(memory_member(handle, frontend_job), 'worker lost shared frontend memory ancestry')
                 times = [W.FILETIME() for _ in range(4)]
                 self.assertTrue(K.GetProcessTimes(handle, *map(C.byref, times)))
                 path = C.create_unicode_buffer(32768); length = W.DWORD(len(path))
@@ -178,15 +188,23 @@ class Budget(unittest.TestCase):
                 flags=limits.basic.flags, max_workers=limits.basic.active_limit,
                 process_memory_limit=limits.process_memory, job_memory_limit=limits.job_memory,
                 peak_process_bytes=memory.peak_process, peak_job_bytes=memory.peak_job,
+                frontend_memory_limits=frontend_limits, frontend_memory_samples=frontend_samples,
+                worker_members_of_frontend_job=True,
                 total_assigned=accounting.total, fifth=fifth_result, retry=value, finals=finals))
         finally:
             for process in processes:
                 if process.poll() is None:
-                    process.kill(); process.wait(timeout=3)  # owned clients only
+                    # An assertion can happen while CreateProcess is still in
+                    # progress (including host launch hooks). Let the finite
+                    # admission return before closing this fixture-owned client.
+                    try: process.communicate(timeout=8)
+                    except subprocess.TimeoutExpired:
+                        process.kill(); process.wait(timeout=3)  # owned clients only
                 for stream in (process.stdout, process.stderr):
                     if stream: stream.close()
             for handle in workers: K.WaitForSingleObject(handle, 8000); K.CloseHandle(handle)
             if job: K.CloseHandle(job)
+            if frontend_job: K.CloseHandle(frontend_job)
             # Also cover a fixture assertion before process identities arrived.
             # Waiting for these finite test fixtures is not a quiescence claim.
             deadline = time.monotonic() + 8

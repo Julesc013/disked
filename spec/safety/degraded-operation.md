@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.13-proposed.1
+  version: 0.1.14-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T15:47:08.025519+00:00'
-  scope: DE-W017 state-store write and flush failure receipts; full programme remains active
+  at: '2026-10-06T16:28:12.079125+00:00'
+  scope: DE-W017 frontend memory admission and measured workload limits; full programme remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -107,10 +107,58 @@ uncertain admission/cancellation receipt, preserve residual bytes, and stop
 transitions without retry. Cached healthy and denied observations remain usable.
 Readable terminal state is not proof that its final flush succeeded.
 
-These checks do not close whole-frontend memory, public event-stream
-gap/resnapshot behaviour or the combined malformed/crashed-provider campaign.
+These store/transport checks are separate from frontend memory admission below,
+public event-stream gap/resnapshot behaviour and the combined provider campaign.
 Injected store boundaries do not qualify a real full filesystem or persistence
 after power loss. No timeout proves retirement of an arbitrary stuck kernel call.
+
+## DE-W017 Windows frontend memory admission
+
+The Windows fake composition selects a 256 MiB per-process committed-memory
+ceiling before any valid invocation enters a command handler or frontend. Fixed
+argv/descriptor parsing and host/channel observation precede this admission so a
+failure can use the selected diagnostic channel; these bounded startup steps and
+the Windows loader are not covered by a post-start assignment claim. Invalid
+syntax remains its original refusal without attempting budget admission.
+
+All frontend instances for the current user/Windows session join one common
+Windows job. A protected current-user DACL and `Local` namespace bind applicability;
+the name includes the Windows SID. This is a cooperating-composition resource
+limit, not a security boundary against the same user. Only the per-process
+memory flag is configured there. No active-process, total-memory, kill-on-close,
+breakaway, priority or UI policy is added. The existing worker jobs still enforce
+four workers, 128 MiB per worker and 512 MiB aggregate. Closing a frontend cannot
+terminate an admitted worker or free its still-live quota slot.
+
+A matching named initialization mutex serializes creation/verification and
+assignment, with a 250 ms wait. An existing job is inspected, never reset. A
+missing/denied API is `memory_budget_unavailable`; mutex timeout is
+`memory_budget_busy`; mismatched existing limits are `memory_budget_mismatch`;
+incompatible inherited job membership is `memory_budget_incompatible`. These are
+unavailable refusals (exit 3), preserving the original platform code and selected
+process limit. No handler, provider, window or interactive session is initialized
+after failed admission. No fallback removes or weakens inherited host policy.
+
+Essential commands still require no provider, device probe, elevation, network,
+Setup or installed service. The Windows core now dynamically uses the system
+`advapi32.dll` for bounded token-SID/DACL operations, in addition to kernel APIs.
+That dependency must appear in the actual loader contract and tests. A stricter
+inherited host budget remains effective; success never promises 256 MiB is
+available. Committed memory, working set, file cache and total host memory are
+different measurements. This is not a global frontend-count or host-memory quota.
+
+The campaign must query real job membership/limits and process memory, execute
+maximum bounded NDJSON sessions and repeated GUI/TUI/shell interactions, exercise
+actual commitment denial, and check concurrent frontends plus worker independence.
+Inherited stricter jobs, incompatible host restrictions, existing-limit mismatch
+and initialization contention need explicit fixtures. Fault controls and their
+isolated object namespace exist only in a separate test executable. They cannot
+alter production limits through arguments or environment variables.
+
+Windows job nesting enforces compatible subset hierarchies and stricter effective
+limits; see [Nested Jobs](https://learn.microsoft.com/en-us/windows/win32/procthread/nested-jobs)
+and [job limit flags](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_basic_limit_information).
+Other hosts and historical Windows adapters require their own evidence.
 
 ## Normative requirements
 

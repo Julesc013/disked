@@ -9,6 +9,7 @@
 #include "gui.h"
 #include "fake_worker.h"
 #include "output.h"
+#include "memory_budget.h"
 #include <cstdio>
 
 namespace disked {
@@ -149,6 +150,8 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         std::unique_ptr<FrontendSession> session;
         std::unique_ptr<RequestChannel> channel;
         std::unique_ptr<BoundedRequests> calls;
+        std::unique_ptr<WindowsMemoryBudget> memory;
+        if(parsed.valid())memory.reset(new WindowsMemoryBudget());
         Outcome outcome;
         if(!parsed.valid()) {
             outcome=refused("cli","invalid_arguments");outcome.response.fields["diagnostics"].items.clear();
@@ -157,6 +160,12 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
                 if(code=="command_not_found") {code="command_unavailable";outcome.exit_code=3;}
                 outcome.response.fields["diagnostics"].items.push_back(diagnostic(code,Value::object().put("token",*d.find("token"))));
             }
+        } else if(!memory->ready()) {
+            outcome=refused("cli",memory->error(),3);
+            auto& detail=outcome.response.fields["diagnostics"].items.front();
+            detail.put("platform_code",Value::string(std::to_string(memory->platform_error())));
+            detail.put("parameters",Value::object().put("process_limit_bytes",Value::string(std::to_string(WindowsMemoryBudget::limit_bytes()))));
+            if(memory->probe_bytes())detail.fields["parameters"].put("test_allocation_bytes",Value::string(std::to_string(memory->probe_bytes())));
         } else if(parsed.help_requested)outcome=completed("cli",discovery(&parsed));
         else if(parsed.command_id=="shell.open") {
             auto shell_controls=controls;

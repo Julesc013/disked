@@ -1,0 +1,67 @@
+{
+  "tests": 2,
+  "passed": false,
+  "executable": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked_worker_delayed.exe",
+  "sha256": "e3cda984fe904d2bbcf771877dbfb7f2eb25eb7f1d2c9965318985f443dba7d2",
+  "observations": [
+    {
+      "test": "actual committed-memory denial in test-only worker",
+      "executable": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked_worker_memory_limit.exe",
+      "sha256": "6619a98c9093a8367c932819fa0018dce9b342ee57230a7f21263218600b9d56",
+      "process_memory_limit": 134217728,
+      "peak_process_bytes": 120528896,
+      "worker_exit": 1455,
+      "outcome": {
+        "diagnostics": [
+          {
+            "code": "operation_worker_unresolved",
+            "message_key": "disked.operation_worker_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:07373109acd0cbb81f542a9e2282eae4",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "85accd5fc855fbaea1f15e2379d03d240213a2d0daf78eabed8f3e2f60414693",
+          "operation_id": "fake-op:07373109acd0cbb81f542a9e2282eae4",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "prepared",
+            "binding": {
+              "attempt_id": "fake-op:07373109acd0cbb81f542a9e2282eae4:attempt:1",
+              "fixture_id": "fake:complete",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "6619a98c9093a8367c932819fa0018dce9b342ee57230a7f21263218600b9d56",
+              "input_digest": "sha256:f30c8f1a90e4efa42140306956721f641891b7a2db8c862ee843aab72504a32f",
+              "operation_id": "fake-op:07373109acd0cbb81f542a9e2282eae4",
+              "process_created": "134357774458254276",
+              "process_id": "29432",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "e4acbefd76ecff4daf3c3ed5f2fb7f419fc9ef15",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:c56d14d4e8ca28dd57efdbf33fcd8b5d"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "not_started",
+            "last_event": "prepared",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "prepared",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "2",
+            "synthetic_effect_count": "0"
+          },
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      }
+    }
+  ]
+}

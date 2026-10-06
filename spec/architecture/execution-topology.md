@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-015
   profile: disked-spec/1
-  version: 0.1.13-proposed.1
+  version: 0.1.14-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-015-02
 updated:
   by: codex
-  at: '2026-10-06T15:47:08.025519+00:00'
-  scope: DE-W017 state-store write and flush failure receipts; full programme remains active
+  at: '2026-10-06T16:28:12.079373+00:00'
+  scope: DE-W017 frontend memory admission and measured workload limits; full programme remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -39,6 +39,15 @@ sources:
 Essential startup exposes build/help/command information, policy explanations and explicit local saved-report inspection before any device probe. It requires no elevation, network, optional provider or Setup extraction. Corrupt personalization may be bypassed with a diagnostic; enforced policy must remain effective, or effects requiring that policy are unavailable.
 
 Inspection publishes incremental identity-bound observations, with denied, stale, incomplete and failed contributions retained. Expensive scans, tape movement, snapshots and device self-tests are explicit tasks. Execution adds reviewed plans, authority, recovery resources and verification; it is not implied by opening a view.
+
+The Windows fake composition now admits valid frontend invocations to the
+256 MiB per-process committed-memory job described in DE-045. Bounded token/SID
+and protected-DACL setup dynamically requires the system `advapi32.dll`; it does
+not initialize a provider or GUI. Fixed parsing/host observation and the loader
+precede assignment. A host-policy incompatibility refuses execution without
+breakaway or changing host limits. All cooperating frontends share one memory
+ancestor so independently lasting workers can still join the existing stricter
+worker jobs. There is no kill-on-close policy or aggregate frontend quota.
 
 ## Roles and boundaries
 

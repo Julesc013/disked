@@ -8,12 +8,12 @@ The amended baseline is **proposed and awaiting review**. The specification tool
 |---|---|---|
 | DE-W000 | Review the amended baseline, source layout and scoped decisions | Final content remains unaccepted until recorded review; tool success is separate. |
 | DE-W010 | One native executable with a fake provider, build identity, static command registry and actual build/launch evidence | No physical storage access; create only source directories needed by code. |
-| DE-W011Ã¢â‚¬â€œ016 | Common CLI/machine/TUI/Win32 semantics, graph, plans and local fake execution | Real frontend and process evidence, with unknown and denied results preserved. |
+| DE-W011 through DE-W016 | Common CLI/machine/TUI/Win32 semantics, graph, plans and local fake execution | Real frontend and process evidence, with unknown and denied results preserved. |
 | DE-W017 | Fake hangs, bounded queues, cancellation races, stale results, frontend loss and worker exhaustion | Failure drills before expanding storage authority. |
 | DE-W018 | Tiny compile/import/launch probes for selected legacy profiles | Early architectural feedback; no full product or broad compatibility certification. |
-| DE-W020Ã¢â‚¬â€œ034 | Read-only image/format readers, Windows observations and coherent acquisition contracts | Follow each unit's exact prerequisites and scoped storage grant. |
+| DE-W020 through DE-W034 | Read-only image/format readers, Windows observations and coherent acquisition contracts | Follow each unit's exact prerequisites and scoped storage grant. |
 | DE-W035 | Thin read-only native host adapter prototype | Fixture hosts first; real registration requires separately authorized installation work. |
-| DE-W040Ã¢â‚¬â€œ043 | Recovery, offline preparation and independently verified disposable-image mutations/formatting | Journal/recovery decisions and image-only authority precede execution. |
+| DE-W040 through DE-W043 | Recovery, offline preparation and independently verified disposable-image mutations/formatting | Journal/recovery decisions and image-only authority precede execution. |
 | DE-W060/062/063 | Managed delivery, finite carrier/owner contract and independently staged artifact checks | Portable use remains viable; no signing, publishing or claimed upstream integration here. |
 | DE-W080/090 | Broader target/operation qualification and a scoped release | License, provenance, exact target evidence and release authorization remain required. |
 
@@ -82,6 +82,11 @@ cooperating workers with Windows jobs, and add finite CLI/stdio callback and
 output waits. Unknown outcomes never authorize automatic retries; output failure
 does not cancel admitted workers. Store-boundary injections now preserve unknown
 claim/cancellation receipts, residual bytes and no-replay behavior after full,
-partial and failed-flush writes. Whole-frontend memory, public event-stream
-gaps/resnapshots and the combined provider-failure campaign remain open; no real
-full filesystem or power-loss persistence is qualified by those injections. The slices do not complete the unit or confer owner acceptance.
+partial and failed-flush writes. Valid frontend commands now enter a common
+256 MiB per-process memory job before dispatch; stricter inherited host limits
+remain effective. DE-045 defines the admission failures and measured fake
+CLI/stdio/GUI/TUI/shell workloads. The common ancestor preserves stricter worker
+quotas and independent worker lifetime. Public event-stream gaps/resnapshots and
+the combined provider-failure campaign remain open; no real full filesystem or
+power-loss persistence is qualified. These slices do not complete the unit or
+confer owner acceptance.

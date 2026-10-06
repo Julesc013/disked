@@ -68,7 +68,7 @@ add_custom_target(bootstrap_registry ALL
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
-    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
+    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/memory_budget.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked)
   target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell)
@@ -182,6 +182,11 @@ if(BUILD_TESTING)
   target_compile_definitions(disked_file_wait PRIVATE DISKED_WORKER_TEST_RESULT_READ_DELAY=1)
   bootstrap_executable(disked_store_fault)
   target_compile_definitions(disked_store_fault PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
+  bootstrap_executable(disked_memory_test)
+  target_compile_definitions(disked_memory_test PRIVATE DISKED_FRONTEND_MEMORY_TESTING=1)
+  add_test(NAME resilience.frontend_memory COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_frontend_memory.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_memory_test>")
+  set_tests_properties(resilience.frontend_memory PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME resilience.store_failures COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_store_failures.py"
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_store_fault>")
   set_tests_properties(resilience.store_failures PROPERTIES TIMEOUT 90 RESOURCE_LOCK disked_fake_workers)
