@@ -1,0 +1,27 @@
+Checked 1296 independently constructed/mutated synthetic image cases.
+test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) ... 
+  test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) (case='inactive-protective-is-not-hybrid') ... FAIL
+  test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) (case='inactive-protective-with-data-is-hybrid') ... FAIL
+
+======================================================================
+FAIL: test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) (case='inactive-protective-is-not-hybrid')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_mbr.py", line 175, in test_constructed_and_mutated_images
+    if 'mbr_issues' in expect:self.assertEqual(root['issues'],expect['mbr_issues'])
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 100 != 36
+
+======================================================================
+FAIL: test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) (case='inactive-protective-with-data-is-hybrid')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_mbr.py", line 175, in test_constructed_and_mutated_images
+    if 'mbr_issues' in expect:self.assertEqual(root['issues'],expect['mbr_issues'])
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 36 != 100
+
+----------------------------------------------------------------------
+Ran 1 test in 1.279s
+
+FAILED (failures=2)

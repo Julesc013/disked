@@ -26,7 +26,7 @@
       "title": "Open Knowledge Format v0.2",
       "observed_at": "2026-09-17T12:00:00Z",
       "revision": "blob:c06e3eede0c910d0ecf12524c34204156f8795ac",
-      "scope": "Sections 1–6 inspected: base structure, frontmatter, trust, lifecycle, links; original content not redistributed."
+      "scope": "Sections 1\u20136 inspected: base structure, frontmatter, trust, lifecycle, links; original content not redistributed."
     },
     {
       "id": "aide-readme",
@@ -40,7 +40,7 @@
         "resource": "https://github.com/Julesc013/aide/blob/aec53b1d3675f02e2fdd17cc718fdcff6cd4e9f3/README.md",
         "observed_at": "2026-09-17T12:00:00Z",
         "revision": "aec53b1d3675f02e2fdd17cc718fdcff6cd4e9f3",
-        "scope": "Lines 1–160 inspected; protocol-first, runtime caveats and object model."
+        "scope": "Lines 1\u2013160 inspected; protocol-first, runtime caveats and object model."
       },
       "sha256": "sha256:0ddff33dcd71bdb173aab33388521c0dd18cf3fc65c753e748b56235da5682d4"
     },
@@ -92,7 +92,7 @@
       "title": "Universal Launcher README",
       "observed_at": "2026-09-17T12:00:00Z",
       "revision": "blob:60e4cc97e4038cf7c2244aa9915521a6ee864927",
-      "scope": "Lines 1–100 inspected; ownership and durable operation semantics. No complete runtime audit."
+      "scope": "Lines 1\u2013100 inspected; ownership and durable operation semantics. No complete runtime audit."
     },
     {
       "id": "codex-agents",
@@ -309,6 +309,25 @@
       "observed_at": "2026-10-04T07:27:09.204646+00:00",
       "revision": null,
       "scope": "Verb-first spelling precedent only; no DiskPart targeting or mutation semantics adopted."
+    },
+    {
+      "id": "uefi-210-mbr",
+      "kind": "upstream_spec",
+      "resource": "https://uefi.org/specs/UEFI/2.10/05_GUID_Partition_Table_Format.html",
+      "title": "UEFI Specification 2.10, sections 5.2.1 and 5.2.3",
+      "observed_at": "2026-10-06T19:26:14.729997+00:00",
+      "revision": "2.10",
+      "scope": "Indexed primary UEFI page retrieved for MBR/PMBR byte layout and validity rules. Direct HTML/PDF fetch returned 403; no local full-document hash claimed. Table 5.1 BootCode length says 424 but the accompanying struct declares 440; DiskEd preserves the whole opaque prefix, using the unambiguous entry offset 446 and signature offset 510. No firmware, GPT, writer or platform qualification."
+    },
+    {
+      "id": "linux-612-ebr",
+      "kind": "repository_source",
+      "resource": "https://github.com/torvalds/linux/blob/adc218676eef25575469234709c2d87185ca223a/block/partitions/msdos.c",
+      "title": "Linux v6.12 original MBR/EBR reader",
+      "observed_at": "2026-10-06T19:26:14.729997+00:00",
+      "revision": "adc218676eef25575469234709c2d87185ca223a",
+      "sha256": "sha256:e532b035266fa873147e14dd655de54e7c715d497bdb88e261a3a39c5d072696",
+      "scope": "Lines 111-207 inspected as primary implementation documentation of current-table-relative data and original-container-relative links, including historical slot variations. Blob 073be78ba0b0d74323c8b8882c2c298c0f919ea5 retrieved read-only via public GitHub content API; v6.12 annotated tag resolved. No source copied into DiskEd, compiled or executed; no equivalence or filesystem qualification claimed."
     }
   ]
 }

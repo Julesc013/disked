@@ -70,3 +70,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W019 local tests: editable error recovery, completion/history and retained synthetic input timings.
 - [ ] DE-W019: qualify human entry/correction/recall ergonomics on selected keyboards and terminal profiles.
 - [ ] DE-W018/071: qualify actual tokenization/encoding and shared parser semantics for selected constrained targets.
+
+- [x] DE-W021 internal MBR/EBR parser and synthetic corpus implemented; retained clean reproduction and local review govern continuation. Owner acceptance and image-provider admission remain separate.

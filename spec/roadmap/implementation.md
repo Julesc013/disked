@@ -194,3 +194,12 @@ source-bound results and clean reproduction belong to
 `.aide/evidence/2026-10-07-portable-core/`. The module adds no storage command to
 the fake product. Local review governs progression to MBR/EBR and GPT readers;
 DE-W018 historical compilers/launches remain open independently.
+
+
+DE-W021 implements an internal read-only MBR/EBR library over immutable supplied
+blocks. The DE-032 common two-entry EBR profile bounds traversal and preserves
+opaque bytes; independent synthetic layouts and malformed cases drive native
+verification. Evidence belongs to `.aide/evidence/2026-10-07-mbr-ebr/` once run.
+This is local implementation in review, not an admitted image provider or a
+completed `table.verify` command. GPT, source-consistency integration, historical
+layout profiles, owner acceptance and all writer gates remain separate.

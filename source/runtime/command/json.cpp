@@ -135,11 +135,13 @@ class Reader {
                 if (object) {
                     whitespace();std::string key=string();whitespace();
                     if (out.fields.count(key))error("duplicate_key");
-                    if(peek()!=':')error("invalid_json");++offset;
+                    if(peek()!=':')error("invalid_json");
+                    ++offset;
                     out.fields.emplace(std::move(key),value(depth+1));
                 } else out.items.push_back(value(depth+1));
                 whitespace();if(peek()==close) {++offset;return out;}
-                if(peek()!=',')error("invalid_json");++offset;
+                if(peek()!=',')error("invalid_json");
+                ++offset;
             }
         }
         if(input.compare(offset,4,"null")==0) {offset+=4;return Value{};}
