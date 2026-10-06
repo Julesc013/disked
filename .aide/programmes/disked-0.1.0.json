@@ -28,14 +28,15 @@
   ],
   "baseline_owner_accepted": false,
   "implementation_owner_accepted": false,
-  "current_work": "DE-W015",
+  "current_work": "DE-W016",
   "completed_development": [
     "DE-W010",
     "DE-W013",
-    "DE-W014"
+    "DE-W014",
+    "DE-W015"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "DE-W015: minimal native Win32 GUI over the shared fake service, with descriptor forms, keyboard access, host contrast observations and CLI/TUI parity.",
+  "next_action": "DE-W016: unprivileged same-file fake provider-host self-spawn and operation reconnect, retaining honest outcomes after client loss and threat-model findings for later elevation.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -72,6 +73,15 @@
       "review": ".aide/evidence/2026-10-06-native-tui/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Screen-reader, ConPTY, VT, remote, legacy-host and forced-termination qualification remain unverified; other terminal backends remain programme work."
+    },
+    {
+      "work_id": "DE-W015",
+      "scope": "Native Win32 fake navigator/inspector, descriptor forms, explicit review/submit, keyboard traversal and actual-window evidence",
+      "source_revision": "b4774f03d739c5a932a9f4343c37d26dcc7bdda7",
+      "evidence": ".aide/evidence/2026-10-06-native-gui/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-gui/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "High-contrast-on, screen-reader, per-monitor DPI, other Windows, remote/Explorer and clean-VM qualification remain unverified. Host-injected modules are separate from the application loader boundary."
     }
   ]
 }

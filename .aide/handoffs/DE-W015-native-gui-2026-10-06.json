@@ -1,0 +1,389 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W015",
+  "base_revision": "dec51212be3f310aca4c819ae14a4cc9af01825f",
+  "spec_manifest_digest": "sha256:4262b2893f2e6e55dab0cb5813ac300998c842e33071ca549e4e95b4d8af23dd",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/bundle.json",
+    "spec/interaction/presentation.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/interaction/terminal-session.md",
+    "spec/interaction/invocation.md",
+    "spec/platforms/windows-targets.md",
+    "spec/architecture/languages-and-build.md",
+    "spec/catalog/commands.json",
+    "spec/catalog/native-bootstrap.json",
+    "CMakeLists.txt",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/invocation.cpp",
+    "source/runtime/presentation/session.cpp",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/test_gui_model.py",
+    "tests/frontend/test_gui_windows.py",
+    "tests/native/test_protocol.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-06-native-gui/.gitattributes",
+    ".aide/evidence/2026-10-06-native-gui/README.md",
+    ".aide/evidence/2026-10-06-native-gui/REVIEW.md",
+    ".aide/evidence/2026-10-06-native-gui/aide-passive.json",
+    ".aide/evidence/2026-10-06-native-gui/build.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-build.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-capability.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-clone.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-commands.json",
+    ".aide/evidence/2026-10-06-native-gui/clean-configure.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-console-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/clean-dependencies.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-graph-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-gui-window-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-headers.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-imports.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-launch.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-manifest.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-mode-explain.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-native-details.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-native-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-results.json",
+    ".aide/evidence/2026-10-06-native-gui/clean-structural.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-target-inspect.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-target-list.log",
+    ".aide/evidence/2026-10-06-native-gui/clean-terminal-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/clean/inspector.png",
+    ".aide/evidence/2026-10-06-native-gui/clean/inventory.png",
+    ".aide/evidence/2026-10-06-native-gui/clean/minimum-window.png",
+    ".aide/evidence/2026-10-06-native-gui/clean/request-result.png",
+    ".aide/evidence/2026-10-06-native-gui/clean/request-review.png",
+    ".aide/evidence/2026-10-06-native-gui/clean/window-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/configure.log",
+    ".aide/evidence/2026-10-06-native-gui/console-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/final-build.log",
+    ".aide/evidence/2026-10-06-native-gui/final-commands.json",
+    ".aide/evidence/2026-10-06-native-gui/final-gui-window-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/final-native-details.log",
+    ".aide/evidence/2026-10-06-native-gui/final-native-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/final-results.json",
+    ".aide/evidence/2026-10-06-native-gui/final-structural.log",
+    ".aide/evidence/2026-10-06-native-gui/final/inspector.png",
+    ".aide/evidence/2026-10-06-native-gui/final/inventory.png",
+    ".aide/evidence/2026-10-06-native-gui/final/minimum-window.png",
+    ".aide/evidence/2026-10-06-native-gui/final/request-result.png",
+    ".aide/evidence/2026-10-06-native-gui/final/request-review.png",
+    ".aide/evidence/2026-10-06-native-gui/final/window-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/graph-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/gui-window-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/initial-console-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/native-details.log",
+    ".aide/evidence/2026-10-06-native-gui/native-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/request-result.png",
+    ".aide/evidence/2026-10-06-native-gui/request-review.png",
+    ".aide/evidence/2026-10-06-native-gui/spec-tests.log",
+    ".aide/evidence/2026-10-06-native-gui/structural.log",
+    ".aide/evidence/2026-10-06-native-gui/terminal-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-gui/working-commands.json",
+    ".aide/evidence/2026-10-06-native-gui/working-final/inspector.png",
+    ".aide/evidence/2026-10-06-native-gui/working-final/inventory.png",
+    ".aide/evidence/2026-10-06-native-gui/working-final/minimum-window.png",
+    ".aide/evidence/2026-10-06-native-gui/working-final/request-result.png",
+    ".aide/evidence/2026-10-06-native-gui/working-final/request-review.png",
+    ".aide/evidence/2026-10-06-native-gui/working-final/window-observations.json",
+    ".aide/evidence/2026-10-06-native-gui/working-results.json",
+    ".aide/evidence/2026-10-06-native-gui/working/inspector.png",
+    ".aide/evidence/2026-10-06-native-gui/working/inventory.png",
+    ".aide/evidence/2026-10-06-native-gui/working/minimum-window.png",
+    ".aide/evidence/2026-10-06-native-gui/working/request-result.png",
+    ".aide/evidence/2026-10-06-native-gui/working/request-review.png",
+    ".aide/evidence/2026-10-06-native-gui/working/window-observations.json",
+    ".aide/handoffs/DE-W015-native-gui-2026-10-06.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "README.md",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/gui/win32/gui_model.h",
+    "source/apps/disked/tui/model.cpp",
+    "source/platform/windows/invocation.cpp",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/ui/gui.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "spec/bundle.json",
+    "spec/catalog/components.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/invocation.md",
+    "spec/interaction/protocol.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/manifest.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-readme.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/test_gui_model.py",
+    "tests/frontend/test_gui_windows.py",
+    "tests/native/test_protocol.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Implemented and clean-reproduced the DE-W015 Win32 fake frontend at b4774f03d739c5a932a9f4343c37d26dcc7bdda7. Fifteen native CTest groups, six GUI-model tests, seven actual-window tests, strict producer validation, 888 structural checks and 163 specification passes (two symlink skips). Native controls share service results; review is explicit, source bound and consumed before dispatch. Owner acceptance, broader accessibility/platform qualification and storage authority remain separate.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/graph-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\console-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/terminal-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --unavailable build/windows-bootstrap/Release/disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\working-final\\window-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/gui-window-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/final-structural.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/final-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R frontend.gui_|disked.acceptance",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/final-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --unavailable build/windows-bootstrap/Release/disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\final\\window-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/final-gui-window-tests.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-graph-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\clean-console-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-terminal-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --unavailable build/windows-bootstrap/Release/disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\clean\\window-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-gui-window-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-dependencies.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe mode explain --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-mode-explain.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe target list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-target-list.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe target inspect fake:volume@1 --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-target-inspect.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03\\build\\windows-bootstrap\\Release\\disked.exe capability explain fake:denied@1 partition.resize.plan --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-b4774f03",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-gui/clean-capability.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W015-b4774f03/disked.exe",
+      "sha256": "sha256:089040f913930fc193a7448c3acc91394a2df2112c98317c6190ea142b6e32f0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-06-native-gui/clean-results.json",
+      "sha256": "sha256:d03907eb405ad00eb0dfdd092a5a6392c1e0eeb3ff45df02fd4dda98be0780b9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-06-native-gui/clean/request-review.png",
+      "sha256": "sha256:167269e0a5a7015d6473390ba23087df4eed8cc21571da4387ba292d572c6fbb"
+    }
+  ],
+  "blockers": [
+    "Owner acceptance remains pending; the programme grant permits local continuation.",
+    "High-contrast-on, screen-reader, per-monitor DPI, other Windows, remote/Explorer and clean-VM qualification remain unverified.",
+    "Observed injected host modules prevent claiming a clean loader environment from this host alone."
+  ],
+  "next_safe_step": "DE-W016: unprivileged same-file fake provider-host self-spawn and operation reconnect, retaining honest outcomes after client loss and threat-model findings for later elevation.",
+  "performed_remote_writes": false
+}
