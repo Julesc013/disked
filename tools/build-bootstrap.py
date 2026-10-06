@@ -34,7 +34,7 @@ def generate(args):
     commands = read(root / "spec/catalog/commands.json")["commands"]
     syntax = read(root / "spec/catalog/cli-syntax.json")
     implemented = set(profile["implemented_commands"])
-    if implemented != {"build.inspect", "command.list", "protocol.serve"}:
+    if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")

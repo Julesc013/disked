@@ -1,7 +1,7 @@
 # Build and run the native development executable
 
 The fake-only Windows executable supports human and JSON/NDJSON build information,
-static command discovery and contextual help. `protocol serve` admits synchronous
+static command discovery, actual host/mode inspection and contextual help. `protocol serve` admits synchronous
 build/command requests over stdin/stdout. There is no disk graph, storage access,
 GUI, TUI, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
@@ -17,6 +17,7 @@ ctest --preset windows-bootstrap
 & .\build\windows-bootstrap\Release\disked.exe --help
 & .\build\windows-bootstrap\Release\disked.exe build inspect --json
 & .\build\windows-bootstrap\Release\disked.exe commands
+& .\build\windows-bootstrap\Release\disked.exe mode explain --json
 & .\build\windows-bootstrap\Release\disked.exe help part --json
 ```
 
@@ -26,7 +27,7 @@ compiler hash and embedded revision/configuration. Dirty builds explicitly repor
 `source_state=dirty`; only a clean rebuild binds the artifact to the named commit.
 
 Commands remain globally planned while discovery reports the actual composition's
-implemented subset. `build.inspect`, `command.list` and the transport selector
+implemented subset. `build.inspect`, `command.list`, `mode.explain` and the transport selector
 `protocol.serve` are available. Recognizing a storage command's syntax does not
 admit its handler. Machine responses never mix human diagnostics with framed JSON.
 Exit 0 means completed, 2 invalid input, 3 unavailable and 4 output/internal failure.
@@ -50,4 +51,8 @@ application-boundary checks, not a system-call trace or storage qualification.
 Historical [DE-W010 evidence](../.aide/evidence/2026-10-06-native-bootstrap/) applies
 only to its original human subset; subsequent work retains separate evidence.
 Windows 10 x64 build 19045 is the current exercised host. Other platforms, clean
-VMs, Explorer/console routing and all storage operations remain unverified.
+VMs, Explorer/Windows Terminal routing and all storage operations remain unverified.
+DE-W011 tests cover direct/detached launches, cmd/PowerShell and an inherited child
+in a hidden test-owned console. `mode explain` preserves unknown host facts and
+reports why interactive modes are unavailable. Product code does not attach,
+detach, hide, resize or change the console mode/code page.

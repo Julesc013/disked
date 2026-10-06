@@ -1,0 +1,144 @@
+Start testing: Oct 06 21:00 AUS Eastern Daylight Time
+----------------------------------------------------------
+1/9 Testing: invocation.policy
+1/9 Test: invocation.policy
+Command: "C:/Users/Jules/AppData/Local/Python/pythoncore-3.14-64/python.exe" "D:/Projects/DiskEd/disked/tests/invocation/test_policy.py" "--exe" "D:/Projects/DiskEd/disked/build/windows-bootstrap/Release/invocation_policy_probe.exe" "--root" "D:/Projects/DiskEd/disked"
+Directory: D:/Projects/DiskEd/disked/build/windows-bootstrap
+"invocation.policy" start time: Oct 06 21:00 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_absence_is_not_redirection_and_prompt_channels_are_explicit (__main__.Policy.test_absence_is_not_redirection_and_prompt_channels_are_explicit) ... ok
+test_all_canonical_fixtures (__main__.Policy.test_all_canonical_fixtures) ... ok
+test_oracle_cross_product (__main__.Policy.test_oracle_cross_product) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 5.734s
+
+OK
+Native policy fixtures: 25
+Native/oracle routing combinations: 270
+<end of output>
+Test time =   5.83 sec
+----------------------------------------------------------
+Test Passed.
+"invocation.policy" end time: Oct 06 21:00 AUS Eastern Daylight Time
+"invocation.policy" time elapsed: 00:00:05
+----------------------------------------------------------
+
+5/9 Testing: disked.invocation
+5/9 Test: disked.invocation
+Command: "C:/Users/Jules/AppData/Local/Python/pythoncore-3.14-64/python.exe" "D:/Projects/DiskEd/disked/tests/invocation/test_windows.py" "--exe" "D:/Projects/DiskEd/disked/build/windows-bootstrap/Release/disked.exe" "--root" "D:/Projects/DiskEd/disked"
+Directory: D:/Projects/DiskEd/disked/build/windows-bootstrap
+"disked.invocation" start time: Oct 06 21:00 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_cmd_and_powershell_actual_launches (__main__.WindowsInvocation.test_cmd_and_powershell_actual_launches) ... FAIL
+test_inherited_console_preserves_caller_state (__main__.WindowsInvocation.test_inherited_console_preserves_caller_state) ... ok
+test_missing_stderr_and_transport_input (__main__.WindowsInvocation.test_missing_stderr_and_transport_input) ... ERROR
+test_pipe_observations_and_utf16_errors (__main__.WindowsInvocation.test_pipe_observations_and_utf16_errors) ... ok
+test_standard_handle_absence_and_invalidity (__main__.WindowsInvocation.test_standard_handle_absence_and_invalidity) ... FAIL
+
+======================================================================
+ERROR: test_missing_stderr_and_transport_input (__main__.WindowsInvocation.test_missing_stderr_and_transport_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 68, in test_missing_stderr_and_transport_input
+    code,out,err=raw_launch(ARGS.exe,['protocol','serve','--json'])
+                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 35, in raw_launch
+    _winapi.TerminateProcess(process,99);_winapi.WaitForSingleObject(process,5000);raise RuntimeError('Test child timeout')
+                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Test child timeout
+
+======================================================================
+FAIL: test_cmd_and_powershell_actual_launches (__main__.WindowsInvocation.test_cmd_and_powershell_actual_launches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 95, in test_cmd_and_powershell_actual_launches
+    self.assertEqual(0,result.returncode,(shell,result.stderr));self.assertEqual(b'',result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : ('cmd', b'\'\\"\\"D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe\\" mode explain --json\\"\' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n')
+
+======================================================================
+FAIL: test_standard_handle_absence_and_invalidity (__main__.WindowsInvocation.test_standard_handle_absence_and_invalidity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 57, in test_standard_handle_absence_and_invalidity
+    self.assertEqual('invalid' if kind in ('invalid','invalid_sentinel') else kind,actual)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'absent' != 'console'
+- absent
++ console
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 10.460s
+
+FAILED (failures=2, errors=1)
+<end of output>
+Test time =  10.57 sec
+----------------------------------------------------------
+Test Failed.
+"disked.invocation" end time: Oct 06 21:00 AUS Eastern Daylight Time
+"disked.invocation" time elapsed: 00:00:10
+----------------------------------------------------------
+
+7/9 Testing: disked_provider_guard.invocation
+7/9 Test: disked_provider_guard.invocation
+Command: "C:/Users/Jules/AppData/Local/Python/pythoncore-3.14-64/python.exe" "D:/Projects/DiskEd/disked/tests/invocation/test_windows.py" "--exe" "D:/Projects/DiskEd/disked/build/windows-bootstrap/Release/disked_provider_guard.exe" "--root" "D:/Projects/DiskEd/disked"
+Directory: D:/Projects/DiskEd/disked/build/windows-bootstrap
+"disked_provider_guard.invocation" start time: Oct 06 21:00 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_cmd_and_powershell_actual_launches (__main__.WindowsInvocation.test_cmd_and_powershell_actual_launches) ... FAIL
+test_inherited_console_preserves_caller_state (__main__.WindowsInvocation.test_inherited_console_preserves_caller_state) ... ok
+test_missing_stderr_and_transport_input (__main__.WindowsInvocation.test_missing_stderr_and_transport_input) ... ERROR
+test_pipe_observations_and_utf16_errors (__main__.WindowsInvocation.test_pipe_observations_and_utf16_errors) ... ok
+test_standard_handle_absence_and_invalidity (__main__.WindowsInvocation.test_standard_handle_absence_and_invalidity) ... FAIL
+
+======================================================================
+ERROR: test_missing_stderr_and_transport_input (__main__.WindowsInvocation.test_missing_stderr_and_transport_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 68, in test_missing_stderr_and_transport_input
+    code,out,err=raw_launch(ARGS.exe,['protocol','serve','--json'])
+                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 35, in raw_launch
+    _winapi.TerminateProcess(process,99);_winapi.WaitForSingleObject(process,5000);raise RuntimeError('Test child timeout')
+                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Test child timeout
+
+======================================================================
+FAIL: test_cmd_and_powershell_actual_launches (__main__.WindowsInvocation.test_cmd_and_powershell_actual_launches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 95, in test_cmd_and_powershell_actual_launches
+    self.assertEqual(0,result.returncode,(shell,result.stderr));self.assertEqual(b'',result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : ('cmd', b'\'\\"\\"D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe\\" mode explain --json\\"\' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n')
+
+======================================================================
+FAIL: test_standard_handle_absence_and_invalidity (__main__.WindowsInvocation.test_standard_handle_absence_and_invalidity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\invocation\test_windows.py", line 57, in test_standard_handle_absence_and_invalidity
+    self.assertEqual('invalid' if kind in ('invalid','invalid_sentinel') else kind,actual)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'absent' != 'console'
+- absent
++ console
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 13.191s
+
+FAILED (failures=2, errors=1)
+<end of output>
+Test time =  13.30 sec
+----------------------------------------------------------
+Test Failed.
+"disked_provider_guard.invocation" end time: Oct 06 21:00 AUS Eastern Daylight Time
+"disked_provider_guard.invocation" time elapsed: 00:00:13
+----------------------------------------------------------
+
+End testing: Oct 06 21:00 AUS Eastern Daylight Time

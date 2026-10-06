@@ -22,7 +22,9 @@ release/storage authority remain separate. The programme record is
 
 - [x] DE-W010: implement the granted native fake-only bootstrap and run its bounded build/launch checks.
 - [ ] Review and accept DE-W010 using its clean-build evidence and declared limitations.
-- [ ] DE-W011–016: implement shared interface semantics and bounded local fake planning/execution.
+- [x] DE-W011 local slice: native mode inspection, policy parity, stdio and inherited-console tests.
+- [ ] Complete/review Explorer, terminal/remote and other Windows launch qualification before shipping invocation claims.
+- [ ] DE-W013–016: implement shared graph/frontend semantics and bounded local fake planning/execution.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020–035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.

@@ -53,6 +53,24 @@ One product identity `disked`, native GUI per eligible target, CLI/TUI/machine p
 
 An experiment has a hypothesis, alternatives, fixture/procedure, measurable results, risks and decision owner. Store outcomes at an exact revision. Do not call a proposal "frozen" merely because it was repeated by assistants.
 
+## DE-DEC-002 development evidence
+
+The DE-W011 native adapter now reports standard-channel kinds, CRT usability,
+bounded console sharing/geometry and explicit unknown display/desktop intent.
+Direct, detached, cmd, Windows PowerShell, PowerShell 7 and a hidden test-owned
+console exercise the current console-subsystem artifact on Windows 10 x64.
+Caller modes, code pages, handles and dimensions are compared before/after.
+The exact source/artifact evidence is retained under
+`.aide/evidence/2026-10-06-native-invocation/`.
+
+Retain the console-subsystem prototype while CLI and fake frontends develop.
+A Windows-subsystem/AttachConsole alternative still needs its own process,
+redirection and launch evidence; switching a linker flag is not qualification.
+Explorer, Windows Terminal/ConPTY, SSH/RDP, scheduled tasks, file associations,
+XP/7/11 and visible no-flash experiments remain unrun. Do not infer creator
+identity from console membership or a parent executable name. DE-DEC-002 stays
+proposed and continues to block shipping invocation claims.
+
 ## Superseded proposals
 
 Two separate public CLI/GUI binaries are superseded by the single-entrypoint preference. A universal MZ/NE/PE executable is rejected as the general delivery strategy. A giant source tree created before code is rejected in favor of ownership roots added when used. OKF as execution authority is rejected; it is a container for authored specs and projections. Generic `--force`, static version-based capability assumptions, journals hidden in unknown gaps, and automatic recovery success claims are rejected.

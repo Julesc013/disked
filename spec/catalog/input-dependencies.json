@@ -999,6 +999,9 @@
         "source/apps/disked/command_registry.h",
         "source/apps/disked/disked.manifest",
         "source/apps/disked/main.cpp",
+        "source/platform/windows/entry.cpp",
+        "source/platform/windows/invocation.cpp",
+        "source/platform/windows/invocation.h",
         "source/providers/fake/bootstrap.cpp",
         "source/providers/fake/bootstrap.h",
         "source/runtime/command/command.cpp",
@@ -1007,12 +1010,15 @@
         "source/runtime/command/json.h",
         "source/runtime/command/protocol.cpp",
         "source/runtime/command/protocol.h",
+        "source/runtime/invocation/policy.cpp",
+        "source/runtime/invocation/policy.h",
         "spec/catalog/cli-syntax.json",
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
         "spec/catalog/native-bootstrap.json",
         "spec/fixtures/command-syntax.json",
+        "spec/fixtures/invocation.json",
         "spec/fixtures/native-bootstrap.json",
         "spec/schemas/command-empty-parameters.schema.json",
         "spec/schemas/command-image-path-parameters.schema.json",
@@ -1027,6 +1033,10 @@
         "tests/contracts/test_json.py",
         "tests/contracts/test_parser.py",
         "tests/contracts/test_reader.py",
+        "tests/invocation/console_fixture.py",
+        "tests/invocation/policy_probe.cpp",
+        "tests/invocation/test_policy.py",
+        "tests/invocation/test_windows.py",
         "tests/native/provider_guard_probe.cpp",
         "tests/native/test_bootstrap.py",
         "tests/native/test_protocol.py",
@@ -1357,6 +1367,105 @@
       "spec_ids": [
         "DE-021",
         "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/invocation/policy.cpp",
+      "path": "source/runtime/invocation/policy.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/runtime/invocation/policy.h",
+      "path": "source/runtime/invocation/policy.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/platform/windows/entry.cpp",
+      "path": "source/platform/windows/entry.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/platform/windows/invocation.cpp",
+      "path": "source/platform/windows/invocation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/platform/windows/invocation.h",
+      "path": "source/platform/windows/invocation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/invocation/console_fixture.py",
+      "path": "tests/invocation/console_fixture.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/invocation/policy_probe.cpp",
+      "path": "tests/invocation/policy_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/invocation/test_policy.py",
+      "path": "tests/invocation/test_policy.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/invocation/test_windows.py",
+      "path": "tests/invocation/test_windows.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-020",
+        "DE-050"
       ]
     }
   ]

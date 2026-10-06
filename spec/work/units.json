@@ -156,7 +156,7 @@
       "id": "DE-W011",
       "title": "Measure Windows launch and console ownership behavior",
       "phase": "M1",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -172,7 +172,17 @@
         "source/runtime/invocation/**",
         "source/platform/windows/**",
         "tests/invocation/**",
-        "spec/catalog/decisions.json"
+        "spec/catalog/decisions.json",
+        "source/apps/disked/**",
+        "source/runtime/command/**",
+        "tests/contracts/**",
+        "tests/native/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -201,11 +211,18 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "tools/build-inputs.json",
+        "tools/build-bootstrap.py",
+        "spec/fixtures/invocation.json"
+      ]
     },
     {
       "id": "DE-W012",

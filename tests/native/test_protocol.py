@@ -178,6 +178,16 @@ class NativeProtocol(unittest.TestCase):
         value=self.machine(['build','inspect','--json'],b'malformed pipeline data')[0]
         self.assertEqual('completed',value['status'])
 
+    def test_mode_inspection_uses_actual_host_in_cli_and_transport(self):
+        cli=self.machine(['mode','explain','--json'])[0]['result']
+        transport=self.protocol(encode(request('mode.explain')))[0]['result']
+        for value in [cli,transport]:
+            self.assertEqual('windows.standard-handles/1',value['observations']['adapter'])
+            self.assertEqual('pipe',value['observations']['stdout']['kind'])
+            self.assertEqual('machine-output',value['selection']['reason'])
+            self.assertFalse(value['selection']['interactive'])
+            self.assertFalse(value['policy_inputs']['tui_available'])
+
     def test_broken_output_is_failure(self):
         read_fd,write_fd=os.pipe();os.close(read_fd)
         try:

@@ -68,6 +68,9 @@ class Parser(unittest.TestCase):
         self.assertEqual('argument_limit_exceeded',self.parse(['x']*1025)['code'])
         value=self.parse(['partition','resize','x','--length','0B'])
         self.assertEqual(3,value['diagnostics'][0]['token'])
+        value=self.parse(['build','inspect','\0','--json'])
+        self.assertEqual('invalid_argument_encoding',value['code'])
+        self.assertEqual('json',value['controls']['format'])
 
     def test_static_completion_never_changes_execution_rules(self):
         def complete(words):

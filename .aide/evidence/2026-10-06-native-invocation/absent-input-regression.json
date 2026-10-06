@@ -1,0 +1,42 @@
+{
+  "previous": {
+    "artifact_sha256": "sha256:5662ed817469ff2a70d347cddf239e0a9b260715310f489daccaea0b2bae37f3",
+    "cases": {
+      "build_absent_input": {
+        "exit": 0,
+        "stdout": "{\"diagnostics\":[],\"evidence\":[],\"operation_id\":null,\"request_id\":\"cli\",\"result\":{\"compiler\":\"MSVC 19.44.35228.0\",\"composition\":\"windows.native.fake.bootstrap\",\"configuration\":\"Release\",\"configuration_digest\":\"sha256:49e9f1b52a84471a3ea67fb9b9416fb1663b95412097d3376dec81ea83fe8a37\",\"crt\":\"static-release-MT\",\"fake_provider\":\"provider.fake.bootstrap/1\",\"input_digest\":\"sha256:8a50f7f9b12f54e8654fe4e28b5c1cd0658f92d63ecaa610da4dda45214cf944\",\"language\":\"C++14\",\"product\":\"DiskEd\",\"sdk\":\"10.0.19041.0\",\"source_revision\":\"e4cdaeda0281cff9505e09f6c3a19abe5463a403\",\"source_state\":\"clean\",\"target\":\"windows.nt10.x64.win32\",\"version\":\"0.1.0-dev.2\"},\"schema\":\"org.disked.response/1\",\"status\":\"completed\"}\n",
+        "stderr": ""
+      },
+      "transport_absent_input": {
+        "exit": 4,
+        "stdout": "{\"diagnostics\":[{\"code\":\"input_error\",\"message_key\":\"disked.input_error\",\"parameters\":{},\"platform_code\":null,\"remediation\":[],\"severity\":\"error\"}],\"evidence\":[],\"operation_id\":null,\"request_id\":\"@unparsed\",\"result\":null,\"schema\":\"org.disked.response/1\",\"status\":\"failed\"}\n",
+        "stderr": ""
+      },
+      "invalid_utf16_with_trailing_json": {
+        "exit": 2,
+        "stdout": "",
+        "stderr": "disked: invalid_argument_encoding\n"
+      }
+    }
+  },
+  "current": {
+    "artifact_sha256": "sha256:2647d7d0d8be44c3b7b58e22a7592b842d127b51294e4012a739305a4f7698a9",
+    "cases": {
+      "build_absent_input": {
+        "exit": 0,
+        "stdout": "{\"diagnostics\":[],\"evidence\":[],\"operation_id\":null,\"request_id\":\"cli\",\"result\":{\"compiler\":\"MSVC 19.44.35228.0\",\"composition\":\"windows.native.fake.bootstrap\",\"configuration\":\"Release\",\"configuration_digest\":\"sha256:64fd388174261d5d91575c601ae92ad7b32ddeb3ea268352971ac8934666e7d8\",\"crt\":\"static-release-MT\",\"fake_provider\":\"provider.fake.bootstrap/1\",\"input_digest\":\"sha256:7625260eb459f1096e8706d888b7896c8939d3e3a9fa1398d71dd81d8b8f5528\",\"language\":\"C++14\",\"product\":\"DiskEd\",\"sdk\":\"10.0.19041.0\",\"source_revision\":\"847869673913655fdb18e65721e3119c0d5d2e4f\",\"source_state\":\"dirty\",\"target\":\"windows.nt10.x64.win32\",\"version\":\"0.1.0-dev.3\"},\"schema\":\"org.disked.response/1\",\"status\":\"completed\"}\n",
+        "stderr": ""
+      },
+      "transport_absent_input": {
+        "exit": 4,
+        "stdout": "{\"diagnostics\":[{\"code\":\"input_error\",\"message_key\":\"disked.input_error\",\"parameters\":{},\"platform_code\":null,\"remediation\":[],\"severity\":\"error\"}],\"evidence\":[],\"operation_id\":null,\"request_id\":\"@unparsed\",\"result\":null,\"schema\":\"org.disked.response/1\",\"status\":\"failed\"}\n",
+        "stderr": ""
+      },
+      "invalid_utf16_with_trailing_json": {
+        "exit": 2,
+        "stdout": "{\"diagnostics\":[{\"code\":\"invalid_argument_encoding\",\"message_key\":\"disked.invalid_argument_encoding\",\"parameters\":{\"token\":2},\"platform_code\":null,\"remediation\":[],\"severity\":\"error\"}],\"evidence\":[],\"operation_id\":null,\"request_id\":\"cli\",\"result\":null,\"schema\":\"org.disked.response/1\",\"status\":\"refused\"}\n",
+        "stderr": ""
+      }
+    }
+  }
+}

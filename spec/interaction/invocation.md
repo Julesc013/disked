@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-020
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -38,8 +38,8 @@ sources:
   resource: ../references/sources.json#cli-refinement-2026-10-04
 updated:
   by: codex
-  at: '2026-10-04T07:27:09.204646+00:00'
-  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
+  at: '2026-10-06T10:05:03.721193+00:00'
+  scope: Native host observations and policy implementation; shipping decision remains proposed
 ---
 
 # InvocationPolicy v1
@@ -72,11 +72,64 @@ Built-in build/mode/command discovery stays in the essential tier without probe,
 
 `--interactive=yes` permits prompts for a human CLI/plain command; explicit `--cli` and inferred CLI honor it identically. It does **not** open a persistent shell. `--interactive=auto` on a one-shot command remains noninteractive; `no` forbids prompts. A capable or limited terminal can supply a prompt channel. Without usable input/output, an explicit prompt request returns `interaction_unavailable`, never silently false. A caller may explicitly provide a separate verified prompt channel while result stdout is redirected; the renderer must not read answers from pipeline data or mix prompts into machine results. The policy oracle accepts normalized observations, not actual OS handles or command-line tokens.
 
-Machine JSON/NDJSON plus `interactive=yes` remains `argument_conflict`. GUI/TUI interaction rules are unchanged. Bare `interactive=yes` selects bounded CLI interaction/help; persistent sessions require the planned `disked shell` entry described by [DE-027](interactive-shell.md). Native detection of channels and flag-alias parsing remain DE-W011/012 work, not behavior proven by the pure oracle.
+Machine JSON/NDJSON plus `interactive=yes` remains `argument_conflict`. GUI/TUI interaction rules are unchanged. Bare `interactive=yes` selects bounded CLI interaction/help; persistent sessions require the planned `disked shell` entry described by [DE-027](interactive-shell.md). The DE-W011 native adapter separately exercises actual channels, with alias parsing in DE-W012. The pure oracle alone does not establish host behavior.
 
 ## Help and invocation effects
 
 Contextual help resolves a command/domain without satisfying operation operands or runtime prerequisites. `disked help partition resize` and an interspersed `--help` are meta-requests over static descriptors. Diagnose invalid syntax rather than dispatching through help. Explicit machine help/errors remain structured; deferred/invalid format selection cannot cause a partial human banner before JSON. DE-021 owns grammar and literal boundaries. The invocation oracle still consumes normalized observations only; it is not evidence that a native argv parser or help renderer exists.
+
+## Native observation and DE-W011 admission
+
+The first native `mode.explain` handler reports `observations`, `policy_inputs`,
+`selection` and `bare_selection` in its result. The first selection describes the
+actual invocation; the second evaluates bare human invocation on the same host.
+No injected host observations or private launch flags are accepted by the product.
+Its parameters remain empty. Human output is a compact observational JSON object;
+machine output uses the normal response envelope. Transport requests describe the
+transport process's startup observations and a noninteractive machine command.
+
+Observe stdin/stdout/stderr independently as console, pipe, file, character,
+unknown, absent or invalid. Retain whether the CRT has a usable descriptor and
+the available console mode/geometry observations. Verify the input-buffer role
+with a non-consuming console-input query; `GetConsoleMode` alone also accepts a
+screen-buffer handle incorrectly passed as stdin. `GetFileType` failure is not
+redirection; `GetConsoleMode` failure is not proof of a pipe. Probe no input bytes,
+send no terminal queries, and open no replacement console handles in the product.
+Only usable descriptors may have their private CRT translation set to binary.
+Do not change console modes, code pages, size, visibility, attachment or handles.
+
+A bounded console process-list observation may establish sharing, but cannot
+establish creator identity. Protect a shared console as caller-owned; otherwise
+retain unknown ownership. Process names, environment hints and a lone attached
+process cannot prove Explorer activation or permission to hide/detach a console.
+Display and desktop activation remain unknown unless established explicitly.
+The first adapter does not qualify ConPTY/SSH behavior from pipe heuristics.
+
+Normalized policy inputs include actual GUI/TUI availability. The fixture oracle
+defaults TUI availability to true for its original abstract cases; real product
+compositions pass it explicitly. An explicit unavailable frontend is refused.
+Automatic TUI selection without an implemented TUI falls back to bounded plain
+help with `tui-unavailable`; it never advertises a running screen renderer.
+
+Absent input does not prevent help/build/discovery. Explicit transport without
+usable input returns framed `input_error`, exit 4, when stdout is usable. An
+unusable required output returns 4 without attempting that CRT stream. Absent
+stderr alone does not prevent a successful stdout result; a human diagnostic
+that cannot be delivered is an output failure. Invalid UTF-16 argument tokens
+are diagnosed without echoing them; valid later output controls still govern
+error framing. No failure may initialize providers or create application files.
+
+Qualify direct processes, cmd/PowerShell redirection, absent/invalid handles and
+a hidden test-owned console with an inherited child. Compare console state before
+and after the child. Record unrun Explorer/Windows Terminal/SSH/RDP/scheduled-task,
+other Windows versions and no-flash experiments explicitly. Retain DE-DEC-002 as
+proposed until that broader evidence justifies a shipping subsystem decision.
+
+API basis: [standard handles](https://learn.microsoft.com/en-us/windows/console/getstdhandle),
+[file type observations](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfiletype),
+[bounded console membership](https://learn.microsoft.com/en-us/windows/console/getconsoleprocesslist),
+[input-buffer observations](https://learn.microsoft.com/en-us/windows/console/getnumberofconsoleinputevents),
+and [CRT descriptor absence](https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/fileno?view=msvc-170).
 
 ## Normative requirements
 

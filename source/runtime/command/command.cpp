@@ -118,8 +118,8 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
     for(std::size_t i=0;i<argv.size();++i) {
         const auto& word=argv[i];
         if(total>65536 || word.size()>65536-total) {result.error("argument_limit_exceeded",i);return result;}
-        if(!json::valid_utf8(word) || word.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",i);return result;}
         total+=word.size();
+        if(!json::valid_utf8(word) || word.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",i);continue;}
         if(!literal && word=="--") {literal=true;boundary=words.size();continue;}
         if(!literal && !word.empty() && word[0]=='-') {
             const auto equal=word.find('=');const auto spelling=word.substr(0,equal);
@@ -136,7 +136,7 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
                     total+=value.size();
                 }
                 else {result.error("missing_option_value",token);continue;}
-                if(!json::valid_utf8(value) || value.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",token);return result;}
+                if(!json::valid_utf8(value) || value.find('\0')!=std::string::npos) {result.error("invalid_argument_encoding",token);continue;}
             } else if(equal!=std::string::npos) {result.error("invalid_option_value",token);continue;}
             if(option) {
                 if(consumes) {

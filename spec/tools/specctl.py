@@ -945,7 +945,7 @@ def equal(a,b):
 def route_invocation(i):
     """Pure policy oracle. Does not inspect or manipulate a real console."""
     front=i.get('frontend','auto');fmt=i.get('format','human');interactive=i.get('interactive','auto')
-    terminal=i.get('terminal','none');gui=i.get('gui_available',False);display=i.get('display',False)
+    terminal=i.get('terminal','none');gui=i.get('gui_available',False);display=i.get('display',False);tui=i.get('tui_available',True)
     def result(f,inter,reason):return {'frontend':f,'format':fmt,'interactive':inter,'reason':reason}
     if front not in ('auto','cli','tui','gui','plain') or fmt not in ('human','json','ndjson') or interactive not in ('auto','yes','no'):
         return {'error':'invalid_argument'}
@@ -961,7 +961,7 @@ def route_invocation(i):
         return {'error':'interaction_unavailable'}
     if front!='auto':
         if front=='gui' and not (gui and display):return {'error':'frontend_unavailable'}
-        if front=='tui' and terminal=='none':return {'error':'frontend_unavailable'}
+        if front=='tui' and (terminal=='none' or not tui):return {'error':'frontend_unavailable'}
         return result(front,front in ('gui','tui') or interactive=='yes','explicit-frontend')
     if i.get('command'):return result('cli',interactive=='yes','explicit-command')
     if interactive=='no':return result('cli',False,'noninteractive-request')
@@ -970,7 +970,8 @@ def route_invocation(i):
     if i.get('stdin') in ('pipe','file') or i.get('stdout') in ('pipe','file'):
         return result('cli',False,'redirected-stream')
     if terminal=='limited':return result('plain',False,'limited-terminal')
-    if terminal=='capable' and i.get('console_owner')=='caller':return result('tui',True,'interactive-terminal')
+    if terminal=='capable' and i.get('console_owner')=='caller':
+        return result('tui',True,'interactive-terminal') if tui else result('plain',False,'tui-unavailable')
     if terminal=='capable':return result('plain',False,'ambiguous-launch')
     return result('plain',False,'no-interactive-host')
 

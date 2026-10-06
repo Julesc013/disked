@@ -323,6 +323,57 @@
       "expected": {
         "error": "interaction_unavailable"
       }
+    },
+    {
+      "id": "explicit-tui-not-composed",
+      "inputs": {
+        "frontend": "tui",
+        "terminal": "capable",
+        "tui_available": false
+      },
+      "expected": {
+        "error": "frontend_unavailable"
+      }
+    },
+    {
+      "id": "auto-tui-not-composed",
+      "inputs": {
+        "terminal": "capable",
+        "console_owner": "caller",
+        "tui_available": false
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "tui-unavailable"
+      }
+    },
+    {
+      "id": "bare-absent-handles",
+      "inputs": {
+        "stdin": "absent",
+        "stdout": "absent"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
+    },
+    {
+      "id": "bare-invalid-handles",
+      "inputs": {
+        "stdin": "invalid",
+        "stdout": "invalid"
+      },
+      "expected": {
+        "frontend": "plain",
+        "format": "human",
+        "interactive": false,
+        "reason": "no-interactive-host"
+      }
     }
   ]
 }

@@ -119,8 +119,8 @@ results and diagnostics occupy only their framed stdout response.
 
 The native argv adapter preserves Windows UTF-16 tokens as strict UTF-8. Static
 completion only suggests descriptor words/options; it never dispatches or performs
-identifier discovery. Bare invocation retains bounded help until DE-W011 qualifies
-full host routing. GUI/TUI are unavailable, and explicit CLI prompt permission
+identifier discovery. DE-W011 supplies channel observations and policy routing for this Windows lane.
+GUI/TUI remain unavailable, and explicit CLI prompt permission
 requires verified console input/output; no synchronous handler actually prompts.
 
 The current broad programme grant permits local continuation after recorded
