@@ -1,0 +1,52 @@
+{
+  "source_revision": "aaac4d4fc712d3c03d2a9960e949a13a5c83995e",
+  "owner_accepted": false,
+  "deliverables": [
+    {
+      "claim": "Bounded views and endian helpers",
+      "source": [
+        "source/portable/primitives/view.c"
+      ],
+      "evidence": [
+        "portable.checked",
+        "portable.c_cpp_linkage"
+      ]
+    },
+    {
+      "claim": "Checked u64 arithmetic and target-size conversion",
+      "source": [
+        "source/portable/primitives/checked.c"
+      ],
+      "evidence": [
+        "Three 10334-case compiler lanes",
+        "411-case legacy regression"
+      ]
+    },
+    {
+      "claim": "Named half-open extents and exact block/byte conversion",
+      "source": [
+        "source/portable/primitives/extent.c"
+      ],
+      "evidence": [
+        "portable.checked"
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "claim": "Overflow/underflow/device-end and nonstandard-unit tests pass",
+      "evidence": "portable.json and each compiler lane observations.json"
+    },
+    {
+      "claim": "No OS headers in portable code",
+      "evidence": "Source include inspection: limits.h, stddef.h, string.h and local headers only"
+    }
+  ],
+  "limitations": [
+    "No owner acceptance or stable public SDK ABI",
+    "Only this modern Windows x64 host; x86 compiler output runs under its WOW64 environment",
+    "No real 16-bit compiler, historical loader, other host or storage qualification",
+    "Portable core performs no I/O and adds no storage command to the fake product",
+    "No physical storage, production recovery, elevation, installation, signing, publication or live AIDE qualification"
+  ]
+}

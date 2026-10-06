@@ -28,7 +28,7 @@
   ],
   "baseline_owner_accepted": false,
   "implementation_owner_accepted": false,
-  "current_work": "DE-W020",
+  "current_work": "DE-W021",
   "completed_development": [
     "DE-W010",
     "DE-W013",
@@ -36,10 +36,11 @@
     "DE-W015",
     "DE-W016",
     "DE-W012",
-    "DE-W017"
+    "DE-W017",
+    "DE-W020"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Implement and verify bounded C90 values, views, endian access and named half-open extents in DE-W020, reusing the DE-W018 corpus. Historical DE-W018 lanes remain open with their recorded environment gaps; no owner acceptance, storage or release gate is implied.",
+  "next_action": "Continue DE-W021 bounded read-only MBR/EBR parsing over ordinary synthetic image fixtures, using the reviewed portable core. Pin actual format references and define diagnostic/resource limits before implementation; preserve opaque bytes and distinguish current-EBR from container-relative links. DE-W018 historical compiler/launch gaps remain open independently. No mounting, physical access, privilege or writer authority is implied; owner acceptance and full 0.1.0 qualification remain separate.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -175,6 +176,15 @@
       "review": ".aide/evidence/2026-10-07-primitive-probes/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Historical compilers/CPU/loader/terminal launches and product parser admission remain unverified; DE-W018 stays active."
+    },
+    {
+      "work_id": "DE-W020",
+      "scope": "Internal C90 checked arithmetic, bounded views/endian access and named half-open extents; three compiler controls and native C/C++ guard-page verification",
+      "source_revision": "aaac4d4fc712d3c03d2a9960e949a13a5c83995e",
+      "evidence": ".aide/evidence/2026-10-07-portable-core/reproduction-aaac4d4f/clean-results.json",
+      "review": ".aide/evidence/2026-10-07-portable-core/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Owner acceptance; real historical/other-target qualification and future format/provider admission remain separate."
     }
   ]
 }
