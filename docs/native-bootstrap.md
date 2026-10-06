@@ -2,8 +2,10 @@
 
 The fake-only Windows executable supports human and JSON/NDJSON build information,
 static command discovery, actual host/mode inspection and contextual help. `protocol serve` admits synchronous
-build/command requests over stdin/stdout. There is no disk graph, storage access,
-GUI, TUI, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
+build/command and fake-graph requests over stdin/stdout. The compiled fake graph
+includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
+observations. There is no real storage access, GUI, TUI, shell or asynchronous
+operation runtime yet. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -19,6 +21,10 @@ ctest --preset windows-bootstrap
 & .\build\windows-bootstrap\Release\disked.exe commands
 & .\build\windows-bootstrap\Release\disked.exe mode explain --json
 & .\build\windows-bootstrap\Release\disked.exe help part --json
+& .\build\windows-bootstrap\Release\disked.exe target list
+& .\build\windows-bootstrap\Release\disked.exe target inspect fake:alpha@1 --json
+& .\build\windows-bootstrap\Release\disked.exe topology show --json
+& .\build\windows-bootstrap\Release\disked.exe capability explain fake:denied@1 partition.resize.plan --json
 ```
 
 The product is `build/windows-bootstrap/Release/disked.exe`; other test executables
@@ -28,9 +34,10 @@ compiler hash and embedded revision/configuration. Dirty builds explicitly repor
 
 Commands remain globally planned while discovery reports the actual composition's
 implemented subset. `build.inspect`, `command.list`, `mode.explain` and the transport selector
-`protocol.serve` are available. Recognizing a storage command's syntax does not
+`protocol.serve` are available. The fake-only service also implements
+`target.list`, `target.inspect`, `topology.show` and `capability.explain`. Recognizing a storage command's syntax does not
 admit its handler. Machine responses never mix human diagnostics with framed JSON.
-Exit 0 means completed, 2 invalid input, 3 unavailable and 4 output/internal failure.
+Exit 0 means completed, 2 invalid input/revision or target refusal, 3 unavailable and 4 output/internal failure.
 The reserved asynchronous outcomes cannot be produced by this synchronous subset.
 
 To use transport, pass `protocol serve --format=json` and provide one UTF-8 request
@@ -43,6 +50,12 @@ to EOF, or choose `--format=ndjson` for a bounded sequence of lines. For example
 Use a caller that writes UTF-8 bytes; shell text-pipeline encoding differs between
 PowerShell versions. Normal CLI commands do not interpret redirected stdin as requests.
 The protocol contract specifies limits, correlation and refusal behavior.
+The four fake graph commands accept an optional envelope `expected_revision`
+from a preceding result; stale revisions are refused without rebasing. Human
+graph output uses ASCII JSON escaping; machine output preserves exact UTF-8
+metadata. Aliases and row numbers do not select targets. Capacity unknown is
+null rather than zero. Capability assessments never authorize execution.
+See [the private service contract](../spec/interaction/presentation.md).
 
 Native tests exercise the shared syntax corpus, option-placement permutations,
 strict JSON limits, producer/reader compatibility, process output and a provider

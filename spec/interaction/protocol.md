@@ -71,7 +71,9 @@ Every `accepted_running` response includes a nonempty durable `operation_id`. A 
 The first native protocol admits `build.inspect`, `command.list` and
 `protocol.serve` (the latter selects transport, and is never recursively accepted
 as a request). `mode.explain` is admitted only with a real host-observation adapter.
-Other descriptors stay unavailable regardless of successful syntax recognition.
+DE-W013 additionally admits the four fake observation commands defined in
+[DE-023](presentation.md). Other descriptors stay unavailable regardless of
+successful syntax recognition.
 This is a provisional v1 synchronous implementation, not asynchronous operation
 admission. A completed/refused request has `operation_id: null`; the implementation
 never invents an accepted-running operation for work it cannot perform.
@@ -95,9 +97,12 @@ Large exact counters and geometry remain bounded decimal strings.
 Requests use the existing strict request schema, with nonempty UTF-8 request IDs
 of at most 128 bytes, and no NUL. This initial composition supports no required
 feature tokens; a nonempty `required_features` array is `unsupported_feature`.
-Unknown top-level request fields are `invalid_request`; optional mutation fields
-are rejected on the synchronous read-only handlers. Those handlers require an
-empty parameters object. A malformed request uses correlation ID `@unparsed`;
+Unknown top-level request fields are `invalid_request`. Plan digests and
+idempotency keys are rejected on the synchronous handlers. DE-W013 observation
+commands admit an optional `expected_revision`; other commands reject that
+field as `unexpected_revision`. Parameters follow each descriptor's declared
+schema: inspect requires target ID and capability explanation requires target
+ID plus operation ID; the other admitted reads require empty parameters. A malformed request uses correlation ID `@unparsed`;
 a structurally valid request preserves its supplied ID when refused.
 
 Response consumers validate known fields and preserve unknown observational

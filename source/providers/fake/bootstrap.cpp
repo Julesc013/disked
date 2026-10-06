@@ -12,6 +12,7 @@ void initialize_fake_provider() {
     // The essential-command acceptance suite must never enter this boundary.
     std::_Exit(97);
 #endif
-    // No graph, device handles, filesystem access or dynamic initialization.
+    // The caller may now construct compiled graph observations. No device
+    // handles, filesystem access or dynamic initialization is performed here.
 }
 }

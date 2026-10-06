@@ -89,3 +89,12 @@ Plans MUST account for storage aliases, dependent resources and conflicting acto
 
 - [DE-010](../architecture/system.md)
 - [DE-005](../foundation/glossary.md)
+
+## Native fake graph slice
+
+DE-W013 exercises immutable captures, identity/generation-bound selection,
+cloned aliases, shared resources, cycles and partial observations under the
+private [DE-023 execution contract](../interaction/presentation.md). Revision
+digests bind capture identity and exact observations. This is an in-memory
+fake provider, not physical identity validation, leases, fencing or media
+qualification. Real providers must earn their own identity/freshness claims.

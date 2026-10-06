@@ -59,3 +59,14 @@ Execution eligibility MUST require every mandatory capability dimension to be sa
 Provider selection and alternatives MUST be visible, operation-specific and fixed in the reviewed plan; changing a provider requires renewed admission.
 
 **Verification:** Compare CLI/TUI/GUI capability explanations and reject a provider replacement after review.
+
+## DE-W013 cached fake observations
+
+The fake service exposes the existing ten-dimensional assessment. It leaves
+qualification unknown and execution/authorization false for every target.
+Cached observation retrieval is available even where subsequent storage work
+is denied, stale or unknown. `implementation`/`provider` are satisfied only for
+the four admitted cached read commands; other catalog operations are unavailable
+in those dimensions and in policy/recovery. Denied state maps to permission
+denied, stale to freshness unknown, and unknown to target-state unknown. Other
+dimensions describe the bounded compiled fixture only; none admits real media.

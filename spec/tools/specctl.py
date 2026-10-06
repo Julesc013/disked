@@ -23,7 +23,7 @@ MAX_FILE = 8 * 1024 * 1024
 MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
-SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','handoff','plan','event','command-resize-proposal-parameters')}
+SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','handoff','plan','event','command-resize-proposal-parameters')}
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -180,6 +180,17 @@ def bounded_u64(value, label):
         raise SpecError(label+' is outside the decimal u64 model')
     return int(value)
 
+def fake_graph_bytes(value):
+    """Private DE-023 encoding; independent of native JSON/SHA implementation."""
+    if value is None:return b'null'
+    if isinstance(value,str):
+        text='"'+''.join('\\"' if c=='"' else '\\\\' if c=='\\' else f'\\u{ord(c):04x}' if ord(c)<32 else c for c in value)+'"'
+        try:return text.encode('utf-8')
+        except UnicodeEncodeError as exc:raise SpecError('Invalid Unicode in fake graph') from exc
+    if isinstance(value,list):return b'['+b','.join(fake_graph_bytes(v) for v in value)+b']'
+    if isinstance(value,dict):return b'{'+b','.join(fake_graph_bytes(k)+b':'+fake_graph_bytes(value[k]) for k in sorted(value))+b'}'
+    raise SpecError('Unexpected value type in private fake graph encoding')
+
 def semantic_validate(kind: str | None, value: dict):
     if kind == 'extent':
         start = bounded_u64(value['start_lba'],'start_lba')
@@ -194,6 +205,21 @@ def semantic_validate(kind: str | None, value: dict):
             if edge['from'] not in nodes or edge['to'] not in nodes:
                 raise SpecError('Dangling graph edge')
         # Resource graphs intentionally need not be DAGs.
+    elif kind == 'fake-graph':
+        semantic_validate('graph',value)
+        encoded=fake_graph_bytes(value)
+        bounded_u64(value['capture_id'].split(':')[1],'capture epoch')
+        for node in value['nodes']:
+            p=node['properties'];bounded_u64(p['media_generation'],'media generation')
+            if p['capacity_bytes'] is not None:bounded_u64(p['capacity_bytes'],'capacity bytes')
+            for item in [node['id'],node['kind'],p['identity'],*p['aliases']]:
+                if len(item.encode('utf-8'))>256:raise SpecError('Fake graph reference exceeds byte bound')
+            if len(p['label'].encode('utf-8'))>4096:raise SpecError('Fake graph label exceeds byte bound')
+        for item in [*value['omissions'],*(e['kind'] for e in value['edges'])]:
+            if len(item.encode('utf-8'))>256:raise SpecError('Fake graph reference exceeds byte bound')
+        if len(encoded)>65536:raise SpecError('Fake graph exceeds byte bound')
+        unsigned={k:v for k,v in value.items() if k!='revision'}
+        if digest_bytes(fake_graph_bytes(unsigned))!=value['revision']:raise SpecError('Fake graph revision mismatch')
     elif kind == 'handoff':
         for test in value['tests']:
             if test['status']=='not_run' and (test['exit_code'] is not None or test['evidence_path'] is not None):

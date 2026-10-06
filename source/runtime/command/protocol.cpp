@@ -59,13 +59,16 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     if(!value.find("required_features")->items.empty())return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
     if(!descriptor || command->text=="protocol.serve")return refused(id->text,"command_unavailable",3);
-    // No mutation fields are admitted by this composition, including on unavailable commands.
-    for(const auto* field:{"plan_digest","expected_revision","idempotency_key"})
+    // Revision-bound cached observation does not admit mutation authority.
+    for(const auto* field:{"plan_digest","idempotency_key"})
         if(value.find(field))return refused(id->text,"unexpected_mutation_field");
+    const auto* revision=value.find("expected_revision");
+    if(revision && command->text!="target.list" && command->text!="target.inspect" &&
+        command->text!="topology.show" && command->text!="capability.explain")return refused(id->text,"unexpected_revision");
     const auto error=validate_parameters(registry,*descriptor,*value.find("parameters"));
     if(error=="syntax_unavailable")return refused(id->text,"command_unavailable",3);
     if(!error.empty())return refused(id->text,error);
-    return handler(id->text,command->text,*value.find("parameters"));
+    return handler(id->text,command->text,*value.find("parameters"),revision?revision->text:"");
 }
 bool write_response(FILE* output,const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
@@ -133,7 +136,7 @@ int response_exit(const Value& value) {
     // Refusal subclasses are stable diagnostics, not message text.
     for(const auto& d:value.find("diagnostics")->items) {
         const auto code=d.find("code")->text;
-        if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature")return 3;
+        if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature" || code=="operation_unavailable")return 3;
     }
     return 2;
 }

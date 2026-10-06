@@ -1,0 +1,57 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+      Start  1: frontend.service
+ 1/11 Test  #1: frontend.service ...................***Failed    0.52 sec
+test_cached_observations_and_capability_denials (__main__.Service.test_cached_observations_and_capability_denials) ... ok
+test_display_escapes_without_losing_original_values (__main__.Service.test_display_escapes_without_losing_original_values) ... ok
+test_initial_partial_graph_cycles_clones_and_revision (__main__.Service.test_initial_partial_graph_cycles_clones_and_revision) ... FAIL
+test_invalid_refresh_does_not_publish_or_lose_selection (__main__.Service.test_invalid_refresh_does_not_publish_or_lose_selection) ... ok
+test_retained_snapshot_refresh_epoch_and_stale_actions (__main__.Service.test_retained_snapshot_refresh_epoch_and_stale_actions) ... ok
+test_retired_identity_cannot_be_reused_and_history_is_bounded (__main__.Service.test_retired_identity_cannot_be_reused_and_history_is_bounded) ... ok
+test_selection_survives_reorder_removal_and_replacement (__main__.Service.test_selection_survives_reorder_removal_and_replacement) ... ok
+test_sha256_vectors_padding_boundaries_and_random_values (__main__.Service.test_sha256_vectors_padding_boundaries_and_random_values) ... ok
+
+======================================================================
+FAIL: test_initial_partial_graph_cycles_clones_and_revision (__main__.Service.test_initial_partial_graph_cycles_clones_and_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_service.py", line 42, in test_initial_partial_graph_cycles_clones_and_revision
+    self.assertEqual('sha256:'+hashlib.sha256(json.dumps(unsigned,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest(),graph['revision'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'sha256:3d74c49d7a6982ebc396a3b7a6855cc8840d169e65857b163cc14d3c9f5fe1a3' != 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4'
+- sha256:3d74c49d7a6982ebc396a3b7a6855cc8840d169e65857b163cc14d3c9f5fe1a3
++ sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.340s
+
+FAILED (failures=1)
+
+      Start  2: frontend.transport
+ 2/11 Test  #2: frontend.transport .................   Passed    1.84 sec
+      Start  3: invocation.policy
+ 3/11 Test  #3: invocation.policy ..................   Passed    6.08 sec
+      Start  4: protocol.compatible_reader
+ 4/11 Test  #4: protocol.compatible_reader .........   Passed    1.01 sec
+      Start  5: command.syntax
+ 5/11 Test  #5: command.syntax .....................   Passed   12.03 sec
+      Start  6: protocol.json_codec
+ 6/11 Test  #6: protocol.json_codec ................   Passed    3.69 sec
+      Start  7: disked.invocation
+ 7/11 Test  #7: disked.invocation ..................   Passed    1.96 sec
+      Start  8: disked.acceptance
+ 8/11 Test  #8: disked.acceptance ..................   Passed    2.75 sec
+      Start  9: disked_provider_guard.invocation
+ 9/11 Test  #9: disked_provider_guard.invocation ...   Passed    1.38 sec
+      Start 10: disked_provider_guard.acceptance
+10/11 Test #10: disked_provider_guard.acceptance ...   Passed    3.10 sec
+      Start 11: provider_guard.positive_control
+11/11 Test #11: provider_guard.positive_control ....   Passed    0.26 sec
+
+91% tests passed, 1 tests failed out of 11
+
+Total Test time (real) =  34.65 sec
+
+The following tests FAILED:
+	  1 - frontend.service (Failed)
+Errors while running CTest

@@ -3,6 +3,8 @@
 #include "bootstrap_registry.h"
 #include "bootstrap.h"
 #include "protocol.h"
+#include "session.h"
+#include "graph.h"
 #include <cstdio>
 
 namespace disked {
@@ -44,11 +46,16 @@ Value discovery(const ParseResult* help=nullptr) {
         .put("global_options",*command_registry().syntax.find("global_options"));
     return result;
 }
-Outcome dispatch(const std::string& request,const std::string& command,const Value&,const InvocationHost& host,const Value& inputs) {
+Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
+    std::unique_ptr<FrontendSession>& session,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain")return completed(request,explain_invocation(host,inputs));
+    if(FrontendSession::handles(command)) {
+        if(!session)session.reset(new FrontendSession(command_registry(),fake_graph()));
+        return session->dispatch(request,command,parameters,revision);
+    }
     return refused(request,"command_unavailable",3);
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host) {
@@ -60,7 +67,8 @@ bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost
     }
     if(!host.output_usable)return false;
     const auto& value=*outcome.response.find("result");
-    if(parsed.command_id=="mode.explain" && parsed.kind!="help")std::puts(json::dump(value).c_str());
+    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")std::puts(presentation_json(value).c_str());
+    else if(parsed.command_id=="mode.explain" && parsed.kind!="help")std::puts(json::dump(value).c_str());
     else if(parsed.command_id=="build.inspect" && parsed.kind!="help") {
         for(const auto& pair:value.fields)std::printf("%s=%s\n",pair.first.c_str(),pair.second.text.c_str());
     } else {
@@ -102,6 +110,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         Value controls=Value::object();for(const auto& pair:parsed.controls)controls.put(pair.first,Value::string(pair.second));
         const auto inputs=invocation_inputs(host,controls,!parsed.command_id.empty());
         const auto selection=route_invocation(inputs);
+        std::unique_ptr<FrontendSession> session;
         Outcome outcome;
         if(!parsed.valid()) {
             outcome=refused("cli","invalid_arguments");outcome.response.fields["diagnostics"].items.clear();
@@ -118,11 +127,11 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
             else if(!host.input_usable)outcome=refused("@unparsed","input_error",4);
             else {
                 auto machine_inputs=inputs;machine_inputs.put("command",Value::boolean_value(true));
-                return serve(stdin,stdout,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters) {
-                    return dispatch(id,command,parameters,host,machine_inputs);
+                return serve(stdin,stdout,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
+                    return dispatch(id,command,parameters,host,machine_inputs,session,revision);
                 });
             }
-        } else outcome=dispatch("cli",parsed.command_id,parsed.parameters,host,inputs);
+        } else outcome=dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session);
         if(machine) {if(!host.output_usable || !write_response(stdout,outcome.response))return 4;}
         else if(!human(outcome,parsed,host)) {if(host.error_usable)std::fputs("disked: output_error\n",stderr);return 4;}
         return outcome.exit_code;

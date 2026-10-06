@@ -8,7 +8,7 @@ struct Outcome {
     json::Value response;
     int exit_code=0;
 };
-using Handler = std::function<Outcome(const std::string&,const std::string&,const json::Value&)>;
+using Handler = std::function<Outcome(const std::string&,const std::string&,const json::Value&,const std::string&)>;
 json::Value diagnostic(const std::string& code,json::Value parameters=json::Value::object());
 Outcome completed(const std::string& request_id,json::Value result);
 Outcome refused(const std::string& request_id,const std::string& code,int exit_code=2);

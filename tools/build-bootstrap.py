@@ -34,7 +34,9 @@ def generate(args):
     commands = read(root / "spec/catalog/commands.json")["commands"]
     syntax = read(root / "spec/catalog/cli-syntax.json")
     implemented = set(profile["implemented_commands"])
-    if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain"}:
+    if profile["fake_provider_id"] != "provider.fake.bootstrap/1":
+        raise ValueError("Private fake graph profile requires an explicit provider identity change")
+    if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain", "target.list", "target.inspect", "topology.show", "capability.explain"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")
@@ -44,7 +46,7 @@ def generate(args):
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
     if selected != {"entry.disked.bootstrap", "provider.fake.bootstrap"}:
-        raise ValueError("Bootstrap link closure is explicitly limited to entry and fake identity")
+        raise ValueError("Bootstrap link closure is explicitly limited to entry and compiled fake observations")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake") or not set(components[name]["depends_on"]) <= selected:
             raise ValueError("Invalid bootstrap component authority/dependency")

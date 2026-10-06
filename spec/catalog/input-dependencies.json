@@ -1002,16 +1002,24 @@
         "source/platform/windows/entry.cpp",
         "source/platform/windows/invocation.cpp",
         "source/platform/windows/invocation.h",
+        "source/portable/hash/sha256.cpp",
+        "source/portable/hash/sha256.h",
         "source/providers/fake/bootstrap.cpp",
         "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.cpp",
+        "source/providers/fake/graph.h",
         "source/runtime/command/command.cpp",
         "source/runtime/command/command.h",
         "source/runtime/command/json.cpp",
         "source/runtime/command/json.h",
         "source/runtime/command/protocol.cpp",
         "source/runtime/command/protocol.h",
+        "source/runtime/graph/snapshot.cpp",
+        "source/runtime/graph/snapshot.h",
         "source/runtime/invocation/policy.cpp",
         "source/runtime/invocation/policy.h",
+        "source/runtime/presentation/session.cpp",
+        "source/runtime/presentation/session.h",
         "spec/catalog/cli-syntax.json",
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
@@ -1020,11 +1028,14 @@
         "spec/fixtures/command-syntax.json",
         "spec/fixtures/invocation.json",
         "spec/fixtures/native-bootstrap.json",
+        "spec/schemas/capability-assessment.schema.json",
+        "spec/schemas/command-capability-parameters.schema.json",
         "spec/schemas/command-empty-parameters.schema.json",
         "spec/schemas/command-image-path-parameters.schema.json",
         "spec/schemas/command-resize-proposal-parameters.schema.json",
         "spec/schemas/command-target-parameters.schema.json",
         "spec/schemas/diagnostic.schema.json",
+        "spec/schemas/graph.schema.json",
         "spec/schemas/request.schema.json",
         "spec/schemas/response.schema.json",
         "tests/contracts/codec_probe.cpp",
@@ -1033,6 +1044,9 @@
         "tests/contracts/test_json.py",
         "tests/contracts/test_parser.py",
         "tests/contracts/test_reader.py",
+        "tests/frontend/service_probe.cpp",
+        "tests/frontend/test_service.py",
+        "tests/frontend/test_transport.py",
         "tests/invocation/console_fixture.py",
         "tests/invocation/policy_probe.cpp",
         "tests/invocation/test_policy.py",
@@ -1040,7 +1054,8 @@
         "tests/native/provider_guard_probe.cpp",
         "tests/native/test_bootstrap.py",
         "tests/native/test_protocol.py",
-        "tests/native/test_provider_guard.py"
+        "tests/native/test_provider_guard.py",
+        "spec/schemas/fake-graph.schema.json"
       ],
       "spec_ids": [
         "DE-021",
@@ -1466,6 +1481,163 @@
       "spec_ids": [
         "DE-020",
         "DE-050"
+      ]
+    },
+    {
+      "id": "source/portable/hash/sha256.cpp",
+      "path": "source/portable/hash/sha256.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/portable/hash/sha256.h",
+      "path": "source/portable/hash/sha256.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/runtime/graph/snapshot.cpp",
+      "path": "source/runtime/graph/snapshot.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/runtime/graph/snapshot.h",
+      "path": "source/runtime/graph/snapshot.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/runtime/presentation/session.cpp",
+      "path": "source/runtime/presentation/session.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/runtime/presentation/session.h",
+      "path": "source/runtime/presentation/session.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/providers/fake/graph.cpp",
+      "path": "source/providers/fake/graph.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "source/providers/fake/graph.h",
+      "path": "source/providers/fake/graph.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "tests/frontend/service_probe.cpp",
+      "path": "tests/frontend/service_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_service.py",
+      "path": "tests/frontend/test_service.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_transport.py",
+      "path": "tests/frontend/test_transport.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-capability-parameters.schema.json",
+      "path": "spec/schemas/command-capability-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030",
+        "DE-035"
+      ]
+    },
+    {
+      "id": "spec/schemas/fake-graph.schema.json",
+      "path": "spec/schemas/fake-graph.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/graph.schema.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-030"
       ]
     }
   ]

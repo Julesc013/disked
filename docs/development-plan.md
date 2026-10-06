@@ -42,3 +42,9 @@ DE-W019 adds the explicit command shell; DE-W017 includes shell parity and guard
 ## CLI grammar refinement
 
 DE-W012 now includes flexible placement of complete option/value groups, contextual help, natural registered command forms and shared native parser conformance cases. DE-W019 adds editable syntax-error recovery and measured typing/completion usability. Catalog/schema checks and expected-result definitions are local preparation; the shared corpus now runs against the Windows native parser; no other host is qualified by that result. The [command experience](command-experience.md) and [canonical grammar](../spec/interaction/commands.md) explain the boundaries. Existing architecture and storage-admission stages remain intact.
+
+The DE-W013 local slice adds an immutable fake graph and shared frontend service.
+CLI/stdio read commands preserve denied/stale/unknown observations; revision
+checks and selection identity live in the service. TUI, Win32, async operations
+and real storage remain later work. Evidence is retained under
+`.aide/evidence/2026-10-06-native-graph/`; owner acceptance remains separate.

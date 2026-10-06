@@ -27,6 +27,13 @@ target_include_directories(disked_json PUBLIC source/runtime/command source/runt
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+add_library(disked_presentation STATIC source/portable/hash/sha256.cpp
+  source/runtime/graph/snapshot.cpp source/runtime/presentation/session.cpp)
+target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash)
+target_link_libraries(disked_presentation PUBLIC disked_json)
+set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_presentation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 set(generated "${CMAKE_CURRENT_BINARY_DIR}/generated")
 add_custom_target(bootstrap_registry ALL
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tools/build-bootstrap.py"
@@ -42,11 +49,11 @@ add_custom_target(bootstrap_registry ALL
 
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
-    source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp
+    source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
     source/platform/windows/entry.cpp source/platform/windows/invocation.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/apps/disked)
-  target_link_libraries(${target} PRIVATE disked_json)
+  target_link_libraries(${target} PRIVATE disked_presentation)
   set_target_properties(${target} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(${target} PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
   target_link_options(${target} PRIVATE /SUBSYSTEM:CONSOLE,10.00 /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
@@ -55,6 +62,19 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(frontend_service_probe tests/frontend/service_probe.cpp source/apps/disked/command_registry.cpp
+    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+  add_dependencies(frontend_service_probe bootstrap_registry)
+  target_include_directories(frontend_service_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
+  target_link_libraries(frontend_service_probe PRIVATE disked_presentation)
+  set_target_properties(frontend_service_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(frontend_service_probe PRIVATE /W4 /WX /permissive- /utf-8)
+  add_test(NAME frontend.service COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_service.py"
+    --probe "$<TARGET_FILE:frontend_service_probe>")
+  set_tests_properties(frontend.service PROPERTIES TIMEOUT 120)
+  add_test(NAME frontend.transport COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_transport.py"
+    --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --probe "$<TARGET_FILE:frontend_service_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(frontend.transport PROPERTIES TIMEOUT 120)
   add_executable(invocation_policy_probe tests/invocation/policy_probe.cpp)
   target_link_libraries(invocation_policy_probe PRIVATE disked_json)
   add_test(NAME invocation.policy COMMAND "${Python3_EXECUTABLE}"
