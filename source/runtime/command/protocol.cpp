@@ -38,7 +38,7 @@ Outcome refused(const std::string& id,const std::string& code,int exit_code) {
     Outcome out;out.exit_code=exit_code;out.response=envelope(id,exit_code==4?"failed":"refused");
     out.response.fields["diagnostics"].items.push_back(diagnostic(code));return out;
 }
-Outcome process_request(const Registry& registry,const std::string& frame,const Handler& handler) {
+Outcome process_request(const Registry& registry,const std::string& frame,const Handler& handler,const Handler& events) {
     Value value;
     try {value=json::parse(frame);}
     catch(const json::Error& e) {return refused("@unparsed",e.code);}
@@ -56,7 +56,9 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     }
     if(value.find("idempotency_key") && !string(value.find("idempotency_key")))return refused("@unparsed","invalid_request");
     if(schema->text!="org.disked.request/1")return refused(id->text,"incompatible_schema");
-    if(!value.find("required_features")->items.empty())return refused(id->text,"unsupported_feature",3);
+    const auto& features=value.find("required_features")->items;
+    const bool streaming=features.size()==1 && features.front().text=="org.disked.fake-operation-events/1" && command->text=="operation.watch" && events;
+    if(!features.empty() && !streaming)return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
     if(!descriptor || command->text=="protocol.serve")return refused(id->text,"command_unavailable",3);
     // Revision-bound cached observation does not admit mutation authority.
@@ -68,14 +70,14 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     const auto error=validate_parameters(registry,*descriptor,*value.find("parameters"));
     if(error=="syntax_unavailable")return refused(id->text,"command_unavailable",3);
     if(!error.empty())return refused(id->text,error);
-    return handler(id->text,command->text,*value.find("parameters"),revision?revision->text:"");
+    return (streaming?events:handler)(id->text,command->text,*value.find("parameters"),revision?revision->text:"");
 }
 std::string response_frame(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
     std::string bytes=json::dump(response,limits);bytes+='\n';
     return bytes;
 }
-int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output) {
+int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;
     auto emit=[&](Outcome out) {exit_code=(std::max)(exit_code,out.exit_code);return output(out.response);};
     for(;;) {
@@ -89,7 +91,7 @@ int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handle
             // LF/CRLF count toward the frame bound. Strip CR only for LF-delimited records.
             if(delimiter && frame.size()+1>65536)return emit(refused("@unparsed","message_too_large"))?(std::max)(exit_code,2):4;
             if(delimiter && !frame.empty() && frame.back()=='\r')frame.pop_back();
-            auto out=process_request(registry,frame,handler);
+            auto out=process_request(registry,frame,handler,ndjson?events:Handler{});
             bool stop=false;
             for(const auto& d:out.response.find("diagnostics")->items)stop=stop || resource_failure(d.find("code")->text);
             if(!emit(std::move(out)))return 4;

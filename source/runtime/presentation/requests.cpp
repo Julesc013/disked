@@ -58,7 +58,7 @@ bool RequestChannel::wait(Outcome& output,std::chrono::milliseconds duration) {
     output=std::move(state_->result);state_->result=Outcome{};state_->ready=state_->busy=false;return true;
 }
 Outcome BoundedRequests::run(const std::string& request,std::function<Outcome()> callback,
-    Outcome expired,std::chrono::milliseconds duration) {
+    Outcome expired,std::chrono::milliseconds duration,const std::function<bool()>& progress) {
     Outcome result;
     if(late_) {
         if(!channel_.poll(result))return refused(request,"request_resource_limit",3);
@@ -69,7 +69,16 @@ Outcome BoundedRequests::run(const std::string& request,std::function<Outcome()>
     }
     auto submission=channel_.submit(request,std::move(callback));
     if(!submission.pending)return std::move(submission.outcome);
-    if(channel_.wait(result,duration))return result;
+    if(!progress) {if(channel_.wait(result,duration))return result;}
+    else {
+        const auto end=std::chrono::steady_clock::now()+duration;
+        do {
+            if(!progress()) {late_=true;return refused(request,"output_error",4);}
+            if(channel_.wait(result,std::chrono::milliseconds(10))) {
+                if(!progress())return refused(request,"output_error",4);return result;
+            }
+        } while(std::chrono::steady_clock::now()<end);
+    }
     late_=true;return expired;
 }
 }

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
+#include <algorithm>
 
 namespace disked { namespace fake_operation {
 using json::Value;
@@ -104,6 +105,25 @@ std::string record(const Value& state,const std::string& previous) {
         .put("state",state).put("previous",Value::string(previous));
     out.put("digest",Value::string(hash(encoded(out))));return encoded(out)+"\n";
 }
+void validate_state(const Value& state) {
+    const auto* binding=state.find("binding");if(!binding)fail("operation_record_shape");
+    Operation initial(*binding);const auto wanted=encoded(state);
+    std::vector<Operation> pending{initial};std::vector<std::string> visited;
+    // Enumerate the small finite fake state machine. Extensions inside hashed
+    // state require a new admitted encoding, unlike outer observational fields.
+    for(std::size_t i=0;i<pending.size();++i) {
+        const auto current=pending[i];const auto bytes=encoded(current.state());
+        if(bytes==wanted)return;
+        if(std::find(visited.begin(),visited.end(),bytes)!=visited.end())continue;
+        visited.push_back(bytes);if(visited.size()>32)fail("operation_state_limit");
+        for(const char* action:{"cancel","checkpoint","prepare","dispatch","observe","verify"}) {
+            auto next=current;
+            try {if(next.advance(action,origin(*binding),std::string(action)=="observe"?"1":""))pending.push_back(std::move(next));}
+            catch(const std::invalid_argument&) {}
+        }
+    }
+    fail("operation_state_mismatch");
+}
 History read_history(const std::string& bytes) {
     if(bytes.empty())fail("operation_history_empty");
     if(bytes.size()>history_limit)fail("operation_history_limit");
@@ -121,6 +141,7 @@ History read_history(const std::string& bytes) {
         if(envelope.kind!=Value::Kind::object || envelope.fields.size()!=4 ||
            text(envelope,"schema")!="org.disked.fake-operation-record/1" || !envelope.find("state"))fail("operation_record_shape");
         if(text(envelope,"previous")!=out.digest)fail("operation_chain_mismatch");
+        const auto retained=envelope;
         const auto digest=text(envelope,"digest");envelope.fields.erase("digest");
         if(!hex(digest,64) || hash(encoded(envelope))!=digest)fail("operation_digest_mismatch");
         const auto& state=*envelope.find("state");
@@ -139,7 +160,7 @@ History read_history(const std::string& bytes) {
         Operation replay(binding);
         for(const auto& action:actions)if(!replay.advance(action,origin(binding),action=="observe"?"1":""))fail("operation_transition_noop");
         if(encoded(replay.state())!=encoded(state))fail("operation_state_mismatch");
-        out.state=state;out.digest=digest;
+        out.state=state;out.digest=digest;out.records.push_back(retained);
     }
     return out;
 }

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.15-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T17:17:44.526515+00:00'
-  scope: DE-W017 private capture epochs and native provider-failure campaign; owner acceptance pending
+  at: '2026-10-06T17:56:37.391761+00:00'
+  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
 ---
 
 # Bounded responsiveness and failure containment
@@ -105,7 +105,8 @@ transitions without retry. Cached healthy and denied observations remain usable.
 Readable terminal state is not proof that its final flush succeeded.
 
 These store/transport checks are separate from frontend memory admission below,
-public event-stream gap/resnapshot behaviour and the combined provider campaign.
+the later public event-stream and combined provider contracts in DE-022 and the
+sections below; the initial containment slice alone does not qualify them.
 Injected store boundaries do not qualify a real full filesystem or persistence
 after power loss. No timeout proves retirement of an arbitrary stuck kernel call.
 
@@ -239,9 +240,9 @@ target. Provider-reported denial is synthetic; the malformed pipe and exception
 are real native failures. Arbitrary kernel hangs and hostile-provider security
 isolation remain unqualified.
 
-These private notices do not admit public `org.disked.event/1` streaming. Public
-typed payloads, negotiation and reconnect semantics retain their DE-W012/017
-implementation gates. The combined campaign must exercise the same coordinator
+These private notices do not themselves admit public `org.disked.event/1`
+streaming. DE-022 separately defines the implemented fake-operation watch
+payloads, explicit negotiation and reconnect semantics over its retained store. The combined campaign must exercise the same coordinator
 with real native delayed/exited/malformed fixture producers and all frontends;
 isolated reducer tests alone do not close that campaign or DE-W017.
 

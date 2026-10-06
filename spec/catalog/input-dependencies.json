@@ -1040,6 +1040,8 @@
         "source/runtime/invocation/policy.h",
         "source/runtime/operation/fake_operation.cpp",
         "source/runtime/operation/fake_operation.h",
+        "source/runtime/operation/watch.cpp",
+        "source/runtime/operation/watch.h",
         "source/runtime/presentation/requests.cpp",
         "source/runtime/presentation/requests.h",
         "source/runtime/presentation/session.cpp",
@@ -1063,8 +1065,10 @@
         "spec/schemas/command-shell-parameters.schema.json",
         "spec/schemas/command-syntax-cases.schema.json",
         "spec/schemas/command-target-parameters.schema.json",
+        "spec/schemas/command-watch-parameters.schema.json",
         "spec/schemas/diagnostic.schema.json",
         "spec/schemas/fake-graph.schema.json",
+        "spec/schemas/fake-operation-event.schema.json",
         "spec/schemas/fake-operation-record.schema.json",
         "spec/schemas/fake-operation.schema.json",
         "spec/schemas/graph.schema.json",
@@ -1100,9 +1104,13 @@
         "tests/native/test_bootstrap.py",
         "tests/native/test_protocol.py",
         "tests/native/test_provider_guard.py",
+        "tests/operation/console_watch_fixture.py",
         "tests/operation/reducer_probe.cpp",
         "tests/operation/test_reducer.py",
+        "tests/operation/test_watch.py",
+        "tests/operation/test_watch_reader.py",
         "tests/operation/test_worker.py",
+        "tests/operation/watch_probe.cpp",
         "tests/resilience/capture_campaign.cpp",
         "tests/resilience/capture_probe.cpp",
         "tests/resilience/console_capture_fixture.py",
@@ -2405,6 +2413,118 @@
         "tests/frontend/gui_fixture.py"
       ],
       "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/operation/watch.cpp",
+      "path": "source/runtime/operation/watch.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-015",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/operation/watch.h",
+      "path": "source/runtime/operation/watch.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/operation/fake_operation.h"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-015",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-watch-parameters.schema.json",
+      "path": "spec/schemas/command-watch-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022",
+        "DE-015",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/fake-operation-event.schema.json",
+      "path": "spec/schemas/fake-operation-event.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/event.schema.json",
+        "spec/schemas/fake-operation-record.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-015",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/operation/watch_probe.cpp",
+      "path": "tests/operation/watch_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/operation/test_watch_reader.py",
+      "path": "tests/operation/test_watch_reader.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/operation/watch_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/operation/test_watch.py",
+      "path": "tests/operation/test_watch.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/gui_fixture.py",
+        "tests/operation/console_watch_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/operation/console_watch_fixture.py",
+      "path": "tests/operation/console_watch_fixture.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/console_tui_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-022",
         "DE-023",
         "DE-045"
       ]

@@ -76,7 +76,8 @@ Human usability and additional keyboard/terminal
 qualification remain open; no production planner or storage admission is implied.
 
 
-DE-W017 is active. Its containment slices separate interactive event loops from
+DE-W017 has reached its local fake-provider review boundary. Its containment
+slices separate interactive event loops from
 fake-operation file requests, preserve late outcomes by view identity, bound
 cooperating workers with Windows jobs, and add finite CLI/stdio callback and
 output waits. Unknown outcomes never authorize automatic retries; output failure
@@ -93,7 +94,10 @@ from publishing, an eight-notice ring makes gaps explicit, and allocation-failur
 checks preserve snapshots and pending updates. A separate native fixture
 composition exercises the shared service through stdio, GUI, TUI and shell; its
 producer budgets and synthetic denial are explicitly scoped. Evidence belongs to
-`.aide/evidence/2026-10-07-observation-capture/`. Public event-stream negotiation,
-reconnect and wire payloads remain open. No real full filesystem or power-loss
-persistence is qualified. These slices do not complete the unit or confer owner
-acceptance.
+`.aide/evidence/2026-10-07-observation-capture/`. DE-W012/017 now adds a bounded
+fake-operation watcher, typed record/snapshot events, explicit NDJSON negotiation,
+digest-bound reconnect and frontend parity. Its source-bound tests and clean
+reproduction belong to `.aide/evidence/2026-10-07-operation-watch/`. The retained local review
+and clean reproduction govern continuation to DE-W018;
+owner acceptance, real filesystem/power-loss and other-host qualification remain
+separate. The full 0.1.0 programme is still active.

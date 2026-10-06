@@ -26,4 +26,5 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
 json::Value complete_static(const Registry& registry,const std::vector<std::string>& command_words,const std::string& prefix);
 bool positive_byte_quantity(const std::string& value,std::string* bytes=nullptr);
 std::string validate_parameters(const Registry& registry,const json::Value& command,const json::Value& parameters,bool help=false);
+std::string form_parameters(const Registry& registry,const json::Value& command,const json::Value& editor,json::Value& typed);
 }

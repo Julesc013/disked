@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-022
   profile: disked-spec/1
-  version: 0.1.12-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-022-02
 updated:
   by: codex
-  at: '2026-10-06T15:17:01.093324+00:00'
-  scope: DE-W017 bounded CLI/stdio requests and output; combined campaign remains active
+  at: '2026-10-06T17:56:37.383921+00:00'
+  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -97,8 +97,9 @@ invalid UTF-8, lone surrogates, BOMs and trailing non-whitespace data are refuse
 Large exact counters and geometry remain bounded decimal strings.
 
 Requests use the existing strict request schema, with nonempty UTF-8 request IDs
-of at most 128 bytes, and no NUL. This initial composition supports no required
-feature tokens; a nonempty `required_features` array is `unsupported_feature`.
+of at most 128 bytes, and no NUL. The synchronous handlers support no required
+feature tokens; a nonempty `required_features` array is `unsupported_feature`,
+except the explicitly negotiated operation-watch extension below.
 Unknown top-level request fields are `invalid_request`. Plan digests and
 idempotency keys are rejected on the synchronous handlers. DE-W013 observation
 commands admit an optional `expected_revision`; other commands reject that
@@ -110,9 +111,9 @@ a structurally valid request preserves its supplied ID when refused.
 Response consumers validate known fields and preserve unknown observational
 fields; producers emit the exact known response shape. An unknown status, schema
 version or required feature is incompatible, never success. The DE-015 fake-operation profile has its own tested identities. Production
-asynchronous admission and public event streaming still require the complete
-operation/attempt/capture/worker epoch and typed event contract; the synchronous
-subset does not claim those tests passed.
+asynchronous storage admission remains a separate gate. The fake-only watch
+extension below defines its own typed records, operation/attempt/worker domain,
+observer epoch and event negotiation; this does not admit a production journal.
 
 Native process outcomes: 0 completed; 2 invalid arguments/message/schema; 3
 unavailable command/frontend/feature; 4 output/internal failure; 5 accepted and
@@ -177,6 +178,88 @@ An unavailable thread is `request_thread_unavailable` (exit class 3) before the
 callback runs. Slow output consumers require a separate transport-write bound;
 these request criteria do not qualify blocked output, arbitrary drivers or other
 hosts. No public timeout tuning option is admitted by this prototype.
+
+## DE-W012/017 fake operation-watch execution contract
+
+`operation watch <operation_id> --state-dir <directory>` admits observation of
+one existing DE-015 fake operation. It never creates a claim, worker, cancellation
+flag or storage effect. Optional `--after-sequence <u64>` defaults to `0`;
+a positive cursor requires `--worker-epoch <worker:32-lowercase-hex>` and
+`--after-digest <64-lowercase-hex>`, the last validated record digest. The attempt
+is fixed by the operation ID plus `:attempt:1` in this profile. `--snapshot` starts
+from the latest validated record instead of replaying the retained prefix and
+cannot accompany a positive cursor. `--follow-ms` is a decimal string from 0 to
+2000, default 0. It bounds observation following, not a blocked file API. Parameter
+relationships are checked before opening the state directory.
+
+The observer validates the immutable claim, host/directory binding and complete
+bounded record chain exactly as inspection does. It checks a supplied worker
+epoch even at cursor zero. A wrong epoch is `watch_epoch_mismatch`; a cursor above
+the observed sequence is `watch_cursor_ahead`; a mismatched retained digest is
+`watch_cursor_conflict` (exit 2). None starts a replacement.
+This prototype retains all of its at most 64 records; no successful empty batch
+represents an unreadable, truncated or corrupt history. Such a failure is unknown
+with its reason and the last validated observation, without tail repair.
+
+Events use the existing `org.disked.event/1` envelope. Types
+`fake.operation.record` and `fake.operation.snapshot` carry a typed
+`org.disked.fake-operation-event/1` payload: request correlation, fresh observer
+epoch, and the exact hash-chained record. Top-level operation ID and sequence must
+match the record's immutable binding and decimal-u64 sequence. The operation,
+attempt and worker domain orders records; the fresh `watch:` observer identity
+binds one request and is not a new operation/attempt or writer generation.
+A snapshot deliberately establishes a new reader cursor. Record events are
+contiguous after that cursor; a gap, conflicting duplicate, regressed sequence or
+changed operation/attempt/worker requires explicit resnapshot/reconciliation.
+Reconnect repeats watch with the last fully validated sequence, digest and worker epoch,
+or requests `--snapshot`. No receipt implies delivery of a partial output line.
+
+Watching starts with available records and polls at 25 ms intervals until a
+terminal state, unknown observation, or the requested follow budget. It uses one
+owned callback and a finite queue of at most 64 events/1 MiB total, with a 16 KiB
+event bound; no producer waits on the consumer. The complete validated fake store
+retains operation truth independently. Queue exhaustion ends observation with an
+explicit error, never a successful gap or dropped durable outcome. A future
+production retention policy needs its own admission contract.
+
+JSON, human and interactive views receive one bounded response containing events,
+the final inspected state, observer identity and last emitted sequence. A live
+nonterminal operation at the follow boundary is `accepted_running` (exit 5); a
+completed observation of a terminal operation is `completed` (exit 0), even when
+the operation outcome is verification failure. Unknown stays exit 6. These are
+observations, not acceptance of a new operation. CLI/stdio callback waiting retains
+DE-017's 4 s limit and occupied slot until actual completion. Interactive frontends
+return pending immediately and preserve cached navigation; their occupied request
+slot remains pending until the callback actually completes.
+
+Direct CLI `--format=ndjson` explicitly selects event frames followed by one final
+response. NDJSON protocol clients opt in only for `operation.watch` using the
+single required feature `org.disked.fake-operation-events/1`. Without it, the
+existing one-response behavior is preserved, including the bounded event array.
+The feature on JSON transport or another command is refused before store access;
+unknown or duplicate feature tokens are refused. The streaming final response
+has an empty event array and the same cursor/state metadata, avoiding retransmitting
+events. Request processing remains sequential; no unsolicited late event may
+follow its final response or become part of the next exchange.
+
+The frontend thread drains the queue and owns output; callbacks hold only immutable
+inputs and shared observation state, never UI/output references. The existing 3 s
+output bound applies to each frame. A failed stream is sealed, returns exit 4,
+and dispatches no subsequent queued request. Closing a client or failing output
+cannot cancel, terminate or replay the worker. A callback timeout closes only its
+observation queue and returns unknown; a still-running file call retains its slot.
+
+Producer schemas are strict. Compatible readers preserve additive top-level and
+payload observational fields, but reject unknown schema/type/required features,
+invalid wide counters, inconsistent identities, record hash failure and illegal
+fake-operation state. These fake records remain provisional, unauthenticated
+review encodings; this does not admit production journals, remote transport,
+privileged providers or new storage authority.
+
+Acceptance requires native record/cursor validation, actual live NDJSON events,
+reconnect and snapshot recovery, terminal/unknown/cancellation/verification-failed
+outcomes, bounded follow and output, malformed history, reader evolution and
+cached GUI/TUI/shell responsiveness. Expected behavior here precedes implementation.
 
 ## Normative requirements
 

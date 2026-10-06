@@ -35,6 +35,6 @@ class BoundedRequests final {
     bool late_=false;
 public:
     Outcome run(const std::string& request,std::function<Outcome()> callback,
-        Outcome expired,std::chrono::milliseconds duration);
+        Outcome expired,std::chrono::milliseconds duration,const std::function<bool()>& progress={});
 };
 }

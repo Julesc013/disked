@@ -658,13 +658,69 @@
       "request_schema": "urn:disked:schema:request:1",
       "result_schema": "urn:disked:schema:response:1",
       "spec_ids": [
-        "DE-022"
+        "DE-022",
+        "DE-015",
+        "DE-045"
       ],
       "handler": null,
       "summary": "Observe events with sequence continuity",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
-      "argument_bindings": [],
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-watch-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "operation_id",
+          "position": 0,
+          "completion": "none"
+        },
+        {
+          "parameter": "state_directory",
+          "option": "--state-dir",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        },
+        {
+          "parameter": "after_sequence",
+          "option": "--after-sequence",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        },
+        {
+          "parameter": "after_digest",
+          "option": "--after-digest",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        },
+        {
+          "parameter": "worker_epoch",
+          "option": "--worker-epoch",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        },
+        {
+          "parameter": "follow_ms",
+          "option": "--follow-ms",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "none"
+        },
+        {
+          "parameter": "snapshot",
+          "option": "--snapshot",
+          "option_aliases": [],
+          "value_arity": 0,
+          "repeatable": false,
+          "completion": "none"
+        }
+      ],
       "completion_policy": "static-only"
     },
     {

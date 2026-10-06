@@ -51,7 +51,7 @@ void TuiModel::move(int direction) {
 }
 void TuiModel::result(Outcome outcome) {
     outcome_=std::move(outcome);view_=View::Result;scroll_=0;
-    notice_=outcome_.exit_code==5?"Operation accepted; inspect using its operation ID":
+    notice_=outcome_.exit_code==5?"Operation still running; inspect using its operation ID":
         outcome_.exit_code==6?"Operation outcome unknown; inspect retained evidence":
         outcome_.exit_code?"Request refused or failed; see diagnostic":"Request completed";
 }
@@ -63,15 +63,20 @@ void TuiModel::stage(const std::string& command,const Value& supplied) {
     const auto* schema=descriptor?registry_.parameter_schemas.find(descriptor->find("parameter_schema")->text):nullptr;
     if(!schema) {result(refused("tui","schema_unavailable",3));return;}
     for(const auto& pair:schema->find("properties")->fields) {
-        if(fields_.size()==16 || pair.second.find("type")->text!="string") {result(refused("tui","form_unavailable",3));return;}
+        const auto type=pair.second.find("type")->text;
+        if(fields_.size()==16 || (type!="string" && type!="boolean")) {result(refused("tui","form_unavailable",3));return;}
         fields_.push_back(pair.first);std::string value;
         if(pair.first=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
         if(pair.first=="operation")value="target.inspect";
-        if(const auto* input=supplied.find(pair.first))value=input->text;
+        if(const auto* input=supplied.find(pair.first)) {
+            if(input->kind==Value::Kind::boolean && type=="boolean")value=input->boolean?"true":"false";
+            else if(input->kind==Value::Kind::string && type=="string")value=input->text;
+            else {result(refused("tui","invalid_parameter"));return;}
+        }
         if(value.size()>4096 || !json::valid_utf8(value)) {result(refused("tui","form_limit"));return;}
         parameters_.put(pair.first,Value::string(value));
     }
-    review_revision_=snapshot_->revision();view_=View::Form;notice_="Edit fields, then F9 to review. No command has run.";
+    review_revision_=snapshot_->revision();view_=View::Form;notice_="Edit fields, then F9. Empty optional fields are omitted; booleans use true/false.";
 }
 bool TuiModel::take_toggle() {const bool value=toggle_;toggle_=false;return value;}
 void TuiModel::input(const TuiInput& e) {
@@ -102,7 +107,7 @@ void TuiModel::input(const TuiInput& e) {
             else value+=e.text;return;
         }
         if(e.key==TuiKey::F9) {
-            const auto error=validate_parameters(registry_,*registry_.command(command_),parameters_);
+            const auto error=form_parameters(registry_,*registry_.command(command_),parameters_,typed_);
             if(!error.empty())notice_=error+"; correct the fields";
             else {view_=View::Review;scroll_=0;notice_="Review the exact request. Release F9, then press F9 to submit.";}return;
         }
@@ -112,11 +117,11 @@ void TuiModel::input(const TuiInput& e) {
         if(e.key==TuiKey::F9) {
             if(requests_==(std::numeric_limits<std::uint64_t>::max)()) {result(refused("tui","request_limit"));return;}
             const auto id="tui:"+std::to_string(++requests_);view_=View::Result; // Consume review before callback.
-            auto reply=dispatch_(id,command_,parameters_,FrontendSession::handles(command_)?review_revision_:"");
+            auto reply=dispatch_(id,command_,typed_,FrontendSession::handles(command_)?review_revision_:"");
             if(reply.pending) {
                 if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
                 pending_=id;pending_view_=view_epoch_;outcome_=Outcome{};
-                notice_="Waiting for request; operation admission is unresolved. Cached views remain usable.";
+                notice_="Waiting for request; outcome is not yet observed. Cached views remain usable.";
             } else result(std::move(reply.outcome));
         }return;
     }
@@ -154,6 +159,10 @@ std::vector<std::string> TuiModel::body() const {
     } else if(view_==View::Form || view_==View::Review) {
         lines.push_back(view_==View::Form?"TYPED FORM (inert)":"REQUEST REVIEW (inert)");lines.push_back("Command: "+command_);
         for(std::size_t i=0;i<fields_.size();++i)lines.push_back((view_==View::Form && field_==i?"> ":"  ")+fields_[i]+" = "+quote(parameters_.find(fields_[i])->text));
+        if(view_==View::Review) {
+            lines.push_back("Typed parameters (empty optional fields omitted):");
+            const auto typed=tui_json_lines(typed_);lines.insert(lines.end(),typed.begin(),typed.end());
+        }
         lines.push_back("Expected graph revision: "+review_revision_);
         lines.push_back("No storage permission is granted by review.");
     } else lines=tui_json_lines(outcome_.response);

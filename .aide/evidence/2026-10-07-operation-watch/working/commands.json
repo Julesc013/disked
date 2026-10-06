@@ -1,0 +1,135 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/index.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/spec-tests.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/native-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/operation/test_watch_reader.py --probe build/windows-bootstrap/Release/watch_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-operation-watch\\working\\watch-reader.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/watch-reader.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/operation/test_watch.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_file_wait.exe --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-operation-watch\\working\\watch.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/watch.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/verify-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W017 --output .aide-local/context/DE-W017-watch --byte-budget 280000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W017-watch",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/verify-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-index.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-verify-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W017 --output .aide-local/context/DE-W017-watch-final --byte-budget 280000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W017-watch-final",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-operation-watch/working/final-verify-context.log"
+  }
+]

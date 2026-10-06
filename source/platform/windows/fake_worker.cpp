@@ -226,7 +226,7 @@ Outcome result(const std::string& request,const std::string& id,Value value,cons
     out.response.put("status",Value::string(status)).put("operation_id",Value::string(id));
     if(!diagnostic_code.empty())out.response.fields["diagnostics"].items.push_back(diagnostic(diagnostic_code));return out;
 }
-Outcome inspect(const std::string& request,const Directory& directory,const Value& header,const std::string& expected) {
+Outcome inspect(const std::string& request,const Directory& directory,const Value& header,const std::string& expected,op::History* retained=nullptr) {
     const auto id=text(header,"operation_id");if(id!=expected)fail("operation_identity_mismatch");
 #ifdef DISKED_WORKER_TEST_RESULT_READ_DELAY
     // Test-only file-boundary stall. It is not a claim of a real hung driver.
@@ -237,7 +237,7 @@ Outcome inspect(const std::string& request,const Directory& directory,const Valu
     auto value=Value::object().put("scope",Value::string("fake-only")).put("operation_id",Value::string(id));
     try {
         auto file=directory.open(L"operation.records",GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
-        if(!file.valid())fail("operation_history_unavailable");const auto history=op::read_history(read_file(file.value,op::history_limit));
+        if(!file.valid())fail("operation_history_unavailable");auto history=op::read_history(read_file(file.value,op::history_limit));
         const auto& binding=*history.state.find("binding");const auto& definition=*header.find("definition");
         for(const auto& field:definition.fields)if(field.first!="directory_id" && text(binding,field.first)!=field.second.text)fail("operation_identity_mismatch");
         if(text(binding,"operation_id")!=id || text(binding,"worker_epoch")!=text(header,"worker_epoch"))fail("operation_identity_mismatch");
@@ -249,7 +249,9 @@ Outcome inspect(const std::string& request,const Directory& directory,const Valu
             else {const auto wait=WaitForSingleObject(process.value,0);worker=wait==WAIT_TIMEOUT?"running":wait==WAIT_OBJECT_0?"exited":"unavailable";}
         } else if(GetLastError()==ERROR_INVALID_PARAMETER)worker="exited";
         value.put("worker_observation",Value::string(worker));
-        if(text(history.state,"phase")!="finished" && worker!="running")return result(request,id,value,"unknown",6,"operation_worker_unresolved");
+        const bool unresolved=text(history.state,"phase")!="finished" && worker!="running";
+        if(retained)*retained=std::move(history);
+        if(unresolved)return result(request,id,value,"unknown",6,"operation_worker_unresolved");
         // A successful inspect is a completed read even if the saved operation
         // failed verification. The independent logical/recovery fields persist.
         return result(request,id,value);
@@ -389,11 +391,52 @@ HANDLE argument_handle(const wchar_t* argument) {
 }
 }
 bool fake_worker_command(const std::string& command) {
-    return command=="plan.simulate" || command=="operation.inspect" || command=="operation.cancel.request";
+    return command=="plan.simulate" || command=="operation.inspect" || command=="operation.cancel.request" || command=="operation.watch";
+}
+Outcome watch_fake_worker(const std::string& request,const Value& parameters,const std::shared_ptr<WatchQueue>& events) {
+    const auto invalid=validate_watch_parameters(parameters);if(!invalid.empty())return refused(request,invalid);
+    std::string id;bool observing=false;
+    auto last=Value::object();
+    try {
+        id=text(parameters,"operation_id");Directory directory(text(parameters,"state_directory"));Security security;
+        const auto header=load_request(directory,security);const auto observer=security.identity("watch:");
+        if(text(header,"operation_id")!=id)fail("operation_identity_mismatch");observing=true;
+        WatchCursor cursor(id,request,observer,parameters);auto collected=Value::array();Value last_state;
+        const auto* follow=parameters.find("follow_ms");const auto end=GetTickCount64()+(follow?std::stoull(follow->text):0);
+        std::size_t bytes=0;Outcome out;
+        for(;;) {
+            op::History history;out=inspect(request,directory,header,id,&history);
+            if(history.count) {
+                std::vector<Value> batch;
+                try {batch=cursor.project(history);}
+                catch(const std::invalid_argument& error) {return refused(request,error.what());}
+                for(const auto& item:batch) {
+                    json::Limits limit;limit.bytes=16384;const auto size=json::dump(item,limit).size();
+                    if(collected.items.size()>=64 || size>1048576-bytes)throw std::invalid_argument("watch_queue_limit");
+                    collected.items.push_back(item);bytes+=size;
+                    if(events && !events->push(item))return out;
+                }
+                last_state=history.state;
+            }
+            auto& value=out.response.fields["result"];
+            value.put("events",events?Value::array():collected).put("observer_epoch",Value::string(observer))
+                .put("last_sequence",Value::string(cursor.sequence())).put("last_digest",Value::string(cursor.digest()))
+                .put("worker_epoch",cursor.worker().empty()?Value{}:Value::string(cursor.worker()));
+            if(!history.count && last_state.kind!=Value::Kind::null)value.put("last_validated_state",last_state);
+            last=value;
+            if(out.exit_code || (history.count && text(history.state,"phase")=="finished"))return out;
+            if(GetTickCount64()>=end) {out.response.put("status",Value::string("accepted_running"));out.exit_code=5;return out;}
+            Sleep(25);
+        }
+    } catch(const Failure& error) {
+        auto out=observing?result(request,id,last,"unknown",6,error.what()):refused(request,error.what());
+        out.response.fields["diagnostics"].items.front().put("platform_code",Value::string(std::to_string(error.platform)));return out;
+    } catch(const std::exception& error) {return observing?result(request,id,last,"unknown",6,error.what()):refused(request,error.what());}
 }
 Outcome dispatch_fake_worker(const std::string& request,const std::string& command,const Value& parameters) {
     try {
         if(!fake_worker_command(command))return refused(request,"command_unavailable",3);
+        if(command=="operation.watch")return watch_fake_worker(request,parameters);
         if(command=="plan.simulate" && !op::fixture(text(parameters,"fixture_id")))return refused(request,"invalid_parameter");
         Directory directory(text(parameters,"state_directory"));Security security;
         if(command=="plan.simulate")return start(request,text(parameters,"fixture_id"),directory,security);

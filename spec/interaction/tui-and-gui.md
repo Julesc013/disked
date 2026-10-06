@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-06T17:56:37.384510+00:00'
+  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -115,7 +115,7 @@ storage state: until planning exists the proposed area explicitly reports none.
 Every descriptor remains discoverable. Available observation/static commands open
 forms; planned handlers are unavailable and `protocol.serve` is transport-only.
 Fields derive from the existing descriptor schemas, with the selected exact target
-ID as the target default. This slice admits at most two string fields of 4096
+ID as the target default. The DE-W017 watch extension admits at most 16 string/boolean fields of 4096
 UTF-8 bytes each, covering every available handler; another shape is unavailable
 until its native controls and parity tests are supplied. Edit controls retain at
 most 4097 UTF-16 units; bounded rejected text remains editable but cannot pass
@@ -146,7 +146,12 @@ Respond to setting changes without changing the user's theme, contrast, font or
 display settings. Dynamically available thread DPI support may select system-aware
 layout; otherwise retain Windows' DPI virtualization. The chosen mode is evidence,
 not per-monitor or legacy-DPI qualification. Native minimum window dimensions keep
-the two-field form reachable. No extracted artwork is required; stock host icons
+two visible field editors plus Previous/Next field-page buttons reachable.
+Paging preserves all values and review state; changing an editor consumes review.
+Optional empty fields are omitted from the reviewed request. Boolean editors
+accept exact `true` or `false`; an empty optional boolean is omitted. Review shows
+the resulting typed parameters before submission. Unsupported schema types still
+refuse a form; paging never hides an unreviewed implicit action. No extracted artwork is required; stock host icons
 do not admit redistribution of any supplied assets.
 
 Acceptance requires direct GUI-model/CLI/TUI parity for success and refusal,

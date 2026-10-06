@@ -134,13 +134,13 @@ void ShellModel::submit() {
     if(reply.pending) {
         if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
         pending_=id;pending_secret_=secret;pending_request_=requests_;
-        notice_="Waiting for request; operation admission is unresolved";
+        notice_="Waiting for request; outcome is not yet observed";
         record("pending request",Value::object().put("request_id",Value::string(id)).put("outcome",Value::string("unresolved; no permission to retry")));
     } else received(std::move(reply.outcome),secret,true);
 }
 void ShellModel::received(Outcome outcome,bool secret,bool latest) {
     notice_=!latest?"Earlier request finished; current input remains inert":
-        outcome.exit_code==5?"Operation accepted; retain its operation ID":outcome.exit_code==6?"Operation outcome unknown; inspect retained evidence":
+        outcome.exit_code==5?"Operation still running; retain its operation ID":outcome.exit_code==6?"Operation outcome unknown; inspect retained evidence":
         outcome.exit_code?"Request refused or failed; see diagnostics":"Request completed";
     // Current profile has no secret outputs. Do not echo a secret-bearing input
     // through a future handler's diagnostic or result into session history.

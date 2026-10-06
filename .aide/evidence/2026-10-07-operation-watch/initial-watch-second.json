@@ -1,0 +1,2029 @@
+{
+  "executable": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe",
+  "sha256": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+  "tests": 7,
+  "passed": true,
+  "observations": [
+    {
+      "test": "disconnect and output backpressure",
+      "first": {
+        "operation_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2",
+        "payload": {
+          "observer_epoch": "watch:5ddbe495d98e59c843cc65af9c83e93b",
+          "record": {
+            "digest": "ba7f20f900d30b4dca68b4e09b5d65413640acd1c1e2cb873bb601601f3e3ee1",
+            "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+            "schema": "org.disked.fake-operation-record/1",
+            "state": {
+              "attempt_state": "prepared",
+              "binding": {
+                "attempt_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2:attempt:1",
+                "fixture_id": "fake:cancel-checkpoint",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                "operation_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2",
+                "process_created": "134357825436420931",
+                "process_id": "47228",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:348bbb625d6280c0f75e703dbc912001"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "not_started",
+              "last_event": "initialized",
+              "logical_state": "pending",
+              "outcome": null,
+              "phase": "pending",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "1",
+              "synthetic_effect_count": "0"
+            }
+          },
+          "request_id": "cli",
+          "schema": "org.disked.fake-operation-event/1"
+        },
+        "schema": "org.disked.event/1",
+        "sequence": "1",
+        "type": "fake.operation.record"
+      },
+      "final": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "a5b1d72a2b7bc7f780ff667c2ac9977fca2e1e5e57e78f933663845f93b7e420",
+          "operation_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "finished",
+            "binding": {
+              "attempt_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2:attempt:1",
+              "fixture_id": "fake:cancel-checkpoint",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+              "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+              "operation_id": "fake-op:23ea043834bbab2b09fe65c2874d59e2",
+              "process_created": "134357825436420931",
+              "process_id": "47228",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:348bbb625d6280c0f75e703dbc912001"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "observed",
+            "last_event": "verified",
+            "logical_state": "completed",
+            "outcome": "succeeded",
+            "phase": "finished",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "5",
+            "synthetic_effect_count": "1"
+          },
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      },
+      "elapsed": 3.0251134999562055,
+      "retained_bytes": 2957
+    },
+    {
+      "test": "bounded follow and partial history",
+      "boundary": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+        "request_id": "cli",
+        "result": {
+          "events": [
+            {
+              "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+              "payload": {
+                "observer_epoch": "watch:d0c8286bbd069144dddd38c5dd5feb3f",
+                "record": {
+                  "digest": "a66b483807f4a04828eed0cc234312946b36fe89702b3899a4d95e25db677a75",
+                  "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1:attempt:1",
+                      "fixture_id": "fake:cancel-checkpoint",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+                      "process_created": "134357825496014862",
+                      "process_id": "53612",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:52f48231c07e4e4fbe65b09e62320c38"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "initialized",
+                    "logical_state": "pending",
+                    "outcome": null,
+                    "phase": "pending",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "1",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "1",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+              "payload": {
+                "observer_epoch": "watch:d0c8286bbd069144dddd38c5dd5feb3f",
+                "record": {
+                  "digest": "1ca95e3e71840e4c8616228c178ad313cec17beb566809bd997e8385bcd83a98",
+                  "previous": "a66b483807f4a04828eed0cc234312946b36fe89702b3899a4d95e25db677a75",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1:attempt:1",
+                      "fixture_id": "fake:cancel-checkpoint",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+                      "process_created": "134357825496014862",
+                      "process_id": "53612",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:52f48231c07e4e4fbe65b09e62320c38"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "prepared",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "prepared",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "2",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "2",
+              "type": "fake.operation.record"
+            }
+          ],
+          "last_digest": "1ca95e3e71840e4c8616228c178ad313cec17beb566809bd997e8385bcd83a98",
+          "last_record_digest": "1ca95e3e71840e4c8616228c178ad313cec17beb566809bd997e8385bcd83a98",
+          "last_sequence": "2",
+          "observer_epoch": "watch:d0c8286bbd069144dddd38c5dd5feb3f",
+          "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "prepared",
+            "binding": {
+              "attempt_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1:attempt:1",
+              "fixture_id": "fake:cancel-checkpoint",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+              "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+              "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+              "process_created": "134357825496014862",
+              "process_id": "53612",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:52f48231c07e4e4fbe65b09e62320c38"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "not_started",
+            "last_event": "prepared",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "prepared",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "2",
+            "synthetic_effect_count": "0"
+          },
+          "worker_epoch": "worker:52f48231c07e4e4fbe65b09e62320c38",
+          "worker_observation": "running"
+        },
+        "schema": "org.disked.response/1",
+        "status": "accepted_running"
+      },
+      "partial": {
+        "diagnostics": [
+          {
+            "code": "operation_history_partial",
+            "message_key": "disked.operation_history_partial",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+        "request_id": "cli",
+        "result": {
+          "events": [],
+          "last_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+          "last_sequence": "0",
+          "observer_epoch": "watch:71a5ad018517ad41e3c63241446b51a6",
+          "operation_id": "fake-op:3215b1ceb433e2faeb084ffdbc0b8eb1",
+          "scope": "fake-only",
+          "worker_epoch": null
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      }
+    },
+    {
+      "test": "GUI watch and cached navigation",
+      "samples": [
+        0.03419996937736869,
+        0.14620000729337335,
+        0.12779998360201716,
+        0.13320002472028136,
+        0.1218999968841672
+      ],
+      "late": {
+        "diagnostics": [],
+        "earlier_request": {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+          "request_id": "gui:1",
+          "result": {
+            "events": [
+              {
+                "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                "payload": {
+                  "observer_epoch": "watch:a3c0877f08418862feb7d4c33c44375d",
+                  "record": {
+                    "digest": "404b652231322d542ba4ff13ff3acdf4f7a3ccedb4c99e37085465955f349774",
+                    "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "prepared",
+                      "binding": {
+                        "attempt_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542:attempt:1",
+                        "fixture_id": "fake:cancel-checkpoint",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                        "process_created": "134357825525109512",
+                        "process_id": "30816",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:eb0b7e125f665d50f0b5463fb5219069"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "not_started",
+                      "last_event": "initialized",
+                      "logical_state": "pending",
+                      "outcome": null,
+                      "phase": "pending",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "1",
+                      "synthetic_effect_count": "0"
+                    }
+                  },
+                  "request_id": "gui:1",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "1",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                "payload": {
+                  "observer_epoch": "watch:a3c0877f08418862feb7d4c33c44375d",
+                  "record": {
+                    "digest": "31add5a125458726cdc52128a1ac485075596dc58cd01f6b3ec5c35d7d0a23e9",
+                    "previous": "404b652231322d542ba4ff13ff3acdf4f7a3ccedb4c99e37085465955f349774",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "prepared",
+                      "binding": {
+                        "attempt_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542:attempt:1",
+                        "fixture_id": "fake:cancel-checkpoint",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                        "process_created": "134357825525109512",
+                        "process_id": "30816",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:eb0b7e125f665d50f0b5463fb5219069"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "not_started",
+                      "last_event": "prepared",
+                      "logical_state": "active",
+                      "outcome": null,
+                      "phase": "prepared",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "2",
+                      "synthetic_effect_count": "0"
+                    }
+                  },
+                  "request_id": "gui:1",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "2",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                "payload": {
+                  "observer_epoch": "watch:a3c0877f08418862feb7d4c33c44375d",
+                  "record": {
+                    "digest": "9fa1e6948840ac0417246c4ee813e9d719ae887038acb52a79efe061cb79129d",
+                    "previous": "31add5a125458726cdc52128a1ac485075596dc58cd01f6b3ec5c35d7d0a23e9",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "dispatched",
+                      "binding": {
+                        "attempt_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542:attempt:1",
+                        "fixture_id": "fake:cancel-checkpoint",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                        "process_created": "134357825525109512",
+                        "process_id": "30816",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:eb0b7e125f665d50f0b5463fb5219069"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "in_flight",
+                      "last_event": "effect_dispatched",
+                      "logical_state": "active",
+                      "outcome": null,
+                      "phase": "in_flight",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "3",
+                      "synthetic_effect_count": null
+                    }
+                  },
+                  "request_id": "gui:1",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "3",
+                "type": "fake.operation.record"
+              }
+            ],
+            "last_digest": "9fa1e6948840ac0417246c4ee813e9d719ae887038acb52a79efe061cb79129d",
+            "last_record_digest": "9fa1e6948840ac0417246c4ee813e9d719ae887038acb52a79efe061cb79129d",
+            "last_sequence": "3",
+            "observer_epoch": "watch:a3c0877f08418862feb7d4c33c44375d",
+            "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "dispatched",
+              "binding": {
+                "attempt_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542:attempt:1",
+                "fixture_id": "fake:cancel-checkpoint",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                "operation_id": "fake-op:bf1e7fbc51d8991fb3cbfbed8ac55542",
+                "process_created": "134357825525109512",
+                "process_id": "30816",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:eb0b7e125f665d50f0b5463fb5219069"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "in_flight",
+              "last_event": "effect_dispatched",
+              "logical_state": "active",
+              "outcome": null,
+              "phase": "in_flight",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "3",
+              "synthetic_effect_count": null
+            },
+            "worker_epoch": "worker:eb0b7e125f665d50f0b5463fb5219069",
+            "worker_observation": "running"
+          },
+          "schema": "org.disked.response/1",
+          "status": "accepted_running"
+        },
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "gui:inspect",
+        "result": {
+          "basis_revision": "sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4",
+          "capture_id": "fake:1",
+          "scope": "fake-only",
+          "target": {
+            "id": "fake:alpha@1",
+            "kind": "block-device",
+            "observation_refs": [],
+            "properties": {
+              "aliases": [
+                "fake:path/A/0",
+                "fake:serial/CLONED"
+              ],
+              "capacity_bytes": "1073741824",
+              "identity": "fixture:controller-A:lun0",
+              "label": "Workshop disk",
+              "media_generation": "1",
+              "scope": "fake-only",
+              "state": "current"
+            }
+          }
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      }
+    },
+    {
+      "test": "live CLI and exact reconnect",
+      "samples": [
+        {
+          "elapsed": 0.04295480001019314,
+          "value": {
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "payload": {
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "record": {
+                "digest": "cbd07e2f207d78cc2e74579b4e4f5384cc8dbeeb172334a237e0259e7b47461f",
+                "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                "schema": "org.disked.fake-operation-record/1",
+                "state": {
+                  "attempt_state": "prepared",
+                  "binding": {
+                    "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                    "fixture_id": "fake:complete",
+                    "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                    "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                    "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                    "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                    "process_created": "134357825553701524",
+                    "process_id": "26896",
+                    "provider_id": "provider.fake.bootstrap/1",
+                    "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                    "target_profile": "windows.nt10.x64.win32",
+                    "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                  },
+                  "cancellation": "not_requested",
+                  "effect_certainty": "not_started",
+                  "last_event": "initialized",
+                  "logical_state": "pending",
+                  "outcome": null,
+                  "phase": "pending",
+                  "recovery": "unnecessary",
+                  "schema": "org.disked.fake-operation/1",
+                  "scope": "fake-only",
+                  "sequence": "1",
+                  "synthetic_effect_count": "0"
+                }
+              },
+              "request_id": "cli",
+              "schema": "org.disked.fake-operation-event/1"
+            },
+            "schema": "org.disked.event/1",
+            "sequence": "1",
+            "type": "fake.operation.record"
+          }
+        },
+        {
+          "elapsed": 0.04381150001427159,
+          "value": {
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "payload": {
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "record": {
+                "digest": "0e3506f80215206e357b62fa8ca0e7436385fbcd5fe59b2ee1bc292e8846d3d5",
+                "previous": "cbd07e2f207d78cc2e74579b4e4f5384cc8dbeeb172334a237e0259e7b47461f",
+                "schema": "org.disked.fake-operation-record/1",
+                "state": {
+                  "attempt_state": "prepared",
+                  "binding": {
+                    "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                    "fixture_id": "fake:complete",
+                    "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                    "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                    "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                    "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                    "process_created": "134357825553701524",
+                    "process_id": "26896",
+                    "provider_id": "provider.fake.bootstrap/1",
+                    "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                    "target_profile": "windows.nt10.x64.win32",
+                    "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                  },
+                  "cancellation": "not_requested",
+                  "effect_certainty": "not_started",
+                  "last_event": "prepared",
+                  "logical_state": "active",
+                  "outcome": null,
+                  "phase": "prepared",
+                  "recovery": "unnecessary",
+                  "schema": "org.disked.fake-operation/1",
+                  "scope": "fake-only",
+                  "sequence": "2",
+                  "synthetic_effect_count": "0"
+                }
+              },
+              "request_id": "cli",
+              "schema": "org.disked.fake-operation-event/1"
+            },
+            "schema": "org.disked.event/1",
+            "sequence": "2",
+            "type": "fake.operation.record"
+          }
+        },
+        {
+          "elapsed": 0.29070260003209114,
+          "value": {
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "payload": {
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "record": {
+                "digest": "29f43c3d0ceebc5106600c4215c07c55e2c8775df8f0233550b8a37d00f98154",
+                "previous": "0e3506f80215206e357b62fa8ca0e7436385fbcd5fe59b2ee1bc292e8846d3d5",
+                "schema": "org.disked.fake-operation-record/1",
+                "state": {
+                  "attempt_state": "dispatched",
+                  "binding": {
+                    "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                    "fixture_id": "fake:complete",
+                    "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                    "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                    "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                    "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                    "process_created": "134357825553701524",
+                    "process_id": "26896",
+                    "provider_id": "provider.fake.bootstrap/1",
+                    "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                    "target_profile": "windows.nt10.x64.win32",
+                    "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                  },
+                  "cancellation": "not_requested",
+                  "effect_certainty": "in_flight",
+                  "last_event": "effect_dispatched",
+                  "logical_state": "active",
+                  "outcome": null,
+                  "phase": "in_flight",
+                  "recovery": "unnecessary",
+                  "schema": "org.disked.fake-operation/1",
+                  "scope": "fake-only",
+                  "sequence": "3",
+                  "synthetic_effect_count": null
+                }
+              },
+              "request_id": "cli",
+              "schema": "org.disked.fake-operation-event/1"
+            },
+            "schema": "org.disked.event/1",
+            "sequence": "3",
+            "type": "fake.operation.record"
+          }
+        },
+        {
+          "elapsed": 0.7554744000080973,
+          "value": {
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "payload": {
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "record": {
+                "digest": "8ca7added6b6d546d77f5a8719588a32cadee494962f2e417661930d58b86a46",
+                "previous": "29f43c3d0ceebc5106600c4215c07c55e2c8775df8f0233550b8a37d00f98154",
+                "schema": "org.disked.fake-operation-record/1",
+                "state": {
+                  "attempt_state": "observing",
+                  "binding": {
+                    "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                    "fixture_id": "fake:complete",
+                    "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                    "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                    "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                    "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                    "process_created": "134357825553701524",
+                    "process_id": "26896",
+                    "provider_id": "provider.fake.bootstrap/1",
+                    "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                    "target_profile": "windows.nt10.x64.win32",
+                    "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                  },
+                  "cancellation": "not_requested",
+                  "effect_certainty": "observed",
+                  "last_event": "effect_observed",
+                  "logical_state": "active",
+                  "outcome": null,
+                  "phase": "observed",
+                  "recovery": "unnecessary",
+                  "schema": "org.disked.fake-operation/1",
+                  "scope": "fake-only",
+                  "sequence": "4",
+                  "synthetic_effect_count": "1"
+                }
+              },
+              "request_id": "cli",
+              "schema": "org.disked.fake-operation-event/1"
+            },
+            "schema": "org.disked.event/1",
+            "sequence": "4",
+            "type": "fake.operation.record"
+          }
+        },
+        {
+          "elapsed": 1.0202793999924324,
+          "value": {
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "payload": {
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "record": {
+                "digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+                "previous": "8ca7added6b6d546d77f5a8719588a32cadee494962f2e417661930d58b86a46",
+                "schema": "org.disked.fake-operation-record/1",
+                "state": {
+                  "attempt_state": "finished",
+                  "binding": {
+                    "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                    "fixture_id": "fake:complete",
+                    "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                    "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                    "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                    "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                    "process_created": "134357825553701524",
+                    "process_id": "26896",
+                    "provider_id": "provider.fake.bootstrap/1",
+                    "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                    "target_profile": "windows.nt10.x64.win32",
+                    "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                  },
+                  "cancellation": "not_requested",
+                  "effect_certainty": "observed",
+                  "last_event": "verified",
+                  "logical_state": "completed",
+                  "outcome": "succeeded",
+                  "phase": "finished",
+                  "recovery": "unnecessary",
+                  "schema": "org.disked.fake-operation/1",
+                  "scope": "fake-only",
+                  "sequence": "5",
+                  "synthetic_effect_count": "1"
+                }
+              },
+              "request_id": "cli",
+              "schema": "org.disked.fake-operation-event/1"
+            },
+            "schema": "org.disked.event/1",
+            "sequence": "5",
+            "type": "fake.operation.record"
+          }
+        },
+        {
+          "elapsed": 1.0205063000321388,
+          "value": {
+            "diagnostics": [],
+            "evidence": [],
+            "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+            "request_id": "cli",
+            "result": {
+              "events": [],
+              "last_digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+              "last_record_digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+              "last_sequence": "5",
+              "observer_epoch": "watch:990218297cde81475fec11eec5b02e83",
+              "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+              "scope": "fake-only",
+              "state": {
+                "attempt_state": "finished",
+                "binding": {
+                  "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                  "process_created": "134357825553701524",
+                  "process_id": "26896",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "observed",
+                "last_event": "verified",
+                "logical_state": "completed",
+                "outcome": "succeeded",
+                "phase": "finished",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "5",
+                "synthetic_effect_count": "1"
+              },
+              "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc",
+              "worker_observation": "running"
+            },
+            "schema": "org.disked.response/1",
+            "status": "completed"
+          }
+        }
+      ],
+      "reconnected": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+        "request_id": "cli",
+        "result": {
+          "events": [
+            {
+              "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+              "payload": {
+                "observer_epoch": "watch:15d9ebf4cc9bbad59f590b374469fe16",
+                "record": {
+                  "digest": "29f43c3d0ceebc5106600c4215c07c55e2c8775df8f0233550b8a37d00f98154",
+                  "previous": "0e3506f80215206e357b62fa8ca0e7436385fbcd5fe59b2ee1bc292e8846d3d5",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "dispatched",
+                    "binding": {
+                      "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                      "fixture_id": "fake:complete",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                      "process_created": "134357825553701524",
+                      "process_id": "26896",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "in_flight",
+                    "last_event": "effect_dispatched",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "in_flight",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "3",
+                    "synthetic_effect_count": null
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "3",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+              "payload": {
+                "observer_epoch": "watch:15d9ebf4cc9bbad59f590b374469fe16",
+                "record": {
+                  "digest": "8ca7added6b6d546d77f5a8719588a32cadee494962f2e417661930d58b86a46",
+                  "previous": "29f43c3d0ceebc5106600c4215c07c55e2c8775df8f0233550b8a37d00f98154",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "observing",
+                    "binding": {
+                      "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                      "fixture_id": "fake:complete",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                      "process_created": "134357825553701524",
+                      "process_id": "26896",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "observed",
+                    "last_event": "effect_observed",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "observed",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "4",
+                    "synthetic_effect_count": "1"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "4",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+              "payload": {
+                "observer_epoch": "watch:15d9ebf4cc9bbad59f590b374469fe16",
+                "record": {
+                  "digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+                  "previous": "8ca7added6b6d546d77f5a8719588a32cadee494962f2e417661930d58b86a46",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "finished",
+                    "binding": {
+                      "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+                      "fixture_id": "fake:complete",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+                      "process_created": "134357825553701524",
+                      "process_id": "26896",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "observed",
+                    "last_event": "verified",
+                    "logical_state": "completed",
+                    "outcome": "succeeded",
+                    "phase": "finished",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "5",
+                    "synthetic_effect_count": "1"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "5",
+              "type": "fake.operation.record"
+            }
+          ],
+          "last_digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+          "last_record_digest": "7925ba55509db74bfe0ad91a023a5b69e1d86e6a4a22775f224bd4d38f19e483",
+          "last_sequence": "5",
+          "observer_epoch": "watch:15d9ebf4cc9bbad59f590b374469fe16",
+          "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "finished",
+            "binding": {
+              "attempt_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25:attempt:1",
+              "fixture_id": "fake:complete",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+              "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+              "operation_id": "fake-op:f58b1b5cb1dd14f8d48c3d6ad8479e25",
+              "process_created": "134357825553701524",
+              "process_id": "26896",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "observed",
+            "last_event": "verified",
+            "logical_state": "completed",
+            "outcome": "succeeded",
+            "phase": "finished",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "5",
+            "synthetic_effect_count": "1"
+          },
+          "worker_epoch": "worker:4639fe308cea585034d6ff57f13b77bc",
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      }
+    },
+    {
+      "test": "explicit negotiation and request correlation",
+      "values": [
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "request_id": "ordinary",
+          "result": {
+            "events": [
+              {
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "payload": {
+                  "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+                  "record": {
+                    "digest": "e4c252d0eef8e7551cc41d055176c0a7a3a17042a9608406786d4f409a368c28",
+                    "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "prepared",
+                      "binding": {
+                        "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                        "fixture_id": "fake:complete",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                        "process_created": "134357825564774220",
+                        "process_id": "46876",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "not_started",
+                      "last_event": "initialized",
+                      "logical_state": "pending",
+                      "outcome": null,
+                      "phase": "pending",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "1",
+                      "synthetic_effect_count": "0"
+                    }
+                  },
+                  "request_id": "ordinary",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "1",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "payload": {
+                  "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+                  "record": {
+                    "digest": "48776cec4f719c879fa4bc7bdd79ca99d6cdd498d7faa7330f93710e50c5c54f",
+                    "previous": "e4c252d0eef8e7551cc41d055176c0a7a3a17042a9608406786d4f409a368c28",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "prepared",
+                      "binding": {
+                        "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                        "fixture_id": "fake:complete",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                        "process_created": "134357825564774220",
+                        "process_id": "46876",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "not_started",
+                      "last_event": "prepared",
+                      "logical_state": "active",
+                      "outcome": null,
+                      "phase": "prepared",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "2",
+                      "synthetic_effect_count": "0"
+                    }
+                  },
+                  "request_id": "ordinary",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "2",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "payload": {
+                  "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+                  "record": {
+                    "digest": "a0bf31ba3752a047c3328299cdd0a5c67e66a5018a5cd87a80e3cfb5fcec79a9",
+                    "previous": "48776cec4f719c879fa4bc7bdd79ca99d6cdd498d7faa7330f93710e50c5c54f",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "dispatched",
+                      "binding": {
+                        "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                        "fixture_id": "fake:complete",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                        "process_created": "134357825564774220",
+                        "process_id": "46876",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "in_flight",
+                      "last_event": "effect_dispatched",
+                      "logical_state": "active",
+                      "outcome": null,
+                      "phase": "in_flight",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "3",
+                      "synthetic_effect_count": null
+                    }
+                  },
+                  "request_id": "ordinary",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "3",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "payload": {
+                  "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+                  "record": {
+                    "digest": "84b9213f3c18fc034e1a92eb636a365830e7cbfcefa3540f3ff2494ff0c2180d",
+                    "previous": "a0bf31ba3752a047c3328299cdd0a5c67e66a5018a5cd87a80e3cfb5fcec79a9",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "observing",
+                      "binding": {
+                        "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                        "fixture_id": "fake:complete",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                        "process_created": "134357825564774220",
+                        "process_id": "46876",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "observed",
+                      "last_event": "effect_observed",
+                      "logical_state": "active",
+                      "outcome": null,
+                      "phase": "observed",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "4",
+                      "synthetic_effect_count": "1"
+                    }
+                  },
+                  "request_id": "ordinary",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "4",
+                "type": "fake.operation.record"
+              },
+              {
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "payload": {
+                  "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+                  "record": {
+                    "digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+                    "previous": "84b9213f3c18fc034e1a92eb636a365830e7cbfcefa3540f3ff2494ff0c2180d",
+                    "schema": "org.disked.fake-operation-record/1",
+                    "state": {
+                      "attempt_state": "finished",
+                      "binding": {
+                        "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                        "fixture_id": "fake:complete",
+                        "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                        "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                        "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                        "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                        "process_created": "134357825564774220",
+                        "process_id": "46876",
+                        "provider_id": "provider.fake.bootstrap/1",
+                        "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                        "target_profile": "windows.nt10.x64.win32",
+                        "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                      },
+                      "cancellation": "not_requested",
+                      "effect_certainty": "observed",
+                      "last_event": "verified",
+                      "logical_state": "completed",
+                      "outcome": "succeeded",
+                      "phase": "finished",
+                      "recovery": "unnecessary",
+                      "schema": "org.disked.fake-operation/1",
+                      "scope": "fake-only",
+                      "sequence": "5",
+                      "synthetic_effect_count": "1"
+                    }
+                  },
+                  "request_id": "ordinary",
+                  "schema": "org.disked.fake-operation-event/1"
+                },
+                "schema": "org.disked.event/1",
+                "sequence": "5",
+                "type": "fake.operation.record"
+              }
+            ],
+            "last_digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+            "last_record_digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+            "last_sequence": "5",
+            "observer_epoch": "watch:038281dcc47902331ec2c0a7e9679d87",
+            "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "process_created": "134357825564774220",
+                "process_id": "46876",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1",
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        },
+        {
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "payload": {
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "record": {
+              "digest": "e4c252d0eef8e7551cc41d055176c0a7a3a17042a9608406786d4f409a368c28",
+              "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+              "schema": "org.disked.fake-operation-record/1",
+              "state": {
+                "attempt_state": "prepared",
+                "binding": {
+                  "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                  "process_created": "134357825564774220",
+                  "process_id": "46876",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "not_started",
+                "last_event": "initialized",
+                "logical_state": "pending",
+                "outcome": null,
+                "phase": "pending",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "1",
+                "synthetic_effect_count": "0"
+              }
+            },
+            "request_id": "events",
+            "schema": "org.disked.fake-operation-event/1"
+          },
+          "schema": "org.disked.event/1",
+          "sequence": "1",
+          "type": "fake.operation.record"
+        },
+        {
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "payload": {
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "record": {
+              "digest": "48776cec4f719c879fa4bc7bdd79ca99d6cdd498d7faa7330f93710e50c5c54f",
+              "previous": "e4c252d0eef8e7551cc41d055176c0a7a3a17042a9608406786d4f409a368c28",
+              "schema": "org.disked.fake-operation-record/1",
+              "state": {
+                "attempt_state": "prepared",
+                "binding": {
+                  "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                  "process_created": "134357825564774220",
+                  "process_id": "46876",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "not_started",
+                "last_event": "prepared",
+                "logical_state": "active",
+                "outcome": null,
+                "phase": "prepared",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "2",
+                "synthetic_effect_count": "0"
+              }
+            },
+            "request_id": "events",
+            "schema": "org.disked.fake-operation-event/1"
+          },
+          "schema": "org.disked.event/1",
+          "sequence": "2",
+          "type": "fake.operation.record"
+        },
+        {
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "payload": {
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "record": {
+              "digest": "a0bf31ba3752a047c3328299cdd0a5c67e66a5018a5cd87a80e3cfb5fcec79a9",
+              "previous": "48776cec4f719c879fa4bc7bdd79ca99d6cdd498d7faa7330f93710e50c5c54f",
+              "schema": "org.disked.fake-operation-record/1",
+              "state": {
+                "attempt_state": "dispatched",
+                "binding": {
+                  "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                  "process_created": "134357825564774220",
+                  "process_id": "46876",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "in_flight",
+                "last_event": "effect_dispatched",
+                "logical_state": "active",
+                "outcome": null,
+                "phase": "in_flight",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "3",
+                "synthetic_effect_count": null
+              }
+            },
+            "request_id": "events",
+            "schema": "org.disked.fake-operation-event/1"
+          },
+          "schema": "org.disked.event/1",
+          "sequence": "3",
+          "type": "fake.operation.record"
+        },
+        {
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "payload": {
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "record": {
+              "digest": "84b9213f3c18fc034e1a92eb636a365830e7cbfcefa3540f3ff2494ff0c2180d",
+              "previous": "a0bf31ba3752a047c3328299cdd0a5c67e66a5018a5cd87a80e3cfb5fcec79a9",
+              "schema": "org.disked.fake-operation-record/1",
+              "state": {
+                "attempt_state": "observing",
+                "binding": {
+                  "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                  "process_created": "134357825564774220",
+                  "process_id": "46876",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "observed",
+                "last_event": "effect_observed",
+                "logical_state": "active",
+                "outcome": null,
+                "phase": "observed",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "4",
+                "synthetic_effect_count": "1"
+              }
+            },
+            "request_id": "events",
+            "schema": "org.disked.fake-operation-event/1"
+          },
+          "schema": "org.disked.event/1",
+          "sequence": "4",
+          "type": "fake.operation.record"
+        },
+        {
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "payload": {
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "record": {
+              "digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+              "previous": "84b9213f3c18fc034e1a92eb636a365830e7cbfcefa3540f3ff2494ff0c2180d",
+              "schema": "org.disked.fake-operation-record/1",
+              "state": {
+                "attempt_state": "finished",
+                "binding": {
+                  "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                  "fixture_id": "fake:complete",
+                  "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                  "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                  "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                  "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                  "process_created": "134357825564774220",
+                  "process_id": "46876",
+                  "provider_id": "provider.fake.bootstrap/1",
+                  "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                  "target_profile": "windows.nt10.x64.win32",
+                  "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+                },
+                "cancellation": "not_requested",
+                "effect_certainty": "observed",
+                "last_event": "verified",
+                "logical_state": "completed",
+                "outcome": "succeeded",
+                "phase": "finished",
+                "recovery": "unnecessary",
+                "schema": "org.disked.fake-operation/1",
+                "scope": "fake-only",
+                "sequence": "5",
+                "synthetic_effect_count": "1"
+              }
+            },
+            "request_id": "events",
+            "schema": "org.disked.fake-operation-event/1"
+          },
+          "schema": "org.disked.event/1",
+          "sequence": "5",
+          "type": "fake.operation.record"
+        },
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+          "request_id": "events",
+          "result": {
+            "events": [],
+            "last_digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+            "last_record_digest": "c686cfe9ddf54a76d75762b55751402582e6aa738dc779bf928cb20ee5044125",
+            "last_sequence": "5",
+            "observer_epoch": "watch:9362ac95b30599449d16d44c4dcd42ba",
+            "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                "operation_id": "fake-op:9bdcbc3cdfbf4b27121f4656474f0ebe",
+                "process_created": "134357825564774220",
+                "process_id": "46876",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_epoch": "worker:04c7e9a04b2df08f772e5ab93dda41e1",
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        },
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": null,
+          "request_id": "after",
+          "result": {
+            "compiler": "MSVC 19.44.35228.0",
+            "composition": "windows.native.fake.bootstrap",
+            "configuration": "Release",
+            "configuration_digest": "sha256:699ea8de4856c88348855519a114fbdb2ac3f08b1a7417b084ba9a6713eaa1bf",
+            "crt": "static-release-MT",
+            "fake_provider": "provider.fake.bootstrap/1",
+            "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+            "language": "C++14",
+            "product": "DiskEd",
+            "sdk": "10.0.19041.0",
+            "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+            "source_state": "dirty",
+            "target": "windows.nt10.x64.win32",
+            "version": "0.1.0-dev.13"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "test": "snapshot and cursor refusal without store mutation",
+      "snapshot": {
+        "operation_id": "fake-op:ccaf0d495cd6444bf551d09b83311046",
+        "payload": {
+          "observer_epoch": "watch:041750da6f943920bc2606316c474528",
+          "record": {
+            "digest": "2ffc1d10f1e2cb23929a1aa50f68054b9dad0cbf54c39bf41708619f04c075ad",
+            "previous": "0f283371e959400543a23e70536043c6b3df17559464258f2ace55e86eb9f920",
+            "schema": "org.disked.fake-operation-record/1",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:ccaf0d495cd6444bf551d09b83311046:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                "operation_id": "fake-op:ccaf0d495cd6444bf551d09b83311046",
+                "process_created": "134357825576852437",
+                "process_id": "41644",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:0435b63192ec684a0abcb35451f0c491"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            }
+          },
+          "request_id": "cli",
+          "schema": "org.disked.fake-operation-event/1"
+        },
+        "schema": "org.disked.event/1",
+        "sequence": "5",
+        "type": "fake.operation.snapshot"
+      }
+    },
+    {
+      "test": "fake:verification-failure",
+      "response": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+        "request_id": "cli",
+        "result": {
+          "events": [
+            {
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "payload": {
+                "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+                "record": {
+                  "digest": "996c16c3393c4ef31dc9fca2ebe2db513465b3ad242b2e41d7d185eec25f7aa2",
+                  "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+                      "fixture_id": "fake:verification-failure",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+                      "process_created": "134357825589790170",
+                      "process_id": "50720",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "initialized",
+                    "logical_state": "pending",
+                    "outcome": null,
+                    "phase": "pending",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "1",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "1",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "payload": {
+                "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+                "record": {
+                  "digest": "b961a4dce5733bf97759657f208eedfe8b38c0cc26418b7eb68c1ddcd598bdd1",
+                  "previous": "996c16c3393c4ef31dc9fca2ebe2db513465b3ad242b2e41d7d185eec25f7aa2",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+                      "fixture_id": "fake:verification-failure",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+                      "process_created": "134357825589790170",
+                      "process_id": "50720",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "prepared",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "prepared",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "2",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "2",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "payload": {
+                "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+                "record": {
+                  "digest": "4cf4bbc7208c408bd76f89ceb8310f73f8d250edd4cd0528fec09d771f266e70",
+                  "previous": "b961a4dce5733bf97759657f208eedfe8b38c0cc26418b7eb68c1ddcd598bdd1",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "dispatched",
+                    "binding": {
+                      "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+                      "fixture_id": "fake:verification-failure",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+                      "process_created": "134357825589790170",
+                      "process_id": "50720",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "in_flight",
+                    "last_event": "effect_dispatched",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "in_flight",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "3",
+                    "synthetic_effect_count": null
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "3",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "payload": {
+                "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+                "record": {
+                  "digest": "540abf1d2513a772f430bd070cedff060b370483dadf6b8ca5d4a6c1f5bf27f0",
+                  "previous": "4cf4bbc7208c408bd76f89ceb8310f73f8d250edd4cd0528fec09d771f266e70",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "observing",
+                    "binding": {
+                      "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+                      "fixture_id": "fake:verification-failure",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+                      "process_created": "134357825589790170",
+                      "process_id": "50720",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "observed",
+                    "last_event": "effect_observed",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "observed",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "4",
+                    "synthetic_effect_count": "1"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "4",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "payload": {
+                "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+                "record": {
+                  "digest": "c47742ed91c5dfe2a2701d4ac159cdc7e8e97764a6ab0bf1de9a3fbdd33bc040",
+                  "previous": "540abf1d2513a772f430bd070cedff060b370483dadf6b8ca5d4a6c1f5bf27f0",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "finished",
+                    "binding": {
+                      "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+                      "fixture_id": "fake:verification-failure",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+                      "process_created": "134357825589790170",
+                      "process_id": "50720",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "observed",
+                    "last_event": "verification_failed",
+                    "logical_state": "unresolved",
+                    "outcome": "verification_failed",
+                    "phase": "finished",
+                    "recovery": "required",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "5",
+                    "synthetic_effect_count": "1"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "5",
+              "type": "fake.operation.record"
+            }
+          ],
+          "last_digest": "c47742ed91c5dfe2a2701d4ac159cdc7e8e97764a6ab0bf1de9a3fbdd33bc040",
+          "last_record_digest": "c47742ed91c5dfe2a2701d4ac159cdc7e8e97764a6ab0bf1de9a3fbdd33bc040",
+          "last_sequence": "5",
+          "observer_epoch": "watch:67bddfd2a6da4bd5711c66cfe5e8a8b7",
+          "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "finished",
+            "binding": {
+              "attempt_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0:attempt:1",
+              "fixture_id": "fake:verification-failure",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+              "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+              "operation_id": "fake-op:fcf2e7e65a7b62bf6b3e3913684c95c0",
+              "process_created": "134357825589790170",
+              "process_id": "50720",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "observed",
+            "last_event": "verification_failed",
+            "logical_state": "unresolved",
+            "outcome": "verification_failed",
+            "phase": "finished",
+            "recovery": "required",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "5",
+            "synthetic_effect_count": "1"
+          },
+          "worker_epoch": "worker:fca31e2ad87b3af857ac07478bef381e",
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      }
+    },
+    {
+      "test": "fake:unknown",
+      "response": {
+        "diagnostics": [
+          {
+            "code": "operation_worker_unresolved",
+            "message_key": "disked.operation_worker_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+        "request_id": "cli",
+        "result": {
+          "events": [
+            {
+              "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+              "payload": {
+                "observer_epoch": "watch:710e305d51993f06e3c5ea4772eb4ff0",
+                "record": {
+                  "digest": "0217b9fc09c797d0cb959b479d470f28c2f83b78178819f78f2bab045af932e1",
+                  "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6:attempt:1",
+                      "fixture_id": "fake:unknown",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+                      "process_created": "134357825600794665",
+                      "process_id": "51908",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:67c1fb0b3cd231d4cc5cc37d5a03fe12"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "initialized",
+                    "logical_state": "pending",
+                    "outcome": null,
+                    "phase": "pending",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "1",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "1",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+              "payload": {
+                "observer_epoch": "watch:710e305d51993f06e3c5ea4772eb4ff0",
+                "record": {
+                  "digest": "219080d0185b2c6d2e0cdf5932ab5a441d3d57511dff05e068274643302c6e70",
+                  "previous": "0217b9fc09c797d0cb959b479d470f28c2f83b78178819f78f2bab045af932e1",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "prepared",
+                    "binding": {
+                      "attempt_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6:attempt:1",
+                      "fixture_id": "fake:unknown",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+                      "process_created": "134357825600794665",
+                      "process_id": "51908",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:67c1fb0b3cd231d4cc5cc37d5a03fe12"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "not_started",
+                    "last_event": "prepared",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "prepared",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "2",
+                    "synthetic_effect_count": "0"
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "2",
+              "type": "fake.operation.record"
+            },
+            {
+              "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+              "payload": {
+                "observer_epoch": "watch:710e305d51993f06e3c5ea4772eb4ff0",
+                "record": {
+                  "digest": "2cfeb7e27c8aa6cd64ccea4d7541651387c893e71b2e6334e75f27f6a650bc0a",
+                  "previous": "219080d0185b2c6d2e0cdf5932ab5a441d3d57511dff05e068274643302c6e70",
+                  "schema": "org.disked.fake-operation-record/1",
+                  "state": {
+                    "attempt_state": "dispatched",
+                    "binding": {
+                      "attempt_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6:attempt:1",
+                      "fixture_id": "fake:unknown",
+                      "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                      "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+                      "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+                      "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+                      "process_created": "134357825600794665",
+                      "process_id": "51908",
+                      "provider_id": "provider.fake.bootstrap/1",
+                      "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+                      "target_profile": "windows.nt10.x64.win32",
+                      "worker_epoch": "worker:67c1fb0b3cd231d4cc5cc37d5a03fe12"
+                    },
+                    "cancellation": "not_requested",
+                    "effect_certainty": "in_flight",
+                    "last_event": "effect_dispatched",
+                    "logical_state": "active",
+                    "outcome": null,
+                    "phase": "in_flight",
+                    "recovery": "unnecessary",
+                    "schema": "org.disked.fake-operation/1",
+                    "scope": "fake-only",
+                    "sequence": "3",
+                    "synthetic_effect_count": null
+                  }
+                },
+                "request_id": "cli",
+                "schema": "org.disked.fake-operation-event/1"
+              },
+              "schema": "org.disked.event/1",
+              "sequence": "3",
+              "type": "fake.operation.record"
+            }
+          ],
+          "last_digest": "2cfeb7e27c8aa6cd64ccea4d7541651387c893e71b2e6334e75f27f6a650bc0a",
+          "last_record_digest": "2cfeb7e27c8aa6cd64ccea4d7541651387c893e71b2e6334e75f27f6a650bc0a",
+          "last_sequence": "3",
+          "observer_epoch": "watch:710e305d51993f06e3c5ea4772eb4ff0",
+          "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "dispatched",
+            "binding": {
+              "attempt_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6:attempt:1",
+              "fixture_id": "fake:unknown",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "37ffcb3c9ba3c77936a1ed9bb432a0a4da9a98d51917fe2c8e27645f9d4ddea3",
+              "input_digest": "sha256:e15de8d451e3cf4135db6774ebe4200980940073fe1c3f776a7f90a0d0ae317c",
+              "operation_id": "fake-op:955649f9fb11fccedf93ea2c0d7b2eb6",
+              "process_created": "134357825600794665",
+              "process_id": "51908",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "6793d4a878a3736f5f1dcc072ac5ae0894db10aa",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:67c1fb0b3cd231d4cc5cc37d5a03fe12"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "in_flight",
+            "last_event": "effect_dispatched",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "in_flight",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "3",
+            "synthetic_effect_count": null
+          },
+          "worker_epoch": "worker:67c1fb0b3cd231d4cc5cc37d5a03fe12",
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      }
+    }
+  ],
+  "failures": []
+}

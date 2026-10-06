@@ -102,6 +102,17 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
+Outcome stream_watch(const std::string& request,const Value& parameters,std::unique_ptr<BoundedRequests>& calls,const ResponseSink& output) {
+    if(!calls)calls.reset(new BoundedRequests());
+    const auto queue=std::make_shared<WatchQueue>();
+    struct Close {std::shared_ptr<WatchQueue> queue;~Close() {queue->close();}} close{queue};
+    auto expired=completed(request,Value::object().put("request_state",Value::string("unresolved"))
+        .put("state_directory",*parameters.find("state_directory")));
+    expired.exit_code=6;expired.response.put("status",Value::string("unknown")).put("operation_id",*parameters.find("operation_id"));
+    expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
+    return calls->run(request,[request,parameters,queue]() {return watch_fake_worker(request,parameters,queue);},std::move(expired),
+        std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;});
+}
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
     if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
         return host.output_usable && output.write(presentation_json(outcome.response)+"\n");
@@ -227,9 +238,12 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
                 auto machine_inputs=inputs;machine_inputs.put("command",Value::boolean_value(true));
                 return serve(stdin,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
                     return bounded_dispatch(id,command,parameters,host,machine_inputs,session,calls,revision);
-                },emit);
+                },emit,[&](const std::string& id,const std::string&,const Value& parameters,const std::string&) {
+                    return stream_watch(id,parameters,calls,emit);
+                });
             }
-        } else outcome=bounded_dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session,calls);
+        } else if(parsed.command_id=="operation.watch" && format=="ndjson")outcome=stream_watch("cli",parsed.parameters,calls,emit);
+        else outcome=bounded_dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session,calls);
         if(machine) {if(!host.output_usable || !emit(outcome.response))return 4;}
         else if(!human(outcome,parsed,host,output,errors)) {if(host.error_usable)errors.write("disked: output_error\n");return 4;}
         return outcome.exit_code;

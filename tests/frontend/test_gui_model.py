@@ -60,6 +60,14 @@ class Model(unittest.TestCase):
         for command in ['protocol.serve','shell.open','shell.close','partition.resize.plan']:
             result=self.stage(command);self.assertEqual('command_unavailable',result['details']['diagnostics'][0]['code']);self.assertFalse(result['state']['form'])
 
+    def test_watch_optional_fields_and_boolean_review_are_typed(self):
+        self.stage('operation.watch',operation_id='fake-op:'+'a'*32,state_directory='C:\\Fixture',snapshot=True)
+        result=self.call('review');self.assertTrue(result['state']['reviewed'])
+        self.assertEqual({'operation_id':'fake-op:'+'a'*32,'state_directory':'C:\\Fixture','snapshot':True},result['details']['parameters'])
+        self.call('edit',field='snapshot',value='yes');self.assertFalse(self.call('review')['state']['reviewed'])
+        self.call('edit',field='snapshot',value='false');self.assertFalse(self.call('review')['details']['parameters']['snapshot'])
+        self.call('edit',field='snapshot',value='');self.assertNotIn('snapshot',self.call('review')['details']['parameters'])
+
     def test_two_bounded_responses_remain_renderable_without_losing_current_view(self):
         self.call('synthetic',deferred=True)
         self.stage('target.list');self.call('review');self.call('submit')

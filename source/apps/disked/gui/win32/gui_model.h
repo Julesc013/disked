@@ -30,7 +30,7 @@ private:
     std::shared_ptr<const GraphSnapshot> snapshot_;
     bool commands_=false,form_=false,reviewed_=false;
     std::string focus_,target_focus_,command_,revision_,notice_="Ready";
-    json::Value fields_=json::Value::array(),parameters_=json::Value::object();
+    json::Value fields_=json::Value::array(),parameters_=json::Value::object(),typed_=json::Value::object();
     Outcome outcome_;
     json::Value earlier_=json::Value{};
     std::string pending_;

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-026
   profile: disked-spec/1
-  version: 0.1.7-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-026-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: DE-W014 native terminal execution contract; owner acceptance pending
+  at: '2026-10-06T17:56:37.384929+00:00'
+  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
@@ -90,7 +90,7 @@ review and diagnostic text is escaped at the presentation boundary; exact typed
 values and identity remain separate. No history or transcript file is created.
 
 The private model retains one snapshot, one outcome, one staged form (at most
-16 fields, 4096 UTF-8 bytes each), a 1 MiB presentation budget and bounded page
+16 string/boolean fields, 4096 UTF-8 bytes each), a 1 MiB presentation budget and bounded page
 state. Native screen frames are at most 240 by 80 cells; larger displays leave
 unused space, and narrow views wrap/page rather than truncate identifiers or
 diagnostics. Linear output emits complete logical records only after state
@@ -126,6 +126,12 @@ test-owned console launches must exercise navigation, both renderers, Ctrl+C,
 caller-state restoration, resize and unavailable channels. Those tests qualify
 only the exercised host/backend; screen-reader, ConPTY/remote, DOS/serial and
 other Windows profiles remain separate evidence requirements.
+
+The DE-W017 watch form uses the same optional-field and boolean conversion as
+the GUI: empty optional fields are omitted, and nonempty boolean input must be
+exact `true` or `false`. Review displays the typed parameters, including the
+omission of unused cursor fields. Tab/BackTab reaches all fields without running
+a command; editing after review requires a fresh review/submit sequence.
 
 ## Normative requirements
 

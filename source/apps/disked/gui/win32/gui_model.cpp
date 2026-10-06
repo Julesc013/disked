@@ -43,7 +43,7 @@ void GuiModel::focus(const std::string& id) {
 }
 void GuiModel::result(Outcome outcome) {
     outcome_=std::move(outcome);
-    notice_=outcome_.exit_code==5?"Operation accepted; inspect using its operation ID":
+    notice_=outcome_.exit_code==5?"Operation still running; inspect using its operation ID":
         outcome_.exit_code==6?"Operation outcome unknown; inspect retained evidence":
         outcome_.exit_code?"Request refused or failed; inspect diagnostics":"Request completed";
 }
@@ -72,18 +72,20 @@ void GuiModel::stage(const std::string& command,const Value& supplied) {
     const auto* schema=descriptor?registry_.parameter_schemas.find(descriptor->find("parameter_schema")->text):nullptr;
     if(!schema) {result(refused("gui","schema_unavailable",3));return;}
     for(const auto& pair:schema->find("properties")->fields) {
-        if(fields_.items.size()==2 || pair.second.find("type")->text!="string") {result(refused("gui","form_unavailable",3));return;}
+        const auto type=pair.second.find("type")->text;
+        if(fields_.items.size()==16 || (type!="string" && type!="boolean")) {result(refused("gui","form_unavailable",3));return;}
         std::string value;
         if(pair.first=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
         if(pair.first=="operation")value="target.inspect";
         if(const auto* input=supplied.find(pair.first)) {
-            if(input->kind!=Value::Kind::string) {result(refused("gui","invalid_parameter"));return;}
-            value=input->text;
+            if(input->kind==Value::Kind::boolean && type=="boolean")value=input->boolean?"true":"false";
+            else if(input->kind==Value::Kind::string && type=="string")value=input->text;
+            else {result(refused("gui","invalid_parameter"));return;}
         }
         if(value.size()>4096 || !json::valid_utf8(value)) {result(refused("gui","form_limit"));return;}
         fields_.items.push_back(Value::string(pair.first));parameters_.put(pair.first,Value::string(value));
     }
-    revision_=snapshot_->revision();form_=true;notice_="Edit parameters, then review. No request has run.";
+    revision_=snapshot_->revision();form_=true;notice_="Edit, then review. Empty optional fields are omitted; booleans use true/false.";
 }
 void GuiModel::edit(const std::string& field,const std::string& value) {
     if(!form_ || !parameters_.find(field))return;
@@ -105,7 +107,7 @@ void GuiModel::review() {
     reviewed_=false;outcome_=Outcome{};
     for(const auto& pair:parameters_.fields)if(pair.second.text.size()>4096) {notice_="form_limit; correct the field";return;}
     if(!invalid_fields_.empty()) {notice_="invalid_parameter; correct the field";return;}
-    const auto error=validate_parameters(registry_,*registry_.command(command_),parameters_);
+    const auto error=form_parameters(registry_,*registry_.command(command_),parameters_,typed_);
     if(!error.empty()) {notice_=error+"; correct the fields";return;}
     reviewed_=true;notice_="Review the exact escaped request; Submit is a separate action";
 }
@@ -114,11 +116,11 @@ void GuiModel::submit() {
     reviewed_=false; // Consume before dispatch, including refusals and exceptions.
     if(requests_==(std::numeric_limits<std::uint64_t>::max)()) {result(refused("gui","request_limit"));return;}
     view_changed();const auto id="gui:"+std::to_string(++requests_);
-    auto reply=dispatch_(id,command_,parameters_,FrontendSession::handles(command_)?revision_:"");
+    auto reply=dispatch_(id,command_,typed_,FrontendSession::handles(command_)?revision_:"");
     if(reply.pending) {
         if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
         pending_=id;pending_view_=view_epoch_;outcome_=Outcome{};
-        notice_="Waiting for request; operation admission is unresolved. Cached views remain usable.";
+        notice_="Waiting for request; outcome is not yet observed. Cached views remain usable.";
     } else result(std::move(reply.outcome));
 }
 void GuiModel::back() {view_changed();form_=reviewed_=false;outcome_=Outcome{};notice_="Ready";}
@@ -135,7 +137,7 @@ Value GuiModel::rows() const {
 Value GuiModel::details() const {
     Value current;
     if(outcome_.response.kind!=Value::Kind::null)current=outcome_.response;
-    else if(form_)current=Value::object().put("command",Value::string(command_)).put("parameters",parameters_)
+    else if(form_)current=Value::object().put("command",Value::string(command_)).put("parameters",reviewed_?typed_:parameters_)
         .put("expected_revision",Value::string(revision_)).put("reviewed",Value::boolean_value(reviewed_));
     else current=Value::object().put("current",snapshot_->value()).put("proposed",Value{})
         .put("proposed_reason",Value::string("Planning is not implemented; no storage changes are proposed"));

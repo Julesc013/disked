@@ -11,6 +11,7 @@ constexpr std::size_t record_count_limit = 64;
 std::string hash(const std::string& bytes);
 bool fixture(const std::string& id);
 void validate_binding(const json::Value& binding);
+void validate_state(const json::Value& state);
 json::Value origin(const json::Value& binding);
 
 class Operation {
@@ -27,6 +28,7 @@ public:
 
 struct History {
     json::Value state;
+    std::vector<json::Value> records;
     std::string digest = std::string(64, '0');
     std::size_t count = 0;
 };

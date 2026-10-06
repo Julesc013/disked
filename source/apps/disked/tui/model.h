@@ -26,7 +26,7 @@ private:
     View view_=View::Inventory;
     std::string focus_,inventory_focus_,command_,review_revision_,notice_="Ready";
     std::vector<std::string> fields_;
-    json::Value parameters_=json::Value::object();
+    json::Value parameters_=json::Value::object(),typed_=json::Value::object();
     Outcome outcome_;
     json::Value earlier_=json::Value{};
     std::string pending_;

@@ -122,7 +122,8 @@ completed read; examine its state/outcome/recovery fields. The worker survives
 client exit. Repeating the same admission in that directory returns its existing
 identity; a changed fixture/build conflicts. Missing or uncertain workers are
 never automatically restarted. Keep the three evidence files together; no repair,
-cleanup, history migration or event-watch command is supplied.
+cleanup or history migration is supplied. The bounded watch extension below
+observes this same retained store without changing it.
 
 The compiled fixtures are `fake:complete`, `fake:verification-failure`,
 `fake:cancel-checkpoint` and `fake:unknown`. Use `operation cancel <operation_id>
@@ -168,7 +169,7 @@ input on this Windows host; they do not qualify human usability, screen readers,
 other keyboards, remote sessions or historical systems. File-API waiting in fake
 operation admission follows the resilience policy below.
 
-## Resilience development (DE-W017, in progress)
+## Resilience development (DE-W017, local review boundary)
 
 GUI, TUI and shell fake-operation calls now use one owned background request
 channel. Cached navigation stays available during delayed admission; edited
@@ -240,7 +241,39 @@ per-campaign four-process/256 MiB observer budget is separate from the existing
 worker quotas. Internal producer roles and diagnostic reports are absent from the
 product. Evidence belongs to `.aide/evidence/2026-10-07-observation-capture/`.
 
-DE-W017 remains active. These private source notices are not public event-stream
-support: wire payloads, negotiation and reconnect semantics still need their own
-implementation and evidence. Other hosts and production observers remain
-unqualified.
+These private source notices remain separate from public operation events.
+Other hosts and production observers remain unqualified.
+
+## Bounded fake-operation watch
+
+`disked operation watch <operation_id> --state-dir <directory> --follow-ms 2000`
+observes an existing fake operation for at most two seconds of following. It never
+starts, cancels or retries that operation. JSON/human and interactive views receive
+a bounded result; explicit `--format=ndjson` emits live events and a final response.
+A still-running operation returns exit 5, unknown observation exit 6, and a
+completed read of terminal state exit 0. Read success does not change an operation's
+verification-failed or cancelled outcome.
+
+NDJSON `protocol serve` clients opt in only on `operation.watch` by declaring
+`required_features: ["org.disked.fake-operation-events/1"]`. Other requests keep one
+response per exchange. Unknown features and that feature on JSON transport or
+another command are refused. Reconnect supplies `--after-sequence`, `--after-digest`
+and `--worker-epoch` from the last fully validated record; `--snapshot` explicitly
+establishes a fresh cursor. Wrong epochs, future cursors and conflicting history
+are refused without repairing the store or restarting its worker.
+
+Events preserve exact operation/attempt/worker identities and carry a separate
+observer identity. The callback has a finite 64-event/1 MiB queue and never waits
+for the client. Frontend-owned output retains its 3 s bound. Callback expiry
+retains its occupied slot and seals the old observer queue, so no late frame can
+become part of the next request. Disconnect and output failure do not cancel the
+worker. Record hashes are integrity checks, not signatures or production recovery
+qualification.
+
+The Win32 form pages through up to 16 fields using Previous/Next fields, with two
+visible native editors. TUI Tab/BackTab reaches the same fields. Empty optional
+fields are omitted; boolean fields accept exact `true` or `false`. Review shows
+typed parameters before submission. Watch results cannot overwrite newer cached
+views or inert shell input. Detailed contract and bounds are in DE-022; native
+process/reader/frontend evidence belongs under
+`.aide/evidence/2026-10-07-operation-watch/`.

@@ -375,24 +375,30 @@
         [
           "operation",
           "watch",
-          "OBJECT_ID"
+          "fake-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "--state-dir",
+          "C:\\DiskEd-Test"
         ],
         [
           "op",
           "watch",
-          "OBJECT_ID"
+          "fake-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "--state-dir",
+          "C:\\DiskEd-Test"
         ]
       ],
       "expected": {
         "kind": "command",
         "command_id": "operation.watch",
         "operands": [
-          "OBJECT_ID"
+          "fake-op:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ],
-        "named_options": {},
+        "named_options": {
+          "--state-dir": "C:\\DiskEd-Test"
+        },
         "controls": {}
       },
-      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+      "notes": "Complete native watch syntax equivalence; parsing never accesses the example state directory."
     },
     {
       "id": "cancel-alias",

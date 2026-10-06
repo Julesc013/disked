@@ -23,7 +23,7 @@ MAX_FILE = 8 * 1024 * 1024
 MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
-SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','command-resize-proposal-parameters')}
+SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -260,6 +260,18 @@ def semantic_validate(kind: str | None, value: dict):
         unsigned={k:v for k,v in value.items() if k!='digest'}
         if hashlib.sha256(fake_graph_bytes(unsigned)).hexdigest()!=value['digest']:raise SpecError('Fake operation record digest mismatch')
         if len(fake_graph_bytes(value))>16384:raise SpecError('Fake operation record exceeds byte bound')
+    elif kind == 'fake-operation-event':
+        semantic_validate('event',value);record=value['payload']['record'];semantic_validate('fake-operation-record',record)
+        if value['operation_id']!=record['state']['binding']['operation_id'] or value['sequence']!=record['state']['sequence']:
+            raise SpecError('Event identity/sequence disagrees with its fake record')
+        if len(value['payload']['request_id'].encode('utf-8'))>128 or '\0' in value['payload']['request_id']:
+            raise SpecError('Invalid watch request identity')
+        if len(fake_graph_bytes(value))>16384:raise SpecError('Fake event exceeds frame bound')
+    elif kind == 'command-watch-parameters':
+        after=bounded_u64(value.get('after_sequence','0'),'watch cursor')
+        if bounded_u64(value.get('follow_ms','0'),'follow milliseconds')>2000:raise SpecError('Watch follow budget exceeded')
+        if after and (not value.get('worker_epoch') or not value.get('after_digest')):raise SpecError('Watch cursor requires worker epoch and digest')
+        if (after and value.get('snapshot')) or (not after and 'after_digest' in value):raise SpecError('Conflicting watch cursor')
     elif kind == 'handoff':
         for test in value['tests']:
             if test['status']=='not_run' and (test['exit_code'] is not None or test['evidence_path'] is not None):

@@ -30,10 +30,11 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W015 local development: native Win32 adapter, shared typed forms and actual window evidence; owner acceptance pending.
 - [x] DE-W016 local development: same-file fake workers, reconnect, cancellation and uncertain outcomes; clean reproduction and agent review retained, owner acceptance pending.
 - [x] DE-W019 local Windows slice: bounded shell, clean reproduction, synthetic console evidence and agent review; owner acceptance and usability qualification remain pending.
-- [x] DE-W017 local slices: interactive/worker containment and bounded CLI/stdio requests and output; no unit completion or owner acceptance.
+- [x] DE-W017 local slices: interactive/worker containment and bounded CLI/stdio requests and output; owner acceptance pending.
 - [x] DE-W017 local store-failure slice: inject full/partial/flush boundaries, preserve unknown claim/cancellation receipts and prevent replay.
 - [x] DE-W017 local observation slice: capture/worker epochs, bounded notices, retained updates and combined native provider failures across frontends.
-- [ ] DE-W017 (active): implement and verify the public event-stream scope; retain real filesystem/persistence and other-host qualification as unverified.
+- [x] DE-W012/017 local watch: typed fake events, negotiated live NDJSON, digest-bound reconnect, bounded observers and GUI/TUI/shell parity.
+- [x] Bring DE-W012/017 to the local fake-provider review boundary with recorded native tests; clean reproduction and agent review govern continuation to DE-W018. Owner acceptance and real filesystem/persistence/other-host qualification remain separate.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
@@ -64,7 +65,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Reconcile flexible option placement, natural aliases and contextual help with current catalogs and docs.
 - [x] Define shared syntax equivalence/error cases, preserving unresolved typed storage parameters and unrun native parser status.
 - [x] DE-W012 synchronous subset: execute the shared syntax corpus, option permutations, bounded protocol and provider-initialization trap on Windows.
-- [ ] Complete/review asynchronous protocol identities and remaining DE-W012 admission gates with DE-W016/017.
+- [x] Implement and test the admitted fake asynchronous protocol identities, negotiation and reconnect with DE-W016/017; production/other-host admission remains separate.
 - [x] DE-W019 local tests: editable error recovery, completion/history and retained synthetic input timings.
 - [ ] DE-W019: qualify human entry/correction/recall ergonomics on selected keyboards and terminal profiles.
 - [ ] DE-W018/071: qualify actual tokenization/encoding and shared parser semantics for selected constrained targets.

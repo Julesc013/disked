@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-015
   profile: disked-spec/1
-  version: 0.1.14-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-015-02
 updated:
   by: codex
-  at: '2026-10-06T16:28:12.079373+00:00'
-  scope: DE-W017 frontend memory admission and measured workload limits; full programme remains active
+  at: '2026-10-06T17:56:37.398435+00:00'
+  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -68,7 +68,9 @@ its evidence store uses ordinary disposable files in the explicitly supplied
 directory. No storage plan, approval, privilege or hardware guarantee is inferred.
 `operation inspect <operation_id> --state-dir <directory>` reconnects to its
 retained state; `operation cancel <operation_id> --state-dir <directory>` records
-a cancellation request. Event watching remains a separate admission gate.
+a cancellation request. DE-022 now defines the bounded fake-only `operation watch`
+extension and its explicitly negotiated NDJSON event frames. It observes the same
+retained chain without creating, cancelling or replaying an operation.
 
 The directory must already exist, be an ordinary empty local drive directory on
 first admission, and pass the prototype's absolute-path, length and reparse checks.

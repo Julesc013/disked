@@ -57,6 +57,12 @@ std::string validate_scalar(const Value& shape,const Value& value) {
         if(text(shape,"x-disked-scalar")=="positive-byte-quantity" && !positive_byte_quantity(value.text))return "invalid_parameter";
         if(text(shape,"x-disked-scalar")=="fake-operation-id" && (value.text.size()!=40 ||
             value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
+        const auto scalar=text(shape,"x-disked-scalar");
+        if((scalar=="decimal-u64" || scalar=="watch-follow-ms") && (!json::decimal_u64(value.text) ||
+            (scalar=="watch-follow-ms" && std::stoull(value.text)>2000)))return "invalid_parameter";
+        if(scalar=="worker-epoch" && (value.text.size()!=39 || value.text.compare(0,7,"worker:")!=0 ||
+            value.text.find_first_not_of("0123456789abcdef",7)!=std::string::npos))return "invalid_parameter";
+        if(scalar=="record-digest" && (value.text.size()!=64 || value.text.find_first_not_of("0123456789abcdef")!=std::string::npos))return "invalid_parameter";
         if(text(shape,"x-disked-scalar")=="local-state-directory" && (value.text.size()<3 || value.text.size()>960 ||
             !((value.text[0]>='A' && value.text[0]<='Z') || (value.text[0]>='a' && value.text[0]<='z')) || value.text[1]!=':' || value.text[2]!='\\'))return "invalid_parameter";
     } else if(type=="boolean") {if(value.kind!=Value::Kind::boolean)return "invalid_parameter";}
@@ -113,6 +119,22 @@ std::string validate_parameters(const Registry& registry,const Value& command,co
     }
     if(!help)for(const auto& key:array(*schema,"required"))if(!parameters.find(key.text))return "missing_parameter";
     return "";
+}
+std::string form_parameters(const Registry& registry,const Value& command,const Value& editor,Value& typed) {
+    const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
+    if(!schema || !schema->find("properties"))return "schema_unavailable";
+    auto next=Value::object();
+    for(const auto& pair:editor.fields) {
+        const auto* shape=schema->find("properties")->find(pair.first);
+        if(!shape || pair.second.kind!=Value::Kind::string)return "invalid_parameter";
+        if(pair.second.text.empty() && !contains(array(*schema,"required"),pair.first))continue;
+        if(text(*shape,"type")=="boolean") {
+            if(pair.second.text!="true" && pair.second.text!="false")return "invalid_parameter";
+            next.put(pair.first,Value::boolean_value(pair.second.text=="true"));
+        } else if(text(*shape,"type")=="string")next.put(pair.first,pair.second);
+        else return "form_unavailable";
+    }
+    const auto error=validate_parameters(registry,command,next);if(error.empty())typed=std::move(next);return error;
 }
 ParseResult parse_invocation(const Registry& registry,const std::vector<std::string>& argv) {
     ParseResult result;std::vector<std::string> words;std::vector<std::size_t> positions;

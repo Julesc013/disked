@@ -27,7 +27,7 @@ target_include_directories(disked_json PUBLIC source/runtime/command source/runt
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_presentation STATIC source/portable/hash/sha256.cpp source/runtime/operation/fake_operation.cpp
+add_library(disked_presentation STATIC source/portable/hash/sha256.cpp source/runtime/operation/fake_operation.cpp source/runtime/operation/watch.cpp
   source/runtime/graph/snapshot.cpp source/runtime/graph/capture.cpp source/runtime/presentation/session.cpp source/runtime/presentation/requests.cpp)
 target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash source/runtime/operation)
 target_link_libraries(disked_presentation PUBLIC disked_json)
@@ -80,6 +80,13 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(watch_probe tests/operation/watch_probe.cpp)
+  target_link_libraries(watch_probe PRIVATE disked_presentation)
+  set_target_properties(watch_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(watch_probe PRIVATE /W4 /WX /permissive- /utf-8)
+  add_test(NAME operation.watch_reader COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_watch_reader.py"
+    --probe "$<TARGET_FILE:watch_probe>")
+  set_tests_properties(operation.watch_reader PROPERTIES TIMEOUT 60)
   add_executable(capture_probe tests/resilience/capture_probe.cpp)
   target_link_libraries(capture_probe PRIVATE disked_presentation)
   set_target_properties(capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -187,6 +194,9 @@ if(BUILD_TESTING)
   target_compile_definitions(disked_worker_memory_limit PRIVATE DISKED_WORKER_TEST_MEMORY_LIMIT=1)
   bootstrap_executable(disked_file_wait)
   target_compile_definitions(disked_file_wait PRIVATE DISKED_WORKER_TEST_RESULT_READ_DELAY=1)
+  add_test(NAME operation.watch COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_watch.py"
+    --exe "$<TARGET_FILE:disked>" --delayed "$<TARGET_FILE:disked_file_wait>")
+  set_tests_properties(operation.watch PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
   bootstrap_executable(disked_store_fault)
   target_compile_definitions(disked_store_fault PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
   bootstrap_executable(disked_memory_test)

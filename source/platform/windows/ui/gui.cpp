@@ -71,7 +71,7 @@ std::string utf8(const std::wstring& value) {
     if(!WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,value.data(),static_cast<int>(value.size()),&result[0],size,nullptr,nullptr))throw Failure("gui_text_encoding");
     return result;
 }
-enum Control {Navigator=100,Details,Summary,Notice,Targets,Commands,Refresh,Clear,Open,Review,Submit,Back,Heading,
+enum Control {Navigator=100,Details,Summary,Notice,Targets,Commands,Refresh,Clear,Open,Review,Submit,Back,Heading,PreviousFields,NextFields,FieldPage,
     Field0=200,Field1,Label0=220,Label1};
 class Window;
 thread_local Window* current=nullptr;
@@ -83,6 +83,7 @@ public:
     bool registered=false,updating=false,failed=false;
     bool contrast_known=false,high_contrast=false;
     UINT dpi=96;std::vector<std::string> ids,fields;
+    std::size_t field_page=0;
     const wchar_t* class_name=L"DiskEd.Native.Fake.1";
     Window(Api& a):api(a) {}
     ~Window() {
@@ -131,6 +132,9 @@ public:
             // refused. It cannot silently become a valid shortened identity.
             api.SendMessageW(controls.at(Field0+i),EM_SETLIMITTEXT,4097,0);
         }
+        add(PreviousFields,L"BUTTON",L"&Previous fields",WS_TABSTOP|BS_PUSHBUTTON);
+        add(NextFields,L"BUTTON",L"&Next fields",WS_TABSTOP|BS_PUSHBUTTON);
+        add(FieldPage,L"STATIC",L"",SS_LEFT);
         add(Review,L"BUTTON",L"&Review request",WS_TABSTOP|BS_PUSHBUTTON);
         add(Submit,L"BUTTON",L"&Submit reviewed",WS_TABSTOP|BS_PUSHBUTTON);
         add(Back,L"BUTTON",L"&Back",WS_TABSTOP|BS_PUSHBUTTON);
@@ -156,7 +160,8 @@ public:
         place(Targets,10,10,85,28);place(Commands,103,10,100,28);place(Refresh,211,10,115,28);place(Clear,334,10,135,28);
         const int left=(std::min)(280,(std::max)(220,w/3)),right=left+22;
         place(Heading,10,48,left,22);place(Navigator,10,72,left,(std::max)(60,h-158));place(Open,10,h-78,left,28);
-        place(Summary,right,48,w-right-10,44);place(Details,right,96,w-right-10,(std::max)(50,h-302));
+        place(Summary,right,48,w-right-10,44);place(Details,right,96,w-right-10,(std::max)(50,h-(fields.size()>2?334:302)));
+        place(PreviousFields,right,h-230,130,24);place(NextFields,right+138,h-230,110,24);place(FieldPage,right+256,h-228,w-right-266,24);
         for(int i=0;i<2;++i) {place(Label0+i,right,h-194+i*46,w-right-10,20);place(Field0+i,right,h-174+i*46,w-right-10,24);}
         place(Review,right,h-88,130,28);place(Submit,right+138,h-88,140,28);place(Back,right+286,h-88,70,28);
         place(Notice,10,h-44,w-20,36);
@@ -194,10 +199,16 @@ public:
             api.SendMessageW(controls.at(Navigator),LB_SETCURSEL,static_cast<WPARAM>(selected),0);
             api.SendMessageW(controls.at(Navigator),LB_SETHORIZONTALEXTENT,width,0);
             fields.clear();for(const auto& field:state.find("fields")->items)fields.push_back(field.text);
+            if(field_page*2>=fields.size())field_page=0;
+            const bool paged=state.find("form")->boolean && fields.size()>2;
+            for(const auto id:{PreviousFields,NextFields,FieldPage})api.ShowWindow(controls.at(id),paged?SW_SHOW:SW_HIDE);
+            api.EnableWindow(controls.at(PreviousFields),field_page>0);api.EnableWindow(controls.at(NextFields),(field_page+1)*2<fields.size());
+            set(FieldPage,"Fields "+std::to_string(field_page*2+1)+"-"+std::to_string((std::min)(field_page*2+2,fields.size()))+" / "+std::to_string(fields.size()));
             for(int i=0;i<2;++i) {
-                const bool visible=state.find("form")->boolean && static_cast<std::size_t>(i)<fields.size();
+                const auto field_index=field_page*2+static_cast<std::size_t>(i);
+                const bool visible=state.find("form")->boolean && field_index<fields.size();
                 api.ShowWindow(controls.at(Label0+i),visible?SW_SHOW:SW_HIDE);api.ShowWindow(controls.at(Field0+i),visible?SW_SHOW:SW_HIDE);
-                if(visible) {set(Label0+i,"&"+std::to_string(i+1)+" "+fields[i]);set(Field0+i,state.find("parameters")->find(fields[i])->text);}
+                if(visible) {set(Label0+i,"&"+std::to_string(i+1)+" "+fields[field_index]);set(Field0+i,state.find("parameters")->find(fields[field_index])->text);}
             }
         }
         set(Summary,"Current: cached fake observations | Proposed: none\r\nSelection: "+presentation_json(state.find("selection")?*state.find("selection"):Value{}));
@@ -215,14 +226,16 @@ public:
             if(index>=0 && static_cast<std::size_t>(index)<ids.size())model->focus(ids[static_cast<std::size_t>(index)]);return;
         }
         if((id==Field0 || id==Field1) && notification==EN_CHANGE) {
-            const auto index=static_cast<std::size_t>(id-Field0);if(index<fields.size())model->edit(fields[index],utf8(get(id)));
+            const auto index=field_page*2+static_cast<std::size_t>(id-Field0);if(index<fields.size())model->edit(fields[index],utf8(get(id)));
             draw(false);return;
         }
         if(notification!=BN_CLICKED && !(id==Navigator && notification==LBN_DBLCLK))return;
         switch(id) {
+        case PreviousFields:if(field_page)--field_page;break;
+        case NextFields:if((field_page+1)*2<fields.size())++field_page;break;
         case Targets:model->navigate(false);break;case Commands:model->navigate(true);break;
         case Refresh:model->refresh();break;case Clear:model->clear();break;
-        case Open:case Navigator:model->open();break;case Review:model->review();break;
+        case Open:case Navigator:field_page=0;model->open();break;case Review:model->review();break;
         case Submit:model->submit();break;case Back:model->back();break;
         case IDCANCEL:api.DestroyWindow(window);return;
         default:return; // IDOK/Enter never acts as an implicit submit.

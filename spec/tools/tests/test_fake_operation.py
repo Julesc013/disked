@@ -50,7 +50,28 @@ class FakeOperation(unittest.TestCase):
         self.bundle.validate('urn:disked:schema:fake-operation-record:1',record)
         bad=copy.deepcopy(record);bad['digest']='f'*64
         with self.assertRaises(sc.SpecError):self.bundle.validate('urn:disked:schema:fake-operation-record:1',bad)
+
         bad=copy.deepcopy(record);bad['state']['sequence']='18446744073709551616'
         with self.assertRaises(sc.SpecError):self.bundle.validate('urn:disked:schema:fake-operation-record:1',bad)
+
+    def test_event_identity_and_nested_record_semantics(self):
+        record=dict(schema='org.disked.fake-operation-record/1',state=self.initial(),previous='0'*64)
+        record['digest']=hashlib.sha256(sc.fake_graph_bytes(record)).hexdigest()
+        event=dict(schema='org.disked.event/1',operation_id=record['state']['binding']['operation_id'],sequence='1',type='fake.operation.record',
+            payload=dict(schema='org.disked.fake-operation-event/1',request_id='watch:1',observer_epoch='watch:'+'7'*32,record=record))
+        self.bundle.validate('urn:disked:schema:fake-operation-event:1',event)
+        for field,value in [('sequence','2'),('sequence','18446744073709551616'),('operation_id','fake-op:'+'0'*32)]:
+            bad=copy.deepcopy(event);bad[field]=value
+            with self.assertRaises(sc.SpecError):self.bundle.validate('urn:disked:schema:fake-operation-event:1',bad)
+        bad=copy.deepcopy(event);bad['payload']['record']['state']['logical_state']='completed'
+        with self.assertRaises(sc.SpecError):self.bundle.validate('urn:disked:schema:fake-operation-event:1',bad)
+
+    def test_watch_cursor_relationships_and_budget(self):
+        base=dict(operation_id='fake-op:'+'1'*32,state_directory='C:\\Fixture')
+        self.bundle.validate('urn:disked:schema:command-watch-parameters:1',base)
+        cursor=dict(base,after_sequence='2',worker_epoch='worker:'+'2'*32,after_digest='3'*64,follow_ms='2000')
+        self.bundle.validate('urn:disked:schema:command-watch-parameters:1',cursor)
+        for bad in [dict(base,after_sequence='1'),dict(base,follow_ms='2001'),dict(base,after_sequence='18446744073709551616'),dict(cursor,snapshot=True),dict(base,after_digest='3'*64)]:
+            with self.assertRaises(sc.SpecError):self.bundle.validate('urn:disked:schema:command-watch-parameters:1',bad)
 
 if __name__=='__main__':unittest.main()
