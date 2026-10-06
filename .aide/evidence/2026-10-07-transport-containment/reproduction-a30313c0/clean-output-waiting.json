@@ -1,0 +1,145 @@
+{
+  "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-a30313c0\\build\\windows-bootstrap\\Release\\disked.exe",
+  "sha256": "fbe9081ced2dec0fed273f5f51c02ea99975c0251eb3b1ecc7676c57be6c3954",
+  "delayed_executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-a30313c0\\build\\windows-bootstrap\\Release\\disked_worker_delayed.exe",
+  "delayed_sha256": "70ffff8a3223cfc61c36dba6b7d4972283fa1b60fce54d422c3a7c3a1ee2272e",
+  "tests": 5,
+  "passed": true,
+  "observations": [
+    {
+      "test": "undrained machine response",
+      "elapsed_seconds": 3.0335479999776,
+      "exit": 4,
+      "retained_bytes": 0
+    },
+    {
+      "test": "failed transport after admission",
+      "elapsed_seconds": 6.053841900022235,
+      "exit": 4,
+      "response": {
+        "diagnostics": [
+          {
+            "code": "operation_admission_unresolved",
+            "message_key": "disked.operation_admission_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+        "request_id": "admission",
+        "result": {
+          "admission": "unresolved"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      },
+      "active_after_transport_exit": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "90c22b9d8f6773c3b8e0cbfce7d295df25a890b188961f573896218000fd42d5",
+          "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "prepared",
+            "binding": {
+              "attempt_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d:attempt:1",
+              "fixture_id": "fake:cancel-checkpoint",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "70ffff8a3223cfc61c36dba6b7d4972283fa1b60fce54d422c3a7c3a1ee2272e",
+              "input_digest": "sha256:fc86c52d6b57d8b13361ace8e26393f04c18241f7fd7f112ef370d4bae37ce79",
+              "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+              "process_created": "134357741662796630",
+              "process_id": "16512",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "a30313c09f4ba8de5770fea041ae1c71db015f55",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:465e934f6da8099b666f54e92bfe2b2f"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "not_started",
+            "last_event": "prepared",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "prepared",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "2",
+            "synthetic_effect_count": "0"
+          },
+          "worker_observation": "running"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      },
+      "final": {
+        "diagnostics": [],
+        "evidence": [],
+        "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "25598c61e48afee181581769e22880c5f696676e3f23782cb768ff388250bd68",
+          "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "finished",
+            "binding": {
+              "attempt_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d:attempt:1",
+              "fixture_id": "fake:cancel-checkpoint",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "70ffff8a3223cfc61c36dba6b7d4972283fa1b60fce54d422c3a7c3a1ee2272e",
+              "input_digest": "sha256:fc86c52d6b57d8b13361ace8e26393f04c18241f7fd7f112ef370d4bae37ce79",
+              "operation_id": "fake-op:2173bc1fdefba2a5e79dd55cbccc730d",
+              "process_created": "134357741662796630",
+              "process_id": "16512",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "a30313c09f4ba8de5770fea041ae1c71db015f55",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:465e934f6da8099b666f54e92bfe2b2f"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "observed",
+            "last_event": "verified",
+            "logical_state": "completed",
+            "outcome": "succeeded",
+            "phase": "finished",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "5",
+            "synthetic_effect_count": "1"
+          },
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "completed"
+      },
+      "queued_directory_files": []
+    },
+    {
+      "test": "undrained human help",
+      "elapsed_seconds": 3.0274145000148565,
+      "exit": 4,
+      "retained_bytes": 0
+    },
+    {
+      "test": "reader stops after prefix",
+      "prefix": "{\"diagnostics\":[],\"evidence\":[],\"operation_id\":null,\"request_id\":\"cli\",\"result\":{\"commands\":[{\"aliases\":[],\"argument_bindings\":[",
+      "retained_bytes": 128,
+      "elapsed_seconds": 3.0191539999796078,
+      "exit": 4
+    },
+    {
+      "test": "reader resumes after 400 ms",
+      "bytes": 21800,
+      "exit": 0
+    }
+  ],
+  "failures": []
+}
