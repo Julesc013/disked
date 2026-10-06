@@ -72,3 +72,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W018/071: qualify actual tokenization/encoding and shared parser semantics for selected constrained targets.
 
 - [x] DE-W021 internal MBR/EBR parser and synthetic corpus implemented; retained clean reproduction and local review govern continuation. Owner acceptance and image-provider admission remain separate.
+
+- [x] DE-W022 internal GPT readers implemented; clean source-bound proof and local review govern continuation. Image-provider and writer admission remain separate.

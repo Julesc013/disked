@@ -792,7 +792,7 @@
       "id": "DE-W022",
       "title": "Implement independent GPT readers and diagnostics",
       "phase": "M2",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W020"
@@ -806,7 +806,16 @@
         "source/portable/gpt/**",
         "source/runtime/verification/**",
         "tests/fixtures/**",
-        "tests/fuzz/**"
+        "tests/fuzz/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/legacy/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -833,11 +842,24 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/portable/gpt/gpt.h",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/encoding.c",
+        "tests/unit/gpt_probe.cpp",
+        "tests/property/test_gpt.py",
+        "tests/legacy/run_mbr_probes.py",
+        "spec/references/sources.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W023",

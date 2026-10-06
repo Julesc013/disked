@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-032
   profile: disked-spec/1
-  version: 0.1.19
+  version: 0.1.20
   authority: proposed-normative
   review: pending
   risk: R2
@@ -29,6 +29,12 @@ sources:
   resource: references/sources.json#uefi-210-mbr
 - id: linux-612-ebr
   resource: references/sources.json#linux-612-ebr
+- id: uefi-210-gpt
+  resource: references/sources.json#uefi-210-gpt
+- id: uefi-210-guid
+  resource: references/sources.json#uefi-210-guid
+- id: edk2-202411-crc
+  resource: references/sources.json#edk2-202411-crc
 ---
 
 # Partition-map parsing and validation
@@ -115,6 +121,85 @@ unavailable until its source-consistency and provider contracts are implemented.
 Validate primary and backup independently: signature, supported revision, header size, reserved fields, header CRC, current/alternate LBA, usable bounds, entry count/size, entry-array size and CRC, array location and partition extents. Guard every multiplication before allocation/read. GPT uses CRC-32 as specified by its format; do not substitute the journal's checksum without an explicit format definition. Decode GUID byte order and UTF-16 names correctly, preserving unrecognized attributes.
 
 A valid CRC is not proof that content is correct or intended. When two structurally valid copies disagree, retain both candidates and refuse automatic repair until an explicit selection is supported. Do not always prefer primary or backup by location. Repair is a reviewed operation with original metadata capture and an independent verifier.
+
+## DE-W022 initial GPT reader contract
+
+The initial GPT reader is a private C90 library over caller-owned immutable block
+views and DE-031 spaces. It performs no I/O, allocation, callbacks, repair or
+mounting. Output/workspace must be disjoint from inputs and exclusively writable
+by the parser during a call; retained headers, bytes, spaces and entry workspace
+remain alive and unchanged while observations borrow them. This is not a public
+SDK, source-consistency mechanism, admitted provider or hostile-pointer API.
+
+Use UEFI 2.10 sections 5.3.1–5.3.3 and Appendix A, with GPT header revision
+00010000. Read primary LBA 1 and backup LBA N-1 independently. A header may neither
+redirect the other header's location nor cause a scan. Complete blocks are exactly
+the selected 512..1048576-byte logical unit. Short blocks are retained truncation
+observations; oversized views and invalid caller parameters are unchanged-output
+API refusals. Preserve full original blocks, including unrecognized/invalid bytes.
+
+Decode explicit little-endian fields. Validate signature, revision, header size
+92..block size, reserved bytes, current/alternate locations, nonzero disk GUID,
+inclusive usable bounds, nonzero entry count and entry size 128 times a power of
+two. The initial known revision treats bytes after the 92-byte defined header as
+reserved and requires zero, including any declared header extension. Compute
+header CRC over HeaderSize bytes with its four-byte CRC field logically zeroed;
+never modify the source buffer. CRC is the reflected IEEE CRC-32 with polynomial
+EDB88320, initial/final XOR FFFFFFFF. Pin original EDK II checksum behavior as a
+comparison reference; do not incorporate its implementation.
+
+Widen count/size before multiplication, then round array bytes to logical blocks
+with checked arithmetic. The primary array lies after its header and before the
+first usable block; the backup array lies after the last usable block and before
+its header. Each metadata side reserves at least max(array block count,
+ceil(16384/block size)) blocks between its header and usable space. This minimum
+reserved area is distinct from the advertised count*size bytes covered by CRC;
+do not checksum or infer entries in the remaining reserved area. These initial
+placement rules are explicit reader-profile checks, not authority to normalize
+another layout. Preserve unsupported observations for diagnosis.
+
+Only a header passing these checks can issue an array request. Caller-selected
+limits are 1..1024 entries, 128..4096 bytes per entry (power of two), and
+1..1048576 advertised array bytes. Exceeding a profile budget is a resource refusal,
+not proof of corrupt media. Validate limits and target-native size before any
+array access or workspace write. The caller supplies at least the advertised
+number of entry slots. The array input is the exact rounded logical-block span;
+a short span gives incomplete coverage without interpreting partial entries.
+CRC covers only advertised array bytes; final-block padding must be zero and is
+retained. This contiguous-view profile is bounded; streaming/tiny-memory profiles
+and their qualification remain separate.
+
+Retain each entire entry. A zero type GUID marks unused; nonzero residual bytes
+are diagnosed without converting the entry into an active partition. Active
+entries need nonzero unique GUIDs, no duplicate unique GUID in the same array,
+checked nonempty inclusive-to-half-open extents inside usable space, and no
+overlaps; adjacency is permitted. Decode GUID text using the EFI 4/2/2-byte
+little-endian mapping. Preserve all 64 attribute bits; bits 3..47 are diagnosed
+as reserved, while type-specific bits 48..63 remain uninterpreted. Bytes beyond
+the defined 128-byte entry are retained and checked as reserved for this revision.
+
+Partition names retain all 72 original bytes. Derive UTF-8 separately from the
+36 little-endian UTF-16 units, stopping at the first NUL. Validate surrogate pairs,
+reject isolated surrogates without publishing partial UTF-8, and flag missing
+termination while safely decoding the full bounded field. Preserve bytes after
+the first NUL without presenting them as name characters. No normalization or
+terminal rendering is performed; future presentation must escape controls.
+
+Keep header findings, complete array coverage and array/entry findings separate.
+A fully read array can still be inconsistent. Compare two consistent primary and
+backup candidates only in the same named-space object: disk GUID, header-size
+declaration, usable bounds, count/size and every advertised array byte must agree.
+Location-dependent header fields naturally differ. Do not use CRC equality as a
+substitute for byte equality. Return agreement, disagreement or incomparable;
+retain both candidates in all cases. The comparison never selects a winner or
+repairs anything. Protective-MBR, filesystem, stable-source and provider checks
+remain separate and prevent any disk-wide validity or writer-admission claim.
+
+Acceptance uses independently encoded synthetic images, Python CRC/GUID/UTF-16
+oracles, valid-but-disagreeing copies, malformed CRC/geometry/entry cases, resource
+limits, exact byte preservation and native read-only/no-access page boundaries.
+External differential tools and coverage-guided campaigns remain DE-W023 work;
+real image-provider/frontend integration remains DE-W024 work.
 
 ## Writer boundary
 

@@ -203,3 +203,12 @@ verification. Evidence belongs to `.aide/evidence/2026-10-07-mbr-ebr/` once run.
 This is local implementation in review, not an admitted image provider or a
 completed `table.verify` command. GPT, source-consistency integration, historical
 layout profiles, owner acceptance and all writer gates remain separate.
+
+
+DE-W022 adds independent private GPT header/array readers with checked resource
+limits, exact CRC spans, lossless GUID/UTF-16 observations and byte comparison of
+primary/backup candidates. Synthetic encoding/layout cases, a real CRC collision
+and protected-memory probes exercise the implementation. Source-bound evidence
+belongs to `.aide/evidence/2026-10-07-gpt/`. Local review and clean reproduction
+govern continuation; provider/source consistency, external differential fuzzing,
+historical profiles, owner acceptance and writer gates remain separate.

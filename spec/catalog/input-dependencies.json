@@ -973,6 +973,9 @@
       "depends_on": [
         "source/portable/ebr/ebr.c",
         "source/portable/ebr/ebr.h",
+        "source/portable/gpt/encoding.c",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/gpt.h",
         "source/portable/mbr/mbr.c",
         "source/portable/mbr/mbr.h",
         "source/portable/primitives/checked.c",
@@ -985,8 +988,10 @@
         "tests/legacy/primitive_probe.c",
         "tests/legacy/run_mbr_probes.py",
         "tests/legacy/run_probes.py",
+        "tests/property/test_gpt.py",
         "tests/property/test_mbr.py",
         "tests/property/test_primitives.py",
+        "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
         "tests/unit/portable_cpp.cpp",
         "tests/unit/portable_probe.c"
@@ -1040,6 +1045,9 @@
         "source/platform/windows/ui/gui.h",
         "source/portable/ebr/ebr.c",
         "source/portable/ebr/ebr.h",
+        "source/portable/gpt/encoding.c",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/gpt.h",
         "source/portable/hash/sha256.cpp",
         "source/portable/hash/sha256.h",
         "source/portable/mbr/mbr.c",
@@ -1145,6 +1153,7 @@
         "tests/operation/test_watch_reader.py",
         "tests/operation/test_worker.py",
         "tests/operation/watch_probe.cpp",
+        "tests/property/test_gpt.py",
         "tests/property/test_mbr.py",
         "tests/property/test_primitives.py",
         "tests/resilience/capture_campaign.cpp",
@@ -1164,6 +1173,7 @@
         "tests/resilience/test_request_waiting.py",
         "tests/resilience/test_store_failures.py",
         "tests/resilience/test_worker_budget.py",
+        "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
         "tests/unit/portable_cpp.cpp",
         "tests/unit/portable_probe.c",
@@ -2815,11 +2825,76 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/mbr/mbr.c",
         "source/portable/ebr/ebr.c",
-        "tests/unit/mbr_probe.cpp",
-        "tests/property/test_mbr.py"
+        "source/portable/gpt/encoding.c",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/gpt.h",
+        "source/portable/mbr/mbr.c",
+        "tests/property/test_gpt.py",
+        "tests/property/test_mbr.py",
+        "tests/unit/gpt_probe.cpp",
+        "tests/unit/mbr_probe.cpp"
       ],
+      "spec_ids": [
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/portable/gpt/gpt.h",
+      "path": "source/portable/gpt/gpt.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h"
+      ],
+      "spec_ids": [
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/portable/gpt/gpt.c",
+      "path": "source/portable/gpt/gpt.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/gpt/gpt.h"
+      ],
+      "spec_ids": [
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/portable/gpt/encoding.c",
+      "path": "source/portable/gpt/encoding.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/gpt/gpt.h"
+      ],
+      "spec_ids": [
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/unit/gpt_probe.cpp",
+      "path": "tests/unit/gpt_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/gpt/gpt.h",
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/property/test_gpt.py",
+      "path": "tests/property/test_gpt.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
       "spec_ids": [
         "DE-032"
       ]

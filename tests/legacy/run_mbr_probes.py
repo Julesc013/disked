@@ -14,6 +14,7 @@ def main():
     p.add_argument('--compiler',required=True);p.add_argument('--family',choices=['gcc','msvc'],required=True)
     p.add_argument('--include',action='append',default=[]);p.add_argument('--lib',action='append',default=[])
     p.add_argument('--dumpbin',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--suite',choices=['mbr','gpt'],default='mbr')
     a=p.parse_args();root=Path(__file__).resolve().parents[2];out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=False)
     compiler=Path(a.compiler).resolve();env=os.environ.copy()
     env['PATH']=str(compiler.parent)+os.pathsep+env.get('PATH','')
@@ -28,14 +29,17 @@ def main():
         write('commands.json',commands)
         if r.returncode:raise RuntimeError(name+' failed; retained output')
         return r
-    c=['source/portable/primitives/checked.c','source/portable/primitives/view.c','source/portable/primitives/extent.c','source/portable/mbr/mbr.c','source/portable/ebr/ebr.c']
-    cpp=['source/runtime/command/json.cpp','tests/unit/mbr_probe.cpp']
-    includes=[root/'source/portable/primitives',root/'source/portable/mbr',root/'source/portable/ebr',root/'source/runtime/command']
-    sources=c+cpp+['source/portable/primitives/checked.h','source/portable/primitives/view.h','source/portable/primitives/extent.h','source/portable/mbr/mbr.h','source/portable/ebr/ebr.h','source/runtime/command/json.h','tests/property/test_mbr.py','tests/legacy/run_mbr_probes.py']
+    c=['source/portable/primitives/checked.c','source/portable/primitives/view.c','source/portable/primitives/extent.c']
+    format_files=['source/portable/mbr/mbr.c','source/portable/ebr/ebr.c'] if a.suite=='mbr' else ['source/portable/gpt/encoding.c','source/portable/gpt/gpt.c']
+    format_headers=['source/portable/mbr/mbr.h','source/portable/ebr/ebr.h'] if a.suite=='mbr' else ['source/portable/gpt/gpt.h']
+    c+=format_files;cpp=['source/runtime/command/json.cpp','tests/unit/'+a.suite+'_probe.cpp']
+    includes=[root/'source/portable/primitives',root/'source/runtime/command']+sorted({(root/f).parent for f in format_headers})
+    test='tests/property/test_'+a.suite+'.py'
+    sources=c+cpp+['source/portable/primitives/checked.h','source/portable/primitives/view.h','source/portable/primitives/extent.h',*format_headers,'source/runtime/command/json.h',test,'tests/legacy/run_mbr_probes.py']
     identity=dict(source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
                   source_state='dirty' if subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=root,text=True) else 'clean',
                   compiler=dict(path=str(compiler),sha256=sha(compiler)),include=a.include,lib=a.lib,host=platform.platform(),
-                  inputs=[dict(path=x,sha256=sha(root/x)) for x in sources],c_language='C90',cpp_harness='C++14')
+                  inputs=[dict(path=x,sha256=sha(root/x)) for x in sources],c_language='C90',cpp_harness='C++14',suite=a.suite)
     objects=[]
     for i,path in enumerate(c+cpp):
         obj=out/(str(i)+('.o' if a.family=='gcc' else '.obj'));objects.append(obj)
@@ -48,7 +52,7 @@ def main():
             if path in cpp:args+=['/std:c++14','/EHsc']
             args+=['/I'+str(d) for d in includes]+['/c',root/path,'/Fo'+str(obj)]
         run('compile-'+str(i),args)
-    exe=out/'mbr-probe.exe'
+    exe=out/(a.suite+'-probe.exe')
     if a.family=='gcc':
         driver=compiler.with_name('g++.exe');args=[driver,*objects,'-static','-o',exe]
         identity['cpp_compiler']=dict(path=str(driver),sha256=sha(driver))
@@ -60,9 +64,10 @@ def main():
     run('link',args)
     for kind in ['HEADERS','IMPORTS','DEPENDENTS']:run(kind.lower(),[a.dumpbin,'/'+kind,exe])
     run('guard',[exe,'--guard'])
-    run('cases',[sys.executable,root/'tests/property/test_mbr.py','--probe',exe,'--evidence',out/'observations.json'])
+    run('cases',[sys.executable,root/test,'--probe',exe,'--evidence',out/'observations.json'])
     write('identity.json',identity)
     observations=json.loads((out/'observations.json').read_text(encoding='utf-8'))
+    assert observations['passed'] is True
     write('results.json',dict(status='pass',cases=observations['cases'],source=identity,executable=dict(path=str(exe),sha256=sha(exe)),
                               limitations=['Modern host only; no historical-loader qualification','Private synthetic-image probe; no admitted storage provider','No independent external parser differential run']))
     print(a.family,'PASS',observations['cases'],sha(exe))
