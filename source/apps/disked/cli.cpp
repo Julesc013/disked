@@ -7,6 +7,7 @@
 #include "graph.h"
 #include "terminal.h"
 #include "gui.h"
+#include "fake_worker.h"
 #include <cstdio>
 
 namespace disked {
@@ -33,7 +34,7 @@ Value command_description(const Value& command) {
     out.put("contract_status",*command.find("availability"));
     out.put("implementation_status",Value::string(available?"implemented":"planned"));
     out.put("availability",Value::string(available?"available":"unavailable"));
-    out.put("reason",Value::string(available?"synchronous_native_subset":"not_implemented"));return out;
+    out.put("reason",Value::string(available?(fake_worker_command(command.find("id")->text)?"fake_operation_subset":"synchronous_native_subset"):"not_implemented"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
     Value result=Value::object(),commands=Value::array();
@@ -54,6 +55,7 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain")return completed(request,explain_invocation(host,inputs));
+    if(fake_worker_command(command))return dispatch_fake_worker(request,command,parameters);
     if(FrontendSession::handles(command)) {
         if(!session)session.reset(new FrontendSession(command_registry(),fake_graph()));
         return session->dispatch(request,command,parameters,revision);
@@ -61,6 +63,11 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     return refused(request,"command_unavailable",3);
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host) {
+    if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null) {
+        if(!host.output_usable)return false;
+        std::puts(presentation_json(outcome.response).c_str());
+        return std::fflush(stdout)==0 && !std::ferror(stdout);
+    }
     if(outcome.exit_code) {
         if(!host.error_usable)return false;
         for(const auto& d:outcome.response.find("diagnostics")->items)

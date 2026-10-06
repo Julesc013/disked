@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-fake-operation-parameters:1",
+  "title": "command-fake-operation-parameters",
+  "description": "Provisional DE-W016 fake-only native profile; not a general planning or storage ABI.",
+  "type": "object",
+  "properties": {
+    "operation_id": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^fake-op:[0-9a-f]{32}$",
+      "x-disked-scalar": "fake-operation-id"
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 960,
+      "x-disked-scalar": "local-state-directory"
+    }
+  },
+  "required": [
+    "operation_id",
+    "state_directory"
+  ],
+  "additionalProperties": false
+}

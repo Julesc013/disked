@@ -3,9 +3,12 @@
 #include <windows.h>
 #include "invocation.h"
 #include "cli.h"
+#include "fake_worker.h"
+#include <cwchar>
 #include <cstdio>
 namespace disked {
 int windows_entry(int argc,wchar_t** argv) {
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_fake_worker")==0)return run_fake_worker(argc,argv);
     InvocationHost host;
     try {
         host=observe_windows_invocation();

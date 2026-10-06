@@ -140,3 +140,11 @@ DE-W015 implements the initial Win32 fake workbench with native controls and
 separate review/submit forms. Its native tests do not qualify screen readers,
 high-contrast-on, other Windows profiles or real storage. The programme proceeds
 to DE-W016 after retained clean build evidence and local agent review.
+
+
+DE-W016 develops a same-file unprivileged fake worker with a private ordinary-file
+evidence store. The synthetic counter, exact operation/attempt/worker identities,
+checkpoint cancellation, no automatic replay and reconnect after client loss are
+bounded by DE-015. Verification failure and worker loss stay distinct. Clean
+reproduction and local agent review precede DE-W017 failure-containment work;
+owner acceptance, production journal, elevation and real storage gates remain open.

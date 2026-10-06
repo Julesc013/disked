@@ -23,7 +23,7 @@ MAX_FILE = 8 * 1024 * 1024
 MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
-SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','handoff','plan','event','command-resize-proposal-parameters')}
+SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','command-resize-proposal-parameters')}
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -220,6 +220,46 @@ def semantic_validate(kind: str | None, value: dict):
         if len(encoded)>65536:raise SpecError('Fake graph exceeds byte bound')
         unsigned={k:v for k,v in value.items() if k!='revision'}
         if digest_bytes(fake_graph_bytes(unsigned))!=value['revision']:raise SpecError('Fake graph revision mismatch')
+    elif kind == 'fake-operation':
+        b=value['binding'];sequence=bounded_u64(value['sequence'],'operation sequence')
+        if bounded_u64(b['process_id'],'worker process')>0xffffffff:raise SpecError('Worker process ID exceeds u32')
+        bounded_u64(b['process_created'],'worker creation time')
+        if b['attempt_id']!=b['operation_id']+':attempt:1':raise SpecError('Operation attempt identity mismatch')
+        phase=value['phase'];cancel=value['cancellation'];outcome=value['outcome'];event=value['last_event']
+        fields=('logical_state','attempt_state','effect_certainty','recovery','outcome','synthetic_effect_count')
+        states={
+            'pending':('pending','prepared','not_started','unnecessary',None,'0'),
+            'prepared':('active','prepared','not_started','unnecessary',None,'0'),
+            'in_flight':('active','dispatched','in_flight','unnecessary',None,None),
+            'observed':('active','observing','observed','unnecessary',None,'1'),
+        }
+        if phase in states:
+            expected=states[phase]
+            if cancel=='acknowledged':raise SpecError('Cancellation acknowledgement requires terminal checkpoint')
+            base={'pending':1,'prepared':2,'in_flight':3,'observed':4}[phase]
+            allowed_sequences={base+(cancel=='requested')}
+            events={'pending':{'initialized'},'prepared':{'prepared'},'in_flight':{'effect_dispatched'},'observed':{'effect_observed'}}[phase]
+            if cancel=='requested':
+                events=events|{'cancel_requested'}
+                if phase in ('pending','in_flight'):events={'cancel_requested'}
+        elif outcome=='cancelled':
+            expected=('completed','finished','not_started','unnecessary','cancelled','0')
+            if cancel!='acknowledged':raise SpecError('Cancelled operation lacks checkpoint acknowledgement')
+            allowed_sequences={3,4};events={'cancel_acknowledged'}
+        else:
+            failed=b['fixture_id']=='fake:verification-failure'
+            expected=('unresolved' if failed else 'completed','finished','observed','required' if failed else 'unnecessary',
+                      'verification_failed' if failed else 'succeeded','1')
+            if cancel=='acknowledged':raise SpecError('Observed effect cannot acknowledge pre-dispatch cancellation')
+            allowed_sequences={5+(cancel=='requested')};events={'verification_failed' if failed else 'verified'}
+        if tuple(value[k] for k in fields)!=expected or sequence not in allowed_sequences or event not in events:
+            raise SpecError('Contradictory fake operation dimensions/sequence/event')
+        if len(fake_graph_bytes(value))>16384:raise SpecError('Fake operation exceeds record bound')
+    elif kind == 'fake-operation-record':
+        semantic_validate('fake-operation',value['state'])
+        unsigned={k:v for k,v in value.items() if k!='digest'}
+        if hashlib.sha256(fake_graph_bytes(unsigned)).hexdigest()!=value['digest']:raise SpecError('Fake operation record digest mismatch')
+        if len(fake_graph_bytes(value))>16384:raise SpecError('Fake operation record exceeds byte bound')
     elif kind == 'handoff':
         for test in value['tests']:
             if test['status']=='not_run' and (test['exit_code'] is not None or test['evidence_path'] is not None):

@@ -27,9 +27,9 @@ target_include_directories(disked_json PUBLIC source/runtime/command source/runt
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_presentation STATIC source/portable/hash/sha256.cpp
+add_library(disked_presentation STATIC source/portable/hash/sha256.cpp source/runtime/operation/fake_operation.cpp
   source/runtime/graph/snapshot.cpp source/runtime/presentation/session.cpp)
-target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash)
+target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash source/runtime/operation)
 target_link_libraries(disked_presentation PUBLIC disked_json)
 set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_presentation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -62,7 +62,7 @@ add_custom_target(bootstrap_registry ALL
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
-    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
+    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked)
   target_link_libraries(${target} PRIVATE disked_tui disked_gui)
@@ -74,6 +74,13 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(operation_reducer_probe tests/operation/reducer_probe.cpp)
+  target_link_libraries(operation_reducer_probe PRIVATE disked_presentation)
+  set_target_properties(operation_reducer_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(operation_reducer_probe PRIVATE /W4 /WX /permissive- /utf-8)
+  add_test(NAME operation.reducer COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_reducer.py"
+    --probe "$<TARGET_FILE:operation_reducer_probe>")
+  set_tests_properties(operation.reducer PROPERTIES TIMEOUT 60)
   add_executable(gui_model_probe tests/frontend/gui_probe.cpp source/apps/disked/command_registry.cpp
     source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(gui_model_probe bootstrap_registry)
@@ -141,6 +148,11 @@ if(BUILD_TESTING)
   set_tests_properties(protocol.json_codec PROPERTIES TIMEOUT 120)
   bootstrap_executable(disked_provider_guard)
   target_compile_definitions(disked_provider_guard PRIVATE DISKED_POISON_PROVIDER=1)
+  bootstrap_executable(disked_worker_delayed)
+  target_compile_definitions(disked_worker_delayed PRIVATE DISKED_WORKER_TEST_ADMISSION_DELAY=1)
+  add_test(NAME operation.worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_worker.py"
+    --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --delayed "$<TARGET_FILE:disked_worker_delayed>")
+  set_tests_properties(operation.worker PROPERTIES TIMEOUT 120)
   foreach(target disked disked_provider_guard)
     add_test(NAME ${target}.invocation COMMAND "${Python3_EXECUTABLE}"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/invocation/test_windows.py" --exe "$<TARGET_FILE:${target}>" --root "${CMAKE_CURRENT_SOURCE_DIR}")

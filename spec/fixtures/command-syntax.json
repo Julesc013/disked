@@ -400,24 +400,30 @@
         [
           "operation",
           "cancel",
-          "OBJECT_ID"
+          "fake-op:00000000000000000000000000000000",
+          "--state-dir",
+          "C:\\Disposable\\Operation"
         ],
         [
           "op",
           "cancel",
-          "OBJECT_ID"
+          "fake-op:00000000000000000000000000000000",
+          "--state-dir",
+          "C:\\Disposable\\Operation"
         ]
       ],
       "expected": {
         "kind": "command",
         "command_id": "operation.cancel.request",
         "operands": [
-          "OBJECT_ID"
+          "fake-op:00000000000000000000000000000000"
         ],
-        "named_options": {},
+        "named_options": {
+          "--state-dir": "C:\\Disposable\\Operation"
+        },
         "controls": {}
       },
-      "notes": "Command/operand identity equivalence only; additional required parameters remain unresolved and this does not claim a complete runnable invocation."
+      "notes": "DE-W016 typed fake-operation identity and explicit state directory; parsing creates no files or worker."
     },
     {
       "id": "contextual-resize-help",
@@ -846,24 +852,30 @@
         [
           "operation",
           "inspect",
-          "OPERATION_ID"
+          "fake-op:00000000000000000000000000000000",
+          "--state-dir",
+          "C:\\Disposable\\Operation"
         ],
         [
           "op",
           "inspect",
-          "OPERATION_ID"
+          "fake-op:00000000000000000000000000000000",
+          "--state-dir",
+          "C:\\Disposable\\Operation"
         ]
       ],
       "expected": {
         "kind": "command",
         "command_id": "operation.inspect",
         "operands": [
-          "OPERATION_ID"
+          "fake-op:00000000000000000000000000000000"
         ],
-        "named_options": {},
+        "named_options": {
+          "--state-dir": "C:\\Disposable\\Operation"
+        },
         "controls": {}
       },
-      "notes": "Resolution retains this identity when its runtime capability is unavailable; dispatch reports command_unavailable rather than remapping the alias. Native unavailable-build execution remains not_run."
+      "notes": "DE-W016 typed fake-operation identity and explicit state directory; parsing creates no files or worker."
     },
     {
       "id": "explicit-linear-tui",

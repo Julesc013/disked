@@ -536,7 +536,7 @@
       "id": "DE-W016",
       "title": "Prove same-file process roles without privilege",
       "phase": "M1",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W012",
@@ -553,7 +553,23 @@
       "allowed_paths": [
         "source/runtime/transport/**",
         "source/apps/disked/entry/**",
-        "tests/transport/**"
+        "tests/transport/**",
+        "source/apps/disked/**",
+        "source/platform/windows/**",
+        "source/runtime/command/**",
+        "source/runtime/operation/**",
+        "tests/native/**",
+        "tests/frontend/**",
+        "tests/contracts/**",
+        "tests/invocation/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/**",
+        "tests/operation/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -581,11 +597,31 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/platform/windows/fake_worker.cpp",
+        "source/platform/windows/fake_worker.h",
+        "source/runtime/operation/fake_operation.cpp",
+        "source/runtime/operation/fake_operation.h",
+        "spec/catalog/commands.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/schemas/command-fake-operation-parameters.schema.json",
+        "spec/schemas/command-fake-simulation-parameters.schema.json",
+        "spec/schemas/fake-operation-record.schema.json",
+        "spec/schemas/fake-operation.schema.json",
+        "spec/schemas/response.schema.json",
+        "tests/operation/reducer_probe.cpp",
+        "tests/operation/test_reducer.py",
+        "tests/operation/test_worker.py",
+        "tools/build-bootstrap.py",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W020",

@@ -28,7 +28,10 @@ void GuiModel::focus(const std::string& id) {
     // Missing focus is not rebound to a replacement row.
 }
 void GuiModel::result(Outcome outcome) {
-    outcome_=std::move(outcome);notice_=outcome_.exit_code?"Request refused or failed; inspect diagnostics":"Request completed";
+    outcome_=std::move(outcome);
+    notice_=outcome_.exit_code==5?"Operation accepted; inspect using its operation ID":
+        outcome_.exit_code==6?"Operation outcome unknown; inspect retained evidence":
+        outcome_.exit_code?"Request refused or failed; inspect diagnostics":"Request completed";
 }
 void GuiModel::open() {
     if(commands_) {stage(focus_,Value::object());return;}

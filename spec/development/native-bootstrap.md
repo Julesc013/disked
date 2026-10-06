@@ -30,6 +30,12 @@ structured help and synchronous transport. Historical W010 evidence does not
 qualify those additions. The current catalog selects the active subset; the
 two-command selection below describes the recorded W010 revision.
 
+Subsequent local slices add the shared fake graph, console TUI and Win32 adapter.
+DE-W016's narrowly compiled asynchronous simulations and reconnect/cancel surface
+are owned by DE-015 and the private operation producer schemas. Their ordinary
+evidence-file writes require an explicit disposable state directory. No general
+planner, real storage writer or production broker follows from that admission.
+
 ## Execution contract
 
 DE-W010 is a console-only, fake-only bootstrap composition, smaller than M1.

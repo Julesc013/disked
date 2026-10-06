@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The explicit Win32 GUI exposes the same fake service. There is no real storage access, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
+The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. Real storage access and the command shell remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -35,9 +35,9 @@ compiler hash and embedded revision/configuration. Dirty builds explicitly repor
 Commands remain globally planned while discovery reports the actual composition's
 implemented subset. `build.inspect`, `command.list`, `mode.explain` and the transport selector
 `protocol.serve` are available. The fake-only service also implements
-`target.list`, `target.inspect`, `topology.show` and `capability.explain`. Recognizing a storage command's syntax does not
+`target.list`, `target.inspect`, `topology.show` and `capability.explain`. The private fake operation profile implements `plan.simulate`, `operation.inspect` and `operation.cancel.request`. Recognizing a storage command's syntax does not
 admit its handler. Machine responses never mix human diagnostics with framed JSON.
-Exit 0 means completed, 2 invalid input/revision or target refusal, 3 unavailable and 4 output/internal failure.
+Exit 0 means a completed request, 2 invalid input/revision or target refusal, 3 unavailable, 4 output/internal failure, 5 accepted asynchronous work and 6 an unknown operation outcome.
 The reserved asynchronous outcomes cannot be produced by this synchronous subset.
 
 To use transport, pass `protocol serve --format=json` and provide one UTF-8 request
@@ -59,7 +59,7 @@ See [the private service contract](../spec/interaction/presentation.md).
 
 Native tests exercise the shared syntax corpus, option-placement permutations,
 strict JSON limits, producer/reader compatibility, process output and a provider
-initialization trap. Temporary working directories remain empty. These are
+initialization trap. Essential help/build/discovery and invalid argument tests keep working directories empty. Fake operation tests use an explicitly supplied disposable state directory. These are
 application-boundary checks, not a system-call trace or storage qualification.
 Historical [DE-W010 evidence](../.aide/evidence/2026-10-06-native-bootstrap/) applies
 only to its original human subset; subsequent work retains separate evidence.
@@ -84,7 +84,7 @@ Arrows move focus; Enter selects/inspects. F2 opens commands, F3 inventory, F4
 clears selection, F5 refreshes the view, F6 switches presentation. Forms use Tab,
 Shift+Tab and Backspace; F9 opens review and a fresh F9 submits. Enter/pasted
 newlines cannot submit forms. PageUp/PageDown scroll complete data. Escape goes
-back; F10 or Ctrl+C exits. No persistent command shell or disk writes are admitted.
+back; F10 or Ctrl+C exits. No persistent command shell or real storage operations are admitted. Simulation writes only its explicitly selected disposable evidence store.
 Small consoles automatically use linear output. Pipes cannot supply TUI input.
 The linear view is available for accessibility workflows, but screen-reader
 qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).
@@ -104,3 +104,36 @@ without switching the user's display. Current-host keyboard, controls, font,
 colors and contrast observations are evidence; high-contrast-on, screen-reader,
 per-monitor DPI, old Windows and clean-VM qualification remain unrun. No custom
 extracted icon is distributed. See [the GUI contract](../spec/interaction/tui-and-gui.md).
+
+
+## Reconnectable fake operations
+
+Create an empty ordinary local directory for one operation, then run:
+
+```powershell
+$state = Join-Path $env:TEMP ('disked-fake-' + [guid]::NewGuid())
+New-Item -ItemType Directory -Path $state | Out-Null
+$receipt = & .\build\windows-bootstrap\Release\disked.exe plan simulate fake:complete --state-dir $state --json | ConvertFrom-Json
+& .\build\windows-bootstrap\Release\disked.exe operation inspect $receipt.operation_id --state-dir $state --json
+```
+
+Admission returns exit 5 with the operation ID. A later inspect is a separate
+completed read; examine its state/outcome/recovery fields. The worker survives
+client exit. Repeating the same admission in that directory returns its existing
+identity; a changed fixture/build conflicts. Missing or uncertain workers are
+never automatically restarted. Keep the three evidence files together; no repair,
+cleanup, history migration or event-watch command is supplied.
+
+The compiled fixtures are `fake:complete`, `fake:verification-failure`,
+`fake:cancel-checkpoint` and `fake:unknown`. Use `operation cancel <operation_id>
+--state-dir <directory>` to request cancellation. The checkpoint fixture gives a
+two-second pre-effect window. A request after dispatch may accompany normal
+completion; only a worker checkpoint can acknowledge cancellation. The sole
+fixture effect is an in-memory counter, separate from ordinary evidence-file
+writes. Unknown/corrupt histories return exit 6 and never certify success.
+
+The current implementation rejects network/device/relative paths, reparse
+components and nonempty first-admission directories. It uses one worker process,
+a 128 MiB process memory budget and a three-second admission wait. Its same-user
+file permissions and hash chain are not a sandbox, signature or production
+storage journal. See [the bounded contract](../spec/architecture/execution-topology.md).

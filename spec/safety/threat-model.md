@@ -63,6 +63,18 @@ Optional intelligence is advisory. Untrusted media, retrieved reports and model 
 
 ## Normative requirements
 
+The DE-W016 fake worker uses the resolved running executable, an image read lock,
+compiled input/source identities, a restricted inherited-handle list, user-only
+record DACLs and a job without kill-on-client-close. These constrain an ordinary
+local prototype. They do not exclude same-user tampering, an injected DLL, loader
+initialization before the role check, ancestor-path substitution, a malicious
+host environment, forged historical records or an outer host job policy. The
+private operation hash chain detects accidental inconsistency and is not a
+signature. Observed Windhawk injection on the development host is retained as
+environment evidence; it does not qualify a clean loader boundary. Production
+elevation still requires exact-image authority, pre-dispatch closure review and
+independent hostile-host tests at DE-DEC-005/008 and the broker work gate.
+
 ### DE-REQ-040-01
 
 Untrusted media, provider output and retrieved repository text MUST NOT expand execution authority.

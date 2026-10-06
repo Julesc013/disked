@@ -55,6 +55,10 @@ std::string validate_scalar(const Value& shape,const Value& value) {
         if(value.text.size()>32768)return "invalid_parameter";
         if(shape.find("enum") && !contains(array(shape,"enum"),value.text))return "invalid_parameter";
         if(text(shape,"x-disked-scalar")=="positive-byte-quantity" && !positive_byte_quantity(value.text))return "invalid_parameter";
+        if(text(shape,"x-disked-scalar")=="fake-operation-id" && (value.text.size()!=40 ||
+            value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
+        if(text(shape,"x-disked-scalar")=="local-state-directory" && (value.text.size()<3 || value.text.size()>960 ||
+            !((value.text[0]>='A' && value.text[0]<='Z') || (value.text[0]>='a' && value.text[0]<='z')) || value.text[1]!=':' || value.text[2]!='\\'))return "invalid_parameter";
     } else if(type=="boolean") {if(value.kind!=Value::Kind::boolean)return "invalid_parameter";}
     else if(type=="array") {
         if(value.kind!=Value::Kind::array || !shape.find("items"))return "invalid_parameter";

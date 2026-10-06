@@ -45,7 +45,7 @@ DE-W012 now includes flexible placement of complete option/value groups, context
 
 The DE-W013 local slice adds an immutable fake graph and shared frontend service.
 CLI/stdio read commands preserve denied/stale/unknown observations; revision
-checks and selection identity live in the service. Async operations and real storage remain later work. Evidence is retained under
+checks and selection identity live in the service. Real storage remains later work; the bounded fake operation subset is developed in DE-W016. Evidence is retained under
 `.aide/evidence/2026-10-06-native-graph/`; owner acceptance remains separate.
 
 DE-W014 adds the native console TUI over that service, with staged typed forms,
@@ -57,3 +57,11 @@ review/submit forms over the same fake service. Native model and actual-window
 tests retain parity, keyboard behavior and host observations separately from
 owner acceptance. Evidence belongs to `.aide/evidence/2026-10-06-native-gui/`;
 DE-W016 is the next process/execution boundary after the clean GUI reproduction.
+
+
+DE-W016 develops a same-file unprivileged fake worker with a private ordinary-file
+evidence store. The synthetic counter, exact operation/attempt/worker identities,
+checkpoint cancellation, no automatic replay and reconnect after client loss are
+bounded by DE-015. Verification failure and worker loss stay distinct. Clean
+reproduction and local agent review precede DE-W017 failure-containment work;
+owner acceptance, production journal, elevation and real storage gates remain open.

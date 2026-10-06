@@ -48,6 +48,105 @@ The frontend can disconnect while the job remains identified. Role recovery does
 
 An independent storage recovery path must work without the normal GUI, optional discovery pipeline or network. Software repair uses the servicing owner's independent payload and journal, separate from storage recovery. Targets lacking process protection publish a constrained profile rather than inheriting NT containment claims.
 
+## DE-W016 fake worker execution contract
+
+The native Windows development composition admits `plan simulate <fixture_id>
+--state-dir <directory>` for the compiled fixtures `fake:complete`,
+`fake:verification-failure`, `fake:cancel-checkpoint` and `fake:unknown` only.
+This is an asynchronous synthetic workload, not the general planner, an image
+writer or provider admission. The fixture's sole effect is an in-memory counter;
+its evidence store uses ordinary disposable files in the explicitly supplied
+directory. No storage plan, approval, privilege or hardware guarantee is inferred.
+`operation inspect <operation_id> --state-dir <directory>` reconnects to its
+retained state; `operation cancel <operation_id> --state-dir <directory>` records
+a cancellation request. Event watching remains a separate admission gate.
+
+The directory must already exist, be an ordinary empty local drive directory on
+first admission, and pass the prototype's absolute-path, length and reparse checks.
+UNC/device namespaces, additional named streams and reparse components are refused.
+The prototype caps the directory path at 240 UTF-16 units. One directory identifies
+one operation. Exclusive creation of an immutable request record serializes start:
+repeating the same fixture/build/provider request inspects the existing operation;
+different content is `idempotency_conflict`. An incomplete admission or dead worker
+never triggers automatic re-execution. The operation ID is a fresh random identity,
+not a transient process ID or path. Inspect/cancel must match that identity and the
+local host binding. No automatic history deletion or state migration occurs.
+
+The private store consists of `request.json` (immutable admission identity),
+`operation.records` (append-only evidence) and `cancel.request` (one-byte request
+flag). Directory identity includes volume/file identity; the host binding hashes
+the current Windows SID and computer name. This is a local applicability check,
+not a cryptographic machine identity. A changed build can read an existing record,
+but cannot reuse its admission as a matching new start.
+
+The parent resolves its running executable and self-spawns without a shell or
+elevation. A restricted handle list carries only a bounded bootstrap channel,
+the already-open append-only record file, a cancellation flag and an admission
+event. No parent standard streams or arbitrary other handles are inherited.
+The worker receives no caller-selected executable, script, provider DLL, target
+path or raw-device handle. It checks the inherited capability roles and compiled
+source/input/image identity before running the fixture. Explicit file permissions
+restrict newly created records to the current user. Process creation and file
+permissions are measured boundaries, not a sandbox or protection from a compromised
+same-user process. Exact-image elevation remains DE-DEC-005/008 work.
+
+Admission returns `accepted_running` (exit 5) only after the worker has flushed its
+initial record and signaled the admission event. The response includes operation,
+attempt and worker epoch identities. A timeout or broken admission returns an
+honest unknown outcome with the operation ID; it does not kill/restart an uncertain
+worker or pretend no work began. Client exit does not own worker lifetime. The
+worker has one process slot, finite memory, record and workload budgets. The job
+has no kill-on-parent-close policy. Zero replacement attempts are admitted.
+
+If the first read already observes a terminal record, return a completed request
+with that terminal operation state instead of claiming it is still running.
+
+This prototype uses a 3,000 ms admission wait, 128 MiB per-process job memory limit,
+one active process, a 2 KiB bootstrap message, 16 KiB maximum record, at most 64
+records and 1 MiB maximum history. The worker checks its actual job limits before
+admission. Pre-effect waits are 250 ms (2,000 ms for the cancellation fixture),
+followed by 500 ms in-flight and 250 ms before verification; cancellation is polled
+at 20 ms intervals. These bound synthetic workload and admission, not the duration
+of a blocked Windows file API. Hang containment remains DE-W017 work.
+
+The retained private operation projection separates logical phase, attempt phase,
+effect certainty, cancellation, recovery and outcome. Sequence is decimal u64 in
+one operation/attempt/worker epoch domain. External or late observations with a
+different identity/epoch cannot advance it. A synthetic effect moves through
+not-started, in-flight and observed states; verification success and failure are
+distinct. Cancellation before effect dispatch can be acknowledged as cancelled.
+After dispatch, a request cannot erase the effect; verification may finish normally
+with cancellation still merely requested. No requested cancellation implies quiescence.
+
+Records are bounded, append-only JSON lines with a sequence and hash chain over
+the specified native JSON encoding. A partial tail, invalid transition, mismatched
+identity, over-limit file or corrupt hash is not successful completion. Inspect
+does not repair or rewrite records. It reports a successful read separately from
+the operation state; a missing/dead/reused worker with a nonterminal record yields
+`unknown` (exit 6), retaining the last recorded state as evidence. A terminal
+verified record can remain inspectable after worker exit. These fake records are
+not the production crash-consistent storage journal, a signature or safety evidence
+for real media. Same-user tampering and host-injected code remain explicit limits.
+
+The strict provisional producer shapes are `fake-operation.schema.json` and
+`fake-operation-record.schema.json`. The record digest is lower-case SHA-256 over
+the native compact UTF-8 JSON object without `digest`; keys are sorted, controls
+use `\u00xx`, and the line terminator is excluded. The first `previous` digest is
+64 zeroes. Native history reading validates the entire chain and guarded transition
+sequence; validating one record alone does not qualify the history. Completed
+`operation inspect` returns exit 0 even for retained verification failure: its
+request is a successful read, while the operation's outcome/recovery fields remain
+failed/required. Cancellation returns a request receipt, never an inferred worker
+acknowledgement. An observed terminal record returns `too_late` without changing
+its flag; a request racing completion may remain unacknowledged.
+
+Acceptance requires actual same-file launches, clean handle inheritance, exact
+record identities, bounded admission waits, killed-client survival, reconnect from
+another client, duplicate/mismatched starts, cancellation at both sides of the
+checkpoint, worker death, partial/corrupt records and late-epoch refusal. Retain
+commands, process identities, hashes, imports, resource observations and the
+specific threat-model limitations. Spec-only or reducer-only checks are insufficient.
+
 ## Normative requirements
 
 ### DE-REQ-015-01

@@ -40,7 +40,12 @@ void TuiModel::move(int direction) {
     else if(direction>0 && at+1!=ids.end())focus_=*++at;
     if(view_==View::Inventory)inventory_focus_=focus_;follow_focus_=true;
 }
-void TuiModel::result(Outcome outcome) {outcome_=std::move(outcome);view_=View::Result;scroll_=0;notice_=outcome_.exit_code?"Request refused or failed; see diagnostic":"Request completed";}
+void TuiModel::result(Outcome outcome) {
+    outcome_=std::move(outcome);view_=View::Result;scroll_=0;
+    notice_=outcome_.exit_code==5?"Operation accepted; inspect using its operation ID":
+        outcome_.exit_code==6?"Operation outcome unknown; inspect retained evidence":
+        outcome_.exit_code?"Request refused or failed; see diagnostic":"Request completed";
+}
 void TuiModel::stage(const std::string& command,const Value& supplied) {
     command_=command;fields_.clear();parameters_=Value::object();field_=0;scroll_=0;
     if(!available(command)) {result(refused("tui","command_unavailable",3));return;}
