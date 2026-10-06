@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-022
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.12-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-022-02
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-06T15:17:01.093324+00:00'
+  scope: DE-W017 bounded CLI/stdio requests and output; combined campaign remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -64,7 +64,7 @@ Use decimal strings for exact wide counters/ranges. Required mutation features a
 
 The current request/response/event JSON Schemas are **strict producer-conformance review contracts**. Their `additionalProperties: false` rules are not a claim that every compatible older observational reader must reject every new field. DE-W012 must define versioned reader fixtures: safely ignorable/preserved observational extensions, unknown required-feature refusal, and limits before claiming a stable API. Mutation requests remain strict; unknown critical fields or required features cannot be ignored.
 
-Every `accepted_running` response includes a nonempty durable `operation_id`. A completed bounded read may have `operation_id: null`. Event sequence is an exact decimal u64 and semantic validation is selected by schema identity. Sequence alone is not freshness: before native asynchronous protocol admission, define operation, attempt, worker/capture epochs and sequence domains. Late results cannot overwrite a newer observation or imply an uncertain writer stopped. Typed event payloads and resource bindings are DE-W012/017/033 gates, not inferred from the generic envelopes.
+Every `accepted_running` response includes a nonempty durable `operation_id`. A completed bounded read may have `operation_id: null`. Event sequence is an exact decimal u64 and semantic validation is selected by schema identity. Sequence alone is not freshness: the DE-015 fake profile binds operation/attempt/worker identities; production asynchronous admission must also define capture epochs and event sequence domains. Late results cannot overwrite a newer observation or imply an uncertain writer stopped. Typed event payloads and resource bindings are DE-W012/017/033 gates, not inferred from the generic envelopes.
 
 ## DE-W012 synchronous admission contract
 
@@ -74,9 +74,11 @@ as a request). `mode.explain` is admitted only with a real host-observation adap
 DE-W013 additionally admits the four fake observation commands defined in
 [DE-023](presentation.md). Other descriptors stay unavailable regardless of
 successful syntax recognition.
-This is a provisional v1 synchronous implementation, not asynchronous operation
-admission. A completed/refused request has `operation_id: null`; the implementation
-never invents an accepted-running operation for work it cannot perform.
+That initial DE-W012 slice is a provisional synchronous implementation. Its
+completed/refused reads have `operation_id: null`. DE-W016 subsequently adds the
+fake-operation commands and retained identities defined by DE-015; the current
+composition can emit `accepted_running` and `unknown` for those commands. It does
+not invent a durable operation for a bounded read or an unadmitted callback.
 
 `disked protocol serve --format=json` reads one UTF-8 request from stdin to EOF and
 writes one compact response plus LF. `--format=ndjson` reads one request per LF
@@ -107,16 +109,20 @@ a structurally valid request preserves its supplied ID when refused.
 
 Response consumers validate known fields and preserve unknown observational
 fields; producers emit the exact known response shape. An unknown status, schema
-version or required feature is incompatible, never success. Before asynchronous
-admission, DE-W016/017 must bind operation/attempt/capture/worker epochs and typed
-event payloads; the synchronous subset does not claim those tests passed.
+version or required feature is incompatible, never success. The DE-015 fake-operation profile has its own tested identities. Production
+asynchronous admission and public event streaming still require the complete
+operation/attempt/capture/worker epoch and typed event contract; the synchronous
+subset does not claim those tests passed.
 
 Native process outcomes: 0 completed; 2 invalid arguments/message/schema; 3
 unavailable command/frontend/feature; 4 output/internal failure; 5 accepted and
-still running; 6 unknown outcome; 7 recovery required. Codes 5â€“7 are reserved and
-tested as reader mappings, but cannot be emitted by this synchronous composition.
+still running; 6 unknown outcome; 7 recovery required. Codes 5 and 6 are emitted
+by the DE-W016 fake-operation extension; 7 remains a tested reader mapping until
+an admitted handler requires it.
 NDJSON continues after a bounded, well-framed refused request and returns the
-maximum failure exit class encountered (4 takes precedence over 3 over 2).
+maximum exit class encountered, including retained unknown/accepted-running
+observations from fake operations. A transport failure still returns 4 because
+delivery failed; that exit is not a claim that an operation failed or rolled back.
 Framing/resource-limit failure ends the stream. A write failure is never success.
 CLI-generated requests use correlation ID `cli`; help results are observational
 objects in the same response envelope. Human diagnostics stay on stderr; machine
@@ -132,6 +138,45 @@ The current broad programme grant permits local continuation after recorded
 tests and agent review. It does not create owner acceptance or expand host/storage
 authority. The grant and exact source scope are retained in the repository's
 development programme record.
+
+## DE-W017 bounded request waiting
+
+The Windows fake composition selects a 4,000 ms frontend wait for a validated
+ordinary-file fake-operation call (`plan.simulate`, `operation.inspect` or
+`operation.cancel.request`). This bounds waiting for the owned callback, not a
+promise that Windows can cancel a blocked file API. There is one background call
+and one completion slot per CLI/stdio process, as in the interactive frontends.
+Only immutable request data enters that callback. Built-in and cached graph
+commands do not enter the file-call channel.
+
+Expiry returns `unknown`, exit class 6, with the original request ID and diagnostic
+`request_wait_expired`. It includes the operation ID only when already known from
+the request; otherwise `operation_id` is null and the result retains the explicit
+state directory for reconciliation. Expiry does not cancel, replace, restart or
+prove completion of the call. The CLI can return while an admitted worker retains
+its independent lifetime and immutable claim. Incomplete admission can remain
+unresolved. Absence of an observed record is not permission to switch stores and
+repeat the operation.
+
+NDJSON continues to serve built-in/cached requests. While a timed-out call is
+still outstanding, another file call is refused as `request_resource_limit`
+(exit class 3), without invoking its handler or touching its state directory.
+When that callback actually completes, its late observation is consumed locally;
+no unsolicited second response is emitted for the old exchange, and it never
+becomes a response to a new request. The completion observation does not replace
+operation truth: fake-worker records remain in the selected store and explicit
+reconciliation uses DE-015's exact immutable claim. The same fake start against
+an existing claim only inspects it; no new worker is spawned. A new explicit call
+can use the channel only after the previous callback has completed. There is no
+automatic retry or implication that an uncertain worker is quiescent.
+
+The retained criteria are a 4 s callback wait plus a 1 s local scheduling/output
+allowance in finite synthetic-delay tests, an immediate refusal for a busy slot,
+continued cached responses, no duplicate late response and no duplicate effect.
+An unavailable thread is `request_thread_unavailable` (exit class 3) before the
+callback runs. Slow output consumers require a separate transport-write bound;
+these request criteria do not qualify blocked output, arbitrary drivers or other
+hosts. No public timeout tuning option is admitted by this prototype.
 
 ## Normative requirements
 

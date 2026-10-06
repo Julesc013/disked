@@ -74,5 +74,22 @@ int main()try {
     const auto deadline=Clock::now()+std::chrono::seconds(3);
     while(!finished->load()) {require(Clock::now()<deadline,"owned_callback_did_not_finish");std::this_thread::sleep_for(std::chrono::milliseconds(1));}
     report.put("disconnected_owner_ms",Value::number(std::to_string(destruct))).put("callback_owned_lifetime",Value::boolean_value(true));
+    BoundedRequests bounded;auto stalled=std::make_shared<Gate>();auto dispatched=std::make_shared<std::atomic<unsigned>>(0);
+    auto expired=[](const std::string& id) {auto out=completed(id,Value{});out.exit_code=6;out.response.put("status",Value::string("unknown"));return out;};
+    const auto bounded_start=Clock::now();
+    result=bounded.run("timed",[stalled,dispatched] {++*dispatched;stalled->wait();return completed("timed",Value{});},expired("timed"),std::chrono::milliseconds(20));
+    require(result.exit_code==6,"wait_did_not_expire");
+    require(Clock::now()-bounded_start<std::chrono::milliseconds(250),"wait_not_bounded");
+    auto later=[dispatched] {++*dispatched;return completed("new",Value{});};
+    result=bounded.run("busy",later,expired("busy"),std::chrono::milliseconds(20));
+    require(result.exit_code==3 && response_exit(result.response)==3 && dispatched->load()==1,"timeout_replaced_callback");
+    stalled->release();const auto after=Clock::now()+std::chrono::seconds(3);
+    do {
+        result=bounded.run("new",later,expired("new"),std::chrono::milliseconds(500));
+        require(Clock::now()<after,"late_completion_not_retired");
+        if(result.exit_code==3)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    } while(result.exit_code==3);
+    require(result.exit_code==0 && result.response.find("request_id")->text=="new" && dispatched->load()==2,"late_reply_reused_or_call_retried");
+    report.put("timed_slot_retained_until_completion",Value::boolean_value(true));
     std::cout<<json::dump(report)<<std::endl;return 0;
 } catch(const std::exception& error) {std::cerr<<error.what()<<std::endl;return 1;}

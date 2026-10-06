@@ -76,8 +76,10 @@ Human usability and additional keyboard/terminal
 qualification remain open; no production planner or storage admission is implied.
 
 
-DE-W017 is active. Its first corrective slice separates interactive event loops
-from fake-operation file requests, preserves late outcomes by view identity, and
-bounds cooperating workers with Windows jobs. The full file-wait, backpressure,
-frontend-memory and provider-failure campaign remains open; no unit completion or
-owner acceptance follows merely from the interactive containment checks.
+DE-W017 is active. Its containment slices separate interactive event loops from
+fake-operation file requests, preserve late outcomes by view identity, bound
+cooperating workers with Windows jobs, and add finite CLI/stdio callback and
+output waits. Unknown outcomes never authorize automatic retries; output failure
+does not cancel admitted workers. Whole-frontend memory, full destinations,
+public event-stream gaps/resnapshots and the combined provider-failure campaign
+remain open. The slices do not complete the unit or confer owner acceptance.

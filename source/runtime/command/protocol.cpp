@@ -70,14 +70,14 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     if(!error.empty())return refused(id->text,error);
     return handler(id->text,command->text,*value.find("parameters"),revision?revision->text:"");
 }
-bool write_response(FILE* output,const Value& response) {
+std::string response_frame(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
     std::string bytes=json::dump(response,limits);bytes+='\n';
-    return std::fwrite(bytes.data(),1,bytes.size(),output)==bytes.size() && std::fflush(output)==0 && !std::ferror(output);
+    return bytes;
 }
-int serve(FILE* input,FILE* output,bool ndjson,const Registry& registry,const Handler& handler) {
+int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;
-    auto emit=[&](Outcome out) {exit_code=(std::max)(exit_code,out.exit_code);return write_response(output,out.response);};
+    auto emit=[&](Outcome out) {exit_code=(std::max)(exit_code,out.exit_code);return output(out.response);};
     for(;;) {
         const int byte=std::fgetc(input);
         if(byte==EOF && std::ferror(input)) {emit(refused("@unparsed","input_error",4));return 4;}
@@ -136,7 +136,8 @@ int response_exit(const Value& value) {
     // Refusal subclasses are stable diagnostics, not message text.
     for(const auto& d:value.find("diagnostics")->items) {
         const auto code=d.find("code")->text;
-        if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature" || code=="operation_unavailable")return 3;
+        if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature" || code=="operation_unavailable" ||
+           code=="request_resource_limit" || code=="request_thread_unavailable")return 3;
     }
     return 2;
 }

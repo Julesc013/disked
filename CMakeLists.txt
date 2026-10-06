@@ -68,7 +68,7 @@ add_custom_target(bootstrap_registry ALL
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
-    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
+    source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked)
   target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell)
@@ -178,6 +178,14 @@ if(BUILD_TESTING)
   target_compile_definitions(disked_worker_delayed PRIVATE DISKED_WORKER_TEST_ADMISSION_DELAY=1)
   bootstrap_executable(disked_worker_memory_limit)
   target_compile_definitions(disked_worker_memory_limit PRIVATE DISKED_WORKER_TEST_MEMORY_LIMIT=1)
+  bootstrap_executable(disked_file_wait)
+  target_compile_definitions(disked_file_wait PRIVATE DISKED_WORKER_TEST_RESULT_READ_DELAY=1)
+  add_test(NAME resilience.request_waiting COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_request_waiting.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_file_wait>")
+  set_tests_properties(resilience.request_waiting PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME resilience.output_waiting COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_output_waiting.py"
+    --exe "$<TARGET_FILE:disked>" --delayed "$<TARGET_FILE:disked_worker_delayed>")
+  set_tests_properties(resilience.output_waiting PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME operation.worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_worker.py"
     --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --delayed "$<TARGET_FILE:disked_worker_delayed>")
   set_tests_properties(operation.worker PROPERTIES TIMEOUT 120)

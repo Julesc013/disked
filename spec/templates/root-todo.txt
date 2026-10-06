@@ -30,7 +30,8 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W015 local development: native Win32 adapter, shared typed forms and actual window evidence; owner acceptance pending.
 - [x] DE-W016 local development: same-file fake workers, reconnect, cancellation and uncertain outcomes; clean reproduction and agent review retained, owner acceptance pending.
 - [x] DE-W019 local Windows slice: bounded shell, clean reproduction, synthetic console evidence and agent review; owner acceptance and usability qualification remain pending.
-- [ ] DE-W017 (active): finish file-wait, backpressure, frontend-memory and combined provider-fault checks after the interactive/worker containment slice.
+- [x] DE-W017 local slices: interactive/worker containment and bounded CLI/stdio requests and output; no unit completion or owner acceptance.
+- [ ] DE-W017 (active): finish frontend-memory, full-destination, event-stream and combined provider-fault checks.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.

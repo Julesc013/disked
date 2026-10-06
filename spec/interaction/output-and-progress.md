@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-028
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.12-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-028-01
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-06T15:17:01.093324+00:00'
+  scope: DE-W017 bounded CLI/stdio requests and output; combined campaign remains active
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
@@ -45,6 +45,39 @@ The presentation transcript, diagnostic/event logs and durable operation journal
 Distinguish phase, attempted/completed work, independently verified work, known total, elapsed time and uncertainty. A spinner is decoration, not proof of provider health; waiting for a device is not advancing progress. Unknown totals remain indeterminate and cannot produce fabricated percentages or ETAs. Coalesced progress uses explicit sequence gaps/resnapshots while durable operation truth remains retained.
 
 Submission and successful completion are separate outcomes. An accepted-running response carries a durable operation ID; a wait/follow policy has bounded waiting, reconnect behavior and a distinct still-running result. DE-W012 must assign/test native exit-code mappings before implementation; no numeric success code is invented here. Cancellation is a request until completion/quiescence are observed. Final summaries preserve partial/unknown/recovery-required outcomes and all unsupported claims.
+
+## DE-W017 Windows output waiting
+
+The current CLI and stdio adapter gives each standard-stream write a 3,000 ms
+wait budget and a 1 MiB byte limit. Responses still contain one complete compact
+JSON value plus LF; human output preserves its existing text. The adapter owns
+one duplicated standard handle and one immutable buffer while an output thread
+writes them. It does not open a path, create a listener or borrow a console. The
+core protocol receives a response sink rather than choosing a Windows mechanism.
+
+No next protocol request is read/dispatched until the current response finishes
+writing. A slow reader therefore applies backpressure without an unbounded queue.
+Expiry or a failed/partial write seals that output channel and ends the transport
+with exit 4; no replacement frame or diagnostic is appended to partial machine
+output. Human stderr diagnostics have the same separate write bound. A terminal
+output error is not proof of an operation's failure, cancellation or rollback.
+An admitted fake worker and its records remain independent of the client.
+
+Only the presentation writer receives a
+[`CancelSynchronousIo`](https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-cancelsynchronousio)
+request on expiry. Its buffer/handle remain owned until actual thread completion;
+the cancellation return does not prove completion and no replacement output
+thread is admitted on that channel. No storage worker or file-admission callback
+is cancelled by this output policy. Bytes already written can remain as a partial
+record or file; DiskEd does not remove or retry them. Successful delivery to the
+standard handle is not a durable file flush or acknowledgement by the reader.
+
+The retained fixtures cover a reader that drains normally, stops reading, resumes
+within the budget, closes early, and stops after operation admission. The local
+machine-process deadline criterion is 3 s plus 1 s scheduling allowance for an
+undrained response. This is a selected Windows development profile, not a promise
+that arbitrary kernel I/O can always be retired. Full event watching and its
+sequence-gap/resnapshot policy remain outside this provisional request stream.
 
 ## Normative requirements
 

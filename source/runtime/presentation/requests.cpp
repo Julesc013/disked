@@ -1,10 +1,12 @@
 #include "requests.h"
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 
 namespace disked {
 struct RequestChannel::State {
     std::mutex mutex;
+    std::condition_variable changed;
     bool busy=false,ready=false;
     Outcome result;
 };
@@ -40,7 +42,7 @@ Submission RequestChannel::submit(const std::string& request,std::function<Outco
                 else result=std::move(candidate);
             } catch(...) {} // Preserve the preallocated unknown outcome.
             std::lock_guard<std::mutex> done(state->mutex);
-            state->result=std::move(result);state->ready=true;
+            state->result=std::move(result);state->ready=true;state->changed.notify_one();
         }).detach();
     } catch(...) {state->busy=false;return refused(request,"request_thread_unavailable",3);}
     return Submission::deferred();
@@ -49,5 +51,25 @@ bool RequestChannel::poll(Outcome& output) {
     std::lock_guard<std::mutex> lock(state_->mutex);
     if(!state_->ready)return false;
     output=std::move(state_->result);state_->result=Outcome{};state_->ready=state_->busy=false;return true;
+}
+bool RequestChannel::wait(Outcome& output,std::chrono::milliseconds duration) {
+    std::unique_lock<std::mutex> lock(state_->mutex);
+    if(!state_->changed.wait_for(lock,duration,[&] {return state_->ready;}))return false;
+    output=std::move(state_->result);state_->result=Outcome{};state_->ready=state_->busy=false;return true;
+}
+Outcome BoundedRequests::run(const std::string& request,std::function<Outcome()> callback,
+    Outcome expired,std::chrono::milliseconds duration) {
+    Outcome result;
+    if(late_) {
+        if(!channel_.poll(result))return refused(request,"request_resource_limit",3);
+        // The previous exchange already received unknown. Durable operation
+        // state is still in its explicit store; this late observation is neither
+        // a second wire response nor proof of worker quiescence.
+        late_=false;
+    }
+    auto submission=channel_.submit(request,std::move(callback));
+    if(!submission.pending)return std::move(submission.outcome);
+    if(channel_.wait(result,duration))return result;
+    late_=true;return expired;
 }
 }

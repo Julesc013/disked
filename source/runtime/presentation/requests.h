@@ -1,6 +1,7 @@
 #pragma once
 #include "protocol.h"
 #include <memory>
+#include <chrono>
 
 namespace disked {
 // Private frontend submission state. A queued call is not a protocol response
@@ -24,5 +25,16 @@ public:
     RequestChannel();
     Submission submit(const std::string& request,std::function<Outcome()> callback);
     bool poll(Outcome& output);
+    bool wait(Outcome& output,std::chrono::milliseconds duration);
+};
+
+// Sequential CLI/stdio adapter. After timeout the slot remains occupied until
+// actual callback completion. A late observation is never another wire response.
+class BoundedRequests final {
+    RequestChannel channel_;
+    bool late_=false;
+public:
+    Outcome run(const std::string& request,std::function<Outcome()> callback,
+        Outcome expired,std::chrono::milliseconds duration);
 };
 }

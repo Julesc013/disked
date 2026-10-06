@@ -4,6 +4,7 @@
 #include "invocation.h"
 #include "cli.h"
 #include "fake_worker.h"
+#include "output.h"
 #include <cwchar>
 #include <cstdio>
 namespace disked {
@@ -25,7 +26,7 @@ int windows_entry(int argc,wchar_t** argv) {
         }
         return run_cli(arguments,host);
     } catch(const std::exception&) {
-        if(host.error_usable)std::fputs("disked: internal_error\n",stderr);
+        if(host.error_usable)WindowsOutput(stderr).write("disked: internal_error\n");
         return 4;
     }
 }

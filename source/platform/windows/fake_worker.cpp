@@ -205,6 +205,12 @@ Outcome result(const std::string& request,const std::string& id,Value value,cons
 }
 Outcome inspect(const std::string& request,const Directory& directory,const Value& header,const std::string& expected) {
     const auto id=text(header,"operation_id");if(id!=expected)fail("operation_identity_mismatch");
+#ifdef DISKED_WORKER_TEST_RESULT_READ_DELAY
+    // Test-only file-boundary stall. It is not a claim of a real hung driver.
+    // The first inspection in this client waits after admission; later requests
+    // can reconcile its exact store without another injected delay.
+    static bool delayed=false;if(!delayed) {delayed=true;Sleep(6500);}
+#endif
     auto value=Value::object().put("scope",Value::string("fake-only")).put("operation_id",Value::string(id));
     try {
         auto file=directory.open(L"operation.records",GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);

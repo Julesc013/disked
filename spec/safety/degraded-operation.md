@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.11-proposed.1
+  version: 0.1.12-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T13:59:38.904750+00:00'
-  scope: DE-W017 interactive request containment; combined campaign in development
+  at: '2026-10-06T15:17:01.093324+00:00'
+  scope: DE-W017 bounded CLI/stdio requests and output; combined campaign remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -92,10 +92,18 @@ admission and committed-memory denial, and verify that disconnect/unknown outcom
 neither free live slots nor permit re-execution. Test-only fault executables are
 distinct from the product; no public flag enables their delays or allocations.
 
-These checks do not close whole-frontend memory, event/backpressure,
-scratch/full-destination or the combined malformed/crashed-provider campaign:
-those remain DE-W017 work until implemented and measured. The synchronous CLI/file API path also requires its
-own waiting evidence and containment; interactive success cannot qualify it.
+CLI and stdio file callbacks have the separate 4,000 ms bounded wait in DE-022.
+The single occupied slot survives timeout; built-in/cached NDJSON requests remain
+available while another file request is refused. A late completion does not create
+a second response. The 3,000 ms standard-output wait in DE-028 applies backpressure
+before the next request; output failure cannot cancel or restart admitted work.
+Actual pipe backpressure and an injected file-boundary delay require their own
+retained evidence, independent of interactive responsiveness.
+
+These checks do not close whole-frontend memory, public event-stream
+gap/resnapshot behaviour, scratch/full-destination or the combined
+malformed/crashed-provider campaign. Those remain DE-W017 work until implemented
+and measured. No timeout proves retirement of an arbitrary stuck kernel call.
 
 ## Normative requirements
 

@@ -110,7 +110,9 @@ records and 1 MiB maximum history. The worker checks its actual job limits befor
 admission. Pre-effect waits are 250 ms (2,000 ms for the cancellation fixture),
 followed by 500 ms in-flight and 250 ms before verification; cancellation is polled
 at 20 ms intervals. These bound synthetic workload and admission, not the duration
-of a blocked Windows file API. Hang containment remains DE-W017 work.
+of a blocked Windows file API. DE-W017 adds frontend callback waiting (DE-022),
+interactive request containment (DE-045) and output waiting (DE-028); none proves
+that a stuck kernel request retired.
 
 DE-W017 adds an outer named job for the cooperating fake composition, scoped to
 the current Windows user and Windows session. It admits at most four processes,

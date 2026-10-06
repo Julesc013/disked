@@ -165,8 +165,8 @@ from history. Large presentation values show an explicit unavailable marker
 without retrying a command. See [the shell contract](../spec/interaction/interactive-shell.md)
 for exact grammar, bounds and presentation limits. Console tests use synthetic
 input on this Windows host; they do not qualify human usability, screen readers,
-other keyboards, remote sessions or historical systems. File-API stalls in fake
-operation admission remain part of the following resilience work.
+other keyboards, remote sessions or historical systems. File-API waiting in fake
+operation admission follows the resilience policy below.
 
 ## Resilience development (DE-W017, in progress)
 
@@ -185,7 +185,17 @@ The actual Windows campaign includes delayed admission, disconnected clients,
 a fifth start, memory denial, malformed completion and retained views. Exact
 source-bound results belong under `.aide/evidence/2026-10-07-resilience/`.
 
-DE-W017 remains active: blocked ordinary-file APIs in synchronous CLI/stdio,
-whole-frontend memory, slow-consumer/backpressure, full destinations and the
-combined provider-failure campaign still need implementation and evidence.
+CLI/stdio fake-operation calls now wait at most four seconds for their owned
+callback. Expiry returns `unknown` / `request_wait_expired`; it retains the known
+operation ID or the explicit state directory for reconciliation. It never retries
+the operation. NDJSON cached reads continue while another file call is refused
+until the original callback actually completes. A late completion is not a second
+wire response. Standard-output writes wait at most three seconds; a failed channel
+ends with exit 4 and does not dispatch queued requests or cancel admitted workers.
+Delivered bytes may contain a partial record. Evidence for the injected file wait
+and actual pipe backpressure belongs under
+`.aide/evidence/2026-10-07-transport-containment/`.
+
+DE-W017 remains active: whole-frontend memory, public event-stream gaps/resnapshots,
+full destinations and the combined provider-failure campaign still need evidence.
 This slice does not qualify physical storage, older hosts or a security sandbox.

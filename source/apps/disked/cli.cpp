@@ -8,6 +8,7 @@
 #include "terminal.h"
 #include "gui.h"
 #include "fake_worker.h"
+#include "output.h"
 #include <cstdio>
 
 namespace disked {
@@ -76,56 +77,68 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
-bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host) {
-    if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null) {
-        if(!host.output_usable)return false;
-        std::puts(presentation_json(outcome.response).c_str());
-        return std::fflush(stdout)==0 && !std::ferror(stdout);
+Outcome bounded_dispatch(const std::string& request,const std::string& command,const Value& parameters,
+    const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
+    std::unique_ptr<BoundedRequests>& calls,const std::string& revision="") {
+    if(implemented(command) && fake_worker_command(command)) {
+        if(!calls)calls.reset(new BoundedRequests());
+        auto expired=completed(request,Value::object().put("request_state",Value::string("unresolved"))
+            .put("state_directory",*parameters.find("state_directory")));
+        expired.exit_code=6;expired.response.put("status",Value::string("unknown"));
+        if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
+        expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
+        return calls->run(request,[request,command,parameters]() {return dispatch_fake_worker(request,command,parameters);},
+            std::move(expired),std::chrono::milliseconds(4000));
     }
+    return dispatch(request,command,parameters,host,inputs,session,revision);
+}
+bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
+    if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
+        return host.output_usable && output.write(presentation_json(outcome.response)+"\n");
     if(outcome.exit_code) {
         if(!host.error_usable)return false;
-        for(const auto& d:outcome.response.find("diagnostics")->items)
-            std::fprintf(stderr,"disked: %s\n",d.find("code")->text.c_str());
-        return std::fflush(stderr)==0 && !std::ferror(stderr);
+        std::string text;for(const auto& d:outcome.response.find("diagnostics")->items)text+="disked: "+d.find("code")->text+"\n";
+        return errors.write(std::move(text));
     }
     if(!host.output_usable)return false;
-    const auto& value=*outcome.response.find("result");
-    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")std::puts(presentation_json(value).c_str());
-    else if(parsed.command_id=="mode.explain" && parsed.kind!="help")std::puts(json::dump(value).c_str());
+    const auto& value=*outcome.response.find("result");std::string text;
+    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")text=presentation_json(value)+"\n";
+    else if(parsed.command_id=="mode.explain" && parsed.kind!="help")text=json::dump(value)+"\n";
     else if(parsed.command_id=="build.inspect" && parsed.kind!="help") {
-        for(const auto& pair:value.fields)std::printf("%s=%s\n",pair.first.c_str(),pair.second.text.c_str());
+        for(const auto& pair:value.fields)text+=pair.first+"="+pair.second.text+"\n";
     } else {
-        if(parsed.kind=="help")std::puts("DiskEd (fake-only native composition)\nUsage: disked <command-form> [operands] [options]");
-        std::puts("id\tcontract_status\timplementation_status\tavailability\treason\tcommand\taliases");
+        if(parsed.kind=="help")text+="DiskEd (fake-only native composition)\nUsage: disked <command-form> [operands] [options]\n";
+        text+="id\tcontract_status\timplementation_status\tavailability\treason\tcommand\taliases\n";
         for(const auto& c:value.find("commands")->items) {
-            for(const auto* key:{"id","contract_status","implementation_status","availability","reason"})std::printf("%s\t",c.find(key)->text.c_str());
+            for(const auto* key:{"id","contract_status","implementation_status","availability","reason"})text+=c.find(key)->text+"\t";
             bool first=true;
-            for(const auto& word:c.find("words")->items) {std::printf("%s%s",first?"":" ",word.text.c_str());first=false;}
-            std::putchar('\t');first=true;
-            for(const auto& alias:c.find("aliases")->items) {std::printf("%s%s",first?"":", ",alias.text.c_str());first=false;}
-            std::putchar('\n');
+            for(const auto& word:c.find("words")->items) {text+=(first?"":" ")+word.text;first=false;}
+            text+='\t';first=true;
+            for(const auto& alias:c.find("aliases")->items) {text+=(first?"":", ")+alias.text;first=false;}
+            text+='\n';
             if(parsed.kind=="help") {
-                std::printf("  %s\n",c.find("summary")->text.c_str());
+                text+="  "+c.find("summary")->text+"\n";
                 for(const auto& binding:c.find("argument_bindings")->items) {
                     const auto* option=binding.find("option");
-                    std::printf("  %s%s\n",option?(option->text+" ").c_str():"operand: ",binding.find("parameter")->text.c_str());
+                    text+="  "+(option?option->text+" ":"operand: ")+binding.find("parameter")->text+"\n";
                 }
             }
         }
         if(parsed.kind=="help") {
-            std::puts("Global options (may precede, separate or follow command words before --):");
+            text+="Global options (may precede, separate or follow command words before --):\n";
             for(const auto& option:command_registry().syntax.find("global_options")->items) {
-                for(const auto& spelling:option.find("spellings")->items)std::printf("  %s",spelling.text.c_str());
-                if(const auto* choices=option.find("choices"))for(const auto& choice:choices->items)std::printf(" %s",choice.text.c_str());
-                std::putchar('\n');
+                for(const auto& spelling:option.find("spellings")->items)text+="  "+spelling.text;
+                if(const auto* choices=option.find("choices"))for(const auto& choice:choices->items)text+=" "+choice.text;
+                text+='\n';
             }
         }
     }
-    return std::fflush(stdout)==0 && !std::ferror(stdout);
+    return output.write(std::move(text));
 }
 }
 int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host) {
-    bool machine=false;
+    bool machine=false;WindowsOutput output(stdout),errors(stderr);
+    auto emit=[&](const Value& value) {return output.write(response_frame(value));};
     try {
         const auto& registry=command_registry();const auto parsed=parse_invocation(registry,arguments);
         const auto format=setting(parsed,"format","human");
@@ -135,6 +148,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         const auto selection=route_invocation(inputs);
         std::unique_ptr<FrontendSession> session;
         std::unique_ptr<RequestChannel> channel;
+        std::unique_ptr<BoundedRequests> calls;
         Outcome outcome;
         if(!parsed.valid()) {
             outcome=refused("cli","invalid_arguments");outcome.response.fields["diagnostics"].items.clear();
@@ -193,17 +207,17 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
             else if(!host.input_usable)outcome=refused("@unparsed","input_error",4);
             else {
                 auto machine_inputs=inputs;machine_inputs.put("command",Value::boolean_value(true));
-                return serve(stdin,stdout,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                    return dispatch(id,command,parameters,host,machine_inputs,session,revision);
-                });
+                return serve(stdin,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
+                    return bounded_dispatch(id,command,parameters,host,machine_inputs,session,calls,revision);
+                },emit);
             }
-        } else outcome=dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session);
-        if(machine) {if(!host.output_usable || !write_response(stdout,outcome.response))return 4;}
-        else if(!human(outcome,parsed,host)) {if(host.error_usable)std::fputs("disked: output_error\n",stderr);return 4;}
+        } else outcome=bounded_dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session,calls);
+        if(machine) {if(!host.output_usable || !emit(outcome.response))return 4;}
+        else if(!human(outcome,parsed,host,output,errors)) {if(host.error_usable)errors.write("disked: output_error\n");return 4;}
         return outcome.exit_code;
     } catch(const std::exception&) {
-        if(machine && host.output_usable) {try {write_response(stdout,refused("@unparsed","internal_error",4).response);}catch(...) {}}
-        else if(!machine && host.error_usable)std::fputs("disked: internal_error\n",stderr);
+        if(machine && host.output_usable) {try {emit(refused("@unparsed","internal_error",4).response);}catch(...) {}}
+        else if(!machine && host.error_usable)errors.write("disked: internal_error\n");
         return 4;
     }
 }
