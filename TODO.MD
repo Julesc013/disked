@@ -28,7 +28,8 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W014 native console slice: screen/linear views, typed command explorer, service parity and console restoration; owner acceptance pending.
 - [ ] Qualify screen-reader, other terminal backends and remote/legacy environments at their applicable gates.
 - [x] DE-W015 local development: native Win32 adapter, shared typed forms and actual window evidence; owner acceptance pending.
-- [ ] DE-W016: finish clean reproduction and agent review of self-spawned fake operations, reconnect and cancellation.
+- [x] DE-W016 local development: same-file fake workers, reconnect, cancellation and uncertain outcomes; clean reproduction and agent review retained, owner acceptance pending.
+- [ ] DE-W019: bounded interactive shell; required before the combined DE-W017 resilience campaign.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020Ã¢â‚¬â€œ035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.

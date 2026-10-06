@@ -145,6 +145,7 @@ to DE-W016 after retained clean build evidence and local agent review.
 DE-W016 develops a same-file unprivileged fake worker with a private ordinary-file
 evidence store. The synthetic counter, exact operation/attempt/worker identities,
 checkpoint cancellation, no automatic replay and reconnect after client loss are
-bounded by DE-015. Verification failure and worker loss stay distinct. Clean
-reproduction and local agent review precede DE-W017 failure-containment work;
-owner acceptance, production journal, elevation and real storage gates remain open.
+bounded by DE-015. Verification failure and worker loss stay distinct. Clean reproduction and local agent review are retained under
+`.aide/evidence/2026-10-06-native-worker/`. DE-W019 is next because the combined
+DE-W017 campaign depends on its shell. Owner acceptance, production journal,
+elevation and real storage gates remain open.
