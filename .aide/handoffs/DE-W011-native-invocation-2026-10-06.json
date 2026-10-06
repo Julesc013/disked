@@ -1,0 +1,239 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W011",
+  "base_revision": "847869673913655fdb18e65721e3119c0d5d2e4f",
+  "spec_manifest_digest": "sha256:60e1e0402aa23bb5c43f1f7cba5704dabde49d7090e7b3dab1444660d0e24a23",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/bundle.json",
+    "spec/interaction/invocation.md",
+    "spec/interaction/terminal-session.md",
+    "spec/fixtures/invocation.json",
+    "spec/catalog/decisions.json",
+    "source/apps/disked/main.cpp",
+    "source/apps/disked/cli.cpp",
+    "spec/tools/specctl.py",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-06-native-invocation/.gitattributes",
+    ".aide/evidence/2026-10-06-native-invocation/REVIEW.md",
+    ".aide/evidence/2026-10-06-native-invocation/absent-input-regression.json",
+    ".aide/evidence/2026-10-06-native-invocation/aide-passive.json",
+    ".aide/evidence/2026-10-06-native-invocation/build.log",
+    ".aide/evidence/2026-10-06-native-invocation/configure.log",
+    ".aide/evidence/2026-10-06-native-invocation/initial-launch-fixture-failures.log",
+    ".aide/evidence/2026-10-06-native-invocation/launch-observations.json",
+    ".aide/evidence/2026-10-06-native-invocation/native-details.log",
+    ".aide/evidence/2026-10-06-native-invocation/native-launch-observations.log",
+    ".aide/evidence/2026-10-06-native-invocation/native-tests.log",
+    ".aide/evidence/2026-10-06-native-invocation/producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-invocation/spec-tests.log",
+    ".aide/evidence/2026-10-06-native-invocation/structural.log",
+    ".aide/evidence/2026-10-06-native-invocation/working-commands.json",
+    ".aide/evidence/2026-10-06-native-invocation/working-results.json",
+    "CMakeLists.txt",
+    "README.md",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/cli.h",
+    "source/apps/disked/main.cpp",
+    "source/platform/windows/entry.cpp",
+    "source/platform/windows/invocation.cpp",
+    "source/platform/windows/invocation.h",
+    "source/runtime/command/command.cpp",
+    "source/runtime/invocation/policy.cpp",
+    "source/runtime/invocation/policy.h",
+    "spec/bundle.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/fixtures/invocation.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/invocation.md",
+    "spec/interaction/protocol.md",
+    "spec/manifest.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/decisions.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-readme.txt",
+    "spec/templates/root-todo.txt",
+    "spec/tools/specctl.py",
+    "spec/work/units.json",
+    "tests/contracts/test_parser.py",
+    "tests/invocation/console_fixture.py",
+    "tests/invocation/policy_probe.cpp",
+    "tests/invocation/test_policy.py",
+    "tests/invocation/test_windows.py",
+    "tests/native/test_protocol.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Native Windows invocation and mode inspection reproduced from clean source 90f91e1a2f529c12106fc46925f8c51b6b59f10e. Nine CTest groups, 29 policy fixtures, 270 policy combinations, real launch/console checks and strict producer schemas pass. Spec suite: 160 run, 158 passed, two skips. This development slice is reviewed by its implementing agent; no owner or shipping acceptance.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/invocation/test_windows.py --exe build/windows-bootstrap/Release/disked.exe --root . --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-invocation\\launch-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/native-launch-observations.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/invocation/test_windows.py --exe build/windows-bootstrap/Release/disked.exe --root . --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-invocation\\clean-launch-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-launch-observations.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-dependencies.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a\\build\\windows-bootstrap\\Release\\disked.exe mode explain --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-90f91e1a",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-invocation/clean-mode-explain.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W011-90f91e1a/disked.exe",
+      "sha256": "sha256:139e581258a9db76bcbe0047e5d489ed1ccbec902a28feb3fe6d0e0a2a13ef0d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-06-native-invocation/clean-results.json",
+      "sha256": "sha256:5bd4f6e795783631084f322f1d0ce23b618b9897b4458a4ea86b1a2d4124d1af"
+    }
+  ],
+  "blockers": [
+    "Broader Windows launch environments, subsystem alternatives and visible console-flash behavior remain unverified; DE-DEC-002 stays proposed.",
+    "No GUI/TUI, physical storage, recovery, installation, release or live AIDE qualification follows from these checks."
+  ],
+  "next_safe_step": "DE-W013: immutable fake graph, identity-bound frontend service and revision-conflict refusal, using the verified synchronous command foundation.",
+  "performed_remote_writes": false
+}
