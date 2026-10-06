@@ -28,9 +28,13 @@ int worker_exit(const std::string& code) {
 }
 struct Failure : std::runtime_error {
     DWORD platform;
-    explicit Failure(const char* code):std::runtime_error(code),platform(GetLastError()) {}
+    Failure(const char* code,DWORD error):std::runtime_error(code),platform(error) {}
 };
-[[noreturn]] void fail(const char* code) {throw Failure(code);}
+[[noreturn]] void fail(const char* code) {
+    // Exception construction may allocate. Capture the API's thread-local error
+    // before another runtime call can change it.
+    const auto error=GetLastError();throw Failure(code,error);
+}
 struct Handle {
     HANDLE value=INVALID_HANDLE_VALUE;
     Handle()=default;
@@ -119,8 +123,27 @@ std::string read_file(HANDLE file,std::size_t limit) {
     std::string bytes(static_cast<std::size_t>(size),'\0');DWORD done=0;
     if(size && (!ReadFile(file,&bytes[0],static_cast<DWORD>(size),&done,nullptr) || done!=size))fail("operation_file_read");return bytes;
 }
-void write_file(HANDLE file,const std::string& bytes) {
-    DWORD done=0;if(!WriteFile(file,bytes.data(),static_cast<DWORD>(bytes.size()),&done,nullptr) || done!=bytes.size())fail("operation_file_write");
+void write_file(HANDLE file,const std::string& bytes,const char* point) {
+#ifdef DISKED_WORKER_TEST_STORE_FAULTS
+    // Only the separate fault executable reads this control. Exercise ordinary
+    // disposable file boundaries without filling a host volume or using media.
+    char selected[128]{};const auto count=GetEnvironmentVariableA("DISKED_TEST_STORE_FAULT",selected,sizeof(selected));
+    const auto size=std::strlen(point);const char* mode="";
+    if(count>size && count<sizeof(selected) && std::strncmp(selected,point,size)==0 && selected[size]=='.')mode=selected+size+1;
+    if(std::strcmp(mode,"full")==0) {SetLastError(ERROR_DISK_FULL);fail("operation_file_write");}
+    if(std::strcmp(mode,"short")==0) {
+        DWORD prefix=0;
+        if(!WriteFile(file,bytes.data(),static_cast<DWORD>(bytes.size()/2),&prefix,nullptr))fail("operation_file_write");
+        SetLastError(ERROR_DISK_FULL);fail("operation_file_write");
+    }
+#else
+    (void)point;
+#endif
+    DWORD done=0;if(!WriteFile(file,bytes.data(),static_cast<DWORD>(bytes.size()),&done,nullptr))fail("operation_file_write");
+    if(done!=bytes.size()) {SetLastError(ERROR_WRITE_FAULT);fail("operation_file_write");}
+#ifdef DISKED_WORKER_TEST_STORE_FAULTS
+    if(std::strcmp(mode,"flush")==0) {SetLastError(ERROR_DISK_FULL);fail("operation_file_flush");}
+#endif
     if(!FlushFileBuffers(file))fail("operation_file_flush");
 }
 std::wstring final_path(HANDLE file) {
@@ -290,19 +313,21 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
     }
     if(GetLastError()!=ERROR_FILE_NOT_FOUND)fail("operation_request_unavailable");
     directory.empty();auto attributes=security.attributes;
-    auto anchor=directory.open(L"request.json",GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes);
-    if(!anchor.valid())fail("operation_admission_contended");
+    // Allocate the immutable identity before claiming the store. From successful
+    // exclusive creation onwards, a write/flush failure leaves an unresolved
+    // claim and must preserve that identity instead of becoming a fresh refusal.
     const auto id=security.identity("fake-op:"),epoch=security.identity("worker:");
     const auto header=Value::object().put("schema",Value::string("org.disked.fake-operation-request/1"))
         .put("operation_id",Value::string(id)).put("worker_epoch",Value::string(epoch)).put("definition",definition)
         .put("definition_digest",Value::string(op::hash(json::dump(definition))));
-    // The immutable identity precedes process creation. Once written, any uncertain
-    // admission stays inspectable and is never retried as another operation.
-    write_file(anchor.value,json::dump(header)+"\n");anchor=Handle();
+    const auto header_bytes=json::dump(header)+"\n";
+    auto anchor=directory.open(L"request.json",GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes);
+    if(!anchor.valid())fail("operation_admission_contended");
     try {
+        write_file(anchor.value,header_bytes,"claim");anchor=Handle();
         auto records=directory.open(L"operation.records",FILE_APPEND_DATA|FILE_READ_ATTRIBUTES,FILE_SHARE_READ,CREATE_NEW,&attributes);
         auto cancel=directory.open(L"cancel.request",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,CREATE_NEW,&attributes);
-        if(!records.valid() || !cancel.valid())fail("operation_store_create");write_file(cancel.value,"0");
+        if(!records.valid() || !cancel.valid())fail("operation_store_create");write_file(cancel.value,"0","cancel_initial");
         Handle event(CreateEventW(&attributes,TRUE,FALSE,nullptr));if(!event.valid())fail("operation_event_create");
         HANDLE read=nullptr,write=nullptr;if(!CreatePipe(&read,&write,&attributes,4096))fail("operation_pipe_create");Handle pipe_read(read),pipe_write(write);
         auto bootstrap=header;bootstrap.put("record_file_id",Value::string(file_identity(records.value)))
@@ -381,7 +406,16 @@ Outcome dispatch_fake_worker(const std::string& request,const std::string& comma
                 auto file=directory.open(L"cancel.request",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
                 if(!file.valid() || file_size(file.value)!=1)fail("operation_cancel_unavailable");
                 const auto byte=read_file(file.value,1);if(byte!="0" && byte!="1")fail("operation_cancel_invalid");
-                LARGE_INTEGER zero{};if(!SetFilePointerEx(file.value,zero,nullptr,FILE_BEGIN))fail("operation_cancel_unavailable");write_file(file.value,"1");
+                LARGE_INTEGER zero{};if(!SetFilePointerEx(file.value,zero,nullptr,FILE_BEGIN))fail("operation_cancel_unavailable");
+                try {write_file(file.value,"1","cancel_request");}
+                catch(const Failure& error) {
+                    value.put("cancellation_request",Value::string("unresolved"));
+                    auto reply=result(request,id,std::move(value),"unknown",6,error.what());
+                    reply.response.fields["diagnostics"].items.back().put("platform_code",Value::string(std::to_string(error.platform)));return reply;
+                } catch(const std::exception& error) {
+                    value.put("cancellation_request",Value::string("unresolved"));
+                    return result(request,id,std::move(value),"unknown",6,error.what());
+                }
                 value.put("cancellation_request",Value::string("requested"));
             }
         }
@@ -434,7 +468,7 @@ int run_fake_worker(int argc,wchar_t** argv) {
         op::Operation operation(binding);const auto from=op::origin(binding);std::string previous(64,'0');std::size_t count=0;
         auto save=[&]() {
             if(++count>op::record_count_limit || file_size(records.value)>op::history_limit-op::record_limit)fail("operation_history_limit");
-            const auto line=op::record(operation.state(),previous);write_file(records.value,line);previous=json::parse(line).find("digest")->text;
+            const auto line=op::record(operation.state(),previous);write_file(records.value,line,operation.state().find("last_event")->text.c_str());previous=json::parse(line).find("digest")->text;
         };
         auto advance=[&](const std::string& action,const std::string& observed="") {if(operation.advance(action,from,observed))save();};
         auto poll=[&](DWORD duration) {

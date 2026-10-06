@@ -196,6 +196,17 @@ Delivered bytes may contain a partial record. Evidence for the injected file wai
 and actual pipe backpressure belongs under
 `.aide/evidence/2026-10-07-transport-containment/`.
 
-DE-W017 remains active: whole-frontend memory, public event-stream gaps/resnapshots,
-full destinations and the combined provider-failure campaign still need evidence.
-This slice does not qualify physical storage, older hosts or a security sandbox.
+Failed state-store writes also preserve uncertainty. Once an immutable claim
+file exists, a write/flush failure returns unknown with its known operation ID;
+the claim is never deleted or replayed. A cancellation flag may have been observed
+even if its flush failed, so its receipt says `cancellation_request: unresolved`
+until explicit inspection observes the worker's decision. Fault-build tests inject
+full, partial and failed-flush writes without filling a host volume. Original
+errors, residual bytes and no-replay checks are retained under
+`.aide/evidence/2026-10-07-store-failures/`. A complete terminal record describes
+observed synthetic truth, not a guarantee that its last flush succeeded.
+
+DE-W017 remains active: whole-frontend memory, public event-stream gaps/resnapshots
+and the combined provider-failure campaign still need evidence. The injected store
+checks do not qualify a real full filesystem, physical storage, power-loss
+persistence, older hosts or a security sandbox.

@@ -180,6 +180,11 @@ if(BUILD_TESTING)
   target_compile_definitions(disked_worker_memory_limit PRIVATE DISKED_WORKER_TEST_MEMORY_LIMIT=1)
   bootstrap_executable(disked_file_wait)
   target_compile_definitions(disked_file_wait PRIVATE DISKED_WORKER_TEST_RESULT_READ_DELAY=1)
+  bootstrap_executable(disked_store_fault)
+  target_compile_definitions(disked_store_fault PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
+  add_test(NAME resilience.store_failures COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_store_failures.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_store_fault>")
+  set_tests_properties(resilience.store_failures PROPERTIES TIMEOUT 90 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME resilience.request_waiting COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_request_waiting.py"
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_file_wait>")
   set_tests_properties(resilience.request_waiting PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)

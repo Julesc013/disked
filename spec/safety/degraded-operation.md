@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.12-proposed.1
+  version: 0.1.13-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T15:17:01.093324+00:00'
-  scope: DE-W017 bounded CLI/stdio requests and output; combined campaign remains active
+  at: '2026-10-06T15:47:08.025519+00:00'
+  scope: DE-W017 state-store write and flush failure receipts; full programme remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -100,10 +100,17 @@ before the next request; output failure cannot cancel or restart admitted work.
 Actual pipe backpressure and an injected file-boundary delay require their own
 retained evidence, independent of interactive responsiveness.
 
+State-store write/flush failures follow the DE-015 failure contract. The
+separate test build injects disk-full, partial and flush errors at the claim,
+cancellation and five worker-record transitions. Keep the original error and
+uncertain admission/cancellation receipt, preserve residual bytes, and stop
+transitions without retry. Cached healthy and denied observations remain usable.
+Readable terminal state is not proof that its final flush succeeded.
+
 These checks do not close whole-frontend memory, public event-stream
-gap/resnapshot behaviour, scratch/full-destination or the combined
-malformed/crashed-provider campaign. Those remain DE-W017 work until implemented
-and measured. No timeout proves retirement of an arbitrary stuck kernel call.
+gap/resnapshot behaviour or the combined malformed/crashed-provider campaign.
+Injected store boundaries do not qualify a real full filesystem or persistence
+after power loss. No timeout proves retirement of an arbitrary stuck kernel call.
 
 ## Normative requirements
 

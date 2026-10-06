@@ -163,6 +163,8 @@ DE-W017 is active. Its containment slices separate interactive event loops from
 fake-operation file requests, preserve late outcomes by view identity, bound
 cooperating workers with Windows jobs, and add finite CLI/stdio callback and
 output waits. Unknown outcomes never authorize automatic retries; output failure
-does not cancel admitted workers. Whole-frontend memory, full destinations,
-public event-stream gaps/resnapshots and the combined provider-failure campaign
-remain open. The slices do not complete the unit or confer owner acceptance.
+does not cancel admitted workers. Store-boundary injections now preserve unknown
+claim/cancellation receipts, residual bytes and no-replay behavior after full,
+partial and failed-flush writes. Whole-frontend memory, public event-stream
+gaps/resnapshots and the combined provider-failure campaign remain open; no real
+full filesystem or power-loss persistence is qualified by those injections. The slices do not complete the unit or confer owner acceptance.

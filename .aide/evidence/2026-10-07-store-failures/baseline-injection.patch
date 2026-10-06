@@ -1,0 +1,77 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 22b358f..61867c5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -180,6 +180,8 @@ if(BUILD_TESTING)
+   target_compile_definitions(disked_worker_memory_limit PRIVATE DISKED_WORKER_TEST_MEMORY_LIMIT=1)
+   bootstrap_executable(disked_file_wait)
+   target_compile_definitions(disked_file_wait PRIVATE DISKED_WORKER_TEST_RESULT_READ_DELAY=1)
++  bootstrap_executable(disked_store_fault)
++  target_compile_definitions(disked_store_fault PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
+   add_test(NAME resilience.request_waiting COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_request_waiting.py"
+     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_file_wait>")
+   set_tests_properties(resilience.request_waiting PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)
+diff --git a/source/platform/windows/fake_worker.cpp b/source/platform/windows/fake_worker.cpp
+index 2a34e04..e92c4fd 100644
+--- a/source/platform/windows/fake_worker.cpp
++++ b/source/platform/windows/fake_worker.cpp
+@@ -119,8 +119,26 @@ std::string read_file(HANDLE file,std::size_t limit) {
+     std::string bytes(static_cast<std::size_t>(size),'\0');DWORD done=0;
+     if(size && (!ReadFile(file,&bytes[0],static_cast<DWORD>(size),&done,nullptr) || done!=size))fail("operation_file_read");return bytes;
+ }
+-void write_file(HANDLE file,const std::string& bytes) {
++void write_file(HANDLE file,const std::string& bytes,const char* point) {
++#ifdef DISKED_WORKER_TEST_STORE_FAULTS
++    // Only the separate fault executable reads this control. Exercise ordinary
++    // disposable file boundaries without filling a host volume or using media.
++    char selected[128]{};const auto count=GetEnvironmentVariableA("DISKED_TEST_STORE_FAULT",selected,sizeof(selected));
++    const auto size=std::strlen(point);const char* mode="";
++    if(count>size && count<sizeof(selected) && std::strncmp(selected,point,size)==0 && selected[size]=='.')mode=selected+size+1;
++    if(std::strcmp(mode,"full")==0) {SetLastError(ERROR_DISK_FULL);fail("operation_file_write");}
++    if(std::strcmp(mode,"short")==0) {
++        DWORD prefix=0;
++        if(!WriteFile(file,bytes.data(),static_cast<DWORD>(bytes.size()/2),&prefix,nullptr))fail("operation_file_write");
++        SetLastError(ERROR_DISK_FULL);fail("operation_file_write");
++    }
++#else
++    (void)point;
++#endif
+     DWORD done=0;if(!WriteFile(file,bytes.data(),static_cast<DWORD>(bytes.size()),&done,nullptr) || done!=bytes.size())fail("operation_file_write");
++#ifdef DISKED_WORKER_TEST_STORE_FAULTS
++    if(std::strcmp(mode,"flush")==0) {SetLastError(ERROR_DISK_FULL);fail("operation_file_flush");}
++#endif
+     if(!FlushFileBuffers(file))fail("operation_file_flush");
+ }
+ std::wstring final_path(HANDLE file) {
+@@ -298,11 +316,11 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
+         .put("definition_digest",Value::string(op::hash(json::dump(definition))));
+     // The immutable identity precedes process creation. Once written, any uncertain
+     // admission stays inspectable and is never retried as another operation.
+-    write_file(anchor.value,json::dump(header)+"\n");anchor=Handle();
++    write_file(anchor.value,json::dump(header)+"\n","claim");anchor=Handle();
+     try {
+         auto records=directory.open(L"operation.records",FILE_APPEND_DATA|FILE_READ_ATTRIBUTES,FILE_SHARE_READ,CREATE_NEW,&attributes);
+         auto cancel=directory.open(L"cancel.request",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,CREATE_NEW,&attributes);
+-        if(!records.valid() || !cancel.valid())fail("operation_store_create");write_file(cancel.value,"0");
++        if(!records.valid() || !cancel.valid())fail("operation_store_create");write_file(cancel.value,"0","cancel_initial");
+         Handle event(CreateEventW(&attributes,TRUE,FALSE,nullptr));if(!event.valid())fail("operation_event_create");
+         HANDLE read=nullptr,write=nullptr;if(!CreatePipe(&read,&write,&attributes,4096))fail("operation_pipe_create");Handle pipe_read(read),pipe_write(write);
+         auto bootstrap=header;bootstrap.put("record_file_id",Value::string(file_identity(records.value)))
+@@ -381,7 +399,7 @@ Outcome dispatch_fake_worker(const std::string& request,const std::string& comma
+                 auto file=directory.open(L"cancel.request",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
+                 if(!file.valid() || file_size(file.value)!=1)fail("operation_cancel_unavailable");
+                 const auto byte=read_file(file.value,1);if(byte!="0" && byte!="1")fail("operation_cancel_invalid");
+-                LARGE_INTEGER zero{};if(!SetFilePointerEx(file.value,zero,nullptr,FILE_BEGIN))fail("operation_cancel_unavailable");write_file(file.value,"1");
++                LARGE_INTEGER zero{};if(!SetFilePointerEx(file.value,zero,nullptr,FILE_BEGIN))fail("operation_cancel_unavailable");write_file(file.value,"1","cancel_request");
+                 value.put("cancellation_request",Value::string("requested"));
+             }
+         }
+@@ -434,7 +452,7 @@ int run_fake_worker(int argc,wchar_t** argv) {
+         op::Operation operation(binding);const auto from=op::origin(binding);std::string previous(64,'0');std::size_t count=0;
+         auto save=[&]() {
+             if(++count>op::record_count_limit || file_size(records.value)>op::history_limit-op::record_limit)fail("operation_history_limit");
+-            const auto line=op::record(operation.state(),previous);write_file(records.value,line);previous=json::parse(line).find("digest")->text;
++            const auto line=op::record(operation.state(),previous);write_file(records.value,line,operation.state().find("last_event")->text.c_str());previous=json::parse(line).find("digest")->text;
+         };
+         auto advance=[&](const std::string& action,const std::string& observed="") {if(operation.advance(action,from,observed))save();};
+         auto poll=[&](DWORD duration) {

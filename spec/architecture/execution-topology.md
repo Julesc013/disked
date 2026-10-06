@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-015
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.13-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-015-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-06T15:47:08.025519+00:00'
+  scope: DE-W017 state-store write and flush failure receipts; full programme remains active
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -161,6 +161,39 @@ request is a successful read, while the operation's outcome/recovery fields rema
 failed/required. Cancellation returns a request receipt, never an inferred worker
 acknowledgement. An observed terminal record returns `too_late` without changing
 its flag; a request racing completion may remain unacknowledged.
+
+### DE-W017 state-store failure contract
+
+Before exclusive claim creation, an invalid request or unavailable store can be
+refused without admitting a worker. Once the claim file has been created, a
+failed write, partial write or failed flush returns `unknown` with the already
+allocated operation ID and an unresolved admission. Preserve the original error
+code and any bytes left in the store. Do not remove, overwrite or retry the claim;
+a later matching start only reconciles it. If its identity cannot be read, that
+reconciliation remains unknown rather than creating another operation.
+
+A cancellation receipt distinguishes failure before attempting its flag write
+from failure during write/flush. After the write is attempted, failure returns
+`unknown` with the operation ID, `cancellation_request: unresolved`, the preceding
+state observation and the error. A worker may already have seen the new flag;
+neither refusal, acknowledgement nor quiescence may be inferred. Explicit later
+inspection can observe the worker's actual checkpoint decision.
+
+Any operation-record write/flush failure stops that worker's further transitions;
+it cannot dispatch an effect after failure to record preparation/dispatch, or
+retry an effect after failure to record its observation. A malformed/partial tail
+remains unknown and unchanged. A readable nonterminal prefix with an exited
+worker remains unknown. A complete terminal record establishes the recorded
+synthetic outcome as observed now; record readability/hash validity alone does
+not establish that the last flush succeeded or qualify persistence after power
+loss. This distinction applies to all fake records, including healthy runs.
+
+The local campaign injects disk-full, partial-write and flush errors at explicit
+claim, cancellation and worker-transition boundaries in a separate test build.
+Tests use ordinary disposable files and retain the actual residual bytes, original
+error, process outcome, repeat-start behavior and unrelated cached observations.
+The product does not accept the injection controls. No host volume is filled;
+these boundary injections do not qualify a real full filesystem or storage driver.
 
 Acceptance requires actual same-file launches, clean handle inheritance, exact
 record identities, bounded admission waits, killed-client survival, reconnect from
