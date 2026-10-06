@@ -1,0 +1,30 @@
+{
+  "source_revision": "ad88098941dcad2e1b4056d892a324c59683edaa",
+  "owner_accepted": false,
+  "deliverables": [
+    {
+      "claim": "Independent primary/backup validation with pinned UEFI 2.10 and bounded resources",
+      "sources": [
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/encoding.c"
+      ],
+      "evidence": "Three 1022-case compiler lanes and protected-page native probes"
+    }
+  ],
+  "acceptance": [
+    {
+      "claim": "Valid-disagreeing copies not auto-repaired",
+      "evidence": "Different valid attributes/GUIDs/bounds/shapes and same-CRC different-byte candidates retain both and report disagreement; no write API exists"
+    },
+    {
+      "claim": "GUID/UTF16/endpoints/checksum vectors covered",
+      "evidence": "gpt.json plus compiler-lane observations.json and guard logs"
+    }
+  ],
+  "limitations": [
+    "Private internal library; no admitted image provider or table.verify command",
+    "Only this modern Windows host; x86 runs under WOW64",
+    "Historical/small-memory GPT profiles, external differential parsers, coverage fuzzing and source-consistency integration remain open",
+    "No owner acceptance, physical access, privilege, installation, writer/recovery qualification or release"
+  ]
+}
