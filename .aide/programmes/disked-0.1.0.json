@@ -28,13 +28,14 @@
   ],
   "baseline_owner_accepted": false,
   "implementation_owner_accepted": false,
-  "current_work": "DE-W014",
+  "current_work": "DE-W015",
   "completed_development": [
     "DE-W010",
-    "DE-W013"
+    "DE-W013",
+    "DE-W014"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "DE-W014: same-binary linear and full-screen TUI over the shared fake service, with bounded channel capabilities, identity selection and caller-state restoration.",
+  "next_action": "DE-W015: minimal native Win32 GUI over the shared fake service, with descriptor forms, keyboard access, host contrast observations and CLI/TUI parity.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -62,6 +63,15 @@
       "review": ".aide/evidence/2026-10-06-native-graph/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Owner review; GUI/TUI parity, async admission and real providers belong to subsequent units."
+    },
+    {
+      "work_id": "DE-W014",
+      "scope": "Native-console screen and linear TUI, shared-service forms, bounded rendering and actual caller-state restoration",
+      "source_revision": "5012d858064ab3635e3ea0422e41345cbcf72a78",
+      "evidence": ".aide/evidence/2026-10-06-native-tui/clean-results.json",
+      "review": ".aide/evidence/2026-10-06-native-tui/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Screen-reader, ConPTY, VT, remote, legacy-host and forced-termination qualification remain unverified; other terminal backends remain programme work."
     }
   ]
 }
