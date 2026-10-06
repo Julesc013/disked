@@ -1,0 +1,108 @@
+{
+  "schema": "org.disked.local-criterion-review/1",
+  "source_revision": "de67d1f7bcf20127fad219ab7a195e07528cc18e",
+  "owner_accepted": false,
+  "scope": "Selected Windows fake-provider implementation; remaining production and platform admission is not implied",
+  "DE-W012": [
+    {
+      "criteria": "Descriptor dispatch/help, planned-unavailable commands, typed parameters and aliases",
+      "tests": [
+        "command.syntax",
+        "disked.acceptance",
+        "disked_provider_guard.acceptance"
+      ],
+      "earlier_evidence": ".aide/evidence/2026-10-06-native-protocol/"
+    },
+    {
+      "criteria": "Duplicate keys, bounded framing, machine-only output, exit/no-prompt behavior",
+      "tests": [
+        "protocol.json_codec",
+        "command.syntax",
+        "invocation.policy",
+        "resilience.output_waiting"
+      ]
+    },
+    {
+      "criteria": "Strict producer/compatible reader and fake operation/attempt/worker identities, wait/reconnect",
+      "tests": [
+        "protocol.compatible_reader",
+        "operation.reducer",
+        "operation.worker",
+        "operation.watch_reader",
+        "operation.watch"
+      ],
+      "extra_validation": "clean-producer-schemas.log; clean-operation-producer-schemas.log; new-response-schemas.json"
+    },
+    {
+      "criteria": "Shared corpus/option permutations and no pre-validation effects/provider access",
+      "tests": [
+        "command.syntax",
+        "disked_provider_guard.invocation",
+        "disked_provider_guard.acceptance",
+        "provider_guard.positive_control"
+      ]
+    }
+  ],
+  "DE-W017": [
+    {
+      "criteria": "Combined healthy, denied, malformed, slow and crashed producer campaign",
+      "tests": [
+        "resilience.capture_campaign",
+        "resilience.capture"
+      ],
+      "earlier_evidence": ".aide/evidence/2026-10-07-observation-capture/"
+    },
+    {
+      "criteria": "Unknown cancellation does not imply quiescence or automatic retry",
+      "tests": [
+        "operation.reducer",
+        "operation.worker",
+        "operation.watch",
+        "resilience.worker_budget",
+        "resilience.store_failures"
+      ]
+    },
+    {
+      "criteria": "Measured latency, worker/retry/memory/event bounds and retained observations",
+      "tests": [
+        "resilience.frontend_memory",
+        "resilience.worker_budget",
+        "resilience.capture_campaign",
+        "resilience.gui_waiting",
+        "resilience.console_waiting",
+        "resilience.request_waiting",
+        "resilience.output_waiting",
+        "operation.watch_reader",
+        "operation.watch"
+      ]
+    },
+    {
+      "criteria": "Separate guarded logical, attempt, worker/capture, effect, cancellation/recovery state; late data never transfers writer",
+      "tests": [
+        "operation.reducer",
+        "operation.worker",
+        "resilience.capture",
+        "resilience.capture_campaign",
+        "operation.watch_reader",
+        "operation.watch"
+      ]
+    },
+    {
+      "criteria": "Shell shares frontend semantics and failure transcripts",
+      "tests": [
+        "shell.model",
+        "shell.windows",
+        "resilience.console_waiting",
+        "resilience.capture_campaign",
+        "operation.watch"
+      ]
+    }
+  ],
+  "native_result": "31/31 passed in clean clone",
+  "remaining": [
+    "Owner acceptance",
+    "Production protocol/storage/recovery admission",
+    "Other-host qualification",
+    "DE-W019 human entry/correction/recall qualification"
+  ]
+}

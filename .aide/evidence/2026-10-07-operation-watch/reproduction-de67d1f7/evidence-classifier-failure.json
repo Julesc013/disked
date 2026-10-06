@@ -1,0 +1,10 @@
+{
+  "stage": "Post-run evidence classifier",
+  "status": "fail",
+  "exit_code": 1,
+  "error": "Additional properties are not allowed ('earlier_request' was unexpected)",
+  "evidence_path": "clean-watch.json/observations/5/late",
+  "cause": "The evidence helper treated GUI presentation details, which deliberately combine the current response with an earlier-request outcome, as an emitted protocol frame.",
+  "scope": "31 native groups, detailed watch and wire producer checks had passed before this helper failure.",
+  "correction": "At this exact GUI presentation path, validate the projected current response separately and validate the unchanged earlier response recursively. Do not accept this augmented object as a wire producer frame. Keep wire schemas unchanged."
+}
