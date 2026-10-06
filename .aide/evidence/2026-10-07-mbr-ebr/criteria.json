@@ -1,0 +1,30 @@
+{
+  "source_revision": "7c8466877f1caab46747d73afbbcaf29f6720955",
+  "owner_accepted": false,
+  "deliverables": [
+    {
+      "claim": "Read-only MBR/EBR parser preserving opaque fields",
+      "sources": [
+        "source/portable/mbr/mbr.c",
+        "source/portable/ebr/ebr.c"
+      ],
+      "evidence": "Three 1296-case compiler lanes and immutable-page native probes"
+    }
+  ],
+  "acceptance": [
+    {
+      "claim": "Cycles, relative EBR bases, overlaps and truncated images covered",
+      "evidence": "mbr.json plus three compiler-lane observations.json files"
+    },
+    {
+      "claim": "Parser never writes or mounts an image",
+      "evidence": "Portable sources have no I/O/OS/allocator APIs; immutable input comparison and actual read-only pages pass"
+    }
+  ],
+  "limitations": [
+    "Private internal library; no admitted image provider or table.verify command",
+    "Only this modern Windows host; x86 runs under WOW64",
+    "Historical EBR profiles, external differential parsers, coverage fuzzing, GPT and source-consistency integration remain open",
+    "No owner acceptance, physical access, privilege, installation, writer/recovery qualification or release"
+  ]
+}

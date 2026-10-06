@@ -1,0 +1,604 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W021",
+  "base_revision": "a0d4fac3f71bef0cc1a20e6f2fdf0d2b87a7814b",
+  "spec_manifest_digest": "sha256:2d3c6b0359065e2e65dbf9e3a89014c15248fa5af2f189a02adfde48a26470ce",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/storage/address-spaces.md",
+    "spec/storage/partition-tables.md",
+    "spec/operations/map-verify.md",
+    "spec/references/sources.json",
+    "spec/catalog/input-dependencies.json",
+    "tools/build-inputs.json",
+    "source/portable/mbr/mbr.h",
+    "source/portable/mbr/mbr.c",
+    "source/portable/ebr/ebr.h",
+    "source/portable/ebr/ebr.c",
+    "tests/property/test_mbr.py",
+    "tests/unit/mbr_probe.cpp",
+    "tests/legacy/run_mbr_probes.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-07-mbr-ebr/FINDINGS.md",
+    ".aide/evidence/2026-10-07-mbr-ebr/README.md",
+    ".aide/evidence/2026-10-07-mbr-ebr/REVIEW.md",
+    ".aide/evidence/2026-10-07-mbr-ebr/START.md",
+    ".aide/evidence/2026-10-07-mbr-ebr/criteria.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/build.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/context.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/failure-control-artifact.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/index.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/manifest.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/mbr.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/mbr.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/reader-groups.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/structural.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/verify-context.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/final-correction/verify-manifest.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-initial/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compile-6.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/compiler-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/cpp-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/identity.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/link.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/observations.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/gcc-second/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/hybrid-regression-before-fix.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/hybrid-regression-command.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/hybrid-regression-failure-receipt.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/hybrid-regression-failure-receipt.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial-compiler-commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial-gcc.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial-msvc2017.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial/cases.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/initial/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compile-6.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/compiler-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/identity.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/link.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/observations.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/msvc2017-initial/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-build.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-clone.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-configure.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-cc1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-cc1plus.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-ld.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-launch.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-manifest.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr-project.xml",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-msvc2017-x86.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-msvc2022-x64.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-native-details.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-native-tests.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-structural.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/cross-compiler.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compile-6.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/compiler-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/cpp-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/identity.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/link.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/observations.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/gcc-x64/tool-files.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/mbr.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compile-6.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/compiler-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/identity.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/link.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/observations.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2017-x86/tool-files.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/cases.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-0.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-1.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-2.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-3.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-4.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-5.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compile-6.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/compiler-version.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/dependents.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/headers.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/identity.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/imports.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/link.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/observations.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/msvc2022-x64/tool-files.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/second-gcc-command.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/second-gcc.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/aide-passive.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/build.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/commands.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/configure.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/context.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/guard.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/index.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/manifest.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/mbr.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/mbr.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/native-details.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/native-tests.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/producer-schemas.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/results.json",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/spec-tests.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/structural.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/verify-context.log",
+    ".aide/evidence/2026-10-07-mbr-ebr/working/verify-manifest.log",
+    ".aide/handoffs/DE-W021-mbr-ebr-2026-10-07.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "source/portable/ebr/ebr.c",
+    "source/portable/ebr/ebr.h",
+    "source/portable/mbr/mbr.c",
+    "source/portable/mbr/mbr.h",
+    "source/runtime/command/json.cpp",
+    "spec/bundle.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/references/sources.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/partition-tables.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/legacy/run_mbr_probes.py",
+    "tests/property/test_mbr.py",
+    "tests/unit/mbr_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Local DE-W021 reader complete at 7c8466877f1caab46747d73afbbcaf29f6720955: immutable bounded MBR/EBR observations, 1296 cases and real memory boundaries across three compiler lanes; all 35 native groups pass from clean source. No image-provider admission, owner acceptance or full-product qualification.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/legacy/run_mbr_probes.py --compiler \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\cl.exe\" --family msvc --dumpbin \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\dumpbin.exe\" --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w021-msvc2017-initial --include \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\include\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt\" --lib \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\lib\\x86\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\ucrt\\x86\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x86\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/initial-msvc2017.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/legacy/run_mbr_probes.py --compiler C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe --family gcc --dumpbin \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w021-gcc-initial",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/initial-gcc.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/property/test_mbr.py --probe build/windows-bootstrap/Release/mbr_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/hybrid-regression-before-fix.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/property/test_mbr.py --probe build/windows-bootstrap/Release/mbr_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-mbr-ebr\\working\\mbr.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/mbr.log"
+    },
+    {
+      "command": "build/windows-bootstrap/Release/mbr_probe.exe --guard",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/guard.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W021 --output .aide-local/context/DE-W021-final --byte-budget 300000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W021-final",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/working/verify-context.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked mbr_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap -R ^portable.mbr_ --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/reader-groups.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/property/test_mbr.py --probe build/windows-bootstrap/Release/mbr_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-mbr-ebr\\final-correction\\mbr.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/mbr.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W021 --output .aide-local/context/DE-W021-corrected --byte-budget 300000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W021-corrected",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/final-correction/verify-context.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/property/test_mbr.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\mbr_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-mbr-ebr\\reproduction-7c846687\\mbr.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\mbr_probe.exe --guard",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-guard.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-disked.exe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-mbr_probe.exe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/legacy/run_mbr_probes.py --compiler C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe --family gcc --dumpbin \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w021-clean-7c846687\\gcc-x64",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -print-prog-name=cc1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-cc1.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -print-prog-name=cc1plus",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-cc1plus.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -print-prog-name=ld",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-gcc-x64-ld.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/legacy/run_mbr_probes.py --compiler \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx86\\x86\\cl.exe\" --family msvc --dumpbin \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w021-clean-7c846687\\msvc2017-x86 --include \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\include\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt\" --lib \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\lib\\x86\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\ucrt\\x86\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x86\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-msvc2017-x86.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/legacy/run_mbr_probes.py --compiler \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe\" --family msvc --dumpbin \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w021-clean-7c846687\\msvc2022-x64 --include \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt\" --lib \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\ucrt\\x64\" --lib \"C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um\" --include \"C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-7c846687",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-msvc2022-x64.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/disked.exe",
+      "sha256": "sha256:ebb2f0656d65663380eef74bc4814e5571d837adcc18aafef015e420f7a27c0d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/disked_mbr.lib",
+      "sha256": "sha256:ec84751b8652a4d642e4519032c27916b0f9ec15024292f1a1d9dcd64e628075"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/disked_primitives.lib",
+      "sha256": "sha256:12300f2dc8d0564abd85bb5f39270cfb00a075f2bcdc773da7e17a049bd53739"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/mbr_probe.exe",
+      "sha256": "sha256:3554087bc4f99b128e1ad8fab983d051cb3236a7945382a1186b0f35cc279541"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/gcc-x64/mbr-probe.exe",
+      "sha256": "sha256:54488e1431268bce5efbd9b2392ae4a5770207950e1dc734fe45ca9d3a2b68b8"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/msvc2017-x86/mbr-probe.exe",
+      "sha256": "sha256:10c833b083410ce3f5d2770a4f182cb47c94b42c73e9c9c7cf85c9a19403f303"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W021-7c846687/msvc2022-x64/mbr-probe.exe",
+      "sha256": "sha256:45257fd387fed64cf6aa5945d5ca97276bef132b1683eb017a226d7ee6ccfa3d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-07-mbr-ebr/reproduction-7c846687/clean-results.json",
+      "sha256": "sha256:13f4a93be90c87ca34786587be58c10df28b1d55fd9b9f30b3746ec739e36f81"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue DE-W022 independent primary/backup GPT observations against pinned UEFI 2.10, defining the bounded header/entry-array contract before implementing it. Preserve competing valid candidates, exact GUID/UTF-16 bytes, checked endpoints and the specified CRC. DE-W023 external differential/fuzz campaigns and DE-W024 coherent image-provider/frontend integration remain separate. No physical access, mounting, privilege or writer authority; owner acceptance and full 0.1.0 qualification remain open.",
+  "performed_remote_writes": false
+}
