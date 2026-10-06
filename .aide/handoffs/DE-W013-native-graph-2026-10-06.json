@@ -1,0 +1,294 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W013",
+  "base_revision": "fbba22c25ad614bd3d0c3a9976987d10319d1c70",
+  "spec_manifest_digest": "sha256:12790d45bf68582ce768e3a02f0156754921a614d7ae3c7381a6704ae6294270",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/bundle.json",
+    "spec/interaction/presentation.md",
+    "spec/interaction/protocol.md",
+    "spec/storage/identity-and-graph.md",
+    "spec/storage/capability-resolution.md",
+    "spec/schemas/graph.schema.json",
+    "spec/schemas/capability-assessment.schema.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/native-bootstrap.json",
+    "source/apps/disked/cli.cpp",
+    "source/runtime/command/protocol.cpp",
+    "spec/tools/specctl.py",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-06-native-graph/.gitattributes",
+    ".aide/evidence/2026-10-06-native-graph/README.md",
+    ".aide/evidence/2026-10-06-native-graph/REVIEW.md",
+    ".aide/evidence/2026-10-06-native-graph/aide-passive.json",
+    ".aide/evidence/2026-10-06-native-graph/build.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-build.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-capability.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-clone.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-commands.json",
+    ".aide/evidence/2026-10-06-native-graph/clean-configure.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-dependencies.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-graph-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-headers.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-imports.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-launch.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-manifest.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-mode-explain.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-native-details.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-native-tests.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-results.json",
+    ".aide/evidence/2026-10-06-native-graph/clean-structural.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-target-inspect.log",
+    ".aide/evidence/2026-10-06-native-graph/clean-target-list.log",
+    ".aide/evidence/2026-10-06-native-graph/configure.log",
+    ".aide/evidence/2026-10-06-native-graph/graph-producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-graph/initial-native-tests.log",
+    ".aide/evidence/2026-10-06-native-graph/initial-spec-tests.log",
+    ".aide/evidence/2026-10-06-native-graph/native-details.log",
+    ".aide/evidence/2026-10-06-native-graph/native-tests.log",
+    ".aide/evidence/2026-10-06-native-graph/producer-schemas.log",
+    ".aide/evidence/2026-10-06-native-graph/spec-tests.log",
+    ".aide/evidence/2026-10-06-native-graph/structural.log",
+    ".aide/evidence/2026-10-06-native-graph/working-commands.json",
+    ".aide/evidence/2026-10-06-native-graph/working-results.json",
+    ".aide/handoffs/DE-W013-native-graph-2026-10-06.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "README.md",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/portable/hash/sha256.cpp",
+    "source/portable/hash/sha256.h",
+    "source/providers/fake/bootstrap.cpp",
+    "source/providers/fake/graph.cpp",
+    "source/providers/fake/graph.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/protocol.h",
+    "source/runtime/graph/snapshot.cpp",
+    "source/runtime/graph/snapshot.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/presentation.md",
+    "spec/interaction/protocol.md",
+    "spec/manifest.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/schemas/command-capability-parameters.schema.json",
+    "spec/schemas/fake-graph.schema.json",
+    "spec/schemas/index.md",
+    "spec/storage/capability-resolution.md",
+    "spec/storage/identity-and-graph.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-readme.txt",
+    "spec/templates/root-todo.txt",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_fake_graph.py",
+    "spec/work/units.json",
+    "tests/frontend/service_probe.cpp",
+    "tests/frontend/test_service.py",
+    "tests/frontend/test_transport.py",
+    "tests/native/test_protocol.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Implemented and clean-reproduced DE-W013 at 0d9e82588dfc574dbca168d843cd9195a97bbc30. Eleven native CTest groups, strict graph/assessment/response producer validation, 888 structural checks and 165 specification tests (163 passes, two symlink skips). Immutable captures and typed actions preserve selected identity through removal/replacement and refuse stale revisions. Local implementation and agent review complete; owner acceptance and storage/platform admission are separate.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/graph-producer-schemas.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-graph-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-dependencies.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe mode explain --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-mode-explain.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe target list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-target-list.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe target inspect fake:volume@1 --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-target-inspect.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258\\build\\windows-bootstrap\\Release\\disked.exe capability explain fake:denied@1 partition.resize.plan --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-0d9e8258",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-06-native-graph/clean-capability.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W013-0d9e8258/disked.exe",
+      "sha256": "sha256:56d4f3a16eac8f42041009c5eec6db5dbf39bcfda272e3e52fffad408a2686fc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-06-native-graph/clean-results.json",
+      "sha256": "sha256:7fe14561ad495643003456a304e9c3e741d2a14269639ed6ee08e56770fdd918"
+    }
+  ],
+  "blockers": [
+    "Owner acceptance remains pending; this does not block local continuation under the explicit programme grant.",
+    "GUI/TUI, asynchronous operations, real providers and other platform/host qualification remain outside this unit."
+  ],
+  "next_safe_step": "DE-W014: same-binary linear and full-screen TUI over the shared fake service, with bounded channel capabilities, identity selection and caller-state restoration.",
+  "performed_remote_writes": false
+}
