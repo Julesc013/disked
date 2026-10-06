@@ -78,8 +78,8 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     if(!registry_.command(operation))return refused(request,"operation_unavailable",3);
     return completed(request,Value::object().put("scope",Value::string("fake-only")).put("assessment",assessment(target,operation)));
 }
-std::string presentation_json(const Value& value) {
-    const auto utf8=json::dump(value);std::string ascii;ascii.reserve(utf8.size());
+std::string presentation_json(const Value& value,json::Limits limits) {
+    const auto utf8=json::dump(value,limits);std::string ascii;ascii.reserve(utf8.size());
     const char* hex="0123456789abcdef";
     auto escape=[&](unsigned cp) {ascii+="\\u";for(int shift=12;shift>=0;shift-=4)ascii+=hex[(cp>>shift)&15];};
     for(std::size_t i=0;i<utf8.size();) {
@@ -92,8 +92,9 @@ std::string presentation_json(const Value& value) {
     }
     return ascii;
 }
-std::vector<std::string> presentation_lines(const Value& value) {
-    const auto text=presentation_json(value);std::vector<std::string> lines;std::string line;
+std::vector<std::string> presentation_lines(const Value& value,json::Limits limits) {
+    const auto text=presentation_json(value,limits);std::vector<std::string> lines;std::string line;
+    if(text.size()+2>1048576)throw std::length_error("presentation_limit");
     bool quoted=false,escape=false;unsigned depth=0;
     auto emit=[&]() {if(!line.empty())lines.push_back(line);line.assign(depth*2,' ');};
     for(char c:text) {
@@ -105,8 +106,10 @@ std::vector<std::string> presentation_lines(const Value& value) {
         else if(c==':')line+=": ";else line+=c;
     }
     if(!line.empty())lines.push_back(line);
-    std::size_t bytes=0;for(const auto& row:lines)bytes+=row.size()+1;
-    if(bytes>1048576)throw std::length_error("presentation_limit");return lines;
+    std::size_t bytes=0;for(const auto& row:lines)bytes+=row.size()+2;
+    // Whitespace is dispensable; valid bounded content is not. Compact escaped
+    // JSON retains every value when indentation would exceed the display budget.
+    if(bytes>1048576)return {text};return lines;
 }
 
 }

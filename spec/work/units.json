@@ -1764,7 +1764,7 @@
       "id": "DE-W017",
       "title": "Measure fake-provider resilience and resource bounds",
       "phase": "M1",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W014",
@@ -1783,7 +1783,20 @@
         "source/providers/fake/**",
         "tests/frontend/**",
         "tests/transport/**",
-        ".aide/evidence/**"
+        ".aide/evidence/**",
+        "source/apps/disked/**",
+        "source/platform/windows/**",
+        "tests/resilience/**",
+        "tests/operation/**",
+        "tests/interaction/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1812,11 +1825,43 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "CMakeLists.txt",
+        "source/apps/disked/cli.cpp",
+        "source/apps/disked/gui/win32/gui_model.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/apps/disked/tui/model.cpp",
+        "source/platform/windows/console/terminal.cpp",
+        "source/platform/windows/fake_worker.cpp",
+        "source/platform/windows/ui/gui.cpp",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.cpp",
+        "source/runtime/presentation/session.h",
+        "spec/catalog/commands.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/schemas/fake-operation.schema.json",
+        "spec/schemas/resource-budget.schema.json",
+        "spec/schemas/response.schema.json",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/test_gui_model.py",
+        "tests/operation/test_worker.py",
+        "tests/resilience/console_wait_fixture.py",
+        "tests/resilience/request_channel_probe.cpp",
+        "tests/resilience/test_console_waiting.py",
+        "tests/resilience/test_gui_waiting.py",
+        "tests/resilience/test_request_channel.py",
+        "tests/resilience/test_worker_budget.py",
+        "tools/build-bootstrap.py",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W018",

@@ -60,6 +60,18 @@ class Model(unittest.TestCase):
         for command in ['protocol.serve','shell.open','shell.close','partition.resize.plan']:
             result=self.stage(command);self.assertEqual('command_unavailable',result['details']['diagnostics'][0]['code']);self.assertFalse(result['state']['form'])
 
+    def test_two_bounded_responses_remain_renderable_without_losing_current_view(self):
+        self.call('synthetic',deferred=True)
+        self.stage('target.list');self.call('review');self.call('submit')
+        self.stage('target.list');self.execute()
+        result=self.call('resolve');display=json.loads(result['rendered'])
+        self.assertEqual('gui:2',display['request_id'])
+        self.assertEqual('gui:1',display['earlier_request']['request_id'])
+        for value in (display,display['earlier_request']):
+            self.assertEqual({'first':'a'*30000,'last':'z'*30000},value['result'])
+        self.assertGreater(len(result['rendered']),65536)
+        self.assertLessEqual(len(result['rendered']),1048576)
+
     def test_gui_cli_tui_outcomes_match(self):
         cases=[('target.list',{}),('topology.show',{}),('target.inspect',dict(target_id='fake:volume@1')),
                ('target.inspect',dict(target_id='missing')),('capability.explain',dict(target_id='fake:denied@1',operation='partition.resize.plan'))]

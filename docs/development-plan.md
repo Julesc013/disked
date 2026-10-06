@@ -74,3 +74,10 @@ and console restoration. Clean reproduction and agent review are retained under
 `.aide/evidence/2026-10-07-native-shell/`; local work continues into DE-W017.
 Human usability and additional keyboard/terminal
 qualification remain open; no production planner or storage admission is implied.
+
+
+DE-W017 is active. Its first corrective slice separates interactive event loops
+from fake-operation file requests, preserves late outcomes by view identity, and
+bounds cooperating workers with Windows jobs. The full file-wait, backpressure,
+frontend-memory and provider-failure campaign remains open; no unit completion or
+owner acceptance follows merely from the interactive containment checks.

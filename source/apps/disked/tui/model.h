@@ -7,7 +7,8 @@ enum class TuiKey {Text,Up,Down,PageUp,PageDown,Enter,Tab,BackTab,Backspace,Esca
 struct TuiInput {TuiKey key;std::string text;bool repeat=false;};
 class TuiModel final {
 public:
-    TuiModel(FrontendSession& session,const Registry& registry,json::Value discovery,Handler dispatch);
+    TuiModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,CompletionPoll poll={});
+    bool tick();
     void input(const TuiInput& event);
     void stage(const std::string& command,const json::Value& parameters);
     std::vector<std::string> render(unsigned columns,unsigned rows,bool linear);
@@ -19,13 +20,17 @@ private:
     FrontendSession& session_;
     const Registry& registry_;
     json::Value discovery_;
-    Handler dispatch_;
+    FrontendHandler dispatch_;
+    CompletionPoll poll_;
     std::shared_ptr<const GraphSnapshot> snapshot_;
     View view_=View::Inventory;
     std::string focus_,inventory_focus_,command_,review_revision_,notice_="Ready";
     std::vector<std::string> fields_;
     json::Value parameters_=json::Value::object();
     Outcome outcome_;
+    json::Value earlier_=json::Value{};
+    std::string pending_;
+    std::uint64_t view_epoch_=0,pending_view_=0;
     std::size_t field_=0,scroll_=0,page_size_=1;
     std::uint64_t requests_=0;
     bool done_=false,toggle_=false,follow_focus_=true;

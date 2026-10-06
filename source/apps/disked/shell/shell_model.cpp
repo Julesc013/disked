@@ -24,11 +24,17 @@ std::string words(const Value& descriptor) {
     std::string out;for(const auto& w:descriptor.find("words")->items) {if(!out.empty())out+=' ';out+=w.text;}return out;
 }
 }
-ShellModel::ShellModel(FrontendSession& session,const Registry& registry,Value discovery,Handler dispatch,bool history):
-    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),snapshot_(session.snapshot()),history_enabled_(history) {
+ShellModel::ShellModel(FrontendSession& session,const Registry& registry,Value discovery,FrontendHandler dispatch,bool history,CompletionPoll poll):
+    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()),history_enabled_(history) {
     record("session",Value::object().put("host",Value::string("local fake composition"))
         .put("history",Value::string(history?"session-only; 32 entries/64 KiB":"off"))
         .put("controls",Value::string("F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+C closes")));
+}
+bool ShellModel::tick() {
+    Outcome value;if(!poll_ || !poll_(value))return false;
+    const auto* id=value.response.find("request_id");
+    if(pending_.empty() || !id || id->text!=pending_)throw std::runtime_error("frontend_completion_identity");
+    pending_.clear();received(std::move(value),pending_secret_,pending_request_==requests_ && view_==View::Editor && editor_.empty());return true;
 }
 bool ShellModel::available(const std::string& id) const {
     if(id=="protocol.serve" || id=="shell.open")return false;
@@ -109,6 +115,7 @@ void ShellModel::submit() {
     // Consume review before any callback, including a throwing callback.
     view_=View::Editor;reviewed_=ParseResult{};review_revision_.clear();++requests_;
     const auto id="shell:"+std::to_string(requests_);
+    Submission reply(Outcome{});
     if(parsed.kind=="help") {
         auto commands=Value::array();
         for(const auto& command:discovery_.find("commands")->items) {
@@ -116,24 +123,35 @@ void ShellModel::submit() {
             if(!parsed.domain.empty() && parsed.domain!="@root" && command.find("words")->items.front().text!=parsed.domain)continue;
             commands.items.push_back(command);
         }
-        last_=completed(id,Value::object().put("commands",commands).put("global_options",*registry_.syntax.find("global_options")));
-    } else if(parsed.command_id=="shell.close") {last_=completed(id,Value::object().put("session",Value::string("closed")));done_=true;}
-    else last_=dispatch_(id,parsed.command_id,parsed.parameters,revision);
+        reply=completed(id,Value::object().put("commands",commands).put("global_options",*registry_.syntax.find("global_options")));
+    } else if(parsed.command_id=="shell.close") {reply=completed(id,Value::object().put("session",Value::string("closed")));done_=true;}
+    else reply=dispatch_(id,parsed.command_id,parsed.parameters,revision);
     if(history_enabled_ && !secret && (history_.empty() || history_.back()!=editor_)) {
         while(!history_.empty() && (history_.size()==32 || history_bytes_>max_history-editor_.size())) {history_bytes_-=history_.front().size();history_.pop_front();}
         history_.push_back(editor_);history_bytes_+=editor_.size();
     }
     editor_.clear();cursor_=0;history_at_=history_.size();draft_.clear();
-    notice_=last_.exit_code==5?"Operation accepted; retain its operation ID":last_.exit_code==6?"Operation outcome unknown; inspect retained evidence":
-        last_.exit_code?"Request refused or failed; see diagnostics":"Request completed";
+    if(reply.pending) {
+        if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
+        pending_=id;pending_secret_=secret;pending_request_=requests_;
+        notice_="Waiting for request; operation admission is unresolved";
+        record("pending request",Value::object().put("request_id",Value::string(id)).put("outcome",Value::string("unresolved; no permission to retry")));
+    } else received(std::move(reply.outcome),secret,true);
+}
+void ShellModel::received(Outcome outcome,bool secret,bool latest) {
+    notice_=!latest?"Earlier request finished; current input remains inert":
+        outcome.exit_code==5?"Operation accepted; retain its operation ID":outcome.exit_code==6?"Operation outcome unknown; inspect retained evidence":
+        outcome.exit_code?"Request refused or failed; see diagnostics":"Request completed";
     // Current profile has no secret outputs. Do not echo a secret-bearing input
     // through a future handler's diagnostic or result into session history.
     if(secret) {
-        auto safe=Value::object().put("status",*last_.response.find("status")).put("detail",Value::string("suppressed for secret-bearing request"));
-        if(const auto* operation=last_.response.find("operation_id"))safe.put("operation_id",*operation);
-        last_.response=std::move(safe);
+        auto safe=Value::object().put("status",*outcome.response.find("status")).put("request_id",*outcome.response.find("request_id"))
+            .put("detail",Value::string("suppressed for secret-bearing request"));
+        if(const auto* operation=outcome.response.find("operation_id"))safe.put("operation_id",*operation);
+        outcome.response=std::move(safe);
     }
-    record("outcome",last_.response);
+    record(latest?"outcome":"earlier request outcome",outcome.response);
+    if(latest)last_=std::move(outcome);
 }
 void ShellModel::recall(int direction) {
     if(!history_enabled_ || history_.empty()) {notice_="History is off or empty";return;}
@@ -300,6 +318,7 @@ Value ShellModel::state() const {
     return Value::object().put("view",Value::string(views[static_cast<unsigned>(view_)])).put("editor",Value::string(editor_))
         .put("cursor",Value::string(std::to_string(cursor_))).put("notice",Value::string(notice_)).put("history",history).put("candidates",candidates)
         .put("transcript",records).put("transcript_bytes",Value::string(std::to_string(transcript_bytes_))).put("dropped",Value::string(std::to_string(dropped_)))
-        .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",last_.response).put("selection",session_.selection()).put("done",Value::boolean_value(done_));
+        .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",last_.response).put("selection",session_.selection()).put("done",Value::boolean_value(done_))
+        .put("pending_request",Value::string(pending_));
 }
 }

@@ -4,10 +4,22 @@
 
 namespace disked {
 using json::Value;
-GuiModel::GuiModel(FrontendSession& session,const Registry& registry,Value discovery,Handler dispatch):
-    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),snapshot_(session.snapshot()) {
+GuiModel::GuiModel(FrontendSession& session,const Registry& registry,Value discovery,FrontendHandler dispatch,CompletionPoll poll):
+    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()) {
     const auto& nodes=snapshot_->value().find("nodes")->items;
     if(!nodes.empty())focus_=target_focus_=nodes.front().find("id")->text;
+}
+void GuiModel::view_changed() {
+    if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
+}
+bool GuiModel::tick() {
+    Outcome value;if(!poll_ || !poll_(value))return false;
+    const auto* id=value.response.find("request_id");
+    if(pending_.empty() || !id || id->text!=pending_)throw std::runtime_error("frontend_completion_identity");
+    pending_.clear();
+    if(pending_view_==view_epoch_)result(std::move(value));
+    else {earlier_=std::move(value.response);notice_="Earlier request finished; retained separately from the current view";}
+    return true;
 }
 bool GuiModel::available(const std::string& id) const {
     if(id=="protocol.serve" || id=="shell.open" || id=="shell.close")return false;
@@ -16,11 +28,13 @@ bool GuiModel::available(const std::string& id) const {
     return false;
 }
 void GuiModel::navigate(bool commands) {
+    view_changed();
     commands_=commands;form_=reviewed_=false;outcome_=Outcome{};
     focus_=commands?registry_.commands.items.front().find("id")->text:target_focus_;
     notice_="Choose an item, then Inspect / Open";
 }
 void GuiModel::focus(const std::string& id) {
+    view_changed();
     const auto options=rows();
     for(const auto& row:options.items)if(row.find("id")->text==id) {
         focus_=id;if(!commands_)target_focus_=id;return;
@@ -34,6 +48,7 @@ void GuiModel::result(Outcome outcome) {
         outcome_.exit_code?"Request refused or failed; inspect diagnostics":"Request completed";
 }
 void GuiModel::open() {
+    view_changed();
     if(commands_) {stage(focus_,Value::object());return;}
     form_=reviewed_=false;
     auto selected=session_.act({ActionKind::Select,focus_,snapshot_->revision(),"gui:selection"});
@@ -41,13 +56,16 @@ void GuiModel::open() {
     else result(session_.act({ActionKind::Inspect,focus_,snapshot_->revision(),"gui:inspect"}));
 }
 void GuiModel::clear() {
+    view_changed();
     reviewed_=false;
     result(session_.act({ActionKind::ClearSelection,"",snapshot_->revision(),"gui:selection"}));
 }
 void GuiModel::refresh() {
+    view_changed();
     snapshot_=session_.snapshot();notice_="View refreshed; selected identity and staged revision are unchanged";
 }
 void GuiModel::stage(const std::string& command,const Value& supplied) {
+    view_changed();
     form_=reviewed_=false;command_=command;fields_=Value::array();parameters_=Value::object();outcome_=Outcome{};invalid_fields_.clear();
     if(!available(command)) {result(refused("gui","command_unavailable",3));return;}
     const auto* descriptor=registry_.command(command);
@@ -69,6 +87,7 @@ void GuiModel::stage(const std::string& command,const Value& supplied) {
 }
 void GuiModel::edit(const std::string& field,const std::string& value) {
     if(!form_ || !parameters_.find(field))return;
+    view_changed();
     reviewed_=false;outcome_=Outcome{};
     // Retain bounded rejected editor text so Review does not replace it with an
     // older valid identity. A separate error bit prevents admission, including
@@ -82,6 +101,7 @@ void GuiModel::edit(const std::string& field,const std::string& value) {
 }
 void GuiModel::review() {
     if(!form_)return;
+    view_changed();
     reviewed_=false;outcome_=Outcome{};
     for(const auto& pair:parameters_.fields)if(pair.second.text.size()>4096) {notice_="form_limit; correct the field";return;}
     if(!invalid_fields_.empty()) {notice_="invalid_parameter; correct the field";return;}
@@ -93,9 +113,15 @@ void GuiModel::submit() {
     if(!form_ || !reviewed_)return;
     reviewed_=false; // Consume before dispatch, including refusals and exceptions.
     if(requests_==(std::numeric_limits<std::uint64_t>::max)()) {result(refused("gui","request_limit"));return;}
-    result(dispatch_("gui:"+std::to_string(++requests_),command_,parameters_,FrontendSession::handles(command_)?revision_:""));
+    view_changed();const auto id="gui:"+std::to_string(++requests_);
+    auto reply=dispatch_(id,command_,parameters_,FrontendSession::handles(command_)?revision_:"");
+    if(reply.pending) {
+        if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
+        pending_=id;pending_view_=view_epoch_;outcome_=Outcome{};
+        notice_="Waiting for request; operation admission is unresolved. Cached views remain usable.";
+    } else result(std::move(reply.outcome));
 }
-void GuiModel::back() {form_=reviewed_=false;outcome_=Outcome{};notice_="Ready";}
+void GuiModel::back() {view_changed();form_=reviewed_=false;outcome_=Outcome{};notice_="Ready";}
 Value GuiModel::rows() const {
     auto result=Value::array();
     if(commands_)for(const auto& c:registry_.commands.items) {
@@ -107,17 +133,30 @@ Value GuiModel::rows() const {
     return result;
 }
 Value GuiModel::details() const {
-    if(outcome_.response.kind!=Value::Kind::null)return outcome_.response;
-    if(form_)return Value::object().put("command",Value::string(command_)).put("parameters",parameters_)
+    Value current;
+    if(outcome_.response.kind!=Value::Kind::null)current=outcome_.response;
+    else if(form_)current=Value::object().put("command",Value::string(command_)).put("parameters",parameters_)
         .put("expected_revision",Value::string(revision_)).put("reviewed",Value::boolean_value(reviewed_));
-    return Value::object().put("current",snapshot_->value()).put("proposed",Value{})
+    else current=Value::object().put("current",snapshot_->value()).put("proposed",Value{})
         .put("proposed_reason",Value::string("Planning is not implemented; no storage changes are proposed"));
+    if(!pending_.empty())current.put("pending_request",Value::string(pending_));
+    if(earlier_.kind!=Value::Kind::null)current.put("earlier_request",earlier_);
+    return current;
 }
 Value GuiModel::state() const {
     return Value::object().put("commands",Value::boolean_value(commands_)).put("form",Value::boolean_value(form_))
         .put("reviewed",Value::boolean_value(reviewed_)).put("focus",Value::string(focus_)).put("notice",Value::string(notice_))
         .put("selection",session_.selection()).put("view_revision",Value::string(snapshot_->revision()))
         .put("command",Value::string(command_)).put("fields",fields_).put("parameters",parameters_)
-        .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",outcome_.response);
+        .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",outcome_.response)
+        .put("pending_request",Value::string(pending_)).put("earlier_request",earlier_);
+}
+std::string GuiModel::detail_text() const {
+    // Two independently bounded replies plus private correlation fields. These
+    // presentation limits do not enlarge the public protocol frame contract.
+    json::Limits limits;limits.bytes=2*65536+1024;limits.values=2*8192+16;limits.depth=33;
+    std::string text;
+    for(const auto& line:presentation_lines(details(),limits)) {text+=line;text+="\r\n";}
+    return text;
 }
 }

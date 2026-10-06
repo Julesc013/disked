@@ -80,7 +80,10 @@ not a cryptographic machine identity. A changed build can read an existing recor
 but cannot reuse its admission as a matching new start.
 
 The parent resolves its running executable and self-spawns without a shell or
-elevation. A restricted handle list carries only a bounded bootstrap channel,
+elevation. It uses `DETACHED_PROCESS`: no inherited or newly allocated console.
+The worker's current directory is its explicitly selected state store,
+so it does not keep the client's unrelated launch directory open after disconnect.
+A restricted handle list carries only a bounded bootstrap channel,
 the already-open append-only record file, a cancellation flag and an admission
 event. No parent standard streams or arbitrary other handles are inherited.
 The worker receives no caller-selected executable, script, provider DLL, target
@@ -102,12 +105,29 @@ If the first read already observes a terminal record, return a completed request
 with that terminal operation state instead of claiming it is still running.
 
 This prototype uses a 3,000 ms admission wait, 128 MiB per-process job memory limit,
-one active process, a 2 KiB bootstrap message, 16 KiB maximum record, at most 64
+one active process per private job, a 2 KiB bootstrap message, 16 KiB maximum record, at most 64
 records and 1 MiB maximum history. The worker checks its actual job limits before
 admission. Pre-effect waits are 250 ms (2,000 ms for the cancellation fixture),
 followed by 500 ms in-flight and 250 ms before verification; cancellation is polled
 at 20 ms intervals. These bound synthetic workload and admission, not the duration
 of a blocked Windows file API. Hang containment remains DE-W017 work.
+
+DE-W017 adds an outer named job for the cooperating fake composition, scoped to
+the current Windows user and Windows session. It admits at most four processes,
+128 MiB committed memory per process and 512 MiB aggregate job memory. These are
+job-accounting limits, not frontend memory limits or a machine-wide quota. The
+current-user DACL and name derived from the local host binding do not protect
+against a hostile same-user process. An existing job must have the exact expected
+limits; a mismatch or incompatible inherited job hierarchy refuses admission
+without resetting limits or breaking away from the host's policy.
+
+Both jobs are supplied using Windows 10's
+[`PROC_THREAD_ATTRIBUTE_JOB_LIST`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
+at process creation. There is no suspended child awaiting a later parent-owned
+assignment/resume step. Neither job kills a worker when a client closes, and no
+timeout frees its live slot or authorizes replacement. A failed creation after
+the immutable claim remains unknown and inspectable; a later free slot does not
+retry that claim. These Windows mechanisms do not qualify older adapters.
 
 The retained private operation projection separates logical phase, attempt phase,
 effect certainty, cancellation, recovery and outcome. Sequence is decimal u64 in

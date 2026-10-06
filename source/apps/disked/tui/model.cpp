@@ -16,9 +16,18 @@ std::vector<std::string> wrapped(const std::vector<std::string>& lines,unsigned 
 }
 }
 std::vector<std::string> tui_json_lines(const Value& value) {return presentation_lines(value);}
-TuiModel::TuiModel(FrontendSession& session,const Registry& registry,Value discovery,Handler dispatch):
-    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),snapshot_(session.snapshot()) {
+TuiModel::TuiModel(FrontendSession& session,const Registry& registry,Value discovery,FrontendHandler dispatch,CompletionPoll poll):
+    session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()) {
     const auto options=choices();if(!options.empty())focus_=inventory_focus_=options.front();
+}
+bool TuiModel::tick() {
+    Outcome value;if(!poll_ || !poll_(value))return false;
+    const auto* id=value.response.find("request_id");
+    if(pending_.empty() || !id || id->text!=pending_)throw std::runtime_error("frontend_completion_identity");
+    pending_.clear();
+    if(pending_view_==view_epoch_)result(std::move(value));
+    else {earlier_=std::move(value.response);notice_="Earlier request finished; retained separately from the current view";}
+    return true;
 }
 bool TuiModel::available(const std::string& id) const {
     if(id=="protocol.serve" || id=="shell.open" || id=="shell.close")return false;
@@ -47,6 +56,7 @@ void TuiModel::result(Outcome outcome) {
         outcome_.exit_code?"Request refused or failed; see diagnostic":"Request completed";
 }
 void TuiModel::stage(const std::string& command,const Value& supplied) {
+    if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
     command_=command;fields_.clear();parameters_=Value::object();field_=0;scroll_=0;
     if(!available(command)) {result(refused("tui","command_unavailable",3));return;}
     const auto* descriptor=registry_.command(command);
@@ -69,6 +79,7 @@ void TuiModel::input(const TuiInput& e) {
     const bool activation=e.key==TuiKey::Enter || e.key==TuiKey::F2 || e.key==TuiKey::F3 || e.key==TuiKey::F4 ||
         e.key==TuiKey::F5 || e.key==TuiKey::F6 || e.key==TuiKey::F9 || e.key==TuiKey::F10 || e.key==TuiKey::Escape;
     if(e.repeat && activation)return;
+    if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
     if(e.key==TuiKey::F10) {done_=true;return;}
     if(e.key==TuiKey::F6) {toggle_=true;return;}
     if(e.key==TuiKey::PageUp) {scroll_=scroll_>page_size_?scroll_-page_size_:0;follow_focus_=false;return;}
@@ -100,7 +111,13 @@ void TuiModel::input(const TuiInput& e) {
     if(view_==View::Review) {
         if(e.key==TuiKey::F9) {
             if(requests_==(std::numeric_limits<std::uint64_t>::max)()) {result(refused("tui","request_limit"));return;}
-            result(dispatch_("tui:"+std::to_string(++requests_),command_,parameters_,FrontendSession::handles(command_)?review_revision_:""));
+            const auto id="tui:"+std::to_string(++requests_);view_=View::Result; // Consume review before callback.
+            auto reply=dispatch_(id,command_,parameters_,FrontendSession::handles(command_)?review_revision_:"");
+            if(reply.pending) {
+                if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
+                pending_=id;pending_view_=view_epoch_;outcome_=Outcome{};
+                notice_="Waiting for request; operation admission is unresolved. Cached views remain usable.";
+            } else result(std::move(reply.outcome));
         }return;
     }
     if(e.key==TuiKey::F2) {view_=View::Commands;focus_=registry_.commands.items.front().find("id")->text;scroll_=0;follow_focus_=true;return;}
@@ -140,6 +157,11 @@ std::vector<std::string> TuiModel::body() const {
         lines.push_back("Expected graph revision: "+review_revision_);
         lines.push_back("No storage permission is granted by review.");
     } else lines=tui_json_lines(outcome_.response);
+    if(!pending_.empty())lines.push_back("Pending request: "+pending_+"; no outcome or permission to retry");
+    if(earlier_.kind!=Value::Kind::null) {
+        lines.push_back("EARLIER REQUEST RESULT (separate from current view)");
+        const auto prior=tui_json_lines(earlier_);lines.insert(lines.end(),prior.begin(),prior.end());
+    }
     return lines;
 }
 std::vector<std::string> TuiModel::render(unsigned columns,unsigned rows,bool linear) {
@@ -169,6 +191,7 @@ Value TuiModel::state() const {
     return Value::object().put("view",Value::string(views[static_cast<unsigned>(view_)]))
         .put("notice",Value::string(notice_)).put("selection",session_.selection()).put("view_revision",Value::string(snapshot_->revision()))
         .put("focus",Value::string(focus_)).put("requests",Value::string(std::to_string(requests_)))
-        .put("parameters",parameters_).put("last_outcome",outcome_.response).put("done",Value::boolean_value(done_));
+        .put("parameters",parameters_).put("last_outcome",outcome_.response).put("done",Value::boolean_value(done_))
+        .put("pending_request",Value::string(pending_)).put("earlier_request",earlier_);
 }
 }

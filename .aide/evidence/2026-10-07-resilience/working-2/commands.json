@@ -1,0 +1,100 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/index.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/spec-tests.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/native-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_gui_waiting.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\gui-waiting.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/gui-waiting.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_console_waiting.py --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\console-waiting.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/console-waiting.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_worker_budget.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --memory build/windows-bootstrap/Release/disked_worker_memory_limit.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\worker-budget.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/worker-budget.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/verify-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W017 --output .aide-local/context/DE-W017-slice --byte-budget 260000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W017-slice",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/verify-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/resilience/test_console_waiting.py --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence .aide/evidence/2026-10-07-resilience/working-2/console-waiting-repaired.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/console-waiting-repaired.json"
+  }
+]

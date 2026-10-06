@@ -66,6 +66,16 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     }
     return refused(request,"command_unavailable",3);
 }
+Submission frontend_dispatch(const std::string& request,const std::string& command,const Value& parameters,
+    const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
+    RequestChannel& channel,const std::string& revision) {
+    if(implemented(command) && fake_worker_command(command)) {
+        // The background callback owns only immutable request data. It never
+        // captures the frontend/session or performs UI work after disconnection.
+        return channel.submit(request,[request,command,parameters]() {return dispatch_fake_worker(request,command,parameters);});
+    }
+    return dispatch(request,command,parameters,host,inputs,session,revision);
+}
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host) {
     if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null) {
         if(!host.output_usable)return false;
@@ -124,6 +134,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         const auto inputs=invocation_inputs(host,controls,!parsed.command_id.empty());
         const auto selection=route_invocation(inputs);
         std::unique_ptr<FrontendSession> session;
+        std::unique_ptr<RequestChannel> channel;
         Outcome outcome;
         if(!parsed.valid()) {
             outcome=refused("cli","invalid_arguments");outcome.response.fields["diagnostics"].items.clear();
@@ -138,24 +149,26 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
             shell_controls.put("frontend",Value::string("cli")).put("interactive",Value::string("yes"));
             const auto shell_inputs=invocation_inputs(host,shell_controls,true);
             return run_windows_shell(setting(parsed,"terminal_presentation","auto"),[&]() {
+                channel.reset(new RequestChannel());
                 session.reset(new FrontendSession(registry,fake_graph()));
                 const auto* history=parsed.parameters.find("history");
                 return std::unique_ptr<ShellModel>(new ShellModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return dispatch(id,command,parameters,host,shell_inputs,session,revision);
-                    },history && history->text=="session"));
+                        return frontend_dispatch(id,command,parameters,host,shell_inputs,session,*channel,revision);
+                    },history && history->text=="session",[&](Outcome& value) {return channel->poll(value);}));
             });
         }
         else if(setting(parsed,"frontend","auto")=="gui") {
             InvocationHost gui_host=host;auto gui_inputs=inputs;
             return run_windows_gui([&](const Value& observed) {
+                channel.reset(new RequestChannel());
                 gui_host.observations.put("gui",observed).put("display",Value::string("available"));
                 gui_host.policy.put("display",Value::boolean_value(true));gui_inputs.put("display",Value::boolean_value(true));
                 session.reset(new FrontendSession(registry,fake_graph()));
                 auto model=std::unique_ptr<GuiModel>(new GuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return dispatch(id,command,parameters,gui_host,gui_inputs,session,revision);
-                    }));
+                        return frontend_dispatch(id,command,parameters,gui_host,gui_inputs,session,*channel,revision);
+                    },[&](Outcome& value) {return channel->poll(value);}));
                 if(!parsed.command_id.empty())model->stage(parsed.command_id,parsed.parameters);
                 return model;
             });
@@ -163,11 +176,12 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         else if(const auto* error=selection.find("error"))outcome=refused("cli",error->text,error->text=="argument_conflict"?2:3);
         else if(selection.find("frontend")->text=="tui") {
             return run_windows_tui(setting(parsed,"terminal_presentation","auto"),[&]() {
+                channel.reset(new RequestChannel());
                 session.reset(new FrontendSession(registry,fake_graph()));
                 auto model=std::unique_ptr<TuiModel>(new TuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return dispatch(id,command,parameters,host,inputs,session,revision);
-                    }));
+                        return frontend_dispatch(id,command,parameters,host,inputs,session,*channel,revision);
+                    },[&](Outcome& value) {return channel->poll(value);}));
                 if(!parsed.command_id.empty())model->stage(parsed.command_id,parsed.parameters);
                 return model;
             });

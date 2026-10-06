@@ -1,0 +1,87 @@
+{
+  "source_revision": "9ba3311ff948319841fe881a7e0c8a4ec5036312",
+  "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-9ba3311f\\build\\windows-bootstrap\\Release\\disked_worker_delayed.exe",
+  "sha256": "aec5a29f46c8e31f582b8b3395b050eb1f56f76a910a814849b99ff9d3005e26",
+  "fixture": "Test-only 5s worker admission delay",
+  "method": "WM_NULL round trips to our inactive-desktop GUI while explicitly submitted fake admission waits",
+  "samples": [
+    {
+      "responsive": false,
+      "elapsed_ms": 214.44240002892911,
+      "platform_error": 1460
+    },
+    {
+      "responsive": false,
+      "elapsed_ms": 201.44630002323538,
+      "platform_error": 1460
+    },
+    {
+      "responsive": false,
+      "elapsed_ms": 201.0755999945104,
+      "platform_error": 1460
+    }
+  ],
+  "admission_response": {
+    "diagnostics": [
+      {
+        "code": "operation_admission_unresolved",
+        "message_key": "disked.operation_admission_unresolved",
+        "parameters": {},
+        "platform_code": null,
+        "remediation": [],
+        "severity": "error"
+      }
+    ],
+    "evidence": [],
+    "operation_id": "fake-op:96b1bcb2e2c0157884b7913e295beb05",
+    "request_id": "gui:1",
+    "result": {
+      "admission": "unresolved"
+    },
+    "schema": "org.disked.response/1",
+    "status": "unknown"
+  },
+  "later_operation_response": {
+    "diagnostics": [],
+    "evidence": [],
+    "operation_id": "fake-op:96b1bcb2e2c0157884b7913e295beb05",
+    "request_id": "cli",
+    "result": {
+      "last_record_digest": "935b4808929b8da4fb4fac2b5721fd00d8fda26defd0d8ab719f07932dfa43ed",
+      "operation_id": "fake-op:96b1bcb2e2c0157884b7913e295beb05",
+      "scope": "fake-only",
+      "state": {
+        "attempt_state": "finished",
+        "binding": {
+          "attempt_id": "fake-op:96b1bcb2e2c0157884b7913e295beb05:attempt:1",
+          "fixture_id": "fake:complete",
+          "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+          "image_digest": "aec5a29f46c8e31f582b8b3395b050eb1f56f76a910a814849b99ff9d3005e26",
+          "input_digest": "sha256:8a336ee9889a64e20738506d9633a5b178320bbeb19ddb988331db160feb6e1e",
+          "operation_id": "fake-op:96b1bcb2e2c0157884b7913e295beb05",
+          "process_created": "134357681758671290",
+          "process_id": "28764",
+          "provider_id": "provider.fake.bootstrap/1",
+          "source_revision": "9ba3311ff948319841fe881a7e0c8a4ec5036312",
+          "target_profile": "windows.nt10.x64.win32",
+          "worker_epoch": "worker:fe15d9391889beedef2a7b88cb02de31"
+        },
+        "cancellation": "not_requested",
+        "effect_certainty": "observed",
+        "last_event": "verified",
+        "logical_state": "completed",
+        "outcome": "succeeded",
+        "phase": "finished",
+        "recovery": "unnecessary",
+        "schema": "org.disked.fake-operation/1",
+        "scope": "fake-only",
+        "sequence": "5",
+        "synthetic_effect_count": "1"
+      },
+      "worker_observation": "exited"
+    },
+    "schema": "org.disked.response/1",
+    "status": "completed"
+  },
+  "interpretation": "The UI cannot service the 200ms input probe during synchronous admission; timeout correctly preserves an unresolved operation which later completes."
+}

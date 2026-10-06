@@ -132,8 +132,14 @@ focus and standard accessibility roles. Tab/Shift+Tab traverse enabled controls;
 button mnemonics and Enter on the navigator open the focused item. Read-only
 multiline results support selection/copy and both scroll directions. Review escapes
 control/bidi/nonprinting data separately from exact editable values. Finite model
-bounds retain one snapshot, one form and one outcome, with at most 1 MiB display
-text. Large content scrolls rather than truncating identity or diagnostics.
+bounds retain one snapshot, one form, one current outcome and at most one earlier
+completion, with at most 1 MiB display text. A pending fake-operation request does
+not block cached navigation. A view epoch keeps late completion separate from the
+current form, review and selection. The private composite display allows two
+64 KiB response values plus 1024 bytes of correlation fields, 16,400 values and
+depth 33; individual responses retain their existing protocol limits. If pretty
+indentation exceeds 1 MiB, use compact escaped JSON without dropping values.
+Large content scrolls rather than truncating identity or diagnostics.
 
 Use host system colors and message font, with a read-only high-contrast observation.
 Respond to setting changes without changing the user's theme, contrast, font or

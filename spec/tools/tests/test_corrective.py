@@ -71,6 +71,9 @@ class ProtocolCorrections(unittest.TestCase):
             with self.subTest(path=path):self.assertFalse(self.bundle.impact([path])['unknown_impact'])
 
 class TemporaryCorrectiveFixture(unittest.TestCase):
+    # This live-repository fixture tests binding/freshness, not a fixed prose
+    # size. DE-W017's added safety inputs exceed the old 180 KB fixture allowance.
+    context_budget=260000
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.repo=Path(self.temp.name)/'repo';self.root=self.repo/'spec'
         shutil.copytree(ROOT,self.root,ignore=shutil.ignore_patterns('__pycache__'))
@@ -86,7 +89,7 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
         self.bundle=sc.Bundle(self.root);self.pack=Path(self.temp.name)/'pack'
     def tearDown(self):self.temp.cleanup()
     def pack_context(self,work='DE-W012'):
-        self.bundle.context(work,self.pack,180000)
+        self.bundle.context(work,self.pack,self.context_budget)
 
 class ContextCorrections(TemporaryCorrectiveFixture):
     def test_native_bootstrap_context_binds_build_source_and_acceptance_fixture(self):
@@ -157,7 +160,7 @@ class ContextCorrections(TemporaryCorrectiveFixture):
 
     def test_artifact_budget_refuses_before_writing(self):
         with self.assertRaisesRegex(sc.SpecError,'artifact byte budget'):
-            self.bundle.context('DE-W012',self.pack,180000,1)
+            self.bundle.context('DE-W012',self.pack,self.context_budget,1)
         self.assertFalse(self.pack.exists())
 
 class ReceiptCorrections(TemporaryCorrectiveFixture):

@@ -233,15 +233,40 @@ Handle inherited(HANDLE source,DWORD access) {
 }
 struct AttributeList {
     std::vector<unsigned char> buffer;LPPROC_THREAD_ATTRIBUTE_LIST list=nullptr;
-    explicit AttributeList(std::vector<HANDLE>& handles) {
-        SIZE_T bytes=0;InitializeProcThreadAttributeList(nullptr,1,0,&bytes);buffer.resize(bytes);
+    AttributeList(std::vector<HANDLE>& handles,std::vector<HANDLE>& jobs) {
+        SIZE_T bytes=0;InitializeProcThreadAttributeList(nullptr,2,0,&bytes);buffer.resize(bytes);
         list=reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(buffer.data());
-        if(!InitializeProcThreadAttributeList(list,1,0,&bytes)) {list=nullptr;fail("operation_spawn_attributes");}
-        if(!UpdateProcThreadAttribute(list,0,PROC_THREAD_ATTRIBUTE_HANDLE_LIST,handles.data(),handles.size()*sizeof(HANDLE),nullptr,nullptr)) {
+        if(!InitializeProcThreadAttributeList(list,2,0,&bytes)) {list=nullptr;fail("operation_spawn_attributes");}
+        if(!UpdateProcThreadAttribute(list,0,PROC_THREAD_ATTRIBUTE_HANDLE_LIST,handles.data(),handles.size()*sizeof(HANDLE),nullptr,nullptr) ||
+           !UpdateProcThreadAttribute(list,0,PROC_THREAD_ATTRIBUTE_JOB_LIST,jobs.data(),jobs.size()*sizeof(HANDLE),nullptr,nullptr)) {
             DeleteProcThreadAttributeList(list);list=nullptr;fail("operation_spawn_attributes");
         }
     }
     ~AttributeList() {if(list)DeleteProcThreadAttributeList(list);}
+};
+struct WorkerBudget {
+    Handle job;
+    explicit WorkerBudget(const Security& security,bool create) {
+        const auto name=L"Local\\DiskEd.Fake.Workers.v1."+wide(security.host_id);
+        auto attributes=security.attributes;
+        SetLastError(ERROR_SUCCESS);
+        job=Handle(create?CreateJobObjectW(&attributes,name.c_str()):OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,name.c_str()));
+        const auto error=GetLastError();if(!job.valid())fail("operation_worker_budget_unavailable");
+        const DWORD flags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY|JOB_OBJECT_LIMIT_JOB_MEMORY;
+        if(create && error!=ERROR_ALREADY_EXISTS) {
+            JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=flags;
+            limits.BasicLimitInformation.ActiveProcessLimit=4;limits.ProcessMemoryLimit=128*1024*1024;limits.JobMemoryLimit=512*1024*1024;
+            if(!SetInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits)))fail("operation_worker_budget_unavailable");
+        }
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
+        if(!QueryInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits),nullptr) ||
+           limits.BasicLimitInformation.LimitFlags!=flags || limits.BasicLimitInformation.ActiveProcessLimit!=4 ||
+           limits.ProcessMemoryLimit!=128*1024*1024 || limits.JobMemoryLimit!=512*1024*1024)fail("operation_worker_budget_mismatch");
+        if(!create) {
+            BOOL member=FALSE;
+            if(!IsProcessInJob(GetCurrentProcess(),job.value,&member) || !member)fail("operation_worker_budget_mismatch");
+        }
+    }
 };
 Outcome start(const std::string& request,const std::string& fixture_id,const Directory& directory,const Security& security) {
     Image image;const auto definition=request_definition(fixture_id,security,image,directory);
@@ -281,23 +306,24 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         DWORD written=0;if(!WriteFile(pipe_write.value,bytes.data(),static_cast<DWORD>(bytes.size()),&written,nullptr) || written!=bytes.size())fail("operation_pipe_write");pipe_write=Handle();
         auto child_pipe=inherited(pipe_read.value,GENERIC_READ);auto child_records=inherited(records.value,FILE_APPEND_DATA|FILE_READ_ATTRIBUTES);
         auto child_cancel=inherited(cancel.value,GENERIC_READ);auto child_event=inherited(event.value,EVENT_MODIFY_STATE|SYNCHRONIZE);
-        std::vector<HANDLE> handles={child_pipe.value,child_records.value,child_cancel.value,child_event.value};AttributeList list(handles);
+        std::vector<HANDLE> handles={child_pipe.value,child_records.value,child_cancel.value,child_event.value};
         std::wstring command=L"\""+image.path+L"\" __disked_fake_worker";
         for(const auto h:handles)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(h));
-        STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=list.list;
-        startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
+        WorkerBudget aggregate(security,true);
         Handle job(CreateJobObjectW(&attributes,nullptr));if(!job.valid())fail("operation_job_create");
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY;
         limits.BasicLimitInformation.ActiveProcessLimit=1;limits.ProcessMemoryLimit=128*1024*1024;
         if(!SetInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits)))fail("operation_job_limits");
+        std::vector<HANDLE> jobs={aggregate.job.value,job.value};AttributeList list(handles,jobs);
+        STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=list.list;
+        startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
         PROCESS_INFORMATION raw{};
+        // Windows 10 assigns the specified jobs as part of process creation.
+        // There is no parent-owned suspended child awaiting a later assignment
+        // or ResumeThread call if this frontend disconnects during admission.
         if(!CreateProcessW(image.path.c_str(),&command[0],nullptr,nullptr,TRUE,
-            CREATE_NO_WINDOW|CREATE_SUSPENDED|EXTENDED_STARTUPINFO_PRESENT,nullptr,nullptr,&startup.StartupInfo,&raw))fail("operation_spawn_failed");
+            DETACHED_PROCESS|EXTENDED_STARTUPINFO_PRESENT,nullptr,directory.path.c_str(),&startup.StartupInfo,&raw))fail("operation_spawn_failed");
         Handle process(raw.hProcess),thread(raw.hThread);
-        if(!AssignProcessToJobObject(job.value,process.value) || ResumeThread(thread.value)==static_cast<DWORD>(-1)) {
-            // This child has never run its entrypoint. No uncertain effect is killed.
-            TerminateProcess(process.value,4);WaitForSingleObject(process.value,3000);fail("operation_spawn_prepared_failed");
-        }
         child_pipe=Handle();child_records=Handle();child_cancel=Handle();child_event=Handle();pipe_read=Handle();records=Handle();cancel=Handle();
         HANDLE waits[]={event.value,process.value};const auto wait=WaitForMultipleObjects(2,waits,FALSE,3000);
         if(wait!=WAIT_OBJECT_0) {
@@ -316,6 +342,9 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         if(text(*out.response.find("result")->find("state"),"phase")=="finished")return out;
         out.response.put("status",Value::string("accepted_running"));out.exit_code=5;
         return out;
+    } catch(const Failure& error) {
+        auto out=result(request,id,Value::object().put("admission",Value::string("unresolved")),"unknown",6,error.what());
+        out.response.fields["diagnostics"].items.back().put("platform_code",Value::string(std::to_string(error.platform)));return out;
     } catch(const std::exception& error) {
         return result(request,id,Value::object().put("admission",Value::string("unresolved")),"unknown",6,error.what());
     }
@@ -382,7 +411,7 @@ int run_fake_worker(int argc,wchar_t** argv) {
            text(header,"record_file_id")!=file_identity(records.value) || text(header,"cancel_file_id")!=file_identity(cancel.value))fail("operation_role_capability");
         const auto* definition=header.find("definition");if(!definition || definition->fields.size()!=8 ||
             op::hash(json::dump(*definition))!=text(header,"definition_digest"))fail("operation_request_invalid");
-        Security security;Image image;
+        Security security;Image image;WorkerBudget aggregate(security,false);
         if(text(*definition,"source_revision")!=bootstrap::source_revision || text(*definition,"input_digest")!=bootstrap::input_digest ||
            text(*definition,"image_digest")!=image.digest || text(*definition,"host_id")!=security.host_id)fail("operation_image_mismatch");
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION budget{};
@@ -419,6 +448,21 @@ int run_fake_worker(int argc,wchar_t** argv) {
 #endif
         initialize_fake_provider();
         save();advance("prepare");if(!SetEvent(event.value))fail("operation_admission_signal");event=Handle();
+#ifdef DISKED_WORKER_TEST_MEMORY_LIMIT
+        // Test-only worker: attempt up to 144 MiB of committed allocations under
+        // the actual 128 MiB job ceiling. Retain them briefly for external query.
+        // No product option or fixture ID enables this fault.
+        std::vector<void*> allocations;allocations.reserve(9);DWORD allocation_error=0;
+        for(unsigned i=0;i<9;++i) {
+            auto* memory=VirtualAlloc(nullptr,16*1024*1024,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE);
+            if(!memory) {allocation_error=GetLastError();break;}
+            allocations.push_back(memory);
+        }
+        Sleep(1500);
+        for(auto* memory:allocations)VirtualFree(memory,0,MEM_RELEASE);
+        return allocations.size()>=6 && allocations.size()<8 && allocation_error?
+            static_cast<int>(allocation_error):211;
+#endif
         const auto fixture_id=text(binding,"fixture_id");
         poll(fixture_id=="fake:cancel-checkpoint"?2000:250);if(operation.terminal())return 0;
         advance("dispatch");if(fixture_id=="fake:unknown")return 6;

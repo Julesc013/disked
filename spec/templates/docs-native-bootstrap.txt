@@ -167,3 +167,25 @@ for exact grammar, bounds and presentation limits. Console tests use synthetic
 input on this Windows host; they do not qualify human usability, screen readers,
 other keyboards, remote sessions or historical systems. File-API stalls in fake
 operation admission remain part of the following resilience work.
+
+## Resilience development (DE-W017, in progress)
+
+GUI, TUI and shell fake-operation calls now use one owned background request
+channel. Cached navigation stays available during delayed admission; edited
+input, review and newer views survive late replies. A busy channel refuses a
+second operation request. Pending is not proof of admission or permission to retry.
+Closing a frontend leaves admitted workers independent; incomplete admission may
+remain unknown. The most recent earlier GUI/TUI completion is displayed separately.
+
+Cooperating fake workers have an enforced four-process limit in the current
+user/Windows session, 128 MiB committed memory per worker and 512 MiB aggregate
+job memory. Workers start detached from consoles, with both jobs assigned during
+creation. Existing immutable claims never restart automatically when a slot frees.
+The actual Windows campaign includes delayed admission, disconnected clients,
+a fifth start, memory denial, malformed completion and retained views. Exact
+source-bound results belong under `.aide/evidence/2026-10-07-resilience/`.
+
+DE-W017 remains active: blocked ordinary-file APIs in synchronous CLI/stdio,
+whole-frontend memory, slow-consumer/backpressure, full destinations and the
+combined provider-failure campaign still need implementation and evidence.
+This slice does not qualify physical storage, older hosts or a security sandbox.

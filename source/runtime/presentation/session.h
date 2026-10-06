@@ -1,6 +1,7 @@
 #pragma once
 #include "snapshot.h"
 #include "protocol.h"
+#include "requests.h"
 
 namespace disked {
 enum class ActionKind {Inspect, Select, ClearSelection};
@@ -26,6 +27,6 @@ private:
     json::Value assessment(const std::string& target,const std::string& operation) const;
 };
 // ASCII-only linear view; preserves the underlying value losslessly.
-std::string presentation_json(const json::Value& value);
-std::vector<std::string> presentation_lines(const json::Value& value);
+std::string presentation_json(const json::Value& value,json::Limits limits = json::Limits{});
+std::vector<std::string> presentation_lines(const json::Value& value,json::Limits limits = json::Limits{});
 }

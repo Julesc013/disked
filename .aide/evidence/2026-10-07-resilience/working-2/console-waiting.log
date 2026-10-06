@@ -1,0 +1,96 @@
+test_shell_remains_editable_and_preserves_late_outcome (__main__.ConsoleWaiting.test_shell_remains_editable_and_preserves_late_outcome) ... FAIL
+test_tui_retains_cached_inventory_when_late_outcome_arrives (__main__.ConsoleWaiting.test_tui_retains_cached_inventory_when_late_outcome_arrives) ... ok
+
+======================================================================
+FAIL: test_shell_remains_editable_and_preserves_late_outcome (__main__.ConsoleWaiting.test_shell_remains_editable_and_preserves_late_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\resilience\test_console_waiting.py", line 14, in test_shell_remains_editable_and_preserves_late_outcome
+    def test_shell_remains_editable_and_preserves_late_outcome(self):self.exercise('shell')
+                                                                     ~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\resilience\test_console_waiting.py", line 12, in exercise
+    self.assertEqual(0,p.returncode,json.dumps(value,indent=2));self.assertNotIn('fixture_error',value)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {
+  "frontend": "shell",
+  "before": {
+    "handles": [
+      588,
+      592,
+      596
+    ],
+    "modes": [
+      503,
+      3,
+      3
+    ],
+    "codepages": [
+      437,
+      437
+    ],
+    "buffer": [
+      80,
+      1000
+    ],
+    "viewport": [
+      0,
+      0,
+      79,
+      24
+    ],
+    "attributes": 7,
+    "cursor_style": [
+      25,
+      true
+    ],
+    "cursor": [
+      0,
+      0
+    ],
+    "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  "observations": [
+    {
+      "contains": "disked>",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\ndisked> [local|none] \"\"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "elapsed_ms": 21.802700008265674
+    },
+    {
+      "contains": "F9 submits:",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\nF9 submits: plan.simulate",
+      "elapsed_ms": 10.643399960827082
+    },
+    {
+      "contains": "pending request",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\n[3] pending request\n{\n  \"outcome\": \"unresolved; no permission to retry\",\n  \"request_id\": \"shell:1\"\n}\ndisked> [local|none] \"\"",
+      "elapsed_ms": 10.494699992705137
+    },
+    {
+      "contains": "targets (cached)",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\n[3] pending request\n{\n  \"outcome\": \"unresolved; no permission to retry\",\n  \"request_id\": \"shell:1\"\n}\n[4] targets (cached)\n[\n  {\n    \"id\": \"fake:alpha@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:clone@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:denied@1\",\n    \"state\": \"denied\"\n  },\n  {\n    \"id\": \"fake:stale@1\",\n    \"state\": \"stale\"\n  },\n  {\n    \"id\": \"fake:unknown@1\",\n    \"state\": \"unknown\"\n  },\n  {\n    \"id\": \"fake:table@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:volume@1\",\n    \"state\": \"current\"\n  }\n]\nEnter selects: \"fake:alpha@1\"",
+      "elapsed_ms": 10.920800035819411
+    },
+    {
+      "contains": "disked>",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\n[3] pending request\n{\n  \"outcome\": \"unresolved; no permission to retry\",\n  \"request_id\": \"shell:1\"\n}\n[4] targets (cached)\n[\n  {\n    \"id\": \"fake:alpha@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:clone@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:denied@1\",\n    \"state\": \"denied\"\n  },\n  {\n    \"id\": \"fake:stale@1\",\n    \"state\": \"stale\"\n  },\n  {\n    \"id\": \"fake:unknown@1\",\n    \"state\": \"unknown\"\n  },\n  {\n    \"id\": \"fake:table@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:volume@1\",\n    \"state\": \"current\"\n  }\n]\n[5] selection\n{\n  \"diagnostics\": [\n  ],\n  \"evidence\": [\n  ],\n  \"operation_id\": null,\n  \"request_id\": \"shell:select\",\n  \"result\": {\n    \"state\": \"present\",\n    \"target_id\": \"fake:alpha@1\"\n  },\n  \"schema\": \"org.disked.response/1\",\n  \"status\": \"completed\"\n}\ndisked> [local|\"fake:alpha@1\"] \"\"",
+      "elapsed_ms": 11.331200017593801
+    },
+    {
+      "contains": "inert draft",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\n[3] pending request\n{\n  \"outcome\": \"unresolved; no permission to retry\",\n  \"request_id\": \"shell:1\"\n}\n[4] targets (cached)\n[\n  {\n    \"id\": \"fake:alpha@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:clone@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:denied@1\",\n    \"state\": \"denied\"\n  },\n  {\n    \"id\": \"fake:stale@1\",\n    \"state\": \"stale\"\n  },\n  {\n    \"id\": \"fake:unknown@1\",\n    \"state\": \"unknown\"\n  },\n  {\n    \"id\": \"fake:table@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:volume@1\",\n    \"state\": \"current\"\n  }\n]\n[5] selection\n{\n  \"diagnostics\": [\n  ],\n  \"evidence\": [\n  ],\n  \"operation_id\": null,\n  \"request_id\": \"shell:select\",\n  \"result\": {\n    \"state\": \"present\",\n    \"target_id\": \"fake:alpha@1\"\n  },\n  \"schema\": \"org.disked.response/1\",\n  \"status\": \"completed\"\n}\ndisked> [local|\"fake:alpha@1\"] \"inert draft\"",
+      "elapsed_ms": 10.930999997071922
+    },
+    {
+      "contains": "earlier request outcome",
+      "text": "DiskEd shell | FAKE ONLY | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+\nC closes\",\n  \"history\": \"off\",\n  \"host\": \"local fake composition\"\n}\n[2] review (inert)\n{\n  \"command\": \"plan.simulate\",\n  \"expected_revision\": \"sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31\nff341b0120de6f4\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n    \"fixture_id\": \"fake:complete\",\n    \"state_directory\": \"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-console-w\nait-zool3hcb\\\\state\"\n  },\n  \"selection\": {\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\n[3] pending request\n{\n  \"outcome\": \"unresolved; no permission to retry\",\n  \"request_id\": \"shell:1\"\n}\n[4] targets (cached)\n[\n  {\n    \"id\": \"fake:alpha@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:clone@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:denied@1\",\n    \"state\": \"denied\"\n  },\n  {\n    \"id\": \"fake:stale@1\",\n    \"state\": \"stale\"\n  },\n  {\n    \"id\": \"fake:unknown@1\",\n    \"state\": \"unknown\"\n  },\n  {\n    \"id\": \"fake:table@1\",\n    \"state\": \"current\"\n  },\n  {\n    \"id\": \"fake:volume@1\",\n    \"state\": \"current\"\n  }\n]\n[5] selection\n{\n  \"diagnostics\": [\n  ],\n  \"evidence\": [\n  ],\n  \"operation_id\": null,\n  \"request_id\": \"shell:select\",\n  \"result\": {\n    \"state\": \"present\",\n    \"target_id\": \"fake:alpha@1\"\n  },\n  \"schema\": \"org.disked.response/1\",\n  \"status\": \"completed\"\n}\n[6] earlier request outcome\n{\n  \"diagnostics\": [\n    {\n      \"code\": \"operation_admission_unresolved\",\n      \"message_key\": \"disked.operation_admission_unresolved\",\n      \"parameters\": {\n      },\n      \"platform_code\": null,\n      \"remediation\": [\n      ],\n      \"severity\": \"error\"\n    }\n  ],\n  \"evidence\": [\n  ],\n  \"operation_id\": \"fake-op:11b08e405bfc379f30223e64343819e5\",\n  \"request_id\": \"shell:1\",\n  \"result\": {",
+      "elapsed_ms": 3024.087600002531
+    }
+  ],
+  "cached_navigation_ms": 10.920800035819411,
+  "fixture_error": "Late completion replaced input"
+}
+
+----------------------------------------------------------------------
+Ran 2 tests in 14.405s
+
+FAILED (failures=1)

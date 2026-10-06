@@ -17,7 +17,7 @@ struct Failure : std::runtime_error {
 #define USER_APIS(X) \
     X(GetProcessWindowStation) X(GetUserObjectInformationW) X(RegisterClassW) X(UnregisterClassW) \
     X(CreateWindowExW) X(DestroyWindow) X(DefWindowProcW) X(ShowWindow) X(UpdateWindow) \
-    X(GetMessageW) X(TranslateMessage) X(DispatchMessageW) X(IsDialogMessageW) X(PostQuitMessage) \
+    X(GetMessageW) X(TranslateMessage) X(DispatchMessageW) X(IsDialogMessageW) X(PostQuitMessage) X(SetTimer) X(KillTimer) \
     X(SendMessageW) X(SetWindowTextW) X(GetWindowTextW) X(GetWindowTextLengthW) \
     X(GetClientRect) X(MoveWindow) X(SetFocus) X(GetFocus) X(EnableWindow) \
     X(LoadCursorW) X(LoadIconW) X(SystemParametersInfoW) X(GetSysColorBrush) \
@@ -70,11 +70,6 @@ std::string utf8(const std::wstring& value) {
     std::string result(static_cast<std::size_t>(size),'\0');
     if(!WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,value.data(),static_cast<int>(value.size()),&result[0],size,nullptr,nullptr))throw Failure("gui_text_encoding");
     return result;
-}
-std::string text(const Value& value) {
-    std::string result;
-    for(const auto& line:presentation_lines(value)) {result+=line;result+="\r\n";}
-    if(result.size()>1048576)throw Failure("gui_presentation_limit");return result;
 }
 enum Control {Navigator=100,Details,Summary,Notice,Targets,Commands,Refresh,Clear,Open,Review,Submit,Back,Heading,
     Field0=200,Field1,Label0=220,Label1};
@@ -206,7 +201,7 @@ public:
             }
         }
         set(Summary,"Current: cached fake observations | Proposed: none\r\nSelection: "+presentation_json(state.find("selection")?*state.find("selection"):Value{}));
-        set(Details,text(model->details()));
+        set(Details,model->detail_text());
         set(Notice,state.find("notice")->text+" | High contrast: "+(contrast_known?(high_contrast?"on":"off"):"unknown"));
         api.EnableWindow(controls.at(Review),state.find("form")->boolean);
         api.EnableWindow(controls.at(Submit),state.find("reviewed")->boolean);
@@ -244,6 +239,7 @@ public:
                 auto* limits=reinterpret_cast<MINMAXINFO*>(lp);limits->ptMinTrackSize={self.scale(800),self.scale(570)};return 0;
             }
             case WM_COMMAND:self.command(LOWORD(wp),HIWORD(wp));return 0;
+            case WM_TIMER:if(wp==1 && self.model->tick())self.draw(false);return 0;
             case WM_SETTINGCHANGE:self.read_contrast();self.set_font();self.draw(false);return 0;
             case WM_SYSCOLORCHANGE:self.api.InvalidateRect(hwnd,nullptr,TRUE);return 0;
             case WM_CTLCOLORSTATIC:case WM_CTLCOLOREDIT:case WM_CTLCOLORLISTBOX: {
@@ -254,7 +250,7 @@ public:
                 return reinterpret_cast<LRESULT>(self.api.GetSysColorBrush(back));
             }
             case WM_CLOSE:self.api.DestroyWindow(hwnd);return 0;
-            case WM_DESTROY:self.api.PostQuitMessage(0);return 0;
+            case WM_DESTROY:self.api.KillTimer(hwnd,1);self.api.PostQuitMessage(0);return 0;
             }
             return self.api.DefWindowProcW(hwnd,message,wp,lp);
         } catch(...) {self.failed=true;if(message!=WM_DESTROY)self.api.DestroyWindow(hwnd);return 0;}
@@ -267,6 +263,7 @@ public:
         window=api.CreateWindowExW(WS_EX_CONTROLPARENT,class_name,L"DiskEd - Fake storage workbench",WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT,CW_USEDEFAULT,1000,720,nullptr,nullptr,wc.hInstance,nullptr);
         if(!window || failed)throw Failure("gui_window_creation");
+        if(!api.SetTimer(window,1,50,nullptr))throw Failure("gui_timer_unavailable");
         STARTUPINFOW start={};start.cb=sizeof(start);GetStartupInfoW(&start);
         api.ShowWindow(window,(start.dwFlags&STARTF_USESHOWWINDOW)?start.wShowWindow:SW_SHOWNORMAL);api.UpdateWindow(window);
         MSG message={};BOOL received=0;

@@ -220,6 +220,7 @@ int run_windows_tui(const std::string& style,const std::function<std::unique_ptr
         throw std::runtime_error("injected_tui_failure");
 #endif
         while(!model->done() && !interrupted.load()) {
+            if(model->tick())terminal.draw(*model);
             TuiInput event{TuiKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
@@ -236,6 +237,7 @@ int run_windows_shell(const std::string& style,const std::function<std::unique_p
         throw std::runtime_error("injected_shell_failure");
 #endif
         while(!model->done() && !interrupted.load()) {
+            if(model->tick())terminal.draw(*model);
             TuiInput event{TuiKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
