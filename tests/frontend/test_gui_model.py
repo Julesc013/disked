@@ -53,9 +53,11 @@ class Model(unittest.TestCase):
 
     def test_command_availability_and_no_invented_plan(self):
         self.assertIsNone(self.call()['details']['proposed'])
-        rows=self.call('navigate',commands=True)['rows'];self.assertEqual(35,len(rows))
+        rows=self.call('navigate',commands=True)['rows']
+        catalog=json.loads((Path(__file__).resolve().parents[2]/'spec/catalog/commands.json').read_text(encoding='utf-8'))
+        self.assertEqual([c['id'] for c in catalog['commands']],[r['id'] for r in rows])
         self.assertEqual('transport-only',next(r for r in rows if r['id']=='protocol.serve')['state'])
-        for command in ['protocol.serve','partition.resize.plan']:
+        for command in ['protocol.serve','shell.open','shell.close','partition.resize.plan']:
             result=self.stage(command);self.assertEqual('command_unavailable',result['details']['diagnostics'][0]['code']);self.assertFalse(result['state']['form'])
 
     def test_gui_cli_tui_outcomes_match(self):

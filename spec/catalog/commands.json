@@ -890,6 +890,39 @@
       "handler": null,
       "summary": "Open an explicit persistent DiskEd command session; no implicit storage effect",
       "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:command-shell-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "history",
+          "option": "--history",
+          "option_aliases": [],
+          "value_arity": 1,
+          "repeatable": false,
+          "completion": "schema-enum"
+        }
+      ],
+      "completion_policy": "static-only"
+    },
+    {
+      "id": "shell.close",
+      "words": [
+        "exit"
+      ],
+      "aliases": [
+        "quit"
+      ],
+      "effect": "none",
+      "availability": "planned",
+      "requires_plan": false,
+      "privilege": "none",
+      "request_schema": "urn:disked:schema:request:1",
+      "result_schema": "urn:disked:schema:response:1",
+      "spec_ids": [
+        "DE-027"
+      ],
+      "handler": null,
+      "summary": "Close the current DiskEd shell without cancelling dispatched operations",
+      "syntax_status": "defined",
       "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
       "argument_bindings": [],
       "completion_policy": "static-only"

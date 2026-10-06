@@ -1,0 +1,91 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+      Start  1: shell.model
+ 1/19 Test  #1: shell.model ........................   Passed    1.34 sec
+      Start  2: operation.reducer
+ 2/19 Test  #2: operation.reducer ..................   Passed    0.95 sec
+      Start  3: frontend.gui_model
+ 3/19 Test  #3: frontend.gui_model .................***Failed    1.11 sec
+test_command_availability_and_no_invented_plan (__main__.Model.test_command_availability_and_no_invented_plan) ... FAIL
+test_gui_cli_tui_outcomes_match (__main__.Model.test_gui_cli_tui_outcomes_match) ... ok
+test_identity_selection_and_missing_focus_survive_refresh (__main__.Model.test_identity_selection_and_missing_focus_survive_refresh) ... ok
+test_invalid_edit_cannot_authorize_old_value (__main__.Model.test_invalid_edit_cannot_authorize_old_value) ... ok
+test_review_is_consumed_by_edit_submit_and_new_request (__main__.Model.test_review_is_consumed_by_edit_submit_and_new_request) ... ok
+test_stale_review_is_not_rebased_by_refresh (__main__.Model.test_stale_review_is_not_rebased_by_refresh) ... ok
+
+======================================================================
+FAIL: test_command_availability_and_no_invented_plan (__main__.Model.test_command_availability_and_no_invented_plan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_gui_model.py", line 56, in test_command_availability_and_no_invented_plan
+    rows=self.call('navigate',commands=True)['rows'];self.assertEqual(35,len(rows))
+                                                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 35 != 36
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.996s
+
+FAILED (failures=1)
+
+      Start  4: frontend.gui_windows
+ 4/19 Test  #4: frontend.gui_windows ...............***Failed    2.30 sec
+test_forms_require_separate_review_submit_and_match_cli (__main__.WindowsGui.test_forms_require_separate_review_submit_and_match_cli) ... ok
+test_keyboard_traversal_and_explicit_navigator_enter (__main__.WindowsGui.test_keyboard_traversal_and_explicit_navigator_enter) ... FAIL
+test_mode_observation_and_setting_refresh (__main__.WindowsGui.test_mode_observation_and_setting_refresh) ... ok
+test_native_controls_cached_graph_and_actual_render (__main__.WindowsGui.test_native_controls_cached_graph_and_actual_render) ... ok
+test_oversized_insert_and_control_text_cannot_authorize_old_value (__main__.WindowsGui.test_oversized_insert_and_control_text_cannot_authorize_old_value) ... ok
+test_resize_keeps_controls_in_client_and_details_complete (__main__.WindowsGui.test_resize_keeps_controls_in_client_and_details_complete) ... ok
+test_unavailable_gui_dependency_is_named_and_headless_remains_static (__main__.WindowsGui.test_unavailable_gui_dependency_is_named_and_headless_remains_static) ... ok
+
+======================================================================
+FAIL: test_keyboard_traversal_and_explicit_navigator_enter (__main__.WindowsGui.test_keyboard_traversal_and_explicit_navigator_enter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_gui_windows.py", line 41, in test_keyboard_traversal_and_explicit_navigator_enter
+    g.click(105);rows=g.list_ids();self.assertEqual(35,len(rows));index=next(i for i,s in enumerate(rows) if s.startswith('partition.resize.plan '))
+                                   ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 35 != 36
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.194s
+
+FAILED (failures=1)
+
+      Start  5: frontend.tui_model
+ 5/19 Test  #5: frontend.tui_model .................   Passed    0.38 sec
+      Start  6: frontend.tui_windows
+ 6/19 Test  #6: frontend.tui_windows ...............   Passed    3.23 sec
+      Start  7: shell.windows
+ 7/19 Test  #7: shell.windows ......................   Passed    6.39 sec
+      Start  8: frontend.service
+ 8/19 Test  #8: frontend.service ...................   Passed    0.46 sec
+      Start  9: frontend.transport
+ 9/19 Test  #9: frontend.transport .................   Passed    1.11 sec
+      Start 10: invocation.policy
+10/19 Test #10: invocation.policy ..................   Passed    5.71 sec
+      Start 11: protocol.compatible_reader
+11/19 Test #11: protocol.compatible_reader .........   Passed    0.70 sec
+      Start 12: command.syntax
+12/19 Test #12: command.syntax .....................   Passed   10.21 sec
+      Start 13: protocol.json_codec
+13/19 Test #13: protocol.json_codec ................   Passed    2.88 sec
+      Start 14: operation.worker
+14/19 Test #14: operation.worker ...................   Passed   21.19 sec
+      Start 15: disked.invocation
+15/19 Test #15: disked.invocation ..................   Passed    1.29 sec
+      Start 16: disked.acceptance
+16/19 Test #16: disked.acceptance ..................   Passed    2.82 sec
+      Start 17: disked_provider_guard.invocation
+17/19 Test #17: disked_provider_guard.invocation ...   Passed    1.46 sec
+      Start 18: disked_provider_guard.acceptance
+18/19 Test #18: disked_provider_guard.acceptance ...   Passed    2.90 sec
+      Start 19: provider_guard.positive_control
+19/19 Test #19: provider_guard.positive_control ....   Passed    0.13 sec
+
+89% tests passed, 2 tests failed out of 19
+
+Total Test time (real) =  66.61 sec
+
+The following tests FAILED:
+	  3 - frontend.gui_model (Failed)
+	  4 - frontend.gui_windows (Failed)
+Errors while running CTest

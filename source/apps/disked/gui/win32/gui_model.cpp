@@ -10,7 +10,7 @@ GuiModel::GuiModel(FrontendSession& session,const Registry& registry,Value disco
     if(!nodes.empty())focus_=target_focus_=nodes.front().find("id")->text;
 }
 bool GuiModel::available(const std::string& id) const {
-    if(id=="protocol.serve")return false;
+    if(id=="protocol.serve" || id=="shell.open" || id=="shell.close")return false;
     for(const auto& c:discovery_.find("commands")->items)
         if(c.find("id")->text==id)return c.find("availability")->text=="available";
     return false;

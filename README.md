@@ -8,7 +8,7 @@ The initial target is useful inspection, imaging and verification on Windows XP,
 
 ## Project status
 
-This repository contains a **proposed specification, working specification tooling and an initial native Windows bootstrap**. The prototype exposes help, build identity, static command discovery, native mode inspection, inspectable fake storage graphs, a native console TUI, a Win32 GUI, reconnectable fake operation workers and bounded JSON/NDJSON requests with a fake-only composition. Storage operations and the full interface remain under development; no target or storage-mutation capability is qualified. See [build instructions and limits](docs/native-bootstrap.md).
+This repository contains a **proposed specification, working specification tooling and an initial native Windows bootstrap**. The prototype exposes help, build identity, static command discovery, native mode inspection, inspectable fake storage graphs, a native console TUI, a Win32 GUI, an explicit command shell, reconnectable fake operation workers and bounded JSON/NDJSON requests with a fake-only composition. Storage operations and the full interface remain under development; no target or storage-mutation capability is qualified. See [build instructions and limits](docs/native-bootstrap.md).
 
 ## Start here
 

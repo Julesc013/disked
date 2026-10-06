@@ -13,6 +13,7 @@
 - [command-fake-simulation-parameters.schema.json](command-fake-simulation-parameters.schema.json)
 - [command-image-path-parameters.schema.json](command-image-path-parameters.schema.json)
 - [command-resize-proposal-parameters.schema.json](command-resize-proposal-parameters.schema.json)
+- [command-shell-parameters.schema.json](command-shell-parameters.schema.json)
 - [command-syntax-cases.schema.json](command-syntax-cases.schema.json)
 - [command-target-parameters.schema.json](command-target-parameters.schema.json)
 - [command.schema.json](command.schema.json)

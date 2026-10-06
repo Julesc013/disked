@@ -26,9 +26,15 @@ public:
     std::array<bool,256> pressed{};
     wchar_t high=0;
     std::vector<std::string> last_lines;
+    std::uint64_t shell_sequence=0;
+    HANDLE prompt_handle=INVALID_HANDLE_VALUE;
+    COORD prompt_origin{};
+    DWORD prompt_cells=0;
+    bool prompt_active=false,shell_linear=false;
     ~Terminal() {close();}
     bool close() noexcept {
         bool ok=true;
+        if(!clear_prompt())ok=false;
         if(active) {if(!SetConsoleActiveScreenBuffer(original))ok=false;active=false;}
         if(mode_changed) {
             DWORD current=0;
@@ -76,6 +82,8 @@ public:
         if(!SetConsoleCtrlHandler(nullptr,FALSE))throw Failure("terminal_control_unavailable");
     }
     void toggle() {
+        if(!clear_prompt())throw Failure("terminal_output_error");
+        shell_linear=false;
         if(!linear) {
             if(active && !SetConsoleActiveScreenBuffer(original))throw Failure("terminal_restore_failed");
             active=false;linear=true;geometry(output);
@@ -96,7 +104,7 @@ public:
             }
         }
     }
-    void draw(TuiModel& model) {
+    template<class Model>void draw_frame(Model& model) {
         const HANDLE target=active?screen:output;
         if(!geometry(target))throw Failure("terminal_geometry_unavailable");
         const unsigned columns=(std::min)(width,240u),rows=(std::min)(height,80u);
@@ -116,6 +124,47 @@ public:
         if(area.Left!=expected.Left || area.Top!=expected.Top || area.Right!=expected.Right || area.Bottom!=expected.Bottom)
             geometry(target); // A resize raced the write; next bounded iteration redraws.
     }
+    void draw(TuiModel& model) {draw_frame(model);}
+    bool clear_prompt() noexcept {
+        if(!prompt_active)return true;prompt_active=false;
+        CONSOLE_SCREEN_BUFFER_INFO info{};
+        if(!GetConsoleScreenBufferInfo(prompt_handle,&info))return false;
+        // A caller resize may shorten or remove our row. Never clear into the
+        // next row merely because the former prompt occupied more columns.
+        if(prompt_origin.X>=info.dwSize.X || prompt_origin.Y>=info.dwSize.Y) {prompt_cells=0;return true;}
+        const auto cells=(std::min)(prompt_cells,static_cast<DWORD>(info.dwSize.X-prompt_origin.X));prompt_cells=0;
+        DWORD written=0;
+        return FillConsoleOutputCharacterW(prompt_handle,L' ',cells,prompt_origin,&written) && written==cells &&
+            SetConsoleCursorPosition(prompt_handle,prompt_origin);
+    }
+    void draw(ShellModel& model) {
+        const HANDLE target=active?screen:output;
+        if(!geometry(target))throw Failure("terminal_geometry_unavailable");
+        if(!linear && screen_capable()) {
+            if(!clear_prompt())throw Failure("terminal_output_error");shell_linear=false;draw_frame(model);return;
+        }
+        // Stream complete records once, then edit only one explicitly owned
+        // prompt row. Linear mode never republishes a whole result per keystroke.
+        auto lines=model.linear_records(shell_sequence);
+        if(!shell_linear) {lines.insert(lines.begin(),"DiskEd shell | FAKE ONLY | linear");shell_linear=true;}
+        if(!lines.empty()) {if(!clear_prompt())throw Failure("terminal_output_error");write_lines(lines);}
+        CONSOLE_SCREEN_BUFFER_INFO info{};
+        if(!GetConsoleScreenBufferInfo(target,&info))throw Failure("terminal_geometry_unavailable");
+        if(!prompt_active) {
+            if(info.dwCursorPosition.X) {write_lines({""});if(!GetConsoleScreenBufferInfo(target,&info))throw Failure("terminal_geometry_unavailable");}
+            prompt_origin=info.dwCursorPosition;prompt_handle=target;prompt_active=true;
+        }
+        const auto columns=(std::max)(1u,(std::min)({width,240u,static_cast<unsigned>(info.dwSize.X-prompt_origin.X)}));
+        const auto prompt=model.prompt(columns>1?columns-1:1);
+        const auto cells=static_cast<DWORD>((std::max)(static_cast<std::size_t>(prompt_cells),prompt.text.size()));
+        DWORD written=0;
+        if(!FillConsoleOutputCharacterW(target,L' ',(std::min)(cells,static_cast<DWORD>(columns)),prompt_origin,&written))throw Failure("terminal_output_error");
+        const std::wstring text(prompt.text.begin(),prompt.text.end());
+        if(!WriteConsoleOutputCharacterW(target,text.data(),static_cast<DWORD>(text.size()),prompt_origin,&written) || written!=text.size())throw Failure("terminal_output_error");
+        prompt_cells=static_cast<DWORD>(text.size());
+        const COORD cursor={static_cast<SHORT>(prompt_origin.X+prompt.cursor),prompt_origin.Y};
+        if(!SetConsoleCursorPosition(target,cursor))throw Failure("terminal_output_error");
+    }
     bool next(TuiInput& event,bool& resize) {
         resize=false;const DWORD ready=WaitForSingleObject(input,100);
         if(ready==WAIT_TIMEOUT)return false;
@@ -132,9 +181,11 @@ public:
         const bool ctrl=(key.dwControlKeyState&(LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED))!=0;
         const bool alt=(key.dwControlKeyState&(LEFT_ALT_PRESSED|RIGHT_ALT_PRESSED))!=0;
         if(ctrl && vk=='C') {event.key=TuiKey::F10;return true;}
-        if(ctrl || alt)return false;
+        if(ctrl || alt) {high=0;return false;}
         switch(vk) {
         case VK_UP:event.key=TuiKey::Up;break;case VK_DOWN:event.key=TuiKey::Down;break;
+        case VK_LEFT:event.key=TuiKey::Left;break;case VK_RIGHT:event.key=TuiKey::Right;break;
+        case VK_HOME:event.key=TuiKey::Home;break;case VK_END:event.key=TuiKey::End;break;case VK_DELETE:event.key=TuiKey::Delete;break;
         case VK_PRIOR:event.key=TuiKey::PageUp;break;case VK_NEXT:event.key=TuiKey::PageDown;break;
         case VK_RETURN:event.key=TuiKey::Enter;break;
         case VK_TAB:event.key=key.dwControlKeyState&SHIFT_PRESSED?TuiKey::BackTab:TuiKey::Tab;break;
@@ -174,6 +225,22 @@ int run_windows_tui(const std::string& style,const std::function<std::unique_ptr
                 model->input(event);if(model->take_toggle())terminal.toggle();
                 if(!model->done())terminal.draw(*model);
             } else if(resize && !terminal.linear)terminal.draw(*model);
+        }
+        if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
+    } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
+}
+int run_windows_shell(const std::string& style,const std::function<std::unique_ptr<ShellModel>()>& create) {
+    try {
+        Terminal terminal;terminal.begin(style);auto model=create();terminal.draw(*model);
+#ifdef DISKED_TUI_TEST_FAULT
+        throw std::runtime_error("injected_shell_failure");
+#endif
+        while(!model->done() && !interrupted.load()) {
+            TuiInput event{TuiKey::Text,"",false};bool resize=false;
+            if(terminal.next(event,resize)) {
+                model->input(event);if(model->take_toggle())terminal.toggle();
+                if(!model->done())terminal.draw(*model);
+            } else if(resize)terminal.draw(*model);
         }
         if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
     } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}

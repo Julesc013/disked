@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. Real storage access and the command shell remain unavailable. The [command contract](../spec/interaction/commands.md)
+The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Real storage remains unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -38,7 +38,7 @@ implemented subset. `build.inspect`, `command.list`, `mode.explain` and the tran
 `target.list`, `target.inspect`, `topology.show` and `capability.explain`. The private fake operation profile implements `plan.simulate`, `operation.inspect` and `operation.cancel.request`. Recognizing a storage command's syntax does not
 admit its handler. Machine responses never mix human diagnostics with framed JSON.
 Exit 0 means a completed request, 2 invalid input/revision or target refusal, 3 unavailable, 4 output/internal failure, 5 accepted asynchronous work and 6 an unknown operation outcome.
-The reserved asynchronous outcomes cannot be produced by this synchronous subset.
+The fake operation commands may return asynchronous or unknown outcomes; ordinary completed reads remain synchronous.
 
 To use transport, pass `protocol serve --format=json` and provide one UTF-8 request
 to EOF, or choose `--format=ndjson` for a bounded sequence of lines. For example:
@@ -84,7 +84,7 @@ Arrows move focus; Enter selects/inspects. F2 opens commands, F3 inventory, F4
 clears selection, F5 refreshes the view, F6 switches presentation. Forms use Tab,
 Shift+Tab and Backspace; F9 opens review and a fresh F9 submits. Enter/pasted
 newlines cannot submit forms. PageUp/PageDown scroll complete data. Escape goes
-back; F10 or Ctrl+C exits. No persistent command shell or real storage operations are admitted. Simulation writes only its explicitly selected disposable evidence store.
+back; F10 or Ctrl+C exits. The separate `shell` entrypoint opens a persistent command session; real storage operations remain unavailable. Simulation writes only its explicitly selected disposable evidence store.
 Small consoles automatically use linear output. Pipes cannot supply TUI input.
 The linear view is available for accessibility workflows, but screen-reader
 qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).
@@ -137,3 +137,33 @@ components and nonempty first-admission directories. It uses one worker process,
 a 128 MiB process memory budget and a three-second admission wait. Its same-user
 file permissions and hash chain are not a sandbox, signature or production
 storage journal. See [the bounded contract](../spec/architecture/execution-topology.md).
+
+
+## Interactive command shell
+
+From a real Windows console, run `disked shell`. Add `--history=session` for
+memory-only history (default off), or `--terminal=linear` for streamed records
+and one editable prompt row. Pipes and conflicting machine/frontend controls
+are refused. Nothing is written for shell history or transcripts.
+
+Type `show fake:alpha@1`, press F9 to review its canonical request, then a fresh
+F9 to submit. Enter is deliberately inert. After an error, correct the retained
+line at the reported byte/token location. Quotes group literal text; doubled
+matching quotes encode a quote. Windows backslashes remain literal. There is no
+variable expansion, command chaining, redirection or operating-system shell escape.
+
+Left/Right/Home/End and Backspace/Delete edit Unicode characters. Tab lists
+static/cached candidates; arrows choose and a fresh Tab inserts. Up/Down recalls
+opted-in history. F2 lists commands, F3 cached targets, F4 clears selection,
+F5 refreshes the cached view and F6 switches layout. Selection never supplies an
+implicit command operand. `exit`/`quit` follows the same two-F9 review flow;
+F10 or Ctrl+C closes immediately without cancelling an admitted fake worker.
+
+The 4 KiB editor, 32-entry/64 KiB history and 64-record/256 KiB transcript have
+explicit limits. Secrets annotated in parameter schemas are masked and excluded
+from history. Large presentation values show an explicit unavailable marker
+without retrying a command. See [the shell contract](../spec/interaction/interactive-shell.md)
+for exact grammar, bounds and presentation limits. Console tests use synthetic
+input on this Windows host; they do not qualify human usability, screen readers,
+other keyboards, remote sessions or historical systems. File-API stalls in fake
+operation admission remain part of the following resilience work.

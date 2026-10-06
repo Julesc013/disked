@@ -167,9 +167,12 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
     const auto format=result.controls.find("format"), frontend=result.controls.find("frontend"), interactive=result.controls.find("interactive");
     const bool machine=format!=result.controls.end() && format->second!="human";
     const bool graphical=frontend!=result.controls.end() && (frontend->second=="gui" || frontend->second=="tui");
-    if(result.controls.count("terminal_presentation") && (frontend==result.controls.end() || frontend->second!="tui"))result.error("argument_conflict",0);
+    const auto terminal_conflict=[&](const std::string& command) {
+        if(result.controls.count("terminal_presentation") && command!="shell.open" && (frontend==result.controls.end() || frontend->second!="tui"))result.error("argument_conflict",0);
+    };
     if((machine && graphical) || (machine && interactive!=result.controls.end() && interactive->second=="yes") || (graphical && interactive!=result.controls.end() && interactive->second=="no"))result.error("argument_conflict",0);
     if(words.empty()) {
+        terminal_conflict("");
         if(!named.empty())result.error("command_not_found",named.front().token);
         result.kind="help";result.domain="@root";return result;
     }
@@ -183,6 +186,7 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
         for(const auto& form:forms)if(form.size()>consumed && prefix(form,words,boundary)) {selected=&command;consumed=form.size();}
     }
     if(!selected) {
+        terminal_conflict("");
         if(result.help_requested && words.size()==1 && boundary==1) {
             for(const auto& domain:array(registry.syntax,"domains"))if(text(domain,"word")==words[0] || contains(array(domain,"aliases"),words[0])) {
                 result.kind="help";result.domain=text(domain,"word");
@@ -192,6 +196,10 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
         result.error("command_not_found",positions.empty()?0:positions[0]);return result;
     }
     result.command_id=text(*selected,"id");result.kind=result.help_requested?"help":"command";
+    terminal_conflict(result.command_id);
+    if(result.command_id=="shell.open" && !result.help_requested &&
+       (machine || graphical || (frontend!=result.controls.end() && frontend->second!="auto" && frontend->second!="cli") ||
+        (interactive!=result.controls.end() && interactive->second=="no")))result.error("argument_conflict",0);
     result.operands.assign(words.begin()+static_cast<std::ptrdiff_t>(consumed),words.end());
     std::map<std::string,std::size_t> parameter_tokens;
     for(const auto& input:named) {

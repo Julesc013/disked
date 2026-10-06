@@ -949,6 +949,94 @@
         "code": "argument_conflict"
       },
       "notes": "DE-W014 terminal presentation and staged-command contract; native execution recorded separately."
+    },
+    {
+      "id": "explicit-shell-history-linear",
+      "equivalent_argv": [
+        [
+          "shell",
+          "--history=session",
+          "--terminal=linear"
+        ],
+        [
+          "--terminal",
+          "linear",
+          "shell",
+          "--history",
+          "session"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "shell.open",
+        "controls": {
+          "terminal_presentation": "linear"
+        },
+        "named_options": {
+          "--history": "session"
+        },
+        "operands": []
+      },
+      "notes": "DE-W019 shell entry and session-only exit. Parsing has no effects; runtime console qualification and typed refusal are tested separately."
+    },
+    {
+      "id": "shell-exit-alias",
+      "equivalent_argv": [
+        [
+          "exit"
+        ],
+        [
+          "quit"
+        ]
+      ],
+      "expected": {
+        "kind": "command",
+        "command_id": "shell.close",
+        "controls": {},
+        "operands": [],
+        "named_options": {}
+      },
+      "notes": "DE-W019 shell entry and session-only exit. Parsing has no effects; runtime console qualification and typed refusal are tested separately."
+    },
+    {
+      "id": "shell-entry-conflicts",
+      "equivalent_argv": [
+        [
+          "shell",
+          "--json"
+        ],
+        [
+          "--gui",
+          "shell"
+        ],
+        [
+          "shell",
+          "--tui"
+        ],
+        [
+          "shell",
+          "--interactive=no"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "argument_conflict"
+      },
+      "notes": "DE-W019 shell entry and session-only exit. Parsing has no effects; runtime console qualification and typed refusal are tested separately."
+    },
+    {
+      "id": "shell-history-invalid",
+      "equivalent_argv": [
+        [
+          "shell",
+          "--history=forever"
+        ]
+      ],
+      "expected": {
+        "kind": "error",
+        "code": "invalid_option_value"
+      },
+      "notes": "DE-W019 shell entry and session-only exit. Parsing has no effects; runtime console qualification and typed refusal are tested separately."
     }
   ]
 }

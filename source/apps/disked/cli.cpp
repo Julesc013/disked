@@ -34,7 +34,9 @@ Value command_description(const Value& command) {
     out.put("contract_status",*command.find("availability"));
     out.put("implementation_status",Value::string(available?"implemented":"planned"));
     out.put("availability",Value::string(available?"available":"unavailable"));
-    out.put("reason",Value::string(available?(fake_worker_command(command.find("id")->text)?"fake_operation_subset":"synchronous_native_subset"):"not_implemented"));return out;
+    const auto id=command.find("id")->text;
+    out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
+        id=="shell.close"?"shell_session_only":fake_worker_command(id)?"fake_operation_subset":"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
     Value result=Value::object(),commands=Value::array();
@@ -55,6 +57,8 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain")return completed(request,explain_invocation(host,inputs));
+    if(command=="shell.open")return refused(request,"interactive_session_requires_terminal",3);
+    if(command=="shell.close")return refused(request,"command_requires_shell",3);
     if(fake_worker_command(command))return dispatch_fake_worker(request,command,parameters);
     if(FrontendSession::handles(command)) {
         if(!session)session.reset(new FrontendSession(command_registry(),fake_graph()));
@@ -129,6 +133,19 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
                 outcome.response.fields["diagnostics"].items.push_back(diagnostic(code,Value::object().put("token",*d.find("token"))));
             }
         } else if(parsed.help_requested)outcome=completed("cli",discovery(&parsed));
+        else if(parsed.command_id=="shell.open") {
+            auto shell_controls=controls;
+            shell_controls.put("frontend",Value::string("cli")).put("interactive",Value::string("yes"));
+            const auto shell_inputs=invocation_inputs(host,shell_controls,true);
+            return run_windows_shell(setting(parsed,"terminal_presentation","auto"),[&]() {
+                session.reset(new FrontendSession(registry,fake_graph()));
+                const auto* history=parsed.parameters.find("history");
+                return std::unique_ptr<ShellModel>(new ShellModel(*session,registry,discovery(),
+                    [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
+                        return dispatch(id,command,parameters,host,shell_inputs,session,revision);
+                    },history && history->text=="session"));
+            });
+        }
         else if(setting(parsed,"frontend","auto")=="gui") {
             InvocationHost gui_host=host;auto gui_inputs=inputs;
             return run_windows_gui([&](const Value& observed) {

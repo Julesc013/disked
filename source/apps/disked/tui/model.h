@@ -3,7 +3,7 @@
 #include <functional>
 
 namespace disked {
-enum class TuiKey {Text,Up,Down,PageUp,PageDown,Enter,Tab,BackTab,Backspace,Escape,F2,F3,F4,F5,F6,F9,F10};
+enum class TuiKey {Text,Up,Down,PageUp,PageDown,Enter,Tab,BackTab,Backspace,Escape,F2,F3,F4,F5,F6,F9,F10,Left,Right,Home,End,Delete};
 struct TuiInput {TuiKey key;std::string text;bool repeat=false;};
 class TuiModel final {
 public:

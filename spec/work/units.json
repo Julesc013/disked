@@ -2094,7 +2094,7 @@
       "id": "DE-W019",
       "title": "Implement bounded interactive shell and descriptor completion",
       "phase": "M1",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W012",
@@ -2113,7 +2113,17 @@
         "source/runtime/presentation/**",
         "tests/interaction/**",
         ".aide/handoffs/**",
-        ".aide/evidence/**"
+        ".aide/evidence/**",
+        "source/platform/windows/console/**",
+        "tests/frontend/**",
+        "tests/contracts/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2143,16 +2153,36 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
       "required_inputs": [
-        "spec/catalog/commands.json",
-        "spec/schemas/terminal-capabilities.schema.json",
-        "spec/fixtures/invocation.json",
+        "CMakeLists.txt",
+        "source/apps/disked/cli.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/apps/disked/shell/shell_model.h",
+        "source/platform/windows/console/terminal.cpp",
+        "source/platform/windows/console/terminal.h",
+        "source/runtime/command/shell_lexer.cpp",
+        "source/runtime/command/shell_lexer.h",
         "spec/catalog/cli-syntax.json",
-        "spec/fixtures/command-syntax.json"
+        "spec/catalog/commands.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/fixtures/command-syntax.json",
+        "spec/fixtures/invocation.json",
+        "spec/schemas/command-shell-parameters.schema.json",
+        "spec/schemas/terminal-capabilities.schema.json",
+        "tests/frontend/console_tui_fixture.py",
+        "tests/interaction/console_shell_fixture.py",
+        "tests/interaction/shell_probe.cpp",
+        "tests/interaction/test_shell_model.py",
+        "tests/interaction/test_shell_windows.py",
+        "tools/build-bootstrap.py",
+        "tools/build-inputs.json"
       ]
     }
   ]

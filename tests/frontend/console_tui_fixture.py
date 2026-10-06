@@ -150,8 +150,9 @@ def run(exe,case,report):
         if shadow is not None and shadow!=c.c_void_p(-1).value:k.CloseHandle(shadow)
 
 
-report={};code=0
-try:run(sys.argv[1],sys.argv[3],report)
-except Exception as error:report['fixture_error']=str(error);code=1
-Path(sys.argv[2]).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
-raise SystemExit(code)
+if __name__=='__main__':
+    report={};code=0
+    try:run(sys.argv[1],sys.argv[3],report)
+    except Exception as error:report['fixture_error']=str(error);code=1
+    Path(sys.argv[2]).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
+    raise SystemExit(code)

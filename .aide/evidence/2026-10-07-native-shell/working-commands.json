@@ -1,0 +1,37 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/spec-tests.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 8,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/native-tests.log"
+  }
+]

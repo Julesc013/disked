@@ -1,0 +1,72 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/spec-tests.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/native-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/graph-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-native-shell\\working-final\\console-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/terminal-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/operation/test_worker.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-native-shell\\working-final\\worker-observations.json -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/operation-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/interaction/test_shell_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-native-shell\\working-final\\shell-console-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-07-native-shell/working-final/shell-console.log"
+  }
+]

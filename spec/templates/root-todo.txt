@@ -29,11 +29,11 @@ release/storage authority remain separate. The programme record is
 - [ ] Qualify screen-reader, other terminal backends and remote/legacy environments at their applicable gates.
 - [x] DE-W015 local development: native Win32 adapter, shared typed forms and actual window evidence; owner acceptance pending.
 - [x] DE-W016 local development: same-file fake workers, reconnect, cancellation and uncertain outcomes; clean reproduction and agent review retained, owner acceptance pending.
-- [ ] DE-W019: bounded interactive shell; required before the combined DE-W017 resilience campaign.
+- [ ] DE-W019 local slice: finish clean reproduction and agent review of the bounded shell before DE-W017.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
-- [ ] DE-W020Ã¢â‚¬â€œ035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
-- [ ] DE-W040Ã¢â‚¬â€œ043: review recovery and image-only mutation/formatting gates before any executor work.
+- [ ] DE-W020-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
+- [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
 
 ## Delivery and maintenance
 
@@ -52,7 +52,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Correct per-path impact, declared input closure, historical receipt applicability, protocol bounds/identities and CLI prompt permission.
 - [x] Define terminal-session, explicit shell, output/progress and command-metadata contracts; retain icon-report claims without adopting unavailable assets.
 - [ ] Review the corrective diff and its actual regression evidence at the DE-W000 boundary.
-- [ ] DE-W019: implement the bounded persistent command shell after shared command/TUI foundations.
+- [ ] Review/accept DE-W019 independently of its local implementation and synthetic console evidence.
 - [ ] Before routine native contributions, activate and verify the owner-selected required PR/check gate on GitHub.
 - [ ] At protocol/acquisition/writer gates, qualify typed resources, compatible readers, guarded epochs, immutable-plan receipts and composable recovery properties.
 
