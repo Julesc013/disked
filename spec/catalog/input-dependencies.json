@@ -1001,15 +1001,21 @@
         "source/apps/disked/gui/win32/gui_model.cpp",
         "source/apps/disked/gui/win32/gui_model.h",
         "source/apps/disked/main.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/apps/disked/shell/shell_model.h",
         "source/apps/disked/tui/model.cpp",
         "source/apps/disked/tui/model.h",
         "source/platform/windows/console/terminal.cpp",
         "source/platform/windows/console/terminal.h",
         "source/platform/windows/entry.cpp",
+        "source/platform/windows/fake_worker.cpp",
+        "source/platform/windows/fake_worker.h",
         "source/platform/windows/invocation.cpp",
         "source/platform/windows/invocation.h",
         "source/platform/windows/memory_budget.cpp",
         "source/platform/windows/memory_budget.h",
+        "source/platform/windows/output.cpp",
+        "source/platform/windows/output.h",
         "source/platform/windows/ui/gui.cpp",
         "source/platform/windows/ui/gui.h",
         "source/portable/hash/sha256.cpp",
@@ -1024,10 +1030,18 @@
         "source/runtime/command/json.h",
         "source/runtime/command/protocol.cpp",
         "source/runtime/command/protocol.h",
+        "source/runtime/command/shell_lexer.cpp",
+        "source/runtime/command/shell_lexer.h",
+        "source/runtime/graph/capture.cpp",
+        "source/runtime/graph/capture.h",
         "source/runtime/graph/snapshot.cpp",
         "source/runtime/graph/snapshot.h",
         "source/runtime/invocation/policy.cpp",
         "source/runtime/invocation/policy.h",
+        "source/runtime/operation/fake_operation.cpp",
+        "source/runtime/operation/fake_operation.h",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
         "source/runtime/presentation/session.cpp",
         "source/runtime/presentation/session.h",
         "spec/catalog/cli-syntax.json",
@@ -1042,12 +1056,17 @@
         "spec/schemas/cli-syntax.schema.json",
         "spec/schemas/command-capability-parameters.schema.json",
         "spec/schemas/command-empty-parameters.schema.json",
+        "spec/schemas/command-fake-operation-parameters.schema.json",
+        "spec/schemas/command-fake-simulation-parameters.schema.json",
         "spec/schemas/command-image-path-parameters.schema.json",
         "spec/schemas/command-resize-proposal-parameters.schema.json",
+        "spec/schemas/command-shell-parameters.schema.json",
         "spec/schemas/command-syntax-cases.schema.json",
         "spec/schemas/command-target-parameters.schema.json",
         "spec/schemas/diagnostic.schema.json",
         "spec/schemas/fake-graph.schema.json",
+        "spec/schemas/fake-operation-record.schema.json",
+        "spec/schemas/fake-operation.schema.json",
         "spec/schemas/graph.schema.json",
         "spec/schemas/request.schema.json",
         "spec/schemas/response.schema.json",
@@ -1069,6 +1088,10 @@
         "tests/frontend/test_tui_model.py",
         "tests/frontend/test_tui_windows.py",
         "tests/frontend/tui_probe.cpp",
+        "tests/interaction/console_shell_fixture.py",
+        "tests/interaction/shell_probe.cpp",
+        "tests/interaction/test_shell_model.py",
+        "tests/interaction/test_shell_windows.py",
         "tests/invocation/console_fixture.py",
         "tests/invocation/policy_probe.cpp",
         "tests/invocation/test_policy.py",
@@ -1077,9 +1100,27 @@
         "tests/native/test_bootstrap.py",
         "tests/native/test_protocol.py",
         "tests/native/test_provider_guard.py",
+        "tests/operation/reducer_probe.cpp",
+        "tests/operation/test_reducer.py",
+        "tests/operation/test_worker.py",
+        "tests/resilience/capture_campaign.cpp",
+        "tests/resilience/capture_probe.cpp",
+        "tests/resilience/console_capture_fixture.py",
         "tests/resilience/console_memory_fixture.py",
+        "tests/resilience/console_wait_fixture.py",
         "tests/resilience/memory_fixture.py",
-        "tests/resilience/test_frontend_memory.py"
+        "tests/resilience/request_channel_probe.cpp",
+        "tests/resilience/test_capture.py",
+        "tests/resilience/test_capture_campaign.py",
+        "tests/resilience/test_console_waiting.py",
+        "tests/resilience/test_frontend_memory.py",
+        "tests/resilience/test_gui_waiting.py",
+        "tests/resilience/test_output_waiting.py",
+        "tests/resilience/test_request_channel.py",
+        "tests/resilience/test_request_waiting.py",
+        "tests/resilience/test_store_failures.py",
+        "tests/resilience/test_worker_budget.py",
+        "tools/build-bootstrap.py"
       ],
       "spec_ids": [
         "DE-021",
@@ -1584,7 +1625,10 @@
       "path": "source/providers/fake/graph.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/graph/capture.h",
+        "source/runtime/presentation/session.h"
+      ],
       "spec_ids": [
         "DE-023",
         "DE-030",
@@ -2266,6 +2310,102 @@
       ],
       "spec_ids": [
         "DE-015",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/graph/capture.cpp",
+      "path": "source/runtime/graph/capture.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/capture.h"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/graph/capture.h",
+      "path": "source/runtime/graph/capture.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/snapshot.h"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/resilience/capture_probe.cpp",
+      "path": "tests/resilience/capture_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/capture.h",
+        "source/runtime/presentation/session.h"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/resilience/test_capture.py",
+      "path": "tests/resilience/test_capture.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/resilience/capture_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/resilience/capture_campaign.cpp",
+      "path": "tests/resilience/capture_campaign.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/capture.h",
+        "source/runtime/presentation/session.h",
+        "source/providers/fake/graph.h"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/resilience/console_capture_fixture.py",
+      "path": "tests/resilience/console_capture_fixture.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/console_tui_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/resilience/test_capture_campaign.py",
+      "path": "tests/resilience/test_capture_campaign.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/resilience/capture_campaign.cpp",
+        "tests/resilience/console_capture_fixture.py",
+        "tests/frontend/gui_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-023",
         "DE-045"
       ]
     }

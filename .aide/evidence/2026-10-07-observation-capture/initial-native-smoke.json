@@ -1,0 +1,904 @@
+[
+  {
+    "elapsed_ms": 15.855700010433793,
+    "response": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "capture:0",
+      "result": {
+        "graph": {
+          "capture_id": "fake:2",
+          "edges": [
+            {
+              "from": "fake:alpha@1",
+              "kind": "contains",
+              "to": "fake:table@1"
+            },
+            {
+              "from": "fake:table@1",
+              "kind": "contains",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:clone@1",
+              "kind": "shared-observation",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:volume@1",
+              "kind": "backing-reference",
+              "to": "fake:alpha@1"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "fake:alpha@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/A/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-A:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:clone@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/B/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-B:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:denied@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun1",
+                "label": "Denied observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "denied"
+              }
+            },
+            {
+              "id": "fake:stale@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:controller-A:lun2",
+                "label": "Stale observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "stale"
+              }
+            },
+            {
+              "id": "fake:unknown@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun3",
+                "label": "Unknown observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "unknown"
+              }
+            },
+            {
+              "id": "fake:table@1",
+              "kind": "gpt",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:table-A",
+                "label": "Synthetic GPT",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:volume@1",
+              "kind": "volume",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "536870912",
+                "identity": "fixture:volume-A",
+                "label": "Label\u001b[31m\n\u007f\u009b\u202e\u78c1\u76d8\ud83d\udcbe",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "fake:denied@1:access_denied",
+            "fake:stale@1:observation_stale",
+            "fake:unknown@1:observation_unknown",
+            "denied:pending",
+            "malformed:pending",
+            "slow:pending",
+            "exited:pending"
+          ],
+          "revision": "sha256:194817861881609b13c30e87e81ece49d370fdee5a4f69f5b91aecdcbc78499a",
+          "schema": "org.disked.graph/1"
+        },
+        "scope": "fake-only",
+        "target_ids": [
+          "fake:alpha@1",
+          "fake:clone@1",
+          "fake:denied@1",
+          "fake:stale@1",
+          "fake:unknown@1",
+          "fake:table@1",
+          "fake:volume@1"
+        ]
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  },
+  {
+    "elapsed_ms": 1.0087999980896711,
+    "response": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "capture:1",
+      "result": {
+        "graph": {
+          "capture_id": "fake:3",
+          "edges": [
+            {
+              "from": "fake:alpha@1",
+              "kind": "contains",
+              "to": "fake:table@1"
+            },
+            {
+              "from": "fake:table@1",
+              "kind": "contains",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:clone@1",
+              "kind": "shared-observation",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:volume@1",
+              "kind": "backing-reference",
+              "to": "fake:alpha@1"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "fake:alpha@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/A/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-A:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:clone@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/B/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-B:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:denied@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun1",
+                "label": "Denied observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "denied"
+              }
+            },
+            {
+              "id": "fake:stale@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:controller-A:lun2",
+                "label": "Stale observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "stale"
+              }
+            },
+            {
+              "id": "fake:unknown@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun3",
+                "label": "Unknown observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "unknown"
+              }
+            },
+            {
+              "id": "fake:table@1",
+              "kind": "gpt",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:table-A",
+                "label": "Synthetic GPT",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:volume@1",
+              "kind": "volume",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "536870912",
+                "identity": "fixture:volume-A",
+                "label": "Label\u001b[31m\n\u007f\u009b\u202e\u78c1\u76d8\ud83d\udcbe",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "fake:denied@1:access_denied",
+            "fake:stale@1:observation_stale",
+            "fake:unknown@1:observation_unknown",
+            "denied:denied:access_denied:5",
+            "malformed:malformed:provider_result_invalid",
+            "slow:timed_out:probe_wait_expired",
+            "exited:unavailable:provider_exited:3758150013"
+          ],
+          "revision": "sha256:d69a1f759af506a11e6e0a44776df9e1c300a468868ebb9c82148f5f081d7d33",
+          "schema": "org.disked.graph/1"
+        },
+        "scope": "fake-only",
+        "target_ids": [
+          "fake:alpha@1",
+          "fake:clone@1",
+          "fake:denied@1",
+          "fake:stale@1",
+          "fake:unknown@1",
+          "fake:table@1",
+          "fake:volume@1"
+        ]
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  },
+  {
+    "elapsed_ms": 0.2565999748185277,
+    "response": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "capture:2",
+      "result": {
+        "bare_selection": {
+          "format": "human",
+          "frontend": "cli",
+          "interactive": false,
+          "reason": "redirected-stream"
+        },
+        "observations": {
+          "adapter": "windows.standard-handles/1",
+          "console_input_verified": false,
+          "console_list_complete": true,
+          "console_ownership": "shared-protected",
+          "console_process_count": 3,
+          "desktop_activation": "unknown",
+          "display": "unknown",
+          "geometry": null,
+          "stderr": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "stdin": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "stdout": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "terminal": "none",
+          "terminal_capabilities": {
+            "alternate_screen": "unknown",
+            "backend": "plain",
+            "backing_buffer": {
+              "columns": null,
+              "rows": null
+            },
+            "colour": "unknown",
+            "cursor_addressing": "no",
+            "diagnostics": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "evidence": [],
+            "glyphs": "ascii",
+            "input": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "keyboard_events": "no",
+            "mouse_events": "unknown",
+            "output": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "paste_detection": "unknown",
+            "prefer_linear": false,
+            "reduce_motion": true,
+            "resize_events": "no",
+            "resource_budget_reference": "DE-026:DE-W014",
+            "schema": "org.disked.terminal-capabilities/1",
+            "screen_owner": "caller",
+            "source": "observed",
+            "target_profile": "windows.nt10.x64.win32",
+            "viewport": {
+              "columns": null,
+              "rows": null
+            }
+          }
+        },
+        "policy_inputs": {
+          "command": true,
+          "console_owner": "caller",
+          "display": false,
+          "format": "ndjson",
+          "gui_available": true,
+          "prompt_channel": false,
+          "stdin": "pipe",
+          "stdout": "pipe",
+          "terminal": "none",
+          "tui_available": true
+        },
+        "selection": {
+          "format": "ndjson",
+          "frontend": "cli",
+          "interactive": false,
+          "reason": "machine-output"
+        },
+        "test_capture_campaign": {
+          "schema": "org.disked.capture-campaign-test/1",
+          "sequence": "10",
+          "sources": [
+            {
+              "capture_epoch": "1",
+              "id": "healthy",
+              "outstanding": false,
+              "state": "complete",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "denied",
+              "outstanding": false,
+              "state": "denied",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "malformed",
+              "outstanding": false,
+              "state": "malformed",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "slow",
+              "outstanding": true,
+              "state": "timed_out",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "exited",
+              "outstanding": false,
+              "state": "unavailable",
+              "worker_epoch": "1"
+            }
+          ],
+          "witnesses": {
+            "denied": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "0",
+              "exit_observed": true,
+              "peak_process_memory": "1916928",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931100254",
+              "process_id": "26024",
+              "process_memory_limit": "67108864"
+            },
+            "exited": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "3758150013",
+              "exit_observed": true,
+              "peak_process_memory": "1916928",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931103493",
+              "process_id": "19928",
+              "process_memory_limit": "67108864"
+            },
+            "malformed": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "0",
+              "exit_observed": true,
+              "peak_process_memory": "1941504",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931099879",
+              "process_id": "37116",
+              "process_memory_limit": "67108864"
+            }
+          }
+        }
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  },
+  {
+    "elapsed_ms": 0.7810000097379088,
+    "response": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "capture:3",
+      "result": {
+        "graph": {
+          "capture_id": "fake:4",
+          "edges": [
+            {
+              "from": "fake:alpha@1",
+              "kind": "contains",
+              "to": "fake:table@1"
+            },
+            {
+              "from": "fake:table@1",
+              "kind": "contains",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:clone@1",
+              "kind": "shared-observation",
+              "to": "fake:volume@1"
+            },
+            {
+              "from": "fake:volume@1",
+              "kind": "backing-reference",
+              "to": "fake:alpha@1"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "fake:alpha@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/A/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-A:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:clone@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [
+                  "fake:path/B/0",
+                  "fake:serial/CLONED"
+                ],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:controller-B:lun0",
+                "label": "Workshop disk",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:denied@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun1",
+                "label": "Denied observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "denied"
+              }
+            },
+            {
+              "id": "fake:stale@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:controller-A:lun2",
+                "label": "Stale observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "stale"
+              }
+            },
+            {
+              "id": "fake:unknown@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:controller-A:lun3",
+                "label": "Unknown observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "unknown"
+              }
+            },
+            {
+              "id": "fake:table@1",
+              "kind": "gpt",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "1073741824",
+                "identity": "fixture:table-A",
+                "label": "Synthetic GPT",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:volume@1",
+              "kind": "volume",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "536870912",
+                "identity": "fixture:volume-A",
+                "label": "Label\u001b[31m\n\u007f\u009b\u202e\u78c1\u76d8\ud83d\udcbe",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:late@1",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "8192",
+                "identity": "fixture:late",
+                "label": "Late valid observation",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "fake:denied@1:access_denied",
+            "fake:stale@1:observation_stale",
+            "fake:unknown@1:observation_unknown",
+            "denied:denied:access_denied:5",
+            "malformed:malformed:provider_result_invalid",
+            "exited:unavailable:provider_exited:3758150013"
+          ],
+          "revision": "sha256:522c946b77e747fbeb106bcc00ed00db507f0dc683c792903f91447fa9f01310",
+          "schema": "org.disked.graph/1"
+        },
+        "scope": "fake-only",
+        "target_ids": [
+          "fake:alpha@1",
+          "fake:clone@1",
+          "fake:denied@1",
+          "fake:stale@1",
+          "fake:unknown@1",
+          "fake:table@1",
+          "fake:volume@1",
+          "fake:late@1"
+        ]
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  },
+  {
+    "elapsed_ms": 0.374700000975281,
+    "response": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "capture:4",
+      "result": {
+        "bare_selection": {
+          "format": "human",
+          "frontend": "cli",
+          "interactive": false,
+          "reason": "redirected-stream"
+        },
+        "observations": {
+          "adapter": "windows.standard-handles/1",
+          "console_input_verified": false,
+          "console_list_complete": true,
+          "console_ownership": "shared-protected",
+          "console_process_count": 3,
+          "desktop_activation": "unknown",
+          "display": "unknown",
+          "geometry": null,
+          "stderr": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "stdin": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "stdout": {
+            "console_mode": null,
+            "crt_usable": true,
+            "kind": "pipe",
+            "observation_error": null
+          },
+          "terminal": "none",
+          "terminal_capabilities": {
+            "alternate_screen": "unknown",
+            "backend": "plain",
+            "backing_buffer": {
+              "columns": null,
+              "rows": null
+            },
+            "colour": "unknown",
+            "cursor_addressing": "no",
+            "diagnostics": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "evidence": [],
+            "glyphs": "ascii",
+            "input": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "keyboard_events": "no",
+            "mouse_events": "unknown",
+            "output": {
+              "encoding": "uninspected",
+              "interactive": "no",
+              "kind": "pipe"
+            },
+            "paste_detection": "unknown",
+            "prefer_linear": false,
+            "reduce_motion": true,
+            "resize_events": "no",
+            "resource_budget_reference": "DE-026:DE-W014",
+            "schema": "org.disked.terminal-capabilities/1",
+            "screen_owner": "caller",
+            "source": "observed",
+            "target_profile": "windows.nt10.x64.win32",
+            "viewport": {
+              "columns": null,
+              "rows": null
+            }
+          }
+        },
+        "policy_inputs": {
+          "command": true,
+          "console_owner": "caller",
+          "display": false,
+          "format": "ndjson",
+          "gui_available": true,
+          "prompt_channel": false,
+          "stdin": "pipe",
+          "stdout": "pipe",
+          "terminal": "none",
+          "tui_available": true
+        },
+        "selection": {
+          "format": "ndjson",
+          "frontend": "cli",
+          "interactive": false,
+          "reason": "machine-output"
+        },
+        "test_capture_campaign": {
+          "schema": "org.disked.capture-campaign-test/1",
+          "sequence": "11",
+          "sources": [
+            {
+              "capture_epoch": "1",
+              "id": "healthy",
+              "outstanding": false,
+              "state": "complete",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "denied",
+              "outstanding": false,
+              "state": "denied",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "malformed",
+              "outstanding": false,
+              "state": "malformed",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "slow",
+              "outstanding": false,
+              "state": "complete",
+              "worker_epoch": "1"
+            },
+            {
+              "capture_epoch": "1",
+              "id": "exited",
+              "outstanding": false,
+              "state": "unavailable",
+              "worker_epoch": "1"
+            }
+          ],
+          "witnesses": {
+            "denied": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "0",
+              "exit_observed": true,
+              "peak_process_memory": "1916928",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931100254",
+              "process_id": "26024",
+              "process_memory_limit": "67108864"
+            },
+            "exited": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "3758150013",
+              "exit_observed": true,
+              "peak_process_memory": "1916928",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931103493",
+              "process_id": "19928",
+              "process_memory_limit": "67108864"
+            },
+            "malformed": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "0",
+              "exit_observed": true,
+              "peak_process_memory": "1941504",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931099879",
+              "process_id": "37116",
+              "process_memory_limit": "67108864"
+            },
+            "slow": {
+              "aggregate_active_limit": "4",
+              "aggregate_job_member": true,
+              "aggregate_memory_limit": "268435456",
+              "exit_code": "0",
+              "exit_observed": true,
+              "peak_process_memory": "1949696",
+              "private_active_limit": "1",
+              "private_job_member": true,
+              "process_created": "134357798931099712",
+              "process_id": "41556",
+              "process_memory_limit": "67108864"
+            }
+          }
+        }
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  }
+]

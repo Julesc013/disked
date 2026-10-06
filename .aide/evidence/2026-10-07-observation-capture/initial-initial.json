@@ -1,0 +1,1264 @@
+{
+  "tests": 7,
+  "passed": true,
+  "probe": "D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\capture_probe.exe",
+  "sha256": "c782695d216341f9260319405ca1e788d1b3a41db91154524efd49bccfd2fb01",
+  "observations": [
+    {
+      "test": "allocation failure sweep; no replacement worker",
+      "injected_failures": 79
+    },
+    {
+      "scope": "native reducer; process campaign separate",
+      "before": {
+        "capture": "1",
+        "graph": {
+          "capture_id": "fake:1",
+          "edges": [],
+          "nodes": [
+            {
+              "id": "fake:a",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:a",
+                "label": "a",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "denied:pending",
+            "malformed:pending",
+            "slow:pending",
+            "exited:pending"
+          ],
+          "revision": "sha256:dd0c0036cab0b8140f49a7b140c4d8aa9d7735f25e10ca44936e9cfb865893a8",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "6",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "healthy",
+              "worker": "1"
+            },
+            "id": "healthy",
+            "outstanding": false,
+            "platform": "",
+            "reason": "",
+            "state": "complete"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "denied",
+              "worker": "1"
+            },
+            "id": "denied",
+            "outstanding": true,
+            "platform": "",
+            "reason": "",
+            "state": "pending"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "malformed",
+              "worker": "1"
+            },
+            "id": "malformed",
+            "outstanding": true,
+            "platform": "",
+            "reason": "",
+            "state": "pending"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "slow",
+              "worker": "1"
+            },
+            "id": "slow",
+            "outstanding": true,
+            "platform": "",
+            "reason": "",
+            "state": "pending"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "exited",
+              "worker": "1"
+            },
+            "id": "exited",
+            "outstanding": true,
+            "platform": "",
+            "reason": "",
+            "state": "pending"
+          }
+        ]
+      },
+      "failed": {
+        "capture": "1",
+        "graph": {
+          "capture_id": "fake:1",
+          "edges": [],
+          "nodes": [
+            {
+              "id": "fake:a",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:a",
+                "label": "a",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "denied:denied:access_denied:5",
+            "malformed:malformed:provider_result_invalid",
+            "slow:timed_out:probe_wait_expired",
+            "exited:unavailable:provider_exited:3221225477"
+          ],
+          "revision": "sha256:fe07e6b37db7452e59384003a60ea41f1f88237809267c4af5bf2870cb1e2a6e",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "10",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "healthy",
+              "worker": "1"
+            },
+            "id": "healthy",
+            "outstanding": false,
+            "platform": "",
+            "reason": "",
+            "state": "complete"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "denied",
+              "worker": "1"
+            },
+            "id": "denied",
+            "outstanding": false,
+            "platform": "5",
+            "reason": "access_denied",
+            "state": "denied"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "malformed",
+              "worker": "1"
+            },
+            "id": "malformed",
+            "outstanding": false,
+            "platform": "",
+            "reason": "provider_result_invalid",
+            "state": "malformed"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "slow",
+              "worker": "1"
+            },
+            "id": "slow",
+            "outstanding": true,
+            "platform": "",
+            "reason": "probe_wait_expired",
+            "state": "timed_out"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "exited",
+              "worker": "1"
+            },
+            "id": "exited",
+            "outstanding": false,
+            "platform": "3221225477",
+            "reason": "provider_exited",
+            "state": "unavailable"
+          }
+        ]
+      },
+      "late": {
+        "capture": "1",
+        "graph": {
+          "capture_id": "fake:1",
+          "edges": [],
+          "nodes": [
+            {
+              "id": "fake:a",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:a",
+                "label": "a",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            },
+            {
+              "id": "fake:late",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:late",
+                "label": "late",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [
+            "denied:denied:access_denied:5",
+            "malformed:malformed:provider_result_invalid",
+            "exited:unavailable:provider_exited:3221225477"
+          ],
+          "revision": "sha256:03dbdbf25493316112697e4785b8a56572da20e354d376f9ba9ad70813b45deb",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "11",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "healthy",
+              "worker": "1"
+            },
+            "id": "healthy",
+            "outstanding": false,
+            "platform": "",
+            "reason": "",
+            "state": "complete"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "denied",
+              "worker": "1"
+            },
+            "id": "denied",
+            "outstanding": false,
+            "platform": "5",
+            "reason": "access_denied",
+            "state": "denied"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "malformed",
+              "worker": "1"
+            },
+            "id": "malformed",
+            "outstanding": false,
+            "platform": "",
+            "reason": "provider_result_invalid",
+            "state": "malformed"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "slow",
+              "worker": "1"
+            },
+            "id": "slow",
+            "outstanding": false,
+            "platform": "",
+            "reason": "",
+            "state": "complete"
+          },
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "exited",
+              "worker": "1"
+            },
+            "id": "exited",
+            "outstanding": false,
+            "platform": "3221225477",
+            "reason": "provider_exited",
+            "state": "unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "test": "failed refresh remains stale, removal does not forget identity",
+      "failed": {
+        "capture": "2",
+        "graph": {
+          "capture_id": "fake:2",
+          "edges": [],
+          "nodes": [
+            {
+              "id": "fake:a",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:a",
+                "label": "a",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "stale"
+              }
+            },
+            {
+              "id": "fake:denied",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": null,
+                "identity": "fixture:denied",
+                "label": "denied",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "denied"
+              }
+            }
+          ],
+          "omissions": [
+            "one:malformed:provider_result_invalid"
+          ],
+          "revision": "sha256:ede5a2441eb528edc5e3c93826a47b01c54af2f5bfa657b89cf7a7475eff23e5",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "5",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "2",
+              "source": "one",
+              "worker": "2"
+            },
+            "id": "one",
+            "outstanding": false,
+            "platform": "",
+            "reason": "provider_result_invalid",
+            "state": "malformed"
+          }
+        ]
+      }
+    },
+    {
+      "test": "eight-notice ceiling",
+      "gap": {
+        "current": {
+          "capture": "1",
+          "graph": {
+            "capture_id": "fake:1",
+            "edges": [],
+            "nodes": [
+              {
+                "id": "fake:0",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:0",
+                  "label": "0",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:1",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:1",
+                  "label": "1",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:2",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:2",
+                  "label": "2",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:3",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:3",
+                  "label": "3",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:4",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:4",
+                  "label": "4",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:5",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:5",
+                  "label": "5",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:6",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:6",
+                  "label": "6",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:7",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:7",
+                  "label": "7",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              }
+            ],
+            "omissions": [],
+            "revision": "sha256:aca4ac24ddd58166779e46eec7ddfb1a6441163b1d5755e00ea8c12e4aca1408",
+            "schema": "org.disked.graph/1"
+          },
+          "sequence": "16",
+          "sources": [
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p0",
+                "worker": "1"
+              },
+              "id": "p0",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p1",
+                "worker": "1"
+              },
+              "id": "p1",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p2",
+                "worker": "1"
+              },
+              "id": "p2",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p3",
+                "worker": "1"
+              },
+              "id": "p3",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p4",
+                "worker": "1"
+              },
+              "id": "p4",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p5",
+                "worker": "1"
+              },
+              "id": "p5",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p6",
+                "worker": "1"
+              },
+              "id": "p6",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p7",
+                "worker": "1"
+              },
+              "id": "p7",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          ]
+        },
+        "notices": [],
+        "resnapshot": true
+      },
+      "retained": {
+        "current": {
+          "capture": "1",
+          "graph": {
+            "capture_id": "fake:1",
+            "edges": [],
+            "nodes": [
+              {
+                "id": "fake:0",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:0",
+                  "label": "0",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:1",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:1",
+                  "label": "1",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:2",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:2",
+                  "label": "2",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:3",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:3",
+                  "label": "3",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:4",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:4",
+                  "label": "4",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:5",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:5",
+                  "label": "5",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:6",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:6",
+                  "label": "6",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              },
+              {
+                "id": "fake:7",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:7",
+                  "label": "7",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "current"
+                }
+              }
+            ],
+            "omissions": [],
+            "revision": "sha256:aca4ac24ddd58166779e46eec7ddfb1a6441163b1d5755e00ea8c12e4aca1408",
+            "schema": "org.disked.graph/1"
+          },
+          "sequence": "16",
+          "sources": [
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p0",
+                "worker": "1"
+              },
+              "id": "p0",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p1",
+                "worker": "1"
+              },
+              "id": "p1",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p2",
+                "worker": "1"
+              },
+              "id": "p2",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p3",
+                "worker": "1"
+              },
+              "id": "p3",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p4",
+                "worker": "1"
+              },
+              "id": "p4",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p5",
+                "worker": "1"
+              },
+              "id": "p5",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p6",
+                "worker": "1"
+              },
+              "id": "p6",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p7",
+                "worker": "1"
+              },
+              "id": "p7",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          ]
+        },
+        "notices": [
+          {
+            "capture": "1",
+            "sequence": "9",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p4",
+                "worker": "1"
+              },
+              "id": "p4",
+              "outstanding": true,
+              "platform": "",
+              "reason": "",
+              "state": "pending"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "10",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p4",
+                "worker": "1"
+              },
+              "id": "p4",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "11",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p5",
+                "worker": "1"
+              },
+              "id": "p5",
+              "outstanding": true,
+              "platform": "",
+              "reason": "",
+              "state": "pending"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "12",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p5",
+                "worker": "1"
+              },
+              "id": "p5",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "13",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p6",
+                "worker": "1"
+              },
+              "id": "p6",
+              "outstanding": true,
+              "platform": "",
+              "reason": "",
+              "state": "pending"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "14",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p6",
+                "worker": "1"
+              },
+              "id": "p6",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "15",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p7",
+                "worker": "1"
+              },
+              "id": "p7",
+              "outstanding": true,
+              "platform": "",
+              "reason": "",
+              "state": "pending"
+            }
+          },
+          {
+            "capture": "1",
+            "sequence": "16",
+            "source": {
+              "attempt": {
+                "capture": "1",
+                "source": "p7",
+                "worker": "1"
+              },
+              "id": "p7",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "complete"
+            }
+          }
+        ],
+        "resnapshot": false
+      },
+      "reset": {
+        "current": {
+          "capture": "2",
+          "graph": {
+            "capture_id": "fake:2",
+            "edges": [],
+            "nodes": [
+              {
+                "id": "fake:0",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:0",
+                  "label": "0",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:1",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:1",
+                  "label": "1",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:2",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:2",
+                  "label": "2",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:3",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:3",
+                  "label": "3",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:4",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:4",
+                  "label": "4",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:5",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:5",
+                  "label": "5",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:6",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:6",
+                  "label": "6",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              },
+              {
+                "id": "fake:7",
+                "kind": "block-device",
+                "observation_refs": [],
+                "properties": {
+                  "aliases": [],
+                  "capacity_bytes": "4096",
+                  "identity": "fixture:7",
+                  "label": "7",
+                  "media_generation": "1",
+                  "scope": "fake-only",
+                  "state": "stale"
+                }
+              }
+            ],
+            "omissions": [
+              "p0:not_started",
+              "p1:not_started",
+              "p2:not_started",
+              "p3:not_started",
+              "p4:not_started",
+              "p5:not_started",
+              "p6:not_started",
+              "p7:not_started"
+            ],
+            "revision": "sha256:3acc7b93c54aea4aa19570c832d8e1de4659b57dcb1e0fc7df4db37ce96af0a6",
+            "schema": "org.disked.graph/1"
+          },
+          "sequence": "17",
+          "sources": [
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p0",
+                "worker": "1"
+              },
+              "id": "p0",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p1",
+                "worker": "1"
+              },
+              "id": "p1",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p2",
+                "worker": "1"
+              },
+              "id": "p2",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p3",
+                "worker": "1"
+              },
+              "id": "p3",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p4",
+                "worker": "1"
+              },
+              "id": "p4",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p5",
+                "worker": "1"
+              },
+              "id": "p5",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p6",
+                "worker": "1"
+              },
+              "id": "p6",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            },
+            {
+              "attempt": {
+                "capture": "1",
+                "source": "p7",
+                "worker": "1"
+              },
+              "id": "p7",
+              "outstanding": false,
+              "platform": "",
+              "reason": "",
+              "state": "not_started"
+            }
+          ]
+        },
+        "notices": [],
+        "resnapshot": true
+      }
+    },
+    {
+      "test": "superseded capture and duplicate completion",
+      "retired": {
+        "capture": "2",
+        "graph": {
+          "capture_id": "fake:2",
+          "edges": [],
+          "nodes": [],
+          "omissions": [
+            "one:not_started:superseded_result_discarded"
+          ],
+          "revision": "sha256:70fd9637e4d5dffc56c58d417a19fc88bd98531498e65ed9f6898888153f1a51",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "3",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "1",
+              "source": "one",
+              "worker": "1"
+            },
+            "id": "one",
+            "outstanding": false,
+            "platform": "",
+            "reason": "superseded_result_discarded",
+            "state": "not_started"
+          }
+        ]
+      },
+      "final": {
+        "capture": "2",
+        "graph": {
+          "capture_id": "fake:2",
+          "edges": [],
+          "nodes": [
+            {
+              "id": "fake:new",
+              "kind": "block-device",
+              "observation_refs": [],
+              "properties": {
+                "aliases": [],
+                "capacity_bytes": "4096",
+                "identity": "fixture:new",
+                "label": "new",
+                "media_generation": "1",
+                "scope": "fake-only",
+                "state": "current"
+              }
+            }
+          ],
+          "omissions": [],
+          "revision": "sha256:34ef57340a2c7d0b1071a9d1226d1752adbb1ccc873effe937590db1edf8f62e",
+          "schema": "org.disked.graph/1"
+        },
+        "sequence": "5",
+        "sources": [
+          {
+            "attempt": {
+              "capture": "2",
+              "source": "one",
+              "worker": "2"
+            },
+            "id": "one",
+            "outstanding": false,
+            "platform": "",
+            "reason": "",
+            "state": "complete"
+          }
+        ]
+      }
+    }
+  ]
+}

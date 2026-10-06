@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.6-proposed.1
+  version: 0.1.15-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,8 +32,8 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-06T10:34:13.961789+00:00'
-  scope: DE-W013 private fake graph/service execution contract; owner acceptance pending
+  at: '2026-10-06T17:17:44.526751+00:00'
+  scope: DE-W017 private capture epochs and native provider-failure campaign; owner acceptance pending
 ---
 
 # FrontendSession and semantic parity
@@ -132,6 +132,23 @@ SHA-256 comparisons, direct/CLI/stdio agreement and the essential-command
 provider trap. Expected behavior in this section precedes implementation.
 The SHA-256 implementation follows [FIPS 180-4 sections 4–6](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf);
 independent vectors do not establish cryptographic-module certification.
+
+## DE-W017 incremental observation publication
+
+The private fake service optionally polls a retained immutable graph source once
+at action admission or explicit snapshot refresh. The source must be nonblocking;
+producer threads publish through the serialized DE-045 capture coordinator and
+never call the frontend session. Only successful frontend publication acknowledges
+the source pointer. Allocation or graph validation failure leaves it eligible for
+a later explicit refresh, with prior snapshots and selection unchanged.
+
+A command validates its envelope/parameters and refreshes once before comparing
+its expected revision. Internal inspect dispatch uses that admitted snapshot
+without a second poll. Provider capture/worker epochs and frontend publication
+epochs are separate domains. A changed graph can make a staged action stale; it
+cannot rebase it. The test-only native capture campaign uses this path for all
+frontends, while the ordinary fake provider keeps its deterministic static graph.
+Public event delivery and durable observation identities remain separate gates.
 
 ## Native composition
 

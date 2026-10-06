@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.14-proposed.1
+  version: 0.1.15-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,11 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T16:28:12.079125+00:00'
-  scope: DE-W017 frontend memory admission and measured workload limits; full programme remains active
-sources:
-- id: review-inputs-2026-10-04
-  resource: ../references/sources.json#review-inputs-2026-10-04
+  at: '2026-10-06T17:17:44.526515+00:00'
+  scope: DE-W017 private capture epochs and native provider-failure campaign; owner acceptance pending
 ---
 
 # Bounded responsiveness and failure containment
@@ -159,6 +156,94 @@ Windows job nesting enforces compatible subset hierarchies and stricter effectiv
 limits; see [Nested Jobs](https://learn.microsoft.com/en-us/windows/win32/procthread/nested-jobs)
 and [job limit flags](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_basic_limit_information).
 Other hosts and historical Windows adapters require their own evidence.
+
+## DE-W017 private observation-capture contract
+
+The fake composition introduces a serialized capture coordinator before the
+combined native provider campaign. It is an observation boundary, with no
+storage-effect, cancellation, approval or writer authority. The existing compiled
+graph passes through it as one immediately completed source; the resulting graph
+bytes and target identities remain unchanged. Concurrent adapters must serialize
+their completions at this boundary and prove process termination separately.
+
+Register at most eight distinct nonempty ASCII source IDs of at most 64 bytes.
+Each attempt binds source ID, positive u64 capture epoch and positive u64 worker
+epoch. At most one outstanding attempt exists per source, and at most one new
+attempt per source per capture. Timeout changes observation availability only;
+it does not retire a worker, free its slot, or permit a replacement. Beginning a
+new capture can invalidate old observations while old workers remain outstanding.
+A completion for that exact old attempt may retire its slot, but cannot publish
+its data into the new capture. Duplicate or unrelated completions change nothing.
+A valid late result for the still-current capture may publish after timeout.
+
+Each source contributes a complete bounded graph fragment. Validate the fragment
+and the proposed aggregate before publication. Duplicate IDs, foreign-source ID
+reuse, changed identity/generation under an existing ID, dangling cross-fragment
+edges, malformed quantities and exhausted bounds reject only that contribution.
+This initial disjoint-fragment rule is not a general cross-provider identity
+merger; aliases/sharing can still be represented inside a fragment, as today.
+Retain at most 1024 exact ID/owner/identity bindings for the coordinator lifetime.
+The published aggregate retains the existing 64-node/256-edge bounds, with at
+most 48 source-supplied omissions and 56 KiB serialized graph content. Remaining
+space is reserved for bounded coordinator failure/freshness markers.
+
+When a source starts a new attempt, fails, times out or is superseded, retain its
+last validated content as cached evidence, changing `current` nodes to `stale`.
+Existing denied/unknown labels remain explicit. A source omission identifies
+pending, not-started, denied, malformed, unavailable or timed-out state and the
+bounded reason/platform code. A missing source is never a successful empty
+inventory. Successful unrelated fragments remain usable. Only a fully validated
+current completion makes that source fresh. An explicit valid empty result may
+remove its own prior observations. Publication and identity tracking are atomic;
+allocation failure leaves the prior capture unchanged. Invalid content publishes
+only the source's malformed state, retaining its prior content as stale and its
+previous identity bindings; rejected content never contributes new identities.
+
+Keep at most eight small observation-change notices, ordered by an exact u64
+sequence for the coordinator lifetime. Notices bind capture/source/attempt and
+state; they contain no durable operation outcome. A slow consumer never blocks
+publication. An evicted notice produces a detectable gap: a reader with an older
+cursor or a different capture epoch must obtain the current complete snapshot
+and its sequence before continuing. A future cursor is invalid. No counter may
+wrap. Previously obtained immutable snapshots remain unchanged.
+
+A capture-reset notice has no source/attempt; its sequence is the new capture's
+minimum valid cursor. A caller cannot combine the current epoch with a cursor
+from before that reset to obtain old-capture notices. Frontend publication epochs
+and provider-attempt capture epochs are separate domains. The frontend polls an
+immutable source snapshot once at action admission or explicit view refresh and
+acknowledges it only after successful publication. Allocation failure must not
+consume a source update. Refresh does not rebase a staged request or selected ID.
+
+The separate `disked_capture_campaign` test composition starts four effect-free
+native fixture producers alongside the immediately available compiled healthy
+graph. They report synthetic access denial, emit malformed JSON, delay a valid
+result for 1,800 ms, or raise a native exception (0xE000D17D). A 400 ms observation
+deadline marks the delayed source unknown/outstanding without replacing it. Each
+producer inherits a one-process/64 MiB job and the campaign's four-process/256 MiB
+job, atomically at creation, below the frontend job. These extra observer budgets
+are per campaign instance; they are not admission of production observers or a
+host-wide observer quota. Background callbacks own the handles and budget, never
+the frontend/session. A failed OS observation retains its callback slot until the
+exact owned process is observed exited. There is no kill-on-close or retry.
+
+The private producer wire is at most 4 KiB and contains only a fixed fixture state
+marker, mapped to compiled fake observations; it is not a general provider API.
+The test executable's mode explanation reports parent-observed process IDs,
+creation identities, actual exits, job membership/limits and peak commitment.
+Its internal role, report and fault composition are absent from the product.
+Essential commands do not start producers. Real CLI/stdio, Win32, TUI and shell
+campaigns must retain failures, inspect healthy data, reject stale staged actions,
+preserve typed input, observe late success and measure the 250 ms cached-input
+target. Provider-reported denial is synthetic; the malformed pipe and exception
+are real native failures. Arbitrary kernel hangs and hostile-provider security
+isolation remain unqualified.
+
+These private notices do not admit public `org.disked.event/1` streaming. Public
+typed payloads, negotiation and reconnect semantics retain their DE-W012/017
+implementation gates. The combined campaign must exercise the same coordinator
+with real native delayed/exited/malformed fixture producers and all frontends;
+isolated reducer tests alone do not close that campaign or DE-W017.
 
 ## Normative requirements
 

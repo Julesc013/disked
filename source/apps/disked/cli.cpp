@@ -13,6 +13,9 @@
 #include <cstdio>
 
 namespace disked {
+#ifdef DISKED_CAPTURE_CAMPAIGN
+json::Value capture_campaign_report();
+#endif
 using json::Value;
 namespace {
 bool implemented(const std::string& id) {
@@ -58,12 +61,18 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
-    if(command=="mode.explain")return completed(request,explain_invocation(host,inputs));
+    if(command=="mode.explain") {
+        auto value=explain_invocation(host,inputs);
+#ifdef DISKED_CAPTURE_CAMPAIGN
+        value.put("test_capture_campaign",capture_campaign_report());
+#endif
+        return completed(request,std::move(value));
+    }
     if(command=="shell.open")return refused(request,"interactive_session_requires_terminal",3);
     if(command=="shell.close")return refused(request,"command_requires_shell",3);
     if(fake_worker_command(command))return dispatch_fake_worker(request,command,parameters);
     if(FrontendSession::handles(command)) {
-        if(!session)session.reset(new FrontendSession(command_registry(),fake_graph()));
+        if(!session)session=make_fake_session(command_registry());
         return session->dispatch(request,command,parameters,revision);
     }
     return refused(request,"command_unavailable",3);
@@ -173,7 +182,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
             const auto shell_inputs=invocation_inputs(host,shell_controls,true);
             return run_windows_shell(setting(parsed,"terminal_presentation","auto"),[&]() {
                 channel.reset(new RequestChannel());
-                session.reset(new FrontendSession(registry,fake_graph()));
+                session=make_fake_session(registry);
                 const auto* history=parsed.parameters.find("history");
                 return std::unique_ptr<ShellModel>(new ShellModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
@@ -187,7 +196,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
                 channel.reset(new RequestChannel());
                 gui_host.observations.put("gui",observed).put("display",Value::string("available"));
                 gui_host.policy.put("display",Value::boolean_value(true));gui_inputs.put("display",Value::boolean_value(true));
-                session.reset(new FrontendSession(registry,fake_graph()));
+                session=make_fake_session(registry);
                 auto model=std::unique_ptr<GuiModel>(new GuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
                         return frontend_dispatch(id,command,parameters,gui_host,gui_inputs,session,*channel,revision);
@@ -200,7 +209,7 @@ int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host
         else if(selection.find("frontend")->text=="tui") {
             return run_windows_tui(setting(parsed,"terminal_presentation","auto"),[&]() {
                 channel.reset(new RequestChannel());
-                session.reset(new FrontendSession(registry,fake_graph()));
+                session=make_fake_session(registry);
                 auto model=std::unique_ptr<TuiModel>(new TuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
                         return frontend_dispatch(id,command,parameters,host,inputs,session,*channel,revision);

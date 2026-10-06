@@ -220,7 +220,27 @@ Evidence in `.aide/evidence/2026-10-07-frontend-memory/` records actual commitme
 denial, a stricter inherited budget, conflicting host hierarchies, initialization
 contention, maximum bounded NDJSON requests and repeated GUI/TUI/shell workloads.
 It measures this host and workload, not every possible allocation failure or an
-aggregate host-memory guarantee. DE-W017 remains active: public event-stream
-gaps/resnapshots and the combined provider-failure campaign still need evidence. The injected store
-checks do not qualify a real full filesystem, physical storage, power-loss
-persistence, older hosts or a security sandbox.
+aggregate host-memory guarantee. The injected store checks do not qualify a real
+full filesystem, physical storage, power-loss persistence, older hosts or a
+security sandbox.
+
+The observation coordinator now retains independently validated source fragments,
+marks failed refreshes stale and preserves healthy observations. Timeout leaves a
+source outstanding; an exact late result can publish only in its own capture.
+Superseded and duplicate completions cannot overwrite a newer capture. Eight
+private change notices bound retention; an evicted cursor requires a complete
+snapshot. Failed allocation cannot consume an update or alter retained snapshots.
+The 1,024-identity budget persists even when a source removes its observations.
+
+The separate `disked_capture_campaign` test executable runs four native producers
+alongside the healthy fixture: synthetic denial, malformed JSON, a 1,800 ms delayed
+result and exception 0xE000D17D. It measures cached input during the 400 ms timeout,
+actual exits and process/job identities across stdio, Win32, TUI and shell. Its
+per-campaign four-process/256 MiB observer budget is separate from the existing
+worker quotas. Internal producer roles and diagnostic reports are absent from the
+product. Evidence belongs to `.aide/evidence/2026-10-07-observation-capture/`.
+
+DE-W017 remains active. These private source notices are not public event-stream
+support: wire payloads, negotiation and reconnect semantics still need their own
+implementation and evidence. Other hosts and production observers remain
+unqualified.

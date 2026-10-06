@@ -28,7 +28,7 @@ set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIR
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_presentation STATIC source/portable/hash/sha256.cpp source/runtime/operation/fake_operation.cpp
-  source/runtime/graph/snapshot.cpp source/runtime/presentation/session.cpp source/runtime/presentation/requests.cpp)
+  source/runtime/graph/snapshot.cpp source/runtime/graph/capture.cpp source/runtime/presentation/session.cpp source/runtime/presentation/requests.cpp)
 target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash source/runtime/operation)
 target_link_libraries(disked_presentation PUBLIC disked_json)
 set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -80,6 +80,13 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(capture_probe tests/resilience/capture_probe.cpp)
+  target_link_libraries(capture_probe PRIVATE disked_presentation)
+  set_target_properties(capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(capture_probe PRIVATE /W4 /WX /permissive- /utf-8)
+  add_test(NAME resilience.capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_capture.py"
+    --probe "$<TARGET_FILE:capture_probe>")
+  set_tests_properties(resilience.capture PROPERTIES TIMEOUT 60)
   add_executable(request_channel_probe tests/resilience/request_channel_probe.cpp)
   target_link_libraries(request_channel_probe PRIVATE disked_presentation)
   set_target_properties(request_channel_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -184,6 +191,12 @@ if(BUILD_TESTING)
   target_compile_definitions(disked_store_fault PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
   bootstrap_executable(disked_memory_test)
   target_compile_definitions(disked_memory_test PRIVATE DISKED_FRONTEND_MEMORY_TESTING=1)
+  bootstrap_executable(disked_capture_campaign)
+  target_compile_definitions(disked_capture_campaign PRIVATE DISKED_CAPTURE_CAMPAIGN=1)
+  target_sources(disked_capture_campaign PRIVATE tests/resilience/capture_campaign.cpp)
+  add_test(NAME resilience.capture_campaign COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_capture_campaign.py"
+    --exe "$<TARGET_FILE:disked>" --campaign "$<TARGET_FILE:disked_capture_campaign>")
+  set_tests_properties(resilience.capture_campaign PROPERTIES TIMEOUT 90 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME resilience.frontend_memory COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_frontend_memory.py"
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_memory_test>")
   set_tests_properties(resilience.frontend_memory PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)

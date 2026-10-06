@@ -8,7 +8,13 @@
 #include <cwchar>
 #include <cstdio>
 namespace disked {
+#ifdef DISKED_CAPTURE_CAMPAIGN
+int run_capture_campaign_producer(int argc,wchar_t** argv);
+#endif
 int windows_entry(int argc,wchar_t** argv) {
+#ifdef DISKED_CAPTURE_CAMPAIGN
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_capture_probe")==0)return run_capture_campaign_producer(argc,argv);
+#endif
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fake_worker")==0)return run_fake_worker(argc,argv);
     InvocationHost host;
     try {

@@ -3,7 +3,12 @@
 
 namespace disked {
 using json::Value;
-FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial):registry_(registry) {publish(initial);}
+FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial,ObservationPoll observations):
+    registry_(registry),observations_(std::move(observations)) {publish(initial);}
+bool FrontendSession::refresh_observations() {
+    if(!observations_)return false;auto next=observations_();if(!next || next==observed_)return false;
+    publish(*next);observed_=std::move(next);return true;
+}
 void FrontendSession::publish(const GraphInput& input) {
     if(epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::invalid_argument("epoch_limit");
     auto next=GraphSnapshot::create(input,epoch_+1);
@@ -24,6 +29,9 @@ Value FrontendSession::selection() const {
         .put("state",Value::string(selected_.empty()?"none":snapshot_->node(selected_)?"present":"missing"));
 }
 Outcome FrontendSession::act(const FrontendAction& action) {
+    refresh_observations();return act_cached(action);
+}
+Outcome FrontendSession::act_cached(const FrontendAction& action) {
     if(action.expected_revision!=snapshot_->revision())return refused(action.request_id,"revision_conflict");
     if(action.kind==ActionKind::ClearSelection) {
         if(!action.target_id.empty())return refused(action.request_id,"invalid_action");
@@ -65,6 +73,7 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     if(!handles(command) || !descriptor)return refused(request,"command_unavailable",3);
     const auto error=validate_parameters(registry_,*descriptor,parameters);
     if(!error.empty())return refused(request,error);
+    refresh_observations();
     if(!revision.empty() && revision!=snapshot_->revision())return refused(request,"revision_conflict");
     if(command=="topology.show")return completed(request,snapshot_->value());
     if(command=="target.list") {
@@ -72,7 +81,7 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
         return completed(request,Value::object().put("scope",Value::string("fake-only")).put("graph",snapshot_->value()).put("target_ids",std::move(ids)));
     }
     const auto& target=parameters.find("target_id")->text;
-    if(command=="target.inspect")return act({ActionKind::Inspect,target,revision.empty()?snapshot_->revision():revision,request});
+    if(command=="target.inspect")return act_cached({ActionKind::Inspect,target,revision.empty()?snapshot_->revision():revision,request});
     if(!snapshot_->node(target))return refused(request,"target_not_found");
     const auto& operation=parameters.find("operation")->text;
     if(!registry_.command(operation))return refused(request,"operation_unavailable",3);

@@ -32,7 +32,8 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W019 local Windows slice: bounded shell, clean reproduction, synthetic console evidence and agent review; owner acceptance and usability qualification remain pending.
 - [x] DE-W017 local slices: interactive/worker containment and bounded CLI/stdio requests and output; no unit completion or owner acceptance.
 - [x] DE-W017 local store-failure slice: inject full/partial/flush boundaries, preserve unknown claim/cancellation receipts and prevent replay.
-- [ ] DE-W017 (active): finish event-stream and combined provider-fault checks after the frontend-memory checkpoint; retain real filesystem/persistence qualification as unverified.
+- [x] DE-W017 local observation slice: capture/worker epochs, bounded notices, retained updates and combined native provider failures across frontends.
+- [ ] DE-W017 (active): implement and verify the public event-stream scope; retain real filesystem/persistence and other-host qualification as unverified.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
 - [ ] DE-W020-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.

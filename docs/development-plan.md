@@ -86,7 +86,14 @@ partial and failed-flush writes. Valid frontend commands now enter a common
 256 MiB per-process memory job before dispatch; stricter inherited host limits
 remain effective. DE-045 defines the admission failures and measured fake
 CLI/stdio/GUI/TUI/shell workloads. The common ancestor preserves stricter worker
-quotas and independent worker lifetime. Public event-stream gaps/resnapshots and
-the combined provider-failure campaign remain open; no real full filesystem or
-power-loss persistence is qualified. These slices do not complete the unit or
-confer owner acceptance.
+quotas and independent worker lifetime. The private observation coordinator now
+retains healthy/stale fragments across native denial, malformed input, delayed
+success and producer exception. Capture/worker epochs prevent superseded results
+from publishing, an eight-notice ring makes gaps explicit, and allocation-failure
+checks preserve snapshots and pending updates. A separate native fixture
+composition exercises the shared service through stdio, GUI, TUI and shell; its
+producer budgets and synthetic denial are explicitly scoped. Evidence belongs to
+`.aide/evidence/2026-10-07-observation-capture/`. Public event-stream negotiation,
+reconnect and wire payloads remain open. No real full filesystem or power-loss
+persistence is qualified. These slices do not complete the unit or confer owner
+acceptance.

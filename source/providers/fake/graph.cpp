@@ -1,7 +1,20 @@
 #include "graph.h"
 #include "bootstrap.h"
+#include "capture.h"
+#include "session.h"
 
 namespace disked {
+#ifdef DISKED_CAPTURE_CAMPAIGN
+// Linked only into the separate native campaign executable.
+std::unique_ptr<FrontendSession> capture_campaign_session(const Registry& registry);
+#endif
+std::unique_ptr<FrontendSession> make_fake_session(const Registry& registry) {
+#ifdef DISKED_CAPTURE_CAMPAIGN
+    return capture_campaign_session(registry);
+#else
+    return std::unique_ptr<FrontendSession>(new FrontendSession(registry,fake_graph()));
+#endif
+}
 GraphInput fake_graph() {
     initialize_fake_provider();
     GraphInput graph;
@@ -18,6 +31,9 @@ GraphInput fake_graph() {
     graph.edges={{"fake:alpha@1","fake:table@1","contains"},{"fake:table@1","fake:volume@1","contains"},
         {"fake:clone@1","fake:volume@1","shared-observation"},{"fake:volume@1","fake:alpha@1","backing-reference"}};
     graph.omissions={"fake:denied@1:access_denied","fake:stale@1:observation_stale","fake:unknown@1:observation_unknown"};
-    return graph;
+    ObservationCapture capture({"provider.fake.bootstrap/1"});
+    const auto key=capture.start("provider.fake.bootstrap/1");capture.finish(key,graph);
+    if(capture.snapshot()->sources.front().state!=SourceState::Complete)throw std::invalid_argument("fake_capture_invalid");
+    return capture.snapshot()->graph;
 }
 }
