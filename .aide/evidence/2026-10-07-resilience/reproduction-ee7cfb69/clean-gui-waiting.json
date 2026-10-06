@@ -1,0 +1,124 @@
+[
+  {
+    "samples": [
+      {
+        "responsive": true,
+        "elapsed_ms": 0.15080004232004285,
+        "error": 0
+      },
+      {
+        "responsive": true,
+        "elapsed_ms": 3.0093000386841595,
+        "error": 0
+      },
+      {
+        "responsive": true,
+        "elapsed_ms": 0.062000006437301636,
+        "error": 0
+      },
+      {
+        "responsive": true,
+        "elapsed_ms": 0.056100019719451666,
+        "error": 0
+      },
+      {
+        "responsive": true,
+        "elapsed_ms": 0.01999997766688466,
+        "error": 0
+      }
+    ],
+    "late": {
+      "diagnostics": [],
+      "earlier_request": {
+        "diagnostics": [
+          {
+            "code": "operation_admission_unresolved",
+            "message_key": "disked.operation_admission_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:0e7e5109da6f26cb5db588a9c29ee637",
+        "request_id": "gui:1",
+        "result": {
+          "admission": "unresolved"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      },
+      "evidence": [],
+      "operation_id": null,
+      "request_id": "gui:inspect",
+      "result": {
+        "basis_revision": "sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4",
+        "capture_id": "fake:1",
+        "scope": "fake-only",
+        "target": {
+          "id": "fake:alpha@1",
+          "kind": "block-device",
+          "observation_refs": [],
+          "properties": {
+            "aliases": [
+              "fake:path/A/0",
+              "fake:serial/CLONED"
+            ],
+            "capacity_bytes": "1073741824",
+            "identity": "fixture:controller-A:lun0",
+            "label": "Workshop disk",
+            "media_generation": "1",
+            "scope": "fake-only",
+            "state": "current"
+          }
+        }
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    },
+    "source": "test-only five-second delayed admission",
+    "later_operation": {
+      "diagnostics": [],
+      "evidence": [],
+      "operation_id": "fake-op:0e7e5109da6f26cb5db588a9c29ee637",
+      "request_id": "cli",
+      "result": {
+        "last_record_digest": "18f9e8ec795ae24893b70be2d7fa9c028b9ca8c6f01ab8788bea658b26b9b2df",
+        "operation_id": "fake-op:0e7e5109da6f26cb5db588a9c29ee637",
+        "scope": "fake-only",
+        "state": {
+          "attempt_state": "finished",
+          "binding": {
+            "attempt_id": "fake-op:0e7e5109da6f26cb5db588a9c29ee637:attempt:1",
+            "fixture_id": "fake:complete",
+            "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+            "image_digest": "090ef7ea427d72e12d8ee91b517f9bec79ecbfe5b478d53b638c77ddae79cad9",
+            "input_digest": "sha256:f037f74f2e9d203d5a6c4a8dadbefe7c4c2c38da3feafa76c8e4cdc4ab0706b6",
+            "operation_id": "fake-op:0e7e5109da6f26cb5db588a9c29ee637",
+            "process_created": "134357714985486344",
+            "process_id": "25696",
+            "provider_id": "provider.fake.bootstrap/1",
+            "source_revision": "ee7cfb6984c1049cad3b3bdc53fa615687c4f244",
+            "target_profile": "windows.nt10.x64.win32",
+            "worker_epoch": "worker:c23d3fbcdab1bb40ba73b7826bb5c855"
+          },
+          "cancellation": "not_requested",
+          "effect_certainty": "observed",
+          "last_event": "verified",
+          "logical_state": "completed",
+          "outcome": "succeeded",
+          "phase": "finished",
+          "recovery": "unnecessary",
+          "schema": "org.disked.fake-operation/1",
+          "scope": "fake-only",
+          "sequence": "5",
+          "synthetic_effect_count": "1"
+        },
+        "worker_observation": "exited"
+      },
+      "schema": "org.disked.response/1",
+      "status": "completed"
+    }
+  }
+]

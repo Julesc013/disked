@@ -1,0 +1,441 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W017",
+  "base_revision": "4b1be0facb5648da49557337609c503573f0b72c",
+  "spec_manifest_digest": "sha256:2a550ccc5a4bdad6a95dae6120ecf51f94e0cc22d06386925eb8f5e35c92b2a7",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/bundle.json",
+    "spec/safety/degraded-operation.md",
+    "spec/development/testing-and-ci.md",
+    "spec/storage/capability-resolution.md",
+    "spec/storage/providers.md",
+    "spec/architecture/execution-topology.md",
+    "spec/schemas/resource-budget.schema.json",
+    "source/apps/disked/cli.cpp",
+    "source/runtime/presentation/session.cpp",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/console/terminal.cpp",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/console_tui_fixture.py",
+    "tools/build-inputs.json",
+    "spec/catalog/input-dependencies.json",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-07-resilience/.gitattributes",
+    ".aide/evidence/2026-10-07-resilience/INITIAL-FINDINGS.md",
+    ".aide/evidence/2026-10-07-resilience/README.md",
+    ".aide/evidence/2026-10-07-resilience/REVIEW.md",
+    ".aide/evidence/2026-10-07-resilience/aide-passive.json",
+    ".aide/evidence/2026-10-07-resilience/baseline-gui-blocked.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-build.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-capability.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-clone.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-commands.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-configure.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-console-observations.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-console-waiting.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-console-waiting.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-dependencies.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-graph-producer-schemas.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-gui-waiting.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-gui-waiting.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-headers.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-imports.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-launch.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-manifest.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-mode-explain.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-native-details.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-native-tests.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-operation-producer-schemas.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-results.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-shell-console-observations.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-shell-console.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-spec-tests.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-structural.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-target-inspect.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-target-list.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-terminal-producer-schemas.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-worker-budget.json",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-worker-budget.log",
+    ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-worker-observations.json",
+    ".aide/evidence/2026-10-07-resilience/w017-console-initial.json",
+    ".aide/evidence/2026-10-07-resilience/w017-worker-budget-detached.json",
+    ".aide/evidence/2026-10-07-resilience/w017-worker-budget-initial.json",
+    ".aide/evidence/2026-10-07-resilience/w017-worker-memory-diagnostic.json",
+    ".aide/evidence/2026-10-07-resilience/w017-worker-memory-initial.json",
+    ".aide/evidence/2026-10-07-resilience/working-1/commands.json",
+    ".aide/evidence/2026-10-07-resilience/working-1/index.log",
+    ".aide/evidence/2026-10-07-resilience/working-1/spec-tests.log",
+    ".aide/evidence/2026-10-07-resilience/working-1/structural.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/build.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/commands.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/configure.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/console-waiting-repaired.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/console-waiting.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/console-waiting.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/context.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/gui-waiting.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/gui-waiting.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/index.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/manifest.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/native-details.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/native-tests.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/results.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/spec-tests.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/structural.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/verify-context.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/verify-manifest.log",
+    ".aide/evidence/2026-10-07-resilience/working-2/worker-budget.json",
+    ".aide/evidence/2026-10-07-resilience/working-2/worker-budget.log",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/gui/win32/gui_model.h",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/shell/shell_model.h",
+    "source/apps/disked/tui/model.cpp",
+    "source/apps/disked/tui/model.h",
+    "source/platform/windows/console/terminal.cpp",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/ui/gui.cpp",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/presentation/requests.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "spec/architecture/execution-topology.md",
+    "spec/bundle.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/manifest.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/safety/degraded-operation.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/tools/tests/test_corrective.py",
+    "spec/work/units.json",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/test_gui_model.py",
+    "tests/resilience/console_wait_fixture.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tests/resilience/test_console_waiting.py",
+    "tests/resilience/test_gui_waiting.py",
+    "tests/resilience/test_request_channel.py",
+    "tests/resilience/test_worker_budget.py",
+    "tools/build-inputs.json",
+    ".aide/handoffs/DE-W017-containment-slice-2026-10-07.json"
+  ],
+  "summary": "Partial DE-W017 checkpoint: responsive interactive request ownership, retained late replies, allocation-safe unknown receipts and enforced fake-worker process/committed-memory ceilings. Exact source and clean reproduction retained; full resilience campaign and owner acceptance remain open.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-1/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-1/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-1/spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_gui_waiting.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\gui-waiting.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/gui-waiting.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_console_waiting.py --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\console-waiting.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/console-waiting.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_worker_budget.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --memory build/windows-bootstrap/Release/disked_worker_memory_limit.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\working-2\\worker-budget.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/worker-budget.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W017 --output .aide-local/context/DE-W017-slice --byte-budget 260000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W017-slice",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/verify-context.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/resilience/test_console_waiting.py --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence .aide/evidence/2026-10-07-resilience/working-2/console-waiting-repaired.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/working-2/console-waiting-repaired.json"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-graph-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-console-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-terminal-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/operation/test_worker.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-worker-observations.json -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-operation-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_gui_waiting.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-gui-waiting.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-gui-waiting.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_console_waiting.py --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-console-waiting.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-console-waiting.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/resilience/test_worker_budget.py --exe build/windows-bootstrap/Release/disked.exe --delayed build/windows-bootstrap/Release/disked_worker_delayed.exe --memory build/windows-bootstrap/Release/disked_worker_memory_limit.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-worker-budget.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-worker-budget.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/interaction/test_shell_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-resilience\\reproduction-ee7cfb69\\clean-shell-console-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-shell-console.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-manifest.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-dependencies.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe mode explain --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-mode-explain.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe target list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-target-list.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe target inspect fake:volume@1 --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-target-inspect.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69\\build\\windows-bootstrap\\Release\\disked.exe capability explain fake:denied@1 partition.resize.plan --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ee7cfb69",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-capability.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W017-slice-ee7cfb69/disked.exe",
+      "sha256": "sha256:a791a2ab4695b18e8457b1cf1529638db7c3f5a4e748bfeed09a85ddef2f2f8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-07-resilience/reproduction-ee7cfb69/clean-results.json",
+      "sha256": "sha256:ea815c22745af320415467381962a714a03975cac69096505f04acd1e9eb3f02"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue DE-W017: bound synchronous CLI/stdio file calls and slow-consumer behaviour, measure whole-frontend resource limits, and execute full-destination plus combined provider faults. Preserve immutable claims, unknown effects and worker/capture epochs; do not repeat admitted work.",
+  "performed_remote_writes": false
+}
