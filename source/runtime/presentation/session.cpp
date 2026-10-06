@@ -92,4 +92,21 @@ std::string presentation_json(const Value& value) {
     }
     return ascii;
 }
+std::vector<std::string> presentation_lines(const Value& value) {
+    const auto text=presentation_json(value);std::vector<std::string> lines;std::string line;
+    bool quoted=false,escape=false;unsigned depth=0;
+    auto emit=[&]() {if(!line.empty())lines.push_back(line);line.assign(depth*2,' ');};
+    for(char c:text) {
+        if(quoted) {line+=c;if(escape)escape=false;else if(c=='\\')escape=true;else if(c=='"')quoted=false;continue;}
+        if(c=='"') {quoted=true;line+=c;}
+        else if(c=='{' || c=='[') {line+=c;++depth;emit();}
+        else if(c=='}' || c==']') {if(line.find_first_not_of(' ')!=std::string::npos)emit();--depth;line.assign(depth*2,' ');line+=c;}
+        else if(c==',') {line+=c;emit();}
+        else if(c==':')line+=": ";else line+=c;
+    }
+    if(!line.empty())lines.push_back(line);
+    std::size_t bytes=0;for(const auto& row:lines)bytes+=row.size()+1;
+    if(bytes>1048576)throw std::length_error("presentation_limit");return lines;
+}
+
 }

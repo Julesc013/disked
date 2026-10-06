@@ -113,7 +113,7 @@ event payloads; the synchronous subset does not claim those tests passed.
 
 Native process outcomes: 0 completed; 2 invalid arguments/message/schema; 3
 unavailable command/frontend/feature; 4 output/internal failure; 5 accepted and
-still running; 6 unknown outcome; 7 recovery required. Codes 5–7 are reserved and
+still running; 6 unknown outcome; 7 recovery required. Codes 5â€“7 are reserved and
 tested as reader mappings, but cannot be emitted by this synchronous composition.
 NDJSON continues after a bounded, well-framed refused request and returns the
 maximum failure exit class encountered (4 takes precedence over 3 over 2).
@@ -125,7 +125,7 @@ results and diagnostics occupy only their framed stdout response.
 The native argv adapter preserves Windows UTF-16 tokens as strict UTF-8. Static
 completion only suggests descriptor words/options; it never dispatches or performs
 identifier discovery. DE-W011 supplies channel observations and policy routing for this Windows lane.
-The GUI remains unavailable; DE-W014 adds a native console TUI. Explicit CLI prompt permission
+DE-W014 and DE-W015 add explicit native console and Win32 frontends. Explicit CLI prompt permission
 requires verified console input/output; no synchronous handler actually prompts.
 
 The current broad programme grant permits local continuation after recorded

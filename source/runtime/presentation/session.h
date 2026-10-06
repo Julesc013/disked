@@ -27,4 +27,5 @@ private:
 };
 // ASCII-only linear view; preserves the underlying value losslessly.
 std::string presentation_json(const json::Value& value);
+std::vector<std::string> presentation_lines(const json::Value& value);
 }

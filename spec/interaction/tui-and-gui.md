@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -86,6 +86,73 @@ View modes MUST NOT alter privilege or hard safety constraints; deep scans/eleva
 ## Related specifications
 
 - [DE-023](presentation.md)
+
+## DE-W015 native GUI execution contract
+
+The Windows x64 prototype admits `disked gui` / `disked --gui`. An explicit
+command with `--gui` stages its typed form; it never bypasses review. Complete
+argument validation and explicit help precede all GUI loading. Ordinary CLI,
+machine, TUI and essential application paths do not load GUI libraries or create
+windows. Host-injected modules are recorded separately from application imports;
+their presence is not evidence that the GUI path ran.
+GUI code remains inside the same executable; user32/gdi32 are loaded from the
+system directory only on the GUI path. Missing APIs or an unavailable interactive
+window station return a named unavailable diagnostic (exit 3) before provider
+initialization. A GUI startup/internal failure returns 4; orderly close returns
+0 independently of any displayed refused action. Caller console state is untouched.
+Bare/desktop launch qualification remains DE-W011/031; this slice requires explicit
+GUI intent and makes no zero-console-flash claim.
+
+The native window has a target navigator, command explorer, read-only structured
+inspector, current/proposed summary and typed request area. The initial navigator
+uses cached fake state. Focus is a local ID; explicit Inspect selects and inspects
+through the revision-bound service. Refresh replaces the view with the latest
+service snapshot without reassigning missing selection. Clear selection uses the
+same typed service action. IDs, observation state, unknown quantities, omissions
+and refusals remain inspectable without color. There is no fabricated proposed
+storage state: until planning exists the proposed area explicitly reports none.
+
+Every descriptor remains discoverable. Available observation/static commands open
+forms; planned handlers are unavailable and `protocol.serve` is transport-only.
+Fields derive from the existing descriptor schemas, with the selected exact target
+ID as the target default. This slice admits at most two string fields of 4096
+UTF-8 bytes each, covering every available handler; another shape is unavailable
+until its native controls and parity tests are supplied. Edit controls retain at
+most 4097 UTF-16 units; bounded rejected text remains editable but cannot pass
+review. The private model caps rejected editor text at 16388 UTF-8 bytes per field.
+Review validates the
+complete parameters and displays the exact escaped request and captured revision.
+Submit is a separate explicit control, enabled only after successful review.
+Editing, staging another request or submitting consumes that review. A late graph
+change must produce the service's revision conflict, never implicit rebasing.
+Enter/pasted text in an edit does not submit; no default pushbutton runs a command.
+
+Native list, edit, label and button controls provide keyboard navigation, visible
+focus and standard accessibility roles. Tab/Shift+Tab traverse enabled controls;
+button mnemonics and Enter on the navigator open the focused item. Read-only
+multiline results support selection/copy and both scroll directions. Review escapes
+control/bidi/nonprinting data separately from exact editable values. Finite model
+bounds retain one snapshot, one form and one outcome, with at most 1 MiB display
+text. Large content scrolls rather than truncating identity or diagnostics.
+
+Use host system colors and message font, with a read-only high-contrast observation.
+Respond to setting changes without changing the user's theme, contrast, font or
+display settings. Dynamically available thread DPI support may select system-aware
+layout; otherwise retain Windows' DPI virtualization. The chosen mode is evidence,
+not per-monitor or legacy-DPI qualification. Native minimum window dimensions keep
+the two-field form reachable. No extracted artwork is required; stock host icons
+do not admit redistribution of any supplied assets.
+
+Acceptance requires direct GUI-model/CLI/TUI parity for success and refusal,
+stable selection through removal, stale review and inert editing. Actual native
+windows must demonstrate child control roles, keyboard traversal, explicit
+review/submit, host font/colors/contrast observations, bounded resize and clean
+close. Tests use hidden windows or an inactive desktop owned by the test process
+and may inspect/render only those windows; they never switch the user's desktop.
+Record high-contrast-on and screen-reader checks as unrun when
+that environment is unavailable; querying the host's current setting is not an
+accessibility qualification. Retain actual images, commands, imports and module
+observations; a model test alone cannot establish a native UI.
 
 ## Native terminal slice
 

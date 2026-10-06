@@ -27,11 +27,11 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W013 local development: immutable fake graph, shared service, identity selection and stale-revision refusals; owner acceptance pending.
 - [x] DE-W014 native console slice: screen/linear views, typed command explorer, service parity and console restoration; owner acceptance pending.
 - [ ] Qualify screen-reader, other terminal backends and remote/legacy environments at their applicable gates.
-- [ ] DE-W015–016: implement Win32 adapter and bounded local fake planning/execution.
+- [ ] DE-W015Ã¢â‚¬â€œ016: implement Win32 adapter and bounded local fake planning/execution.
 - [ ] DE-W017: exercise fake hangs, cancellation, stale observations and resource limits.
 - [ ] DE-W018: run selected legacy ABI/import/startup probes early and retain failures.
-- [ ] DE-W020–035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
-- [ ] DE-W040–043: review recovery and image-only mutation/formatting gates before any executor work.
+- [ ] DE-W020Ã¢â‚¬â€œ035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
+- [ ] DE-W040Ã¢â‚¬â€œ043: review recovery and image-only mutation/formatting gates before any executor work.
 
 ## Delivery and maintenance
 

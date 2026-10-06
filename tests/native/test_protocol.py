@@ -103,7 +103,9 @@ class NativeProtocol(unittest.TestCase):
             self.assertEqual(b'',result.stdout);self.assertIn(b'argument_conflict',result.stderr)
 
     def test_unavailable_frontends_and_prompt_channels(self):
-        for argv,code in [(['--gui'],'frontend_unavailable'),(['--tui'],'frontend_unavailable'),
+        # Explicit GUI is exercised by the native window suite; pipes do not
+        # prohibit a separately requested GUI. TUI requires terminal channels.
+        for argv,code in [(['--tui'],'frontend_unavailable'),
                          (['--cli','--interactive=yes'],'interaction_unavailable'),(['--interactive=yes'],'interaction_unavailable')]:
             result=self.launch(['build','inspect',*argv]);self.assertEqual(3,result.returncode)
             self.assertEqual(b'',result.stdout);self.assertIn(code.encode(),result.stderr)

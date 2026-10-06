@@ -8,12 +8,12 @@ The amended baseline is **proposed and awaiting review**. The specification tool
 |---|---|---|
 | DE-W000 | Review the amended baseline, source layout and scoped decisions | Final content remains unaccepted until recorded review; tool success is separate. |
 | DE-W010 | One native executable with a fake provider, build identity, static command registry and actual build/launch evidence | No physical storage access; create only source directories needed by code. |
-| DE-W011–016 | Common CLI/machine/TUI/Win32 semantics, graph, plans and local fake execution | Real frontend and process evidence, with unknown and denied results preserved. |
+| DE-W011Ã¢â‚¬â€œ016 | Common CLI/machine/TUI/Win32 semantics, graph, plans and local fake execution | Real frontend and process evidence, with unknown and denied results preserved. |
 | DE-W017 | Fake hangs, bounded queues, cancellation races, stale results, frontend loss and worker exhaustion | Failure drills before expanding storage authority. |
 | DE-W018 | Tiny compile/import/launch probes for selected legacy profiles | Early architectural feedback; no full product or broad compatibility certification. |
-| DE-W020–034 | Read-only image/format readers, Windows observations and coherent acquisition contracts | Follow each unit's exact prerequisites and scoped storage grant. |
+| DE-W020Ã¢â‚¬â€œ034 | Read-only image/format readers, Windows observations and coherent acquisition contracts | Follow each unit's exact prerequisites and scoped storage grant. |
 | DE-W035 | Thin read-only native host adapter prototype | Fixture hosts first; real registration requires separately authorized installation work. |
-| DE-W040–043 | Recovery, offline preparation and independently verified disposable-image mutations/formatting | Journal/recovery decisions and image-only authority precede execution. |
+| DE-W040Ã¢â‚¬â€œ043 | Recovery, offline preparation and independently verified disposable-image mutations/formatting | Journal/recovery decisions and image-only authority precede execution. |
 | DE-W060/062/063 | Managed delivery, finite carrier/owner contract and independently staged artifact checks | Portable use remains viable; no signing, publishing or claimed upstream integration here. |
 | DE-W080/090 | Broader target/operation qualification and a scoped release | License, provenance, exact target evidence and release authorization remain required. |
 
@@ -45,11 +45,15 @@ DE-W012 now includes flexible placement of complete option/value groups, context
 
 The DE-W013 local slice adds an immutable fake graph and shared frontend service.
 CLI/stdio read commands preserve denied/stale/unknown observations; revision
-checks and selection identity live in the service. The Win32 GUI, async operations
-and real storage remain later work. Evidence is retained under
+checks and selection identity live in the service. Async operations and real storage remain later work. Evidence is retained under
 `.aide/evidence/2026-10-06-native-graph/`; owner acceptance remains separate.
 
 DE-W014 adds the native console TUI over that service, with staged typed forms,
 linear/screen presentation and isolated real-console input/restoration evidence
-under `.aide/evidence/2026-10-06-native-tui/`. DE-W015 is the next local frontend
-unit; accessibility and untested-backend qualification remain separate.
+under `.aide/evidence/2026-10-06-native-tui/`. DE-W015 adds the Win32 frontend; accessibility and untested-backend qualification remain separate.
+
+DE-W015 now implements a native Win32 navigator, structured inspector and typed
+review/submit forms over the same fake service. Native model and actual-window
+tests retain parity, keyboard behavior and host observations separately from
+owner acceptance. Evidence belongs to `.aide/evidence/2026-10-06-native-gui/`;
+DE-W016 is the next process/execution boundary after the clean GUI reproduction.

@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-There is no real storage access, GUI, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
+The explicit Win32 GUI exposes the same fake service. There is no real storage access, shell or asynchronous operation runtime yet. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -88,3 +88,19 @@ back; F10 or Ctrl+C exits. No persistent command shell or disk writes are admitt
 Small consoles automatically use linear output. Pipes cannot supply TUI input.
 The linear view is available for accessibility workflows, but screen-reader
 qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).
+
+Run the native window with `disked gui` or `disked --gui`. An explicit command,
+for example `disked --gui target inspect fake:alpha@1`, opens a typed form.
+Targets and Commands switch the navigator; Inspect / Open acts on its focused
+identity. Review request displays exact escaped parameters and revision. Submit
+reviewed is a separate action; editing consumes review. Tab and native button
+mnemonics navigate controls. Read-only results remain selectable and scrollable.
+The current/proposed area reports no proposed changes until planning exists.
+
+GUI dependencies are loaded only on the explicit GUI application path. Headless
+imports still exclude user32/gdi32; host-injected modules may appear in process
+observations separately. Tests exercise windows on an inactive private desktop
+without switching the user's display. Current-host keyboard, controls, font,
+colors and contrast observations are evidence; high-contrast-on, screen-reader,
+per-monitor DPI, old Windows and clean-VM qualification remain unrun. No custom
+extracted icon is distributed. See [the GUI contract](../spec/interaction/tui-and-gui.md).

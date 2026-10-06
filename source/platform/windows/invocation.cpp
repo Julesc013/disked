@@ -92,7 +92,7 @@ InvocationHost observe_windows_invocation() {
         .put("adapter",Value::string("windows.standard-handles/1")).put("terminal_capabilities",capabilities);
     host.policy=Value::object().put("stdin",Value::string(input.type)).put("stdout",Value::string(output.type))
         .put("terminal",Value::string(terminal)).put("console_owner",Value::string(shared?"caller":"unknown"))
-        .put("prompt_channel",Value::boolean_value(prompt)).put("gui_available",Value::boolean_value(false))
+        .put("prompt_channel",Value::boolean_value(prompt)).put("gui_available",Value::boolean_value(true))
         .put("tui_available",Value::boolean_value(true)).put("display",Value::boolean_value(false));
     return host;
 }

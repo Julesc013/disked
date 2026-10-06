@@ -41,23 +41,23 @@ sources:
 
 ## Gate sequence
 
-**M0 — Review and bootstrap.** Accept the source/authority model, resolve foundational open decisions, install shared instructions, run the spec/tool tests and commit a baseline. This is not a code release or physical-write grant.
+**M0 â€” Review and bootstrap.** Accept the source/authority model, resolve foundational open decisions, install shared instructions, run the spec/tool tests and commit a baseline. This is not a code release or physical-write grant.
 
-**M1 — One executable over fake storage.** Build native `disked` with build/mode/command inspection, fake target inventory, machine output, TUI and a minimal Win32 GUI. Qualify invocation behavior on XP and current Windows. Exercise self-spawn/IPC without real elevation/storage effects. Freeze command spelling and image-subsystem policy only after evidence.
+**M1 â€” One executable over fake storage.** Build native `disked` with build/mode/command inspection, fake target inventory, machine output, TUI and a minimal Win32 GUI. Qualify invocation behavior on XP and current Windows. Exercise self-spawn/IPC without real elevation/storage effects. Freeze command spelling and image-subsystem policy only after evidence.
 
-**M2 — Read-only format core.** Implement checked arithmetic and raw-image MBR/EBR/GPT parsing, hostile metadata diagnostics and independent comparison. Add fake-provider frontend parity. Do not use VHD mounting when a raw image reader can avoid host effects.
+**M2 â€” Read-only format core.** Implement checked arithmetic and raw-image MBR/EBR/GPT parsing, hostile metadata diagnostics and independent comparison. Add fake-provider frontend parity. Do not use VHD mounting when a raw image reader can avoid host effects.
 
-**M3 — Native Windows inspection.** Enumerate disks/volumes/mounts with fresh composite identity, preserve unknown layers, audit imports and test XP/7/10/11. Read-only acquisition has a separate case/data policy and no claim of media safety. Build a useful workshop inventory and evidence product.
+**M3 â€” Native Windows inspection.** Enumerate disks/volumes/mounts with fresh composite identity, preserve unknown layers, audit imports and test XP/7/10/11. Read-only acquisition has a separate case/data policy and no claim of media safety. Build a useful workshop inventory and evidence product.
 
-**M4 — Imaging and evidence.** Resumable image acquisition, bad-sector map, explicit substituted bytes, hashes and case reports. Verify known images and preserve privacy. Refuse repair of original failing media by default.
+**M4 â€” Imaging and evidence.** Resumable image acquisition, bad-sector map, explicit substituted bytes, hashes and case reports. Verify known images and preserve privacy. Refuse repair of original failing media by default.
 
-**M5 — Image-only mutation.** Accept journal encoding/durability design. Implement map changes only on disposable image fixtures with simulated interruption, then filesystem-provider plans. No host raw-device writes.
+**M5 â€” Image-only mutation.** Accept journal encoding/durability design. Implement map changes only on disposable image fixtures with simulated interruption, then filesystem-provider plans. No host raw-device writes.
 
-**M6 — Privileged NT broker and constrained physical operations.** Independent security review and lab qualification. Admit selected healthy non-system basic MBR/GPT operations one at a time. No system move, encryption, pools or unknown metadata under a generic capability.
+**M6 â€” Privileged NT broker and constrained physical operations.** Independent security review and lab qualification. Admit selected healthy non-system basic MBR/GPT operations one at a time. No system move, encryption, pools or unknown metadata under a generic capability.
 
-**M7 — Offline recovery and system tasks.** Exact recovery closures, cross-boot identification, boot/BitLocker dependencies and interruption exercises. Only then admit nonoverlapping moves, overlapping moves and start-boundary movement as separate capabilities.
+**M7 â€” Offline recovery and system tasks.** Exact recovery closures, cross-boot identification, boot/BitLocker dependencies and interruption exercises. Only then admit nonoverlapping moves, overlapping moves and start-boundary movement as separate capabilities.
 
-**M8 — Broader systems and media.** Following early nonblocking primitive/text probes, full Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
+**M8 â€” Broader systems and media.** Following early nonblocking primitive/text probes, full Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
 
 ## Owner-selected 0.1.0 programme
 
@@ -134,3 +134,9 @@ DE-W014 now exercises the native console frontend in screen and linear modes,
 including actual input, Ctrl+C, resize and caller-state restoration. DE-W015 can
 reuse the service/model semantics for the Win32 frontend under the programme
 grant. This leaves screen-reader/remote/legacy and the rest of M1 unqualified.
+
+
+DE-W015 implements the initial Win32 fake workbench with native controls and
+separate review/submit forms. Its native tests do not qualify screen readers,
+high-contrast-on, other Windows profiles or real storage. The programme proceeds
+to DE-W016 after retained clean build evidence and local agent review.

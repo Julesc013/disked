@@ -1,0 +1,65 @@
+[
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/spec-tests.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/native-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe build/windows-bootstrap/Release/disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_transport.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --probe build/windows-bootstrap/Release/frontend_service_probe.exe --root . --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/graph-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --fault build/windows-bootstrap/Release/disked_tui_fault.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\console-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/terminal-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe build/windows-bootstrap/Release/disked.exe --guard build/windows-bootstrap/Release/disked_provider_guard.exe --unavailable build/windows-bootstrap/Release/disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-06-native-gui\\working-final\\window-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-06-native-gui/gui-window-tests.log"
+  }
+]

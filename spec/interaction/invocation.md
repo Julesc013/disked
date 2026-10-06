@@ -162,3 +162,15 @@ Bare invocation MUST have no storage side effects and MUST expose an explainable
 
 - [DE-010](../architecture/system.md)
 - [DE-005](../foundation/glossary.md)
+
+
+## Native GUI observation boundary
+
+DE-W015 compiles the Win32 adapter but leaves desktop/display facts unknown in
+headless startup observations. A valid explicit GUI request loads its required
+system APIs and checks the process window station before initializing the fake
+service. Its in-window `mode explain` result adds `observations.gui`, observed
+display availability, current contrast knowledge and the selected thread DPI
+mode. It then evaluates the same invocation policy with those observed inputs.
+No headless mode query loads GUI libraries merely to claim display availability.
+The console subsystem and automatic desktop-launch uncertainty are unchanged.
