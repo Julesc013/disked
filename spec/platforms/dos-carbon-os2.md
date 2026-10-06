@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-051
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.17-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-051-02
 updated:
   by: codex
-  at: '2026-10-04T07:27:09.204646+00:00'
-  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
+  at: '2026-10-06T18:27:38.658312+00:00'
+  scope: DE-W018 private C90 control probes; historical target qualification remains open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -63,6 +63,26 @@ Run identical format vectors on the host and constrained implementations. Simula
 DOS 1.x and 2.x, Windows 1.x and 2.x, OS/2 1.x text and PM-capable variants, and OS/2 2.x text/PM are explicit unqualified research profiles. DOS real mode and an extender are separate candidates; the inherited broad `dos.386.lba` and `os2.x86.pm` rows remain research leads rather than exact artifact contracts. An extender identity and its executable wrapper remain unresolved until pinned; neither a slash nor the word selected is an ABI qualification.
 
 DE-W018 brings harmless loader, checked-arithmetic, encoding and text probes into M1. The later DE-W071 image-reader work remains separate. Record exact release, memory/CPU floor, APIs, file/directory assumptions, terminal behavior and toolchain limits. Do not change DOS 3+ to DOS 1+ by editing a label. Missing tools/emulators yield a documented blocker, never a support claim or a mandatory delay to the modern slice.
+
+## DE-W018 primitive control slice
+
+The private C90 probe contract is `tests/legacy/README.md`, with checked arithmetic,
+explicit little-endian serialization and escaped byte display under
+`source/portable/primitives/`. Four 16-bit limbs avoid native 64-bit requirements;
+limits.h selects and checks an exact 32-bit intermediate. Refusals preserve
+caller outputs. Independent integer vectors exercise decimal limits, carry,
+width refusal, serialization and all byte values. These are isolated probes,
+not an admitted public ABI or a replacement for the existing native executable.
+
+Modern GCC/MSVC control builds record pointer width separately from address and
+wire width, compiler/artifact/input hashes, exact commands and import observations.
+They are not historical CPU, loader, terminal, code-page or parser qualification.
+The early installed-tool/VM inventory and modern controls are retained under
+`.aide/evidence/2026-10-07-primitive-probes/`; actual 8086/Win16/Win9x/OS2 build
+and launch lanes remain explicit work. Existing named VMs have not been booted
+or modified by this slice. Missing period tools/fixtures do not block independent
+modern image work. The shared product parser corpus remains not_run for these
+primitive probes.
 
 ## Command and terminal consistency
 

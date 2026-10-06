@@ -1,0 +1,109 @@
+{
+  "observed_at": "2026-10-06T18:16:10.713831+00:00",
+  "base_revision": "de67d1f7bcf20127fad219ab7a195e07528cc18e",
+  "scope": "Read-only candidate tool/fixture inventory for DE-W018; no historical build or launch qualification",
+  "tools": {
+    "gcc": {
+      "path": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.EXE",
+      "path_lookup": "found",
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.EXE --version",
+      "exit_code": 0,
+      "version": "gcc.EXE (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r6) 15.2.0\r\nCopyright (C) 2025 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There is NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "sha256": "sha256:bfddcbb572fcf7ecc3a763f04c2bb075b827f52cdc1014d8c7b6554000ff98a7"
+    },
+    "nasm": {
+      "path": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\nasm.EXE",
+      "path_lookup": "found",
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\nasm.EXE -v",
+      "exit_code": 0,
+      "version": "NASM version 2.16.03 compiled on Feb 21 2026",
+      "sha256": "sha256:c242a1098b94cd123747b79513bf899095569ad8f9ad3d262c29720e8dbbd31a"
+    },
+    "wcl": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "wcc": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "wlink": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "owcc": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "dosbox": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "dosbox-x": {
+      "path": null,
+      "path_lookup": "not_found"
+    },
+    "qemu-system-i386": {
+      "path": null,
+      "path_lookup": "not_found"
+    }
+  },
+  "compilers": {
+    "msvc2017": {
+      "path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\\Tools\\MSVC\\14.16.27023\\bin\\Hostx64\\x86\\cl.exe",
+      "exists": true,
+      "sha256": "sha256:707e06acc47f558e7f2a5450292cc9872265a3659b40ab7dcb76745a7f813c8a"
+    },
+    "msvc2022": {
+      "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "exists": true,
+      "sha256": "sha256:88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d"
+    }
+  },
+  "sdk71a_files": [
+    "Include\\Windows.h",
+    "Lib\\Kernel32.Lib",
+    "Lib\\x64\\Kernel32.Lib"
+  ],
+  "virtualbox": {
+    "path": "C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe",
+    "sha256": "sha256:8877479703f77434e63985ecb8c76b9b963dcbd02f1dbb397f5ccd36e71f4456",
+    "version": "7.2.6r172322"
+  },
+  "virtual_machines": [
+    {
+      "name": "Windows 3.1",
+      "config_path": "D:\\VMs\\VirtualBox\\Windows 3.1\\Windows 3.1.vbox",
+      "config_sha256": "sha256:d04972cd6fdd69185fc45c0c85c6a068d0e1b99ef26b7fac08cdfd770c9d1a67",
+      "os_type": "Windows31",
+      "last_state_change": "2026-07-23T08:51:48Z",
+      "disk_file_bytes": 26214400,
+      "network_enabled": true,
+      "shared_folders": 0,
+      "launch_status": "not_run",
+      "guest_contents": "not_inspected",
+      "note": "Registered fixture metadata only; no machine boot, image mount or configuration change."
+    },
+    {
+      "name": "Windows 98",
+      "config_path": "D:\\VMs\\VirtualBox\\Windows 98\\Windows 98.vbox",
+      "config_sha256": "sha256:531c6460e1b839597380d5569e1b6608571a09144fcf2b01ed2cc5f92b523445",
+      "os_type": "Windows98",
+      "last_state_change": "2026-03-26T21:31:55Z",
+      "disk_file_bytes": 2097152,
+      "network_enabled": true,
+      "shared_folders": 0,
+      "launch_status": "not_run",
+      "guest_contents": "not_inspected",
+      "note": "Registered fixture metadata only; no machine boot, image mount or configuration change."
+    }
+  ],
+  "missing_claims": [
+    "8086 C compiler/linker not found in examined installations/PATH",
+    "Win16 C compiler/linker not found in examined installations/PATH",
+    "Win9x-compatible toolchain not established",
+    "OS/2 compiler/SDK and launch fixture not found in examined installations/PATH",
+    "No historical guest launch or terminal/parser evidence"
+  ],
+  "next_safe_step": "Use installed GCC/MSVC for the common bounded C90 primitive corpus; establish each historical tool/guest before admission. Do not boot or alter unqualified existing VMs merely to obtain a pass."
+}

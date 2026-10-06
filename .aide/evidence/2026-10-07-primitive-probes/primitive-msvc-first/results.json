@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "cases": 411,
+  "profile": "ok char=8 short=16 int=32 long=32 pointer=64 intermediate=32",
+  "source": {
+    "observed_at": "2026-10-06T18:24:31.019348+00:00",
+    "source_revision": "635e846705cb1870608fecf292587bf25e997973",
+    "source_state": "dirty",
+    "inputs": {
+      "source/portable/primitives/checked.h": "sha256:005fec9710c79bb13f4aea89b66db659666bf21e616978e9d3e39590d415f6c7",
+      "source/portable/primitives/checked.c": "sha256:6875127c7c4ee6bcc6f9f14d695387078fd2e639292b93e7cf27b4d1598aa8b7",
+      "tests/legacy/primitive_probe.c": "sha256:fe2e4e81ca8a702e63f4897e9851580edc51cdd815cccfc286f5469f428ad4e9",
+      "tests/legacy/run_probes.py": "sha256:8991d4c86b5710ad88dcfb448379b9b0059b5756c1724a2a388c9877d03d7514",
+      "tests/legacy/README.md": "sha256:338a8f5ff7a7e6b4c300af2fa9436e92a4c007848d6b53c4106f1d427e00a864"
+    },
+    "compiler": {
+      "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "sha256": "sha256:88c8344236a27a6e727e0a8edc49aaa2690bdc7a9464b9d18cc7abe70a9f1c0d"
+    },
+    "include": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt"
+    ],
+    "lib": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\ucrt\\x64",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64"
+    ],
+    "host": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "machine": "AMD64"
+    },
+    "scope": "Modern control launch of private C90 primitive probes; no historical target or product parser qualification",
+    "linker": {
+      "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\link.exe",
+      "sha256": "sha256:ca11e6c45debd34bf652dfe984c5360a531a005ed78bf72852330c9c2590cf0d"
+    }
+  },
+  "executable": {
+    "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\primitive-msvc-first\\primitive-probe.exe",
+    "sha256": "sha256:d194ebf371099ce3b47b4bb671219225266b1ca0ae8c4a8f80f54ffe2e868262",
+    "bytes": 130048
+  },
+  "historical_lanes": {
+    "8086": "not_run",
+    "Win16": "not_run",
+    "Win9x": "not_run",
+    "OS2": "not_run"
+  },
+  "product_parser": "not_run",
+  "storage_access": "none",
+  "limitations": [
+    "One modern Windows host",
+    "No 16-bit compiler or historical loader/terminal launch",
+    "Private primitive probe, not admitted product ABI"
+  ]
+}

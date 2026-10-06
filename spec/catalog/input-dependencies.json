@@ -2528,6 +2528,65 @@
         "DE-023",
         "DE-045"
       ]
+    },
+    {
+      "id": "source/portable/primitives/checked.h",
+      "path": "source/portable/primitives/checked.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-051"
+      ]
+    },
+    {
+      "id": "source/portable/primitives/checked.c",
+      "path": "source/portable/primitives/checked.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h"
+      ],
+      "spec_ids": [
+        "DE-051"
+      ]
+    },
+    {
+      "id": "tests/legacy/primitive_probe.c",
+      "path": "tests/legacy/primitive_probe.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h"
+      ],
+      "spec_ids": [
+        "DE-051"
+      ]
+    },
+    {
+      "id": "tests/legacy/run_probes.py",
+      "path": "tests/legacy/run_probes.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "tests/legacy/primitive_probe.c",
+        "tests/legacy/README.md"
+      ],
+      "spec_ids": [
+        "DE-051"
+      ]
+    },
+    {
+      "id": "tests/legacy/README.md",
+      "path": "tests/legacy/README.md",
+      "kind": "instructions",
+      "delivery": "content",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-051"
+      ]
     }
   ]
 }

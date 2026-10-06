@@ -18,6 +18,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import specctl as sc
 
 ROOT = Path(__file__).resolve().parents[2]
+# Integrity/determinism fixtures need room for the growing complete task pack.
+# The separate 100-byte case still verifies refusal without truncation.
+CONTEXT_FIXTURE_BUDGET = 260000
 
 class BundleTests(unittest.TestCase):
     @classmethod
@@ -349,18 +352,18 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_context_is_deterministic_without_git(self):
         one=Path(self.temp.name)/'one';two=Path(self.temp.name)/'two'
-        self.bundle.context('DE-W010',one,180000);self.bundle.context('DE-W010',two,180000)
+        self.bundle.context('DE-W010',one,CONTEXT_FIXTURE_BUDGET);self.bundle.context('DE-W010',two,CONTEXT_FIXTURE_BUDGET)
         self.assertEqual((one/'context.md').read_bytes(),(two/'context.md').read_bytes())
         self.assertEqual((one/'manifest.json').read_bytes(),(two/'manifest.json').read_bytes())
         self.assertEqual('PASS',self.bundle.verify_context(one)['status'])
 
     def test_context_detects_source_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,180000)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,CONTEXT_FIXTURE_BUDGET)
         with (self.root/'foundation/charter.md').open('a') as f:f.write('\nChanged source.\n')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
     def test_context_detects_payload_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,180000)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,CONTEXT_FIXTURE_BUDGET)
         with (out/'context.md').open('a') as f:f.write('tampered')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
@@ -371,7 +374,7 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_context_refuses_populated_destination(self):
         out=Path(self.temp.name)/'context';out.mkdir();(out/'keep').write_text('x')
-        with self.assertRaisesRegex(sc.SpecError,'destination must be empty'):self.bundle.context('DE-W010',out,180000)
+        with self.assertRaisesRegex(sc.SpecError,'destination must be empty'):self.bundle.context('DE-W010',out,CONTEXT_FIXTURE_BUDGET)
         self.assertFalse((out/'manifest.json').exists())
 
     def test_aide_exports_all_planned_non_authorizing(self):

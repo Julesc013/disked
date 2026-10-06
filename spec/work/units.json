@@ -1907,7 +1907,7 @@
       "id": "DE-W018",
       "title": "Run early constrained primitive and terminal probes",
       "phase": "M1",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -1926,7 +1926,13 @@
         "source/platform/windows/**",
         "targets/**",
         "tests/legacy/**",
-        ".aide/evidence/**"
+        ".aide/evidence/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        ".gitattributes"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1954,13 +1960,19 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/legacy/run_probes.py --compiler <exact-installed-compiler> --family <gcc-or-msvc> --dumpbin <exact-dumpbin> --output <new-output-directory> [--include <directory> --lib <directory>]"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
       "required_inputs": [
         "spec/catalog/cli-syntax.json",
-        "spec/fixtures/command-syntax.json"
+        "spec/fixtures/command-syntax.json",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "tests/legacy/primitive_probe.c",
+        "tests/legacy/run_probes.py",
+        "tests/legacy/README.md"
       ]
     },
     {
