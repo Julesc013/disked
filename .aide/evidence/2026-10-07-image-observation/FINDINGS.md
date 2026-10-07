@@ -29,3 +29,13 @@ fields are now null rather than zero. The raw advertised count/width and issue
 mask remain available, and a new native case checks the independent valid backup.
 The initial full 38-group run used 70 integration cases; the final focused and
 clean runs use 71. C90 reader code and the earlier expectations are unchanged.
+
+The final registry refresh incorrectly copied normative document paths into a
+dependency list that requires registered artifact IDs. Structural validation
+reported the unknown node and stopped before refreshing the manifest. A shell
+command's later successful diff check masked its nonzero exit in the outer tool
+result, and source checkpoint 4a135dc was made before inspecting the failure.
+That checkpoint is not a specification-validation pass. The follow-up restores
+the distinction between concept prerequisites and artifact IDs, keeps all newly
+registered build inputs, and reruns structural/manifest/context checks. The
+failed logs and local source checkpoint remain retained; no remote write occurred.

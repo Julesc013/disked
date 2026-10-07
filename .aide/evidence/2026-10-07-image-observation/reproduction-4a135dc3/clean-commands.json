@@ -1,0 +1,51 @@
+[
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-clone.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-native-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3\\build\\windows-bootstrap\\Release\\image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\reproduction-4a135dc3\\observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-observation-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-producer-schemas.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-structural.log"
+  }
+]
