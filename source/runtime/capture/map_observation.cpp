@@ -22,11 +22,9 @@ std::string guid(const unsigned char* bytes) {
 }
 class Prefix {
     const std::vector<unsigned char>& bytes_;
-    const de_block_space& space_;
 public:
-    Prefix(const std::vector<unsigned char>& bytes,const de_block_space& space):bytes_(bytes),space_(space) {}
-    de_view region(const de_block_extent& extent) const {
-        de_byte_extent byte_extent{};require(de_extent_to_bytes(&extent,&byte_extent));
+    explicit Prefix(const std::vector<unsigned char>& bytes):bytes_(bytes) {}
+    de_view region(const de_byte_extent& byte_extent) const {
         std::size_t start=0,length=0;auto size=de_u64_from_u32(0);
         require(de_u64_from_size(bytes_.size(),&size));
         if(de_u64_compare(&byte_extent.start,&size)>=0)return {nullptr,0};
@@ -35,8 +33,24 @@ public:
         de_u64 span{};require(de_u64_sub(&end,&byte_extent.start,&span));require(de_u64_to_size(&span,&length));
         return {bytes_.data()+start,length};
     }
-    de_view block(const de_u64& lba) const {
-        auto one=de_u64_from_u32(1);de_block_extent extent{};
+};
+class Regions {
+    const de_block_space& space_;
+    const MapRegionReader& reader_;
+    std::size_t requests_=0,bytes_=0;
+public:
+    Regions(const de_block_space& space,const MapRegionReader& reader):space_(space),reader_(reader) {}
+    de_view region(const de_block_extent& extent) {
+        de_byte_extent bytes{};require(de_extent_to_bytes(&extent,&bytes));
+        de_u64 span{};std::size_t length=0;require(de_u64_sub(&bytes.end,&bytes.start,&span));
+        require(de_u64_to_size(&span,&length));
+        if(requests_>=517 || length>5U*1024U*1024U-bytes_)throw MapObservationError("image_capture_budget");
+        ++requests_;bytes_+=length;const auto view=reader_(bytes);
+        if(view.size>length || (view.size && !view.data))throw MapObservationError("image_region_contract");
+        return view;
+    }
+    de_view block(const de_u64& lba) {
+        const auto one=de_u64_from_u32(1);de_block_extent extent{};
         if(de_extent_make(&space_,&lba,&one,&extent)!=DE_OK)return {nullptr,0};
         return region(extent);
     }
@@ -97,22 +111,15 @@ V candidate(const de_gpt_candidate& c) {
         .put("active_count",number(active)).put("omitted",number(omitted)).put("entries",std::move(entries));
 }
 }
-json::Value observe_partition_map(const std::vector<unsigned char>& bytes,const de_u64& blocks,de_u32 unit) {
+json::Value observe_partition_regions(const de_u64& blocks,de_u32 unit,const MapRegionReader& reader) {
     if(unit!=512 && unit!=4096)throw MapObservationError("image_geometry");
-    if(bytes.size()>input_limit)throw MapObservationError("image_input_limit");
-    const auto scale=de_u64_from_u32(unit);de_u64 capacity{},captured{};
+    if(!reader)throw MapObservationError("image_region_contract");
+    const auto scale=de_u64_from_u32(unit);de_u64 capacity{};
     if(de_u64_mul(&blocks,&scale,&capacity))throw MapObservationError("image_capacity_overflow");
-    require(de_u64_from_size(bytes.size(),&captured));
-    if(de_u64_compare(&captured,&capacity)>0)throw MapObservationError("image_geometry");
-    de_block_space space{};require(de_space_init("captured-image",14,&blocks,unit,&space));Prefix prefix(bytes,space);
-    unsigned char digest[32];sha256(bytes.data(),bytes.size(),digest);
-    auto out=V::object(),capture=V::object(),geometry=V::object();
-    capture.put("bytes",exact(captured)).put("declared_bytes",exact(capacity))
-        .put("sha256",V::string("sha256:"+hex(digest,32)))
-        .put("complete",V::boolean_value(de_u64_compare(&captured,&capacity)==0))
-        .put("source_consistency",V::string("unknown"));
+    de_block_space space{};require(de_space_init("captured-image",14,&blocks,unit,&space));Regions prefix(space,reader);
+    auto out=V::object(),geometry=V::object();
     geometry.put("blocks",exact(blocks)).put("logical_block_bytes",V::string(std::to_string(unit)));
-    out.put("schema",V::string("org.disked.captured-map-review/1")).put("capture",std::move(capture)).put("geometry",std::move(geometry));
+    out.put("schema",V::string("org.disked.captured-map-review/1")).put("geometry",std::move(geometry));
     const auto zero=de_u64_from_u32(0),one=de_u64_from_u32(1);de_mbr_geometry chs{};de_mbr_table mbr{};
     auto first=prefix.block(zero);const auto mbr_status=de_mbr_read(&first,&space,&chs,&mbr);
     out.put("mbr_status",number(static_cast<std::size_t>(mbr_status))).put("mbr",mbr_status==DE_OK?mbr_table(mbr):V{});
@@ -162,6 +169,26 @@ json::Value observe_partition_map(const std::vector<unsigned char>& bytes,const 
     const auto compared=de_gpt_compare(&candidates[0],&candidates[1],&relation);
     out.put("compare_status",number(static_cast<std::size_t>(compared)))
         .put("comparison",compared==DE_OK?number(static_cast<std::size_t>(relation)):V{});
+    json::Limits bounds;bounds.bytes=48*1024;bounds.depth=16;bounds.values=4096;bounds.string_bytes=512;
+    try {json::dump(out,bounds);}catch(const json::Error&) {throw MapObservationError("image_report_limit");}
+    return out;
+}
+json::Value observe_partition_map(const std::vector<unsigned char>& bytes,const de_u64& blocks,de_u32 unit) {
+    if(unit!=512 && unit!=4096)throw MapObservationError("image_geometry");
+    if(bytes.size()>input_limit)throw MapObservationError("image_input_limit");
+    const auto scale=de_u64_from_u32(unit);de_u64 capacity{},captured{};
+    if(de_u64_mul(&blocks,&scale,&capacity))throw MapObservationError("image_capacity_overflow");
+    require(de_u64_from_size(bytes.size(),&captured));
+    if(de_u64_compare(&captured,&capacity)>0)throw MapObservationError("image_geometry");
+    const Prefix prefix(bytes);
+    auto out=observe_partition_regions(blocks,unit,[&prefix](const de_byte_extent& extent) {return prefix.region(extent);});
+    unsigned char digest[32];sha256(bytes.data(),bytes.size(),digest);
+    auto capture=V::object();
+    capture.put("bytes",exact(captured)).put("declared_bytes",exact(capacity))
+        .put("sha256",V::string("sha256:"+hex(digest,32)))
+        .put("complete",V::boolean_value(de_u64_compare(&captured,&capacity)==0))
+        .put("source_consistency",V::string("unknown"));
+    out.put("capture",std::move(capture));
     json::Limits bounds;bounds.bytes=48*1024;bounds.depth=16;bounds.values=4096;bounds.string_bytes=512;
     try {json::dump(out,bounds);}catch(const json::Error&) {throw MapObservationError("image_report_limit");}
     return out;

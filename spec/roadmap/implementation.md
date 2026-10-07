@@ -224,11 +224,14 @@ reproduction govern continuation to W024. Coverage-guided campaigns, broader
 sector/platform profiles and independent safety qualification remain explicit;
 coherent image capture and frontend integration belong to W024.
 
-DE-W024 now has a private captured-map integration slice in development. It binds
-an immutable byte prefix to explicit geometry and its digest, retains independent
-MBR/EBR/GPT findings and bounds report detail without skipping bounded validation.
-Source consistency remains unknown. Image-file capture, command admission and
-actual CLI/TUI/GUI parity are still required before completing W024; product image
-commands remain unavailable. The owner acceptance and storage/release gates are
-unchanged. `.aide/programmes/worker-continuity.md` records the owner direction to
-preserve tests and source-bound handoffs independently of model-service availability.
+DE-W024 has private captured-map and ordinary-local-file integration. The Windows
+file adapter reads bounded metadata regions even from large raw images, binds
+file identity/geometry, retains per-region coverage/digests/errors and compares a
+finite reread. Source consistency remains live-uncoordinated; equal observations
+are not a snapshot or whole-image verification. The immutable-prefix test API
+continues to report unknown source consistency. Product image commands remain
+unavailable pending shared command admission and actual CLI/TUI/GUI parity. Source-
+bound evidence and review belong to `.aide/evidence/2026-10-08-image-file-capture/`.
+The whole 0.1.0 programme, owner acceptance and storage/release gates remain open.
+`.aide/programmes/worker-continuity.md` keeps tests and handoffs independent of
+model-service availability.

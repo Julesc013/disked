@@ -21,6 +21,12 @@ def field(value,path):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--probe',required=True);p.add_argument('--evidence')
     args=p.parse_args();records=[]
+    for mode in ['null-view','oversize-view','empty-reader','reader-error']:
+        argv=[str(Path(args.probe).resolve()),'1','512',mode]
+        result=subprocess.run(argv,capture_output=True,timeout=15)
+        expected='image_test_reader_error' if mode=='reader-error' else 'image_region_contract'
+        assert result.returncode==3 and json.loads(result.stdout)==dict(refusal=expected),(mode,result.stdout,result.stderr)
+        records.append(dict(name=mode,argv=argv,exit_code=result.returncode,output_sha256=corpus.digest(result.stdout)))
     def run(name,data,blocks=256,unit=512,refusal=None):
         argv=[str(Path(args.probe).resolve()),str(blocks),str(unit)]
         result=subprocess.run(argv,input=data,capture_output=True,timeout=15)

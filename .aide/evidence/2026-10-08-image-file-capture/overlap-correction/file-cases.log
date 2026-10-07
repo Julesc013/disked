@@ -1,0 +1,75 @@
+CASE mbr-empty
+CASE mbr-two
+CASE mbr-overlap
+CASE mbr-outside
+CASE mbr-zero-type
+CASE mbr-boot-byte
+CASE mbr-signature
+CASE mbr-truncated
+CASE ebr-two
+CASE ebr-cycle
+CASE ebr-overlap
+CASE ebr-signature
+CASE ebr-unavailable
+CASE gpt-valid
+CASE gpt-0-header-crc
+CASE gpt-0-array-crc
+CASE gpt-0-reserved
+CASE gpt-0-range
+CASE gpt-0-duplicate
+CASE gpt-0-overlap
+CASE gpt-0-utf16
+CASE gpt-0-attributes
+CASE gpt-1-header-crc
+CASE gpt-1-array-crc
+CASE gpt-1-reserved
+CASE gpt-1-range
+CASE gpt-1-duplicate
+CASE gpt-1-overlap
+CASE gpt-1-utf16
+CASE gpt-1-attributes
+CASE gpt-valid-disagreement
+CASE gpt-guid-disagreement
+CASE gpt-both-crc
+CASE gpt-primary-signature
+CASE gpt-short-backup
+CASE length-0
+CASE length-1
+CASE length-445
+CASE length-446
+CASE length-447
+CASE length-461
+CASE length-462
+CASE length-509
+CASE length-510
+CASE length-511
+CASE length-512
+CASE length-513
+CASE length-1023
+CASE length-1024
+CASE length-1030
+CASE length-1152
+CASE length-17407
+CASE length-17408
+CASE wide-geometry
+CASE --json
+CASE relative-literal-option
+CASE duplicate-request-reused
+CASE overlapping-regions
+CASE overlapping-capture-change
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_file_capture.py", line 191, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_file_capture.py", line 115, in main
+    unicode,_=ordinary('é-\U0001f4be',data);assert run('unicode-path',unicode)['report']['capture']['resolved_path']==str(unicode)
+              ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_file_capture.py", line 76, in ordinary
+    value=run(name,path,unit);receipt=value['report']['capture']
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_file_capture.py", line 44, in run
+    print('CASE '+name,flush=True)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4be' in position 7: character maps to <undefined>

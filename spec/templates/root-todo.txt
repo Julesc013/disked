@@ -77,4 +77,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W023 corpus/adapters and bounded sanitizer campaign implemented; source-bound clean reproduction and local review govern continuation to W024. Owner acceptance remains separate.
 
-- [ ] DE-W024: captured-map integration in development; file capture and actual frontend parity remain required before product image admission.
+- [ ] DE-W024: private captured-map/file observation implemented; shared command admission and actual CLI/TUI/GUI image parity remain required. Equal rereads are not snapshot or whole-image qualification.

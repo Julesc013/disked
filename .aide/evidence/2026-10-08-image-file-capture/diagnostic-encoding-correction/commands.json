@@ -1,0 +1,23 @@
+[
+  {
+    "command": "cmake --build --preset windows-bootstrap --target image_file_capture_probe image_file_capture_fault image_observation_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-08-image-file-capture/diagnostic-encoding-correction/build.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_file_capture.py --probe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe --fault D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\image_file_capture_fault.exe --map-probe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-08-image-file-capture\\diagnostic-encoding-correction\\file-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-08-image-file-capture/diagnostic-encoding-correction/file-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-08-image-file-capture\\diagnostic-encoding-correction\\prefix-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-08-image-file-capture/diagnostic-encoding-correction/prefix-cases.log"
+  }
+]
