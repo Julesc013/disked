@@ -76,3 +76,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W022 internal GPT readers implemented; clean source-bound proof and local review govern continuation. Image-provider and writer admission remain separate.
 
 - [x] DE-W023 corpus/adapters and bounded sanitizer campaign implemented; source-bound clean reproduction and local review govern continuation to W024. Owner acceptance remains separate.
+
+- [ ] DE-W024: captured-map integration in development; file capture and actual frontend parity remain required before product image admission.

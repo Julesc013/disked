@@ -140,3 +140,12 @@ to `.aide/evidence/2026-10-07-parser-campaign/`. Local review and clean campaign
 reproduction govern continuation to W024. Coverage-guided campaigns, broader
 sector/platform profiles and independent safety qualification remain explicit;
 coherent image capture and frontend integration belong to W024.
+
+DE-W024 now has a private captured-map integration slice in development. It binds
+an immutable byte prefix to explicit geometry and its digest, retains independent
+MBR/EBR/GPT findings and bounds report detail without skipping bounded validation.
+Source consistency remains unknown. Image-file capture, command admission and
+actual CLI/TUI/GUI parity are still required before completing W024; product image
+commands remain unavailable. The owner acceptance and storage/release gates are
+unchanged. `.aide/programmes/worker-continuity.md` records the owner direction to
+preserve tests and source-bound handoffs independently of model-service availability.

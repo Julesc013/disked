@@ -984,6 +984,11 @@
         "source/portable/primitives/extent.h",
         "source/portable/primitives/view.c",
         "source/portable/primitives/view.h",
+        "source/runtime/capture/map_observation.cpp",
+        "source/runtime/capture/map_observation.h",
+        "tests/corpus/partition_images.py",
+        "tests/frontend/image_observation_probe.cpp",
+        "tests/frontend/test_image_observation.py",
         "tests/legacy/README.md",
         "tests/legacy/primitive_probe.c",
         "tests/legacy/run_mbr_probes.py",
@@ -1062,6 +1067,8 @@
         "source/providers/fake/bootstrap.h",
         "source/providers/fake/graph.cpp",
         "source/providers/fake/graph.h",
+        "source/runtime/capture/map_observation.cpp",
+        "source/runtime/capture/map_observation.h",
         "source/runtime/command/command.cpp",
         "source/runtime/command/command.h",
         "source/runtime/command/json.cpp",
@@ -1084,14 +1091,25 @@
         "source/runtime/presentation/requests.h",
         "source/runtime/presentation/session.cpp",
         "source/runtime/presentation/session.h",
+        "spec/architecture/execution-topology.md",
         "spec/catalog/cli-syntax.json",
         "spec/catalog/commands.json",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
         "spec/catalog/native-bootstrap.json",
+        "spec/development/native-bootstrap.md",
         "spec/fixtures/command-syntax.json",
         "spec/fixtures/invocation.json",
         "spec/fixtures/native-bootstrap.json",
+        "spec/interaction/commands.md",
+        "spec/interaction/interactive-shell.md",
+        "spec/interaction/invocation.md",
+        "spec/interaction/output-and-progress.md",
+        "spec/interaction/presentation.md",
+        "spec/interaction/protocol.md",
+        "spec/interaction/terminal-session.md",
+        "spec/interaction/tui-and-gui.md",
+        "spec/safety/degraded-operation.md",
         "spec/schemas/capability-assessment.schema.json",
         "spec/schemas/cli-syntax.schema.json",
         "spec/schemas/command-capability-parameters.schema.json",
@@ -1113,18 +1131,23 @@
         "spec/schemas/request.schema.json",
         "spec/schemas/response.schema.json",
         "spec/schemas/terminal-capabilities.schema.json",
+        "spec/storage/capability-resolution.md",
+        "spec/storage/identity-and-graph.md",
         "tests/contracts/codec_probe.cpp",
         "tests/contracts/parser_probe.cpp",
         "tests/contracts/reader_probe.cpp",
         "tests/contracts/test_json.py",
         "tests/contracts/test_parser.py",
         "tests/contracts/test_reader.py",
+        "tests/corpus/partition_images.py",
         "tests/frontend/console_tui_fixture.py",
         "tests/frontend/gui_fixture.py",
         "tests/frontend/gui_probe.cpp",
+        "tests/frontend/image_observation_probe.cpp",
         "tests/frontend/service_probe.cpp",
         "tests/frontend/test_gui_model.py",
         "tests/frontend/test_gui_windows.py",
+        "tests/frontend/test_image_observation.py",
         "tests/frontend/test_service.py",
         "tests/frontend/test_transport.py",
         "tests/frontend/test_tui_model.py",
@@ -3050,6 +3073,64 @@
       "spec_ids": [
         "DE-074",
         "DE-032"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/map_observation.h",
+      "path": "source/runtime/capture/map_observation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.h",
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/map_observation.cpp",
+      "path": "source/runtime/capture/map_observation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/map_observation.h",
+        "source/portable/mbr/mbr.h",
+        "source/portable/ebr/ebr.h",
+        "source/portable/gpt/gpt.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/frontend/image_observation_probe.cpp",
+      "path": "tests/frontend/image_observation_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/map_observation.h"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_image_observation.py",
+      "path": "tests/frontend/test_image_observation.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/corpus/partition_images.py",
+        "tests/frontend/image_observation_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
       ]
     }
   ]

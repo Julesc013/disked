@@ -950,7 +950,7 @@
       "id": "DE-W024",
       "title": "Expose read-only image inspection in all frontends",
       "phase": "M2",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W014",
@@ -967,7 +967,25 @@
       "allowed_paths": [
         "source/providers/image/**",
         "source/runtime/capture/**",
-        "tests/frontend/**"
+        "tests/frontend/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/operations/map-verify.md",
+        "spec/catalog/input-dependencies.json",
+        "spec/work/units.json",
+        "spec/bundle.json",
+        "spec/generated/index.json",
+        "spec/index.md",
+        "spec/manifest.json",
+        "spec/reports/**",
+        "docs/development-plan.md",
+        "spec/templates/docs-development-plan.txt",
+        "spec/roadmap/implementation.md",
+        "TODO.MD",
+        "spec/templates/root-todo.txt",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -998,7 +1016,15 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/map_observation.cpp",
+        "tests/frontend/image_observation_probe.cpp",
+        "tests/frontend/test_image_observation.py",
+        "tests/corpus/partition_images.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W030",
