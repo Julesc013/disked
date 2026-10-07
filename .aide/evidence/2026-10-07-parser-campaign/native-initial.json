@@ -1,0 +1,2175 @@
+{
+  "passed": true,
+  "cases": 35,
+  "failures": [],
+  "observations": [
+    {
+      "name": "mbr-empty",
+      "sha256": "sha256:30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:3ab0cbba71cdac005e8e018d0a2ca50e19762f573ac30c1e5af148db5ab5758d",
+      "output_sha256": "sha256:d5eca1da75491978a9b473ed5d723e0fcaa30acfa37d520f972f01ed43f121c2",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [],
+            "issues": 0,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-two",
+      "sha256": "sha256:e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:49646000592c9d7d3632976c129e3118313f482aa6e3f18094d25553bb853f13",
+      "output_sha256": "sha256:0963e7aa07bc704a2aa931aa07177fd77c3b59b34127af86b1e25229f11c01f7",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 1,
+                "end": 32,
+                "type": "7"
+              },
+              {
+                "slot": 2,
+                "start": 40,
+                "end": 100,
+                "type": "83"
+              }
+            ],
+            "issues": 0,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-overlap",
+      "sha256": "sha256:0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 16,
+          "actual": 16,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:02e1a7f674bdcbb012a9ce8fa74255071a714129d5cadda8fd81b7d3508821b6",
+      "output_sha256": "sha256:b130531f8088e8b11981dd9da9401b054099724f687718dd6b6fc03a5f8acc24",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 1,
+                "end": 41,
+                "type": "7"
+              },
+              {
+                "slot": 2,
+                "start": 40,
+                "end": 100,
+                "type": "83"
+              }
+            ],
+            "issues": 16,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-outside",
+      "sha256": "sha256:3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 8,
+          "actual": 8,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:a23da11768e536e69e37f4e363c0c72f539457d7c65eaae73edde62cdf826e33",
+      "output_sha256": "sha256:09094c5b902fd7a0427f09f66d1d2fb651eb081b6eeb629a728c2b6a7df41b6c",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [],
+            "issues": 8,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-zero-type",
+      "sha256": "sha256:5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 4,
+          "actual": 4,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:089f8b7dee1b386b38c4381bf47bc83bf312e31345b3e749cabbde8b0a8da012",
+      "output_sha256": "sha256:abd688d5be0b04be2e124968ba8331945223b674b105bc64602a9f7f289f4142",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [],
+            "issues": 4,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-boot-byte",
+      "sha256": "sha256:d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 2,
+          "actual": 2,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:595b0e2a2d21e307da2aedc63fbf7b3b267facfb25d277918ab8e835a1449cbd",
+      "output_sha256": "sha256:9257154a92215ea1c2766909cc7ffb10822297386e4db19f758c54e2ba79de8a",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 1,
+                "end": 11,
+                "type": "7"
+              }
+            ],
+            "issues": 2,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-signature",
+      "sha256": "sha256:f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 1,
+          "actual": 1,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:0d38861a53b527d1bf37d1393482c89db7bea0df43c83283704dd2619d85baa5",
+      "output_sha256": "sha256:4bdd1c079b8146c8155b67f621d8a33f78a985211349c7c1d7120df25b6f128a",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [],
+            "issues": 1,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "mbr-truncated",
+      "sha256": "sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 256,
+          "actual": 256,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:27b9f50bc2e2bb10e35c86600e600dc8fb7f857d0cda23e9e951c735a4a80656",
+      "output_sha256": "sha256:fc4f7a6625f374843b2be24952235145aa9970d053d24a7acfb3ebd2972777f0",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [],
+            "issues": 256,
+            "walks": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "ebr-two",
+      "sha256": "sha256:7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "mbr.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "walks.0.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "walks.0.complete",
+          "expected": true,
+          "actual": true,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:d05909fb441a62604cb910ce8d2858735d1b4105d01875e03bd4049a028f9089",
+      "output_sha256": "sha256:10535e33704ebf7bccb9a45ae198e6fd1345df1dd3c2fca81f9942029b23afd1",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 10,
+                "end": 210,
+                "type": "f"
+              },
+              {
+                "slot": 5,
+                "start": 11,
+                "end": 20,
+                "type": "7"
+              },
+              {
+                "slot": 6,
+                "start": 41,
+                "end": 60,
+                "type": "83"
+              }
+            ],
+            "issues": 0,
+            "walks": [
+              {
+                "issues": 0,
+                "complete": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ebr-cycle",
+      "sha256": "sha256:5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "walks.0.issues",
+          "expected": 1024,
+          "actual": 1024,
+          "matched": true
+        },
+        {
+          "path": "walks.0.complete",
+          "expected": false,
+          "actual": false,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:d6516f664da1e300432949a3d1e007311c1045bc99c294197901ce3d21764caf",
+      "output_sha256": "sha256:39c8f92cadefab85ac90a416ca868dd5df18bd0578ab2a55208c37e5e893f9fd",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 10,
+                "end": 210,
+                "type": "f"
+              },
+              {
+                "slot": 5,
+                "start": 11,
+                "end": 20,
+                "type": "7"
+              },
+              {
+                "slot": 6,
+                "start": 41,
+                "end": 60,
+                "type": "83"
+              }
+            ],
+            "issues": 0,
+            "walks": [
+              {
+                "issues": 1024,
+                "complete": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ebr-overlap",
+      "sha256": "sha256:f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "walks.0.issues",
+          "expected": 4112,
+          "actual": 4112,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:bf5297d0ccc85bba719b18329dd97c15c4a67875b3fb7aa4a9c960a4ce74586c",
+      "output_sha256": "sha256:37340f4a20a71b01f32fed8d0356fc5ae71871468d0023bee0b5b0ef56f30614",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 10,
+                "end": 210,
+                "type": "f"
+              },
+              {
+                "slot": 5,
+                "start": 11,
+                "end": 61,
+                "type": "7"
+              },
+              {
+                "slot": 6,
+                "start": 41,
+                "end": 60,
+                "type": "83"
+              }
+            ],
+            "issues": 0,
+            "walks": [
+              {
+                "issues": 4112,
+                "complete": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ebr-signature",
+      "sha256": "sha256:4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "walks.0.issues",
+          "expected": 1,
+          "actual": 1,
+          "matched": true
+        },
+        {
+          "path": "walks.0.complete",
+          "expected": false,
+          "actual": false,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:6c02f682a3f067a704fd8f2d5b553c32d846171b3ca1af18c297be7f5afca4c0",
+      "output_sha256": "sha256:178ae0b8231c36dd71604d48ad21f4afafe60f8352abc98b6861b6485a0b25af",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 10,
+                "end": 210,
+                "type": "f"
+              },
+              {
+                "slot": 5,
+                "start": 11,
+                "end": 20,
+                "type": "7"
+              }
+            ],
+            "issues": 0,
+            "walks": [
+              {
+                "issues": 1,
+                "complete": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ebr-unavailable",
+      "sha256": "sha256:f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe",
+      "probe_sha256": "sha256:b60c7cb3001212626903fce306e80c76c52c22cbbeef79f727f8624e1ae99e4d",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "walks.0.issues",
+          "expected": 8192,
+          "actual": 8192,
+          "matched": true
+        },
+        {
+          "path": "walks.0.complete",
+          "expected": false,
+          "actual": false,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:09c1642c7b2907c706b7b33e8a451cf6e18a843b3f5f6745bf134d291908bde6",
+      "output_sha256": "sha256:4a14b984393f6a6993bc8b4bacb40425a9ebe8bdfc9f951788b5375980c5a92a",
+      "projection": {
+        "label": "dos",
+        "candidates": [
+          {
+            "role": "mbr",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 10,
+                "end": 210,
+                "type": "f"
+              },
+              {
+                "slot": 5,
+                "start": 11,
+                "end": 20,
+                "type": "7"
+              }
+            ],
+            "issues": 0,
+            "walks": [
+              {
+                "issues": 8192,
+                "complete": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "gpt-valid",
+      "sha256": "sha256:4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 1,
+          "actual": 1,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:891735ac291222f3e0f70466682082522d15cd5c61418a1b99b57aa853b23283",
+      "output_sha256": "sha256:ffe079192f0f2919f5771b220d08dd7fc616136d35107b6ab372934f1209b7da",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 1
+      }
+    },
+    {
+      "name": "gpt-0-header-crc",
+      "sha256": "sha256:4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.header.issues",
+          "expected": 16,
+          "actual": 16,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:ad5723a2f8e871535762ab9f74fe12b9da9fe2f0e1cbd6aad5e9f380018d10ff",
+      "output_sha256": "sha256:51c8dd311c469da0a305c8ed63cfbcf9c437f89d549a233ec9507836e921eac0",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [],
+            "header_issues": 16,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-array-crc",
+      "sha256": "sha256:b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 1024,
+          "actual": 1024,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:f5621e6dd4d66a8374786326039d02e4892812eb640f0bdeff22ab047162f052",
+      "output_sha256": "sha256:edc3ec652b5dfd54e6e4b84d173aa8f4b12587d60aa5fe03449c8f5cfb06cf2d",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 1024,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-reserved",
+      "sha256": "sha256:5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.header.issues",
+          "expected": 32,
+          "actual": 32,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:dc376312daf086839e20559dcd214bb6f296cb33e46c664dd424d5791e706bf8",
+      "output_sha256": "sha256:d1913376b55626c092fe0eaf4eab2225fec812979cee7fb56a50928b23fb5d57",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [],
+            "header_issues": 32,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-range",
+      "sha256": "sha256:c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 2048,
+          "actual": 2048,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:584a4ac743671818840ab2b2c9aa084222b03352cb58c86ea31d5b4f2b68074f",
+      "output_sha256": "sha256:5c2da359adbd10fb8a57db294b1b53df76ed34335e9bdc24395666eee590bcda",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 2048,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-duplicate",
+      "sha256": "sha256:8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 8192,
+          "actual": 8192,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:a5af9f525cf92b14481268068e2b863f45bf171916d0b4687ecbb31ab6cf36c9",
+      "output_sha256": "sha256:9b3efdf98a84afaa3e55dfb75f696c5d5bb53c4b6c8fbaa3f44d51385b1fa0f7",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 8192,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-overlap",
+      "sha256": "sha256:4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 4096,
+          "actual": 4096,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:9d8e024b63f49510e61e07bbed98b8052bb3080342b8b61d4f1e672bbf02a737",
+      "output_sha256": "sha256:5c972a3b30b8786929f6543a3dc15911cfdde7152ac8b834ac1045c155e2050c",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 60,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 4096,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-utf16",
+      "sha256": "sha256:deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 32768,
+          "actual": 32768,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:36fc06f4ca12df5b4cb9621892e4cce50e4530289fb165fd698eb3cd32f789fd",
+      "output_sha256": "sha256:16d3e3233fa398f3e2d891cf18e86ec8062939e2c9a48397f9babb326407ff38",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 32768,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-0-attributes",
+      "sha256": "sha256:db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 32,
+          "actual": 32,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:8fabd80e4927a99df455eee8698254c92088798d8281ebdeb2dc5245a6ebe8d2",
+      "output_sha256": "sha256:c1b4ceea8e8f47f4b1605ca187dbc62b264b003213dcf14dbf86d1af8c115376",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 32,
+            "complete": true,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-header-crc",
+      "sha256": "sha256:8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.header.issues",
+          "expected": 16,
+          "actual": 16,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:8b7abbc5f1780bd156700f5c74757eb6780f25c87f4806e72757dd21f31fb0e2",
+      "output_sha256": "sha256:19b86e9985c030781b9d2ca2f6bbd1d6d7617e39f9b62f450bf91f4cde717513",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [],
+            "header_issues": 16,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-array-crc",
+      "sha256": "sha256:b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 1024,
+          "actual": 1024,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:6e47b218877bcd5a978dd5c6065a6fcf2367c87479ad90b33a17eeea35a819d8",
+      "output_sha256": "sha256:d577cfad90f6f365ec1a85641e7eb9afbcc2ba55b2c179a211babf84d9c7e2d4",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 1024,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-reserved",
+      "sha256": "sha256:44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.header.issues",
+          "expected": 32,
+          "actual": 32,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:5b66ca98934c54d38f6c7f050657f9724bf59c3e038e7d8c97739fa2a36f395b",
+      "output_sha256": "sha256:0699ecbc41c29c1a233e478604747f3ef17f2edccf948b77c050b0ad46686346",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [],
+            "header_issues": 32,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-range",
+      "sha256": "sha256:1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 2048,
+          "actual": 2048,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:7808171187cb4f2e183e2fdd59bcbf0353e3d0219c101614173a32f0fca18e85",
+      "output_sha256": "sha256:dd652c4e22d698ecafb39e2ef3d0e8e05dd884afd7ee869e76b51f1a7ac82fb8",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 2048,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-duplicate",
+      "sha256": "sha256:f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 8192,
+          "actual": 8192,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:2bdfed3a9770360cae76cda0e83079a48ff8418b23dfc54618284574abc27ae3",
+      "output_sha256": "sha256:8b7eb3b967e390ec863364cf684b4491ff47104a26f6968162e90881c9332e5b",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 8192,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-overlap",
+      "sha256": "sha256:00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 4096,
+          "actual": 4096,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:924ceedf886158068c97479992681ec3822bfb26eff5bf9061eeeee2735a8355",
+      "output_sha256": "sha256:327bcf7441b7f687d1bb68b87d329c16fa7830b6c197c9fc771ee0ad7e18a5a2",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 60,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 4096,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-utf16",
+      "sha256": "sha256:f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 32768,
+          "actual": 32768,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:0bd1071ba4d17b0fdd37521abb10c6de6390b0afdef241bc37336ecc2a760e09",
+      "output_sha256": "sha256:51a569e5ad0e3633aafe7c137d44b5de8275e7d93e5b6ac58cc2be06c7461509",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 32768,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-1-attributes",
+      "sha256": "sha256:c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 32,
+          "actual": 32,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:4ec792e0e9bcfdd4a2d1dfbe920196bc12daeda04bd02e14fbe551321bb818f8",
+      "output_sha256": "sha256:30d44f2e777398b8aefabc82a67c03ed6281e6029d447e30658e0bd490436eef",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 32,
+            "complete": true,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-valid-disagreement",
+      "sha256": "sha256:a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 2,
+          "actual": 2,
+          "matched": true
+        },
+        {
+          "path": "copies.0.candidate.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.candidate.issues",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:569fd6c8f42d75899681103a708ddc02dabff5e8ae298f29d3918a06f0bacc7f",
+      "output_sha256": "sha256:287bdb27fe760a31da4f6497949f3a8f69f07e2ef4d5a0018058ff7b20d4ce16",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 35,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 2
+      }
+    },
+    {
+      "name": "gpt-guid-disagreement",
+      "sha256": "sha256:be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 2,
+          "actual": 2,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:5d49bdbc7cb3e18ac6aba717f31e199d2688930ed73464cab5f78c6a6c79c83c",
+      "output_sha256": "sha256:f62eceb610cfe59821a2293483cd868e9e0677dfdc873e1f382176f08569335f",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 2
+      }
+    },
+    {
+      "name": "gpt-both-crc",
+      "sha256": "sha256:b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.header.issues",
+          "expected": 16,
+          "actual": 16,
+          "matched": true
+        },
+        {
+          "path": "copies.1.header.issues",
+          "expected": 16,
+          "actual": 16,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:7f89c5148416f683c32ebabf4eebdba7e962ccb8a2ba09103896eff13a7c2660",
+      "output_sha256": "sha256:ac3a405de215cadcdb2153400a0326a1dbcb25f6c85a3b04ae3452d0940b3ef1",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [],
+            "header_issues": 16,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [],
+            "header_issues": 16,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-primary-signature",
+      "sha256": "sha256:609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.0.header.issues",
+          "expected": 2,
+          "actual": 2,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:82ac8479965cef84a4709829cb218d59458af94e735ca36a83abda286a5fd44a",
+      "output_sha256": "sha256:d0165083460c4216451393222bb63f79f2d364623bdbf2da40ecddd51dfcecf5",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [],
+            "header_issues": 2,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          },
+          {
+            "role": "backup",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          }
+        ],
+        "comparison": 0
+      }
+    },
+    {
+      "name": "gpt-short-backup",
+      "sha256": "sha256:a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6",
+      "probe": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe",
+      "probe_sha256": "sha256:32d3b5759545199d8ec86047fe79fd9d82baed07a51406f482ed6564d3bf89ff",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe"
+      ],
+      "exit_code": 0,
+      "checks": [
+        {
+          "path": "comparison",
+          "expected": 0,
+          "actual": 0,
+          "matched": true
+        },
+        {
+          "path": "copies.1.header.issues",
+          "expected": 1,
+          "actual": 1,
+          "matched": true
+        }
+      ],
+      "input_sha256": "sha256:dff30d474791ec3a3ca84c5f918834bf3efee713bcc9ced263bd005203275bba",
+      "output_sha256": "sha256:81cbbb387306cfa9a7c6d7b76a2000e01e567ac9213de45ffc38f090407f2ecb",
+      "projection": {
+        "label": "gpt",
+        "candidates": [
+          {
+            "role": "primary",
+            "rows": [
+              {
+                "slot": 1,
+                "start": 34,
+                "end": 61,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000001"
+              },
+              {
+                "slot": 2,
+                "start": 70,
+                "end": 91,
+                "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+                "uuid": "00000000-0000-0000-0000-000000000002"
+              }
+            ],
+            "header_issues": 0,
+            "array_issues": 0,
+            "complete": true,
+            "consistent": true
+          },
+          {
+            "role": "backup",
+            "rows": [],
+            "header_issues": 1,
+            "array_issues": null,
+            "complete": false,
+            "consistent": false
+          }
+        ],
+        "comparison": 0
+      }
+    }
+  ]
+}

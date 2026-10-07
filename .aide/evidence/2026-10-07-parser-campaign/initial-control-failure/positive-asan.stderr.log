@@ -1,0 +1,9 @@
+/mnt/d/Projects/DiskEd/disked/tests/fuzz/sanitizer_control.cpp:11:18: runtime error: store to address 0x502000000018 with insufficient space for an object of type 'unsigned char'
+0x502000000018: note: pointer points here
+ be be be be  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00
+              ^ 
+    #0 0x638260c8cbdb in main /mnt/d/Projects/DiskEd/disked/tests/fuzz/sanitizer_control.cpp:11
+    #1 0x76374862a1c9  (/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+    #2 0x76374862a28a in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2a28a) (BuildId: a4a7992a8e66555c8141ab2a08a8465ff6e0ea65)
+    #3 0x638260c8c634 in _start (/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-faults-initial2/sanitizer-control+0x3634) (BuildId: 0d9799dc3d939763963c8582de726e05b5889073)
+

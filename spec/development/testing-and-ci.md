@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-074
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.21-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -34,6 +34,12 @@ sources:
   resource: ../references/sources.json#review-inputs-2026-10-04
 - id: cli-refinement-2026-10-04
   resource: ../references/sources.json#cli-refinement-2026-10-04
+- id: util-linux-sfdisk-campaign
+  resource: ../references/sources.json#util-linux-sfdisk-campaign
+- id: sgdisk-campaign
+  resource: ../references/sources.json#sgdisk-campaign
+- id: gcc-133-campaign
+  resource: ../references/sources.json#gcc-133-campaign
 ---
 
 # Testing, validation and CI strategy
@@ -67,6 +73,32 @@ Specification regressions validate new schema cross-field constraints and negati
 ## Shared CLI grammar corpus
 
 The command-syntax expectation corpus is not a native test result. DE-W012 runs it against the real parser and generates permutations of complete option/value groups, including help and literal tails. Compare normalized command/arguments, target scope, requested presentation and required plan/authority. Trace no effects before complete validation. At each selected target's parser admission, reuse the same cases with its real command-tail/argv encoding, quoting and resource bounds. DE-W018 can report parser cases not_run while completing unrelated early primitive probes. DE-W019 adds editable error recovery and ergonomic observations; shorter spelling alone is not measured usability.
+
+## DE-W023 initial parser campaign profile
+
+`tests/corpus/partition_images.py` owns deterministic ordinary-file recipes;
+`tests/differential/CONTRACT.md` records the bounded campaign contract. Initial
+external observations use explicitly named synthetic 512-byte-sector files under
+an unprivileged account. Tool invocations have finite time, memory and output
+limits, retain exact executable/library identities and source-package versions,
+and verify unchanged input bytes. Installed package provenance does not imply
+that its full upstream source bytes were independently retrieved or rebuilt.
+
+Native expectations come from DE-032 and the recipes. External table projections
+and diagnostics are retained independently, including malformed output, refusal,
+timeouts and disagreement. A tool selecting one valid GPT copy does not resolve
+DiskEd's competing candidates. Success exit does not certify complete validation.
+
+The private C90 readers also run with fatal address/undefined-behavior sanitizers
+and measured branch coverage in a bounded deterministic mutation campaign.
+Raw/truncated inputs and test-only checksum reconstruction exercise different
+paths without weakening the production readers. Separate positive controls
+verify both detectors and failure-input replay. Record actual iterations,
+uncovered branches, host/toolchain and source inputs. This initial campaign is not
+coverage-guided fuzzing or exhaustive qualification; unavailable runtime support
+remains a recorded follow-up, not a substituted pass. W024 owns coherent image
+capture and frontend integration. Historical platforms, independent safety
+qualification and owner acceptance retain their separate gates.
 
 ## Normative requirements
 

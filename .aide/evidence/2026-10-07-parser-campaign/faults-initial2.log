@@ -1,0 +1,30 @@
+Running x86_64-linux-gnu-gcc-13-version
+Running x86_64-linux-gnu-g++-13-version
+Running x86_64-linux-gnu-gcov-13-version
+Running compile-0
+Running compile-1
+Running compile-2
+Running compile-3
+Running compile-4
+Running compile-5
+Running compile-6
+Running compile-7
+Running link
+Running control-build
+Running partition-faults-libraries
+Running sanitizer-control-libraries
+Running tool-cc1
+Running tool-cc1plus
+Running tool-ld
+Running tool-libgcov.a
+Running positive-asan
+Traceback (most recent call last):
+  File "/mnt/d/Projects/DiskEd/disked/tests/fuzz/run_campaign.py", line 128, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/mnt/d/Projects/DiskEd/disked/tests/fuzz/run_campaign.py", line 97, in main
+    run('positive-asan', [control, 'bounds'], expected_failure=b'AddressSanitizer: heap-buffer-overflow')
+  File "/mnt/d/Projects/DiskEd/disked/tests/fuzz/run_campaign.py", line 68, in run
+    if not matched: raise RuntimeError(name+' failed; logs retained')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: positive-asan failed; logs retained

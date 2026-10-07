@@ -1,0 +1,2278 @@
+{
+  "uid": 65534,
+  "tools": [
+    {
+      "path": "/usr/sbin/sfdisk",
+      "files": {
+        "/usr/sbin/sfdisk": "sha256:995ebc07335ed2e53b0a296d20df9f1f9b9ccc53cc117627529de6ae60deeef6",
+        "/usr/lib/x86_64-linux-gnu/libfdisk.so.1.1.0": "sha256:53d4d40e77f21a1301077ea15d0fff17a0e31e83900298b3e909809f5753b434",
+        "/usr/lib/x86_64-linux-gnu/libsmartcols.so.1.1.0": "sha256:42b77e992aa43efea2b61499014e8a0404d7fb50d07dc9361ca1896af299cbff",
+        "/usr/lib/x86_64-linux-gnu/libtinfo.so.6.5": "sha256:4013e7651ac68f547d8333517def25b2366c97eec7de7f06e105dbf3444ffebf",
+        "/usr/lib/x86_64-linux-gnu/libreadline.so.8.2": "sha256:a3334d88f3f6c6a25736667e0b39db0f68b4e7e6bf758a475aff681ddb33ad8b",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "sha256:fa430b8f298f817a266046af84a77533185ad6fc4406c7d3787b5a0a0c207826",
+        "/usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0": "sha256:f6263cc349c58f18d9d8baf68af99765725375e3960dd17dbd110a8399aae0e9",
+        "/usr/lib/x86_64-linux-gnu/libblkid.so.1.1.0": "sha256:23247e0f669d5cfe0ad0deeeabfb90ee8163a6163508e88bf04715c9a41174c9",
+        "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": "sha256:438c546d8e8cc48496bf3a95f753051afd9db66a629a74e31a9ded71586b56e0"
+      },
+      "version": "sfdisk from util-linux 2.41\n",
+      "version_exit": 0,
+      "package_source_identity": "fdisk 2.41-5 util-linux 2.41-5\nlibfdisk1:amd64 2.41-5 util-linux 2.41-5\n",
+      "package_exit": 0,
+      "linked_libraries": "\tlinux-vdso.so.1 (0x00007fffc238a000)\n\tlibfdisk.so.1 => /lib/x86_64-linux-gnu/libfdisk.so.1 (0x00007f14249b0000)\n\tlibsmartcols.so.1 => /lib/x86_64-linux-gnu/libsmartcols.so.1 (0x00007f1424963000)\n\tlibtinfo.so.6 => /lib/x86_64-linux-gnu/libtinfo.so.6 (0x00007f142492d000)\n\tlibreadline.so.8 => /lib/x86_64-linux-gnu/libreadline.so.8 (0x00007f14248d0000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f14246c0000)\n\tlibuuid.so.1 => /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007f1424a43000)\n\tlibblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1 (0x00007f1424660000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f1424a7a000)\n",
+      "ldd_exit": 0,
+      "source_bytes_verified": false
+    }
+  ],
+  "cases": 35,
+  "observations": [
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.012449199999999994,
+      "name": "mbr-empty",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868.img:\nNo errors detected.\nRemaining 255 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009569300000000003,
+      "name": "mbr-empty",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img1\",\n            \"start\": 1,\n            \"size\": 31,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img2\",\n            \"start\": 40,\n            \"size\": 60,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.0114012,
+      "name": "mbr-two",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 1,
+            "end": 32,
+            "type": "7"
+          },
+          {
+            "slot": 2,
+            "start": 40,
+            "end": 100,
+            "type": "83"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img:\nNo errors detected.\nRemaining 164 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009039100000000022,
+      "name": "mbr-two",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img1\",\n            \"start\": 1,\n            \"size\": 40,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img2\",\n            \"start\": 40,\n            \"size\": 60,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010822600000000016,
+      "name": "mbr-overlap",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 1,
+            "end": 41,
+            "type": "7"
+          },
+          {
+            "slot": 2,
+            "start": 40,
+            "end": 100,
+            "type": "83"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img:\n",
+      "stderr": "Partition 1: overlaps partition 2.\n1 error detected.\n",
+      "elapsed_seconds": 0.00845410000000002,
+      "name": "mbr-overlap",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img1\",\n            \"start\": 250,\n            \"size\": 10,\n            \"type\": \"7\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009027300000000016,
+      "name": "mbr-outside",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 250,
+            "end": 260,
+            "type": "7"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img:\nNo errors detected.\nTotal allocated sectors 260 greater than the maximum 256.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.008117399999999997,
+      "name": "mbr-outside",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img1\",\n            \"start\": 1,\n            \"size\": 10,\n            \"type\": \"0\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.008161699999999994,
+      "name": "mbr-zero-type",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 1,
+            "end": 11,
+            "type": "0"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img:\nNo errors detected.\nRemaining 245 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.008027400000000018,
+      "name": "mbr-zero-type",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img1\",\n            \"start\": 1,\n            \"size\": 10,\n            \"type\": \"7\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009333499999999995,
+      "name": "mbr-boot-byte",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 1,
+            "end": 11,
+            "type": "7"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img:\nNo errors detected.\nRemaining 245 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.00829810000000003,
+      "name": "mbr-boot-byte",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66.img"
+      ],
+      "exit_code": 1,
+      "outcome": "exited",
+      "stdout": "",
+      "stderr": "sfdisk: /mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66.img: does not contain a recognized partition table\n",
+      "elapsed_seconds": 0.008500399999999964,
+      "name": "mbr-signature",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66.img:\nunrecognized partition table type\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009822200000000003,
+      "name": "mbr-signature",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d.img"
+      ],
+      "exit_code": 1,
+      "outcome": "exited",
+      "stdout": "",
+      "stderr": "sfdisk: cannot open /mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d.img: Invalid argument\n",
+      "elapsed_seconds": 0.008924899999999958,
+      "name": "mbr-truncated",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d.img"
+      ],
+      "exit_code": 1,
+      "outcome": "exited",
+      "stdout": "",
+      "stderr": "sfdisk: cannot open /mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d.img: Invalid argument\n",
+      "elapsed_seconds": 0.007860700000000054,
+      "name": "mbr-truncated",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img1\",\n            \"start\": 10,\n            \"size\": 200,\n            \"type\": \"f\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img5\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img6\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010276300000000016,
+      "name": "ebr-two",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 10,
+            "end": 210,
+            "type": "f"
+          },
+          {
+            "slot": 5,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 6,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img:\nNo errors detected.\nRemaining 225 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.00870749999999998,
+      "name": "ebr-two",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img1\",\n            \"start\": 10,\n            \"size\": 200,\n            \"type\": \"f\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img5\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img6\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img7\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img8\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img9\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img10\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img11\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img12\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img13\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img14\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img15\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img16\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img17\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img18\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img19\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img20\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img21\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img22\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img23\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img24\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img25\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img26\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img27\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img28\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img29\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img30\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img31\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img32\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img33\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img34\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img35\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img36\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img37\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img38\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img39\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img40\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img41\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img42\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img43\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img44\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img45\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img46\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img47\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img48\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img49\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img50\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img51\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img52\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img53\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img54\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img55\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img56\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img57\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img58\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img59\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img60\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "Omitting partitions after #60. They will be deleted if you save this partition table.\n",
+      "elapsed_seconds": 0.009723999999999955,
+      "name": "ebr-cycle",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 10,
+            "end": 210,
+            "type": "f"
+          },
+          {
+            "slot": 5,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 6,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 7,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 8,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 9,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 10,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 11,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 12,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 13,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 14,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 15,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 16,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 17,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 18,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 19,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 20,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 21,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 22,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 23,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 24,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 25,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 26,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 27,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 28,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 29,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 30,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 31,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 32,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 33,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 34,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 35,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 36,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 37,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 38,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 39,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 40,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 41,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 42,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 43,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 44,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 45,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 46,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 47,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 48,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 49,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 50,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 51,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 52,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 53,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 54,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 55,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 56,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 57,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 58,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          },
+          {
+            "slot": 59,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          },
+          {
+            "slot": 60,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img:\n",
+      "stderr": "Omitting partitions after #60. They will be deleted if you save this partition table.\nPartition 5: overlaps partition 7.\nPartition 6: overlaps partition 8.\nPartition 5: overlaps partition 9.\nPartition 7: overlaps partition 9.\nPartition 6: overlaps partition 10.\nPartition 8: overlaps partition 10.\nPartition 5: overlaps partition 11.\nPartition 7: overlaps partition 11.\nPartition 9: overlaps partition 11.\nPartition 6: overlaps partition 12.\nPartition 8: overlaps partition 12.\nPartition 10: overlaps partition 12.\nPartition 5: overlaps partition 13.\nPartition 7: overlaps partition 13.\nPartition 9: overlaps partition 13.\nPartition 11: overlaps partition 13.\nPartition 6: overlaps partition 14.\nPartition 8: overlaps partition 14.\nPartition 10: overlaps partition 14.\nPartition 12: overlaps partition 14.\nPartition 5: overlaps partition 15.\nPartition 7: overlaps partition 15.\nPartition 9: overlaps partition 15.\nPartition 11: overlaps partition 15.\nPartition 13: overlaps partition 15.\nPartition 6: overlaps partition 16.\nPartition 8: overlaps partition 16.\nPartition 10: overlaps partition 16.\nPartition 12: overlaps partition 16.\nPartition 14: overlaps partition 16.\nPartition 5: overlaps partition 17.\nPartition 7: overlaps partition 17.\nPartition 9: overlaps partition 17.\nPartition 11: overlaps partition 17.\nPartition 13: overlaps partition 17.\nPartition 15: overlaps partition 17.\nPartition 6: overlaps partition 18.\nPartition 8: overlaps partition 18.\nPartition 10: overlaps partition 18.\nPartition 12: overlaps partition 18.\nPartition 14: overlaps partition 18.\nPartition 16: overlaps partition 18.\nPartition 5: overlaps partition 19.\nPartition 7: overlaps partition 19.\nPartition 9: overlaps partition 19.\nPartition 11: overlaps partition 19.\nPartition 13: overlaps partition 19.\nPartition 15: overlaps partition 19.\nPartition 17: overlaps partition 19.\nPartition 6: overlaps partition 20.\nPartition 8: overlaps partition 20.\nPartition 10: overlaps partition 20.\nPartition 12: overlaps partition 20.\nPartition 14: overlaps partition 20.\nPartition 16: overlaps partition 20.\nPartition 18: overlaps partition 20.\nPartition 5: overlaps partition 21.\nPartition 7: overlaps partition 21.\nPartition 9: overlaps partition 21.\nPartition 11: overlaps partition 21.\nPartition 13: overlaps partition 21.\nPartition 15: overlaps partition 21.\nPartition 17: overlaps partition 21.\nPartition 19: overlaps partition 21.\nPartition 6: overlaps partition 22.\nPartition 8: overlaps partition 22.\nPartition 10: overlaps partition 22.\nPartition 12: overlaps partition 22.\nPartition 14: overlaps partition 22.\nPartition 16: overlaps partition 22.\nPartition 18: overlaps partition 22.\nPartition 20: overlaps partition 22.\nPartition 5: overlaps partition 23.\nPartition 7: overlaps partition 23.\nPartition 9: overlaps partition 23.\nPartition 11: overlaps partition 23.\nPartition 13: overlaps partition 23.\nPartition 15: overlaps partition 23.\nPartition 17: overlaps partition 23.\nPartition 19: overlaps partition 23.\nPartition 21: overlaps partition 23.\nPartition 6: overlaps partition 24.\nPartition 8: overlaps partition 24.\nPartition 10: overlaps partition 24.\nPartition 12: overlaps partition 24.\nPartition 14: overlaps partition 24.\nPartition 16: overlaps partition 24.\nPartition 18: overlaps partition 24.\nPartition 20: overlaps partition 24.\nPartition 22: overlaps partition 24.\nPartition 5: overlaps partition 25.\nPartition 7: overlaps partition 25.\nPartition 9: overlaps partition 25.\nPartition 11: overlaps partition 25.\nPartition 13: overlaps partition 25.\nPartition 15: overlaps partition 25.\nPartition 17: overlaps partition 25.\nPartition 19: overlaps partition 25.\nPartition 21: overlaps partition 25.\nPartition 23: overlaps partition 25.\nPartition 6: overlaps partition 26.\nPartition 8: overlaps partition 26.\nPartition 10: overlaps partition 26.\nPartition 12: overlaps partition 26.\nPartition 14: overlaps partition 26.\nPartition 16: overlaps partition 26.\nPartition 18: overlaps partition 26.\nPartition 20: overlaps partition 26.\nPartition 22: overlaps partition 26.\nPartition 24: overlaps partition 26.\nPartition 5: overlaps partition 27.\nPartition 7: overlaps partition 27.\nPartition 9: overlaps partition 27.\nPartition 11: overlaps partition 27.\nPartition 13: overlaps partition 27.\nPartition 15: overlaps partition 27.\nPartition 17: overlaps partition 27.\nPartition 19: overlaps partition 27.\nPartition 21: overlaps partition 27.\nPartition 23: overlaps partition 27.\nPartition 25: overlaps partition 27.\nPartition 6: overlaps partition 28.\nPartition 8: overlaps partition 28.\nPartition 10: overlaps partition 28.\nPartition 12: overlaps partition 28.\nPartition 14: overlaps partition 28.\nPartition 16: overlaps partition 28.\nPartition 18: overlaps partition 28.\nPartition 20: overlaps partition 28.\nPartition 22: overlaps partition 28.\nPartition 24: overlaps partition 28.\nPartition 26: overlaps partition 28.\nPartition 5: overlaps partition 29.\nPartition 7: overlaps partition 29.\nPartition 9: overlaps partition 29.\nPartition 11: overlaps partition 29.\nPartition 13: overlaps partition 29.\nPartition 15: overlaps partition 29.\nPartition 17: overlaps partition 29.\nPartition 19: overlaps partition 29.\nPartition 21: overlaps partition 29.\nPartition 23: overlaps partition 29.\nPartition 25: overlaps partition 29.\nPartition 27: overlaps partition 29.\nPartition 6: overlaps partition 30.\nPartition 8: overlaps partition 30.\nPartition 10: overlaps partition 30.\nPartition 12: overlaps partition 30.\nPartition 14: overlaps partition 30.\nPartition 16: overlaps partition 30.\nPartition 18: overlaps partition 30.\nPartition 20: overlaps partition 30.\nPartition 22: overlaps partition 30.\nPartition 24: overlaps partition 30.\nPartition 26: overlaps partition 30.\nPartition 28: overlaps partition 30.\nPartition 5: overlaps partition 31.\nPartition 7: overlaps partition 31.\nPartition 9: overlaps partition 31.\nPartition 11: overlaps partition 31.\nPartition 13: overlaps partition 31.\nPartition 15: overlaps partition 31.\nPartition 17: overlaps partition 31.\nPartition 19: overlaps partition 31.\nPartition 21: overlaps partition 31.\nPartition 23: overlaps partition 31.\nPartition 25: overlaps partition 31.\nPartition 27: overlaps partition 31.\nPartition 29: overlaps partition 31.\nPartition 6: overlaps partition 32.\nPartition 8: overlaps partition 32.\nPartition 10: overlaps partition 32.\nPartition 12: overlaps partition 32.\nPartition 14: overlaps partition 32.\nPartition 16: overlaps partition 32.\nPartition 18: overlaps partition 32.\nPartition 20: overlaps partition 32.\nPartition 22: overlaps partition 32.\nPartition 24: overlaps partition 32.\nPartition 26: overlaps partition 32.\nPartition 28: overlaps partition 32.\nPartition 30: overlaps partition 32.\nPartition 5: overlaps partition 33.\nPartition 7: overlaps partition 33.\nPartition 9: overlaps partition 33.\nPartition 11: overlaps partition 33.\nPartition 13: overlaps partition 33.\nPartition 15: overlaps partition 33.\nPartition 17: overlaps partition 33.\nPartition 19: overlaps partition 33.\nPartition 21: overlaps partition 33.\nPartition 23: overlaps partition 33.\nPartition 25: overlaps partition 33.\nPartition 27: overlaps partition 33.\nPartition 29: overlaps partition 33.\nPartition 31: overlaps partition 33.\nPartition 6: overlaps partition 34.\nPartition 8: overlaps partition 34.\nPartition 10: overlaps partition 34.\nPartition 12: overlaps partition 34.\nPartition 14: overlaps partition 34.\nPartition 16: overlaps partition 34.\nPartition 18: overlaps partition 34.\nPartition 20: overlaps partition 34.\nPartition 22: overlaps partition 34.\nPartition 24: overlaps partition 34.\nPartition 26: overlaps partition 34.\nPartition 28: overlaps partition 34.\nPartition 30: overlaps partition 34.\nPartition 32: overlaps partition 34.\nPartition 5: overlaps partition 35.\nPartition 7: overlaps partition 35.\nPartition 9: overlaps partition 35.\nPartition 11: overlaps partition 35.\nPartition 13: overlaps partition 35.\nPartition 15: overlaps partition 35.\nPartition 17: overlaps partition 35.\nPartition 19: overlaps partition 35.\nPartition 21: overlaps partition 35.\nPartition 23: overlaps partition 35.\nPartition 25: overlaps partition 35.\nPartition 27: overlaps partition 35.\nPartition 29: overlaps partition 35.\nPartition 31: overlaps partition 35.\nPartition 33: overlaps partition 35.\nPartition 6: overlaps partition 36.\nPartition 8: overlaps partition 36.\nPartition 10: overlaps partition 36.\nPartition 12: overlaps partition 36.\nPartition 14: overlaps partition 36.\nPartition 16: overlaps partition 36.\nPartition 18: overlaps partition 36.\nPartition 20: overlaps partition 36.\nPartition 22: overlaps partition 36.\nPartition 24: overlaps partition 36.\nPartition 26: overlaps partition 36.\nPartition 28: overlaps partition 36.\nPartition 30: overlaps partition 36.\nPartition 32: overlaps partition 36.\nPartition 34: overlaps partition 36.\nPartition 5: overlaps partition 37.\nPartition 7: overlaps partition 37.\nPartition 9: overlaps partition 37.\nPartition 11: overlaps partition 37.\nPartition 13: overlaps partition 37.\nPartition 15: overlaps partition 37.\nPartition 17: overlaps partition 37.\nPartition 19: overlaps partition 37.\nPartition 21: overlaps partition 37.\nPartition 23: overlaps partition 37.\nPartition 25: overlaps partition 37.\nPartition 27: overlaps partition 37.\nPartition 29: overlaps partition 37.\nPartition 31: overlaps partition 37.\nPartition 33: overlaps partition 37.\nPartition 35: overlaps partition 37.\nPartition 6: overlaps partition 38.\nPartition 8: overlaps partition 38.\nPartition 10: overlaps partition 38.\nPartition 12: overlaps partition 38.\nPartition 14: overlaps partition 38.\nPartition 16: overlaps partition 38.\nPartition 18: overlaps partition 38.\nPartition 20: overlaps partition 38.\nPartition 22: overlaps partition 38.\nPartition 24: overlaps partition 38.\nPartition 26: overlaps partition 38.\nPartition 28: overlaps partition 38.\nPartition 30: overlaps partition 38.\nPartition 32: overlaps partition 38.\nPartition 34: overlaps partition 38.\nPartition 36: overlaps partition 38.\nPartition 5: overlaps partition 39.\nPartition 7: overlaps partition 39.\nPartition 9: overlaps partition 39.\nPartition 11: overlaps partition 39.\nPartition 13: overlaps partition 39.\nPartition 15: overlaps partition 39.\nPartition 17: overlaps partition 39.\nPartition 19: overlaps partition 39.\nPartition 21: overlaps partition 39.\nPartition 23: overlaps partition 39.\nPartition 25: overlaps partition 39.\nPartition 27: overlaps partition 39.\nPartition 29: overlaps partition 39.\nPartition 31: overlaps partition 39.\nPartition 33: overlaps partition 39.\nPartition 35: overlaps partition 39.\nPartition 37: overlaps partition 39.\nPartition 6: overlaps partition 40.\nPartition 8: overlaps partition 40.\nPartition 10: overlaps partition 40.\nPartition 12: overlaps partition 40.\nPartition 14: overlaps partition 40.\nPartition 16: overlaps partition 40.\nPartition 18: overlaps partition 40.\nPartition 20: overlaps partition 40.\nPartition 22: overlaps partition 40.\nPartition 24: overlaps partition 40.\nPartition 26: overlaps partition 40.\nPartition 28: overlaps partition 40.\nPartition 30: overlaps partition 40.\nPartition 32: overlaps partition 40.\nPartition 34: overlaps partition 40.\nPartition 36: overlaps partition 40.\nPartition 38: overlaps partition 40.\nPartition 5: overlaps partition 41.\nPartition 7: overlaps partition 41.\nPartition 9: overlaps partition 41.\nPartition 11: overlaps partition 41.\nPartition 13: overlaps partition 41.\nPartition 15: overlaps partition 41.\nPartition 17: overlaps partition 41.\nPartition 19: overlaps partition 41.\nPartition 21: overlaps partition 41.\nPartition 23: overlaps partition 41.\nPartition 25: overlaps partition 41.\nPartition 27: overlaps partition 41.\nPartition 29: overlaps partition 41.\nPartition 31: overlaps partition 41.\nPartition 33: overlaps partition 41.\nPartition 35: overlaps partition 41.\nPartition 37: overlaps partition 41.\nPartition 39: overlaps partition 41.\nPartition 6: overlaps partition 42.\nPartition 8: overlaps partition 42.\nPartition 10: overlaps partition 42.\nPartition 12: overlaps partition 42.\nPartition 14: overlaps partition 42.\nPartition 16: overlaps partition 42.\nPartition 18: overlaps partition 42.\nPartition 20: overlaps partition 42.\nPartition 22: overlaps partition 42.\nPartition 24: overlaps partition 42.\nPartition 26: overlaps partition 42.\nPartition 28: overlaps partition 42.\nPartition 30: overlaps partition 42.\nPartition 32: overlaps partition 42.\nPartition 34: overlaps partition 42.\nPartition 36: overlaps partition 42.\nPartition 38: overlaps partition 42.\nPartition 40: overlaps partition 42.\nPartition 5: overlaps partition 43.\nPartition 7: overlaps partition 43.\nPartition 9: overlaps partition 43.\nPartition 11: overlaps partition 43.\nPartition 13: overlaps partition 43.\nPartition 15: overlaps partition 43.\nPartition 17: overlaps partition 43.\nPartition 19: overlaps partition 43.\nPartition 21: overlaps partition 43.\nPartition 23: overlaps partition 43.\nPartition 25: overlaps partition 43.\nPartition 27: overlaps partition 43.\nPartition 29: overlaps partition 43.\nPartition 31: overlaps partition 43.\nPartition 33: overlaps partition 43.\nPartition 35: overlaps partition 43.\nPartition 37: overlaps partition 43.\nPartition 39: overlaps partition 43.\nPartition 41: overlaps partition 43.\nPartition 6: overlaps partition 44.\nPartition 8: overlaps partition 44.\nPartition 10: overlaps partition 44.\nPartition 12: overlaps partition 44.\nPartition 14: overlaps partition 44.\nPartition 16: overlaps partition 44.\nPartition 18: overlaps partition 44.\nPartition 20: overlaps partition 44.\nPartition 22: overlaps partition 44.\nPartition 24: overlaps partition 44.\nPartition 26: overlaps partition 44.\nPartition 28: overlaps partition 44.\nPartition 30: overlaps partition 44.\nPartition 32: overlaps partition 44.\nPartition 34: overlaps partition 44.\nPartition 36: overlaps partition 44.\nPartition 38: overlaps partition 44.\nPartition 40: overlaps partition 44.\nPartition 42: overlaps partition 44.\nPartition 5: overlaps partition 45.\nPartition 7: overlaps partition 45.\nPartition 9: overlaps partition 45.\nPartition 11: overlaps partition 45.\nPartition 13: overlaps partition 45.\nPartition 15: overlaps partition 45.\nPartition 17: overlaps partition 45.\nPartition 19: overlaps partition 45.\nPartition 21: overlaps partition 45.\nPartition 23: overlaps partition 45.\nPartition 25: overlaps partition 45.\nPartition 27: overlaps partition 45.\nPartition 29: overlaps partition 45.\nPartition 31: overlaps partition 45.\nPartition 33: overlaps partition 45.\nPartition 35: overlaps partition 45.\nPartition 37: overlaps partition 45.\nPartition 39: overlaps partition 45.\nPartition 41: overlaps partition 45.\nPartition 43: overlaps partition 45.\nPartition 6: overlaps partition 46.\nPartition 8: overlaps partition 46.\nPartition 10: overlaps partition 46.\nPartition 12: overlaps partition 46.\nPartition 14: overlaps partition 46.\nPartition 16: overlaps partition 46.\nPartition 18: overlaps partition 46.\nPartition 20: overlaps partition 46.\nPartition 22: overlaps partition 46.\nPartition 24: overlaps partition 46.\nPartition 26: overlaps partition 46.\nPartition 28: overlaps partition 46.\nPartition 30: overlaps partition 46.\nPartition 32: overlaps partition 46.\nPartition 34: overlaps partition 46.\nPartition 36: overlaps partition 46.\nPartition 38: overlaps partition 46.\nPartition 40: overlaps partition 46.\nPartition 42: overlaps partition 46.\nPartition 44: overlaps partition 46.\nPartition 5: overlaps partition 47.\nPartition 7: overlaps partition 47.\nPartition 9: overlaps partition 47.\nPartition 11: overlaps partition 47.\nPartition 13: overlaps partition 47.\nPartition 15: overlaps partition 47.\nPartition 17: overlaps partition 47.\nPartition 19: overlaps partition 47.\nPartition 21: overlaps partition 47.\nPartition 23: overlaps partition 47.\nPartition 25: overlaps partition 47.\nPartition 27: overlaps partition 47.\nPartition 29: overlaps partition 47.\nPartition 31: overlaps partition 47.\nPartition 33: overlaps partition 47.\nPartition 35: overlaps partition 47.\nPartition 37: overlaps partition 47.\nPartition 39: overlaps partition 47.\nPartition 41: overlaps partition 47.\nPartition 43: overlaps partition 47.\nPartition 45: overlaps partition 47.\nPartition 6: overlaps partition 48.\nPartition 8: overlaps partition 48.\nPartition 10: overlaps partition 48.\nPartition 12: overlaps partition 48.\nPartition 14: overlaps partition 48.\nPartition 16: overlaps partition 48.\nPartition 18: overlaps partition 48.\nPartition 20: overlaps partition 48.\nPartition 22: overlaps partition 48.\nPartition 24: overlaps partition 48.\nPartition 26: overlaps partition 48.\nPartition 28: overlaps partition 48.\nPartition 30: overlaps partition 48.\nPartition 32: overlaps partition 48.\nPartition 34: overlaps partition 48.\nPartition 36: overlaps partition 48.\nPartition 38: overlaps partition 48.\nPartition 40: overlaps partition 48.\nPartition 42: overlaps partition 48.\nPartition 44: overlaps partition 48.\nPartition 46: overlaps partition 48.\nPartition 5: overlaps partition 49.\nPartition 7: overlaps partition 49.\nPartition 9: overlaps partition 49.\nPartition 11: overlaps partition 49.\nPartition 13: overlaps partition 49.\nPartition 15: overlaps partition 49.\nPartition 17: overlaps partition 49.\nPartition 19: overlaps partition 49.\nPartition 21: overlaps partition 49.\nPartition 23: overlaps partition 49.\nPartition 25: overlaps partition 49.\nPartition 27: overlaps partition 49.\nPartition 29: overlaps partition 49.\nPartition 31: overlaps partition 49.\nPartition 33: overlaps partition 49.\nPartition 35: overlaps partition 49.\nPartition 37: overlaps partition 49.\nPartition 39: overlaps partition 49.\nPartition 41: overlaps partition 49.\nPartition 43: overlaps partition 49.\nPartition 45: overlaps partition 49.\nPartition 47: overlaps partition 49.\nPartition 6: overlaps partition 50.\nPartition 8: overlaps partition 50.\nPartition 10: overlaps partition 50.\nPartition 12: overlaps partition 50.\nPartition 14: overlaps partition 50.\nPartition 16: overlaps partition 50.\nPartition 18: overlaps partition 50.\nPartition 20: overlaps partition 50.\nPartition 22: overlaps partition 50.\nPartition 24: overlaps partition 50.\nPartition 26: overlaps partition 50.\nPartition 28: overlaps partition 50.\nPartition 30: overlaps partition 50.\nPartition 32: overlaps partition 50.\nPartition 34: overlaps partition 50.\nPartition 36: overlaps partition 50.\nPartition 38: overlaps partition 50.\nPartition 40: overlaps partition 50.\nPartition 42: overlaps partition 50.\nPartition 44: overlaps partition 50.\nPartition 46: overlaps partition 50.\nPartition 48: overlaps partition 50.\nPartition 5: overlaps partition 51.\nPartition 7: overlaps partition 51.\nPartition 9: overlaps partition 51.\nPartition 11: overlaps partition 51.\nPartition 13: overlaps partition 51.\nPartition 15: overlaps partition 51.\nPartition 17: overlaps partition 51.\nPartition 19: overlaps partition 51.\nPartition 21: overlaps partition 51.\nPartition 23: overlaps partition 51.\nPartition 25: overlaps partition 51.\nPartition 27: overlaps partition 51.\nPartition 29: overlaps partition 51.\nPartition 31: overlaps partition 51.\nPartition 33: overlaps partition 51.\nPartition 35: overlaps partition 51.\nPartition 37: overlaps partition 51.\nPartition 39: overlaps partition 51.\nPartition 41: overlaps partition 51.\nPartition 43: overlaps partition 51.\nPartition 45: overlaps partition 51.\nPartition 47: overlaps partition 51.\nPartition 49: overlaps partition 51.\nPartition 6: overlaps partition 52.\nPartition 8: overlaps partition 52.\nPartition 10: overlaps partition 52.\nPartition 12: overlaps partition 52.\nPartition 14: overlaps partition 52.\nPartition 16: overlaps partition 52.\nPartition 18: overlaps partition 52.\nPartition 20: overlaps partition 52.\nPartition 22: overlaps partition 52.\nPartition 24: overlaps partition 52.\nPartition 26: overlaps partition 52.\nPartition 28: overlaps partition 52.\nPartition 30: overlaps partition 52.\nPartition 32: overlaps partition 52.\nPartition 34: overlaps partition 52.\nPartition 36: overlaps partition 52.\nPartition 38: overlaps partition 52.\nPartition 40: overlaps partition 52.\nPartition 42: overlaps partition 52.\nPartition 44: overlaps partition 52.\nPartition 46: overlaps partition 52.\nPartition 48: overlaps partition 52.\nPartition 50: overlaps partition 52.\nPartition 5: overlaps partition 53.\nPartition 7: overlaps partition 53.\nPartition 9: overlaps partition 53.\nPartition 11: overlaps partition 53.\nPartition 13: overlaps partition 53.\nPartition 15: overlaps partition 53.\nPartition 17: overlaps partition 53.\nPartition 19: overlaps partition 53.\nPartition 21: overlaps partition 53.\nPartition 23: overlaps partition 53.\nPartition 25: overlaps partition 53.\nPartition 27: overlaps partition 53.\nPartition 29: overlaps partition 53.\nPartition 31: overlaps partition 53.\nPartition 33: overlaps partition 53.\nPartition 35: overlaps partition 53.\nPartition 37: overlaps partition 53.\nPartition 39: overlaps partition 53.\nPartition 41: overlaps partition 53.\nPartition 43: overlaps partition 53.\nPartition 45: overlaps partition 53.\nPartition 47: overlaps partition 53.\nPartition 49: overlaps partition 53.\nPartition 51: overlaps partition 53.\nPartition 6: overlaps partition 54.\nPartition 8: overlaps partition 54.\nPartition 10: overlaps partition 54.\nPartition 12: overlaps partition 54.\nPartition 14: overlaps partition 54.\nPartition 16: overlaps partition 54.\nPartition 18: overlaps partition 54.\nPartition 20: overlaps partition 54.\nPartition 22: overlaps partition 54.\nPartition 24: overlaps partition 54.\nPartition 26: overlaps partition 54.\nPartition 28: overlaps partition 54.\nPartition 30: overlaps partition 54.\nPartition 32: overlaps partition 54.\nPartition 34: overlaps partition 54.\nPartition 36: overlaps partition 54.\nPartition 38: overlaps partition 54.\nPartition 40: overlaps partition 54.\nPartition 42: overlaps partition 54.\nPartition 44: overlaps partition 54.\nPartition 46: overlaps partition 54.\nPartition 48: overlaps partition 54.\nPartition 50: overlaps partition 54.\nPartition 52: overlaps partition 54.\nPartition 5: overlaps partition 55.\nPartition 7: overlaps partition 55.\nPartition 9: overlaps partition 55.\nPartition 11: overlaps partition 55.\nPartition 13: overlaps partition 55.\nPartition 15: overlaps partition 55.\nPartition 17: overlaps partition 55.\nPartition 19: overlaps partition 55.\nPartition 21: overlaps partition 55.\nPartition 23: overlaps partition 55.\nPartition 25: overlaps partition 55.\nPartition 27: overlaps partition 55.\nPartition 29: overlaps partition 55.\nPartition 31: overlaps partition 55.\nPartition 33: overlaps partition 55.\nPartition 35: overlaps partition 55.\nPartition 37: overlaps partition 55.\nPartition 39: overlaps partition 55.\nPartition 41: overlaps partition 55.\nPartition 43: overlaps partition 55.\nPartition 45: overlaps partition 55.\nPartition 47: overlaps partition 55.\nPartition 49: overlaps partition 55.\nPartition 51: overlaps partition 55.\nPartition 53: overlaps partition 55.\nPartition 6: overlaps partition 56.\nPartition 8: overlaps partition 56.\nPartition 10: overlaps partition 56.\nPartition 12: overlaps partition 56.\nPartition 14: overlaps partition 56.\nPartition 16: overlaps partition 56.\nPartition 18: overlaps partition 56.\nPartition 20: overlaps partition 56.\nPartition 22: overlaps partition 56.\nPartition 24: overlaps partition 56.\nPartition 26: overlaps partition 56.\nPartition 28: overlaps partition 56.\nPartition 30: overlaps partition 56.\nPartition 32: overlaps partition 56.\nPartition 34: overlaps partition 56.\nPartition 36: overlaps partition 56.\nPartition 38: overlaps partition 56.\nPartition 40: overlaps partition 56.\nPartition 42: overlaps partition 56.\nPartition 44: overlaps partition 56.\nPartition 46: overlaps partition 56.\nPartition 48: overlaps partition 56.\nPartition 50: overlaps partition 56.\nPartition 52: overlaps partition 56.\nPartition 54: overlaps partition 56.\nPartition 5: overlaps partition 57.\nPartition 7: overlaps partition 57.\nPartition 9: overlaps partition 57.\nPartition 11: overlaps partition 57.\nPartition 13: overlaps partition 57.\nPartition 15: overlaps partition 57.\nPartition 17: overlaps partition 57.\nPartition 19: overlaps partition 57.\nPartition 21: overlaps partition 57.\nPartition 23: overlaps partition 57.\nPartition 25: overlaps partition 57.\nPartition 27: overlaps partition 57.\nPartition 29: overlaps partition 57.\nPartition 31: overlaps partition 57.\nPartition 33: overlaps partition 57.\nPartition 35: overlaps partition 57.\nPartition 37: overlaps partition 57.\nPartition 39: overlaps partition 57.\nPartition 41: overlaps partition 57.\nPartition 43: overlaps partition 57.\nPartition 45: overlaps partition 57.\nPartition 47: overlaps partition 57.\nPartition 49: overlaps partition 57.\nPartition 51: overlaps partition 57.\nPartition 53: overlaps partition 57.\nPartition 55: overlaps partition 57.\nPartition 6: overlaps partition 58.\nPartition 8: overlaps partition 58.\nPartition 10: overlaps partition 58.\nPartition 12: overlaps partition 58.\nPartition 14: overlaps partition 58.\nPartition 16: overlaps partition 58.\nPartition 18: overlaps partition 58.\nPartition 20: overlaps partition 58.\nPartition 22: overlaps partition 58.\nPartition 24: overlaps partition 58.\nPartition 26: overlaps partition 58.\nPartition 28: overlaps partition 58.\nPartition 30: overlaps partition 58.\nPartition 32: overlaps partition 58.\nPartition 34: overlaps partition 58.\nPartition 36: overlaps partition 58.\nPartition 38: overlaps partition 58.\nPartition 40: overlaps partition 58.\nPartition 42: overlaps partition 58.\nPartition 44: overlaps partition 58.\nPartition 46: overlaps partition 58.\nPartition 48: overlaps partition 58.\nPartition 50: overlaps partition 58.\nPartition 52: overlaps partition 58.\nPartition 54: overlaps partition 58.\nPartition 56: overlaps partition 58.\nPartition 5: overlaps partition 59.\nPartition 7: overlaps partition 59.\nPartition 9: overlaps partition 59.\nPartition 11: overlaps partition 59.\nPartition 13: overlaps partition 59.\nPartition 15: overlaps partition 59.\nPartition 17: overlaps partition 59.\nPartition 19: overlaps partition 59.\nPartition 21: overlaps partition 59.\nPartition 23: overlaps partition 59.\nPartition 25: overlaps partition 59.\nPartition 27: overlaps partition 59.\nPartition 29: overlaps partition 59.\nPartition 31: overlaps partition 59.\nPartition 33: overlaps partition 59.\nPartition 35: overlaps partition 59.\nPartition 37: overlaps partition 59.\nPartition 39: overlaps partition 59.\nPartition 41: overlaps partition 59.\nPartition 43: overlaps partition 59.\nPartition 45: overlaps partition 59.\nPartition 47: overlaps partition 59.\nPartition 49: overlaps partition 59.\nPartition 51: overlaps partition 59.\nPartition 53: overlaps partition 59.\nPartition 55: overlaps partition 59.\nPartition 57: overlaps partition 59.\nPartition 6: overlaps partition 60.\nPartition 8: overlaps partition 60.\nPartition 10: overlaps partition 60.\nPartition 12: overlaps partition 60.\nPartition 14: overlaps partition 60.\nPartition 16: overlaps partition 60.\nPartition 18: overlaps partition 60.\nPartition 20: overlaps partition 60.\nPartition 22: overlaps partition 60.\nPartition 24: overlaps partition 60.\nPartition 26: overlaps partition 60.\nPartition 28: overlaps partition 60.\nPartition 30: overlaps partition 60.\nPartition 32: overlaps partition 60.\nPartition 34: overlaps partition 60.\nPartition 36: overlaps partition 60.\nPartition 38: overlaps partition 60.\nPartition 40: overlaps partition 60.\nPartition 42: overlaps partition 60.\nPartition 44: overlaps partition 60.\nPartition 46: overlaps partition 60.\nPartition 48: overlaps partition 60.\nPartition 50: overlaps partition 60.\nPartition 52: overlaps partition 60.\nPartition 54: overlaps partition 60.\nPartition 56: overlaps partition 60.\nPartition 58: overlaps partition 60.\n756 errors detected.\n",
+      "elapsed_seconds": 0.013902000000000081,
+      "name": "ebr-cycle",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img1\",\n            \"start\": 10,\n            \"size\": 200,\n            \"type\": \"f\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img5\",\n            \"start\": 11,\n            \"size\": 50,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img6\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009089600000000031,
+      "name": "ebr-overlap",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 10,
+            "end": 210,
+            "type": "f"
+          },
+          {
+            "slot": 5,
+            "start": 11,
+            "end": 61,
+            "type": "7"
+          },
+          {
+            "slot": 6,
+            "start": 41,
+            "end": 60,
+            "type": "83"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img:\n",
+      "stderr": "Partition 5: overlaps partition 6.\n1 error detected.\n",
+      "elapsed_seconds": 0.026602799999999927,
+      "name": "ebr-overlap",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "Invalid flag 0x5500 of EBR (for partition 6) will be corrected by w(rite).\n{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img1\",\n            \"start\": 10,\n            \"size\": 200,\n            \"type\": \"f\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img5\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img6\",\n            \"start\": 41,\n            \"size\": 19,\n            \"type\": \"83\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009655100000000028,
+      "name": "ebr-signature",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "Invalid flag 0x5500 of EBR (for partition 6) will be corrected by w(rite).\n/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img:\nNo errors detected.\nRemaining 225 unallocated 512-byte sectors.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.0098796000000001,
+      "name": "ebr-signature",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img1\",\n            \"start\": 10,\n            \"size\": 200,\n            \"type\": \"f\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img5\",\n            \"start\": 11,\n            \"size\": 9,\n            \"type\": \"7\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "Failed to read extended partition table (offset=40): Success\n",
+      "elapsed_seconds": 0.012472700000000003,
+      "name": "ebr-unavailable",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 10,
+            "end": 210,
+            "type": "f"
+          },
+          {
+            "slot": 5,
+            "start": 11,
+            "end": 20,
+            "type": "7"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img:\nNo errors detected.\nRemaining 29 unallocated 512-byte sectors.\n",
+      "stderr": "Failed to read extended partition table (offset=40): Success\n",
+      "elapsed_seconds": 0.011101200000000033,
+      "name": "ebr-unavailable",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.011155299999999979,
+      "name": "gpt-valid",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.011871799999999988,
+      "name": "gpt-valid",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.012304900000000063,
+      "name": "gpt-0-header-crc",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.011803699999999973,
+      "name": "gpt-0-header-crc",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.016266000000000003,
+      "name": "gpt-0-array-crc",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.01380020000000004,
+      "name": "gpt-0-array-crc",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.012652600000000014,
+      "name": "gpt-0-reserved",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.012898299999999918,
+      "name": "gpt-0-reserved",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img1\",\n            \"start\": 34,\n            \"size\": 267,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.031351099999999965,
+      "name": "gpt-0-range",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 301,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img:\n",
+      "stderr": "Partition 2 overlaps with partition 3.\nPartition 1 is too big for the disk.\n2 errors detected.\n",
+      "elapsed_seconds": 0.015806700000000062,
+      "name": "gpt-0-range",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.021399100000000004,
+      "name": "gpt-0-duplicate",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.016410499999999995,
+      "name": "gpt-0-duplicate",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img2\",\n            \"start\": 60,\n            \"size\": 31,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.018923699999999988,
+      "name": "gpt-0-overlap",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 60,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img:\n",
+      "stderr": "Partition 2 overlaps with partition 3.\n1 error detected.\n",
+      "elapsed_seconds": 0.013008299999999973,
+      "name": "gpt-0-overlap",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"\\xed\\xa0\\x80lpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.019458599999999993,
+      "name": "gpt-0-utf16",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.032682199999999995,
+      "name": "gpt-0-utf16",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\",\n            \"attrs\": null\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.016811600000000038,
+      "name": "gpt-0-attributes",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.011001100000000097,
+      "name": "gpt-0-attributes",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "The backup GPT table is corrupt, but the primary appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.011568899999999882,
+      "name": "gpt-1-header-crc",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "The backup GPT table is corrupt, but the primary appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.010211199999999865,
+      "name": "gpt-1-header-crc",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "The backup GPT table is corrupt, but the primary appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.01344029999999985,
+      "name": "gpt-1-array-crc",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "The backup GPT table is corrupt, but the primary appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.013366699999999954,
+      "name": "gpt-1-array-crc",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.011614999999999931,
+      "name": "gpt-1-reserved",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.011972500000000164,
+      "name": "gpt-1-reserved",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.026259699999999997,
+      "name": "gpt-1-range",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.014221199999999934,
+      "name": "gpt-1-range",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.013206900000000132,
+      "name": "gpt-1-duplicate",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010978699999999897,
+      "name": "gpt-1-duplicate",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.018250600000000006,
+      "name": "gpt-1-overlap",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009275499999999992,
+      "name": "gpt-1-overlap",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010690300000000041,
+      "name": "gpt-1-utf16",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.00947410000000004,
+      "name": "gpt-1-utf16",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.008583900000000089,
+      "name": "gpt-1-attributes",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.008469300000000013,
+      "name": "gpt-1-attributes",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009561600000000059,
+      "name": "gpt-valid-disagreement",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009805900000000145,
+      "name": "gpt-valid-disagreement",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010047300000000092,
+      "name": "gpt-guid-disagreement",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "",
+      "elapsed_seconds": 0.009560400000000024,
+      "name": "gpt-guid-disagreement",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"dos\",\n      \"id\": \"0x00000000\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img\",\n      \"unit\": \"sectors\",\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img1\",\n            \"start\": 1,\n            \"size\": 255,\n            \"type\": \"ee\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010720199999999958,
+      "name": "gpt-both-crc",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8",
+      "input_unchanged": true,
+      "projection": {
+        "label": "dos",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 1,
+            "end": 256,
+            "type": "ee"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img:\nNo errors detected.\n",
+      "stderr": "",
+      "elapsed_seconds": 0.010079699999999914,
+      "name": "gpt-both-crc",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.009732300000000027,
+      "name": "gpt-primary-signature",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img:\nNo errors detected.\nHeader version: 1.0\nUsing 2 out of 128 partitions.\nA total of 141 free sectors is available in 2 segments (the largest is 66 KiB).\n",
+      "stderr": "The primary GPT table is corrupt, but the backup appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.00786370000000014,
+      "name": "gpt-primary-signature",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9",
+      "input_unchanged": true,
+      "projection": null
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--json",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "{\n   \"partitiontable\": {\n      \"label\": \"gpt\",\n      \"id\": \"12345678-9ABC-4DEF-8123-456789ABCDEF\",\n      \"device\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img\",\n      \"unit\": \"sectors\",\n      \"firstlba\": 34,\n      \"lastlba\": 222,\n      \"grain\": \"512\",\n      \"sectorsize\": 512,\n      \"partitions\": [\n         {\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img1\",\n            \"start\": 34,\n            \"size\": 27,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n            \"name\": \"Alpha\"\n         },{\n            \"node\": \"/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img2\",\n            \"start\": 70,\n            \"size\": 21,\n            \"type\": \"EBD0A0A2-B9E5-4433-87C0-68B6B72699C7\",\n            \"uuid\": \"00000000-0000-0000-0000-000000000002\",\n            \"name\": \"Beta\"\n         }\n      ]\n   }\n}\n",
+      "stderr": "GPT PMBR size mismatch (255 != 254) will be corrected by write.\nThe backup GPT table is corrupt, but the primary appears OK, so that will be used.\n",
+      "elapsed_seconds": 0.00894320000000004,
+      "name": "gpt-short-backup",
+      "kind": "sfdisk-json",
+      "sha256": "sha256:a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6",
+      "input_unchanged": true,
+      "projection": {
+        "label": "gpt",
+        "rows": [
+          {
+            "slot": 1,
+            "start": 34,
+            "end": 61,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000001"
+          },
+          {
+            "slot": 2,
+            "start": 70,
+            "end": 91,
+            "type": "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7",
+            "uuid": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "fields": [
+          "slot",
+          "start",
+          "end",
+          "type",
+          "uuid"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--verify",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img"
+      ],
+      "exit_code": 0,
+      "outcome": "exited",
+      "stdout": "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-corpus-initial/a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img:\n",
+      "stderr": "GPT PMBR size mismatch (255 != 254) will be corrected by write.\nThe backup GPT table is corrupt, but the primary appears OK, so that will be used.\nMyLBA mismatch with real position at backup header.\nDisk is too small to hold all data.\n2 errors detected.\n",
+      "elapsed_seconds": 0.008759599999999867,
+      "name": "gpt-short-backup",
+      "kind": "sfdisk-verify",
+      "sha256": "sha256:a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6",
+      "input_unchanged": true,
+      "projection": null
+    }
+  ],
+  "scope": "Ordinary synthetic 512-byte-sector files; observations are not correctness votes"
+}

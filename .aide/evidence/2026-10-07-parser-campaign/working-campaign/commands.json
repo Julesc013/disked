@@ -1,0 +1,129 @@
+[
+  {
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\corpus\\partition_images.py",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\corpus"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "generate.log"
+  },
+  {
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\differential\\observe_native.py",
+      "--corpus",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\corpus",
+      "--mbr-probe",
+      ".aide-local/goal-0.1.0/clean-ad880989/build/windows-bootstrap/Release/mbr_probe.exe",
+      "--gpt-probe",
+      ".aide-local/goal-0.1.0/clean-ad880989/build/windows-bootstrap/Release/gpt_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\native"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "native.log"
+  },
+  {
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu-24.04",
+      "--user",
+      "nobody",
+      "--exec",
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/mnt/d/Projects/DiskEd/disked/tests/differential",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "adapter-controls.log"
+  },
+  {
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu-24.04",
+      "--user",
+      "nobody",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Projects/DiskEd/disked/tests/differential/observe_external.py",
+      "--corpus",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/corpus",
+      "--output",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/ubuntu",
+      "--sgdisk"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "ubuntu.log"
+  },
+  {
+    "argv": [
+      "wsl",
+      "-d",
+      "Debian",
+      "--user",
+      "nobody",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Projects/DiskEd/disked/tests/differential/observe_external.py",
+      "--corpus",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/corpus",
+      "--output",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/debian"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "debian.log"
+  },
+  {
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\differential\\compare.py",
+      "--manifest",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\corpus\\manifest.json",
+      "--native",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\native\\results.json",
+      "--external",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\ubuntu\\results.json",
+      "--external",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\debian\\results.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\w023-working\\comparisons.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "compare.log"
+  },
+  {
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu-24.04",
+      "--user",
+      "nobody",
+      "--exec",
+      "/usr/bin/python3",
+      "/mnt/d/Projects/DiskEd/disked/tests/fuzz/run_campaign.py",
+      "--corpus",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/corpus",
+      "--output",
+      "/mnt/d/Projects/DiskEd/disked/.aide-local/goal-0.1.0/w023-working/faults",
+      "--iterations",
+      "10000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "sanitizers.log"
+  }
+]

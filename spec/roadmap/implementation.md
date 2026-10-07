@@ -212,3 +212,14 @@ and protected-memory probes exercise the implementation. Source-bound evidence
 belongs to `.aide/evidence/2026-10-07-gpt/`. Local review and clean reproduction
 govern continuation; provider/source consistency, external differential fuzzing,
 historical profiles, owner acceptance and writer gates remain separate.
+
+
+DE-W023 supplies reproducible malformed-image recipes, bounded installed-tool
+adapters and a deterministic sanitizer campaign over the private C90 readers.
+It retains native findings, external tool/source-package identities, raw invalid
+output and candidate-relative disagreements. Expected results precede tool
+comparison; another parser never selects a GPT winner for DiskEd. Evidence belongs
+to `.aide/evidence/2026-10-07-parser-campaign/`. Local review and clean campaign
+reproduction govern continuation to W024. Coverage-guided campaigns, broader
+sector/platform profiles and independent safety qualification remain explicit;
+coherent image capture and frontend integration belong to W024.

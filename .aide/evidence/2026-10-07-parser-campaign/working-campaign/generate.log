@@ -1,0 +1,525 @@
+{
+  "schema": "org.disked.partition-corpus/1",
+  "generator_sha256": "sha256:0aff2b9dfd5c9ecbfc5482c61e61f5c6e6256a725ceae7f3ac750f483f72a266",
+  "cases": [
+    {
+      "name": "mbr-empty",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 0
+      },
+      "note": "Empty signed table",
+      "common_projection": true,
+      "file": "30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868.img",
+      "bytes": 131072,
+      "sha256": "sha256:30a4e7bf3ca997fc92ac0e780f9c5bc1f4e027d58fae8340158afab4b2540868"
+    },
+    {
+      "name": "mbr-two",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 0
+      },
+      "note": "Two nonoverlapping primary extents",
+      "common_projection": true,
+      "file": "e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c.img",
+      "bytes": 131072,
+      "sha256": "sha256:e5aa89993b9b194adc466bde8d179be24f88c02094cc4627bbe80e0bb787fa8c"
+    },
+    {
+      "name": "mbr-overlap",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 16
+      },
+      "note": "Overlapping primary extents",
+      "common_projection": false,
+      "file": "0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1.img",
+      "bytes": 131072,
+      "sha256": "sha256:0e3db0266611385ccec982d3ebaf15c9d98f19a69885095f93cd323a6016cbe1"
+    },
+    {
+      "name": "mbr-outside",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 8
+      },
+      "note": "Outside source",
+      "common_projection": false,
+      "file": "3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02.img",
+      "bytes": 131072,
+      "sha256": "sha256:3eedd5e5df6c11a6253dbf6a07f52e170993dec33cef415151a2d3b42c813a02"
+    },
+    {
+      "name": "mbr-zero-type",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 4
+      },
+      "note": "Inactive metadata retained",
+      "common_projection": false,
+      "file": "5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2.img",
+      "bytes": 131072,
+      "sha256": "sha256:5bf08ed934eb85e407cd90b988b126d29f7d96230e7b0b3562087bdc8ee89fc2"
+    },
+    {
+      "name": "mbr-boot-byte",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 2
+      },
+      "note": "Invalid boot indicator",
+      "common_projection": false,
+      "file": "d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97.img",
+      "bytes": 131072,
+      "sha256": "sha256:d74f14138492aa1bd1a0731d1ced5bd33beb0a27ef35482772f5ec10bd10ce97"
+    },
+    {
+      "name": "mbr-signature",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 1
+      },
+      "note": "Invalid signature prevents entry interpretation",
+      "common_projection": false,
+      "file": "f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66.img",
+      "bytes": 131072,
+      "sha256": "sha256:f19f04a533d3b217f9a4064545078f701c2b33954e1fbca8a51bb371f03c2f66"
+    },
+    {
+      "name": "mbr-truncated",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 256
+      },
+      "note": "Incomplete logical block",
+      "common_projection": false,
+      "file": "8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d.img",
+      "bytes": 511,
+      "sha256": "sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d"
+    },
+    {
+      "name": "ebr-two",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "mbr.issues": 0,
+        "walks.0.issues": 0,
+        "walks.0.complete": true
+      },
+      "note": "Logical start relative to current EBR; link relative to original container",
+      "common_projection": true,
+      "file": "7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def.img",
+      "bytes": 131072,
+      "sha256": "sha256:7d2e43274b3092d979a94f2e99add5ae47784479e1b029bb9a454bccadcb7def"
+    },
+    {
+      "name": "ebr-cycle",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "walks.0.issues": 1024,
+        "walks.0.complete": false
+      },
+      "note": "Cycle ends with incomplete coverage",
+      "common_projection": false,
+      "file": "5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710.img",
+      "bytes": 131072,
+      "sha256": "sha256:5a5eec446d18bb691cab318f6036c2ee7cf6aeeae21eff99de28951159385710"
+    },
+    {
+      "name": "ebr-overlap",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "walks.0.issues": 4112
+      },
+      "note": "Logical data overlaps later data and EBR metadata",
+      "common_projection": false,
+      "file": "f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693.img",
+      "bytes": 131072,
+      "sha256": "sha256:f397f4bb6bb08a7685e20fd9cc93b479324a496ad1f0f364de3084e5541e9693"
+    },
+    {
+      "name": "ebr-signature",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "walks.0.issues": 1,
+        "walks.0.complete": false
+      },
+      "note": "Bad downstream signature",
+      "common_projection": false,
+      "file": "4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6.img",
+      "bytes": 131072,
+      "sha256": "sha256:4ad5922a093d28e09960f895ecfc48b1ceeb5f557d7116a726b031a642be29e6"
+    },
+    {
+      "name": "ebr-unavailable",
+      "family": "mbr",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "walks.0.issues": 8192,
+        "walks.0.complete": false
+      },
+      "note": "Missing requested EBR",
+      "common_projection": false,
+      "file": "f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8.img",
+      "bytes": 20480,
+      "sha256": "sha256:f7b0c72f9ce9905a5a97f2797b735e2ed058da195e1d8cc606ec3bba78f32ce8"
+    },
+    {
+      "name": "gpt-valid",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 1,
+        "copies.0.candidate.issues": 0,
+        "copies.1.candidate.issues": 0
+      },
+      "note": "Independent complete candidates agree",
+      "common_projection": true,
+      "file": "4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce.img",
+      "bytes": 131072,
+      "sha256": "sha256:4cc3dd863e7e0c5fc245a18c84739f2d45d6752a30f2354dd8a1d35b878afcce"
+    },
+    {
+      "name": "gpt-0-header-crc",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.header.issues": 16
+      },
+      "note": "header-crc; other copy remains independently observed",
+      "common_projection": false,
+      "file": "4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8.img",
+      "bytes": 131072,
+      "sha256": "sha256:4835b036667b6b5c81796542500eff265628ec3ee1849bb03f0f86c5a89114a8"
+    },
+    {
+      "name": "gpt-0-array-crc",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 1024
+      },
+      "note": "array-crc; other copy remains independently observed",
+      "common_projection": false,
+      "file": "b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721.img",
+      "bytes": 131072,
+      "sha256": "sha256:b77bc55fed556da590bd8616782f5fa1f15b0149665c55ef2fcd3c7e480f5721"
+    },
+    {
+      "name": "gpt-0-reserved",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.header.issues": 32
+      },
+      "note": "reserved; other copy remains independently observed",
+      "common_projection": false,
+      "file": "5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5.img",
+      "bytes": 131072,
+      "sha256": "sha256:5761be1a79622f734d238e9e8465ea8af261f22bd01a4305bb21da36a67a3ee5"
+    },
+    {
+      "name": "gpt-0-range",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 2048
+      },
+      "note": "range; other copy remains independently observed",
+      "common_projection": false,
+      "file": "c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af.img",
+      "bytes": 131072,
+      "sha256": "sha256:c824133cf2e44b53ac777d00be2791684e106fb21df250cc42745a58ce9393af"
+    },
+    {
+      "name": "gpt-0-duplicate",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 8192
+      },
+      "note": "duplicate; other copy remains independently observed",
+      "common_projection": false,
+      "file": "8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0.img",
+      "bytes": 131072,
+      "sha256": "sha256:8a9eed3f2c07542270dc5828a538c766e95ba4945c93a5f9b7c41846a00549a0"
+    },
+    {
+      "name": "gpt-0-overlap",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 4096
+      },
+      "note": "overlap; other copy remains independently observed",
+      "common_projection": false,
+      "file": "4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f.img",
+      "bytes": 131072,
+      "sha256": "sha256:4c7d01c29be0a66fda77410d912109c91735dce2ebdbb018de64ce2ac0826e4f"
+    },
+    {
+      "name": "gpt-0-utf16",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 32768
+      },
+      "note": "utf16; other copy remains independently observed",
+      "common_projection": false,
+      "file": "deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7.img",
+      "bytes": 131072,
+      "sha256": "sha256:deed95957666d9c000ad709f24dab18f0fecba81b5163011222655a11ca637e7"
+    },
+    {
+      "name": "gpt-0-attributes",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.candidate.issues": 32
+      },
+      "note": "attributes; other copy remains independently observed",
+      "common_projection": false,
+      "file": "db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321.img",
+      "bytes": 131072,
+      "sha256": "sha256:db3726e60f9870a611077bcbe849828ea095bc18a84af01cf5f1841ce9901321"
+    },
+    {
+      "name": "gpt-1-header-crc",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.header.issues": 16
+      },
+      "note": "header-crc; other copy remains independently observed",
+      "common_projection": false,
+      "file": "8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41.img",
+      "bytes": 131072,
+      "sha256": "sha256:8fdc3e67ec98c8ab814248cbda58b0d31c310ad945ba4f17691e11e2eaa57b41"
+    },
+    {
+      "name": "gpt-1-array-crc",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 1024
+      },
+      "note": "array-crc; other copy remains independently observed",
+      "common_projection": false,
+      "file": "b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4.img",
+      "bytes": 131072,
+      "sha256": "sha256:b5d36278cf533bb4fe707e199ad6da2223c7ec17fb4dcb78d81578aeba4f49e4"
+    },
+    {
+      "name": "gpt-1-reserved",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.header.issues": 32
+      },
+      "note": "reserved; other copy remains independently observed",
+      "common_projection": false,
+      "file": "44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0.img",
+      "bytes": 131072,
+      "sha256": "sha256:44c685d5bf4b5e6adff54a7e1eea4c9dca4e788645800c5d98ac27cba8ff05d0"
+    },
+    {
+      "name": "gpt-1-range",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 2048
+      },
+      "note": "range; other copy remains independently observed",
+      "common_projection": false,
+      "file": "1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc.img",
+      "bytes": 131072,
+      "sha256": "sha256:1b6fc37b6799aff42fcc399bee688b5c0dcea550ac59cbd066d538285f7e49fc"
+    },
+    {
+      "name": "gpt-1-duplicate",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 8192
+      },
+      "note": "duplicate; other copy remains independently observed",
+      "common_projection": false,
+      "file": "f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b.img",
+      "bytes": 131072,
+      "sha256": "sha256:f146acee3881e42c5989b1625017ff897bfadc910910d072dc068ca0b515a69b"
+    },
+    {
+      "name": "gpt-1-overlap",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 4096
+      },
+      "note": "overlap; other copy remains independently observed",
+      "common_projection": false,
+      "file": "00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f.img",
+      "bytes": 131072,
+      "sha256": "sha256:00fbcfabc839c5a82510fb832360e96911401f3a0f0e451a0cefe69c2266178f"
+    },
+    {
+      "name": "gpt-1-utf16",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 32768
+      },
+      "note": "utf16; other copy remains independently observed",
+      "common_projection": false,
+      "file": "f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9.img",
+      "bytes": 131072,
+      "sha256": "sha256:f81cf7dc216266441fb9099164e7ffa9e3f96c46197ccb0e0604c1ee812ce4e9"
+    },
+    {
+      "name": "gpt-1-attributes",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.candidate.issues": 32
+      },
+      "note": "attributes; other copy remains independently observed",
+      "common_projection": false,
+      "file": "c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4.img",
+      "bytes": 131072,
+      "sha256": "sha256:c6acf1a4ef34306ed8f2fcb60689da39946e4b14341b61bf042552b885404dc4"
+    },
+    {
+      "name": "gpt-valid-disagreement",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 2,
+        "copies.0.candidate.issues": 0,
+        "copies.1.candidate.issues": 0
+      },
+      "note": "Both valid; distinct start remains unresolved",
+      "common_projection": false,
+      "file": "a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739.img",
+      "bytes": 131072,
+      "sha256": "sha256:a851c9a2079fb74dc2eb1863f4f0885b856eb563801654e2d9e38df08844c739"
+    },
+    {
+      "name": "gpt-guid-disagreement",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 2
+      },
+      "note": "Distinct valid disk GUIDs remain unresolved",
+      "common_projection": false,
+      "file": "be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9.img",
+      "bytes": 131072,
+      "sha256": "sha256:be07bbf0eae0f36b794ea64bc6c56f40f88bdc93766eb9429453a9b5852f6ab9"
+    },
+    {
+      "name": "gpt-both-crc",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.header.issues": 16,
+        "copies.1.header.issues": 16
+      },
+      "note": "Neither copy trusted",
+      "common_projection": false,
+      "file": "b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8.img",
+      "bytes": 131072,
+      "sha256": "sha256:b01fe8f30d66fb0a7f655fda9859d2a6cb63688b79c797fa4aa9ce4d84183ba8"
+    },
+    {
+      "name": "gpt-primary-signature",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.0.header.issues": 2
+      },
+      "note": "Primary absence must not suppress backup interpretation",
+      "common_projection": false,
+      "file": "609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9.img",
+      "bytes": 131072,
+      "sha256": "sha256:609c3ae49a84579760c2c18e845f07753b284e46926596174e9d380c929b71a9"
+    },
+    {
+      "name": "gpt-short-backup",
+      "family": "gpt",
+      "blocks": 256,
+      "unit": 512,
+      "checks": {
+        "comparison": 0,
+        "copies.1.header.issues": 1
+      },
+      "note": "Truncated backup is incomplete despite valid primary",
+      "common_projection": false,
+      "file": "a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6.img",
+      "bytes": 131071,
+      "sha256": "sha256:a8c7f394c66aac03cb2dfb577951b323015b3298f7f822b44df5b113e58315c6"
+    }
+  ]
+}

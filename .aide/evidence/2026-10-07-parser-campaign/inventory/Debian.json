@@ -1,0 +1,152 @@
+{
+  "uid": 65534,
+  "host": "Linux-4.4.0-19041-Microsoft-x86_64-with-glibc2.41",
+  "commands": [
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "sfdisk from util-linux 2.41\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/sbin/sfdisk",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "\nUsage:\n sfdisk [options] <dev> [[-N] <part>]\n sfdisk [options] <command>\n\nDisplay or manipulate a disk partition table.\n\nCommands:\n -A, --activate <dev> [<part> ...] list or set bootable (P)MBR partitions\n -d, --dump <dev>                  dump partition table (usable for later input)\n -J, --json <dev>                  dump partition table in JSON format\n -B, --backup-pt-sectors <dev>     binary partition table backup (see -b and -O)\n -g, --show-geometry [<dev> ...]   list geometry of all or specified devices\n -l, --list [<dev> ...]            list partitions of each device\n -F, --list-free [<dev> ...]       list unpartitioned free areas of each device\n -r, --reorder <dev>               fix partitions order (by start offset)\n -s, --show-size [<dev> ...]       list sizes of all or specified devices\n -T, --list-types                  print the recognized types (see -X)\n -V, --verify [<dev> ...]          test whether partitions seem correct\n     --delete <dev> [<part> ...]   delete all or specified partitions\n\n --part-label <dev> <part> [<str>] print or change partition label\n --part-type <dev> <part> [<type>] print or change partition type\n --part-uuid <dev> <part> [<uuid>] print or change partition uuid\n --part-attrs <dev> <part> [<str>] print or change partition attributes\n\n --discard-free <dev>              discard (trim) unpartitioned areas\n --disk-id <dev> [<str>]           print or change disk label ID (UUID)\n --relocate <oper> <dev>           move partition header\n\nArguments:\n <dev>                     device (usually disk) path\n <part>                    partition number\n <type>                    partition type, GUID for GPT, hex for MBR\n\nOptions:\n -a, --append              append partitions to existing partition table\n -b, --backup              backup partition table sectors (see -O)\n     --bytes               print SIZE in bytes rather than in human readable format\n     --move-data[=<typescript>] move partition data after relocation (requires -N)\n     --move-use-fsync      use fsync after each write when move data\n -f, --force               disable all consistency checking\n     --color[=<when>]      colorize output (auto, always or never)\n                             colors are enabled by default\n     --sector-size <size>  physical and logical sector size\n     --lock[=<mode>]       use exclusive device lock (yes, no or nonblock)\n -N, --partno <num>        specify partition number\n -n, --no-act              do everything except write to device\n     --no-reread           do not check whether the device is in use\n     --no-tell-kernel      do not tell kernel about changes\n -O, --backup-file <path>  override default backup file name\n -o, --output <list>       output columns\n -q, --quiet               suppress extra info messages\n -w, --wipe <mode>         wipe signatures (auto, always or never)\n -W, --wipe-partitions <mode>  wipe signatures from new partitions (auto, always or never)\n -X, --label <name>        specify label type (dos, gpt, ...)\n -Y, --label-nested <name> specify nested label type (dos, bsd)\n\n -G, --show-pt-geometry    deprecated, alias to --show-geometry\n -L, --Linux               deprecated, only for backward compatibility\n -u, --unit S              deprecated, only sector unit is supported\n\n -h, --help                display this help\n -v, --version             display version\n\nAvailable output columns:\n gpt: Device Start End Sectors Size Type Type-UUID Attrs Name UUID\n dos: Device Start End Sectors Cylinders Size Type Id Attrs Boot End-C/H/S\n      Start-C/H/S\n bsd: Slice Start End Sectors Cylinders Size Type Bsize Cpg Fsize\n sgi: Device Start End Sectors Cylinders Size Type Id Attrs\n sun: Device Start End Sectors Cylinders Size Type Id Flags\n\nFor more details see sfdisk(8).\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/ldd",
+        "/usr/sbin/sfdisk"
+      ],
+      "exit_code": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007fffcb2dd000)\n\tlibfdisk.so.1 => /lib/x86_64-linux-gnu/libfdisk.so.1 (0x00007f0b68b90000)\n\tlibsmartcols.so.1 => /lib/x86_64-linux-gnu/libsmartcols.so.1 (0x00007f0b68b43000)\n\tlibtinfo.so.6 => /lib/x86_64-linux-gnu/libtinfo.so.6 (0x00007f0b68b0d000)\n\tlibreadline.so.8 => /lib/x86_64-linux-gnu/libreadline.so.8 (0x00007f0b68ab0000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f0b688a0000)\n\tlibuuid.so.1 => /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007f0b68c16000)\n\tlibblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1 (0x00007f0b68840000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f0b68c53000)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "gcc (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcov",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "gcov (Debian 14.2.0-19) 14.2.0\nJSON format version: 2\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "Python 3.13.5\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "-print-file-name=libasan.so"
+      ],
+      "exit_code": 0,
+      "stdout": "/usr/lib/gcc/x86_64-linux-gnu/14/libasan.so\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "-print-file-name=libubsan.so"
+      ],
+      "exit_code": 0,
+      "stdout": "/usr/lib/gcc/x86_64-linux-gnu/14/libubsan.so\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "-print-file-name=cc1"
+      ],
+      "exit_code": 0,
+      "stdout": "cc1\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "-print-file-name=libgcov.a"
+      ],
+      "exit_code": 0,
+      "stdout": "/usr/lib/gcc/x86_64-linux-gnu/14/libgcov.a\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/dpkg-query",
+        "-W",
+        "-f=${binary:Package} ${Version} ${source:Package} ${source:Version}\n",
+        "fdisk",
+        "libfdisk1",
+        "gdisk",
+        "gcc-13",
+        "libasan8",
+        "libubsan1",
+        "clang-18"
+      ],
+      "exit_code": 1,
+      "stdout": "fdisk 2.41-5 util-linux 2.41-5\nlibasan8:amd64 14.2.0-19 gcc-14 14.2.0-19\nlibfdisk1:amd64 2.41-5 util-linux 2.41-5\nlibubsan1:amd64 14.2.0-19 gcc-14 14.2.0-19\n",
+      "stderr": "dpkg-query: no packages found matching gdisk\ndpkg-query: no packages found matching gcc-13\ndpkg-query: no packages found matching clang-18\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/gcc",
+        "-print-search-dirs"
+      ],
+      "exit_code": 0,
+      "stdout": "install: /usr/lib/gcc/x86_64-linux-gnu/14/\nprograms: =/usr/libexec/gcc/x86_64-linux-gnu/14/:/usr/libexec/gcc/x86_64-linux-gnu/14/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/14/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/14/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/bin/\nlibraries: =/usr/lib/gcc/x86_64-linux-gnu/14/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/14/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../x86_64-linux-gnu/14/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib/:/lib/x86_64-linux-gnu/14/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/14/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/lib/:/usr/lib/gcc/x86_64-linux-gnu/14/../../../:/lib/:/usr/lib/\n",
+      "stderr": ""
+    }
+  ],
+  "files": {
+    "/usr/sbin/sfdisk": {
+      "resolved": "/usr/sbin/sfdisk",
+      "sha256": "sha256:995ebc07335ed2e53b0a296d20df9f1f9b9ccc53cc117627529de6ae60deeef6"
+    },
+    "/usr/bin/gcc": {
+      "resolved": "/usr/bin/x86_64-linux-gnu-gcc-14",
+      "sha256": "sha256:a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f"
+    },
+    "/usr/bin/gcov": {
+      "resolved": "/usr/bin/x86_64-linux-gnu-gcov-14",
+      "sha256": "sha256:a85462fd8c52e122e225b0a28eda07e7efab957b84ba46161226fd46e4adafc3"
+    },
+    "/usr/bin/python3": {
+      "resolved": "/usr/bin/python3.13",
+      "sha256": "sha256:7890299302c21138c7677b606fe427c8740f55c1549e5edc689bd70b0f9195d7"
+    },
+    "/usr/lib/gcc/x86_64-linux-gnu/14/libasan.so": {
+      "resolved": "/usr/lib/x86_64-linux-gnu/libasan.so.8.0.0",
+      "sha256": "sha256:f5c57422d80671ced6cffe350f92c8ab9bec23fda9b155658aac630d2bc2a240"
+    },
+    "/usr/lib/gcc/x86_64-linux-gnu/14/libubsan.so": {
+      "resolved": "/usr/lib/x86_64-linux-gnu/libubsan.so.1.0.0",
+      "sha256": "sha256:c3912c88d4d1d3772d44c2a77fcda85ebf2790e6efc3602f9489a4e23f4899e2"
+    },
+    "/usr/lib/gcc/x86_64-linux-gnu/14/libgcov.a": {
+      "resolved": "/usr/lib/gcc/x86_64-linux-gnu/14/libgcov.a",
+      "sha256": "sha256:4d2dd24d0bcbc295bf30b0e07e5e85e70472fe61fb094f0884f59bfef3c92982"
+    }
+  }
+}

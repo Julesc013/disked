@@ -2898,6 +2898,159 @@
       "spec_ids": [
         "DE-032"
       ]
+    },
+    {
+      "id": "tests/corpus/partition_images.py",
+      "path": "tests/corpus/partition_images.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/CONTRACT.md",
+      "path": "tests/differential/CONTRACT.md",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/README.md",
+      "path": "tests/differential/README.md",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/CONTRACT.md"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/observe_native.py",
+      "path": "tests/differential/observe_native.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/corpus/partition_images.py",
+        "tests/unit/mbr_probe.cpp",
+        "tests/unit/gpt_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/observe_external.py",
+      "path": "tests/differential/observe_external.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/observe_native.py"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/compare.py",
+      "path": "tests/differential/compare.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/test_adapters.py",
+      "path": "tests/differential/test_adapters.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/corpus/partition_images.py",
+        "tests/differential/compare.py"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/fuzz/partition_faults.cpp",
+      "path": "tests/fuzz/partition_faults.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/extent.c",
+        "source/portable/mbr/mbr.c",
+        "source/portable/ebr/ebr.c",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/encoding.c"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/fuzz/sanitizer_control.cpp",
+      "path": "tests/fuzz/sanitizer_control.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/fuzz/run_campaign.py",
+      "path": "tests/fuzz/run_campaign.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/fuzz/partition_faults.cpp",
+        "tests/fuzz/sanitizer_control.cpp",
+        "tests/corpus/partition_images.py"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "tests/differential/run_wsl_campaign.py",
+      "path": "tests/differential/run_wsl_campaign.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py",
+        "tests/differential/compare.py",
+        "tests/differential/test_adapters.py",
+        "tests/fuzz/run_campaign.py"
+      ],
+      "spec_ids": [
+        "DE-074",
+        "DE-032"
+      ]
     }
   ]
 }

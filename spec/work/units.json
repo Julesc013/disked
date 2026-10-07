@@ -865,7 +865,7 @@
       "id": "DE-W023",
       "title": "Build differential corpus and parser fault campaign",
       "phase": "M2",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W021",
@@ -881,7 +881,24 @@
         "tests/fuzz/**",
         "tests/differential/**",
         "tests/corpus/**",
-        "tools/tests*"
+        "tools/tests*",
+        "spec/development/testing-and-ci.md",
+        "spec/catalog/input-dependencies.json",
+        "spec/work/units.json",
+        "spec/references/sources.json",
+        "spec/reports/**",
+        "spec/manifest.json",
+        "spec/generated/index.json",
+        "spec/index.md",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/disked-0.1.0.json",
+        "spec/bundle.json",
+        "docs/development-plan.md",
+        "spec/templates/docs-development-plan.txt",
+        "TODO.MD",
+        "spec/templates/root-todo.txt",
+        "spec/roadmap/implementation.md"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -912,7 +929,22 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "tests/corpus/partition_images.py",
+        "tests/differential/CONTRACT.md",
+        "tests/differential/README.md",
+        "tests/differential/observe_native.py",
+        "tests/differential/observe_external.py",
+        "tests/differential/compare.py",
+        "tests/differential/test_adapters.py",
+        "tests/fuzz/partition_faults.cpp",
+        "tests/fuzz/sanitizer_control.cpp",
+        "tests/fuzz/run_campaign.py",
+        "tests/differential/run_wsl_campaign.py",
+        "spec/references/sources.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W024",
