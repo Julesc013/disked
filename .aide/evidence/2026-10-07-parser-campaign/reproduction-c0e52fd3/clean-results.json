@@ -1,0 +1,43 @@
+{
+  "source_revision": "c0e52fd383cd9a776219ce2d1c3b1e7204fd1624",
+  "source_state": "clean",
+  "observed_at": "2026-10-07T08:42:03.598152+00:00",
+  "passed": true,
+  "campaign": "campaign/results.json",
+  "native_cases": 35,
+  "external_observations": 162,
+  "comparisons": 92,
+  "retained_discrepancies": 20,
+  "fault_cases": 10035,
+  "adapter_controls": 14,
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W023-c0e52fd3/partition-faults",
+      "sha256": "sha256:6473e3e7e9a8cf15f7437a715db5bfc3a0376fae006aee916dbeca6ba5aca838",
+      "bytes": 1140432
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W023-c0e52fd3/control-address",
+      "sha256": "sha256:7959059595b8f74063ac8010edf71f0ed4d74836c34b87d50561ff531205bd2e",
+      "bytes": 95872
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W023-c0e52fd3/control-undefined",
+      "sha256": "sha256:b7ff2fe7feb9133244f7ddfeead844f61594eae2823fc3a8153b6709b4628dc4",
+      "bytes": 84744
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W023-c0e52fd3/positive-replay-failure.img",
+      "sha256": "sha256:e287ec660cb72334a4fe674f0eb16220b79ce8f363c12ac57e3786238f4e1150",
+      "bytes": 105934
+    }
+  ],
+  "limitations": [
+    "Native probes reused only after all recorded build inputs match",
+    "External source-package versions recorded; source bytes not rebuilt",
+    "Synthetic ordinary files and private readers only; no product image-provider admission",
+    "Bounded deterministic mutation, not coverage-guided or exhaustive fuzzing",
+    "Linux x64 installed GCC sanitizer host only; historical and physical storage qualification remain open"
+  ],
+  "native_build": "Reused W022 clean native probes after verifying all 176 build inputs; no native source/build changes in W023"
+}

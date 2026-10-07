@@ -59,3 +59,9 @@ process as well as its streams, tolerates an exit/kill race, and has a regressio
 that closes both streams before sleeping. Fourteen adapter controls pass. Invalid
 UTF-8 is explicitly excluded from normalized projections, and the standalone
 sanitizer runner now rechecks its source-input hashes after the campaign.
+
+The final clean campaign retains 20 discrepancies. Comparing disk GUIDs adds
+sgdisk on gpt-both-crc: it reports a newly generated in-memory GUID rather than
+the original invalid headers. The source file remains unchanged; empty row lists
+alone previously concealed this difference. Raw tool output and both candidates
+remain in the final comparison receipt.

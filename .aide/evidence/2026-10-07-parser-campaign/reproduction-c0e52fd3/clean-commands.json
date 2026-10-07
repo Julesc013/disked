@@ -1,0 +1,44 @@
+[
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-clone.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/differential/run_wsl_campaign.py --output D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3\\.aide-local\\campaign\\clean --mbr-probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\mbr_probe.exe --gpt-probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\Release\\gpt_probe.exe --probe-identity D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ad880989\\build\\windows-bootstrap\\generated\\build-identity.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-campaign.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-structural.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W023 --output .aide-local/context/W023 --byte-budget 300000",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/W023",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-c0e52fd3",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-07-parser-campaign/reproduction-c0e52fd3/clean-verify-context.log"
+  }
+]

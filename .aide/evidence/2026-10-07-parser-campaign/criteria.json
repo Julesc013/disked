@@ -1,0 +1,23 @@
+{
+  "source_revision": "c0e52fd383cd9a776219ce2d1c3b1e7204fd1624",
+  "owner_accepted": false,
+  "acceptance": [
+    {
+      "claim": "Generated malformed-image corpus and reproducible external-oracle adapters",
+      "evidence": "35 deterministic recipes, 14 controls, 162 bounded observations and clean replay"
+    },
+    {
+      "claim": "Disagreements retained with exact tool versions/source identities",
+      "evidence": "92 comparisons; 20 discrepancies, original output/bytes and binary/library/source-package identities",
+      "limitation": "Source-package metadata, not independently retrieved/rebuilt upstream source bytes"
+    }
+  ],
+  "extra_validation": "10,035 fatal sanitizer cases with detector/invariant/replay positive controls",
+  "limitations": [
+    "Native probes reused only after all recorded build inputs match",
+    "External source-package versions recorded; source bytes not rebuilt",
+    "Synthetic ordinary files and private readers only; no product image-provider admission",
+    "Bounded deterministic mutation, not coverage-guided or exhaustive fuzzing",
+    "Linux x64 installed GCC sanitizer host only; historical and physical storage qualification remain open"
+  ]
+}
