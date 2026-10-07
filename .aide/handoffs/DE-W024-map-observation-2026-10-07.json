@@ -1,0 +1,540 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W024",
+  "base_revision": "c20b4d7e48fbc5423d351a20ec9a76b509581ef4",
+  "spec_manifest_digest": "sha256:2e2113ae0c9a31325dac46638209da5036cd61662049bb571fc32d06e6513b18",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/operations/map-verify.md",
+    "spec/storage/acquisition-consistency.md",
+    "spec/storage/identity-and-graph.md",
+    "spec/interaction/commands.md",
+    "spec/interaction/presentation.md",
+    "spec/architecture/execution-topology.md",
+    "spec/safety/degraded-operation.md",
+    "source/portable/mbr/mbr.h",
+    "source/portable/ebr/ebr.h",
+    "source/portable/gpt/gpt.h",
+    "source/runtime/capture/map_observation.h",
+    "source/runtime/capture/map_observation.cpp",
+    "tests/frontend/test_image_observation.py",
+    "tests/corpus/partition_images.py",
+    ".aide/programmes/worker-continuity.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-07-image-observation/FINDINGS.md",
+    ".aide/evidence/2026-10-07-image-observation/README.md",
+    ".aide/evidence/2026-10-07-image-observation/REVIEW.md",
+    ".aide/evidence/2026-10-07-image-observation/START.md",
+    ".aide/evidence/2026-10-07-image-observation/corrected/build.log",
+    ".aide/evidence/2026-10-07-image-observation/corrected/cases.log",
+    ".aide/evidence/2026-10-07-image-observation/corrected/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/corrected/configure.log",
+    ".aide/evidence/2026-10-07-image-observation/corrected/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/criteria.json",
+    ".aide/evidence/2026-10-07-image-observation/initial/build.log",
+    ".aide/evidence/2026-10-07-image-observation/initial/cases.log",
+    ".aide/evidence/2026-10-07-image-observation/initial/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/initial/configure.log",
+    ".aide/evidence/2026-10-07-image-observation/maximum/build.log",
+    ".aide/evidence/2026-10-07-image-observation/maximum/cases.log",
+    ".aide/evidence/2026-10-07-image-observation/maximum/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/maximum/configure.log",
+    ".aide/evidence/2026-10-07-image-observation/maximum/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/check.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/context.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/index.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/manifest.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/verify-context.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-correction/verify-manifest.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-refresh/check.log",
+    ".aide/evidence/2026-10-07-image-observation/metadata-refresh/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/metadata-refresh/index.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-build.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-clone.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-commands.json",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-configure.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-native-tests.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-observation-cases.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-structural.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/native-details.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-build.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-clone.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-commands.json",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-configure.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-dependents.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-headers.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-imports.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-dependents.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-headers.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-imports.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-launch.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-manifest.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-native-tests.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-observation-cases.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-results.json",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-spec-tests.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-structural.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/native-details.log",
+    ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/review-correction/build.log",
+    ".aide/evidence/2026-10-07-image-observation/review-correction/cases.log",
+    ".aide/evidence/2026-10-07-image-observation/review-correction/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/review-correction/configure.log",
+    ".aide/evidence/2026-10-07-image-observation/review-correction/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/service-notice.json",
+    ".aide/evidence/2026-10-07-image-observation/verification/aide-passive.json",
+    ".aide/evidence/2026-10-07-image-observation/verification/build.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/commands.json",
+    ".aide/evidence/2026-10-07-image-observation/verification/configure.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/context.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/index.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/manifest.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/native-details.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/native-tests.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/observation-cases.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/observations.json",
+    ".aide/evidence/2026-10-07-image-observation/verification/results.json",
+    ".aide/evidence/2026-10-07-image-observation/verification/spec-tests.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/structural.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/verify-context.log",
+    ".aide/evidence/2026-10-07-image-observation/verification/verify-manifest.log",
+    ".aide/handoffs/DE-W024-map-observation-2026-10-07.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/programmes/worker-continuity.md",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "source/runtime/capture/map_observation.cpp",
+    "source/runtime/capture/map_observation.h",
+    "spec/bundle.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/map-verify.md",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/image_observation_probe.cpp",
+    "tests/frontend/test_image_observation.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Partial W024: private bounded captured-map interpretation; 71 native cases and all 38 native groups pass from clean source. Product image commands, file capture and actual image frontend parity remain unavailable. No owner/full-product acceptance.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/initial/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target image_observation_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/initial/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\initial\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/initial/cases.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/corrected/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target image_observation_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/corrected/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\corrected\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/corrected/cases.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/maximum/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target image_observation_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/maximum/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\maximum\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/maximum/cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/structural.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\verification\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/observation-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W024 --output .aide-local/context/DE-W024-observation-final --byte-budget 300000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W024-observation-final",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/verification/verify-context.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/review-correction/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target image_observation_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/review-correction/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\review-correction\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/review-correction/cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-refresh/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-refresh/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W024 --output .aide-local/context/DE-W024-observation-corrected --byte-budget 300000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W024-observation-corrected",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/metadata-correction/verify-context.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3\\build\\windows-bootstrap\\Release\\image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\reproduction-4a135dc3\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-observation-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-4a135dc3",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-4a135dc3/clean-structural.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_observation.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\image_observation_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-07-image-observation\\reproduction-5e033f20\\observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-observation-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-spec-tests.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-disked.exe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\image_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\image_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\image_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-image_observation_probe.exe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5e033f20",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-launch.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W024-observation-5e033f20/disked.exe",
+      "sha256": "sha256:8257302fda427b8e47f184d964af3870acaf76053459ea5a97ef50926ef37189"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-observation-5e033f20/disked_map_observation.lib",
+      "sha256": "sha256:8682e8a7e56b8393389b8e3e4c2391b3ee5bbe07c73a49b13be8e73c246ee137"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-observation-5e033f20/image_observation_probe.exe",
+      "sha256": "sha256:83884df9841a30f1604a7ee5b72e152b7fac33b32fce34d7e9ddc34c704fd0a6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-07-image-observation/reproduction-5e033f20/clean-results.json",
+      "sha256": "sha256:157c742eb954c1b251ffd79918f81cb81cbf3b96c64e3aeb6f7485dea16ee72a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-07-image-observation/service-notice.json",
+      "sha256": "sha256:a0866cd79fa732bdb131d76f198dc7f3e8d0dbdaa422706a2c048565cc1287ee"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue DE-W024 with an explicit ordinary-local-file capture adapter, source/geometry/consistency evidence and bounded shared image commands. Define file/path limits and exact responses before handler admission; test actual CLI/TUI/GUI parity and delayed/denied/changed source behavior. The private map observation is qualified only for captured bytes, not a coherent live source. Keep physical devices, mounting, elevation, customer data, installation, owner acceptance and release separate; preserve model-independent runners and interruption records.",
+  "performed_remote_writes": false
+}
