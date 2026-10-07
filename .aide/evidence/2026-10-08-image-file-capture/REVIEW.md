@@ -32,3 +32,8 @@ acceptance, independent provider qualification or full W024 completion.
 
 Continue W024 shared command/frontend integration. The whole release programme
 and acceptance ledger are unchanged. No GitHub write was performed.
+
+The runner subsequently reported the persistent goal as blocked, without a reason
+in its available status response. This is retained in runner-status.json; it does
+not invalidate the completed local checks or establish a new engineering defect.
+The project programme remains incomplete and resumable at shared image command work.

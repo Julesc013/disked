@@ -53,3 +53,8 @@ command is `python tests/frontend/test_image_file_capture.py --probe build/windo
 No model service is needed by those repository commands.
 
 Continue DE-W024 shared image command admission and actual CLI/TUI/GUI/shell parity. Define the prototype image-only composition, raw-file operands/unit and exact outcomes/preconditions in their owners before implementation; preserve source consistency/coverage limits and frontend stale/late-result containment. Do not treat captured-region verification as whole-file/snapshot/physical-storage qualification. Keep the full 0.1.0 scope, owner acceptance and storage/release authority gates separate.
+
+The runner subsequently reported the persistent goal as blocked, without a reason
+in its available status response. This is retained in runner-status.json; it does
+not invalidate the completed local checks or establish a new engineering defect.
+The project programme remains incomplete and resumable at shared image command work.
