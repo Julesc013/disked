@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.6-proposed.1
+  version: 0.1.7-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-08T23:01:37.720126+00:00'
-  scope: DE-W040 bounded semantic binary journal declaration reader; no live durability, authority or replay admission
+  at: '2026-10-08T23:43:15.464866+00:00'
+  scope: DE-W040 private native model-history binary producer and ordered exit/capture declarations
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -222,8 +222,8 @@ Snapshot dimensions and counters remain separate. Resources remain retained;
 retirement eligibility requires a stable terminal outcome, exited worker, current
 postcondition capture and no uncertainty. Illegal inputs/transitions leave state
 unchanged; injected environment failures explicitly leave unresolved state.
-The semantic declaration reader below is separate from this model. A native model
-event producer/reader integration, authenticated authority, real flush adapters
+The semantic declaration reader below is separate from this model. The model-history producer below now joins recorded fake frames to binary fixtures.
+Authenticated authority, real flush adapters
 and physical crash/power-loss qualification remain required later work.
 
 ## DE-W040 semantic binary journal declaration contract
@@ -298,9 +298,34 @@ record leaves the last accepted projection and byte/digest prefix unchanged; tor
 tails and source failures retain that prefix without repair or truncation. A valid
 prefix can still have an incomplete bootstrap. Projection fields are explicitly
 declared history; authentication, effect/replay/retirement authority and durability
-qualification remain false, and live reconciliation remains required. Integrating
-the guarded model's event producer with this reader, real adapter evidence and
-independent safety review remain work; DE-DEC-004/008 remain proposed.
+qualification remain false, and live reconciliation remains required. The private model-history producer below now supplies binary fixtures; real adapter
+evidence and independent safety review remain work; DE-DEC-004/008 remain proposed.
+
+## DE-W040 native model-history binary producer
+
+The private [producer profile](../catalog/journal-producer-prototype.json) binds
+closed guarded-model histories to the proposed binary format. The producer verifies
+bounded fake frames and hash chains, retains action-time capture/flush/exit proof
+fields, and maps exact checkpoint recovery-frame references to binary record
+references. A fixed externally supplied binary publisher and journal binding covers
+the retained lineage; copied prefixes retain their bytes. Model generations remain
+separate diagnostic identities. No proof comes from a final snapshot.
+
+Selected partial appends retain the complete attempted fake frame. Binary projection
+encodes that candidate and retains half its bytes, an explicit fixture cut rather
+than an actual append/flush observation. Original JSON tails and generations remain
+intact. The returned binary bytes retain any rejected record/tail and the semantic
+reader's accepted prefix; projection never repairs, replays or authorizes effects.
+
+The model now requires a capture after worker exit before sealing. An undispatched
+but durably intended step still needs before-state reconciliation before cancelled
+seal; local knowledge that no dispatch occurred is not silently substituted for the
+reader's required proof. Recovery and seal after a declared exit retain that same
+exit epoch until a new attempt is admitted, while captures advance. This resolves
+the earlier reader assumption that every later claim implied another worker exit.
+All producer/probe components stay separate from the product executable. The
+production format, live adapters, durability qualification and independent safety
+review remain unverified, with DE-DEC-004/008 still proposed.
 
 ## Normative requirements
 

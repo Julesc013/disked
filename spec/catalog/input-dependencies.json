@@ -4123,6 +4123,64 @@
         "DE-043",
         "DE-042"
       ]
+    },
+    {
+      "id": "spec/catalog/journal-producer-prototype.json",
+      "path": "spec/catalog/journal-producer-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/journal-semantics-prototype.json",
+        "spec/catalog/guarded-journal-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/producer.h",
+      "path": "source/runtime/journal/producer.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/semantics.h"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/producer.cpp",
+      "path": "source/runtime/journal/producer.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/producer.h",
+        "source/runtime/journal/guarded_model.cpp",
+        "spec/catalog/journal-producer-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/journal/test_producer.py",
+      "path": "tests/journal/test_producer.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/journal/guarded_probe.cpp",
+        "tests/journal/test_guarded.py",
+        "tests/journal/test_semantics.py",
+        "spec/catalog/journal-producer-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
     }
   ]
 }

@@ -15,6 +15,7 @@ class Case:
         self.rows=[dict(resource=r['id'],identity_digest=r['identity_digest'],state_digest=r['state_digest'],epoch=r['epoch'],available=True) for r in self.plan['resources']]
         self.actions=[];self.checks=[];self.epoch=0;self.final={};self.root_error=None
     def add(self,op,expect=None,error=None,**data):
+        if op=='seal' and error is None:self.capture()
         self.actions.append(dict(op=op,**self.context,**data));self.checks.append(dict(expect=expect or {},error=error));return self
     def capture(self,expect=None,error=None,epoch=None):
         if epoch is None:self.epoch+=1;epoch=self.epoch
@@ -37,6 +38,7 @@ class Case:
     def reconcile(self,observed):
         return self.add('reconcile',observed=observed,capture_epoch=str(self.epoch),fault='none').add('journal_flush',fault='none')
     def replace(self,new_id='fake:attempt2',new_worker='fake:worker2',epoch='8',expect=None,error=None):
+        self.capture()
         self.add('replace',expect,error,new_attempt_id=new_id,new_worker_identity=new_worker,new_worker_epoch=epoch,fault='none')
         if not error:self.context.update(attempt_id=new_id,worker_identity=new_worker,worker_epoch=epoch)
         return self
@@ -68,7 +70,7 @@ def cases():
     out=[]
     def keep(c):out.append(c);return c
     c=keep(Case('two-step-stable-completion'));c.start().complete().capture().add('intention',step_id='s.write2',fault='none').add('journal_flush',fault='none').complete(1)
-    c.add('worker_exit').add('seal',fault='none').add('journal_flush',dict(operation_status='completed',retirement_eligible=False),fault='none').capture(dict(retirement_eligible=True))
+    c.add('worker_exit').add('seal',fault='none').add('journal_flush',dict(operation_status='completed',retirement_eligible=True),fault='none').capture(dict(retirement_eligible=True))
     c.final=dict(operation_status='completed',completed_steps='2',dispatches='2',resource_writes='2',worker_status='exited',retirement_eligible=True)
     c=keep(Case('no-effect-before-stable-admission'));c.add('dispatch',error='model_worker_not_active').capture().add('intention',error='model_worker_not_active',step_id='s.write1',fault='none');c.final=dict(dispatches='0',resource_writes='0')
     c=keep(Case('intention-is-not-durable'));c.add('journal_flush',fault='none').capture().add('intention',step_id='s.write1',fault='none').add('dispatch',error='model_dispatch_order');c.final=dict(dispatches='0',resource_writes='0')
@@ -93,10 +95,16 @@ def cases():
         if step_phase=='completed':c.result().add('target_flush',fault='none').capture().add('verify',capture_epoch=str(c.epoch)).add('completion',fault='none').add('journal_flush',fault='none')
         c.add('cancel_request',dict(cancellation_requested=True,cancellation_acknowledged=False),fault='none').add('cancel_checkpoint',error='model_cancellation_order').add('journal_flush',fault='none')
         if step_phase=='dispatched':c.add('cancel_checkpoint',error='model_cancellation_order').result().add('target_flush',fault='none').capture().add('verify',capture_epoch=str(c.epoch)).add('completion',fault='none').add('journal_flush',fault='none')
-        c.add('cancel_checkpoint',dict(cancellation_acknowledged=True)).add('worker_exit').add('seal',fault='none').add('journal_flush',dict(operation_status='cancelled'),fault='none').capture(dict(retirement_eligible=True))
+        if step_phase=='prepared':c.add('cancel_checkpoint',error='model_cancellation_order').add('worker_exit').recovery_capture().reconcile('before')
+        c.add('cancel_checkpoint',dict(cancellation_acknowledged=True))
+        if step_phase!='prepared':c.add('worker_exit')
+        c.add('seal',fault='none').add('journal_flush',dict(operation_status='cancelled'),fault='none').capture(dict(retirement_eligible=True))
         c.final=dict(operation_status='cancelled',cancellation_acknowledged=True,dispatches='1' if step_phase in ('dispatched','completed') else '0')
     c=keep(Case('cancel-blocks-another-dispatch'));c.start().add('cancel_request',fault='none').add('journal_flush',fault='none').add('dispatch',error='model_dispatch_order');c.final=dict(dispatches='0')
     c=keep(Case('no-seal-live-worker'));c.start().complete().capture().add('intention',step_id='s.write2',fault='none').add('journal_flush',fault='none').complete(1).add('seal',error='model_seal_guard',fault='none')
+    c=keep(Case('seal-requires-post-exit-capture'));c.start().complete().capture().add('intention',step_id='s.write2',fault='none').add('journal_flush',fault='none').complete(1).add('worker_exit').add('seal',error='model_capture_stale',fault='none');c.final=dict(operation_status='active',retirement_eligible=False)
+    c=keep(Case('next-intention-requires-new-claim-capture'));c.start().complete().add('intention',error='model_capture_stale',step_id='s.write2',fault='none');c.final=dict(dispatches='1',completed_steps='1')
+    c=keep(Case('checkpoint-requires-new-claim-capture'));c.start().add('dispatch').add('worker_exit').recovery_capture().reconcile('before').add('replace',error='model_capture_stale',new_attempt_id='fake:attempt2',new_worker_identity='fake:worker2',new_worker_epoch='8',fault='none');c.final=dict(dispatches='1',completed_steps='0',worker_status='exited')
     c=keep(Case('noncheckpoint-step-cannot-acknowledge'));c.start().complete().capture().add('intention',step_id='s.write2',fault='none').add('journal_flush',fault='none').complete(1).add('cancel_request',fault='none').add('journal_flush',fault='none').add('cancel_checkpoint',error='model_cancellation_checkpoint')
     for boundary in ('intention','completion','seal'):
         for fault in ('before','torn'):

@@ -13,6 +13,7 @@
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)
+- [journal-producer-prototype.json](journal-producer-prototype.json)
 - [journal-prototype.json](journal-prototype.json)
 - [journal-semantics-prototype.json](journal-semantics-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)

@@ -28,7 +28,7 @@ struct State {
     const Definition* definition;std::vector<V> receipts;std::vector<std::string> selected;
     std::set<std::string> ids,attempts,done;std::map<std::string,std::string> expected;
     std::string operation,attempt,worker,admission,basis,pending,last_completed,recovery_kind,recovery_step,recovery_digest,terminal;
-    std::uint64_t epoch=0,event_sequence=0,capture_epoch=0,intention_capture=0,events=0,observations=0,retained_bytes=0;
+    std::uint64_t epoch=0,event_sequence=0,capture_epoch=0,intention_capture=0,events=0,observations=0,retained_bytes=0,declared_exit_epoch=0;
     bool defined=false,cancelled=false,exited=false,bootstrap=false;
     explicit State(const Definition& d):definition(&d) {for(const auto& r:get(d.value(),"resources").items)expected[str(r,"id")]=str(r,"state_digest");}
     const V& step(const std::string& name) const {for(const auto& s:get(definition->value(),"steps").items)if(str(s,"id")==name)return s;bad("semantic_step");}
@@ -55,7 +55,7 @@ struct State {
     void claim_exit_flush(const V& details,const char* flush_key) const {
         if(!flag(details,"worker_exited") || !flag(details,"qualified_fake_flush"))bad("semantic_recovery_evidence");
         const auto exit=num(details,"exit_capture_epoch",false),flush=num(details,flush_key);
-        if(exit<capture_epoch || flush<=exit || num(get(details,"capture"),"capture_epoch")<=flush)bad("semantic_recovery_order");
+        if((exited?exit!=declared_exit_epoch:exit<capture_epoch) || flush<=exit || num(get(details,"capture"),"capture_epoch")<=flush)bad("semantic_recovery_order");
     }
     void accept(const Record& r) {
         if(r.kind>=32768) {++observations;return;}
@@ -87,7 +87,7 @@ struct State {
             if(!pending.empty() && !flag(get(step(pending),"recovery"),"replayable"))bad("semantic_replay_forbidden");
             const auto new_attempt=id(v,"attempt_id"),new_worker=id(v,"worker_identity");const auto new_epoch=num(v,"worker_epoch");
             if(attempts.size()>=4 || attempts.count(new_attempt) || new_epoch<=epoch)bad("semantic_attempt_reused_or_limit");
-            capture(get(v,"capture"),"","terminal");attempt=new_attempt;worker=new_worker;epoch=new_epoch;attempts.insert(attempt);admission=digest_text(hash(r.payload));event_sequence=0;pending.clear();exited=false;recovery_digest.clear();recovery_kind.clear();return;
+            capture(get(v,"capture"),"","terminal");attempt=new_attempt;worker=new_worker;epoch=new_epoch;attempts.insert(attempt);admission=digest_text(hash(r.payload));event_sequence=0;pending.clear();exited=false;declared_exit_epoch=0;recovery_digest.clear();recovery_kind.clear();return;
         }
         keys(v,{"schema","id","plan_digest","admission_digest","operation_id","attempt_id","worker_identity","worker_epoch","sequence","step_id","event","details"});
         if(str(v,"schema")!="org.disked.journal-effect-prototype/1")bad("semantic_version");
@@ -112,11 +112,11 @@ struct State {
             else if(observed=="before" || observed=="after") {
                 ready(name);if((!pending.empty() && name!=pending) || (observed=="after" && pending.empty()))bad("semantic_recovery_scope");
             } else bad("semantic_recovery_state");
-            capture(get(details,"capture"),name,observed);exited=true;recovery_kind=observed;recovery_step=name;recovery_digest=digest_text(r.digest);if(observed=="after")finish(name);
+            capture(get(details,"capture"),name,observed);exited=true;declared_exit_epoch=num(details,"exit_capture_epoch",false);recovery_kind=observed;recovery_step=name;recovery_digest=digest_text(r.digest);if(observed=="after")finish(name);
         } else if(r.kind==9) {
             if(event!="seal")bad("semantic_event_kind");keys(details,{"capture","worker_exited","exit_capture_epoch","outcome","cancel_acknowledged"});
             const auto outcome=str(details,"outcome");const auto exit=num(details,"exit_capture_epoch",false);
-            if(!name.empty() || !flag(details,"worker_exited") || exit<capture_epoch || num(get(details,"capture"),"capture_epoch")<=exit)bad("semantic_seal_evidence");
+            if(!name.empty() || !flag(details,"worker_exited") || (exited?exit!=declared_exit_epoch:exit<capture_epoch) || num(get(details,"capture"),"capture_epoch")<=exit)bad("semantic_seal_evidence");
             if(outcome=="completed") {if(!all_done() || !pending.empty() || flag(details,"cancel_acknowledged"))bad("semantic_seal_scope");}
             else if(outcome=="cancelled") {if(!cancelled || !checkpoint() || !flag(details,"cancel_acknowledged") || (!pending.empty() && (recovery_kind!="before" || recovery_step!=pending)))bad("semantic_seal_scope");}
             else bad("semantic_seal_outcome");

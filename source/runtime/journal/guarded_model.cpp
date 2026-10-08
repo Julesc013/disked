@@ -34,7 +34,7 @@ const std::map<std::string,std::vector<std::string>> action_fields={
     {"replace",{"new_attempt_id","new_worker_identity","new_worker_epoch","fault"}}, {"fork_journal",{}}, {"seal",{"fault"}},
     {"change_resource",{"resource","identity_digest","state_digest","epoch","available"}}
 };
-struct Journal {std::vector<V> frames;std::string tail;std::size_t stable=0,bytes=0,baseline=0;bool failed=false;};
+struct Journal {std::vector<V> frames;V tail_candidate;std::string tail;std::size_t stable=0,bytes=0,baseline=0;bool failed=false;};
 std::string journal_digest(const Journal& j) {std::string s;for(const auto& f:j.frames)s+=encode(f)+"\n";return hashed(s+j.tail);}
 }
 struct GuardedModel::Impl {
@@ -89,6 +89,13 @@ struct GuardedModel::Impl {
     void fresh(bool after_exit=false) const {
         if(!captured || captured_generation!=generation || (after_exit && capture_epoch<=exit_capture))bad("model_capture_stale");closure();
     }
+    void new_claim() const {
+        for(auto i=journal.frames.rbegin();i!=journal.frames.rend();++i) {
+            const auto kind=str(*i,"kind");const auto& data=get(*i,"data");
+            const auto proof=kind=="4"?data.find("checkpoint"):(kind=="5" || kind=="6" || kind=="8" || kind=="9")?&data:nullptr;
+            if(proof) {if(capture_epoch<=number(*proof,"capture_epoch"))bad("model_capture_stale");return;}
+        }
+    }
     bool states(const std::string& when) const {
         auto wanted=expected;
         if(when!="terminal")for(const auto& e:get(current(),"effects").items) {
@@ -108,7 +115,8 @@ struct GuardedModel::Impl {
     V capture_rows() const {auto out=V::array();for(const auto& p:actual)out.items.push_back(p.second);return out;}
     V evidence(const std::string& observed="") const {
         return V::object().put("capture_epoch",count(capture_epoch)).put("observer_id",V::string(observer)).put("resources",capture_rows())
-            .put("observed",V::string(observed)).put("qualified_fake_flush",V::boolean_value(qualified));
+            .put("observed",V::string(observed)).put("qualified_fake_flush",V::boolean_value(qualified))
+            .put("flush_capture_epoch",count(flush_capture)).put("exit_capture_epoch",count(exit_capture)).put("worker_exited",V::boolean_value(worker=="exited"));
     }
     bool append(const std::string& kind,const V& data,const std::string& fault) {
         option(fault,{"none","before","torn"});
@@ -123,7 +131,7 @@ struct GuardedModel::Impl {
         frame.put("previous",V::string(previous)).put("digest",V::string(digest));const auto bytes=encode(frame,131072);
         if(journal.frames.size()>=entries_limit || bytes.size()>bytes_limit-journal.bytes) {journal.failed=true;unresolved("model_journal_limit");return false;}
         if(fault=="before") {journal.failed=true;unresolved("model_append_before_failure");return false;}
-        if(fault=="torn") {journal.tail=bytes.substr(0,bytes.size()/2);journal.bytes+=journal.tail.size();journal.failed=true;unresolved("model_append_torn");return false;}
+        if(fault=="torn") {journal.tail_candidate=frame;journal.tail=bytes.substr(0,bytes.size()/2);journal.bytes+=journal.tail.size();journal.failed=true;unresolved("model_append_torn");return false;}
         journal.bytes+=bytes.size();journal.frames.push_back(frame);return true;
     }
     void apply_stable(const V& frame,bool restoring=false) {
@@ -184,7 +192,7 @@ struct GuardedModel::Impl {
         } else if(op=="intention") {
             running();fresh();if(phase!="idle" || pending || cancellation)bad("model_intention_order");const auto name=identifier(action,"step_id");
             if(!has(selected,name) || done.count(name))bad("model_step_scope");const auto& s=step(name);for(const auto& dep:get(s,"depends_on").items)if(!done.count(str(dep)))bad("model_predecessor_incomplete");
-            active=name;if(!states("before"))bad("model_precondition");pending=true;intention_stable=false;target_flushed=false;result_observed=false;effect="not_started";phase="intention_pending";
+            new_claim();active=name;if(!states("before"))bad("model_precondition");pending=true;intention_stable=false;target_flushed=false;result_observed=false;effect="not_started";phase="intention_pending";
             append("5",evidence("before"),str(action,"fault"));
         } else if(op=="journal_flush")flush(str(action,"fault"));
         else if(op=="dispatch") {
@@ -212,14 +220,13 @@ struct GuardedModel::Impl {
             running();fresh();if(phase!="target_flushed" || !target_flushed || number(action,"capture_epoch")!=capture_epoch || capture_epoch<=dispatch_capture || capture_epoch<=flush_capture)bad("model_verification_order");
             if(!states("after"))unresolved("model_postcondition_failed");else {phase="verified";effect="verified_after";}
         } else if(op=="completion") {
-            running();fresh();if(phase!="verified" || !target_flushed || effect!="verified_after")bad("model_completion_order");phase="completion_pending";append("6",evidence("after"),str(action,"fault"));
+            running();fresh();if(phase!="verified" || !target_flushed || effect!="verified_after")bad("model_completion_order");new_claim();phase="completion_pending";append("6",evidence("after"),str(action,"fault"));
         } else if(op=="cancel_request") {
-            if(terminal() || unbound)bad("model_cancellation_order");cancellation=true;if(!cancel_durable)append("7",V::object().put("requested",V::boolean_value(true)),str(action,"fault"));else option(str(action,"fault"),{"none","before","torn"});
+            if(terminal() || unbound)bad("model_cancellation_order");cancellation=true;if(!cancel_durable)append("7",V::object().put("requested",V::boolean_value(true)).put("pending_step",V::string(pending?active:"")),str(action,"fault"));else option(str(action,"fault"),{"none","before","torn"});
         } else if(op=="cancel_checkpoint") {
             const bool recovered=worker=="exited" && retry_observed && phase=="retry_proposed";
             if(recovered)fresh(true);else running();
-            const bool undispatched=pending && effect=="not_started" && phase=="prepared";
-            if(!cancellation || !cancel_durable || (!recovered && !undispatched && (pending || phase!="idle")))bad("model_cancellation_order");
+            if(!cancellation || !cancel_durable || (!recovered && (pending || phase!="idle")))bad("model_cancellation_order");
             if(!last_completed.empty() && !boolean(get(step(last_completed),"recovery"),"cancellable_at_checkpoint"))bad("model_cancellation_checkpoint");
             cancel_ack=true;pending=false;phase="idle";needs_recovery=false;if(recovered)logical="ready_to_seal";
         } else if(op=="client_disconnect" || op=="client_reconnect")connected=op=="client_reconnect";
@@ -237,8 +244,10 @@ struct GuardedModel::Impl {
                 if(!active.empty())for(const auto& e:get(current(),"effects").items)if(str(e,"resource")==name && str(e,"access")=="write" && pending && (effect!="not_started")) {durable[name]=str(e,"after_digest");found_effect=true;}
                 if(!found_effect)bad("model_crash_resources");
             }
+            const auto candidate=torn?(prefix<journal.frames.size()?journal.frames[static_cast<std::size_t>(prefix)]:journal.tail_candidate):V();
             std::string tail=torn?(prefix<journal.frames.size()?encode(journal.frames[static_cast<std::size_t>(prefix)]).substr(0,encode(journal.frames[static_cast<std::size_t>(prefix)]).size()/2):journal.tail):"";
             journal.frames.resize(static_cast<std::size_t>(prefix));journal.stable=journal.frames.size();journal.baseline=journal.stable;journal.tail=tail;journal.failed=!tail.empty();journal.bytes=tail.size();
+            journal.tail_candidate=candidate;
             for(const auto& f:journal.frames)journal.bytes+=encode(f).size();for(auto& p:actual)p.second.put("state_digest",V::string(durable.at(p.first)));
             ++generation;connected=false;recover_prefix();diagnostic="model_crash_requires_observation";
         } else if(op=="recovery_flush")target_flush(str(action,"fault"),true);
@@ -250,7 +259,7 @@ struct GuardedModel::Impl {
             else if(active.empty() || done.count(active))bad("model_recovery_guard");
             if(!states(observed))bad("model_recovery_state");
             if(observed=="after" && !intention_stable)bad("model_recovery_intention");
-            phase="reconciliation_pending";append("8",evidence(observed),str(action,"fault"));
+            new_claim();phase="reconciliation_pending";append("8",evidence(observed),str(action,"fault"));
         } else if(op=="replace") {
             if(worker!="exited" || unbound || cancellation || all_done())bad("model_replace_guard");fresh(true);
             if(retry_observed && phase=="retry_proposed") {
@@ -260,16 +269,18 @@ struct GuardedModel::Impl {
             }
             const auto new_id=identifier(action,"new_attempt_id"),new_worker=identifier(action,"new_worker_identity");const auto epoch=number(action,"new_worker_epoch");
             if(attempt_ids.count(new_id) || attempt_ids.size()>=attempts_limit || epoch<=worker_epoch)bad("model_attempt_limit_or_reuse");
+            new_claim();
             const auto proof=evidence("before");attempt_ids.insert(new_id);attempt=new_id;worker_identity=new_worker;worker_epoch=epoch;worker="prepared";phase="admission_pending";effect="not_started";result_observed=false;retry_observed=false;pending=false;captured=false;target_flushed=false;recovery_flushed=false;
-            append("4",V::object().put("basis_admission_digest",V::string(digest_text(Receipt(definition,initial_admission).digest()))).put("checkpoint",proof),str(action,"fault"));
+            std::string reference;for(auto i=journal.frames.rbegin();i!=journal.frames.rend();++i)if(str(*i,"kind")=="8") {reference=str(*i,"digest");break;}
+            append("4",V::object().put("basis_admission_digest",V::string(digest_text(Receipt(definition,initial_admission).digest()))).put("checkpoint",proof).put("recovery_frame_digest",V::string(reference)),str(action,"fault"));
         } else if(op=="fork_journal") {
             if(worker!="exited" || !needs_recovery || unbound || (!journal.failed && journal.tail.empty() && (journal.frames.empty() || str(journal.frames.back(),"kind")!="9")))bad("model_fork_guard");fresh(true);
             if(retained.size()>=3)bad("model_generation_limit");retained.push_back(journal);Journal next;
             next.frames.assign(journal.frames.begin(),journal.frames.begin()+journal.stable);if(!next.frames.empty() && str(next.frames.back(),"kind")=="9")next.frames.pop_back();
             next.baseline=next.frames.size();for(const auto& f:next.frames)next.bytes+=encode(f).size();journal=std::move(next);++model_generation;
         } else if(op=="seal") {
-            if(worker!="exited" || needs_recovery || pending || phase!="idle" || (!all_done() && !cancel_ack))bad("model_seal_guard");fresh();if(!states("terminal"))bad("model_postcondition_failed");
-            phase="seal_pending";append("9",V::object().put("outcome",V::string(cancel_ack?"cancelled":"completed")).put("cancel_acknowledged",V::boolean_value(cancel_ack)),str(action,"fault"));
+            if(worker!="exited" || needs_recovery || pending || phase!="idle" || (!all_done() && !cancel_ack))bad("model_seal_guard");fresh(true);if(!states("terminal"))bad("model_postcondition_failed");
+            new_claim();phase="seal_pending";auto proof=evidence("terminal");proof.put("outcome",V::string(cancel_ack?"cancelled":"completed")).put("cancel_acknowledged",V::boolean_value(cancel_ack));append("9",proof,str(action,"fault"));
         } else if(op=="change_resource") {
             const auto name=identifier(action,"resource");const auto found_resource=actual.find(name);if(found_resource==actual.end())bad("model_resource");
             checked_digest(str(action,"identity_digest"));checked_digest(str(action,"state_digest"));number(action,"epoch");boolean(action,"available");
@@ -300,7 +311,7 @@ GuardedModel::~GuardedModel()=default;
 V GuardedModel::snapshot() const {return state_->report();}
 V GuardedModel::history() const {
     auto journals=V::array();const auto add=[&](const Journal& j) {
-        auto frames=V::array();frames.items=j.frames;journals.items.push_back(V::object().put("events",frames).put("tail",V::string(j.tail)).put("stable_entries",count(j.stable)).put("digest",V::string(journal_digest(j))));
+        auto frames=V::array();frames.items=j.frames;journals.items.push_back(V::object().put("events",frames).put("tail",V::string(j.tail)).put("tail_candidate",j.tail_candidate).put("stable_entries",count(j.stable)).put("digest",V::string(journal_digest(j))));
     };for(const auto& j:state_->retained)add(j);add(state_->journal);return journals;
 }
 V GuardedModel::apply(const V& action) {std::unique_ptr<Impl> next(new Impl(*state_));next->perform(action);state_.swap(next);return state_->report();}

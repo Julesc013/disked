@@ -13,7 +13,7 @@ class Trace:
         self.plan=copy.deepcopy(plan or fixture());d=digests(self.plan)
         self.bindings=dict(journal=bytes(range(1,17)).hex(),plan=d['digest'][7:],targets=d['resources_digest'][7:],providers=d['providers_digest'][7:])
         self.records=[];self.receipts=ledger(self.plan)[:3];self.initial=self.receipts[-1];self.admission=sha(canonical(self.initial));self.basis=self.admission
-        self.context={k:self.initial[k] for k in ('operation_id','attempt_id','worker_identity','worker_epoch')};self.event_seq=0;self.capture_epoch=0;self.done=[];self.pending='';self.recovery_ref='';self.cancelled=False
+        self.context={k:self.initial[k] for k in ('operation_id','attempt_id','worker_identity','worker_epoch')};self.event_seq=0;self.capture_epoch=0;self.done=[];self.pending='';self.recovery_ref='';self.cancelled=False;self.exit_epoch=None
         self.rows=[dict(resource=r['id'],identity_digest=r['identity_digest'],state_digest=r['state_digest'],epoch=r['epoch'],available=True) for r in self.plan['resources']]
     def add(self,kind,value,**extra):self.records.append(dict(kind=kind,payload=canonical(value) if not isinstance(value,bytes) else value,**extra));return self
     def bootstrap(self):
@@ -40,7 +40,8 @@ class Trace:
         return self.event(6,'verified_completion',step['id'],capture=self.capture(),target_flush_capture_epoch=str(flush),qualified_fake_flush=True)
     def cancel(self):self.cancelled=True;return self.event(7,'cancellation_request',self.pending,requested=True)
     def recovery(self,observed='before',index=0):
-        exit_epoch=self.capture_epoch;self.capture_epoch+=1;flush=self.capture_epoch
+        if self.exit_epoch is None:self.exit_epoch=self.capture_epoch
+        exit_epoch=self.exit_epoch;self.capture_epoch+=1;flush=self.capture_epoch
         if observed=='after':
             for e in self.plan['steps'][index]['effects']:
                 if e['access']=='write':next(r for r in self.rows if r['resource']==e['resource'])['state_digest']=e['after_digest']
@@ -49,9 +50,9 @@ class Trace:
         self.recovery_ref='sha256:'+self.parts()[1][-1][-32:].hex();return self
     def checkpoint(self,name='fake:attempt2',epoch='8'):
         value=dict(schema='org.disked.journal-checkpoint-admission-prototype/1',id=name+':admission',plan_digest=sha(canonical(self.plan)),basis_admission_digest=self.basis,operation_id=self.context['operation_id'],attempt_id=name,worker_identity='fake:worker'+name[-1],worker_epoch=epoch,recovery_record_digest=self.recovery_ref,capture=self.capture())
-        self.add(4,value);self.admission=sha(canonical(value));self.context={k:value[k] for k in self.context};self.event_seq=0;self.pending='';return self
+        self.add(4,value);self.admission=sha(canonical(value));self.context={k:value[k] for k in self.context};self.event_seq=0;self.pending='';self.exit_epoch=None;return self
     def seal(self,outcome='completed'):
-        exit_epoch=self.capture_epoch
+        exit_epoch=self.capture_epoch if self.exit_epoch is None else self.exit_epoch
         return self.event(9,'seal',capture=self.capture(),worker_exited=True,exit_capture_epoch=str(exit_epoch),outcome=outcome,cancel_acknowledged=outcome=='cancelled')
     def mutate(self,change,index=-1):
         value=json.loads(self.records[index]['payload']);change(value);self.records[index]['payload']=canonical(value);return self
@@ -76,6 +77,8 @@ def cases():
     t=Trace().bootstrap().intention().recovery('after').checkpoint().intention(1).completion(1).seal();add('observed-after-continues-next-step',t,dict(declared_completed_steps=['s.write1','s.write2'],attempts='2',declared_terminal_outcome='completed'))
     t=Trace().bootstrap().cancel().seal('cancelled');add('cancel-before-intention',t,dict(cancellation_declared=True,declared_terminal_outcome='cancelled'))
     t=Trace().bootstrap().intention().cancel().recovery().seal('cancelled');add('cancel-after-before-reconciliation',t,dict(declared_completed_steps=[],declared_terminal_outcome='cancelled'))
+    t=Trace().bootstrap().intention().cancel().recovery().seal('cancelled').mutate(lambda v:v['details'].update(exit_capture_epoch='3'));add('seal-cannot-redefine-declared-exit',t,semantic='semantic_seal_evidence',accepted=len(t.records)-1)
+    t=Trace().bootstrap().recovery().recovery().mutate(lambda v:v['details'].update(exit_capture_epoch='3'));add('recovery-cannot-redefine-declared-exit',t,semantic='semantic_recovery_order',accepted=len(t.records)-1)
     t=Trace().bootstrap().intention().cancel().completion().seal('cancelled');add('cancel-after-checkpoint-completion',t,dict(declared_completed_steps=['s.write1'],declared_terminal_outcome='cancelled'))
     t=Trace().bootstrap().intention().completion().intention(1).completion(1).recovery('terminal').seal();add('terminal-reconciliation-still-needs-seal',t,dict(recovery_declaration='terminal',declared_terminal_outcome='completed'))
     t=Trace().bootstrap().intention().completion().intention(1).recovery(index=1);add('nonreplayable-before-state-is-useful-evidence',t,dict(pending_intention='s.write2',recovery_declaration='before',worker_exit_declared=True))
