@@ -44,7 +44,7 @@
     "DE-W024"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Continue DE-W040 with a guarded fake durability/effect model and semantic journal payload integration. Exercise durable-intention-before-effect, required target flush/recapture before completion, stale worker/capture epochs, cancellation, ambiguous effects and observation-before-replay. Keep production admission, physical qualification and DE-DEC-004/008 separate.",
+  "next_action": "Continue DE-W040 with bounded semantic binary-journal payload integration: bind immutable definitions and separate receipts to framing, validate recoverable event payloads and reject contradictory histories. Preserve guarded fake flush/recovery assumptions and retain source-bound regressions. Real durability adapters, authenticated authority, independent safety review, physical qualification and DE-DEC-004/008 remain separate gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -315,6 +315,15 @@
       "review": ".aide/evidence/2026-10-09-journal-codec/REVIEW.md",
       "unit_complete": false,
       "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "8ec0404f95209e2582f08609f338a7da352a1e2b",
+      "scope": "Private immutable fake-model plan definitions, typed resource/dependency bindings, composable recovery properties and separate data-bound receipts",
+      "evidence": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-plan-definitions/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
     }
   ],
   "runner_status_observation": {
@@ -333,10 +342,10 @@
   ],
   "in_progress_slice": {
     "work_id": "DE-W040",
-    "source_revision": "8ec0404f95209e2582f08609f338a7da352a1e2b",
-    "scope": "Private immutable fake-model plan definitions, typed resource/dependency bindings, composable recovery properties and separate data-bound receipts",
-    "evidence": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-results.json",
-    "review": ".aide/evidence/2026-10-09-plan-definitions/REVIEW.md",
+    "source_revision": "09bb6cb5c39f75a3fb81a3678ebf258930656419",
+    "scope": "Closed native fake-memory guarded journal/effect model, explicit stable/volatile crash fates, resource/capture/attempt guards, cancellation and retained journal generations",
+    "evidence": ".aide/evidence/2026-10-09-guarded-journal-model/reproduction-09bb6cb5/clean-results.json",
+    "review": ".aide/evidence/2026-10-09-guarded-journal-model/REVIEW.md",
     "unit_complete": false,
     "owner_accepted": false
   }

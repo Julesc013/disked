@@ -1,0 +1,152 @@
+Start testing: Oct 09 09:38 AUS Eastern Daylight Time
+----------------------------------------------------------
+1/50 Testing: journal.guarded_model
+1/50 Test: journal.guarded_model
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/journal/test_guarded.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/guarded_journal_probe.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"journal.guarded_model" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+168 guarded fake-memory scenarios passed (4117 actions); no physical durability or writer admission
+<end of output>
+Test time =   1.80 sec
+----------------------------------------------------------
+Test Passed.
+"journal.guarded_model" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"journal.guarded_model" time elapsed: 00:00:01
+----------------------------------------------------------
+
+2/50 Testing: journal.plan_definitions
+2/50 Test: journal.plan_definitions
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/journal/test_definitions.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/plan_definition_probe.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"journal.plan_definitions" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+243 independent definition/receipt fixtures passed; no authentication, effects or durability qualified
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"journal.plan_definitions" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"journal.plan_definitions" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/50 Testing: journal.binary_codec
+3/50 Test: journal.binary_codec
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/journal/test_codec.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/journal_codec_probe.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"journal.binary_codec" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+PASS proposed journal codec: 784 independent binary/boundary/corruption/stream cases; no writer admission
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Passed.
+"journal.binary_codec" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"journal.binary_codec" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/50 Testing: protocol.json_codec
+35/50 Test: protocol.json_codec
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/contracts/test_json.py" "--exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/json_codec_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"protocol.json_codec" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_deterministic_differential_corpus (__main__.JsonCodec.test_deterministic_differential_corpus) ... ok
+test_exact_resource_boundaries (__main__.JsonCodec.test_exact_resource_boundaries) ... ok
+test_invalid_json_and_duplicate_decoded_keys (__main__.JsonCodec.test_invalid_json_and_duplicate_decoded_keys) ... ok
+test_primitives_unicode_and_exact_integer_lexemes (__main__.JsonCodec.test_primitives_unicode_and_exact_integer_lexemes) ... ok
+test_utf8_and_surrogate_rejection (__main__.JsonCodec.test_utf8_and_surrogate_rejection) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.615s
+
+OK
+<end of output>
+Test time =   2.75 sec
+----------------------------------------------------------
+Test Passed.
+"protocol.json_codec" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"protocol.json_codec" time elapsed: 00:00:02
+----------------------------------------------------------
+
+46/50 Testing: disked.invocation
+46/50 Test: disked.invocation
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/invocation/test_windows.py" "--exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/disked.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"disked.invocation" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_cmd_and_powershell_actual_launches (__main__.WindowsInvocation.test_cmd_and_powershell_actual_launches) ... ok
+test_inherited_console_preserves_caller_state (__main__.WindowsInvocation.test_inherited_console_preserves_caller_state) ... ok
+test_missing_stderr_and_transport_input (__main__.WindowsInvocation.test_missing_stderr_and_transport_input) ... ok
+test_pipe_observations_and_utf16_errors (__main__.WindowsInvocation.test_pipe_observations_and_utf16_errors) ... ok
+test_standard_handle_absence_and_invalidity (__main__.WindowsInvocation.test_standard_handle_absence_and_invalidity) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.382s
+
+OK
+<end of output>
+Test time =   1.53 sec
+----------------------------------------------------------
+Test Passed.
+"disked.invocation" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"disked.invocation" time elapsed: 00:00:01
+----------------------------------------------------------
+
+47/50 Testing: disked.acceptance
+47/50 Test: disked.acceptance
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/native/test_protocol.py" "--exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/disked.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5" "--identity" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/generated/build-identity.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"disked.acceptance" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_broken_output_is_failure (__main__.NativeProtocol.test_broken_output_is_failure) ... ok
+test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases) ... ok
+test_discovery_has_exact_registry_and_real_handler_subset (__main__.NativeProtocol.test_discovery_has_exact_registry_and_real_handler_subset) ... ok
+test_errors_are_framed_after_complete_parse (__main__.NativeProtocol.test_errors_are_framed_after_complete_parse) ... ok
+test_help_every_spelling_and_operand_independence (__main__.NativeProtocol.test_help_every_spelling_and_operand_independence) ... ok
+test_malformed_json_and_encoding (__main__.NativeProtocol.test_malformed_json_and_encoding) ... ok
+test_mode_inspection_uses_actual_host_in_cli_and_transport (__main__.NativeProtocol.test_mode_inspection_uses_actual_host_in_cli_and_transport) ... ok
+test_ndjson_continues_refusals_and_preserves_order (__main__.NativeProtocol.test_ndjson_continues_refusals_and_preserves_order) ... ok
+test_ordinary_machine_command_does_not_read_pipeline_as_requests (__main__.NativeProtocol.test_ordinary_machine_command_does_not_read_pipeline_as_requests) ... ok
+test_resource_limits_end_stream (__main__.NativeProtocol.test_resource_limits_end_stream) ... ok
+test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports) ... ok
+test_stream_flushes_before_eof (__main__.NativeProtocol.test_stream_flushes_before_eof) ... ok
+test_strict_request_and_correlation (__main__.NativeProtocol.test_strict_request_and_correlation) ... ok
+test_unavailable_frontends_and_prompt_channels (__main__.NativeProtocol.test_unavailable_frontends_and_prompt_channels) ... ok
+test_wire_byte_and_request_count_limits (__main__.NativeProtocol.test_wire_byte_and_request_count_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.904s
+
+OK
+<end of output>
+Test time =   3.05 sec
+----------------------------------------------------------
+Test Passed.
+"disked.acceptance" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"disked.acceptance" time elapsed: 00:00:03
+----------------------------------------------------------
+
+50/50 Testing: provider_guard.positive_control
+50/50 Test: provider_guard.positive_control
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/tests/native/test_provider_guard.py" "D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap/Release/provider_guard_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-guarded-09bb6cb5/build/windows-bootstrap
+"provider_guard.positive_control" start time: Oct 09 09:38 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+PASS: provider initialization boundary exits 97
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"provider_guard.positive_control" end time: Oct 09 09:38 AUS Eastern Daylight Time
+"provider_guard.positive_control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 09:38 AUS Eastern Daylight Time
