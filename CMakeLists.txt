@@ -42,10 +42,21 @@ target_include_directories(disked_json PUBLIC source/runtime/command source/runt
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_presentation STATIC source/portable/hash/sha256.cpp source/runtime/operation/fake_operation.cpp source/runtime/operation/watch.cpp
+add_library(disked_hash STATIC source/portable/hash/sha256.cpp)
+target_include_directories(disked_hash PUBLIC source/portable/hash)
+set_target_properties(disked_hash PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_hash PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_acquisition STATIC source/runtime/acquisition/pipeline.cpp)
+target_include_directories(disked_acquisition PUBLIC source/runtime/acquisition)
+target_link_libraries(disked_acquisition PUBLIC disked_json disked_hash)
+set_target_properties(disked_acquisition PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_acquisition PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_presentation STATIC source/runtime/operation/fake_operation.cpp source/runtime/operation/watch.cpp
   source/runtime/graph/snapshot.cpp source/runtime/graph/capture.cpp source/runtime/presentation/session.cpp source/runtime/presentation/requests.cpp)
 target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash source/runtime/operation)
-target_link_libraries(disked_presentation PUBLIC disked_json)
+target_link_libraries(disked_presentation PUBLIC disked_json disked_hash)
 set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_presentation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
@@ -122,6 +133,13 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(acquisition_probe tests/images/acquisition_probe.cpp)
+  target_link_libraries(acquisition_probe PRIVATE disked_acquisition)
+  set_target_properties(acquisition_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(acquisition_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  add_test(NAME image.acquisition_pipeline COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_acquisition_pipeline.py"
+    --probe "$<TARGET_FILE:acquisition_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(image.acquisition_pipeline PROPERTIES TIMEOUT 90)
   bootstrap_executable(disked_image_test)
   add_test(NAME image.shared_commands COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_image_commands.py"
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_image_test>" --probe "$<TARGET_FILE:image_file_capture_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")

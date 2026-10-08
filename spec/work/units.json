@@ -1239,7 +1239,7 @@
       "id": "DE-W033",
       "title": "Implement resumable image acquisition against fixtures",
       "phase": "M4",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W024",
@@ -1256,7 +1256,24 @@
       "allowed_paths": [
         "source/providers/image/**",
         "source/runtime/acquisition/**",
-        "tests/images/**"
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/operations/acquire-image.md",
+        "spec/storage/acquisition-consistency.md",
+        "spec/schemas/acquisition-*.schema.json",
+        "spec/catalog/input-dependencies.json",
+        "spec/work/units.json",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "docs/**",
+        "TODO.MD",
+        "spec/templates/**",
+        "spec/bundle.json",
+        "spec/manifest.json",
+        "spec/generated/**",
+        "spec/schemas/index.md"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1288,7 +1305,16 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/runtime/acquisition/pipeline.h",
+        "source/runtime/acquisition/pipeline.cpp",
+        "tests/images/acquisition_probe.cpp",
+        "tests/images/test_acquisition_pipeline.py",
+        "spec/schemas/acquisition-plan-prototype.schema.json",
+        "spec/schemas/acquisition-outcome-prototype.schema.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W034",

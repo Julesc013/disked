@@ -4,6 +4,8 @@
 
 - [acceptance-receipt.schema.json](acceptance-receipt.schema.json)
 - [acceptance.schema.json](acceptance.schema.json)
+- [acquisition-outcome-prototype.schema.json](acquisition-outcome-prototype.schema.json)
+- [acquisition-plan-prototype.schema.json](acquisition-plan-prototype.schema.json)
 - [aide-workunit-projection.schema.json](aide-workunit-projection.schema.json)
 - [capability-assessment.schema.json](capability-assessment.schema.json)
 - [cli-syntax.schema.json](cli-syntax.schema.json)

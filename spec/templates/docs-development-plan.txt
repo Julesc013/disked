@@ -139,7 +139,8 @@ comparison; another parser never selects a GPT winner for DiskEd. Evidence belon
 to `.aide/evidence/2026-10-07-parser-campaign/`. Local review and clean campaign
 reproduction govern continuation to W024. Coverage-guided campaigns, broader
 sector/platform profiles and independent safety qualification remain explicit;
-coherent image capture and frontend integration belong to W024.
+Further acquisition consistency belongs to W033; W024 admits only its bounded
+read-only metadata observation and frontend profile.
 
 DE-W024 adds shared `image.inspect` and `table.verify` raw-file commands in the
 0.1.0-dev.18 Windows image/fake prototype. CLI/stdio and real native GUI, isolated
@@ -153,3 +154,13 @@ remain separate. Reproducible evidence and local review belong to
 `.aide/evidence/2026-10-08-image-commands/`. The full 0.1.0 programme and owner
 acceptance remain open. `.aide/programmes/worker-continuity.md` retains the service-
 independent build/test and handoff workflow.
+
+DE-W033 is active. Its private native acquisition pipeline defines exact typed
+source/destination/map/host/executable/provider bindings and grants, bounded
+chunking, explicit substitution, intention/checkpoint ordering and resume
+verification. Independent in-memory port tests precede ordinary-file admission.
+This core is not yet linked to a public acquisition command: Windows output
+ownership, persistent maps, capacity/sharing faults, actual process interruptions
+and frontend lifecycle still need implementation and evidence. The provisional
+map encoding does not settle the production-journal decision. See
+[DE-103](../spec/operations/acquire-image.md) for its exact profile and limits.

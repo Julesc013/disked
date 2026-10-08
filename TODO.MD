@@ -78,3 +78,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W023 corpus/adapters and bounded sanitizer campaign implemented; source-bound clean reproduction and local review govern continuation to W024. Owner acceptance remains separate.
 
 - [x] DE-W024 local raw-file prototype: shared image/table commands and actual CLI/stdio/GUI/TUI/shell parity; retain coverage/consistency limits. Owner acceptance, physical storage, containers and whole-image qualification remain separate.
+
+- [ ] DE-W033 acquisition: private bounded pipeline and typed bindings under local review; implement/test ordinary-file persistent outputs and resume before public command admission.

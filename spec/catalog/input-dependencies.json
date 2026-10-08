@@ -3277,6 +3277,88 @@
         "DE-010",
         "DE-102"
       ]
+    },
+    {
+      "id": "source/runtime/acquisition/pipeline.h",
+      "path": "source/runtime/acquisition/pipeline.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/pipeline.cpp",
+      "path": "source/runtime/acquisition/pipeline.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/pipeline.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/images/acquisition_probe.cpp",
+      "path": "tests/images/acquisition_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/pipeline.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/images/test_acquisition_pipeline.py",
+      "path": "tests/images/test_acquisition_pipeline.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-plan-prototype.schema.json",
+        "spec/schemas/acquisition-outcome-prototype.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-plan-prototype.schema.json",
+      "path": "spec/schemas/acquisition-plan-prototype.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-outcome-prototype.schema.json",
+      "path": "spec/schemas/acquisition-outcome-prototype.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-042"
+      ]
     }
   ]
 }
