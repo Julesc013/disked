@@ -107,6 +107,16 @@ def main():
     change_plan('identity-not-an-alias',lambda p:p['resources'][0].update(aliases=['fake:other']),'definition_identity_alias')
     change_plan('shared-alias',lambda p:p['resources'][1].update(aliases=['fake:r.backup','fake:r.code']),'definition_aliased_resources')
     change_plan('alias-order',lambda p:p['resources'][0].update(aliases=['fake:z','fake:r.backup']),'definition_set_order')
+    p=copy.deepcopy(plan);p['resources'][0]['aliases']=sorted(['fake:r.backup']+['fake:alias.%02d'%i for i in range(15)]);add('maximum-aliases',p)
+    q=copy.deepcopy(p);q['resources'][0]['aliases']=sorted(q['resources'][0]['aliases']+['fake:alias.15']);add('aliases-over-limit',q,check=bad('definition_array_limit'))
+    p=copy.deepcopy(plan);p['resources'][0]['failure_domains']=sorted(['fd.backup']+['fd.other.%02d'%i for i in range(7)]);add('maximum-failure-domains',p)
+    q=copy.deepcopy(p);q['resources'][0]['failure_domains']=sorted(q['resources'][0]['failure_domains']+['fd.other.07']);add('failure-domains-over-limit',q,check=bad('definition_array_limit'))
+    p=copy.deepcopy(plan);p['required_acknowledgements']=['ack.%02d'%i for i in range(16)];add('maximum-acknowledgements',p,ledger(p))
+    q=copy.deepcopy(p);q['required_acknowledgements'].append('ack.16');add('acknowledgements-over-limit',q,check=bad('definition_array_limit'))
+    for name,key in [('dependency','depends_on'),('effect','effects')]:
+        p=copy.deepcopy(plan);p['steps'][0][key]=['s.%02d'%i for i in range(33)] if key=='depends_on' else [copy.deepcopy(plan['steps'][0]['effects'][0]) for i in range(33)]
+        add(name+'-collection-over-limit',p,check=bad('definition_array_limit'))
+    p=copy.deepcopy(plan);p['steps'][0]['recovery']['reconstruction_resources']=['r.%02d'%i for i in range(33)];add('reconstruction-over-limit',p,check=bad('definition_array_limit'))
     for key in ('resources','steps'):change_plan('empty-'+key,lambda p,k=key:p.update({k:[]}),'definition_array_limit')
     change_plan('unused-resource',lambda p:p['resources'].insert(0,resource('r.a','scratch','read',4096,'fd.a')),'definition_unused_resource')
     change_plan('missing-journal',lambda p:p.update(journal_resource='r.missing'),'definition_resource_reference')
@@ -145,6 +155,7 @@ def main():
     for key in ('policy_digest','provider_closure_digest'):change_receipt('admission-'+key,2,lambda r,k=key:r.update({k:h('wrong')}),'receipt_closure_mismatch')
     for key,value in [('epoch','4'),('identity_digest',h('wrong')),('state_digest',h('wrong')),('resource','r.wrong')]:change_receipt('observation-'+key,2,lambda r,k=key,v=value:r['observations'][0].update({k:v}),'receipt_observation_mismatch')
     change_receipt('missing-observation',2,lambda r:r['observations'].pop(),'receipt_observation_scope')
+    for index,key in [(1,'permissions'),(2,'observations')]:change_receipt('receipt-collection-over-limit-'+key,index,lambda r,k=key:r.update({k:[copy.deepcopy(r[k][0]) for i in range(33)]}),'definition_array_limit')
     for i in (2,3):
         for value in ('0','01',str(MAX+1)):change_receipt('worker-epoch-'+str(i)+'-'+value,i,lambda r,v=value:r.update(worker_epoch=v),'definition_integer')
     for key in ('operation_id','attempt_id','worker_identity','worker_epoch'):change_receipt('stale-attempt-'+key,3,lambda r,k=key:r.update({k:'8' if k=='worker_epoch' else 'fake:other'}),'receipt_attempt_mismatch')
@@ -175,6 +186,7 @@ def main():
         name='r.scratch%02d'%i;p['resources'].append(resource(name,'scratch','read',16,'fd.scratch'))
         p['steps'][0]['effects'].append(dict(resource=name,access='read',begin='0',end='16',before_digest=h('initial:'+name),after_digest=h('initial:'+name)))
     p['resources'].sort(key=lambda r:r['id']);p['steps'][0]['effects'].sort(key=lambda r:r['resource']);add('maximum-resources',p)
+    add('maximum-grant-permissions-and-admission-observations',p,ledger(p))
     q=copy.deepcopy(p);q['resources'].append(resource('r.zz','scratch','read',16,'fd.zz'));add('resource-count-over-limit',q,check=bad('definition_array_limit'))
     p=copy.deepcopy(plan);p['steps']=[]
     for i in range(32):
@@ -206,6 +218,8 @@ def main():
     assert set(plan)==set(profile['definition_fields']) and set(plan['resources'][0])==set(profile['resource_fields']) and set(plan['steps'][0])==set(profile['step_fields']) and set(plan['steps'][0]['effects'][0])==set(profile['effect_fields']) and set(plan['steps'][0]['recovery'])==set(profile['recovery_fields'])
     assert all(set(r)==set(profile['receipt_base_fields']+profile['receipt_extra_fields'][r['kind']]) for r in base)
     assert profile['max_payload_bytes']==65536 and profile['max_resources']==profile['max_steps']==32 and profile['max_receipts']==128 and not profile['authenticates'] and not profile['authorizes_effects']
+    assert profile['max_aliases_per_resource']==16 and profile['max_failure_domains_per_resource']==8 and profile['max_acknowledgements']==16
+    assert all(profile[k]==32 for k in ('max_dependencies_per_step','max_effects_per_step','max_reconstruction_resources_per_step','max_permissions_per_grant','max_observations_per_admission'))
     encoded=b''.join(canonical(v)+b'\n' for v in requests);result=subprocess.run([str(a.probe.resolve())],input=encoded,capture_output=True,timeout=90)
     assert result.returncode==0 and not result.stderr,(result.returncode,result.stderr)
     outputs=result.stdout.splitlines();assert len(outputs)==len(requests),(len(outputs),len(requests))

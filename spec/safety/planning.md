@@ -85,7 +85,12 @@ shortest form. Numbers, nulls, unknown fields and non-ASCII identifiers are
 rejected. Identifiers use the profile's alphabet and are at most 128 bytes.
 Resource/step/set arrays must already be sorted and unique; validation never
 silently normalizes them. A payload is at most 65536 bytes, a definition at most
-32 resources and 32 steps, and a receipt inspection at most 128 records. Epochs
+32 resources and 32 steps, and a receipt inspection at most 128 records.
+Resource alias sets are limited to 16, failure-domain sets to 8, required/supplied
+acknowledgement sets to 16, and per-step dependency/effect/reconstruction sets and
+grant permissions/admission observations to 32 each. Other validity rules can
+impose a smaller realizable set; for example, a valid DAG cannot depend on itself.
+Epochs
 and execution sequences are positive u64s. This is a fake-model encoding, not
 the production canonicalization or signing decision DE-DEC-008.
 
