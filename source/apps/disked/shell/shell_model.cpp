@@ -291,7 +291,7 @@ std::vector<std::string> ShellModel::content() const {
 }
 std::vector<std::string> ShellModel::render(unsigned columns,unsigned rows,bool linear) {
     columns=(std::max)(1u,(std::min)(columns,240u));rows=(std::max)(1u,(std::min)(rows,80u));
-    auto header=wrap({"DiskEd shell | FAKE ONLY | "+std::string(linear?"linear":"screen"),"Host: local | Selection: "+presentation_json(session_.selection()),
+    auto header=wrap({"DiskEd shell | IMAGE / FAKE PROTOTYPE | "+std::string(linear?"linear":"screen"),"Host: local | Selection: "+presentation_json(session_.selection()),
         "History: "+std::string(history_enabled_?"session":"off")+" | Evicted transcript records: "+std::to_string(dropped_),"Notice: "+notice_},columns);
     auto footer=wrap({prompt(columns).text,"F9 review/submit | Tab completion | Arrows edit/history | Enter inert", "F2 commands F3 targets F4 clear F5 refresh F6 layout | F10/Ctrl+C quit"},columns);
     auto body=wrap(content(),columns);page_size_=rows>header.size()+footer.size()+1?rows-header.size()-footer.size()-1:1;

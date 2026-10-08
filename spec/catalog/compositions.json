@@ -63,7 +63,40 @@
         ".aide/evidence/2026-10-06-native-protocol/clean-results.json"
       ],
       "loader_inventory_status": "inspected"
+    },
+    {
+      "schema": "org.disked.composition/1",
+      "id": "windows.native.image.prototype",
+      "target_id": "windows.nt10.x64.win32",
+      "status": "buildable",
+      "scope": "image-only",
+      "components": [
+        "entry.disked.image.prototype",
+        "provider.fake.bootstrap",
+        "provider.image.raw.prototype"
+      ],
+      "mandatory_loader_dependencies": [
+        "KERNEL32.dll"
+      ],
+      "optional_runtime_components": [
+        "provider.fake.bootstrap",
+        "provider.image.raw.prototype"
+      ],
+      "single_entrypoint": true,
+      "zero_extraction_on_normal_startup": true,
+      "artifacts": [
+        {
+          "id": "disked.exe",
+          "contains": [],
+          "hash_dependencies": []
+        }
+      ],
+      "evidence": [
+        ".aide/evidence/2026-10-08-image-commands/port-verification/commands.json",
+        ".aide/evidence/2026-10-08-image-commands/port-verification/disked-dependents.log"
+      ],
+      "loader_inventory_status": "inspected"
     }
   ],
-  "note": "The full desktop selection remains planned. The buildable native bootstrap now includes DE-W011 host observations and the DE-W012 synchronous command subset; retained evidence is bound to its exact source revision. Buildable is not qualified or accepted. A pending empty loader inventory remains unresolved."
+  "note": "The historical fake bootstrap selection and its exact revision-bound evidence are retained. The selected image prototype adds ordinary-local-raw-file read-only commands beside fake inventory/operation handlers. Buildable does not mean qualified or owner-accepted; current imports and frontend evidence must be recorded at the image source revision."
 }

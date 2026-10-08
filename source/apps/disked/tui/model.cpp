@@ -175,7 +175,7 @@ std::vector<std::string> TuiModel::body() const {
 }
 std::vector<std::string> TuiModel::render(unsigned columns,unsigned rows,bool linear) {
     columns=(std::max)(1u,(std::min)(240u,columns));rows=(std::max)(1u,(std::min)(80u,rows));
-    auto header=std::vector<std::string>{"DiskEd | FAKE ONLY | "+std::string(linear?"linear":"screen"),"Selection: "+presentation_json(session_.selection()),"Notice: "+notice_};
+    auto header=std::vector<std::string>{"DiskEd | IMAGE / FAKE PROTOTYPE | "+std::string(linear?"linear":"screen"),"Selection: "+presentation_json(session_.selection()),"Notice: "+notice_};
     auto footer=std::vector<std::string>{"Arrows focus | Enter inspect/open | F2 commands | F3 inventory", "F4 clear | F5 refresh view | F6 layout | F9 review/submit", "Tab field | PgUp/PgDn page | Esc back | F10/Ctrl+C quit"};
     auto content=body();std::vector<std::string> lines;
     if(linear) {

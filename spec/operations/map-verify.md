@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-102
   profile: disked-spec/1
-  version: 0.1.23-proposed.1
+  version: 0.1.24-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,16 +26,16 @@ disked:
   - DE-REQ-102-01
 updated:
   by: codex
-  at: '2026-10-07T21:27:06.800037+00:00'
-  scope: DE-W024 bounded ordinary-file metadata capture contract; private prototype,
-    command/frontend admission pending
+  at: '2026-10-08T11:37:12.699410+00:00'
+  scope: DE-W024 initial shared raw-file command contract; prototype under local development,
+    owner acceptance pending
 ---
 
 # Read-only partition-map verification
 
 ## Identity and availability
 
-Semantic ID: `table.verify`. Operation specification: `DE-OP-002`. Earliest phase: **M2**. Initial target scope: raw disposable images, later observed physical media. Status: specified, not implemented or qualified. No availability is implied by the presence of this document.
+Semantic ID: `table.verify`. Operation specification: `DE-OP-002`. Earliest phase: **M2**. Initial target scope: raw disposable images, later observed physical media. Status: initial raw-file prototype locally implemented and in review; broader product/physical profiles are not implemented or qualified. Availability follows the selected composition and its source-bound evidence, not the presence of this document.
 
 ## Required inputs and preconditions
 
@@ -102,9 +102,9 @@ leaving room for a later 64 KiB command envelope. Resource refusal publishes no
 partial success. Native tests compare this integration against independently
 declared corpus findings, verify retained bytes/geometry and exercise prefix
 truncation, unsupported units, capacity overflow, input/report bounds, EBR cycles,
-GPT disagreement and lossless name handling. This slice does not yet admit
-`image.inspect` or `table.verify`; file capture and real frontend parity remain
-DE-W024 work, with physical devices, mounting and elevation outside the grant.
+GPT disagreement and lossless name handling. This slice alone does not admit product commands. The shared command profile
+below governs admission; physical devices, mounting and elevation remain outside
+the ordinary development grant.
 
 ## DE-W024 ordinary-file capture slice
 
@@ -160,11 +160,79 @@ Native tests use repository-generated ordinary disposable files and independent
 reader findings. They exercise large sparse files, partial final blocks, bounded
 coverage, read errors/changes, path and sharing refusal, hardlinks/reparse ancestors,
 retained source bytes and result ownership. Fault controls exist only in separately
-compiled test probes. This slice remains private until shared command and actual
-CLI/TUI/GUI parity tests admit it; product image commands remain unavailable.
+compiled test probes. This capture API remains private. The shared command profile below specifies
+its initial product projection; admission requires actual frontend parity tests.
 
 Windows API references for this slice are the official [CreateFileW contract](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew)
 and [GetFileInformationByHandleEx contract](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex).
+
+## DE-W024 shared raw-file command profile
+
+The initial image prototype composition exposes `image.inspect PATH` and
+`table.verify PATH` through the same read-only capture/map handler. Both accept
+the optional `--logical-block-bytes 512|4096` named string parameter (default
+512 when omitted). CLI option placement and the literal `--` boundary retain
+DE-021 semantics. No file extension detection, mounting, container decoding,
+implicit target selection or writer is admitted. Global registry availability
+stays planned; the selected prototype's implementation projection declares
+only its tested subset. Existing fake graph/operation commands remain synthetic.
+
+Both commands return the private review representation
+`org.disked.raw-image-observation/1`, with command ID, provider identity
+`provider.image.raw.prototype/1`, scope `ordinary-local-raw-file`, and `map`.
+The map includes geometry, independent reader findings and the bounded capture
+receipt specified above. Its receipt binds the internally constructed full region
+manifest by digest; this initial command exports at most eight region details
+and explicit omitted counts, not the full manifest or raw bytes. Evidence export
+and retained capture retrieval remain separate work. No source or output file is
+created by either command, and source handles are released before publishing the
+owned result. No durable operation is admitted: operation_id remains null.
+
+Complete requested-region reads/rereads, equal overlapping observations and
+equal before/after metadata yield `completed`, exit 0. That outcome means the
+bounded observation completed; corrupt, unsupported or disagreeing maps remain
+findings in `map`, never a healthy-image certificate. Empty source files retain
+empty observations. Missing requested bytes or read errors yield `failed`, exit
+4, diagnostic `image_capture_incomplete`, retaining the partial map and capture
+receipt. Unequal metadata/overlap or complete comparable rereads yield `failed`, exit 4, diagnostic
+`image_source_changed`; where incompleteness also applies, both diagnostics are
+retained. Neither promotes partial coverage to success. All diagnostic values
+are data; human frontends escape control/non-ASCII text without changing the
+underlying UTF-8 values.
+
+Parsing/type/enum errors return exit 2 before source access. Unsupported path,
+file type, sharing, permission or identity profiles produce their typed capture
+refusal, exit 3, with an exact Windows platform code where available. Map/resource
+contract refusal is distinct from malformed-media findings. An unexpected
+implementation error remains `failed`, exit 4. Essential help/build/discovery,
+completion and invalid invocations do not open image sources. Test-only capture
+fault and delay controls are absent from the ordinary product.
+
+CLI and stdio submit owned request data to the existing one-call request channel
+and wait at most four seconds for an observation. Expiry returns `unknown`, exit
+6, `request_wait_expired`, null operation_id and `request_state: unresolved`.
+This does not cancel or establish quiescence of kernel I/O. The slot remains
+occupied until actual completion; another request is refused with
+`request_resource_limit` rather than starting a replacement. A late completion
+does not emit a second response. Independent essential commands remain usable.
+Closing a frontend releases its UI/session while the callback owns its inputs.
+
+TUI, GUI and shell submit only after their existing explicit review/submit flow.
+Their staged graph/view revisions govern frontend state, not file freshness.
+Image source identity is established by the opened file/capture receipt;
+the stdio `expected_revision` field is therefore refused as
+`unexpected_revision` for these initial commands, before source access. Shell's
+internal graph revision is not forwarded as a file precondition. Later source-
+bound preconditions require an owning contract, not silent reuse of fake graph
+epochs. Late results preserve existing frontend view/request containment.
+
+Acceptance exercises actual CLI/stdio, native GUI, isolated TUI and shell
+launches against generated files, comparing stable geometry/findings/diagnostics
+while keeping per-attempt epoch/time observations distinct. It includes missing
+and truncated sources, explicit units, lossless paths, strict parameter and
+revision refusal, source-change/error controls, and bounded wait/late-result
+behavior. Actual changing-media/hot-removal, general filenames, other hosts,
+physical inventory, atomic capture and writer safety remain unverified.
 
 ## Normative requirements
 

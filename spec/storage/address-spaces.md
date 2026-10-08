@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-031
   profile: disked-spec/1
-  version: 0.1.18-proposed.1
+  version: 0.1.24-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,9 @@ disked:
   - DE-REQ-031-03
 updated:
   by: codex
-  at: '2026-10-06T18:59:16.591767+00:00'
-  scope: DE-W020 internal C90 arithmetic, bounded views and named extents; owner review pending
+  at: '2026-10-08T11:37:12.750037+00:00'
+  scope: DE-W024 initial shared raw-file command contract; prototype under local development,
+    owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -132,3 +133,9 @@ Migration MUST declare nonrepresentable metadata and unreadable content rather t
 ## Related specifications
 
 - [DE-030](identity-and-graph.md)
+
+
+The DE-W024 initial ordinary-local-raw-file command profile is owned by
+[DE-102](../operations/map-verify.md). `image.inspect` and `table.verify` share
+explicit path/unit parameters and captured-region findings; prototype admission
+does not qualify whole-image verification, physical storage or image containers.

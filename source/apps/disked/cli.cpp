@@ -10,7 +10,12 @@
 #include "fake_worker.h"
 #include "output.h"
 #include "memory_budget.h"
+#include "image_commands.h"
+#include "file_capture.h"
 #include <cstdio>
+#ifdef DISKED_IMAGE_COMMAND_TESTING
+#include <thread>
+#endif
 
 namespace disked {
 #ifdef DISKED_CAPTURE_CAMPAIGN
@@ -18,6 +23,17 @@ json::Value capture_campaign_report();
 #endif
 using json::Value;
 namespace {
+// Composition binds the concrete provider. Runtime semantics depend only on
+// its inward-facing capture port; presentation models never call raw I/O.
+Outcome image_action(const std::string& request,const std::string& command,const Value& parameters) {
+    return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit) {
+#ifdef DISKED_IMAGE_COMMAND_TESTING
+        if(path.find("test-wait-")!=std::string::npos)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5500));
+#endif
+        return capture_raw_image(path,unit);
+    },bootstrap::image_provider_id);
+}
 bool implemented(const std::string& id) {
     for(const auto& c:bootstrap::commands)if(id==c.id)return c.implemented;
     return false;
@@ -32,7 +48,8 @@ Value build_information() {
     IDENTITY_FIELD(input_digest);IDENTITY_FIELD(target);IDENTITY_FIELD(composition);IDENTITY_FIELD(compiler);
     IDENTITY_FIELD(sdk);IDENTITY_FIELD(configuration);IDENTITY_FIELD(language);IDENTITY_FIELD(crt);IDENTITY_FIELD(configuration_digest);
 #undef IDENTITY_FIELD
-    return result.put("fake_provider",Value::string(fake_provider_identity()));
+    return result.put("fake_provider",Value::string(fake_provider_identity()))
+        .put("image_provider",Value::string(bootstrap::image_provider_id));
 }
 Value command_description(const Value& command) {
     Value out=command;const bool available=implemented(command.find("id")->text);
@@ -41,7 +58,8 @@ Value command_description(const Value& command) {
     out.put("availability",Value::string(available?"available":"unavailable"));
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
-        id=="shell.close"?"shell_session_only":fake_worker_command(id)?"fake_operation_subset":"synchronous_native_subset"));return out;
+        id=="shell.close"?"shell_session_only":image_command(id)?"ordinary_local_raw_file_subset":
+        fake_worker_command(id)?"fake_operation_subset":"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
     Value result=Value::object(),commands=Value::array();
@@ -71,6 +89,7 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(command=="shell.open")return refused(request,"interactive_session_requires_terminal",3);
     if(command=="shell.close")return refused(request,"command_requires_shell",3);
     if(fake_worker_command(command))return dispatch_fake_worker(request,command,parameters);
+    if(image_command(command))return image_action(request,command,parameters);
     if(FrontendSession::handles(command)) {
         if(!session)session=make_fake_session(command_registry());
         return session->dispatch(request,command,parameters,revision);
@@ -80,24 +99,31 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
 Submission frontend_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     RequestChannel& channel,const std::string& revision) {
-    if(implemented(command) && fake_worker_command(command)) {
+    if(implemented(command) && (fake_worker_command(command) || image_command(command))) {
         // The background callback owns only immutable request data. It never
         // captures the frontend/session or performs UI work after disconnection.
-        return channel.submit(request,[request,command,parameters]() {return dispatch_fake_worker(request,command,parameters);});
+        // A frontend graph/view revision is not a file-source precondition.
+        // Stdio rejects expected_revision for image commands before dispatch.
+        return channel.submit(request,[request,command,parameters]() {
+            return image_command(command)?image_action(request,command,parameters):dispatch_fake_worker(request,command,parameters);
+        });
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
 Outcome bounded_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     std::unique_ptr<BoundedRequests>& calls,const std::string& revision="") {
-    if(implemented(command) && fake_worker_command(command)) {
+    if(implemented(command) && (fake_worker_command(command) || image_command(command))) {
         if(!calls)calls.reset(new BoundedRequests());
-        auto expired=completed(request,Value::object().put("request_state",Value::string("unresolved"))
-            .put("state_directory",*parameters.find("state_directory")));
+        auto unresolved=Value::object().put("request_state",Value::string("unresolved"));
+        if(const auto* state=parameters.find("state_directory"))unresolved.put("state_directory",*state);
+        auto expired=completed(request,std::move(unresolved));
         expired.exit_code=6;expired.response.put("status",Value::string("unknown"));
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
-        return calls->run(request,[request,command,parameters]() {return dispatch_fake_worker(request,command,parameters);},
+        return calls->run(request,[request,command,parameters]() {
+            return image_command(command)?image_action(request,command,parameters):dispatch_fake_worker(request,command,parameters);
+        },
             std::move(expired),std::chrono::milliseconds(4000));
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
@@ -114,7 +140,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
         std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;});
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
-    if(fake_worker_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
+    if((fake_worker_command(parsed.command_id) || image_command(parsed.command_id)) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
         return host.output_usable && output.write(presentation_json(outcome.response)+"\n");
     if(outcome.exit_code) {
         if(!host.error_usable)return false;
@@ -128,7 +154,7 @@ bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost
     else if(parsed.command_id=="build.inspect" && parsed.kind!="help") {
         for(const auto& pair:value.fields)text+=pair.first+"="+pair.second.text+"\n";
     } else {
-        if(parsed.kind=="help")text+="DiskEd (fake-only native composition)\nUsage: disked <command-form> [operands] [options]\n";
+        if(parsed.kind=="help")text+="DiskEd (ordinary-file image and fake native composition)\nUsage: disked <command-form> [operands] [options]\n";
         text+="id\tcontract_status\timplementation_status\tavailability\treason\tcommand\taliases\n";
         for(const auto& c:value.find("commands")->items) {
             for(const auto* key:{"id","contract_status","implementation_status","availability","reason"})text+=c.find(key)->text+"\t";

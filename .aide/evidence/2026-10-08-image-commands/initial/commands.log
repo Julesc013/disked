@@ -1,0 +1,27 @@
+CASE 'image.inspect-mbr-empty.img'
+CASE 'table.verify-mbr-empty.img'
+CASE 'image.inspect-mbr-two.img'
+CASE 'table.verify-mbr-two.img'
+CASE 'image.inspect-mbr-overlap.img'
+CASE 'table.verify-mbr-overlap.img'
+CASE 'image.inspect-mbr-outside.img'
+CASE 'table.verify-mbr-outside.img'
+CASE 'image.inspect-mbr-zero-type.img'
+CASE 'table.verify-mbr-zero-type.img'
+CASE 'image.inspect-mbr-boot-byte.img'
+CASE 'table.verify-mbr-boot-byte.img'
+CASE 'image.inspect-mbr-signature.img'
+CASE 'table.verify-mbr-signature.img'
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_commands.py", line 171, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_commands.py", line 68, in main
+    value=observe(command,path,code=4 if incomplete else 0,diagnostic='image_capture_incomplete' if incomplete else None)
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_commands.py", line 44, in observe
+    return launch(command+'-'+Path(path).name,argv,**kw)[0]
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_image_commands.py", line 32, in launch
+    assert actual.returncode==code,(name,actual.returncode,actual.stdout,actual.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('image.inspect-mbr-truncated.img', 4, b'{"diagnostics":[{"code":"image_capture_incomplete","message_key":"disked.image_capture_incomplete","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":{"command":"image.inspect","map":{"capture":{"atomic_snapshot":false,"capture_epoch":"sha256:bb2aaa731e80632362a7b8fd79170bb009f17d90f56d3385ed4d402ca06f1216","captured_bytes":"511","elapsed_ms":"0","error_regions":"0","finished_filetime":"134359331787440205","metadata_equal":true,"observed_stable":true,"omitted_regions":"0","overlap_equal":true,"partial_final_block":true,"path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\image-command-kwl7u8sx\\\\mbr-truncated.img","region_manifest_sha256":"sha256:1165bd95571283c2405583e27b8e1b7744468f83080082b760f1619dd2a88db8","regions":[{"bytes":"511","end":"512","equal":true,"read_error":null,"reread_bytes":"511","reread_error":null,"reread_sha256":"sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d","sha256":"sha256:8273f59c006a29faa626350fcd14eb1e28d3e60d49f92650efb1c2037e54a15d","start":"0"}],"regions_complete":false,"requested_bytes":"512","requested_bytes_with_reuse":"1024","requests":"2","reread_equal":true,"reread_regions_complete":false,"reread_short_regions":"1","resolved_path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\image-command-kwl7u8sx\\\\mbr-truncated.img","short_regions":"1","source_after":{"attributes":"32","bytes":"511","changed":"134359331787225203","created":"134359331787225203","file_id":"93e20100000011000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134359331787225203"},"source_before":{"attributes":"32","bytes":"511","changed":"134359331787225203","created":"134359331787225203","file_id":"93e20100000011000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134359331787225203"},"source_consistency":"live-uncoordinated","started_filetime":"134359331787395206","unique_regions":"1","whole_file_hashed":false},"compare_status":1,"comparison":null,"copies":[{"lba":"1","role":"primary","status":7},{"header":{"consistent":false,"fields_decoded":false,"issues":1},"lba":"0","request_status":1,"role":"backup","status":0}],"geometry":{"blocks":"1","logical_block_bytes":"512"},"mbr":{"entries":[{"decoded":false,"raw":"0000020007ffffff010000000a000000"},{"decoded":false,"raw":"00000000000000000000000000000000"},{"decoded":false,"raw":"00000000000000000000000000000000"},{"decoded":false,"raw":"00000000000000000000000000000000"}],"issues":256,"signature":false},"mbr_status":0,"schema":"org.disked.captured-map-review/1","walks":[]},"provider":"provider.image.raw.prototype/1","schema":"org.disked.raw-image-observation/1","scope":"ordinary-local-raw-file"},"schema":"org.disked.response/1","status":"failed"}\n', b'')

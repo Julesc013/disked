@@ -1,11 +1,11 @@
 # Build and run the native development executable
 
-The fake-only Windows executable supports human and JSON/NDJSON build information,
+The Windows image/fake prototype executable supports human and JSON/NDJSON build information,
 static command discovery, actual host/mode inspection and contextual help. `protocol serve` admits synchronous
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Real storage remains unavailable. The [command contract](../spec/interaction/commands.md)
+The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -34,10 +34,10 @@ compiler hash and embedded revision/configuration. Dirty builds explicitly repor
 
 Commands remain globally planned while discovery reports the actual composition's
 implemented subset. `build.inspect`, `command.list`, `mode.explain` and the transport selector
-`protocol.serve` are available. The fake-only service also implements
+`protocol.serve` are available. The fake observation service also implements
 `target.list`, `target.inspect`, `topology.show` and `capability.explain`. The private fake operation profile implements `plan.simulate`, `operation.inspect` and `operation.cancel.request`. Recognizing a storage command's syntax does not
 admit its handler. Machine responses never mix human diagnostics with framed JSON.
-Exit 0 means a completed request, 2 invalid input/revision or target refusal, 3 unavailable, 4 output/internal failure, 5 accepted asynchronous work and 6 an unknown operation outcome.
+Exit 0 means a completed request, 2 invalid input/revision or target refusal, 3 unavailable, 4 output/internal or incomplete/changed-capture failure, 5 accepted asynchronous work and 6 an unknown request/operation outcome.
 The fake operation commands may return asynchronous or unknown outcomes; ordinary completed reads remain synchronous.
 
 To use transport, pass `protocol serve --format=json` and provide one UTF-8 request
@@ -84,7 +84,7 @@ Arrows move focus; Enter selects/inspects. F2 opens commands, F3 inventory, F4
 clears selection, F5 refreshes the view, F6 switches presentation. Forms use Tab,
 Shift+Tab and Backspace; F9 opens review and a fresh F9 submits. Enter/pasted
 newlines cannot submit forms. PageUp/PageDown scroll complete data. Escape goes
-back; F10 or Ctrl+C exits. The separate `shell` entrypoint opens a persistent command session; real storage operations remain unavailable. Simulation writes only its explicitly selected disposable evidence store.
+back; F10 or Ctrl+C exits. The separate `shell` entrypoint opens a persistent command session; physical storage and mutation remain unavailable. Simulation writes only its explicitly selected disposable evidence store.
 Small consoles automatically use linear output. Pipes cannot supply TUI input.
 The linear view is available for accessibility workflows, but screen-reader
 qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).
@@ -277,3 +277,43 @@ typed parameters before submission. Watch results cannot overwrite newer cached
 views or inert shell input. Detailed contract and bounds are in DE-022; native
 process/reader/frontend evidence belongs under
 `.aide/evidence/2026-10-07-operation-watch/`.
+
+
+## Initial raw-file image commands (DE-W024)
+
+The 0.1.0-dev.18 Windows prototype exposes two read-only commands through CLI,
+stdio, native GUI, TUI and shell:
+
+```text
+disked image inspect generated.img --json
+disked table verify generated.img --logical-block-bytes 4096 --json
+```
+
+Both require an explicitly named ordinary local raw file. The logical block unit
+defaults to 512; 4096 is an explicit interpretation choice, not physical geometry
+detection. Relative/drive-absolute paths must satisfy the restricted local profile:
+fixed drive, at most 240 UTF-16 units after resolution, no device/network/alternate
+stream/reparse/multiple-hardlink source or ambiguous path aliases. A refused
+profile is not evidence that the partition map is corrupt. No source modification,
+image mounting or output file creation occurs. See the owning [DE-102 contract](../spec/operations/map-verify.md).
+
+The result retains independent map findings and capture identity, coverage and
+stability. Complete requested-region observation is exit 0 even for corrupt or
+disagreeing maps; this does not certify a healthy image. Missing required bytes or
+read failures retain a partial result with exit 4; source admission refusals use
+exit 3. Equal sequential reads are not an atomic snapshot or whole-image hash.
+The receipt binds the internal full region manifest but exports at most eight
+region details and omitted counts. Retained capture retrieval/export is separate.
+
+CLI/stdio wait at most four seconds. Exit 6 means the read outcome is unresolved,
+with no durable operation ID or cancellation claim. An executing slot remains
+occupied until actual completion, and a late result never adds another stdio
+response. GUI/TUI/shell use explicit review and separate submission, preserve
+responsive cached views, and keep late results separate. Stdio expected_revision
+is refused for these initial commands; fake graph revisions are not file epochs.
+
+Build/test commands above exercise the shared image profile. Native source-bound
+evidence and implementing-agent review live under
+[the W024 checkpoint](../.aide/evidence/2026-10-08-image-commands/README.md).
+Owner acceptance, physical media, image containers, atomic/whole-image acquisition,
+other hosts/platforms and storage mutation remain separate work.

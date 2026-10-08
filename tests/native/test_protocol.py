@@ -62,7 +62,7 @@ class NativeProtocol(unittest.TestCase):
         return self.machine(['protocol','serve','--format='+('ndjson' if ndjson else 'json')],data,exit_code)
 
     def test_build_identity_and_machine_aliases(self):
-        expected=dict(self.identity['identity'],fake_provider=self.profile['fake_provider_id'])
+        expected=dict(self.identity['identity'],fake_provider=self.profile['fake_provider_id'],image_provider=self.profile['image_provider_id'])
         for argv in [['--json','build','inspect'],['build','--format','json','inspect'],['build','inspect','-j']]:
             value=self.machine(argv)[0]
             self.assertEqual(expected,value['result']);self.assertEqual('cli',value['request_id'])
@@ -90,10 +90,10 @@ class NativeProtocol(unittest.TestCase):
 
     def test_errors_are_framed_after_complete_parse(self):
         for argv,code,exit_code in [(['build','inspect','--unknown'],'unknown_option',2),
-                (['table','verify'],'command_unavailable',3),(['unknown'],'command_unavailable',3),
+                (['provider','resolve'],'command_unavailable',3),(['unknown'],'command_unavailable',3),
                 (['build','inspect','extra'],'unexpected_operand',2),(['build','inspect','--gui'],'argument_conflict',2),
                 (['build','inspect','--interactive=yes'],'argument_conflict',2),
-                (['image','inspect','--','--help'],'command_unavailable',3)]:
+                (['image','inspect','--','--help'],'image_source_open',3)]:
             # Place the format before literal-tail arguments where necessary.
             result=self.machine(['--json',*argv],exit_code=exit_code)[0]
             self.assertIn(code,[d['code'] for d in result['diagnostics']])
@@ -126,7 +126,7 @@ class NativeProtocol(unittest.TestCase):
             invalid=request();invalid[key]=value
             result=self.protocol(encode(invalid),status)[0]
             self.assertEqual('req:磁盘',result['request_id']);self.assertEqual(code,result['diagnostics'][0]['code'])
-        for command in ['protocol.serve','table.verify','unrecognized']:
+        for command in ['protocol.serve','provider.resolve','unrecognized']:
             self.assertEqual('command_unavailable',self.protocol(encode(request(command)),3)[0]['diagnostics'][0]['code'])
 
     def test_malformed_json_and_encoding(self):
@@ -136,7 +136,7 @@ class NativeProtocol(unittest.TestCase):
 
     def test_ndjson_continues_refusals_and_preserves_order(self):
         a=request();a['request_id']='a'
-        b=request('table.verify');b['request_id']='b'
+        b=request('provider.resolve');b['request_id']='b'
         c=request();c['request_id']='c'
         values=self.protocol(encode(a)+b'\r\n{}\n'+encode(b)+b'\n'+encode(c),3,True)
         self.assertEqual(['a','@unparsed','b','c'],[v['request_id'] for v in values])

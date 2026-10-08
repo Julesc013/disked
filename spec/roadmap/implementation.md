@@ -224,14 +224,15 @@ reproduction govern continuation to W024. Coverage-guided campaigns, broader
 sector/platform profiles and independent safety qualification remain explicit;
 coherent image capture and frontend integration belong to W024.
 
-DE-W024 has private captured-map and ordinary-local-file integration. The Windows
-file adapter reads bounded metadata regions even from large raw images, binds
-file identity/geometry, retains per-region coverage/digests/errors and compares a
-finite reread. Source consistency remains live-uncoordinated; equal observations
-are not a snapshot or whole-image verification. The immutable-prefix test API
-continues to report unknown source consistency. Product image commands remain
-unavailable pending shared command admission and actual CLI/TUI/GUI parity. Source-
-bound evidence and review belong to `.aide/evidence/2026-10-08-image-file-capture/`.
-The whole 0.1.0 programme, owner acceptance and storage/release gates remain open.
-`.aide/programmes/worker-continuity.md` keeps tests and handoffs independent of
-model-service availability.
+DE-W024 adds shared `image.inspect` and `table.verify` raw-file commands in the
+0.1.0-dev.18 Windows image/fake prototype. CLI/stdio and real native GUI, isolated
+TUI and shell fixtures compare geometry, independent findings, partial coverage
+and source refusals. File reads use the existing bounded request channel; timeout
+does not establish cancellation or free a still-executing slot. Capture remains
+live-uncoordinated: equal rereads are not an atomic snapshot, whole-image check
+or healthy-volume certificate. Only explicitly named ordinary local raw files
+are in this initial profile; physical storage, image containers and writer gates
+remain separate. Reproducible evidence and local review belong to
+`.aide/evidence/2026-10-08-image-commands/`. The full 0.1.0 programme and owner
+acceptance remain open. `.aide/programmes/worker-continuity.md` retains the service-
+independent build/test and handoff workflow.

@@ -4,7 +4,7 @@ This is the publication layer for people using and developing DiskEd. The normat
 
 | Guide | Purpose |
 |---|---|
-| [Native bootstrap](native-bootstrap.md) | Build and test the first fake-only Windows executable. |
+| [Native bootstrap](native-bootstrap.md) | Build and test the Windows image/fake prototype. |
 | [Getting started](getting-started.md) | Validate the baseline and choose bounded work. |
 | [Development plan](development-plan.md) | Follow the amended roadmap, review boundaries and AIDE cadence. |
 | [Architecture](architecture.md) | Understand the product and process boundaries. |
@@ -14,4 +14,4 @@ This is the publication layer for people using and developing DiskEd. The normat
 | [Agent and chat workflow](agent-workflow.md) | Resume from GitHub or a portable context pack. |
 | [Specification maintenance](specification-maintenance.md) | Edit, index, review and export the source of truth. |
 
-**Current status:** a native Windows bootstrap implements the small [DE-W010 surface](native-bootstrap.md). Broader product behavior remains planned unless accompanied by scoped implementation evidence.
+**Current status:** the native Windows prototype implements the [bootstrap, fake interface and initial raw-file commands](native-bootstrap.md). Broader product behavior remains planned unless accompanied by scoped implementation evidence.

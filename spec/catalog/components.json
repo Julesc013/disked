@@ -140,6 +140,33 @@
         "DE-026",
         "DE-050"
       ]
+    },
+    {
+      "id": "provider.image.raw.prototype",
+      "role": "provider",
+      "depends_on": [],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-102",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "entry.disked.image.prototype",
+      "role": "entry",
+      "depends_on": [
+        "provider.fake.bootstrap",
+        "provider.image.raw.prototype"
+      ],
+      "storage_authority": "none",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-102"
+      ]
     }
   ]
 }

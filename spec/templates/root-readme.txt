@@ -8,7 +8,7 @@ The initial target is useful inspection, imaging and verification on Windows XP,
 
 ## Project status
 
-This repository contains a **proposed specification, working specification tooling and an initial native Windows bootstrap**. The prototype exposes help, build identity, static command discovery, native mode inspection, inspectable fake storage graphs, a native console TUI, a Win32 GUI, an explicit command shell, reconnectable fake operation workers and bounded JSON/NDJSON requests with a fake-only composition. Storage operations and the full interface remain under development; no target or storage-mutation capability is qualified. See [build instructions and limits](docs/native-bootstrap.md).
+This repository contains a **proposed specification, working specification tooling and an initial native Windows bootstrap**. The prototype exposes help, build identity, static command discovery, native mode inspection, inspectable fake storage graphs, a native console TUI, a Win32 GUI, an explicit command shell, reconnectable fake operation workers and bounded JSON/NDJSON requests, and read-only raw-file image inspection/partition-map verification in an image/fake prototype. Broader storage operations and the full interface remain under development; no target or storage-mutation capability is qualified. See [build instructions and limits](docs/native-bootstrap.md).
 
 ## Start here
 
@@ -25,6 +25,6 @@ DiskEd keeps storage intent, planned effects, execution and independent verifica
 
 ## Contributing
 
-Begin with [AGENTS.md](AGENTS.md), which is shared by human and automated contributors. Work is decomposed into bounded units with acceptance criteria and explicit limits. The scoped baseline review and native bootstrap lead into the remaining fake-provider interface work. Owner acceptance and implementation acceptance remain separate review steps.
+Begin with [AGENTS.md](AGENTS.md), which is shared by human and automated contributors. Work is decomposed into bounded units with acceptance criteria and explicit limits. The scoped baseline review and native bootstrap lead into bounded image and storage work. Owner acceptance and implementation acceptance remain separate review steps.
 
 The original-code license is still an owner decision. No license grant or third-party redistribution rights should be inferred from the proposed design. See [licensing decision](spec/delivery/licensing-and-supply-chain.md).

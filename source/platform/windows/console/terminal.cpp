@@ -146,7 +146,7 @@ public:
         // Stream complete records once, then edit only one explicitly owned
         // prompt row. Linear mode never republishes a whole result per keystroke.
         auto lines=model.linear_records(shell_sequence);
-        if(!shell_linear) {lines.insert(lines.begin(),"DiskEd shell | FAKE ONLY | linear");shell_linear=true;}
+        if(!shell_linear) {lines.insert(lines.begin(),"DiskEd shell | IMAGE / FAKE PROTOTYPE | linear");shell_linear=true;}
         if(!lines.empty()) {if(!clear_prompt())throw Failure("terminal_output_error");write_lines(lines);}
         CONSOLE_SCREEN_BUFFER_INFO info{};
         if(!GetConsoleScreenBufferInfo(target,&info))throw Failure("terminal_geometry_unavailable");

@@ -68,6 +68,13 @@ Every `accepted_running` response includes a nonempty durable `operation_id`. A 
 
 ## DE-W012 synchronous admission contract
 
+DE-W024 adds the initial ordinary-local-raw-file `image.inspect` and
+`table.verify` command profile owned by [DE-102](../operations/map-verify.md).
+Those handlers read an explicitly selected file only after descriptor/parameter
+admission; transport framing itself still uses only the supplied standard handles.
+Their optional block-unit parameter, partial results, bounded wait and refusal of
+`expected_revision` are distinct from fake graph revisions and durable operations.
+
 The first native protocol admits `build.inspect`, `command.list` and
 `protocol.serve` (the latter selects transport, and is never recursively accepted
 as a request). `mode.explain` is admitted only with a real host-observation adapter.

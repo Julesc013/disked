@@ -37,19 +37,21 @@ def generate(args):
     if profile["fake_provider_id"] != "provider.fake.bootstrap/1":
         raise ValueError("Private fake graph profile requires an explicit provider identity change")
     if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain", "target.list", "target.inspect", "topology.show", "capability.explain",
-                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close"}:
+                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")
     composition = next(c for c in read(root / "spec/catalog/compositions.json")["compositions"] if c["id"] == profile["composition_id"])
-    if composition["scope"] != "fake-only" or composition["target_id"] != profile["target_id"]:
+    if profile.get("image_provider_id") != "provider.image.raw.prototype/1":
+        raise ValueError("Image profile requires an explicit provider identity change")
+    if composition["scope"] != "image-only" or composition["target_id"] != profile["target_id"]:
         raise ValueError("Wrong bootstrap composition")
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
-    if selected != {"entry.disked.bootstrap", "provider.fake.bootstrap"}:
-        raise ValueError("Bootstrap link closure is explicitly limited to entry and compiled fake observations")
+    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype"}:
+        raise ValueError("Image prototype closure is explicitly limited to entry, fake and raw-file observations")
     for name in selected:
-        if components[name]["storage_authority"] not in ("none", "fake") or not set(components[name]["depends_on"]) <= selected:
+        if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
             raise ValueError("Invalid bootstrap component authority/dependency")
     inputs = {}
     names = read(root / "tools/build-inputs.json")["files"]
@@ -97,6 +99,7 @@ def generate(args):
         if option["id"] != "help":
             header.extend(cpp(s, True) + "," for s in option["spellings"])
     header += ["};", "static const char* const fake_provider_id = " + cpp(profile["fake_provider_id"]) + ";"]
+    header += ["static const char* const image_provider_id = " + cpp(profile["image_provider_id"]) + ";"]
     for key, value in identity.items():
         header.append("static const char* const " + key + " = " + cpp(value) + ";")
     schema_ids = {c['parameter_schema'] for c in commands if c['parameter_schema']}
