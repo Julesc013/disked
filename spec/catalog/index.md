@@ -14,6 +14,7 @@
 - [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)
 - [journal-prototype.json](journal-prototype.json)
+- [journal-semantics-prototype.json](journal-semantics-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
 - [operations.json](operations.json)
 - [plan-prototype.json](plan-prototype.json)

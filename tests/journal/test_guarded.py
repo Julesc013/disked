@@ -5,7 +5,7 @@ Resource-state expectations and crash fates are chosen before running native cod
 """
 import argparse,copy,json,subprocess
 from pathlib import Path
-from test_definitions import fixture,ledger,canonical,sha,h,MAX,resource
+from test_definitions import fixture,ledger,canonical,sha,h,MAX,maximum_payload_fixture
 
 CONFIG=dict(entries_limit='512',bytes_limit='1048576',attempts_limit='4',qualified_fake_flush=True)
 class Case:
@@ -241,17 +241,7 @@ def cases():
     c=keep(Case('crash-fate-error-is-atomic'));c.start().add('dispatch').add('crash',error='model_crash_resources',prefix_entries='5',persist_after=['r.target','r.zzabsent'],torn_tail=False);c.final=dict(resource_writes='0',effect_certainty='in_flight')
     for key,value in [('identity_digest',h('new-target')),('epoch','4'),('available',False)]:
         c=keep(Case('late-result-does-not-write-replacement-'+key));c.start().add('dispatch').change('r.target',**{key:value}).add('effect_result',dict(diagnostic='model_effect_target_changed',operation_status='unresolved',resource_writes='0',effect_certainty='uncertain'),outcome='after');c.final=dict(resource_writes='0',completed_steps='0',retirement_eligible=False)
-    p=fixture()
-    for index in range(27):
-        r=resource('r.scratch'+str(index).zfill(2),'scratch','read',4096,'fd.scratch'+str(index).zfill(2));p['resources'].append(r)
-        p['steps'][0]['effects'].append(dict(resource=r['id'],access='read',begin='0',end='1024',before_digest=r['state_digest'],after_digest=r['state_digest']))
-    p['resources'].sort(key=lambda r:r['id']);p['steps'][0]['effects'].sort(key=lambda e:e['resource'])
-    for r in p['resources']:r['aliases']=sorted([r['identity']]+[r['identity']+':alias'+str(i).zfill(2) for i in range(15)])
-    for r in p['resources']:
-        for index,alias in enumerate(r['aliases']):
-            if alias==r['identity']:continue
-            padding=min(128-len(alias),65536-len(canonical(p)));r['aliases'][index]+='x'*padding
-    assert len(canonical(p))==65536
+    p=maximum_payload_fixture()
     c=keep(Case('maximum-plan-payload-wrapped-history',p));c.start().complete().add('crash',prefix_entries='6',persist_after=[],torn_tail=False).recovery_capture().reconcile('before');c.final=dict(completed_steps='1',dispatches='1',operation_status='unresolved')
     return out
 

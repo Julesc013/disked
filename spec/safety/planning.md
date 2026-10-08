@@ -158,8 +158,10 @@ durable intention or a target flush. This inspector does not yet enforce those
 event transitions.
 The separate [closed guarded model](journal-and-recovery.md#de-w040-guarded-fake-memory-execution-contract)
 now exercises state transitions under explicit fake flush/observation assumptions.
-It does not turn this data inspector into an authenticated executor or integrated
-binary journal reader. DE-DEC-004/008 and owner acceptance remain unresolved.
+The separate [semantic binary reader](journal-and-recovery.md#de-w040-semantic-binary-journal-declaration-contract)
+now binds these payloads to framing and checks event/recovery declarations. This
+data inspector remains unauthenticated and gains no execution authority.
+DE-DEC-004/008 and owner acceptance remain unresolved.
 
 ## Normative requirements
 

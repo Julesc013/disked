@@ -36,6 +36,18 @@ def digests(plan):
     providers=[r for r in plan['resources'] if r['purpose'] in ('provider','executable')]
     return dict(digest=sha(canonical(plan)),resources_digest=sha(b'DiskEd.plan.resources/1\n'+canonical(plan['resources'])),
                 providers_digest=sha(b'DiskEd.plan.providers/1\n'+canonical(providers)))
+def maximum_payload_fixture():
+    p=fixture()
+    for index in range(27):
+        r=resource('r.scratch'+str(index).zfill(2),'scratch','read',4096,'fd.scratch'+str(index).zfill(2));p['resources'].append(r)
+        p['steps'][0]['effects'].append(dict(resource=r['id'],access='read',begin='0',end='1024',before_digest=r['state_digest'],after_digest=r['state_digest']))
+    p['resources'].sort(key=lambda r:r['id']);p['steps'][0]['effects'].sort(key=lambda e:e['resource'])
+    for r in p['resources']:r['aliases']=sorted([r['identity']]+[r['identity']+':alias'+str(i).zfill(2) for i in range(15)])
+    for r in p['resources']:
+        for index,alias in enumerate(r['aliases']):
+            if alias!=r['identity']:r['aliases'][index]+='x'*min(128-len(alias),65536-len(canonical(p)))
+    assert len(canonical(p))==65536
+    return p
 def receipt(plan,name,kind,**extra):
     return dict(schema='org.disked.plan-receipt-prototype/1',id=name,kind=kind,plan_digest=digests(plan)['digest'],
                 issuer='fixture.reviewer',evidence_digest=h('evidence:'+name),**extra)

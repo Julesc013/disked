@@ -4051,6 +4051,78 @@
         "DE-043",
         "DE-042"
       ]
+    },
+    {
+      "id": "spec/catalog/journal-semantics-prototype.json",
+      "path": "spec/catalog/journal-semantics-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/journal-prototype.json",
+        "spec/catalog/plan-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/semantics.h",
+      "path": "source/runtime/journal/semantics.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/definitions.h"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/semantics.cpp",
+      "path": "source/runtime/journal/semantics.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/semantics.h",
+        "source/runtime/journal/codec.cpp",
+        "source/runtime/journal/definitions.cpp",
+        "spec/catalog/journal-semantics-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/journal/semantic_probe.cpp",
+      "path": "tests/journal/semantic_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/semantics.h"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/journal/test_semantics.py",
+      "path": "tests/journal/test_semantics.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/journal/semantic_probe.cpp",
+        "tests/journal/test_definitions.py",
+        "tests/journal/test_codec.py",
+        "spec/catalog/journal-semantics-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
     }
   ]
 }

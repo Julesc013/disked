@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-08T22:26:30.351216+00:00'
-  scope: DE-W040 closed native fake-memory guarded durability/effect model; no physical qualification or production admission
+  at: '2026-10-08T23:01:37.720126+00:00'
+  scope: DE-W040 bounded semantic binary journal declaration reader; no live durability, authority or replay admission
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -125,7 +125,8 @@ receipt bindings and composable recovery properties under
 [DE-042](planning.md#de-w040-private-immutable-definition-proposal). Definition,
 resource and provider digests can supply the three header digest bindings;
 review/grant/admission receipts and execution event kinds match framing kinds
-1..8. No integrated semantic binary scanner or authenticated publisher exists yet.
+1..8. The separate semantic declaration reader below now binds these payloads
+to binary framing; no authenticated publisher or live durability proof exists.
 The separate closed fake-memory model below exercises guarded effect/flush
 transitions, freshness/ownership and reconciliation. Real provider durability
 adapters and physical qualification remain subsequent work. Intention must be retained and qualified
@@ -221,8 +222,85 @@ Snapshot dimensions and counters remain separate. Resources remain retained;
 retirement eligibility requires a stable terminal outcome, exited worker, current
 postcondition capture and no uncertainty. Illegal inputs/transitions leave state
 unchanged; injected environment failures explicitly leave unresolved state.
-Binary semantic-journal integration, authenticated authority, real flush adapters
+The semantic declaration reader below is separate from this model. A native model
+event producer/reader integration, authenticated authority, real flush adapters
 and physical crash/power-loss qualification remain required later work.
+
+## DE-W040 semantic binary journal declaration contract
+
+`semantics.*` and `journal_semantic_probe` join bounded binary framing to the
+private immutable-definition and receipt contracts under
+[a private profile](../catalog/journal-semantics-prototype.json). This reader is
+separate from `disked.exe` and from the closed guarded model. Inputs are declarations,
+not authenticated facts, actual flushes or current target observations. The caller
+supplies an independently established expected definition, header bindings and
+nonzero binary publisher identity with positive epoch. Expected plan/resource/
+provider digests must equal that definition before source reads. All records,
+including compatible observations, match that publisher binding; worker identities
+and epochs stay separate.
+
+The first critical payload is the exact expected canonical definition. Kinds 2/3
+carry v1 review/grant receipts, and the initial kind 4 carries a v1 admission.
+References must precede admission, scope/permissions/acknowledgements match the
+definition and selected steps include predecessors. Critical record IDs are unique
+within this private journal profile. Additional reviews/grants do not change the
+admitted operation/scope. This stricter journal profile does not change the v1
+inspector's standalone idempotent-receipt behavior.
+
+Kinds 5..9 carry exact `org.disked.journal-effect-prototype/1` payloads with plan,
+admission digest, operation/attempt/worker identity and epoch, per-attempt sequence,
+step, event and typed details. Binary journal sequence, worker epoch and capture
+epoch are distinct domains. Event sequence starts at one for each admitted attempt
+and is contiguous. All resource capture rows are complete, sorted and available,
+matching fixed identity/epoch bindings and their expected state. Untouched resources
+retain basis state; completed writes advance it. Capture epochs strictly increase
+across critical capture claims.
+
+Intention names an admitted uncompleted step with completed predecessors, matching
+before-state and no overlapping intention, cancellation or declared worker exit.
+Completion names the pending intention, declares a qualified fake target flush and
+a newer matching after-state capture, and cannot follow declared worker exit.
+These are internally checked claims, not evidence that intention or target bytes
+were durable. Cancellation records a request and blocks another intention; it does
+not close an uncertain effect.
+
+Recovery declares exited worker, exit/capture/qualified fake flush order and an
+exact before/after/terminal capture. After-state requires a pending intention and
+may close its declared step. Before-state remains useful even for a nonreplayable
+step, without admitting retry. Checkpoint kind 4 instead uses
+`org.disked.journal-checkpoint-admission-prototype/1`: it binds the initial admission
+digest, exact current-attempt binary recovery-record digest and a newer matching
+capture; it requires a distinct attempt and strictly newer worker epoch. If an
+intention may have authorized the old step, retry requires its declared
+replayability. An unstarted step is distinguished under the private fake model's
+assumptions only; journal absence never grants real authority. A checkpoint keeps
+initial scope and cannot reinterpret v1 basis observations as fresh operator
+authority.
+
+Seal declares exited worker and a later matching capture. Completed outcome
+requires every selected step declared complete and no unresolved intention.
+Cancelled outcome requires a request, declared cancellation checkpoint and
+before-state reconciliation of any pending intention. Seal remains historical
+data; no record or accepted prefix establishes live quiescence or retirement.
+
+Critical payloads are exact compact sorted-key ASCII JSON at most 65536 bytes,
+without alternate escaping or whitespace. Unknown fields/versions are rejected.
+This payload encoding is distinct from the guarded model's larger JSON event
+wrapper. Unknown noncritical observation payloads stay opaque and cannot change
+the semantic projection; framing still checks their identities, hashes and order.
+The reader retains at most 128 review/grant/initial-admission receipts and 1 MiB
+of canonical definition/receipt bytes, permits 1024 typed events and four attempts,
+and retains the framing source/read/count limits. Serialized-byte limits are not
+a measured bound on native allocator memory.
+
+Acceptance commits semantic state only after the whole record passes. A rejected
+record leaves the last accepted projection and byte/digest prefix unchanged; torn
+tails and source failures retain that prefix without repair or truncation. A valid
+prefix can still have an incomplete bootstrap. Projection fields are explicitly
+declared history; authentication, effect/replay/retirement authority and durability
+qualification remain false, and live reconciliation remains required. Integrating
+the guarded model's event producer with this reader, real adapter evidence and
+independent safety review remain work; DE-DEC-004/008 remain proposed.
 
 ## Normative requirements
 
