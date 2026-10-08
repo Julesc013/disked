@@ -1,0 +1,23 @@
+[
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-08-acquisition-pipeline/target-provider-error-regression-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target acquisition_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-08-acquisition-pipeline/target-provider-error-regression-build.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_pipeline.py --probe build/windows-bootstrap/Release/acquisition_probe.exe --root . --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-08-acquisition-pipeline\\target-provider-error-regression-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-08-acquisition-pipeline/target-provider-error-regression-cases.log"
+  }
+]

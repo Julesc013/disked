@@ -75,7 +75,7 @@ public:
             const auto end=std::min<std::uint64_t>(source.size(),offset+size);
             r.bytes.assign(source.begin()+static_cast<std::size_t>(offset),source.begin()+static_cast<std::size_t>(end));
             const auto failed=settings.find("read_error_offset");
-            if(failed && offset==std::stoull(failed->text) && counts_["read_source"]<=numeric(settings,"error_calls",1000000))r.error="fixture_unreadable";
+            if(failed && offset==std::stoull(failed->text) && counts_["read_source"]<=numeric(settings,"error_calls",1000000))r.error=string(settings,"read_error_value","fixture_unreadable");
             if(boolean(settings,"short_read") && !r.bytes.empty())r.bytes.pop_back();
             if(boolean(settings,"oversized_read"))r.bytes.push_back(7);
         }

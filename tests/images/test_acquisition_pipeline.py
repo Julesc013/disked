@@ -146,6 +146,12 @@ def main():
 
     v=run('read-failure-retained',p,[dict(read_error_offset='4096')],expected=dict(status='failed',diagnostic='acquisition_source_read',checkpoint_bytes='4096'))
     assert json.loads(v['records'][-1]['bytes'])['type']=='read_failure'
+    for error in ('line\ncode','x'*257,'delete\x7fcode'):
+        v=run('invalid-provider-error-'+digest(error.encode())[7:15],p,[dict(read_error_offset='0',read_error_value=error)],
+            expected=dict(status='failed',diagnostic='acquisition_provider_error',checkpoint_bytes='0'))
+        assert len(v['records'])==1 and 'write_destination' not in v['results'][0]['trace']
+    v=run('lossless-provider-error-and-resume',p,[dict(read_error_offset='0',read_error_value='read-é-漢'),dict(resume=True)],expected=dict(status='completed'))
+    assert json.loads(v['records'][1]['bytes'])['payload']['read_error']=='read-é-漢'
     v=run('read-failure-retry-new-attempt',p,[dict(read_error_offset='4096'),dict(resume=True)],expected=dict(status='completed'))
     assert v['destination_hex']==source(9000).hex()
     for policy in ('ordinary','failing-read-mostly'):

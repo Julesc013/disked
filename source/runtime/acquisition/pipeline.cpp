@@ -233,6 +233,9 @@ Outcome execute(const Plan& input,const Grant& grant,Ports& ports,bool resume) {
                 read=ports.read_source(c.offset,c.size);out.attempt_read_bytes+=read.bytes.size();
                 if(read.bytes.size()>c.size)fail("acquisition_provider_read_limit");
                 c.error=read.error.empty() && read.bytes.size()!=c.size?"short_read":read.error;
+                if(!c.error.empty()) {
+                    try {token(V::string(c.error));}catch(const Error&) {fail("acquisition_provider_error");}
+                }
                 if(c.error.empty() || c.retries==p.retries)break;
                 ++c.retries;fresh(ports,active);
             }

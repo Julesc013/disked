@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_pipeline.py", line 257, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_pipeline.py", line 150, in main
+    v=run('invalid-provider-error-'+digest(error.encode())[7:15],p,[dict(read_error_offset='0',read_error_value=error)],
+        expected=dict(status='failed',diagnostic='acquisition_provider_error',checkpoint_bytes='0'))
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_pipeline.py", line 66, in run
+    for k,v in expected.items():assert last[k]==v,(name,k,last,v)
+                                       ^^^^^^^^^^
+AssertionError: ('invalid-provider-error-af253b74', 'diagnostic', {'attempt_read_bytes': '4096', 'attempt_verified_bytes': '0', 'attempt_written_bytes': '0', 'checkpoint_bytes': '0', 'consistency': 'live-uncoordinated', 'diagnostic': 'acquisition_source_read', 'records': '2', 'schema': 'org.disked.acquisition-outcome-prototype/1', 'source_bytes': '0', 'status': 'failed', 'substituted_bytes': '0', 'uncertain_effect': False}, 'acquisition_provider_error')

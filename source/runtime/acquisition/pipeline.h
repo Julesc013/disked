@@ -22,6 +22,7 @@ struct Grant {
 };
 struct Read {
     std::vector<unsigned char> bytes;
+    // Nonempty errors are bounded UTF-8 identifiers (<=256 bytes, no controls).
     std::string error;
 };
 struct Record {

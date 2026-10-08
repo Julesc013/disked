@@ -119,6 +119,9 @@ file range; before I/O the base two-record-per-chunk map must fit a one-million
 record budget. Additional failure records consume that same finite budget.
 Records are at most 16 KiB and stream one at a time. No entire image or map needs
 to be buffered by the runtime. Oversized provider reads are errors.
+Nonempty provider read errors must be valid UTF-8 identifiers of at most 256
+bytes without ASCII control/delete characters. Reject malformed errors before
+retry, map append or destination effects; never emit a receipt the reader rejects.
 
 Ordinary policy permits an explicitly selected retry ceiling of zero through
 three. `failing-read-mostly` admits zero automatic retries and no completed-source
