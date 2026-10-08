@@ -11,9 +11,32 @@ import sys
 import tempfile
 import threading
 import time
+import uuid
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'corpus'))
 import partition_images as corpus
 from gui_fixture import Gui,U,WP,wait
+
+K=C.WinDLL('kernel32',use_last_error=True)
+K.CreateEventW.argtypes=[C.c_void_p,C.c_int,C.c_int,C.c_wchar_p];K.CreateEventW.restype=C.c_void_p
+K.SetEvent.argtypes=[C.c_void_p];K.SetEvent.restype=C.c_int
+K.WaitForSingleObject.argtypes=[C.c_void_p,C.c_uint32];K.WaitForSingleObject.restype=C.c_uint32
+K.CloseHandle.argtypes=[C.c_void_p];K.CloseHandle.restype=C.c_int
+
+class Gate:
+    """Test-owned local events; never a product execution or storage grant."""
+    def __init__(self):
+        self.name='Local\\DiskEdImageTest.'+uuid.uuid4().hex;self.handles=[]
+        try:
+            for suffix in ['.entered','.release']:
+                handle=K.CreateEventW(None,True,False,self.name+suffix)
+                if not handle:raise C.WinError(C.get_last_error())
+                self.handles.append(handle)
+        except BaseException:self.close();raise
+    def entered(self):assert K.WaitForSingleObject(self.handles[0],1000)==0,'Callback did not enter the controlled gate'
+    def release(self):assert K.SetEvent(self.handles[1]),'Could not release controlled callback'
+    def close(self):
+        for handle in self.handles:K.CloseHandle(handle)
+        self.handles=[]
 
 def main():
     p=argparse.ArgumentParser()
@@ -25,9 +48,10 @@ def main():
         sys.path.insert(0,str(args.root/'spec/tools'));import specctl;bundle=specctl.Bundle(args.root/'spec')
     env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_IMAGE_TEST_')}
     def record(name,**data):print('CASE '+ascii(name),flush=True);records.append(dict(name=name,**data))
-    def launch(name,argv,code=0,diagnostic=None,exe=None,data=b'',fault=None,cwd=None):
+    def launch(name,argv,code=0,diagnostic=None,exe=None,data=b'',fault=None,cwd=None,testenv=None):
         callenv=env.copy()
         if fault:callenv['DISKED_IMAGE_TEST_'+fault]='1'
+        if testenv:callenv.update(testenv)
         actual=subprocess.run([str(exe or args.exe),*argv],cwd=cwd,env=callenv,input=data,capture_output=True,timeout=15)
         assert actual.returncode==code,(name,actual.returncode,actual.stdout,actual.stderr)
         assert actual.stderr==b'',(name,actual.stderr)
@@ -134,7 +158,15 @@ def main():
             delayed=directory/'test-wait-valid.img';delayed.write_bytes(corpus.gpt());files.append(delayed);before[delayed.name]=corpus.digest(delayed.read_bytes())
             # A stdio timeout holds its single executing slot; no second wire
             # response is emitted for the late result. Essential commands survive.
-            process=subprocess.Popen([str(args.fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=env)
+            gate=Gate();callenv=env.copy();callenv['DISKED_IMAGE_TEST_GATE']=gate.name
+            try:
+                # The ordinary product ignores this private hook, even with a
+                # matching path and a gate deliberately kept closed.
+                started=time.monotonic()
+                launch('product-ignores-test-gate',['--json','image','inspect',str(delayed)],testenv={'DISKED_IMAGE_TEST_GATE':gate.name})
+                assert time.monotonic()-started<4,'Private gate affected the product'
+                process=subprocess.Popen([str(args.fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=callenv)
+            except BaseException:gate.close();raise
             lines=queue.Queue()
             def readlines():
                 for line in process.stdout:lines.put(json.loads(line))
@@ -142,8 +174,10 @@ def main():
             def send(v):process.stdin.write(encode(v)+b'\n');process.stdin.flush()
             try:
                 started=time.monotonic();send(request('image.inspect',dict(path=str(delayed)),id='wait'))
+                gate.entered()
                 expired=lines.get(timeout=5);assert expired['status']=='unknown' and expired['operation_id'] is None
-                assert expired['diagnostics'][0]['code']=='request_wait_expired' and time.monotonic()-started<5
+                expired_seconds=time.monotonic()-started
+                assert expired['diagnostics'][0]['code']=='request_wait_expired' and 3.8<=expired_seconds<5
                 send(request('image.inspect',dict(path=str(missing)),id='busy'));busy=lines.get(timeout=1)
                 assert busy['diagnostics'][0]['code']=='request_resource_limit'
                 send(request('build.inspect',{},id='essential'));assert lines.get(timeout=1)['status']=='completed'
@@ -151,20 +185,22 @@ def main():
                 # Elapsed sleep is not evidence of callback quiescence. Observe
                 # the slot's actual release with distinct read-only requests,
                 # bounded by both time and the protocol's request quota.
-                retries=[];end=time.monotonic()+8
+                released=time.monotonic();gate.release();retries=[];end=released+8
                 for attempt in range(40):
                     id='after:'+str(attempt);send(request('table.verify',dict(path=str(valid)),id=id));after=lines.get(timeout=2)
                     assert after['request_id']==id,after
                     retries.append(after)
                     if after['status']=='completed':break
                     assert after['diagnostics'][0]['code']=='request_resource_limit',after
-                    assert time.monotonic()<end,after;time.sleep(.05)
+                    assert time.monotonic()<end,after;time.sleep(min(.2,max(0,end-time.monotonic())))
                 assert after['status']=='completed',retries
                 process.stdin.close();assert process.wait(timeout=5)==6 and process.stderr.read()==b''
-                record('stdio-wait-slot-late',expired=expired,busy=busy,after=after,release_observations=retries)
+                record('stdio-wait-slot-late',expired=expired,busy=busy,after=after,release_observations=retries,
+                    controlled_gate=True,expired_seconds=expired_seconds,release_seconds=time.monotonic()-released)
             finally:
                 if process.poll() is None:process.kill();process.wait()
                 reader.join(timeout=1);process.stdout.close();process.stderr.close()
+                gate.close()
             g=Gui(args.fault,['--gui','image','inspect',str(delayed)],render=True)
             try:
                 g.click(109);g.click(110);assert g.details()['pending_request']=='gui:1';samples=[]

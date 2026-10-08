@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.16-proposed.1
+  version: 0.1.17-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-06T17:56:37.391761+00:00'
-  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
+  at: '2026-10-08T20:32:56.945945+00:00'
+  scope: DE-W017 private image callback gate; product and owner acceptance unchanged
 ---
 
 # Bounded responsiveness and failure containment
@@ -96,6 +96,17 @@ a second response. The 3,000 ms standard-output wait in DE-028 applies backpress
 before the next request; output failure cannot cancel or restart admitted work.
 Actual pipe backpressure and an injected file-boundary delay require their own
 retained evidence, independent of interactive responsiveness.
+
+The ordinary-file image stdio fixture uses test-owned local events in the
+separate `disked_image_test` build. An entered observation establishes that its
+callback is held; the fixture keeps the gate closed across the four-second wait,
+busy refusal and cached-command checks, then explicitly releases it. Subsequent
+correlated read-only requests must observe actual slot release within an
+eight-second observation ceiling and forty-request bound. Release of the test
+gate alone is not callback quiescence. There is no unsolicited second reply and
+no effect/retry authority. Retain timeout/release timings and failures. The
+ordinary product must ignore the private gate even for a matching fixture path.
+The separate GUI delay remains a timing fault, with actual late-result checks.
 
 State-store write/flush failures follow the DE-015 failure contract. The
 separate test build injects disk-full, partial and flush errors at the claim,

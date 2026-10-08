@@ -15,6 +15,9 @@
 #include "file_capture.h"
 #include <cstdio>
 #ifdef DISKED_IMAGE_COMMAND_TESTING
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
 #include <thread>
 #endif
 
@@ -24,13 +27,33 @@ json::Value capture_campaign_report();
 #endif
 using json::Value;
 namespace {
+#ifdef DISKED_IMAGE_COMMAND_TESTING
+// Private fixture synchronization, compiled only into disked_image_test.
+// A gate lets the test observe a live callback across timeout and release it
+// explicitly. It supplies no product option, authority or storage effect.
+void image_test_wait() {
+    wchar_t name[161];const auto count=GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_GATE",name,161);
+    if(!count) {std::this_thread::sleep_for(std::chrono::milliseconds(5500));return;}
+    if(count>=161)throw std::runtime_error("image_test_gate_name");
+    struct Event {
+        HANDLE handle=nullptr;
+        explicit Event(const std::wstring& value):handle(OpenEventW(SYNCHRONIZE|EVENT_MODIFY_STATE,FALSE,value.c_str())) {
+            if(!handle)throw std::runtime_error("image_test_gate_open");
+        }
+        ~Event() {CloseHandle(handle);}
+    };
+    Event entered(std::wstring(name)+L".entered"),release(std::wstring(name)+L".release");
+    if(!SetEvent(entered.handle))throw std::runtime_error("image_test_gate_signal");
+    if(WaitForSingleObject(release.handle,15000)!=WAIT_OBJECT_0)throw std::runtime_error("image_test_gate_wait");
+}
+#endif
 // Composition binds the concrete provider. Runtime semantics depend only on
 // its inward-facing capture port; presentation models never call raw I/O.
 Outcome image_action(const std::string& request,const std::string& command,const Value& parameters) {
     return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit) {
 #ifdef DISKED_IMAGE_COMMAND_TESTING
         if(path.find("test-wait-")!=std::string::npos)
-            std::this_thread::sleep_for(std::chrono::milliseconds(5500));
+            image_test_wait();
 #endif
         return capture_raw_image(path,unit);
     },bootstrap::image_provider_id);
