@@ -1,0 +1,330 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W040",
+  "base_revision": "2e63bbabf75129acb5c6b67e0fa3c54ce2f4fca8",
+  "spec_manifest_digest": "sha256:fddcca0e5d2b7526dc2e2fba2b3ea5ca8fd3ed44431dd237f1fe9eddb4ae80f6",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/safety/planning.md",
+    "spec/safety/journal-and-recovery.md",
+    "spec/safety/degraded-operation.md",
+    "spec/safety/verification-and-performance.md",
+    "spec/safety/broker-and-authorization.md",
+    "spec/catalog/journal-model.json",
+    "spec/catalog/journal-prototype.json",
+    "spec/catalog/decisions.json",
+    "spec/schemas/plan.schema.json",
+    "spec/schemas/handoff.schema.json",
+    "spec/catalog/project-graph.json",
+    "source/portable/hash/sha256.h",
+    "source/portable/hash/sha256.cpp",
+    "source/runtime/command/json.h",
+    "source/runtime/journal/codec.h",
+    "source/runtime/journal/codec.cpp",
+    "source/runtime/presentation/requests.h",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/operation/fake_operation.h",
+    "source/providers/image/local_file.cpp",
+    "source/providers/image/file_capture.cpp",
+    "source/apps/disked/cli.cpp",
+    "tests/frontend/test_image_commands.py",
+    "tests/resilience/test_request_waiting.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tests/journal/codec_probe.cpp",
+    "tests/journal/test_codec.py",
+    "CMakeLists.txt",
+    "spec/catalog/input-dependencies.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-journal-codec/.gitattributes",
+    ".aide/evidence/2026-10-09-journal-codec/FINDINGS.md",
+    ".aide/evidence/2026-10-09-journal-codec/INITIAL-CLEAN-FAILURE.md",
+    ".aide/evidence/2026-10-09-journal-codec/README.md",
+    ".aide/evidence/2026-10-09-journal-codec/REVIEW.md",
+    ".aide/evidence/2026-10-09-journal-codec/evidence-hashes.json",
+    ".aide/evidence/2026-10-09-journal-codec/initial-fixture-failure.log",
+    ".aide/evidence/2026-10-09-journal-codec/initial-registry-failure.log",
+    ".aide/evidence/2026-10-09-journal-codec/initial-slot-diagnosis.log",
+    ".aide/evidence/2026-10-09-journal-codec/initial-slot-diagnosis.py",
+    ".aide/evidence/2026-10-09-journal-codec/initial-unchanged-three-image-repeats.log",
+    ".aide/evidence/2026-10-09-journal-codec/reconcile-initial-resume.py",
+    ".aide/evidence/2026-10-09-journal-codec/reproduce.py",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-build.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-clone.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-configure.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-native-tests.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/commands.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/source-identity.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-build.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-check.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-clone.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-codec-cases.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-configure.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-context.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-freshness.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-gated-image-cases.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-dependents.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-headers.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-imports.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-launch.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-manifest.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests-revalidation.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-results.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/codec-cases.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/commands.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/gated-image-cases.json",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/image-inspection.png",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/initial-native-details.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/native-details.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/product-link-closure.log",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/resume-deadline-reconciliation/acquisition.cancel",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/resume-deadline-reconciliation/acquisition.records",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/resume-deadline-reconciliation/acquisition.request",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/resume-deadline-reconciliation/copy.map",
+    ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/resume-deadline-reconciliation/result.json",
+    ".aide/evidence/2026-10-09-journal-codec/working-build.log",
+    ".aide/evidence/2026-10-09-journal-codec/working-native-tests.log",
+    ".aide/evidence/2026-10-09-journal-codec/working-spec-tests.log",
+    ".aide/handoffs/DE-W040-codec-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/runtime/journal/codec.cpp",
+    "source/runtime/journal/codec.h",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/journal-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/safety/degraded-operation.md",
+    "spec/safety/journal-and-recovery.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/test_image_commands.py",
+    "tests/journal/codec_probe.cpp",
+    "tests/journal/test_codec.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Proposed native binary framing codec verified at ce9ae70f28e6e8c7d6408563fd3508d51d263164; product excludes it. Receipt semantics, recovery traits and guarded durability model remain unfinished; no production admission or owner acceptance.",
+  "tests": [
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5293cf4e",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5293cf4e",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5293cf4e",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-5293cf4e",
+      "exit_code": 8,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-5293cf4e/clean-native-tests.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 8,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests-revalidation.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_commands.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked_image_test.exe --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-journal-codec\\reproduction-ce9ae70f\\gated-image-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-gated-image-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/journal/test_codec.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-journal-codec\\reproduction-ce9ae70f\\codec-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-codec-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W040 --output .aide-local/context/DE-W040-codec --byte-budget 350000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W040-codec",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-launch.log"
+    },
+    {
+      "command": "Payload/receipt semantics, guarded flush/effect recovery, physical/sector/power-loss persistence, other-platform execution and owner acceptance",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W040-codec-ce9ae70f/disked.exe",
+      "sha256": "sha256:a895a97e1ee176775bd3576795779de95feb0226c92f47c8ef3ffb7e2d8a96cd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W040-codec-ce9ae70f/journal_codec_probe.exe",
+      "sha256": "sha256:461fc7584d9cd3f890d9bbc6302cd12a2f560fe74a41b739d1811dc342cacfaa"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W040-codec-ce9ae70f/disked_journal_prototype.lib",
+      "sha256": "sha256:2428acc874d86a785c64a1a4a07cf0a987eafe1c6320df8fb01a10fbdaf1e4bd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W040-codec-ce9ae70f/disked_hash.lib",
+      "sha256": "sha256:a2a94e6b0341736a9943e972938329ffd5f065357c3f52fea68f9ae1836d50ad"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W040-codec-ce9ae70f/disked_json.lib",
+      "sha256": "sha256:f274ca935766e4565350f391f6f22584925e843bb25fe26aa1089f56c6759b5e"
+    }
+  ],
+  "blockers": [
+    "Production journal decision DE-DEC-004 remains proposed; physical/privileged/customer/release work, other platforms and owner acceptance retain separate gates."
+  ],
+  "next_safe_step": "Continue DE-W040 with immutable plan definitions and separate review/grant/admission/execution receipts, composable per-step recovery traits and a native guarded durability/effect model. Exercise crash/torn writes, ambiguous effects, stale epochs and observation-before-replay with fake targets; keep production encoding/admission and physical qualification gated by unresolved DE-DEC-004.",
+  "performed_remote_writes": false
+}

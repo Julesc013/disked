@@ -19,4 +19,5 @@ then observe slot availability with correlated requests. It preserves the requir
 unknown timeout, occupied-slot refusal, no unsolicited second reply and final
 completion expectations. The ordinary product must ignore this private hook.
 Release alone is not quiescence. Subsequent campaign results are recorded separately
-against their actual source revisions. `.log` files retain captured bytes in Git.
+against their actual source revisions. Raw logs and protocol snapshots retain
+captured bytes in Git.

@@ -1,0 +1,142 @@
+[
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-clone.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 8,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-native-tests-revalidation.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_commands.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked_image_test.exe --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-journal-codec\\reproduction-ce9ae70f\\gated-image-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-gated-image-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/journal/test_codec.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-journal-codec\\reproduction-ce9ae70f\\codec-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-codec-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-check.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-freshness.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-spec-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W040 --output .aide-local/context/DE-W040-codec --byte-budget 350000",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W040-codec",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-verify-context.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-disked-dependents.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-journal_codec_probe-dependents.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ce9ae70f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-launch.log"
+  }
+]
