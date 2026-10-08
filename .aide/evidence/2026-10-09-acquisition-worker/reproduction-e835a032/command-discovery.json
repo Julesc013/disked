@@ -1,0 +1,1150 @@
+{
+  "diagnostics": [],
+  "evidence": [],
+  "operation_id": null,
+  "request_id": "cli",
+  "result": {
+    "commands": [
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "build.inspect",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-060"
+        ],
+        "summary": "Inspect embedded target and build manifest",
+        "syntax_status": "defined",
+        "words": [
+          "build",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "mode.explain",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-020"
+        ],
+        "summary": "Explain invocation policy without storage effects",
+        "syntax_status": "defined",
+        "words": [
+          "mode",
+          "explain"
+        ]
+      },
+      {
+        "aliases": [
+          "commands"
+        ],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "command.list",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-021"
+        ],
+        "summary": "List descriptors and actual availability",
+        "syntax_status": "defined",
+        "words": [
+          "command",
+          "list"
+        ]
+      },
+      {
+        "aliases": [
+          "list",
+          "ls",
+          "list targets"
+        ],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "target.list",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-101",
+          "DE-034"
+        ],
+        "summary": "Bounded target enumeration",
+        "syntax_status": "defined",
+        "words": [
+          "target",
+          "list"
+        ]
+      },
+      {
+        "aliases": [
+          "show"
+        ],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "target_id",
+            "position": 0
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "target.inspect",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-target-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-030"
+        ],
+        "summary": "Inspect identity and source observations",
+        "syntax_status": "defined",
+        "words": [
+          "target",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "topology.show",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-030"
+        ],
+        "summary": "Show layered current topology",
+        "syntax_status": "defined",
+        "words": [
+          "topology",
+          "show"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "path",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--logical-block-bytes",
+            "option_aliases": [],
+            "parameter": "logical_block_bytes",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "table.verify",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-image-path-parameters:1",
+        "privilege": "none",
+        "reason": "ordinary_local_raw_file_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-023",
+          "DE-032",
+          "DE-102"
+        ],
+        "summary": "Validate independent partition-map observations",
+        "syntax_status": "defined",
+        "words": [
+          "table",
+          "verify"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "path",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--logical-block-bytes",
+            "option_aliases": [],
+            "parameter": "logical_block_bytes",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "image.inspect",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-image-path-parameters:1",
+        "privilege": "none",
+        "reason": "ordinary_local_raw_file_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-023",
+          "DE-032",
+          "DE-102"
+        ],
+        "summary": "Inspect image without mounting it",
+        "syntax_status": "defined",
+        "words": [
+          "image",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "output-write",
+        "handler": null,
+        "id": "image.acquire",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": true,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-103"
+        ],
+        "summary": "Acquire to an explicitly owned destination",
+        "syntax_status": "unresolved",
+        "words": [
+          "image",
+          "acquire"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "image.verify",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-044"
+        ],
+        "summary": "Verify image against explicit coverage",
+        "syntax_status": "unresolved",
+        "words": [
+          "image",
+          "verify"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "health.assess",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-111"
+        ],
+        "summary": "Collect bounded health evidence",
+        "syntax_status": "unresolved",
+        "words": [
+          "health",
+          "assess"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "target_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "parameter": "operation",
+            "position": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "capability.explain",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-capability-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-033",
+          "DE-023",
+          "DE-035"
+        ],
+        "summary": "Explain availability and refusals",
+        "syntax_status": "defined",
+        "words": [
+          "capability",
+          "explain"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "provider.list",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-033"
+        ],
+        "summary": "List included providers and qualification",
+        "syntax_status": "unresolved",
+        "words": [
+          "provider",
+          "list"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "provider.inspect",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-033"
+        ],
+        "summary": "Inspect exact provider/version closure",
+        "syntax_status": "unresolved",
+        "words": [
+          "provider",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "output-write",
+        "handler": null,
+        "id": "evidence.export",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-044"
+        ],
+        "summary": "Export reviewed/redacted evidence",
+        "syntax_status": "unresolved",
+        "words": [
+          "evidence",
+          "export"
+        ]
+      },
+      {
+        "aliases": [
+          "part resize"
+        ],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "target_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--length",
+            "option_aliases": [],
+            "parameter": "length",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "partition.resize.plan",
+        "implementation_status": "planned",
+        "parameter_schema": "urn:disked:schema:command-resize-proposal-parameters:1",
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-106",
+          "DE-107"
+        ],
+        "summary": "Construct a typed size/start/end plan",
+        "syntax_status": "defined",
+        "words": [
+          "partition",
+          "resize"
+        ]
+      },
+      {
+        "aliases": [
+          "part move"
+        ],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "partition.move.plan",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-108"
+        ],
+        "summary": "Construct a separately qualified move plan",
+        "syntax_status": "unresolved",
+        "words": [
+          "partition",
+          "move"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "table.gpt.repair.plan",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-104"
+        ],
+        "summary": "Propose explicit GPT-copy repair",
+        "syntax_status": "unresolved",
+        "words": [
+          "table",
+          "repair"
+        ]
+      },
+      {
+        "aliases": [
+          "fs migrate"
+        ],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "filesystem.migrate.plan",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-109"
+        ],
+        "summary": "Plan metadata-aware migration",
+        "syntax_status": "unresolved",
+        "words": [
+          "filesystem",
+          "migrate"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "plan.show",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-042"
+        ],
+        "summary": "Review exact plan and its requirements",
+        "syntax_status": "unresolved",
+        "words": [
+          "plan",
+          "show"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "plan.validate",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-042"
+        ],
+        "summary": "Validate current preconditions without effects",
+        "syntax_status": "unresolved",
+        "words": [
+          "plan",
+          "validate"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "fixture_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--state-dir",
+            "option_aliases": [],
+            "parameter": "state_directory",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "output-write",
+        "handler": null,
+        "id": "plan.simulate",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-fake-simulation-parameters:1",
+        "privilege": "none",
+        "reason": "fake_operation_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-042",
+          "DE-015"
+        ],
+        "summary": "Run a compiled fake fixture with explicit disposable operation evidence; general plan simulation remains provisional",
+        "syntax_status": "defined",
+        "words": [
+          "plan",
+          "simulate"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "mutate",
+        "handler": null,
+        "id": "plan.apply",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "broker",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": true,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-041",
+          "DE-043"
+        ],
+        "summary": "Apply exact admitted plan through broker",
+        "syntax_status": "unresolved",
+        "words": [
+          "plan",
+          "apply"
+        ]
+      },
+      {
+        "aliases": [
+          "op inspect"
+        ],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "operation_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--state-dir",
+            "option_aliases": [],
+            "parameter": "state_directory",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "operation.inspect",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-fake-operation-parameters:1",
+        "privilege": "none",
+        "reason": "fake_operation_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-022",
+          "DE-015"
+        ],
+        "summary": "Inspect durable execution outcome",
+        "syntax_status": "defined",
+        "words": [
+          "operation",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [
+          "op watch"
+        ],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "operation_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--state-dir",
+            "option_aliases": [],
+            "parameter": "state_directory",
+            "repeatable": false,
+            "value_arity": 1
+          },
+          {
+            "completion": "none",
+            "option": "--after-sequence",
+            "option_aliases": [],
+            "parameter": "after_sequence",
+            "repeatable": false,
+            "value_arity": 1
+          },
+          {
+            "completion": "none",
+            "option": "--after-digest",
+            "option_aliases": [],
+            "parameter": "after_digest",
+            "repeatable": false,
+            "value_arity": 1
+          },
+          {
+            "completion": "none",
+            "option": "--worker-epoch",
+            "option_aliases": [],
+            "parameter": "worker_epoch",
+            "repeatable": false,
+            "value_arity": 1
+          },
+          {
+            "completion": "none",
+            "option": "--follow-ms",
+            "option_aliases": [],
+            "parameter": "follow_ms",
+            "repeatable": false,
+            "value_arity": 1
+          },
+          {
+            "completion": "none",
+            "option": "--snapshot",
+            "option_aliases": [],
+            "parameter": "snapshot",
+            "repeatable": false,
+            "value_arity": 0
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "operation.watch",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-watch-parameters:1",
+        "privilege": "none",
+        "reason": "fake_operation_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-022",
+          "DE-015",
+          "DE-045"
+        ],
+        "summary": "Observe events with sequence continuity",
+        "syntax_status": "defined",
+        "words": [
+          "operation",
+          "watch"
+        ]
+      },
+      {
+        "aliases": [
+          "op cancel"
+        ],
+        "argument_bindings": [
+          {
+            "completion": "none",
+            "parameter": "operation_id",
+            "position": 0
+          },
+          {
+            "completion": "none",
+            "option": "--state-dir",
+            "option_aliases": [],
+            "parameter": "state_directory",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "cancel-request",
+        "handler": null,
+        "id": "operation.cancel.request",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-fake-operation-parameters:1",
+        "privilege": "none",
+        "reason": "fake_operation_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-043",
+          "DE-015"
+        ],
+        "summary": "Request cancellation at a safe checkpoint",
+        "syntax_status": "defined",
+        "words": [
+          "operation",
+          "cancel"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "observe",
+        "handler": null,
+        "id": "recovery.inspect",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-043"
+        ],
+        "summary": "Inspect journal/capsule without writes",
+        "syntax_status": "unresolved",
+        "words": [
+          "recovery",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "recovery.plan",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-043"
+        ],
+        "summary": "Build a plan from observed interrupted state",
+        "syntax_status": "unresolved",
+        "words": [
+          "recovery",
+          "plan"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "mutate",
+        "handler": null,
+        "id": "recovery.apply",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "broker",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": true,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-043"
+        ],
+        "summary": "Apply independently admitted recovery",
+        "syntax_status": "unresolved",
+        "words": [
+          "recovery",
+          "apply"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "resource.list",
+        "implementation_status": "planned",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-013"
+        ],
+        "summary": "List embedded resources and notices",
+        "syntax_status": "defined",
+        "words": [
+          "resource",
+          "list"
+        ]
+      },
+      {
+        "aliases": [
+          "fs format"
+        ],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "plan",
+        "handler": null,
+        "id": "filesystem.format.plan",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-113"
+        ],
+        "summary": "Propose filesystem creation with exact feature, loss and discard policy",
+        "syntax_status": "unresolved",
+        "words": [
+          "filesystem",
+          "format"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "setup.inspect",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-061",
+          "DE-063"
+        ],
+        "summary": "Inspect local declared software lifecycle ownership without installation effects",
+        "syntax_status": "unresolved",
+        "words": [
+          "setup",
+          "inspect"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "unavailable",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "provider.resolve",
+        "implementation_status": "planned",
+        "parameter_schema": null,
+        "privilege": "none",
+        "reason": "not_implemented",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-035",
+          "DE-064"
+        ],
+        "summary": "Explain candidate compatibility and missing providers without acquisition",
+        "syntax_status": "unresolved",
+        "words": [
+          "provider",
+          "resolve"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [
+          {
+            "completion": "schema-enum",
+            "option": "--history",
+            "option_aliases": [],
+            "parameter": "history",
+            "repeatable": false,
+            "value_arity": 1
+          }
+        ],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "shell.open",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-shell-parameters:1",
+        "privilege": "none",
+        "reason": "interactive_console_required",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-027"
+        ],
+        "summary": "Open an explicit persistent DiskEd command session; no implicit storage effect",
+        "syntax_status": "defined",
+        "words": [
+          "shell"
+        ]
+      },
+      {
+        "aliases": [
+          "quit"
+        ],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "shell.close",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "shell_session_only",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-027"
+        ],
+        "summary": "Close the current DiskEd shell without cancelling dispatched operations",
+        "syntax_status": "defined",
+        "words": [
+          "exit"
+        ]
+      },
+      {
+        "aliases": [],
+        "argument_bindings": [],
+        "availability": "available",
+        "completion_policy": "static-only",
+        "contract_status": "planned",
+        "effect": "none",
+        "handler": null,
+        "id": "protocol.serve",
+        "implementation_status": "implemented",
+        "parameter_schema": "urn:disked:schema:command-empty-parameters:1",
+        "privilege": "none",
+        "reason": "synchronous_native_subset",
+        "request_schema": "urn:disked:schema:request:1",
+        "requires_plan": false,
+        "result_schema": "urn:disked:schema:response:1",
+        "spec_ids": [
+          "DE-022"
+        ],
+        "summary": "Serve bounded synchronous requests over standard handles",
+        "syntax_status": "defined",
+        "words": [
+          "protocol",
+          "serve"
+        ]
+      }
+    ]
+  },
+  "schema": "org.disked.response/1",
+  "status": "completed"
+}

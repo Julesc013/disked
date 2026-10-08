@@ -1,0 +1,419 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W033",
+  "base_revision": "de2f64dc9c790e4d268334106f7ac22217b4edba",
+  "spec_manifest_digest": "sha256:a369b479c53b5969ad59e9c2ae46ae15715fcf8036797c63e579f31311fe7894",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/operations/acquire-image.md",
+    "spec/safety/planning.md",
+    "spec/storage/acquisition-consistency.md",
+    "spec/catalog/commands.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/schemas/acquisition-outcome-prototype.schema.json",
+    "spec/schemas/handoff.schema.json",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/platform/windows/acquisition_worker.h",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/runtime/acquisition/pipeline.h",
+    "source/runtime/acquisition/pipeline.cpp",
+    "source/apps/disked/cli.cpp",
+    "source/runtime/presentation/requests.h",
+    "source/runtime/operation/fake_operation.h",
+    "source/runtime/operation/watch.cpp",
+    "source/runtime/command/command.cpp",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tests/images/test_acquisition_worker.py",
+    "tests/images/acquisition_probe.cpp",
+    "tests/images/test_acquisition_pipeline.py",
+    "tests/images/test_file_acquisition.py",
+    "tests/operation/test_worker.py",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-09-file-acquisition/REVIEW.md"
+  ],
+  "files_changed": [
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/acquisition_worker.h",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/runtime/acquisition/pipeline.cpp",
+    "source/runtime/acquisition/pipeline.h",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/acquire-image.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/images/acquisition_probe.cpp",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tests/images/test_acquisition_pipeline.py",
+    "tests/images/test_acquisition_worker.py",
+    "tests/images/test_file_acquisition.py",
+    "tools/build-inputs.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/execution-environment.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/FINDINGS.md",
+    ".aide/evidence/2026-10-09-acquisition-worker/README.md",
+    ".aide/evidence/2026-10-09-acquisition-worker/receipt-inventory.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/review-result.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/REVIEW.md",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-build-identity.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-build.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-configure.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-corrected-build.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-corrected-core-tests.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-corrected-core-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-expanded-worker-tests.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-expanded-worker-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-focused-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-observation.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/working-superseded-native-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-build.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-check.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-clone.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-configure.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-context.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-discovery.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-freshness.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-launch.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-manifest.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-native-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-pipeline-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-results.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-worker-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/command-discovery.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/commands.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/file-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/native-details.log",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/pipeline-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/worker-cases.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/handoffs/DE-W033-worker-2026-10-09.json"
+  ],
+  "summary": "Clean-source private acquisition worker verified at e835a0322392fa941939cb067eb05df86660f370. Exact reviewed definitions/grants, persistent operation epochs, verified-checkpoint progress, cancellation/resume/reconnect, finite budgets and capture provenance. W033/public command integration and all 0.1.0 remain incomplete; local agent review supports continuation without owner acceptance.",
+  "tests": [
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_worker.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-worker\\reproduction-e835a032\\worker-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-worker-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_file_acquisition.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-worker\\reproduction-e835a032\\file-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_pipeline.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032 --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-worker\\reproduction-e835a032\\pipeline-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-pipeline-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W033 --output .aide-local/context/DE-W033-worker --byte-budget 240000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W033-worker",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-file_acquisition_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-acquisition_worker_fault-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\disked.exe command list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-worker/reproduction-e835a032/clean-discovery.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/disked.exe",
+      "sha256": "sha256:ebbefb34d5b88f8d5886085a796bc3cf56f11be89b5365d78cf9c7ef2bd84d44"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/disked_acquisition.lib",
+      "sha256": "sha256:57a1e4db12b65161d091ebef6a1488563147fbf00c487fa248f61546886e8b3a"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/disked_local_file.lib",
+      "sha256": "sha256:04b82d231b285def354fdd0196e8345c92be6ffa37fde1ccd54bcde0b12f0e7d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/disked_file_acquisition.lib",
+      "sha256": "sha256:034de0a5dd3e551823b40b0ed1e684c022b7f0743dadeee6d413707bad34b5a7"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/disked_hash.lib",
+      "sha256": "sha256:4f54aaedeea649da5f37321ebe8b948339e6c61311181f4b272343d879696440"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/acquisition_probe.exe",
+      "sha256": "sha256:97658a4e09da9361b90aa3263e3a13fe9a6933941d2826970432b38ca511d3a0"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/file_acquisition_probe.exe",
+      "sha256": "sha256:abc7eafaf5f56c448222fba15af380213760e26528f50dd66617ee1a83fce144"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/file_acquisition_fault.exe",
+      "sha256": "sha256:8bfdb8d545720ccfc6d6b980e23494da2bfe396eef8bbc19361f1ac4d9d530b7"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/acquisition_worker_probe.exe",
+      "sha256": "sha256:ec653730d38d45add1a68669b1721cfd2da40659b21013bc17234534a7b071cc"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-worker-e835a032/acquisition_worker_fault.exe",
+      "sha256": "sha256:b9de5cd41bdae1a9cced3d3c7461e468bdb62c4fed593cf29c3acd5fdaae6541"
+    }
+  ],
+  "blockers": [
+    "Shared command/grant presentation and operation/watch/frontend integration are not yet implemented or qualified.",
+    "Physical/elevated/customer/release work lacks separate authority; other platform environments and production writer/recovery decisions remain outside this qualified component."
+  ],
+  "next_safe_step": "Continue DE-W033 with shared acquisition definition/grant transfer, bounded operation response/watch and CLI/stdio/GUI/TUI/shell review/submission parity. Qualify independent code-directory/state-store layouts and retain the real worker/map evidence. Public acquisition remains unavailable until integration tests pass. Keep physical devices, elevation, customer data, production-journal encoding, other platforms, owner acceptance and release/publication at separate gates. Preserve failing-media policy, corrupt evidence and old code generations.",
+  "performed_remote_writes": false
+}

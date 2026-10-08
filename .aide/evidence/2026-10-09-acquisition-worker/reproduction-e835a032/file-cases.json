@@ -1,0 +1,2071 @@
+{
+  "schema": "org.disked.file-acquisition-tests/1",
+  "passed": true,
+  "cases": 126,
+  "scope": "generated Windows ordinary files, controlled API faults and observed owned-child termination; no physical/power-loss qualification",
+  "probes": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "sha256": "sha256:abc7eafaf5f56c448222fba15af380213760e26528f50dd66617ee1a83fce144"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-e835a032\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "sha256": "sha256:8bfdb8d545720ccfc6d6b980e23494da2bfe396eef8bbc19361f1ac4d9d530b7"
+    }
+  ],
+  "process_observations": [
+    {
+      "event": "append-header",
+      "pid": 19088,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "append-pending",
+      "pid": 55700,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "destination-written",
+      "pid": 33684,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "destination-flushed",
+      "pid": 48412,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "append-checkpoint",
+      "pid": 41744,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "append-seal",
+      "pid": 49268,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    },
+    {
+      "event": "before-create",
+      "pid": 30044,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 0,
+      "method": "test-release-file-and-communicate"
+    },
+    {
+      "event": "before-create",
+      "pid": 19532,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 0,
+      "method": "test-release-file-and-communicate"
+    },
+    {
+      "event": "map-created",
+      "pid": 34012,
+      "alive_observed": true,
+      "terminal_observed": true,
+      "exit_code": 1,
+      "method": "owned-child-kill-and-wait"
+    }
+  ],
+  "records": [
+    {
+      "name": "inert-prepare-0",
+      "exit_code": 0,
+      "output_sha256": "sha256:046dd535e23119b1c5d0aedc3980c00f937f6cb4992263f2a4e31ec02bc29541",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-0",
+      "exit_code": 0,
+      "output_sha256": "sha256:cec7260e56524d4603c1345cf9f0a5d71fc0c2107847ea66e3634cbf80db05bc",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-0",
+      "exit_code": 0,
+      "output_sha256": "sha256:3504e19426760477efadc796d1d2a182462a4168f626c777a14d21fddabe1e2d",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-1",
+      "exit_code": 0,
+      "output_sha256": "sha256:e30ed1d598121605663cbb85ce7c09bc346a15f87c447fa5d14c94fd583dafad",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-1",
+      "exit_code": 0,
+      "output_sha256": "sha256:581aaef45b12cfd40d23f0175e86bc0a3f10e2ec3386f62817359fa7ba3222d0",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "1",
+        "attempt_verified_bytes": "1",
+        "attempt_written_bytes": "1",
+        "checkpoint_bytes": "1",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "1",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-1",
+      "exit_code": 0,
+      "output_sha256": "sha256:05b31b879285977ee8d94f7cb609eaf640f11b2149e368e5676c3ad53d88ceda",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "1",
+        "attempt_verified_bytes": "1",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "1",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "1",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-4095",
+      "exit_code": 0,
+      "output_sha256": "sha256:70eb32013df71485dc6b6bd443050421a259f574ada858ce331e831c4e71f322",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-4095",
+      "exit_code": 0,
+      "output_sha256": "sha256:0104d29ae647f094dc09b062a49370f6e83bb214eab2028e2b8d85991cd4b570",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4095",
+        "attempt_verified_bytes": "4095",
+        "attempt_written_bytes": "4095",
+        "checkpoint_bytes": "4095",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4095",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-4095",
+      "exit_code": 0,
+      "output_sha256": "sha256:77cf0e71cfd3bd9fe807a447ef411655e7c1404cf98706482413a976c9af5dc3",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4095",
+        "attempt_verified_bytes": "4095",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "4095",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4095",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-4096",
+      "exit_code": 0,
+      "output_sha256": "sha256:eaa24e258d82cccc6810edc27a09159ce31f3aefb3779640fb343ed06ce248ec",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-4096",
+      "exit_code": 0,
+      "output_sha256": "sha256:dd417a07bd6c54d1a4f7d871a85e3ece70944c9dc6958f0c85257c6d7584ca00",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-4096",
+      "exit_code": 0,
+      "output_sha256": "sha256:f489e2823d750ef03172b5dca3b9785778410c347151282426f193760e409570",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-4097",
+      "exit_code": 0,
+      "output_sha256": "sha256:7d8f76fa72e2ef3e7f5e6635cf7148dc33ca9557aea03d662edf5c47ef2c199a",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-4097",
+      "exit_code": 0,
+      "output_sha256": "sha256:9fade7ad4c6f5b90d66bb89a6009e18e719bf1e40939e4fb39b94810986bceca",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4097",
+        "attempt_verified_bytes": "4097",
+        "attempt_written_bytes": "4097",
+        "checkpoint_bytes": "4097",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "6",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4097",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-4097",
+      "exit_code": 0,
+      "output_sha256": "sha256:e6fcf4700b4561823b144760463e4ce80cc4809366b710d02d95c0e64250f074",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4097",
+        "attempt_verified_bytes": "4097",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "4097",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "6",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4097",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-65535",
+      "exit_code": 0,
+      "output_sha256": "sha256:1ad68a248750d7a094d598039a691004bf16fe3054ba20304078049643c01a5e",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-65535",
+      "exit_code": 0,
+      "output_sha256": "sha256:ba66eb58e42a66094ae869a34195c5896cf0fb7cb57fc7810a37d1af0e5f8650",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65535",
+        "attempt_verified_bytes": "65535",
+        "attempt_written_bytes": "65535",
+        "checkpoint_bytes": "65535",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "34",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65535",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-65535",
+      "exit_code": 0,
+      "output_sha256": "sha256:a5a179d98aff4d65b5f0bdb0c8b48eca5db14514a22a3fe9e1c95320851b4e1e",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65535",
+        "attempt_verified_bytes": "65535",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "65535",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "34",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65535",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-65536",
+      "exit_code": 0,
+      "output_sha256": "sha256:556ae645ec237978bf602f2f90b482c9a106b8a572e9ae72c12b3b78c15ed9f0",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-65536",
+      "exit_code": 0,
+      "output_sha256": "sha256:55f54e77f754e81a6fc6f13bb069ab75245ff256b9319ffe7a3395ab95e3a75b",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65536",
+        "attempt_verified_bytes": "65536",
+        "attempt_written_bytes": "65536",
+        "checkpoint_bytes": "65536",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "34",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65536",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-65536",
+      "exit_code": 0,
+      "output_sha256": "sha256:1cb5ee5025617fbc33baf20ea22a73951e4c38e71a787110d19a44350dfde70a",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65536",
+        "attempt_verified_bytes": "65536",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "65536",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "34",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65536",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-65537",
+      "exit_code": 0,
+      "output_sha256": "sha256:b8a0e36afca8e972ff4e9ac8a543564109b9a44f481ae985d1762ab28d1ab237",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-65537",
+      "exit_code": 0,
+      "output_sha256": "sha256:90efa3121d3cb96922ee3bb98de7bf799d50d25ae68811ec5ecd243920ff6ca3",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65537",
+        "attempt_verified_bytes": "65537",
+        "attempt_written_bytes": "65537",
+        "checkpoint_bytes": "65537",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "36",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65537",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-65537",
+      "exit_code": 0,
+      "output_sha256": "sha256:97a6453042971c022567f885767e4481ca9fdcd6a5688bd313d3b8975aa03351",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "65537",
+        "attempt_verified_bytes": "65537",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "65537",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "36",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "65537",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "inert-prepare-131073",
+      "exit_code": 0,
+      "output_sha256": "sha256:bb69d65febeb8a30a7833304a080cda180dff4cab876e565aeab50028ad16bd3",
+      "refusal": null,
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "golden-131073",
+      "exit_code": 0,
+      "output_sha256": "sha256:5f0601948d927aff6a0b253185efbee1ff3f397db34eb9dde986024d096f8f22",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "131073",
+        "attempt_verified_bytes": "131073",
+        "attempt_written_bytes": "131073",
+        "checkpoint_bytes": "131073",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "68",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "131073",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "sealed-resume-131073",
+      "exit_code": 0,
+      "output_sha256": "sha256:673336e83042dec13330bef7c3fe35fbe0713ab5aa315db606e34c8c5638ae82",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "131073",
+        "attempt_verified_bytes": "131073",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "131073",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "68",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "131073",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "chunk-65536-131073",
+      "exit_code": 0,
+      "output_sha256": "sha256:131cf22aaacf259766ad24a82497e94e8c9e7a8cbd3d6476312a01c01b33642a",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "131073",
+        "attempt_verified_bytes": "131073",
+        "attempt_written_bytes": "131073",
+        "checkpoint_bytes": "131073",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "131073",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "chunk-1048576-131073",
+      "exit_code": 0,
+      "output_sha256": "sha256:ada99439a3ca1f1b81b90ba693ae85e0940123093b21e02e187d8271e2f05321",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "131073",
+        "attempt_verified_bytes": "131073",
+        "attempt_written_bytes": "131073",
+        "checkpoint_bytes": "131073",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "131073",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "chunk-1048576-1048576",
+      "exit_code": 0,
+      "output_sha256": "sha256:6174179a6d3027e0e442f6fe1b4ecd00292dac2bbb904065aedbe5e2e05414bc",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "1048576",
+        "attempt_verified_bytes": "1048576",
+        "attempt_written_bytes": "1048576",
+        "checkpoint_bytes": "1048576",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "4",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "1048576",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "chunk-1048576-1048577",
+      "exit_code": 0,
+      "output_sha256": "sha256:9e83ca067eb1226c52ed99c42129a800408aabfae8de2221dacf0269edf604ec",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "1048577",
+        "attempt_verified_bytes": "1048577",
+        "attempt_written_bytes": "1048577",
+        "checkpoint_bytes": "1048577",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "6",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "1048577",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "lossless-unicode-paths",
+      "exit_code": 0,
+      "output_sha256": "sha256:894475ef8642ea5b6ec1dbf43fed5f0d2fdbc2d20c9b8b366534b1baaa860c84",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "no-clobber-destination",
+      "exit_code": 3,
+      "output_sha256": "sha256:fc745abcd9f04dd2adcea73d9ba121c1b26becb782d3eb6059392548d9c87c25",
+      "refusal": "acquisition_output_exists",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "no-clobber-map",
+      "exit_code": 3,
+      "output_sha256": "sha256:fc745abcd9f04dd2adcea73d9ba121c1b26becb782d3eb6059392548d9c87c25",
+      "refusal": "acquisition_output_exists",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "alias-source",
+      "exit_code": 3,
+      "output_sha256": "sha256:fc745abcd9f04dd2adcea73d9ba121c1b26becb782d3eb6059392548d9c87c25",
+      "refusal": "acquisition_output_exists",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "alias-same",
+      "exit_code": 3,
+      "output_sha256": "sha256:36b95f2b0efe433861e72413e05b5c77adef4c5dacb04eb03f2c292172009fc0",
+      "refusal": "acquisition_file_alias",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "alias-case",
+      "exit_code": 3,
+      "output_sha256": "sha256:36b95f2b0efe433861e72413e05b5c77adef4c5dacb04eb03f2c292172009fc0",
+      "refusal": "acquisition_file_alias",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "grant-source_read",
+      "exit_code": 0,
+      "output_sha256": "sha256:9b41a9598a7aec3eaad46bf2bab68c0d95938084157f7f8677feea5fa105a305",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_grant",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "grant-destination_write",
+      "exit_code": 0,
+      "output_sha256": "sha256:67e84b690e156883d61dd1c87003cc54864eab3119258b8b85b0aa3b0ff87fea",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_grant",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "grant-map_write",
+      "exit_code": 0,
+      "output_sha256": "sha256:da72e0e7052b038e49277abd61be304775660afffae8c588a4c8f8d8293549cf",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_grant",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "grant-host_effects",
+      "exit_code": 0,
+      "output_sha256": "sha256:6d1c9c8fa456d44145ae6db05f571cd4f10479478cfbe1e79126ba7585be0e34",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_grant",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "grant-digest",
+      "exit_code": 0,
+      "output_sha256": "sha256:a5de3880f2b1a80e734e46cfde22293248b5c37431bdaa63e448ea8994fcff9d",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_grant",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "policy-before-source-{'chunk_bytes': '0'}",
+      "exit_code": 3,
+      "output_sha256": "sha256:0df4a01b42a4238c1c04f0c3fb38b414aab0ceb855c06210921d9c6ca1363b9e",
+      "refusal": "acquisition_file_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "policy-before-source-{'retry_limit': '4'}",
+      "exit_code": 3,
+      "output_sha256": "sha256:0df4a01b42a4238c1c04f0c3fb38b414aab0ceb855c06210921d9c6ca1363b9e",
+      "refusal": "acquisition_file_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "policy-before-source-{'read_policy': 'other'}",
+      "exit_code": 3,
+      "output_sha256": "sha256:0df4a01b42a4238c1c04f0c3fb38b414aab0ceb855c06210921d9c6ca1363b9e",
+      "refusal": "acquisition_file_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "policy-before-source-{'substitution': 'silent'}",
+      "exit_code": 3,
+      "output_sha256": "sha256:0df4a01b42a4238c1c04f0c3fb38b414aab0ceb855c06210921d9c6ca1363b9e",
+      "refusal": "acquisition_file_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "policy-before-source-{'read_policy': 'failing-read-mostly', 'retry_limit': '1'}",
+      "exit_code": 3,
+      "output_sha256": "sha256:0df4a01b42a4238c1c04f0c3fb38b414aab0ceb855c06210921d9c6ca1363b9e",
+      "refusal": "acquisition_file_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'NUL'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'CON.txt'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'bad:stream'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'bad\\x1bname'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'trailing.'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'trailing '",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'C:relative.img'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'\\\\\\\\.\\\\PhysicalDrive0'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'\\\\\\\\?\\\\C:\\\\no.img'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'//absent/share.img'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "path-refusal-'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb838da74a30ac8f3d887fe531b0d8ebbf525d5c20e1296680b07f10b9c4e095",
+      "refusal": "image_path_profile",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "missing-source",
+      "exit_code": 3,
+      "output_sha256": "sha256:eea0c87b3f49a63d184bffe638b9e7d0e6c0e1a26d3c37b1adc278508f048b15",
+      "refusal": "image_source_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "directory-source",
+      "exit_code": 3,
+      "output_sha256": "sha256:5a0611efc55403ff0e6cbeaf6cfa5001230b7e2f4e9d17e9113ba75307ee1931",
+      "refusal": "image_file_type",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "missing-parent",
+      "exit_code": 3,
+      "output_sha256": "sha256:5d7f9c4049c997cbc8fe8823407677e4fd8d6a0178be115fe569fd806694a58f",
+      "refusal": "image_parent_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "hardlink-source",
+      "exit_code": 3,
+      "output_sha256": "sha256:e7ab5c21c649d163e2598f93fd7af800c704f5f70cbb80aa5ab1bbca1439ced2",
+      "refusal": "image_file_aliases",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "sharing-writer",
+      "exit_code": 3,
+      "output_sha256": "sha256:222be910f4985a92a40af3f299d0e8aa2a0cdf8abfa231628799ad685b4e3351",
+      "refusal": "image_source_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "sharing-exclusive-reader",
+      "exit_code": 3,
+      "output_sha256": "sha256:222be910f4985a92a40af3f299d0e8aa2a0cdf8abfa231628799ad685b4e3351",
+      "refusal": "image_source_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "actual-source-access-denied",
+      "exit_code": 3,
+      "output_sha256": "sha256:afed3be6ea21f38b0e6352bfab7b7733a304dab5a11df0f3fce1f693e6be78b5",
+      "refusal": "image_source_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "reparse-parent",
+      "exit_code": 3,
+      "output_sha256": "sha256:fb2fbd9c65ec240aa7a910850117485d31294f20c9a8e4c0d6bbf72dd4ce3f11",
+      "refusal": "image_reparse_source",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "capacity-before-create",
+      "exit_code": 0,
+      "output_sha256": "sha256:078fa977d13dfb519582fa889ae017239527622189fb456adc5db4df32996d55",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_capacity",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "stop-0",
+      "exit_code": 0,
+      "output_sha256": "sha256:696712318774fb1ec8b52bf9e6e982dbcd6c7f72bd4c83fbc66d8300efc4e10c",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "stop-4096",
+      "exit_code": 0,
+      "output_sha256": "sha256:1bca19a8b109b7a933ec1db16c04c828ded336f96170435444bfcc849fd95289",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-stop-4096",
+      "exit_code": 0,
+      "output_sha256": "sha256:ae90a744bd3cafed2f9f2f38da2f4a96a9ffbd7c08592e457a53bf0721f35d05",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "read-READ_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:2753fc775bea06925e770496c2118c90f64d687c2f150c5b7b11585117df9571",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_source_read",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "read-retry-attempt-READ_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:880453aca6b9682094b59a1d3d734cb5d466aefdd0f43c996791ffe08e955315",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "9",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "read-SHORT_READ",
+      "exit_code": 0,
+      "output_sha256": "sha256:d9cdcae4db4a187833c3dbe6c24b35b661e8c1cb453f6821646ac624d0f88a60",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4095",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_source_read",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "read-retry-attempt-SHORT_READ",
+      "exit_code": 0,
+      "output_sha256": "sha256:fec823caa5fa4a432a81226ea45976fc22a897933de500d3120437268e828029",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "9",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "explicit-zero-ordinary",
+      "exit_code": 0,
+      "output_sha256": "sha256:003a0e0c2efa8d9de447760c3747da2d546df379a2db091b2504a5d080f9d5f4",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "completed_with_substitution",
+        "substituted_bytes": "9000",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "explicit-zero-failing-read-mostly",
+      "exit_code": 0,
+      "output_sha256": "sha256:14590d07c71da6296863adfff027ce94a72537ffbbd9d96ce89e273c95cf7823",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "completed_with_substitution",
+        "substituted_bytes": "9000",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "write-WRITE_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:d60c9131b39cce3324340110b98c786b9d5aa6a779d58ca9a880e253886cc5b6",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_file_write",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": true
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-WRITE_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:fa4a78d34facf70aea1944d9c4dcadb1d9da056a87128d3cbafac939447be1fe",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "write-PARTIAL_WRITE",
+      "exit_code": 0,
+      "output_sha256": "sha256:409323afb2efc344873767024924c75a5f4f600adb69a01d40c17e38e392917b",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_test_partial_write",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": true
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-PARTIAL_WRITE",
+      "exit_code": 0,
+      "output_sha256": "sha256:9a720f9a07390dd8e941db77c1ed6ee98a1ec973ecd2f107c57186bc5862ba18",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "flush-MAP_FLUSH_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:96ed81ba22722cea7e34553ed62580bb6eb47134fb4f09f18dc832cdd371966d",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_map_flush",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-flush-MAP_FLUSH_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:5e95c28f3c1b8facb1ca30ae6a58aa20000fbd3530940122f483c9cfe394871b",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "flush-DESTINATION_FLUSH_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:b3e8fe2db4bb925879702c720dbbf2669d241cc149ba736b5d78a62a704d70bb",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_destination_flush",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": true
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-flush-DESTINATION_FLUSH_ERROR",
+      "exit_code": 0,
+      "output_sha256": "sha256:f9f30f01fcd5acbdcbff2c87f6b37c994fa81658583d0c9df6d21657d2a6baba",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "torn-checkpoint",
+      "exit_code": 0,
+      "output_sha256": "sha256:2b638a4a2246845b2afbef0c1519bd1ab38fcb96ff2f32b3631cd9ab96a030e6",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_test_torn_map",
+        "records": "2",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": true
+      },
+      "passed": true
+    },
+    {
+      "name": "resume-torn-checkpoint",
+      "exit_code": 0,
+      "output_sha256": "sha256:7ce3c1775797a7325bff7203a48e2567e939978c8ae76f7673e4ac0d3549acde",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "failing-pause",
+      "exit_code": 0,
+      "output_sha256": "sha256:9edb0b97da1ebd6020e8f57aaf8d1a53e60954841eee96f0905031a55a2a2029",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "failing-resume-no-prefix-reread",
+      "exit_code": 0,
+      "output_sha256": "sha256:23e189c655e9efa5ebf50d7dbc6e6935d803ee37816de85280408a41cae64219",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4904",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "hooks-absent",
+      "exit_code": 0,
+      "output_sha256": "sha256:871f99838d1a8aa56234219fa8715ea3102ff146e73afaebae85d1fd66e699da",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "setup-complete-json",
+      "exit_code": 0,
+      "output_sha256": "sha256:88eba527f5484b0e9e392a3c009f4ecbc92ad54d70af6356879e53fbfcf7caa4",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-complete-json",
+      "exit_code": 0,
+      "output_sha256": "sha256:17933df12441983e25e7d50b40f3baa141c0fbbcf1af74af1d03708bf4631292",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_shape",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "setup-incomplete",
+      "exit_code": 0,
+      "output_sha256": "sha256:7a113cdd43a3c5a1babf7bf4d4a632e6b23b2b82819b72c42c6e498fb21e78fe",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "repair-incomplete-tail",
+      "exit_code": 0,
+      "output_sha256": "sha256:92a4555f0d402dca02e707eff8a560d0fa977bf8484a38c47383b19c77b35989",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "setup-unexplained-suffix",
+      "exit_code": 0,
+      "output_sha256": "sha256:f165d9070ed7e75b240ae2a731745d9d454e8bb46be188c63dd3d3979dd16dae",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-unexplained-suffix",
+      "exit_code": 0,
+      "output_sha256": "sha256:759dd8636125c52d33a9c37be8d95afb69e29a946c21fce63e1409eda00f0b70",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_unexplained_output",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "setup-checkpoint-data",
+      "exit_code": 0,
+      "output_sha256": "sha256:67b5edbdd4ea1f196d605145bbd086c582db9028866c1753828e4cc8ac51e8d5",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-checkpoint-data",
+      "exit_code": 0,
+      "output_sha256": "sha256:c10cd5440068ec24607941e6738b9be8d928821525721a37f09842ec8286a7e3",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_destination_verification",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": true
+      },
+      "passed": true
+    },
+    {
+      "name": "setup-source-change",
+      "exit_code": 0,
+      "output_sha256": "sha256:7c367148888f558d62bd57cb496b71e2c32cc6d3f11611f075c5cad1cb9e0cfc",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-source-change",
+      "exit_code": 3,
+      "output_sha256": "sha256:0368965dc464e92a93d674251ba1f232153391bfc3e458af33652db5975bf3d1",
+      "refusal": "acquisition_resume_binding",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "setup-output-generation",
+      "exit_code": 0,
+      "output_sha256": "sha256:bf6ae6109d316be1153e3a8761da68572570cab5bbcd7db0ada0fc6cc057ca04",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-output-generation",
+      "exit_code": 3,
+      "output_sha256": "sha256:0368965dc464e92a93d674251ba1f232153391bfc3e458af33652db5975bf3d1",
+      "refusal": "acquisition_resume_binding",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "setup-map-generation",
+      "exit_code": 0,
+      "output_sha256": "sha256:028c2436bd3689c30b6dac38f66b8384949abe2b4542da676928a6390460c5a9",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-map-generation",
+      "exit_code": 3,
+      "output_sha256": "sha256:0368965dc464e92a93d674251ba1f232153391bfc3e458af33652db5975bf3d1",
+      "refusal": "acquisition_resume_binding",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "setup-options",
+      "exit_code": 0,
+      "output_sha256": "sha256:7c6074625f9232df1fd336e35ce0777ee7efc5c5df13189dfa7d83fa251ea581",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "4096",
+        "attempt_verified_bytes": "4096",
+        "attempt_written_bytes": "4096",
+        "checkpoint_bytes": "4096",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "3",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "4096",
+        "status": "paused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-options",
+      "exit_code": 3,
+      "output_sha256": "sha256:31f91917f7630882f2ea96f516519ee123102ad7a1e62310b137f8413681b40e",
+      "refusal": "acquisition_resume_options",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "setup-code-generation",
+      "exit_code": 0,
+      "output_sha256": "sha256:72176615415a9680dabb7b64a8ae323ed6758fac65e2b190101ec717feddf1a0",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-code-generation",
+      "exit_code": 3,
+      "output_sha256": "sha256:0368965dc464e92a93d674251ba1f232153391bfc3e458af33652db5975bf3d1",
+      "refusal": "acquisition_resume_binding",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "setup-sealed-tail",
+      "exit_code": 0,
+      "output_sha256": "sha256:5ffca556e86ac7161c0455d6f2b75c1e6734c30a8c2cad4546309a53af2747bd",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "refuse-sealed-tail",
+      "exit_code": 0,
+      "output_sha256": "sha256:2fb274572591dea9c306c957c2d5fe961529417b6149a84c0f65970be58c54c5",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_map_after_seal",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-append-header",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-append-header",
+      "exit_code": 0,
+      "output_sha256": "sha256:84bfe65e6883edb8753c22958aa7d56b7896bde1715535274d9714fe23577ef1",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-append-pending",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-append-pending",
+      "exit_code": 0,
+      "output_sha256": "sha256:a94e2566f647906486c188acd119267602e8afe45bf5899a61bab9b6146a19d9",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-destination-written",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-destination-written",
+      "exit_code": 0,
+      "output_sha256": "sha256:2baaa9596ee7ae23c49cf43a5f9cfa9f626011c3df8b393dee420b1dc535e8bc",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-destination-flushed",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-destination-flushed",
+      "exit_code": 0,
+      "output_sha256": "sha256:41ca3f5aa30ed997fe5556da2e263f66487ec7891b439c1758faf77315224664",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-append-checkpoint",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-append-checkpoint",
+      "exit_code": 0,
+      "output_sha256": "sha256:7c8bb04d142c307681e3ad3aeccd68d7ddc2103f4f2373e2af99dda08facd873",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "4904",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "live-worker-sharing-append-seal",
+      "exit_code": 3,
+      "output_sha256": "sha256:bdbfd449d4f35d0ec77a7ae6c4d58e7ff42a024ece3fadb286cb40cc2b5532d5",
+      "refusal": "acquisition_destination_open",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "after-process-termination-append-seal",
+      "exit_code": 0,
+      "output_sha256": "sha256:981e9a63971b7cbeb5d6c7e65d23d9b750231d03ee79bc82a17a5f2ec078f3f9",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "CREATE_NEW-race-map",
+      "exit_code": 0,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_map_create",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "refused",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "CREATE_NEW-race-destination",
+      "exit_code": 0,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_destination_create",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "partial-bootstrap-retained",
+      "exit_code": 3,
+      "output_sha256": "sha256:fc745abcd9f04dd2adcea73d9ba121c1b26becb782d3eb6059392548d9c87c25",
+      "refusal": "acquisition_output_exists",
+      "outcome": null,
+      "passed": true
+    },
+    {
+      "name": "torn-header",
+      "exit_code": 0,
+      "output_sha256": "sha256:cf17f5727b9da8891c76aa9975353ea7ba92883a0d98a600f75d96c7a799eb2d",
+      "refusal": null,
+      "outcome": {
+        "attempt_read_bytes": "0",
+        "attempt_verified_bytes": "0",
+        "attempt_written_bytes": "0",
+        "checkpoint_bytes": "0",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "acquisition_test_torn_map",
+        "records": "0",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "0",
+        "status": "failed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      },
+      "passed": true
+    },
+    {
+      "name": "torn-header-resume",
+      "exit_code": 3,
+      "output_sha256": "sha256:b1311aa0cb3c9111128119b3360082125ef5b127b1573163f173e99cac72180e",
+      "refusal": "acquisition_file_header",
+      "outcome": null,
+      "passed": true
+    }
+  ]
+}
