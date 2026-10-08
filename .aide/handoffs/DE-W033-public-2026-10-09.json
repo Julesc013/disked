@@ -1,0 +1,696 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W033",
+  "base_revision": "b4296070ba471dce5b1034f92d0a372dff1ab2ad",
+  "spec_manifest_digest": "sha256:0f293e99db85eabf83fa02d90f75dae48dcb78800150f3b3b3fd1af1ed9b2488",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/operations/acquire-image.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/interaction/interactive-shell.md",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/native-bootstrap.json",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/command/shell_lexer.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/providers/image/file_acquisition.cpp",
+    "tests/frontend/test_acquisition_forms.py",
+    "tests/frontend/test_acquisition_interactive.py",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/gui_fixture.py",
+    "tests/native/test_protocol.py",
+    "CMakePresets.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-acquisition-public/FINDINGS.md",
+    ".aide/evidence/2026-10-09-acquisition-public/README.md",
+    ".aide/evidence/2026-10-09-acquisition-public/REQUIREMENT-COVERAGE.md",
+    ".aide/evidence/2026-10-09-acquisition-public/REVIEW.md",
+    ".aide/evidence/2026-10-09-acquisition-public/capture-visual-review.py",
+    ".aide/evidence/2026-10-09-acquisition-public/evidence-hashes.json",
+    ".aide/evidence/2026-10-09-acquisition-public/final-publication-check.log",
+    ".aide/evidence/2026-10-09-acquisition-public/final-publication-freshness.log",
+    ".aide/evidence/2026-10-09-acquisition-public/final-publication-manifest-verify.log",
+    ".aide/evidence/2026-10-09-acquisition-public/final-publication-manifest.log",
+    ".aide/evidence/2026-10-09-acquisition-public/final-publication-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/initial-form-fixture-failure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/initial-internal-role-expectation-failure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/initial-profile-guard-failure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/initial-resubmission-expectation-failure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/initial-supplemental-capture-wrapper-failure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduce.py",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-build.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-check.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-clone.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-command-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-configure.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-context.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-discovery.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-form-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-freshness.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-interactive-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-launch.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-manifest.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-native-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-operation-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-pipeline-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-producer-schema.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-results.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-synthetic-observer-producer-schema.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-worker-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/command-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/command-discovery.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/commands.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/file-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/form-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/gui-acquisition-execute-review-redrawn.png",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/gui-acquisition-execute-review.png",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/gui-acquisition-prepare-review.png",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/gui-acquisition-watch-64-events.png",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/interactive-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/native-details.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/operation-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/pipeline-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/product-composition-identity.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/product-composition-identity.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/supplemental-visual-review.log",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/validate-producer-events.py",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/visual-review.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/worker-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-public/reviewed-working-interactive-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/validate-producer-events.py",
+    ".aide/evidence/2026-10-09-acquisition-public/working-build.log",
+    ".aide/evidence/2026-10-09-acquisition-public/working-corrected-targeted-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/working-native-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-public/working-spec-tests.log",
+    ".aide/handoffs/DE-W033-public-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "README.md",
+    "TODO.MD",
+    "docs/command-experience.md",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/shell/shell_model.h",
+    "source/apps/disked/tui/model.cpp",
+    "source/platform/windows/entry.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/protocol.h",
+    "source/runtime/command/shell_lexer.cpp",
+    "source/runtime/command/shell_lexer.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "spec/bundle.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/interactive-shell.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/manifest.json",
+    "spec/operations/acquire-image.md",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/templates/docs-command-experience.txt",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-readme.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/test_acquisition_forms.py",
+    "tests/frontend/test_acquisition_interactive.py",
+    "tests/images/test_acquisition_operations.py",
+    "tests/interaction/shell_probe.cpp",
+    "tests/interaction/test_shell_model.py",
+    "tests/native/test_protocol.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Public ordinary-file acquisition and native shell/watch integration verified at 54328453e355b0522e4cb2581a8887247a18efd8; actual checkpoint cancellation/resume and byte/map verification passed. W033 broader qualification and DiskEd 0.1.0 incomplete; implementing-agent review permits local continuation.",
+  "tests": [
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_acquisition_forms.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe --gui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\gui_model_probe.exe --tui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\tui_model_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\form-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-form-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_acquisition_interactive.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe --shell D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\shell_model_probe.exe --reader D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\watch_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\interactive-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-interactive-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_commands.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_command_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\command-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-command-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_operations.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_command_probe.exe --disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe --reader D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\watch_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\operation-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-operation-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\validate-producer-events.py D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\operation-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-producer-schema.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\validate-producer-events.py D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\interactive-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-synthetic-observer-producer-schema.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_worker.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\worker-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-worker-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_file_acquisition.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\file-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/images/test_acquisition_pipeline.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 --validate-schemas --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453\\pipeline-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-pipeline-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W033 --output .aide-local/context/DE-W033-worker --byte-budget 350000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W033-worker",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-file_acquisition_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_worker_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\acquisition_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-acquisition_command_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\watch_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\watch_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\watch_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-watch_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\shell_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\shell_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\shell_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-shell_model_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\gui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\gui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\gui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-gui_model_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\tui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\tui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\tui_model_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-tui_model_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe command list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/product-composition-identity.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture_public_review.py D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-54328453 D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-public\\reproduction-54328453",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/reproduction-54328453/supplemental-visual-review.log"
+    },
+    {
+      "command": "Physical storage, power-loss, real failing media, other-platform execution, owner acceptance and release qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/final-publication-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/final-publication-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/final-publication-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/final-publication-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-public/final-publication-manifest-verify.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked.exe",
+      "sha256": "sha256:ec5fb0c669ab1590ad35cc177f6871f60ac6fcf463c28c36f59ce35ab27f7c89"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_acquisition.lib",
+      "sha256": "sha256:e2f383a778bb643ad1ee3a53ab026ff667a4a7221b372b25155a4d88131f3c14"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_local_file.lib",
+      "sha256": "sha256:d4129b72e474f0710cb86b62e3bfe7c17d92bd09caf312965615d1b984c5c574"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_file_acquisition.lib",
+      "sha256": "sha256:963fe1fba8fb3ccd687e95ee1fd96b92b23b27ebf9e19d7f59f8b1301b986d60"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_hash.lib",
+      "sha256": "sha256:41cb655405d9f558f62a8aedd672ea39e0d95ca1a07107b0e8f616ff14211598"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/acquisition_probe.exe",
+      "sha256": "sha256:79924b795870627c363cef38da78db8743865a7a64dcfccd31109b4171fdc2bd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/file_acquisition_probe.exe",
+      "sha256": "sha256:ad4b4a4e295fec08cb6f5f24deb11784ee8ba0c374f035d12d9fd3b33cff82e2"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/file_acquisition_fault.exe",
+      "sha256": "sha256:26f0c4ac906b480fba82fbe91b5d1e32e7cff811eb5016575a2bece7bac5af92"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/acquisition_worker_probe.exe",
+      "sha256": "sha256:84745ce7edc0e9853acf51d626266385d15e0da0a8d2ee18c0808cbd13b737c2"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/acquisition_worker_fault.exe",
+      "sha256": "sha256:892c308bf403a5a5c7882fd33ba4c71f5e4a20ba4aaf644beff00badcf8472b9"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_acquisition_commands.lib",
+      "sha256": "sha256:2fece334c41626940e48bf718a839b6a7d63460095d296cc33cc8eb187a4f8bf"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/acquisition_command_probe.exe",
+      "sha256": "sha256:7ac5e03fac3c9ced90e540934e87d05e9bef71135d2abe8afe20ab1a29601830"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/watch_probe.exe",
+      "sha256": "sha256:c08f1e1dad14a4ac97607fd6e438834069125ad5d1a83a31e9ed6dc84444307a"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/disked_acquisition_observation.lib",
+      "sha256": "sha256:dcc0bd048689bfb6d662e668b7532c56a7126ebf8f3ecc9a449344da8898e996"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/shell_model_probe.exe",
+      "sha256": "sha256:03027b8cc8005646617360aa9cd67240f49ddcae6c9bc490b7efe58829e1dd6d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/gui_model_probe.exe",
+      "sha256": "sha256:ac58e961f30c4811ad9a59c923947982cd18be8930e1ece13fe8da920c259c87"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W033-public-54328453/tui_model_probe.exe",
+      "sha256": "sha256:53c4800b75a4b563eceda96dad12bfedda21c04d755be309c238315481a2b08f"
+    }
+  ],
+  "blockers": [
+    "Physical/privileged/customer/release work, production writer decisions, other platform environments and owner acceptance retain separate gates."
+  ],
+  "next_safe_step": "Continue independent DE-W040: specify and implement the proposed native journal byte format and durability/failure model with torn-write and unknown-effect tests, immutable plan definitions, separate receipts and composable recovery properties. Do not admit product writes while the format is proposed. W033 Windows fixture coverage is retained; physical backing/thin provisioning/failing media/power loss, other platforms, owner and release qualification remain separate.",
+  "performed_remote_writes": false
+}

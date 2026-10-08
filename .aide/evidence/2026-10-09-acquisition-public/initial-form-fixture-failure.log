@@ -1,0 +1,199 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+      Start  1: frontend.acquisition_forms
+ 1/47 Test  #1: frontend.acquisition_forms .........***Failed    3.66 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-xf3u5hk7
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_acquisition_forms.py", line 151, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_acquisition_forms.py", line 140, in main
+    first=console(p,folder);assert first['status']=='completed';no_effects(p)
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_acquisition_forms.py", line 44, in console
+    native.append(dict(frontend='tui',phase=params['phase'],**report));return report['response']
+                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'frontend'
+
+      Start  2: frontend.acquisition_interactive
+ 2/47 Test  #2: frontend.acquisition_interactive ...   Passed   35.09 sec
+      Start  3: image.acquisition_commands
+ 3/47 Test  #3: image.acquisition_commands .........   Passed   15.02 sec
+      Start  4: image.acquisition_operations
+ 4/47 Test  #4: image.acquisition_operations .......   Passed   10.80 sec
+      Start  5: image.acquisition_worker
+ 5/47 Test  #5: image.acquisition_worker ...........   Passed   22.59 sec
+      Start  6: image.file_acquisition
+ 6/47 Test  #6: image.file_acquisition .............   Passed   19.87 sec
+      Start  7: image.acquisition_pipeline
+ 7/47 Test  #7: image.acquisition_pipeline .........   Passed    4.67 sec
+      Start  8: image.shared_commands
+ 8/47 Test  #8: image.shared_commands ..............   Passed   17.55 sec
+      Start  9: image.file_capture
+ 9/47 Test  #9: image.file_capture .................   Passed    3.52 sec
+      Start 10: image.map_observation
+10/47 Test #10: image.map_observation ..............   Passed    1.54 sec
+      Start 11: portable.gpt
+11/47 Test #11: portable.gpt .......................   Passed    3.27 sec
+      Start 12: portable.gpt_guard
+12/47 Test #12: portable.gpt_guard .................   Passed    0.02 sec
+      Start 13: portable.mbr_ebr
+13/47 Test #13: portable.mbr_ebr ...................   Passed    1.13 sec
+      Start 14: portable.mbr_guard
+14/47 Test #14: portable.mbr_guard .................   Passed    0.02 sec
+      Start 15: portable.checked
+15/47 Test #15: portable.checked ...................   Passed    0.23 sec
+      Start 16: portable.c_cpp_linkage
+16/47 Test #16: portable.c_cpp_linkage .............   Passed    0.02 sec
+      Start 17: operation.watch_reader
+17/47 Test #17: operation.watch_reader .............   Passed    0.36 sec
+      Start 18: resilience.capture
+18/47 Test #18: resilience.capture .................   Passed    0.44 sec
+      Start 19: resilience.request_channel
+19/47 Test #19: resilience.request_channel .........   Passed    0.80 sec
+      Start 20: shell.model
+20/47 Test #20: shell.model ........................   Passed    1.20 sec
+      Start 21: operation.reducer
+21/47 Test #21: operation.reducer ..................   Passed    0.66 sec
+      Start 22: frontend.gui_model
+22/47 Test #22: frontend.gui_model .................   Passed    0.47 sec
+      Start 23: frontend.gui_windows
+23/47 Test #23: frontend.gui_windows ...............   Passed    2.28 sec
+      Start 24: frontend.tui_model
+24/47 Test #24: frontend.tui_model .................   Passed    0.33 sec
+      Start 25: frontend.tui_windows
+25/47 Test #25: frontend.tui_windows ...............   Passed    2.89 sec
+      Start 26: shell.windows
+26/47 Test #26: shell.windows ......................   Passed    5.89 sec
+      Start 27: frontend.service
+27/47 Test #27: frontend.service ...................   Passed    0.44 sec
+      Start 28: frontend.transport
+28/47 Test #28: frontend.transport .................   Passed    1.11 sec
+      Start 29: invocation.policy
+29/47 Test #29: invocation.policy ..................   Passed    5.26 sec
+      Start 30: protocol.compatible_reader
+30/47 Test #30: protocol.compatible_reader .........   Passed    0.60 sec
+      Start 31: command.syntax
+31/47 Test #31: command.syntax .....................   Passed    9.55 sec
+      Start 32: protocol.json_codec
+32/47 Test #32: protocol.json_codec ................   Passed    2.74 sec
+      Start 33: operation.watch
+33/47 Test #33: operation.watch ....................   Passed   30.88 sec
+      Start 34: resilience.capture_campaign
+34/47 Test #34: resilience.capture_campaign ........   Passed    8.98 sec
+      Start 35: resilience.frontend_memory
+35/47 Test #35: resilience.frontend_memory .........   Passed    7.23 sec
+      Start 36: resilience.store_failures
+36/47 Test #36: resilience.store_failures ..........   Passed   15.09 sec
+      Start 37: resilience.request_waiting
+37/47 Test #37: resilience.request_waiting .........   Passed   19.42 sec
+      Start 38: resilience.output_waiting
+38/47 Test #38: resilience.output_waiting ..........   Passed   17.59 sec
+      Start 39: operation.worker
+39/47 Test #39: operation.worker ...................   Passed   20.51 sec
+      Start 40: resilience.gui_waiting
+40/47 Test #40: resilience.gui_waiting .............   Passed    6.39 sec
+      Start 41: resilience.console_waiting
+41/47 Test #41: resilience.console_waiting .........   Passed   12.54 sec
+      Start 42: resilience.worker_budget
+42/47 Test #42: resilience.worker_budget ...........   Passed    8.14 sec
+      Start 43: disked.invocation
+43/47 Test #43: disked.invocation ..................   Passed    1.43 sec
+      Start 44: disked.acceptance
+44/47 Test #44: disked.acceptance ..................***Failed    2.81 sec
+test_broken_output_is_failure (__main__.NativeProtocol.test_broken_output_is_failure) ... ok
+test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases) ... FAIL
+test_discovery_has_exact_registry_and_real_handler_subset (__main__.NativeProtocol.test_discovery_has_exact_registry_and_real_handler_subset) ... ok
+test_errors_are_framed_after_complete_parse (__main__.NativeProtocol.test_errors_are_framed_after_complete_parse) ... ok
+test_help_every_spelling_and_operand_independence (__main__.NativeProtocol.test_help_every_spelling_and_operand_independence) ... ok
+test_malformed_json_and_encoding (__main__.NativeProtocol.test_malformed_json_and_encoding) ... ok
+test_mode_inspection_uses_actual_host_in_cli_and_transport (__main__.NativeProtocol.test_mode_inspection_uses_actual_host_in_cli_and_transport) ... ok
+test_ndjson_continues_refusals_and_preserves_order (__main__.NativeProtocol.test_ndjson_continues_refusals_and_preserves_order) ... ok
+test_ordinary_machine_command_does_not_read_pipeline_as_requests (__main__.NativeProtocol.test_ordinary_machine_command_does_not_read_pipeline_as_requests) ... ok
+test_resource_limits_end_stream (__main__.NativeProtocol.test_resource_limits_end_stream) ... ok
+test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports) ... FAIL
+test_stream_flushes_before_eof (__main__.NativeProtocol.test_stream_flushes_before_eof) ... ok
+test_strict_request_and_correlation (__main__.NativeProtocol.test_strict_request_and_correlation) ... ok
+test_unavailable_frontends_and_prompt_channels (__main__.NativeProtocol.test_unavailable_frontends_and_prompt_channels) ... ok
+test_wire_byte_and_request_count_limits (__main__.NativeProtocol.test_wire_byte_and_request_count_limits) ... ok
+
+======================================================================
+FAIL: test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\native\test_protocol.py", line 68, in test_build_identity_and_machine_aliases
+    self.assertEqual(expected,value['result']);self.assertEqual('cli',value['request_id'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'product': 'DiskEd', 'version': '0.1.0-dev[595 chars]e/1'} != {'acquisition_provider': 'provider.image.ac[661 chars].21'}
+Diff is 804 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\native\test_protocol.py", line 202, in test_source_input_closure_and_pe_imports
+    self.assertEqual(expected,self.identity['inputs'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'CMa[10716 chars]a256:e5f6adb99943db436ee520b899652ac880e18eff7[15123 chars]db5'} != {'CMa[10716 chars]a256:b3c13220856bcc5a48bc0815e13b4774fcfe5603d[15123 chars]db5'}
+Diff is 26682 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.712s
+
+FAILED (failures=2)
+
+      Start 45: disked_provider_guard.invocation
+45/47 Test #45: disked_provider_guard.invocation ...   Passed    1.19 sec
+      Start 46: disked_provider_guard.acceptance
+46/47 Test #46: disked_provider_guard.acceptance ...***Failed    2.56 sec
+test_broken_output_is_failure (__main__.NativeProtocol.test_broken_output_is_failure) ... ok
+test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases) ... FAIL
+test_discovery_has_exact_registry_and_real_handler_subset (__main__.NativeProtocol.test_discovery_has_exact_registry_and_real_handler_subset) ... ok
+test_errors_are_framed_after_complete_parse (__main__.NativeProtocol.test_errors_are_framed_after_complete_parse) ... ok
+test_help_every_spelling_and_operand_independence (__main__.NativeProtocol.test_help_every_spelling_and_operand_independence) ... ok
+test_malformed_json_and_encoding (__main__.NativeProtocol.test_malformed_json_and_encoding) ... ok
+test_mode_inspection_uses_actual_host_in_cli_and_transport (__main__.NativeProtocol.test_mode_inspection_uses_actual_host_in_cli_and_transport) ... ok
+test_ndjson_continues_refusals_and_preserves_order (__main__.NativeProtocol.test_ndjson_continues_refusals_and_preserves_order) ... ok
+test_ordinary_machine_command_does_not_read_pipeline_as_requests (__main__.NativeProtocol.test_ordinary_machine_command_does_not_read_pipeline_as_requests) ... ok
+test_resource_limits_end_stream (__main__.NativeProtocol.test_resource_limits_end_stream) ... ok
+test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports) ... FAIL
+test_stream_flushes_before_eof (__main__.NativeProtocol.test_stream_flushes_before_eof) ... ok
+test_strict_request_and_correlation (__main__.NativeProtocol.test_strict_request_and_correlation) ... ok
+test_unavailable_frontends_and_prompt_channels (__main__.NativeProtocol.test_unavailable_frontends_and_prompt_channels) ... ok
+test_wire_byte_and_request_count_limits (__main__.NativeProtocol.test_wire_byte_and_request_count_limits) ... ok
+
+======================================================================
+FAIL: test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\native\test_protocol.py", line 68, in test_build_identity_and_machine_aliases
+    self.assertEqual(expected,value['result']);self.assertEqual('cli',value['request_id'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'product': 'DiskEd', 'version': '0.1.0-dev[595 chars]e/1'} != {'acquisition_provider': 'provider.image.ac[661 chars].21'}
+Diff is 804 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\native\test_protocol.py", line 202, in test_source_input_closure_and_pe_imports
+    self.assertEqual(expected,self.identity['inputs'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'CMa[10716 chars]a256:e5f6adb99943db436ee520b899652ac880e18eff7[15123 chars]db5'} != {'CMa[10716 chars]a256:b3c13220856bcc5a48bc0815e13b4774fcfe5603d[15123 chars]db5'}
+Diff is 26682 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.474s
+
+FAILED (failures=2)
+
+      Start 47: provider_guard.positive_control
+47/47 Test #47: provider_guard.positive_control ....   Passed    0.09 sec
+
+94% tests passed, 3 tests failed out of 47
+
+Total Test time (real) = 328.93 sec
+
+The following tests FAILED:
+	  1 - frontend.acquisition_forms (Failed)
+	 44 - disked.acceptance (Failed)
+	 46 - disked_provider_guard.acceptance (Failed)
+Errors while running CTest

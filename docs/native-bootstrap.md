@@ -434,3 +434,11 @@ actual worker exited; it qualifies native observer limits, not extra worker
 effects or authenticated history. Destination bytes and acquisition maps are
 checked independently. Retained evidence remains scoped to the tested Windows
 host; W033 and the full DiskEd 0.1.0 programme are tracked separately.
+
+Clean source-bound dev.21 evidence and exact artifact identities are retained in
+[the acquisition checkpoint](../.aide/evidence/2026-10-09-acquisition-public/README.md).
+The requirement audit separates injected ordinary-file failures from unqualified
+physical backing, thin provisioning, failing media and other-platform claims.
+One initial execute-review screenshot was frame-only; the original and a separately
+verified redraw capture are retained. The shared screenshot heuristic remains a
+recorded harness limitation.
