@@ -156,8 +156,10 @@ freshness, admit a writer, or prove intention durability/effect completion.
 For example, matching a completion declaration does not establish a preceding
 durable intention or a target flush. This inspector does not yet enforce those
 event transitions.
-Guarded state transitions and qualified flush/effect observations remain the
-next DE-W040 component. DE-DEC-004/008 and owner acceptance remain unresolved.
+The separate [closed guarded model](journal-and-recovery.md#de-w040-guarded-fake-memory-execution-contract)
+now exercises state transitions under explicit fake flush/observation assumptions.
+It does not turn this data inspector into an authenticated executor or integrated
+binary journal reader. DE-DEC-004/008 and owner acceptance remain unresolved.
 
 ## Normative requirements
 

@@ -469,7 +469,30 @@ python tests/journal/test_definitions.py --probe build/windows-bootstrap/Release
 
 [DE-042](../spec/safety/planning.md#de-w040-private-immutable-definition-proposal)
 owns the private payload proposal. These values are not product commands,
-authenticated approvals, proven observations or writer admission. Semantic journal
-integration, guarded flush/effect models and physical durability qualification
+authenticated approvals, proven observations or writer admission. Semantic binary
+journal integration, real flush/effect adapters and physical durability qualification
 remain separate work; DE-DEC-004/008 stay proposed. Neither matching receipt data
 nor a verified byte prefix authorizes effects.
+
+
+DE-W040 also provides the separate closed `disked_guarded_model` and native
+`guarded_journal_probe`. Explicit fake stable/volatile memory models intention
+and completion barriers, resource identity/epoch and checkpoint capture, target
+flush/verification, cancellation, worker timeout/exit, client loss, crash fates,
+fresh-attempt recovery and retained journal generations. Independent fixtures cut
+healthy execution at every action boundary and check that invalid transitions
+preserve state. No file/device/process port or authenticated authority exists.
+
+```powershell
+cmake --build --preset windows-bootstrap --target guarded_journal_probe
+python tests/journal/test_guarded.py --probe build/windows-bootstrap/Release/guarded_journal_probe.exe --root .
+```
+
+[DE-043](../spec/safety/journal-and-recovery.md#de-w040-guarded-fake-memory-execution-contract)
+and the private profile own the selected fake flush/crash assumptions. The model's
+hashed JSON histories are not the binary codec or a production storage ABI. A
+complete fake prefix without intention can establish an unstarted step only
+under this closed model's assumptions; missing physical journal bytes cannot.
+Semantic binary-journal integration, real durability adapters, independent safety
+review and physical power-loss qualification remain unverified. All three prototypes
+remain outside the product's dependency closure; DE-W040 is still incomplete.

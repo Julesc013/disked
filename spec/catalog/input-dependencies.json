@@ -3984,6 +3984,73 @@
         "DE-042",
         "DE-043"
       ]
+    },
+    {
+      "id": "spec/catalog/guarded-journal-prototype.json",
+      "path": "spec/catalog/guarded-journal-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/guarded_model.h",
+      "path": "source/runtime/journal/guarded_model.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/definitions.h"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/guarded_model.cpp",
+      "path": "source/runtime/journal/guarded_model.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/guarded_model.h",
+        "source/runtime/journal/definitions.cpp",
+        "spec/catalog/guarded-journal-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/journal/guarded_probe.cpp",
+      "path": "tests/journal/guarded_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/guarded_model.h"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/journal/test_guarded.py",
+      "path": "tests/journal/test_guarded.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/journal/guarded_probe.cpp",
+        "tests/journal/test_definitions.py",
+        "spec/catalog/guarded-journal-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-042"
+      ]
     }
   ]
 }

@@ -60,6 +60,11 @@ target_link_libraries(disked_plan_prototype PUBLIC disked_journal_prototype disk
 set_target_properties(disked_plan_prototype PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_plan_prototype PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+add_library(disked_guarded_model STATIC source/runtime/journal/guarded_model.cpp)
+target_link_libraries(disked_guarded_model PUBLIC disked_plan_prototype)
+set_target_properties(disked_guarded_model PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_guarded_model PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 add_library(disked_acquisition STATIC source/runtime/acquisition/pipeline.cpp source/runtime/acquisition/operation.cpp)
 target_include_directories(disked_acquisition PUBLIC source/runtime/acquisition)
 target_link_libraries(disked_acquisition PUBLIC disked_json disked_hash)
@@ -170,6 +175,14 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(guarded_journal_probe tests/journal/guarded_probe.cpp)
+  target_link_libraries(guarded_journal_probe PRIVATE disked_guarded_model)
+  set_target_properties(guarded_journal_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(guarded_journal_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(guarded_journal_probe PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
+  add_test(NAME journal.guarded_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/journal/test_guarded.py"
+    --probe "$<TARGET_FILE:guarded_journal_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(journal.guarded_model PROPERTIES TIMEOUT 120)
   add_executable(plan_definition_probe tests/journal/definition_probe.cpp)
   target_link_libraries(plan_definition_probe PRIVATE disked_plan_prototype)
   set_target_properties(plan_definition_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

@@ -10,6 +10,7 @@
 - [compositions.json](compositions.json)
 - [concepts.json](concepts.json)
 - [decisions.json](decisions.json)
+- [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)
 - [journal-prototype.json](journal-prototype.json)

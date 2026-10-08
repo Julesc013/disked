@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-08T21:31:19.658481+00:00'
-  scope: DE-W040 separate definition/receipt payload binding and recovery properties; guarded durability/effect work remains incomplete
+  at: '2026-10-08T22:26:30.351216+00:00'
+  scope: DE-W040 closed native fake-memory guarded durability/effect model; no physical qualification or production admission
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -125,12 +125,104 @@ receipt bindings and composable recovery properties under
 [DE-042](planning.md#de-w040-private-immutable-definition-proposal). Definition,
 resource and provider digests can supply the three header digest bindings;
 review/grant/admission receipts and execution event kinds match framing kinds
-1..8. No integrated semantic journal scanner or authenticated publisher exists
-yet. Guarded effect/flush transitions, freshness/ownership, reconciliation and
-the provider durability model remain subsequent DE-W040 work. Intention must be retained and qualified
+1..8. No integrated semantic binary scanner or authenticated publisher exists yet.
+The separate closed fake-memory model below exercises guarded effect/flush
+transitions, freshness/ownership and reconciliation. Real provider durability
+adapters and physical qualification remain subsequent work. Intention must be retained and qualified
 durable before an effect; verification/required target flush precede completion.
 An uncertain effect requires observation, never replay solely from codec output.
 DE-DEC-004 remains proposed and blocks the production journal writer.
+
+## DE-W040 guarded fake-memory execution contract
+
+`guarded_model.*` is a closed native model under
+[a private profile](../catalog/guarded-journal-prototype.json). It connects the
+immutable definition and initial review/grant/admission data to simulated journal
+and target state. It is separate from the unguarded design graph, the byte codec
+and `disked.exe`. It authenticates nobody and exposes no host file/device/process
+or production executor port. Fake observations and flush outcomes are explicit
+test assumptions. Their agreement qualifies only this model.
+
+The initial three receipts are review, grant and admission, validated against the
+definition. Admission must include every predecessor of its selected steps. The
+definition and receipts begin as four volatile fake log entries; a qualified fake
+journal flush is required before worker dispatch. Positive budgets are selected
+before the run: at most 512 entries, 1 MiB per journal generation, four attempts,
+four journal generations and 1024 actions. Actions are at most 65536 bytes;
+wrapped fake log events are at most 131072 bytes. Each action binds the current operation,
+attempt, worker identity and positive worker epoch. Observation captures have a
+separate positive, strictly increasing capture-epoch domain and observer identity.
+
+Every fresh capture includes all resources, their identity/state digests, expected
+epoch and availability. It must match the fake resource port and fixed identity/
+epoch/code/reconstruction bindings. Captures are invalidated by resource changes
+or a new worker. Before intention/dispatch, each effect's current state equals its
+before digest, the capture remains current, code/journal/backup dependencies are
+available, and predecessor steps have durable completions. Untouched participating resources retain their plan-basis state; completed effects
+advance their expected digests. A change to a future target invalidates the current
+plan too. Each target flush revalidates bound identities/availability and the
+postconditions being flushed; missing or substituted journal storage cannot
+acknowledge journal durability.
+The model orders one
+bounded step at a time. No target state changes during intention or planning.
+
+Intention append and journal flush are separate transitions. Dispatch requires a
+complete, acknowledged stable intention. An effect result may report after,
+before or mixed state; submitted/result counts are not verified completion. A
+qualified target flush and later fresh independent fake capture matching every
+declared effect postcondition precede completion append. The step completes only
+when that completion becomes an acknowledged stable journal entry. Final seal
+requires every selected step complete or a valid cancellation checkpoint, known
+effects and an exited worker. A stable seal cannot substitute for live identity/
+state observation when assessing dependency retirement after a crash.
+
+Cancellation request and checkpoint acknowledgement are distinct. A request
+blocks another dispatch but lets an already dispatched effect reach verification.
+Checkpoint acknowledgement requires its request durable and no uncertain effect;
+after a step it also requires that step's declared cancellation checkpoint. Client
+disconnect/reconnect changes presentation attachment only. Timeout marks worker
+liveness stalled and the operation unresolved without releasing dependencies or
+restarting effects. A late exact-generation result can change the fake observed
+target, but cannot turn that timeout into accepted completion.
+An unavailable or substituted target cannot receive a late result's simulated
+write through its current alias; the old bounded effect remains uncertain.
+Confirmed worker exit is an explicit fixture observation, never inferred from a wait.
+
+Recovery requires worker exit and a capture newer than the exit observation, exact
+resource/code/reconstruction identities and a qualified recovery flush followed
+by another capture. Before/after reconciliation matches all active step effects;
+terminal reconciliation checks the cumulative state of completed steps. A durable
+recovery observation of after-state can close an interrupted step. A durable
+before-state observation can propose retry only for a declared replayable step
+when a stable intention may have authorized dispatch. If no stable intention
+exists, the complete fake prefix plus confirmed quiescence establishes an
+unstarted step under this model's acknowledged-flush/dispatch assumption; a new
+admission may start it without claiming replayability. Missing/corrupt physical
+journal data does not establish this absence proof.
+Retry then needs a new, previously unused attempt identity, strictly newer worker
+epoch, a separately durable model admission and another fresh capture. The fresh
+attempt record binds the checkpoint separately from the original v1 admission's
+basis observations; it does not reinterpret those observations as current state
+or authenticate new operator authority. Late prior-generation messages refuse.
+
+Append-before, torn append, failed flush and unqualified flush faults stop further
+normal dispatch. Complete volatile entries and a partial tail are retained.
+Crash injection may preserve an unacknowledged complete prefix and any dispatched
+unflushed after-state; acknowledged stable prefixes/states cannot be lost under
+the selected fake flush assumption. Reboot always requires observation and never
+automatically replays. A partial tail blocks further append. Explicitly forking a
+new fake journal generation requires quiescence and fresh observation, retains the
+old prefix/tail digest and does not itself transfer worker/effect authority.
+An incomplete bootstrap remains unbound and cannot authorize retry.
+
+The fake log hashes canonical events and their previous digest as specified by
+the profile; this is an inspectable simulated history, not a new physical ABI.
+Snapshot dimensions and counters remain separate. Resources remain retained;
+retirement eligibility requires a stable terminal outcome, exited worker, current
+postcondition capture and no uncertainty. Illegal inputs/transitions leave state
+unchanged; injected environment failures explicitly leave unresolved state.
+Binary semantic-journal integration, authenticated authority, real flush adapters
+and physical crash/power-loss qualification remain required later work.
 
 ## Normative requirements
 
