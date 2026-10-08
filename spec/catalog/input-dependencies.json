@@ -3915,6 +3915,75 @@
       "spec_ids": [
         "DE-043"
       ]
+    },
+    {
+      "id": "spec/catalog/plan-prototype.json",
+      "path": "spec/catalog/plan-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/definitions.h",
+      "path": "source/runtime/journal/definitions.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/codec.h",
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/definitions.cpp",
+      "path": "source/runtime/journal/definitions.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/definitions.h",
+        "source/runtime/journal/codec.cpp",
+        "source/runtime/command/json.cpp",
+        "spec/catalog/plan-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ]
+    },
+    {
+      "id": "tests/journal/definition_probe.cpp",
+      "path": "tests/journal/definition_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/definitions.h"
+      ],
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ]
+    },
+    {
+      "id": "tests/journal/test_definitions.py",
+      "path": "tests/journal/test_definitions.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/journal/definition_probe.cpp",
+        "source/runtime/journal/definitions.cpp",
+        "spec/catalog/plan-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-042",
+        "DE-043"
+      ]
     }
   ]
 }

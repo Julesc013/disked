@@ -15,6 +15,7 @@
 - [journal-prototype.json](journal-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
 - [operations.json](operations.json)
+- [plan-prototype.json](plan-prototype.json)
 - [project-graph.json](project-graph.json)
 - [publications.json](publications.json)
 - [requirements.json](requirements.json)

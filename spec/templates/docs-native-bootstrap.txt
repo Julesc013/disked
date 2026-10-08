@@ -455,6 +455,21 @@ python tests/journal/test_codec.py --probe build/windows-bootstrap/Release/journ
 ```
 
 [DE-043](../spec/safety/journal-and-recovery.md) and its private profile describe
-the exact proposal. Payload receipts, immutable definitions, recovery properties,
-flush/effect models and physical durability qualification remain separate work;
-DE-DEC-004 stays proposed. A verified byte prefix never authorizes effects.
+the exact framing proposal. A separate `disked_plan_prototype` and
+`plan_definition_probe` validate immutable fake-model definition bytes, typed
+resource/dependency bindings, composable recovery properties and separate
+review/grant/admission/execution receipt data. Python independently calculates
+canonical bytes/digests and tests stale bindings, bounded integers, dependency
+cycles, permission scope and attempt/worker identities.
+
+```powershell
+cmake --build --preset windows-bootstrap --target plan_definition_probe
+python tests/journal/test_definitions.py --probe build/windows-bootstrap/Release/plan_definition_probe.exe --root .
+```
+
+[DE-042](../spec/safety/planning.md#de-w040-private-immutable-definition-proposal)
+owns the private payload proposal. These values are not product commands,
+authenticated approvals, proven observations or writer admission. Semantic journal
+integration, guarded flush/effect models and physical durability qualification
+remain separate work; DE-DEC-004/008 stay proposed. Neither matching receipt data
+nor a verified byte prefix authorizes effects.

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-08T20:03:44.893093+00:00'
-  scope: DE-W040 private native binary codec proposal; production decision and owner acceptance remain pending
+  at: '2026-10-08T21:31:19.658481+00:00'
+  scope: DE-W040 separate definition/receipt payload binding and recovery properties; guarded durability/effect work remains incomplete
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -119,10 +119,15 @@ an observed Seal authorizes replay, truncation, release of dependencies or a
 completed logical operation. An optional semantic visitor may reject a record;
 such a record does not extend the accepted prefix.
 
-This codec qualifies byte framing and bounded reading only. Payload schemas,
-immutable definitions/separate receipt semantics, composable recovery traits,
-guarded effect/flush transitions, reconciliation and the provider durability
-model remain subsequent DE-W040 work. Intention must be retained and qualified
+This codec qualifies byte framing and bounded reading only. The separate
+`definitions.*` fake-model component now proposes exact immutable payloads,
+receipt bindings and composable recovery properties under
+[DE-042](planning.md#de-w040-private-immutable-definition-proposal). Definition,
+resource and provider digests can supply the three header digest bindings;
+review/grant/admission receipts and execution event kinds match framing kinds
+1..8. No integrated semantic journal scanner or authenticated publisher exists
+yet. Guarded effect/flush transitions, freshness/ownership, reconciliation and
+the provider durability model remain subsequent DE-W040 work. Intention must be retained and qualified
 durable before an effect; verification/required target flush precede completion.
 An uncertain effect requires observation, never replay solely from codec output.
 DE-DEC-004 remains proposed and blocks the production journal writer.

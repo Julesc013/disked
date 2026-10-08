@@ -54,6 +54,12 @@ target_link_libraries(disked_journal_prototype PUBLIC disked_hash)
 set_target_properties(disked_journal_prototype PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_journal_prototype PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private fake definitions/receipts; no product or effect ports.
+add_library(disked_plan_prototype STATIC source/runtime/journal/definitions.cpp)
+target_link_libraries(disked_plan_prototype PUBLIC disked_journal_prototype disked_json)
+set_target_properties(disked_plan_prototype PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_plan_prototype PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 add_library(disked_acquisition STATIC source/runtime/acquisition/pipeline.cpp source/runtime/acquisition/operation.cpp)
 target_include_directories(disked_acquisition PUBLIC source/runtime/acquisition)
 target_link_libraries(disked_acquisition PUBLIC disked_json disked_hash)
@@ -164,6 +170,14 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(plan_definition_probe tests/journal/definition_probe.cpp)
+  target_link_libraries(plan_definition_probe PRIVATE disked_plan_prototype)
+  set_target_properties(plan_definition_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(plan_definition_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(plan_definition_probe PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
+  add_test(NAME journal.plan_definitions COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/journal/test_definitions.py"
+    --probe "$<TARGET_FILE:plan_definition_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(journal.plan_definitions PROPERTIES TIMEOUT 120)
   add_executable(journal_codec_probe tests/journal/codec_probe.cpp)
   target_link_libraries(journal_codec_probe PRIVATE disked_journal_prototype disked_json)
   set_target_properties(journal_codec_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
