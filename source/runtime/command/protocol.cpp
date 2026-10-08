@@ -81,6 +81,14 @@ std::string response_frame(const Value& response) {
     std::string bytes=json::dump(response,limits);bytes+='\n';
     return bytes;
 }
+bool acquisition_watch_response(const Value& response) {
+    const auto* id=response.find("operation_id"),*result=response.find("result");
+    if(!string(id) || id->text.size()!=41 || id->text.compare(0,9,"image-op:")!=0 ||
+       id->text.find_first_not_of("0123456789abcdef",9)!=std::string::npos || !kind(result,Value::Kind::object))return false;
+    const auto* scope=result->find("scope"),*request=result->find("request_kind"),*events=result->find("events");
+    return string(scope) && scope->text=="ordinary-local-raw-file-acquisition" && string(request) &&
+        request->text=="operation-observation" && kind(events,Value::Kind::array);
+}
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;
     auto emit=[&](Outcome out) {exit_code=(std::max)(exit_code,out.exit_code);return output(out.response);};

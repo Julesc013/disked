@@ -1,7 +1,8 @@
 """Public acquisition observations against generated files and actual workers.
 
-Copy admission remains in a private probe; disked.exe owns the observation
-paths tested here. Expectations derive from DE-103's observation contract.
+This suite creates instrumented workers through a private probe and observes
+them through disked.exe. Public copying is qualified separately; probe definitions
+cannot authorize the product's different executable identity.
 """
 import argparse
 import copy
@@ -163,8 +164,9 @@ def main():
         assert refused['diagnostics'][0]['code']=='operation_request_unavailable'
         assert before=={p.name:p.read_bytes() for p in Path(op['state_directory']).iterdir()}
         public('wrong-image-identity','operation.inspect',dict(op,operation_id='image-op:'+'f'*32),exits=(6,))
-        unavailable,_=public('copy-still-unavailable','image.acquire',grant,exits=(3,))
-        assert unavailable['diagnostics'][0]['code']=='command_unavailable'
+        unavailable,_=public('foreign-code-definition-refused','image.acquire',grant,exits=(3,))
+        assert unavailable['diagnostics'][0]['code']=='acquisition_definition_changed'
+        assert before=={p.name:p.read_bytes() for p in Path(op['state_directory']).iterdir()}
 
         # Existing complete evidence is never repaired by an observation.
         path=Path(op['state_directory'])/'acquisition.records';original=path.read_bytes()
@@ -190,8 +192,8 @@ def main():
         events_check(watched['result']['events'],grant['definition'])
         verified.append(dict(name='paused-public-observation',bytes=state['checkpoint_bytes'],quiescent=True))
 
-    report=dict(scope='public-acquisition-observation-private-copy-admission',checks=len(observations),
-        verified=verified,physical_storage_qualified=False,public_copy_admitted=False,
+    report=dict(scope='public-acquisition-observation-of-private-instrumented-worker',checks=len(observations),
+        verified=verified,physical_storage_qualified=False,public_copy_admitted=True,
         observations=observations,producer_events=producer)
     if a.evidence:Path(a.evidence).write_bytes(json.dumps(report,indent=2).encode()+b'\n')
     print('PASS public acquisition observations:',len(observations),'checks;',len(producer),'producer events')

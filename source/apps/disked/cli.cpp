@@ -42,9 +42,6 @@ Outcome operation_action(const std::string& request,const std::string& command,c
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
-#ifdef DISKED_ACQUISITION_UI_TESTING
-    if(id=="image.acquire")return true;
-#endif
     for(const auto& c:bootstrap::commands)if(id==c.id)return c.implemented;
     return false;
 }
@@ -58,11 +55,9 @@ Value build_information() {
     IDENTITY_FIELD(input_digest);IDENTITY_FIELD(target);IDENTITY_FIELD(composition);IDENTITY_FIELD(compiler);
     IDENTITY_FIELD(sdk);IDENTITY_FIELD(configuration);IDENTITY_FIELD(language);IDENTITY_FIELD(crt);IDENTITY_FIELD(configuration_digest);
 #undef IDENTITY_FIELD
-#ifdef DISKED_ACQUISITION_UI_TESTING
-    result.put("private_acquisition_test_composition",Value::boolean_value(true));
-#endif
     return result.put("fake_provider",Value::string(fake_provider_identity()))
-        .put("image_provider",Value::string(bootstrap::image_provider_id));
+        .put("image_provider",Value::string(bootstrap::image_provider_id))
+        .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id));
 }
 Value command_description(const Value& command) {
     Value out=command;const bool available=implemented(command.find("id")->text);
@@ -71,7 +66,7 @@ Value command_description(const Value& command) {
     out.put("availability",Value::string(available?"available":"unavailable"));
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
-        id=="shell.close"?"shell_session_only":image_command(id)?"ordinary_local_raw_file_subset":
+        id=="shell.close"?"shell_session_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
         fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
@@ -90,9 +85,7 @@ Value discovery(const ParseResult* help=nullptr) {
 Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
     std::unique_ptr<FrontendSession>& session,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
-#ifdef DISKED_ACQUISITION_UI_TESTING
     if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
-#endif
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain") {
@@ -121,11 +114,9 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
         return channel.submit(request,[request,command,parameters]() {
-#ifdef DISKED_ACQUISITION_UI_TESTING
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
-#endif
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
-        });
+        },command=="operation.watch" && acquisition_identity(parameters)?1048575:65536);
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
@@ -141,9 +132,7 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
         return calls->run(request,[request,command,parameters]() {
-#ifdef DISKED_ACQUISITION_UI_TESTING
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
-#endif
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
         },
             std::move(expired),std::chrono::milliseconds(4000),{},command=="operation.watch" && acquisition_identity(parameters)?1048575:65536);

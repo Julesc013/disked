@@ -1039,7 +1039,8 @@
         "tests/unit/portable_cpp.cpp",
         "tests/unit/portable_probe.c",
         "tests/frontend/acquisition_console_fixture.py",
-        "tests/frontend/test_acquisition_forms.py"
+        "tests/frontend/test_acquisition_forms.py",
+        "tests/frontend/test_acquisition_interactive.py"
       ],
       "spec_ids": [
         "DE-079"
@@ -1730,7 +1731,9 @@
       "path": "source/runtime/presentation/session.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/command/protocol.h"
+      ],
       "spec_ids": [
         "DE-023",
         "DE-030",
@@ -2184,7 +2187,10 @@
       "path": "source/apps/disked/shell/shell_model.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/command/shell_lexer.h",
+        "source/runtime/presentation/session.h"
+      ],
       "spec_ids": [
         "DE-027"
       ]
@@ -3802,7 +3808,8 @@
       "depends_on": [
         "spec/schemas/acquisition-command-parameters.schema.json",
         "tests/frontend/image_console_fixture.py",
-        "tests/frontend/console_tui_fixture.py"
+        "tests/frontend/console_tui_fixture.py",
+        "tests/interaction/console_shell_fixture.py"
       ],
       "spec_ids": [
         "DE-103",
@@ -3822,6 +3829,24 @@
       ],
       "spec_ids": [
         "DE-103",
+        "DE-024"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_acquisition_interactive.py",
+      "path": "tests/frontend/test_acquisition_interactive.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/acquisition_console_fixture.py",
+        "tests/frontend/gui_fixture.py",
+        "tests/images/test_acquisition_worker.py",
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "spec/schemas/acquisition-operation-event.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-027",
         "DE-024"
       ]
     }

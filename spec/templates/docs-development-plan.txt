@@ -162,15 +162,14 @@ verification. Its private Windows file adapter adds pinned source/parent/code
 identities, exclusive effect handles, no-clobber output creation, growing images,
 persistent LF-framed maps and explained-extent resume. Tests use independent byte
 and hash expectations, actual sharing/creation races and observed owned-child
-termination on generated files. This core and adapter are not yet linked to a
-public acquisition command. A private Windows worker now exercises real file
+termination on generated files. The initial core and adapter checkpoint preceded public acquisition admission.
+A private Windows worker then exercised real file
 transfer with exact reviewed definitions and effect grants, persistent operation/
 worker/attempt identities, verified-checkpoint progress, cancellation and reconnect.
 It shares the four-worker memory/process budget with the fake worker. An unfinished
 or corrupt admission is observed without relaunch or cleanup. Capture-record v2
 preserves original provenance across same-code resume and records each attempt's
-wall-clock interval and monotonic elapsed time. Shared frontend/command integration
-remains the next work; source-bound evidence belongs to
+wall-clock interval and monotonic elapsed time. Shared frontend/command integration followed that checkpoint; source-bound evidence belongs to
 `.aide/evidence/2026-10-09-acquisition-worker/`. The provisional
 map encoding does not settle the production-journal decision. See
 [DE-103](../spec/operations/acquire-image.md) for its exact profile and limits.
@@ -179,13 +178,12 @@ The next W033 component defines provisional prepare/execute command parameters,
 a strictly typed full worker definition, explicit effect grants and standard
 response/exit projections. A private probe exercises the common CLI/stdio/form
 decoders over the actual generated-file worker and controlled callback ports.
-The public copy command remains planned/unavailable. The dev.19 product now
-routes explicit acquisition operation identities through the common inspect/
-cancel path and exposes bounded CLI/stdio watch batches and negotiated NDJSON
-events. Portable readers bind the independently obtained full definition,
+The dev.19 checkpoint left the public copy command planned/unavailable and routed
+explicit acquisition operation identities through the common inspect/cancel path.
+It exposed bounded CLI/stdio watch batches and negotiated NDJSON events. Portable readers bind the independently obtained full definition,
 worker/attempt identity, record digests and monotonic checkpoint coverage.
-Visible GUI/TUI/shell copy review/submission and bounded rendering still precede
-acquisition command admission. Other platforms and physical storage remain
+Visible GUI/TUI/shell copy review/submission and bounded rendering were required
+before the dev.21 acquisition command admission described below. Other platforms and physical storage remain
 separate qualification gates.
 
 The dev.20 component adds schema-derived prepare/execute forms with phase changes
@@ -193,5 +191,15 @@ that clear values and grants, bounded structured definitions, and fresh review/
 submit controls. A marked private executable exercises actual native GUI/TUI
 metadata preparation and ordinary-file copying through the shared Windows
 adapter. These journeys supplement the model checks; they do not admit the public
-copy command. Complete structured shell input and interactive watch rendering,
-then qualify product admission with actual frontend and lifecycle tests.
+copy command at that checkpoint. Dev.21 completes structured shell input and
+large interactive watch rendering, then integrates ordinary-file admission with
+actual frontend and lifecycle tests.
+
+The dev.21 W033 development composition adds the ordinary-file acquisition
+provider explicitly. Public CLI/stdio/GUI/TUI/shell use one canonical prepare/
+execute adapter and one disked.exe worker role with exact definition/effect grants.
+Native tests include no-output preparation/review, real copies, checkpoint cancel/
+resume and unchanged-store observation rather than replay. All 64 watch events
+fit a separate bounded profile; expanded test history is labelled synthetic.
+Owner acceptance, physical/failing-media qualification, other platforms and
+production writer/release decisions remain independent gates.

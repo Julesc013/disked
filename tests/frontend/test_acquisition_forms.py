@@ -1,6 +1,6 @@
 """Phase-specific shared forms and actual native Windows acquisition journeys.
 
-Product image.acquire stays unavailable; copying uses the marked test variant.
+Product image.acquire uses the shared ordinary-file adapter and exact effect grants.
 All media and outputs are created and owned by this finite test harness.
 """
 import argparse
@@ -41,7 +41,8 @@ def main():
         p=subprocess.run([sys.executable,str(Path(__file__).with_name('acquisition_console_fixture.py')),str(a.exe),str(input),str(output)],
             env=env,timeout=30,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=startup)
         report=json.loads(output.read_bytes());assert p.returncode==0 and 'fixture_error' not in report,report
-        native.append(dict(frontend='tui',phase=params['phase'],**report));return report['response']
+        assert report['frontend']=='tui'
+        native.append(dict(phase=params['phase'],**report));return report['response']
     scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         def fixture(name):
@@ -139,9 +140,10 @@ def main():
             else:
                 first=console(p,folder);assert first['status']=='completed';no_effects(p)
                 first=console(grants(first['result']),folder);assert first['status'] in ('completed','accepted_running');finished(p,first)
-        _,p=fixture('public-still-gated');cli(['image','acquire','prepare',p['source'],p['destination'],'--map',p['map'],'--state-dir',p['state_directory']],(3,),True);no_effects(p)
+        _,p=fixture('public-prepare-only');reply=cli(['image','acquire','prepare',p['source'],p['destination'],'--map',p['map'],'--state-dir',p['state_directory']],(0,),True)
+        assert reply['result']['execution_admitted'] is False;no_effects(p)
 
-    report=dict(passed=True,scope='private-native-acquisition-form-composition',public_acquisition_admitted=False,
+    report=dict(passed=True,scope='public-native-ordinary-file-acquisition-forms',public_acquisition_admitted=True,
         checks=len(observations),observations=observations,native_journeys=native,verified_copies=verified)
     if a.evidence:a.evidence.write_bytes(json.dumps(report,indent=2).encode()+b'\n')
     print('PASS acquisition forms:',len(observations),'checks;',len(native),'native journeys;',len(verified),'verified copies')

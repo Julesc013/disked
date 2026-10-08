@@ -1,6 +1,6 @@
 # Planned command and terminal experience
 
-The [native bootstrap](native-bootstrap.md) implements human help, build identity and command discovery. The DE-W012 synchronous subset adds machine output and the shared parser; storage and other interfaces remain unavailable. The [generated command reference](../spec/generated/command-reference.txt) lists all 35 planned descriptors, their registered alternatives and global controls from the canonical catalogs. The examples here describe intended behavior, not an installed CLI.
+The [native bootstrap](native-bootstrap.md) implements human help, build identity, command discovery, the shared parser and bounded machine output. Its development composition includes fake graphs/operations, native GUI/TUI/shell, raw-file inspection and explicitly granted ordinary-file acquisition. Other storage capabilities and platforms remain unqualified. The [generated command reference](../spec/generated/command-reference.txt) lists all 35 planned descriptors, their registered alternatives and global controls from the canonical catalogs. The examples below describe the broader intended contract; consult native command discovery for the implemented subset.
 
 You should be able to append what you forgot. These proposed forms have the same meaning:
 
@@ -26,4 +26,4 @@ Terminal behavior depends on actual input/output capabilities. Qualified DOS loc
 
 Progress distinguishes completed and verified work, unknown totals and waiting. Captured output contains complete records. Exact source values remain separate from escaped terminal text. History, transcripts, diagnostics and recovery journals have distinct ownership, bounds and privacy rules.
 
-Contracts: [commands and parser boundaries](../spec/interaction/commands.md), [invocation](../spec/interaction/invocation.md), [terminal sessions](../spec/interaction/terminal-session.md), [shell](../spec/interaction/interactive-shell.md), [output/progress](../spec/interaction/output-and-progress.md). The [syntax corpus](../spec/fixtures/command-syntax.json) contains native test expectations; current metadata checks do not execute a DiskEd parser. Implementation and qualification belong to DE-W012/018/019/071.
+Contracts: [commands and parser boundaries](../spec/interaction/commands.md), [invocation](../spec/interaction/invocation.md), [terminal sessions](../spec/interaction/terminal-session.md), [shell](../spec/interaction/interactive-shell.md), [output/progress](../spec/interaction/output-and-progress.md). The [syntax corpus](../spec/fixtures/command-syntax.json) contains native test expectations; native parser tests execute the implemented subset; specification metadata checks alone do not qualify it. Implementation and qualification belong to DE-W012/018/019/071.

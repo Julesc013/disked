@@ -73,14 +73,16 @@
       "components": [
         "entry.disked.image.prototype",
         "provider.fake.bootstrap",
-        "provider.image.raw.prototype"
+        "provider.image.raw.prototype",
+        "provider.image.acquire.raw.prototype"
       ],
       "mandatory_loader_dependencies": [
         "KERNEL32.dll"
       ],
       "optional_runtime_components": [
         "provider.fake.bootstrap",
-        "provider.image.raw.prototype"
+        "provider.image.raw.prototype",
+        "provider.image.acquire.raw.prototype"
       ],
       "single_entrypoint": true,
       "zero_extraction_on_normal_startup": true,
@@ -93,10 +95,11 @@
       ],
       "evidence": [
         ".aide/evidence/2026-10-08-image-commands/port-verification/commands.json",
-        ".aide/evidence/2026-10-08-image-commands/port-verification/disked-dependents.log"
+        ".aide/evidence/2026-10-08-image-commands/port-verification/disked-dependents.log",
+        ".aide/evidence/2026-10-09-acquisition-public/README.md"
       ],
       "loader_inventory_status": "inspected"
     }
   ],
-  "note": "The historical fake bootstrap selection and its exact revision-bound evidence are retained. The selected image prototype adds ordinary-local-raw-file read-only commands beside fake inventory/operation handlers. Buildable does not mean qualified or owner-accepted; current imports and frontend evidence must be recorded at the image source revision."
+  "note": "The historical fake bootstrap selection and its exact revision-bound evidence are retained. The selected image prototype adds ordinary-local-raw-file inspection and explicitly granted acquisition beside fake inventory/operation handlers. Buildable does not mean qualified or owner-accepted; current imports and frontend evidence must be recorded at the image source revision."
 }

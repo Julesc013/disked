@@ -24,8 +24,8 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-06T17:56:37.384510+00:00'
-  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
+  at: '2026-10-08T19:14:13.655279+00:00'
+  scope: DE-W033 bounded acquisition watch presentation and native frontend parity; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -133,7 +133,8 @@ button mnemonics and Enter on the navigator open the focused item. Read-only
 multiline results support selection/copy and both scroll directions. Review escapes
 control/bidi/nonprinting data separately from exact editable values. Finite model
 bounds retain one snapshot, one form, one current outcome and at most one earlier
-completion, with at most 1 MiB display text. A pending fake-operation request does
+completion, with at most 1 MiB ordinary display text. Acquisition-watch outcomes
+select the explicit larger DE-103 profile. A pending fake-operation request does
 not block cached navigation. A view epoch keeps late completion separate from the
 current form, review and selection. The private composite display allows two
 64 KiB response values plus 1024 bytes of correlation fields, 16,400 values and

@@ -5,10 +5,11 @@
 #include <iostream>
 #include <memory>
 using disked::json::Value;
-int main() {
+int main(int argc,char**) {
     auto registry=disked::command_registry();auto graph=disked::fake_graph();disked::FrontendSession session(registry,graph);
     auto commands=registry.commands;for(auto& c:commands.items) {
         bool available=false;for(const auto& row:bootstrap::commands)if(c.find("id")->text==row.id)available=row.implemented;
+        if(argc==2 && c.find("id")->text=="image.acquire")available=true;
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
     auto discovery=Value::object().put("commands",commands);Value calls=Value::array();bool large=false;
@@ -19,7 +20,9 @@ int main() {
             return disked::completed(id,value);
         }
         if(disked::FrontendSession::handles(command))return session.dispatch(id,command,parameters,revision);
-        return disked::completed(id,Value::object().put("test_static",Value::string(command)));
+        auto result=Value::object().put("test_static",Value::string(command));
+        if(command=="image.acquire")result.put("test_parameters",parameters);
+        return disked::completed(id,result);
     };
     std::unique_ptr<disked::ShellModel> model(new disked::ShellModel(session,registry,discovery,handler,false));
     const std::map<std::string,disked::TuiKey> keys={
@@ -30,7 +33,8 @@ int main() {
         {"pageup",disked::TuiKey::PageUp},{"pagedown",disked::TuiKey::PageDown}};
     std::string line;std::uint64_t linear=0;
     while(std::getline(std::cin,line))try {
-        const auto input=disked::json::parse(line);const auto op=input.find("op")->text;Value result;
+        disked::json::Limits input_limits;input_limits.bytes=262144;input_limits.string_bytes=65537;
+        const auto input=disked::json::parse(line,input_limits);const auto op=input.find("op")->text;Value result;
         if(op=="lex") {
             const auto value=disked::tokenize_shell(input.find("line")->text);auto tokens=Value::array();
             for(const auto& t:value.tokens)tokens.items.push_back(Value::object().put("value",Value::string(t.value)).put("begin",Value::number(std::to_string(t.begin))).put("end",Value::number(std::to_string(t.end))));
@@ -51,6 +55,6 @@ int main() {
             result=Value::array();for(const auto& s:model->render(static_cast<unsigned>(std::stoul(input.find("columns")->text)),
                 static_cast<unsigned>(std::stoul(input.find("rows")->text)),false))result.items.push_back(Value::string(s));
         } else throw std::invalid_argument("probe_operation_unknown");
-        disked::json::Limits limits;limits.bytes=2097152;std::cout<<disked::json::dump(result,limits)<<std::endl;
+        disked::json::Limits limits;limits.bytes=2097152;limits.string_bytes=65536;std::cout<<disked::json::dump(result,limits)<<std::endl;
     } catch(const std::exception& e) {std::cout<<disked::json::dump(Value::object().put("error",Value::string(e.what())))<<std::endl;}
 }

@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
+The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
 Use a Git checkout on Windows x64 with CMake 3.27+, Python 3.10+, Git, VS 2022
@@ -84,7 +84,7 @@ Arrows move focus; Enter selects/inspects. F2 opens commands, F3 inventory, F4
 clears selection, F5 refreshes the view, F6 switches presentation. Forms use Tab,
 Shift+Tab and Backspace; F9 opens review and a fresh F9 submits. Enter/pasted
 newlines cannot submit forms. PageUp/PageDown scroll complete data. Escape goes
-back; F10 or Ctrl+C exits. The separate `shell` entrypoint opens a persistent command session; physical storage and mutation remain unavailable. Simulation writes only its explicitly selected disposable evidence store.
+back; F10 or Ctrl+C exits. The separate `shell` entrypoint opens a persistent command session; physical storage and table mutation remain unavailable. Simulation writes only its explicitly selected disposable evidence store.
 Small consoles automatically use linear output. Pipes cannot supply TUI input.
 The linear view is available for accessibility workflows, but screen-reader
 qualification remains unrun. See [terminal behavior](../spec/interaction/terminal-session.md).
@@ -320,7 +320,7 @@ other hosts/platforms and storage mutation remain separate work.
 
 DE-W033's private acquisition core and Windows ordinary-file adapter can be built
 with the same preset. They are exercised separately from the product command
-registry; `image.acquire` remains unavailable pending asynchronous admission.
+registry. The dev.21 development product now admits the same ordinary-file adapter through its shared asynchronous paths; the core probe alone does not qualify public execution.
 Run the generated-file tests with:
 
 ```powershell
@@ -365,7 +365,7 @@ The probe's controlled callbacks verify pre-effect refusal and conservative
 post-invocation uncertainty. Its ordinary-file tests check completed bytes/maps,
 checkpoint cancellation, new-attempt resume, late admission and a separate
 code/state-directory layout. Shared parser/form decoding is not actual GUI/TUI/
-shell integration; `disked.exe` still does not admit acquisition. The command
+shell integration; public admission is qualified separately below. The command
 parameter schema is provisional and does not settle a stable public API.
 
 The dev.19 product adds acquisition observation to the existing operation
@@ -382,25 +382,55 @@ python tests/images/test_acquisition_operations.py --probe build/windows-bootstr
 ```
 
 Acquisition watch batches have a finite one MiB CLI/stdio response bound. The
-interactive request slot retains its 64 KiB bound; complete visible acquisition
-review, submission and rendering qualification remain open. `image acquire`
-is still planned/unavailable. These observers cannot start or restart a copy,
+interactive acquisition-watch request slot selects that same finite response
+bound; other handlers retain 64 KiB. The dev.21 product implements ordinary-file
+image acquisition with separately reviewed definition and effect grants. These
+observers cannot start or restart a copy,
 and corrupt or incomplete evidence remains unknown without repair.
 
-The dev.20 shared GUI/TUI models add schema-owned phase forms and bounded
-structured definitions. The private `disked_acquisition_ui_test.exe` composition
-connects those forms to the same Windows acquisition adapter used by the command
-probe. Its build information labels this test composition explicitly. The product
-still reports `image.acquire` as unavailable. Run the model and actual native
+The dev.20 checkpoint added schema-owned GUI/TUI phase forms and bounded
+structured definitions. At that checkpoint, the private `disked_acquisition_ui_test.exe` composition
+connected those forms to the same Windows acquisition adapter used by the command
+probe. Its build information labels this test composition explicitly. The dev.21 product integrates the same adapter and
+supersedes that separate test composition. Run the model and actual native
 review/submission journeys with:
 
 ```powershell
-python tests/frontend/test_acquisition_forms.py --exe build/windows-bootstrap/Release/disked_acquisition_ui_test.exe --product build/windows-bootstrap/Release/disked.exe --gui build/windows-bootstrap/Release/gui_model_probe.exe --tui build/windows-bootstrap/Release/tui_model_probe.exe --root .
+python tests/frontend/test_acquisition_forms.py --exe build/windows-bootstrap/Release/disked.exe --product build/windows-bootstrap/Release/disked.exe --gui build/windows-bootstrap/Release/gui_model_probe.exe --tui build/windows-bootstrap/Release/tui_model_probe.exe --root .
 ```
 
 Those tests create ordinary files, verify metadata preparation has no output
 effects, and check separately reviewed GUI/TUI copies against independent byte
 and map expectations. Native GUI tests own an inactive desktop; terminal tests
 own a hidden console. They do not inspect other applications or change user
-desktop settings. Shell execution of full structured definitions, interactive
-watch result limits and product admission remain open W033 work.
+desktop settings. The dev.21 integration adds full structured shell definitions
+and qualified larger interactive acquisition-watch results. Public ordinary-file
+admission uses these shared paths; physical storage and production mutation
+remain separate gates.
+
+The dev.21 composition contains a separate ordinary-file acquisition provider
+(`provider.image.acquire.raw.prototype/1`) and reports 17 implemented command
+identities. Prepare observes metadata and returns the complete definition/digest;
+execute requires that exact definition plus four explicit effect grants. It uses
+the same executable's detached capability-only worker, reports live-uncoordinated
+source consistency and retains original capture identity across verified resume.
+No physical devices, elevation, mounts, installation or production journal are
+admitted. Schemas/maps/records remain explicitly provisional.
+
+The shell accepts at most 64 KiB/128 tokens for literal structured definitions;
+history remains opt-in and capped at 32 entries/64 KiB. Acquisition watch alone
+selects a one-MiB response, 4 MiB escaped individual display and 8 MiB GUI composite/
+qualified shell transcript. Other response limits remain unchanged. Whole-record
+eviction and display failures are visible and never trigger another dispatch.
+
+```powershell
+python tests/frontend/test_acquisition_interactive.py --exe build/windows-bootstrap/Release/disked.exe --product build/windows-bootstrap/Release/disked.exe --shell build/windows-bootstrap/Release/shell_model_probe.exe --reader build/windows-bootstrap/Release/watch_probe.exe --root .
+```
+
+These tests exercise actual public shell/stdio copies, exact resubmission without
+restart, denied role capabilities, checkpoint cancellation and fresh-store resume.
+The 64-event watch fixture is deliberately synthetic, expanded only after an
+actual worker exited; it qualifies native observer limits, not extra worker
+effects or authenticated history. Destination bytes and acquisition maps are
+checked independently. Retained evidence remains scoped to the tested Windows
+host; W033 and the full DiskEd 0.1.0 programme are tracked separately.

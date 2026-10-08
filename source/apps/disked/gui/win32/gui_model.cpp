@@ -165,8 +165,10 @@ std::string GuiModel::detail_text() const {
     // Two independently bounded replies plus private correlation fields. These
     // presentation limits do not enlarge the public protocol frame contract.
     json::Limits limits;limits.bytes=2*65536+1024;limits.values=2*8192+16;limits.depth=33;
+    const bool acquisition=acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_);
+    if(acquisition)limits.bytes=2*1048575+1024;
     std::string text;
-    for(const auto& line:presentation_lines(details(),limits)) {text+=line;text+="\r\n";}
+    for(const auto& line:presentation_lines(details(),limits,acquisition?8388608:1048576)) {text+=line;text+="\r\n";}
     return text;
 }
 }

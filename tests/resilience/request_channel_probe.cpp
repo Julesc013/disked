@@ -71,6 +71,11 @@ int main()try {
     require(await(channel).exit_code==6,"default_bound_was_widened");
     require(channel.submit("selected-bound",[large] {return large("selected-bound");},1048575).pending,"selected_bound_submission");
     require(await(channel).exit_code==0,"selected_bound_not_honoured");
+    require(channel.submit("selected-value-bound",[] {
+        auto values=Value::array();for(unsigned i=0;i<8193;++i)values.items.push_back(Value{});
+        return completed("selected-value-bound",values);
+    },1048575).pending,"selected_value_submission");
+    require(await(channel).exit_code==6,"selected_bound_weakened_value_limit");
     unsigned denied_calls=0;
     for(const auto bytes:{std::size_t(0),std::size_t(1048576)}) {
         auto denied=channel.submit("invalid-bound",[&denied_calls] {++denied_calls;return completed("invalid-bound",Value{});},bytes);

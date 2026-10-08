@@ -26,8 +26,8 @@ disked:
   - DE-REQ-103-01
 updated:
   by: codex
-  at: '2026-10-08T14:09:59.155322+00:00'
-  scope: DE-W033 private Windows ordinary-file adapter; public command admission and owner acceptance remain pending
+  at: '2026-10-08T19:14:13.654692+00:00'
+  scope: DE-W033 public Windows ordinary-file acquisition and bounded frontend contract; owner/release acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -37,7 +37,7 @@ sources:
 
 ## Identity and availability
 
-Semantic ID: `image.acquire`. Operation specification: `DE-OP-003`. Earliest phase: **M4**. Initial target scope: explicit source and separately owned destination. Public command status: specified and unavailable. Private native components are under local implementation/review; no public or physical-storage qualification is implied by this document.
+Semantic ID: `image.acquire`. Operation specification: `DE-OP-003`. Earliest phase: **M4**. Initial target scope: explicit source and separately owned destination. The Windows development composition implements bounded ordinary-file prepare/execute admission. Other acquisition providers/platforms, physical storage and product-release qualification remain open. Schemas and records retain their explicit prototype status.
 
 ## Required inputs and preconditions
 
@@ -82,9 +82,10 @@ Destination equals source through alias, full destination, thin-provisioning exh
 
 DE-W033 first implements a private provider-independent C++14 pipeline under
 `source/runtime/acquisition/`. Its fixture port is not the Windows file provider;
-`image.acquire` remains unavailable until separately implemented and tested
-ordinary-file admission and shared frontend execution are reviewed. This step
-does not reduce the programme's full acquisition/platform scope.
+the fixture port alone does not admit ordinary-file execution. Its subsequent
+Windows adapter and shared frontend admission require separate implementation
+and source-bound native evidence. This does not reduce the programme's full
+acquisition/platform scope.
 
 The private [plan review schema](../schemas/acquisition-plan-prototype.schema.json)
 binds source, destination, acquisition map, host, executable and provider
@@ -184,11 +185,12 @@ substitution, stops and uncertain-effect recovery. Actual ordinary file handles,
 capacity/sharing/no-clobber races, process interruptions, imports and frontend
 evidence remain required before DE-W033 is complete.
 
-## Private Windows ordinary-file acquisition profile
+## Windows ordinary-file acquisition prototype profile
 
-The next DE-W033 component uses `source/providers/image/file_acquisition.*`.
-It remains private and is exercised by dedicated probes; its existence does not
-admit `image.acquire` in the product command registry. The selected prototype is
+The DE-W033 component uses `source/providers/image/file_acquisition.*`.
+Dedicated probes exercise its boundaries; the development executable admits the
+same adapter through the shared command contract after native integration tests.
+Its provider identity is `provider.image.acquire.raw.prototype/1`. The selected prototype is
 Windows NT 10 x64 with the recorded v143/SDK build. Other OS/ABI profiles remain
 unverified. It copies raw bytes only; no mounts, snapshots, physical devices,
 elevation, sparse optimization, filesystem transformation or installation.
@@ -271,9 +273,9 @@ not physical disconnection, thin-provisioning exhaustion or power-loss behavior.
 
 ## Native acquisition admission and worker integration
 
-The next component must exercise real file acquisition in an isolated native
-worker before the shared command/frontends are admitted. This remains a private
-prototype under DE-W033, not a fake-counter substitute for data transfer.
+Real file acquisition runs in an isolated native worker before shared frontend
+admission claims. This remains a development prototype under DE-W033; fake
+counters cannot substitute for data-transfer evidence.
 
 Preparation returns an immutable operation definition binding the acquisition
 plan, source/destination/map paths and options, exact code/host observations and
@@ -429,8 +431,27 @@ is 0..2000 ms; a bounded watch ending on an active worker returns accepted_runni
 with its operation ID. A terminal watch is a completed observation even when
 copying failed or paused. CLI/stdio response batches retain the existing one MiB
 wire limit, including LF. Their acquisition-watch request slot explicitly selects
-that finite response bound; other calls retain the 64 KiB default. Interactive response admission remains separately bounded and needs
-its own size/rendering qualification before complete acquisition frontend claims.
+that finite response bound; other calls retain the 64 KiB default. Interactive
+acquisition watch selects the same response bound, with the existing depth 32,
+8192-value and 32768-byte-string limits. This selection follows an exact
+operation.watch request with an image-op identity; other requests retain 64 KiB.
+
+The presentation selector recognizes an image-op response with the exact
+ordinary-local-raw-file-acquisition scope, operation-observation request kind
+and an events array. This is a display profile, never operation authority.
+One acquisition-watch response permits up to 4 MiB escaped display text. The GUI
+composite permits two one-MiB response values plus 1024 correlation bytes,
+16400 values, depth 33 and up to 8 MiB escaped display text. Pretty indentation
+may fall back to complete compact JSON; neither path truncates events or identity.
+The TUI keeps one current and at most one earlier result with separate complete
+display encodings. Shell transcript quotas follow DE-027. Failures to encode or
+retain a complete result must be visible and cannot repeat dispatch or imply
+that a worker stopped.
+
+Qualification must include all 64 allowed events, exact event/cursor retention,
+native GUI/TUI/shell observation and byte/value bounds. Synthetic histories must
+be labelled as synthetic; they do not establish that a real worker emitted those
+extra observations. Actual copy byte/map checks remain separate.
 
 Torn or corrupt evidence remains unknown and unchanged. Preserve the last
 validated state/cursor already delivered when later observation fails. Closing
@@ -438,6 +459,13 @@ an observer or failing its output does not cancel, restart or remove a worker's
 recovery dependencies. Watching has no source/destination/map effect handles.
 Provisional event support does not freeze the production journal or admit the
 acquisition command before its visible review/submission checks.
+
+## Acquisition worker role diagnostics
+
+The capability-only acquisition worker role emits no CLI response. Invalid role
+arguments/capabilities return internal exit 199 without admitted effects or a
+terminal operation receipt. This is not a public command's exit mapping; an
+admitted worker exiting without its verified terminal record remains unresolved.
 
 ## Phase-specific acquisition forms
 
@@ -456,5 +484,35 @@ cannot authorize a previous valid definition. Review displays the complete typed
 escaped request; a separate fresh submission consumes that review. Preparation
 may be submitted independently without any output-file or effect admission.
 Paging and navigation neither truncate values nor submit an operation.
+
+## Native ordinary-file admission
+
+The windows.native.image.prototype composition explicitly selects the
+provider.image.acquire.raw.prototype component alongside its separate raw-file
+observation and fake providers. `image.acquire` is available in this development
+composition through CLI, typed JSON/NDJSON requests, GUI, TUI and shell. This is
+not public release, hardware qualification or a stable storage/protocol ABI.
+
+Preparation returns the complete immutable definition and digest without copying
+or creating destination/map/operation metadata. Execution requires that exact
+definition and four explicit source-read/destination-write/map-write/host-effects
+grants. Source consistency remains live-uncoordinated. A repeated exact request
+in an existing matching store observes the original operation; it cannot restart
+it. A different definition, grant, executable generation or host cannot adopt
+that store or its execution authority.
+
+The same disked.exe supplies the capability-only detached worker role. No test
+delay/fault environment becomes public authority. Cancellation is a persisted
+request, acknowledged only at a verified checkpoint. Resume prepares a fresh
+definition/store against the existing source, destination and map; it retains
+the original capture identity and independently verifies the checkpoint before
+continuing. A terminal receipt follows release of provider handles.
+
+Admission evidence must include actual public CLI/stdio and native GUI/TUI/shell
+copies, rejected/missing grants with no output effects, exact resubmission without
+replay, internal-role refusal without capabilities, and real checkpoint cancel/
+resume with independent destination/map checks. Synthetic expanded watch history
+qualifies observer bounds only. Physical/failing-media and other-platform claims
+require their own environments, providers and evidence.
 The fake inventory's graph revision is not an acquisition precondition. Review
 must not present it as authority or freshness for the independently bound files.

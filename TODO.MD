@@ -79,4 +79,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W024 local raw-file prototype: shared image/table commands and actual CLI/stdio/GUI/TUI/shell parity; retain coverage/consistency limits. Owner acceptance, physical storage, containers and whole-image qualification remain separate.
 
-- [ ] DE-W033 acquisition: private pipeline, file adapter, worker and shared command adapter under local review; product inspect/cancel/watch and private native GUI/TUI prepare/review/submit now have component evidence. Complete full-definition shell input, interactive watch result/rendering qualification and public copy admission. Physical, power-loss and other-platform qualification remain separate.
+- [ ] DE-W033 acquisition: ordinary-file pipeline, adapter, worker and shared public prepare/execute/inspect/cancel/watch paths implemented for Windows development. Native GUI/TUI/shell, structured definitions, bounded watch rendering and public copy/cancel/resume have component tests. Complete clean-checkout qualification and the remaining W033 requirement/fixture audit. Physical, power-loss and other-platform qualification remain separate.

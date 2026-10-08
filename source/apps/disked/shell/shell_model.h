@@ -18,7 +18,7 @@ public:
     json::Value state() const;
 private:
     enum class View {Editor,Review,Complete,Commands,Targets};
-    struct Record {std::uint64_t sequence;std::vector<std::string> lines;std::size_t bytes;};
+    struct Record {std::uint64_t sequence;std::vector<std::string> lines;std::size_t bytes;bool acquisition=false;};
     FrontendSession& session_;
     const Registry& registry_;
     json::Value discovery_;
@@ -32,7 +32,7 @@ private:
     std::vector<std::string> candidates_;
     std::size_t transcript_bytes_=0;
     std::uint64_t sequence_=0,dropped_=0,requests_=0;
-    bool history_enabled_=false,done_=false,toggle_=false,follow_=true;
+    bool history_enabled_=false,done_=false,toggle_=false,follow_=true,rejected_input_=false;
     View view_=View::Editor;
     ParseResult reviewed_;
     Outcome last_;

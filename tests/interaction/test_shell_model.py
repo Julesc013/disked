@@ -33,9 +33,12 @@ class Shell(unittest.TestCase):
 
     def test_tokenizer_limits_and_operator_locations(self):
         for line,error,at in [('show | other','shell_operator_unsupported',5),('show "oops','shell_unclosed_quote',5),
-                              ('a\nb','shell_control_input',1),('x'*4097,'shell_line_limit',4096),(' '.join(['a']*129),'shell_token_limit',256)]:
+                              ('a\nb','shell_control_input',1),('x'*65537,'shell_line_limit',65536),(' '.join(['a']*129),'shell_token_limit',256)]:
             result=run(dict(op='lex',line=line))[0]
             self.assertEqual((error,at),(result['error'],result['byte']))
+        for size in (4097,65536):
+            result=run(dict(op='lex',line='x'*size))[0]
+            self.assertEqual('',result['error']);self.assertEqual('x'*size,result['tokens'][0]['value'])
 
     def test_review_is_consumed_and_paste_enter_repeat_do_not_dispatch(self):
         results=run(key('text','show fake:alpha@1'),key('enter'),key('text','\nexit\n'),key('f9'),key('f9',repeat=True),

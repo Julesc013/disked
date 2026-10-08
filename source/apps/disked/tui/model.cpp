@@ -15,7 +15,7 @@ std::vector<std::string> wrapped(const std::vector<std::string>& lines,unsigned 
     return result;
 }
 }
-std::vector<std::string> tui_json_lines(const Value& value) {return presentation_lines(value);}
+std::vector<std::string> tui_json_lines(const Value& value) {return observation_lines(value);}
 TuiModel::TuiModel(FrontendSession& session,const Registry& registry,Value discovery,FrontendHandler dispatch,CompletionPoll poll):
     session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()) {
     const auto options=choices();if(!options.empty())focus_=inventory_focus_=options.front();

@@ -6,9 +6,12 @@
 namespace disked {
 using json::Value;
 namespace {
-constexpr std::size_t max_line=4096,max_history=65536,max_transcript=262144;
+constexpr std::size_t max_line=shell_line_bytes,max_history=65536,max_transcript=262144,max_acquisition_transcript=8388608;
 std::string text(const Value& value,const std::string& key) {const auto* p=value.find(key);return p?p->text:"";}
-std::string display(const std::string& value) {return presentation_json(Value::string(value));}
+std::string display(const std::string& value) {
+    json::Limits limits;limits.bytes=2*shell_line_bytes+2;limits.string_bytes=shell_line_bytes;
+    return presentation_json(Value::string(value),limits);
+}
 std::size_t previous(const std::string& text,std::size_t cursor) {
     if(cursor) {--cursor;while(cursor && (static_cast<unsigned char>(text[cursor])&0xc0)==0x80)--cursor;}return cursor;
 }
@@ -43,7 +46,8 @@ bool ShellModel::available(const std::string& id) const {
 void ShellModel::record(const std::string& kind,const Value& value) {
     if(sequence_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("shell_sequence_exhausted");
     std::vector<std::string> lines;
-    try {lines=presentation_lines(value);}
+    bool acquisition=acquisition_watch_response(value);
+    try {lines=observation_lines(value);}
     catch(const json::Error& error) {
         ++dropped_;lines={"presentation_unavailable: "+error.code+"; complete result was not displayed; no retry performed"};
     }
@@ -52,13 +56,14 @@ void ShellModel::record(const std::string& kind,const Value& value) {
     }
     lines.insert(lines.begin(),"["+std::to_string(++sequence_)+"] "+kind);
     std::size_t bytes=0;for(const auto& line:lines)bytes+=line.size()+1;
-    if(bytes>max_transcript) {
-        ++dropped_;lines={"["+std::to_string(sequence_)+"] transcript_record_unavailable: complete record exceeds 256 KiB"};bytes=lines.front().size()+1;
+    if(bytes>(acquisition?max_acquisition_transcript:max_transcript)) {
+        ++dropped_;acquisition=false;lines={"["+std::to_string(sequence_)+"] transcript_record_unavailable: complete record exceeds its declared budget"};bytes=lines.front().size()+1;
     }
-    while(!transcript_.empty() && (transcript_.size()==64 || transcript_bytes_>max_transcript-bytes)) {
+    auto quota=[&]() {return acquisition || std::any_of(transcript_.begin(),transcript_.end(),[](const Record& r){return r.acquisition;})?max_acquisition_transcript:max_transcript;};
+    while(!transcript_.empty() && (transcript_.size()==64 || bytes>quota() || transcript_bytes_>quota()-bytes)) {
         transcript_bytes_-=transcript_.front().bytes;transcript_.pop_front();++dropped_;
     }
-    transcript_.push_back({sequence_,std::move(lines),bytes});transcript_bytes_+=bytes;follow_=true;
+    transcript_.push_back({sequence_,std::move(lines),bytes,acquisition});transcript_bytes_+=bytes;follow_=true;
 }
 void ShellModel::diagnostic(const std::string& code,std::size_t byte,std::size_t token) {
     notice_=code+" at byte "+std::to_string(byte)+" (token "+std::to_string(token)+")";
@@ -85,7 +90,7 @@ Value ShellModel::review_value() const {
     }
     return Value::object().put("command",Value::string(reviewed_.kind=="help"?"help":reviewed_.command_id))
         .put("help_scope",Value::string(reviewed_.domain)).put("parameters",parameters)
-        .put("expected_revision",Value::string(review_revision_)).put("selection",session_.selection());
+        .put("expected_revision",FrontendSession::handles(reviewed_.command_id)?Value::string(review_revision_):Value{}).put("selection",session_.selection());
 }
 void ShellModel::review() {
     const auto line=tokenize_shell(editor_);
@@ -106,6 +111,9 @@ void ShellModel::review() {
         diagnostic(parsed.command_id=="shell.open" || parsed.command_id=="protocol.serve"?"shell_nested_session":"command_unavailable",0);return;
     }
     if(parsed.help_requested)parsed.kind="help";
+    if(rejected_input_ && parsed.command_id=="image.acquire" && parsed.parameters.find("phase") && parsed.parameters.find("phase")->text=="execute") {
+        diagnostic("shell_rejected_definition_input",0);return;
+    }
     reviewed_=std::move(parsed);review_revision_=snapshot_->revision();view_=View::Review;
     notice_="REQUEST REVIEW: fresh F9 submits; editing cancels review";record("review (inert)",review_value());
 }
@@ -125,7 +133,7 @@ void ShellModel::submit() {
         }
         reply=completed(id,Value::object().put("commands",commands).put("global_options",*registry_.syntax.find("global_options")));
     } else if(parsed.command_id=="shell.close") {reply=completed(id,Value::object().put("session",Value::string("closed")));done_=true;}
-    else reply=dispatch_(id,parsed.command_id,parsed.parameters,revision);
+    else reply=dispatch_(id,parsed.command_id,parsed.parameters,FrontendSession::handles(parsed.command_id)?revision:"");
     if(history_enabled_ && !secret && (history_.empty() || history_.back()!=editor_)) {
         while(!history_.empty() && (history_.size()==32 || history_bytes_>max_history-editor_.size())) {history_bytes_-=history_.front().size();history_.pop_front();}
         history_.push_back(editor_);history_bytes_+=editor_.size();
@@ -221,7 +229,7 @@ void ShellModel::input(const TuiInput& event) {
         if(candidates_.empty()) {invalidate();return;}
         const auto insertion=quote_shell(candidates_[choice_]);const auto proposed=editor_.substr(0,replace_begin_)+insertion+editor_.substr(replace_end_);
         if(proposed.size()>max_line) {diagnostic("shell_line_limit",cursor_);return;}
-        editor_=proposed;cursor_=replace_begin_+insertion.size();invalidate();return;
+        editor_=proposed;cursor_=replace_begin_+insertion.size();rejected_input_=false;invalidate();return;
     }
     if((view_==View::Complete || view_==View::Commands || view_==View::Targets) && (event.key==TuiKey::Up || event.key==TuiKey::Down)) {
         follow_=true;
@@ -235,7 +243,7 @@ void ShellModel::input(const TuiInput& event) {
             invalidate();record("selection",selected.response);return;
         }
         if(view_==View::Commands && choice_<registry_.commands.items.size()) {
-            editor_=words(registry_.commands.items[choice_]);cursor_=editor_.size();invalidate();return;
+            editor_=words(registry_.commands.items[choice_]);cursor_=editor_.size();rejected_input_=false;invalidate();return;
         }
         // Do not retain raw editable data in a transcript before schema validation.
         notice_="Input remains inert; use F9 to review";return;
@@ -243,16 +251,17 @@ void ShellModel::input(const TuiInput& event) {
     if(event.key==TuiKey::Tab) {complete();return;}
     if(event.key==TuiKey::Up || event.key==TuiKey::Down) {recall(event.key==TuiKey::Up?-1:1);return;}
     if(event.key==TuiKey::Text) {
-        if(!json::valid_utf8(event.text) || event.text.size()>max_line-editor_.size()) {diagnostic("shell_line_limit",cursor_);return;}
-        for(const auto c:event.text)if(static_cast<unsigned char>(c)<32 || c==127) {diagnostic("shell_control_input",cursor_);return;}
-        invalidate();editor_.insert(cursor_,event.text);cursor_+=event.text.size();history_at_=history_.size();return;
+        if(event.text.empty())return;
+        if(!json::valid_utf8(event.text) || event.text.size()>max_line-editor_.size()) {rejected_input_=true;diagnostic("shell_line_limit",cursor_);return;}
+        for(const auto c:event.text)if(static_cast<unsigned char>(c)<32 || c==127) {rejected_input_=true;diagnostic("shell_control_input",cursor_);return;}
+        invalidate();editor_.insert(cursor_,event.text);cursor_+=event.text.size();history_at_=history_.size();rejected_input_=false;return;
     }
     if(event.key==TuiKey::Left) {invalidate();cursor_=previous(editor_,cursor_);}
     else if(event.key==TuiKey::Right) {invalidate();cursor_=next(editor_,cursor_);}
     else if(event.key==TuiKey::Home) {invalidate();cursor_=0;}
     else if(event.key==TuiKey::End) {invalidate();cursor_=editor_.size();}
-    else if(event.key==TuiKey::Backspace) {invalidate();const auto before=previous(editor_,cursor_);editor_.erase(before,cursor_-before);cursor_=before;}
-    else if(event.key==TuiKey::Delete) {invalidate();editor_.erase(cursor_,next(editor_,cursor_)-cursor_);}
+    else if(event.key==TuiKey::Backspace) {invalidate();const auto before=previous(editor_,cursor_);if(before!=cursor_)rejected_input_=false;editor_.erase(before,cursor_-before);cursor_=before;}
+    else if(event.key==TuiKey::Delete) {invalidate();const auto count=next(editor_,cursor_)-cursor_;if(count)rejected_input_=false;editor_.erase(cursor_,count);}
 }
 std::vector<std::string> ShellModel::linear_records(std::uint64_t& after) const {
     std::vector<std::string> lines;

@@ -101,9 +101,10 @@ std::string presentation_json(const Value& value,json::Limits limits) {
     }
     return ascii;
 }
-std::vector<std::string> presentation_lines(const Value& value,json::Limits limits) {
+std::vector<std::string> presentation_lines(const Value& value,json::Limits limits,std::size_t display_bytes) {
+    if(!display_bytes || display_bytes>8388608)throw std::length_error("presentation_limit");
     const auto text=presentation_json(value,limits);std::vector<std::string> lines;std::string line;
-    if(text.size()+2>1048576)throw std::length_error("presentation_limit");
+    if(text.size()+2>display_bytes)throw std::length_error("presentation_limit");
     bool quoted=false,escape=false;unsigned depth=0;
     auto emit=[&]() {if(!line.empty())lines.push_back(line);line.assign(depth*2,' ');};
     for(char c:text) {
@@ -118,7 +119,12 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
     std::size_t bytes=0;for(const auto& row:lines)bytes+=row.size()+2;
     // Whitespace is dispensable; valid bounded content is not. Compact escaped
     // JSON retains every value when indentation would exceed the display budget.
-    if(bytes>1048576)return {text};return lines;
+    if(bytes>display_bytes)return {text};return lines;
+}
+std::vector<std::string> observation_lines(const Value& value) {
+    json::Limits limits;const bool acquisition=acquisition_watch_response(value);
+    if(acquisition)limits.bytes=1048575;
+    return presentation_lines(value,limits,acquisition?4194304:1048576);
 }
 
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 namespace disked {
+constexpr std::size_t shell_line_bytes=65536;
 struct ShellToken {std::string value;std::size_t begin=0,end=0;};
 struct ShellLine {
     std::vector<ShellToken> tokens;

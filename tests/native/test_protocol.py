@@ -62,7 +62,7 @@ class NativeProtocol(unittest.TestCase):
         return self.machine(['protocol','serve','--format='+('ndjson' if ndjson else 'json')],data,exit_code)
 
     def test_build_identity_and_machine_aliases(self):
-        expected=dict(self.identity['identity'],fake_provider=self.profile['fake_provider_id'],image_provider=self.profile['image_provider_id'])
+        expected=dict(self.identity['identity'],fake_provider=self.profile['fake_provider_id'],image_provider=self.profile['image_provider_id'],acquisition_provider=self.profile['acquisition_provider_id'])
         for argv in [['--json','build','inspect'],['build','--format','json','inspect'],['build','inspect','-j']]:
             value=self.machine(argv)[0]
             self.assertEqual(expected,value['result']);self.assertEqual('cli',value['request_id'])

@@ -25,8 +25,8 @@ disked:
   - DE-REQ-027-02
 updated:
   by: codex
-  at: '2026-10-06T13:33:03.936091+00:00'
-  scope: DE-W019 bounded native shell execution contract; owner acceptance pending
+  at: '2026-10-08T19:14:13.655056+00:00'
+  scope: DE-W033 structured acquisition input and bounded observation presentation; owner acceptance pending
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
@@ -62,7 +62,9 @@ or unusable interactive channels are refused before fake-provider initialization
 The stdin protocol cannot nest an interactive shell. This is a DiskEd frontend,
 not a host shell, script interpreter or general storage admission.
 
-The editor holds at most 4,096 UTF-8 bytes and 128 tokens. Spaces delimit tokens.
+The editor holds at most 65,536 UTF-8 bytes and 128 tokens. This admits a bounded
+16 KiB acquisition definition with literal quoting; it does not enlarge the
+shared argument, definition, depth or value limits. Spaces delimit tokens.
 Single/double quotes preserve literal spaces and may join adjacent token segments;
 matching doubled quotes inside a quoted segment encode one literal quote. Empty
 quoted tokens are preserved. Backslashes, `$`, `%` and `~` remain literal data;
@@ -73,9 +75,13 @@ location. No already-tokenized argument is split again.
 
 Typing, cursor movement, deletion, recall and completion never dispatch. The first
 fresh F9 validates and displays the canonical request, parameters and captured
-graph revision; a second fresh F9 submits it. Enter shows the current inert line
+graph revision for graph commands (null for other commands); a second fresh F9
+submits it. Other handlers receive no fake graph revision. Enter shows the current inert line
 and never submits. A text insertion containing a control/newline is rejected as
-a whole, preserving the previous line. Held/repeated activation keys cannot submit.
+a whole, preserving the previous line. A rejected control/oversized insertion
+into an acquisition-execution line prevents reviewing that older definition until
+an actual text correction or replacement; empty input and cursor movement do not
+clear the rejection. Held/repeated activation keys cannot submit.
 Any edit, recall, selection or completion invalidates pending review. Escape
 returns from review/candidates/navigation without executing. F10 or Ctrl+C closes
 the frontend without cancelling a dispatched operation.
@@ -101,12 +107,23 @@ memory is capped at 256 KiB and 64 complete records; eviction preserves record
 boundaries and reports the dropped count. Operation evidence remains in its
 separately selected state directory.
 
+Qualified acquisition-watch outcomes use DE-103's separate response/display
+profile. While such a complete record is retained, the transcript has an explicit
+8 MiB/64-record cap. After its last acquisition-watch record is evicted, admission
+again enforces the ordinary 256 KiB cap. Evict whole oldest records, including a
+large outcome; never cut its identity, diagnostics or events to fit a quota.
+History remains 32 entries/64 KiB, with opt-in ownership and redaction unchanged.
+
 The linear backend emits complete new records once and edits only its owned
 prompt row. Long input uses a horizontal editor window; it does not truncate the
 retained input or a request. The shared presentation encoder also bounds each
 JSON value (64 KiB, 32 KiB per string, depth 32 and 8,192 values). A result beyond
 the presentation/transcript limits displays an explicit unavailable marker,
 retains the request outcome and never repeats dispatch to recover display.
+Acquisition watch selects the bounded larger profile; other responses retain
+these limits. Prompt encoding admits the full bounded editor even when literal
+quotes or Unicode expand its display; only the visible horizontal window is
+cropped, never the retained line.
 
 `exit` (alias `quit`) is the `shell.close` descriptor and follows the same explicit
 review/submission path. Outside a shell it returns `command_requires_shell`.

@@ -7,7 +7,7 @@ std::vector<std::string> ShellLine::arguments() const {
 ShellLine tokenize_shell(const std::string& line,bool completion) {
     ShellLine out;
     auto error=[&](const char* code,std::size_t byte) {out.error=code;out.error_byte=byte;return out;};
-    if(line.size()>4096)return error("shell_line_limit",4096);
+    if(line.size()>shell_line_bytes)return error("shell_line_limit",shell_line_bytes);
     if(!json::valid_utf8(line))return error("invalid_argument_encoding",0);
     std::string value;char quote=0;std::size_t start=0,quote_start=0;bool active=false;
     auto finish=[&](std::size_t end) {
