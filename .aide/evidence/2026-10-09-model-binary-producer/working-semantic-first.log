@@ -1,0 +1,168 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\journal\test_semantics.py", line 226, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\journal\test_semantics.py", line 223, in main
+    assert not failed,json.dumps(failed[:12],indent=2)
+           ^^^^^^^^^^
+AssertionError: [
+  {
+    "name": "cancel-after-before-reconciliation",
+    "errors": [
+      {
+        "field": "disposition",
+        "expected": "valid_prefix",
+        "actual": "invalid"
+      },
+      {
+        "field": "diagnostic",
+        "expected": "",
+        "actual": "journal_semantic_rejected"
+      },
+      {
+        "field": "semantic_diagnostic",
+        "expected": "",
+        "actual": "semantic_seal_evidence"
+      },
+      {
+        "field": "records",
+        "expected": "8",
+        "actual": "7"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "13942",
+        "actual": "12028"
+      },
+      {
+        "field": "last_digest",
+        "expected": "48dc5e8c4214cd83e55ceb6877da5000ee8579cfb7b7741816bc1b5dc2c9749a",
+        "actual": "c36cd304e149acae848916dea69d18633d91bad6923ef6e23e99003d8d38934e"
+      },
+      "projection-differs-from-valid-prefix-control",
+      {
+        "field": "declared_terminal_outcome",
+        "expected": "cancelled",
+        "actual": ""
+      }
+    ]
+  },
+  {
+    "name": "terminal-reconciliation-still-needs-seal",
+    "errors": [
+      {
+        "field": "disposition",
+        "expected": "valid_prefix",
+        "actual": "invalid"
+      },
+      {
+        "field": "diagnostic",
+        "expected": "",
+        "actual": "journal_semantic_rejected"
+      },
+      {
+        "field": "semantic_diagnostic",
+        "expected": "",
+        "actual": "semantic_seal_evidence"
+      },
+      {
+        "field": "records",
+        "expected": "10",
+        "actual": "9"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "18962",
+        "actual": "17047"
+      },
+      {
+        "field": "last_digest",
+        "expected": "b5efe51bc9c4cde29b468f104783ccea9a15f67fa39fb19761ffa5664c41039a",
+        "actual": "01b1aacce342ec3afb8d1fec1209f728716c0511cf5ea0257407862e21fe4662"
+      },
+      "projection-differs-from-valid-prefix-control",
+      {
+        "field": "declared_terminal_outcome",
+        "expected": "completed",
+        "actual": ""
+      }
+    ]
+  },
+  {
+    "name": "event-count-1024",
+    "errors": [
+      {
+        "field": "disposition",
+        "expected": "valid_prefix",
+        "actual": "invalid"
+      },
+      {
+        "field": "diagnostic",
+        "expected": "",
+        "actual": "journal_semantic_rejected"
+      },
+      {
+        "field": "semantic_diagnostic",
+        "expected": "",
+        "actual": "semantic_recovery_order"
+      },
+      {
+        "field": "records",
+        "expected": "1028",
+        "actual": "5"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "2029216",
+        "actual": "9583"
+      },
+      {
+        "field": "last_digest",
+        "expected": "48fd436735e528198e64ea2555a73693d58759c8b86d0c2e9470ba8101e12ce3",
+        "actual": "32dae5536f052481c80e5ff8aef6796f15897a0557ff883e8cc9cc63931edb6d"
+      },
+      "projection-differs-from-valid-prefix-control",
+      {
+        "field": "events",
+        "expected": "1024",
+        "actual": "1"
+      }
+    ]
+  },
+  {
+    "name": "event-count-1025",
+    "errors": [
+      {
+        "field": "semantic_diagnostic",
+        "expected": "semantic_event_budget",
+        "actual": "semantic_recovery_order"
+      },
+      {
+        "field": "records",
+        "expected": "1028",
+        "actual": "5"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "2029216",
+        "actual": "9583"
+      },
+      {
+        "field": "last_digest",
+        "expected": "48fd436735e528198e64ea2555a73693d58759c8b86d0c2e9470ba8101e12ce3",
+        "actual": "32dae5536f052481c80e5ff8aef6796f15897a0557ff883e8cc9cc63931edb6d"
+      },
+      {
+        "field": "error_offset",
+        "expected": "2029216",
+        "actual": "9583"
+      },
+      "projection-differs-from-valid-prefix-control",
+      {
+        "field": "events",
+        "expected": "1024",
+        "actual": "1"
+      }
+    ]
+  }
+]

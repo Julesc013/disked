@@ -1,0 +1,28 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 1: journal.semantic_reader
+1/5 Test #1: journal.semantic_reader ..........   Passed   13.45 sec
+    Start 2: journal.guarded_model
+2/5 Test #2: journal.guarded_model ............***Failed    0.29 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\journal\test_guarded.py", line 292, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\journal\test_guarded.py", line 265, in main
+    assert set(action)==set(profile['common_action_fields']+profile['action_fields'][action['op']])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+    Start 3: journal.model_binary_producer
+3/5 Test #3: journal.model_binary_producer ....   Passed    2.41 sec
+    Start 4: journal.plan_definitions
+4/5 Test #4: journal.plan_definitions .........   Passed    0.46 sec
+    Start 5: journal.binary_codec
+5/5 Test #5: journal.binary_codec .............   Passed    0.26 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =  16.90 sec
+
+The following tests FAILED:
+	  2 - journal.guarded_model (Failed)
+Errors while running CTest
