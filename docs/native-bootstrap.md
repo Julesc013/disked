@@ -442,3 +442,19 @@ physical backing, thin provisioning, failing media and other-platform claims.
 One initial execute-review screenshot was frame-only; the original and a separately
 verified redraw capture are retained. The shared screenshot heuristic remains a
 recorded harness limitation.
+
+DE-W040 adds a private proposed binary journal codec and native probe. It is not
+linked to disked.exe and supplies no journal/file writer, recovery replay or
+production admission. Its independent vectors check exact little-endian fields,
+identity/chain binding, all small-frame cuts and single-byte corruptions, strict
+producers/compatible observational readers, source faults and finite budgets.
+
+```powershell
+cmake --build --preset windows-bootstrap --target journal_codec_probe
+python tests/journal/test_codec.py --probe build/windows-bootstrap/Release/journal_codec_probe.exe --root .
+```
+
+[DE-043](../spec/safety/journal-and-recovery.md) and its private profile describe
+the exact proposal. Payload receipts, immutable definitions, recovery properties,
+flush/effect models and physical durability qualification remain separate work;
+DE-DEC-004 stays proposed. A verified byte prefix never authorizes effects.

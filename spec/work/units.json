@@ -1494,7 +1494,7 @@
       "id": "DE-W040",
       "title": "Design and model runtime journal encoding",
       "phase": "M5",
-      "status": "planned",
+      "status": "active",
       "risk": "R4",
       "dependencies": [
         "DE-W023",
@@ -1509,7 +1509,19 @@
       "allowed_paths": [
         "spec/safety/**",
         "spec/schemas/**",
-        "tests/model/**"
+        "tests/model/**",
+        "source/runtime/journal/**",
+        "tests/journal/**",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1542,7 +1554,17 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/runtime/journal/codec.h",
+        "source/runtime/journal/codec.cpp",
+        "tests/journal/codec_probe.cpp",
+        "tests/journal/test_codec.py",
+        "spec/catalog/journal-prototype.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "source/portable/hash/sha256.h",
+        "source/portable/hash/sha256.cpp"
+      ]
     },
     {
       "id": "DE-W041",

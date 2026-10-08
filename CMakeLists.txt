@@ -47,6 +47,13 @@ target_include_directories(disked_hash PUBLIC source/portable/hash)
 set_target_properties(disked_hash PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_hash PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private DE-W040 framing spike; never linked into the product composition.
+add_library(disked_journal_prototype STATIC source/runtime/journal/codec.cpp)
+target_include_directories(disked_journal_prototype PUBLIC source/runtime/journal)
+target_link_libraries(disked_journal_prototype PUBLIC disked_hash)
+set_target_properties(disked_journal_prototype PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_journal_prototype PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 add_library(disked_acquisition STATIC source/runtime/acquisition/pipeline.cpp source/runtime/acquisition/operation.cpp)
 target_include_directories(disked_acquisition PUBLIC source/runtime/acquisition)
 target_link_libraries(disked_acquisition PUBLIC disked_json disked_hash)
@@ -157,6 +164,14 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(journal_codec_probe tests/journal/codec_probe.cpp)
+  target_link_libraries(journal_codec_probe PRIVATE disked_journal_prototype disked_json)
+  set_target_properties(journal_codec_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(journal_codec_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(journal_codec_probe PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
+  add_test(NAME journal.binary_codec COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/journal/test_codec.py"
+    --probe "$<TARGET_FILE:journal_codec_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(journal.binary_codec PROPERTIES TIMEOUT 120)
   add_test(NAME frontend.acquisition_forms COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_acquisition_forms.py"
     --exe "$<TARGET_FILE:disked>" --product "$<TARGET_FILE:disked>" --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.acquisition_forms PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)

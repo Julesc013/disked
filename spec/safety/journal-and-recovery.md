@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-04T06:41:03.817694+00:00'
-  scope: 08a8246 review corrections; proposed, not accepted
+  at: '2026-10-08T20:03:44.893093+00:00'
+  scope: DE-W040 private native binary codec proposal; production decision and owner acceptance remain pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -70,6 +70,62 @@ The recovery closure includes independent code access, state, reconstruction dat
 The prototype plan's scalar recovery summary is insufficient for executable writers. Before DE-W040/041, define per-step resumability, backup dependence, cancellation checkpoints and irreversible boundaries, and derive a conservative plan summary. These properties can coexist; do not enumerate every combination into another scalar status.
 
 Separate logical operation state, execution attempt, worker liveness, effect certainty, cancellation request/acknowledgement and recovery state. The current `catalog/journal-model.json` is an unguarded design graph only; reachability does not prove legal transitions. DE-W017 adds guarded fake scenarios with operation/attempt IDs, capture and worker epochs, sequence domains and explicit ownership transfer. Cover old worker late completion, client disconnect/reconnect, cancellation followed by normal effect completion and failed verification. Starting another observer cannot retire a possibly active writer or release its dependencies.
+
+## DE-W040 private binary codec proposal
+
+The first native spike is `source/runtime/journal/codec.*`, a private C++14
+codec exercised by `journal_codec_probe`. It is **not linked to disked.exe** and
+offers no file writer, effect dispatch, tail repair or production admission.
+[The exact profile](../catalog/journal-prototype.json) owns the byte layout.
+All multibyte integers are unsigned little endian; payloads are opaque bytes.
+No native struct layout, JSON canonicalization or sector atomicity is assumed.
+
+The 192-byte file header starts with ASCII `DEJPR001`, format major/minor 1/0,
+header length 192, zero flags and payload limit 65536. It binds a nonzero 16-byte
+journal identity and three nonzero 32-byte digests: immutable plan definition,
+participating target identities/epochs and provider/executor closure. Bytes
+136..159 are zero. SHA-256 of bytes 0..159 occupies bytes 160..191. Supplied
+expected bindings must match exactly before any record is visited. They must
+come from independently established plan/resource/code observations, not from
+the untrusted header itself; this codec cannot establish their authority.
+
+Each record has a 112-byte prefix, a payload of 0..65536 bytes, and a 32-byte
+trailer. Prefix fields are ASCII `JREC`, kind/flags (u16 each), prefix/payload
+lengths (u32 each), sequence (u64), journal publisher identity (16 bytes),
+publisher epoch (u64), previous digest (32 bytes) and payload SHA-256 (32 bytes).
+Sequence starts at one and increases by one in the journal's sequence domain;
+publisher identity/epoch are separate observations, not effect-worker authority.
+The first previous digest is the file-header digest. The trailer hashes the
+file-header digest followed by the complete prefix and payload. Hashes detect
+alteration and bind context; they do not authenticate receipts or storage.
+
+Known critical record kinds 1..9 are PlanDefinition, ReviewReceipt, Grant,
+AdmissionReceipt, Intention, VerifiedCompletion, CancellationRequest,
+RecoveryObservation and Seal. Their flags must be exactly one. Observation
+kind 32769 has zero flags. Strict producers emit only these kinds. Compatible
+readers may preserve/ignore unknown zero-flag kinds in 32768..65535; unknown
+critical kinds, unknown low kinds and all other flag bits are rejected.
+Observational compatibility never permits unknown mutation semantics.
+
+The scanner visits one verified record at a time, limits a source to 16 MiB and
+4096 records, and requests no read larger than 65536 bytes. It does not retain
+the whole source or all payloads. Ports must return exact requested lengths;
+short/oversized reads or exceptions are observation failures. A complete invalid
+record, chain/order mismatch, unsupported critical record or data after Seal
+is invalid, not a repairable torn tail. A partial final prefix/body/trailer is
+reported as a torn tail with the last verified prefix. A partial/invalid file
+header establishes no verified journal identity. Neither a verified prefix nor
+an observed Seal authorizes replay, truncation, release of dependencies or a
+completed logical operation. An optional semantic visitor may reject a record;
+such a record does not extend the accepted prefix.
+
+This codec qualifies byte framing and bounded reading only. Payload schemas,
+immutable definitions/separate receipt semantics, composable recovery traits,
+guarded effect/flush transitions, reconciliation and the provider durability
+model remain subsequent DE-W040 work. Intention must be retained and qualified
+durable before an effect; verification/required target flush precede completion.
+An uncertain effect requires observation, never replay solely from codec output.
+DE-DEC-004 remains proposed and blocks the production journal writer.
 
 ## Normative requirements
 

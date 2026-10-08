@@ -1040,7 +1040,12 @@
         "tests/unit/portable_probe.c",
         "tests/frontend/acquisition_console_fixture.py",
         "tests/frontend/test_acquisition_forms.py",
-        "tests/frontend/test_acquisition_interactive.py"
+        "tests/frontend/test_acquisition_interactive.py",
+        "source/runtime/journal/codec.h",
+        "source/runtime/journal/codec.cpp",
+        "tests/journal/codec_probe.cpp",
+        "tests/journal/test_codec.py",
+        "spec/catalog/journal-prototype.json"
       ],
       "spec_ids": [
         "DE-079"
@@ -3848,6 +3853,67 @@
         "DE-103",
         "DE-027",
         "DE-024"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/codec.h",
+      "path": "source/runtime/journal/codec.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "source/runtime/journal/codec.cpp",
+      "path": "source/runtime/journal/codec.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/codec.h",
+        "source/portable/hash/sha256.h",
+        "source/portable/hash/sha256.cpp"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "tests/journal/codec_probe.cpp",
+      "path": "tests/journal/codec_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/journal/codec.h",
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "tests/journal/test_codec.py",
+      "path": "tests/journal/test_codec.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/journal/codec_probe.cpp",
+        "source/runtime/journal/codec.cpp",
+        "spec/catalog/journal-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "spec/catalog/journal-prototype.json",
+      "path": "spec/catalog/journal-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-043"
       ]
     }
   ]
