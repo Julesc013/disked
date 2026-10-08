@@ -70,6 +70,44 @@ class ProtocolCorrections(unittest.TestCase):
         event['sequence']='1'
         with self.assertRaises(sc.SpecError):self.bundle.validate(sc.SCHEMA_PREFIX+'event:1',event,'graph')
 
+    def acquisition_state(self):
+        return dict(schema='org.disked.acquisition-worker-state/1',binding=dict(
+            operation_id='image-op:'+'a'*32,worker_epoch='worker:'+'b'*32,attempt_id='attempt:'+'c'*32,
+            definition_digest='sha256:'+'d'*64,image_digest='e'*64,host_id='f'*64,capture_epoch='fixture',
+            process_id='1',process_created='1'),sequence='1',phase='active',checkpoint_bytes='0',source_bytes='0',
+            substituted_bytes='0',observed_filetime='1',quiescent=False,outcome=None,receipt=None)
+
+    def test_acquisition_observation_semantics_enforce_counter_relationships(self):
+        uri=sc.SCHEMA_PREFIX+'acquisition-worker-state:1';state=self.acquisition_state();self.bundle.validate(uri,state)
+        for key,value in [('sequence','0'),('sequence','65'),('checkpoint_bytes',str(sc.U64_MAX+1)),
+            ('source_bytes','1'),('substituted_bytes','1'),('observed_filetime','0'),('quiescent',True)]:
+            with self.subTest(field=key,value=value),self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(state,**{key:value}))
+        for key,value in [('process_id','0'),('process_id',str(2**32)),('process_created',str(sc.U64_MAX+1))]:
+            bad=copy.deepcopy(state);bad['binding'][key]=value
+            with self.subTest(field=key),self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+        state.update(phase='finished',quiescent=True,receipt={},outcome=dict(
+            schema='org.disked.acquisition-outcome-prototype/1',status='completed',diagnostic='',consistency='live-uncoordinated',
+            checkpoint_bytes='0',source_bytes='0',substituted_bytes='0',attempt_read_bytes='0',attempt_written_bytes='0',
+            attempt_verified_bytes='0',records='1',uncertain_effect=False))
+        self.bundle.validate(uri,state)
+        for key,value in [('checkpoint_bytes','1'),('uncertain_effect',True),('attempt_verified_bytes',str(sc.U64_MAX+1))]:
+            bad=copy.deepcopy(state);bad['outcome'][key]=value
+            with self.subTest(outcome=key),self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+
+    def test_acquisition_event_hash_and_identity_are_bound(self):
+        row=dict(schema='org.disked.acquisition-worker-record/1',state=self.acquisition_state(),previous='0'*64)
+        row['digest']=sc.hashlib.sha256(sc.acquisition_record_bytes(row)).hexdigest()
+        event=dict(schema='org.disked.event/1',operation_id=row['state']['binding']['operation_id'],sequence='1',
+            type='acquisition.operation.record',payload=dict(schema='org.disked.acquisition-operation-event/1',
+                request_id='fixture',observer_epoch='watch:'+'1'*32,record=row))
+        uri=sc.SCHEMA_PREFIX+'acquisition-operation-event:1';self.bundle.validate(uri,event)
+        for key,value in [('sequence','2'),('operation_id','image-op:'+'f'*32)]:
+            with self.subTest(field=key),self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(event,**{key:value}))
+        bad=copy.deepcopy(event);bad['payload']['record']['digest']='f'*64
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+        bad=copy.deepcopy(event);bad['payload']['request_id']='\u00e9'*100
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+
     def test_running_response_needs_identity_completed_read_may_omit_it(self):
         response=sc.read_json(ROOT/'examples/response-refused.json');response['status']='accepted_running'
         for identity in [None,'']:

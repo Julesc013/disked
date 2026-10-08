@@ -391,3 +391,50 @@ parents separately through launch when state and code directories do not share
 ancestors. The first adapter is tested through a private native probe before
 linking it into the product; static syntax definition alone grants no availability,
 stable API admission or complete frontend integration.
+
+
+## Provisional acquisition operation observation contract
+
+The common operation inspect/cancel/watch commands distinguish `fake-op:` and
+`image-op:` identities explicitly. Never guess an operation kind from directory
+contents or open another kind's metadata as a fallback. Inspection is a completed
+read independently of an active/paused/failed operation; cancellation is a
+persisted request until a verified checkpoint reports its outcome.
+
+Acquisition watch uses the separately negotiated
+`org.disked.acquisition-operation-events/1` feature. Its ordinary event envelope
+carries acquisition.operation.record or acquisition.operation.snapshot and an
+`org.disked.acquisition-operation-event/1` payload with request/observer identity
+and the actual immutable acquisition worker record. Fake counters are not real
+byte progress. A reader obtains the complete definition from its exact admission
+or an inspection first, checks its digest and uses that definition to validate
+record bindings, total coverage and outcome relationships. An event alone is not
+an execution grant or a complete acquisition definition.
+
+Sequence is one-based within the immutable operation/attempt/worker domain;
+reconnect after a nonzero sequence requires that worker epoch and the exact
+record digest. Full replay checks the retained record chain before projection.
+A snapshot is explicit and incompatible with a nonzero cursor. Duplicate exact
+records may be ignored; gaps, conflicting duplicates, changed epochs/definitions
+or a future cursor are refused without advancing the client's accepted cursor.
+Original capture and attempt identities remain distinct from observer identity.
+Within an accepted stream, the complete worker binding is immutable, checkpoint
+coverage cannot regress, and a terminal record cannot be followed by another
+state. A valid record hash alone does not establish these relationships.
+
+An acquisition event is bounded to 32 KiB; each retained record still has the
+16 KiB/depth-20/2048-value/1024-byte-string bounds. The shared queue permits at
+most 64 events and one MiB total without waiting for a consumer. Follow time
+is 0..2000 ms; a bounded watch ending on an active worker returns accepted_running
+with its operation ID. A terminal watch is a completed observation even when
+copying failed or paused. CLI/stdio response batches retain the existing one MiB
+wire limit, including LF. Their acquisition-watch request slot explicitly selects
+that finite response bound; other calls retain the 64 KiB default. Interactive response admission remains separately bounded and needs
+its own size/rendering qualification before complete acquisition frontend claims.
+
+Torn or corrupt evidence remains unknown and unchanged. Preserve the last
+validated state/cursor already delivered when later observation fails. Closing
+an observer or failing its output does not cancel, restart or remove a worker's
+recovery dependencies. Watching has no source/destination/map effect handles.
+Provisional event support does not freeze the production journal or admit the
+acquisition command before its visible review/submission checks.

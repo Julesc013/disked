@@ -63,6 +63,21 @@ int main()try {
     }
     report.put("invalid_completions_unknown",Value::number("5"));
     report.put("allocation_failure_receipt_preallocated",Value::boolean_value(true));
+    auto large=[](const std::string& id) {
+        auto values=Value::array();for(unsigned i=0;i<4;++i)values.items.push_back(Value::string(std::string(20000,'x')));
+        return completed(id,Value::object().put("values",values));
+    };
+    require(channel.submit("default-bound",[large] {return large("default-bound");}).pending,"default_bound_submission");
+    require(await(channel).exit_code==6,"default_bound_was_widened");
+    require(channel.submit("selected-bound",[large] {return large("selected-bound");},1048575).pending,"selected_bound_submission");
+    require(await(channel).exit_code==0,"selected_bound_not_honoured");
+    unsigned denied_calls=0;
+    for(const auto bytes:{std::size_t(0),std::size_t(1048576)}) {
+        auto denied=channel.submit("invalid-bound",[&denied_calls] {++denied_calls;return completed("invalid-bound",Value{});},bytes);
+        require(!denied.pending && denied.outcome.exit_code==3,"invalid_bound_admitted");
+    }
+    require(!denied_calls,"invalid_bound_dispatched_callback");
+    report.put("explicit_finite_response_bound",Value::boolean_value(true));
     auto retained=std::make_shared<Gate>();auto finished=std::make_shared<std::atomic<bool>>(false);
     const auto before=Clock::now();
     {

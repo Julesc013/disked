@@ -79,4 +79,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W024 local raw-file prototype: shared image/table commands and actual CLI/stdio/GUI/TUI/shell parity; retain coverage/consistency limits. Owner acceptance, physical storage, containers and whole-image qualification remain separate.
 
-- [ ] DE-W033 acquisition: private bounded pipeline, Windows file adapter and detached worker with exact-definition grants, cancellation/reconnect and capture/attempt provenance under local review; qualify the private shared prepare/execute command adapter, then complete visible frontend lifecycle and command admission. Physical, power-loss and other-platform qualification remain separate.
+- [ ] DE-W033 acquisition: private bounded pipeline, Windows file adapter, detached worker and shared prepare/execute adapter under local review. The product now exposes explicit acquisition inspect/cancel and bounded CLI/stdio watch with definition-bound events; complete visible copy review/submission, interactive rendering qualification and command admission. Physical, power-loss and other-platform qualification remain separate.

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-operation-parameters:1",
+  "title": "Provisional ordinary-file and fake operation selector",
+  "description": "Exact operation kind prefixes; no guessed metadata fallback or acquisition grant.",
+  "type": "object",
+  "properties": {
+    "operation_id": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 41,
+      "pattern": "^(fake-op:|image-op:)[0-9a-f]{32}$",
+      "x-disked-scalar": "operation-id"
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 960,
+      "x-disked-scalar": "local-state-directory"
+    }
+  },
+  "required": [
+    "operation_id",
+    "state_directory"
+  ],
+  "additionalProperties": false
+}

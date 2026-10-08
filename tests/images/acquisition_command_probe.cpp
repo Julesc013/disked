@@ -35,14 +35,14 @@ int wmain(int argc,wchar_t** argv) {
         disked::Outcome out;
         if(mode=="request" || mode=="audit") {
             out=disked::process_request(registry,disked::json::dump(get(v,"request")),[&](const std::string& id,const std::string& command,const V& p,const std::string&) {
-                return command=="image.acquire"?disked::dispatch_acquisition(registry,id,p,ports):disked::refused(id,"command_unavailable",3);
+                return command=="image.acquire"?disked::dispatch_acquisition(registry,id,p,ports):disked::dispatch_acquisition_operation(id,command,p);
             });
         } else if(mode=="cli") {
             std::vector<std::string> args;for(const auto& s:get(v,"argv").items) {if(s.kind!=V::Kind::string)throw std::runtime_error("probe_input");args.push_back(s.text);}
             const auto parsed=disked::parse_invocation(registry,args);
             if(!parsed.valid())out=disked::refused("cli",parsed.diagnostics.items.front().find("code")->text);
             else if(parsed.help_requested)out=disked::completed("cli",parsed.normalized());
-            else if(parsed.command_id!="image.acquire")out=disked::refused("cli","command_unavailable",3);
+            else if(parsed.command_id!="image.acquire")out=disked::dispatch_acquisition_operation("cli",parsed.command_id,parsed.parameters);
             else out=disked::dispatch_acquisition(registry,"cli",parsed.parameters,ports);
         } else if(mode=="form") {
             V typed;const auto error=disked::form_parameters(registry,*registry.command("image.acquire"),get(v,"editor"),typed);
@@ -53,6 +53,6 @@ int wmain(int argc,wchar_t** argv) {
         const auto validation=disked::validate_response(out.response);if(!validation.empty())throw std::runtime_error(validation);
         if(mode=="audit")out.response=V::object().put("response",out.response).put("prepare_calls",V::number(std::to_string(prepare_calls)))
             .put("execute_calls",V::number(std::to_string(execute_calls)));
-        std::puts(disked::json::dump(out.response).c_str());return out.exit_code;
+        std::fputs(disked::response_frame(out.response).c_str(),stdout);return out.exit_code;
     } catch(const std::exception& e) {std::puts(disked::json::dump(V::object().put("refusal",V::string(e.what()))).c_str());return 99;}
 }

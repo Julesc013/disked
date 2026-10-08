@@ -1,4 +1,7 @@
 #include "acquisition_worker.h"
+#include "operation.h"
+#include "observation.h"
+#include "commands.h"
 #include "worker_files.h"
 #include "local_file.h"
 #include "bootstrap_registry.h"
@@ -88,61 +91,19 @@ V header_read(const Directory& directory) {
     identifier(text(v,"operation_id"),"image-op:",32);identifier(text(v,"worker_epoch"),"worker:",32);identifier(text(v,"attempt_id"),"attempt:",32);
     definition_valid(field(v,"definition"));grant_valid(field(v,"grant"),field(v,"definition"));return v;
 }
-V expected_binding(const V& header) {
-    const auto& d=field(header,"definition");
-    return V::object().put("operation_id",field(header,"operation_id")).put("worker_epoch",field(header,"worker_epoch")).put("attempt_id",field(header,"attempt_id"))
-        .put("definition_digest",field(header,"definition_digest")).put("image_digest",field(d,"image_digest")).put("host_id",field(d,"host_id"))
-        .put("capture_epoch",field(field(d,"plan"),"capture_epoch"));
-}
-struct History {V state;std::string previous=std::string(64,'0');std::size_t count=0;bool complete=true;};
-void state_valid(const V& state,const V& header,std::size_t sequence) {
-    keys(state,{"schema","binding","sequence","phase","checkpoint_bytes","source_bytes","substituted_bytes","observed_filetime","quiescent","outcome","receipt"});
-    if(text(state,"schema")!="org.disked.acquisition-worker-state/1" || integer(field(state,"sequence"))!=sequence || !integer(field(state,"observed_filetime")))reject("acquisition_worker_state");
-    auto b=field(state,"binding");keys(b,{"operation_id","worker_epoch","attempt_id","definition_digest","image_digest","host_id","capture_epoch","process_id","process_created"});
-    const auto pid=integer(field(b,"process_id"));if(!pid || pid>0xffffffffULL || !integer(field(b,"process_created")))reject("acquisition_worker_identity");
-    b.fields.erase("process_id");b.fields.erase("process_created");if(json::dump(b)!=json::dump(expected_binding(header)))reject("acquisition_worker_identity");
-    const auto total=acquisition::prepare(field(field(header,"definition"),"plan")).bytes;
-    const auto covered=integer(field(state,"checkpoint_bytes")),source=integer(field(state,"source_bytes")),zeros=integer(field(state,"substituted_bytes"));
-    if(covered>total || source>covered || zeros!=covered-source)reject("acquisition_worker_coverage");
-    const auto phase=text(state,"phase");const auto quiescent=boolean(field(state,"quiescent"));
-    if(phase=="active") {if(quiescent || field(state,"outcome").kind!=V::Kind::null || field(state,"receipt").kind!=V::Kind::null)reject("acquisition_worker_state");}
-    else {
-        if(phase!="finished" || !quiescent || field(state,"outcome").kind!=V::Kind::object)reject("acquisition_worker_state");
-        const auto& out=field(state,"outcome");
-        keys(out,{"schema","status","diagnostic","consistency","checkpoint_bytes","source_bytes","substituted_bytes","attempt_read_bytes","attempt_written_bytes","attempt_verified_bytes","records","uncertain_effect"});
-        if(text(out,"schema")!="org.disked.acquisition-outcome-prototype/1" || text(out,"consistency")!="live-uncoordinated" ||
-            integer(field(out,"checkpoint_bytes"))!=covered || integer(field(out,"source_bytes"))!=source || integer(field(out,"substituted_bytes"))!=zeros || integer(field(out,"records"))>1048576)reject("acquisition_worker_outcome");
-        text(out,"diagnostic");for(const auto name:{"attempt_read_bytes","attempt_written_bytes","attempt_verified_bytes"})integer(field(out,name));
-        const auto status=text(out,"status");const auto uncertain=boolean(field(out,"uncertain_effect"));
-        if(status=="completed" || status=="completed_with_substitution") {
-            if(covered!=total || uncertain || (status=="completed")!=(zeros==0) || field(state,"receipt").kind!=V::Kind::object)reject("acquisition_worker_outcome");
-        } else if(status!="failed" && status!="refused" && status!="paused")reject("acquisition_worker_outcome");
-    }
-}
-History history_read(HANDLE file,const V& header) {
-    const auto raw=read_file(file,history_limit);History h;std::size_t start=0;
-    while(start<raw.size()) {
-        const auto end=raw.find('\n',start);if(end==std::string::npos) {h.complete=false;break;}
-        if(end-start>record_limit || h.count>=record_count_limit)reject("acquisition_worker_history_limit");
-        const auto bytes=raw.substr(start,end-start);auto row=json::parse(bytes,row_limits());keys(row,{"schema","state","previous","digest"});
-        if(text(row,"schema")!="org.disked.acquisition-worker-record/1" || text(row,"previous")!=h.previous || json::dump(row,row_limits())!=bytes)reject("acquisition_worker_history_chain");
-        const auto hash_value=text(row,"digest");identifier(hash_value,"",64);row.fields.erase("digest");
-        if(hash(json::dump(row,row_limits()))!=hash_value)reject("acquisition_worker_history_chain");
-        const auto& state=field(row,"state");state_valid(state,header,h.count+1);
-        if(h.count && (text(h.state,"phase")=="finished" || integer(field(state,"checkpoint_bytes"))<integer(field(h.state,"checkpoint_bytes")) ||
-            json::dump(field(state,"binding"))!=json::dump(field(h.state,"binding"))))reject("acquisition_worker_history_order");
-        h.state=state;h.previous=hash_value;++h.count;start=end+1;
-    }
-    if(!h.count)reject("acquisition_worker_history_empty");return h;
-}
-V inspect(const std::string& id,const Directory& directory,const V& header) {
+using History=acquisition_operation::History;
+using acquisition_operation::expected_binding;
+void state_valid(const V& state,const V& header,std::size_t sequence) {acquisition_operation::validate_state(state,header,sequence);}
+History history_read(HANDLE file,const V& header) {return acquisition_operation::read_history(read_file(file,history_limit),header);}
+V inspect(const std::string& id,const Directory& directory,const V& header,History* history=nullptr) {
     if(text(header,"operation_id")!=id)reject("acquisition_worker_identity");Security security;
     if(text(field(header,"definition"),"host_id")!=security.host_id || json::dump(field(field(header,"definition"),"store"))!=json::dump(store_binding(directory)))reject("acquisition_worker_identity");
     auto value=V::object().put("definition",field(header,"definition")).put("definition_digest",field(header,"definition_digest"));
     try {
         auto file=directory.open(records_name,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
         if(!file.valid() || file_identity(file.value)!=text(header,"records_id"))reject("acquisition_worker_history_identity");
-        const auto h=history_read(file.value,header);value.put("state",h.state).put("last_digest",V::string(h.previous));
+        const auto h=history_read(file.value,header);if(history)*history=h;
+        value.put("state",h.state).put("last_digest",V::string(h.previous));
         const auto& b=field(h.state,"binding");const auto pid=static_cast<DWORD>(integer(field(b,"process_id")));
         Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|SYNCHRONIZE,FALSE,pid));std::string observed="unavailable";
         if(process.valid())observed=process_created(process.value)!=text(b,"process_created")?"reused_identity":WaitForSingleObject(process.value,0)==WAIT_TIMEOUT?"running":"exited";
@@ -250,6 +211,49 @@ V observe_acquisition_worker(const std::string& id,const std::string& state_dire
         return observed;
     } catch(const Failure& e) {return reply("unknown",id,V::object(),e.what(),e.platform);}
       catch(const std::exception& e) {return reply("unknown",id,V::object(),e.what());}
+}
+Outcome watch_acquisition_worker(const std::string& request,const V& parameters,const std::shared_ptr<WatchQueue>& events) {
+    const auto invalid=validate_watch_parameters(parameters);if(!invalid.empty())return refused(request,invalid);
+    std::string id;V last=V::object();
+    try {
+        id=text(parameters,"operation_id");identifier(id,"image-op:",32);
+        Directory directory(text(parameters,"state_directory"));const auto header=header_read(directory);Security security;
+        if(text(header,"operation_id")!=id)reject("acquisition_worker_identity");
+        const auto observer=security.identity("watch:");
+        WatchCursor cursor(id,request,observer,parameters,acquisition_watch_profile(field(header,"definition")));
+        auto collected=V::array();V last_state;std::size_t bytes=0;
+        const auto* follow=parameters.find("follow_ms");const auto end=GetTickCount64()+(follow?std::stoull(follow->text):0);
+        for(;;) {
+            History history;auto observed=inspect(id,directory,header,&history);
+            if(history.count) {
+                std::vector<V> batch;
+                try {batch=cursor.project(history.state,history.records,history.previous);}
+                catch(const std::invalid_argument& error) {return refused(request,error.what());}
+                for(const auto& item:batch) {
+                    json::Limits limits;limits.bytes=32768;const auto size=json::dump(item,limits).size();
+                    if(collected.items.size()>=64 || size>1048576-bytes)throw std::invalid_argument("watch_queue_limit");
+                    collected.items.push_back(item);bytes+=size;
+                    if(events && !events->push(item))return acquisition_observation(request,observed);
+                }
+                last_state=history.state;
+            }
+            auto out=acquisition_observation(request,observed);auto& value=out.response.fields["result"];
+            value.put("events",events?V::array():collected).put("observer_epoch",V::string(observer))
+                .put("last_sequence",V::string(cursor.sequence())).put("last_digest",V::string(cursor.digest()))
+                .put("worker_epoch",cursor.worker().empty()?V{}:V::string(cursor.worker()));
+            if(!history.count && last_state.kind!=V::Kind::null)value.put("last_validated_state",last_state);
+            last=value;
+            if(out.exit_code || (history.count && text(history.state,"phase")=="finished"))return out;
+            if(GetTickCount64()>=end) {out.response.put("status",V::string("accepted_running"));out.exit_code=5;return out;}
+            Sleep(25);
+        }
+    } catch(const Failure& error) {return acquisition_observation(request,reply("unknown",id,last,error.what(),error.platform));}
+      catch(const std::exception& error) {return acquisition_observation(request,reply("unknown",id,last,error.what()));}
+}
+Outcome dispatch_acquisition_operation(const std::string& request,const std::string& command,const V& parameters) {
+    if(command=="operation.watch")return watch_acquisition_worker(request,parameters);
+    if(command!="operation.inspect" && command!="operation.cancel.request")return refused(request,"command_unavailable",3);
+    return acquisition_observation(request,observe_acquisition_worker(text(parameters,"operation_id"),text(parameters,"state_directory"),command=="operation.cancel.request"));
 }
 int run_acquisition_worker(int argc,wchar_t** argv) {
     try {

@@ -1,12 +1,15 @@
 #include "watch.h"
+#include "observation.h"
 #include <iostream>
 using namespace disked;using json::Value;
 std::string field(const Value& value,const char* name,const std::string& fallback="") {const auto* item=value.find(name);return item?item->text:fallback;}
 int main() {
     std::string line;
     while(std::getline(std::cin,line))try {
-        const auto value=json::parse(line);Value out;
-        if(field(value,"op")=="validate")out=Value::object().put("error",Value::string(validate_fake_event(*value.find("event"))));
+        json::Limits input_limit;input_limit.bytes=1048576;
+        const auto value=json::parse(line,input_limit);Value out;
+        const auto profile=value.find("definition")?acquisition_watch_profile(*value.find("definition")):fake_watch_profile();
+        if(field(value,"op")=="validate")out=Value::object().put("error",Value::string(validate_watch_event(*value.find("event"),profile)));
         else if(field(value,"op")=="queue") {
             WatchQueue queue;for(unsigned i=0;i<64;++i)queue.push(*value.find("event"));
             std::string error;try {queue.push(*value.find("event"));}catch(const std::invalid_argument& e) {error=e.what();}
@@ -15,7 +18,7 @@ int main() {
                 .put("after_close",Value::boolean_value(queue.push(*value.find("event"))));
         } else {
             WatchReader reader(field(value,"operation_id"),field(value,"worker_epoch"),field(value,"sequence","0"),field(value,"digest",std::string(64,'0')),
-                value.find("snapshot") && value.find("snapshot")->boolean);
+                value.find("snapshot") && value.find("snapshot")->boolean,profile);
             auto results=Value::array();
             for(const auto& event:value.find("events")->items) {
                 auto row=Value::object();

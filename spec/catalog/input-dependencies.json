@@ -292,13 +292,17 @@
       "kind": "catalog",
       "delivery": "artifact",
       "depends_on": [
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "spec/schemas/acquisition-operation-event.schema.json",
+        "spec/schemas/acquisition-worker-definition.schema.json",
+        "spec/schemas/acquisition-worker-record.schema.json",
+        "spec/schemas/acquisition-worker-state.schema.json",
         "spec/schemas/command-empty-parameters.schema.json",
         "spec/schemas/command-image-path-parameters.schema.json",
+        "spec/schemas/command-operation-parameters.schema.json",
         "spec/schemas/command.schema.json",
         "spec/schemas/request.schema.json",
-        "spec/schemas/response.schema.json",
-        "spec/schemas/acquisition-command-parameters.schema.json",
-        "spec/schemas/acquisition-worker-definition.schema.json"
+        "spec/schemas/response.schema.json"
       ],
       "spec_ids": [
         "DE-021"
@@ -320,9 +324,9 @@
       "kind": "catalog",
       "delivery": "artifact",
       "depends_on": [
-        "spec/schemas/composition.schema.json",
         "spec/catalog/components.json",
-        "spec/catalog/targets.json"
+        "spec/catalog/targets.json",
+        "spec/schemas/composition.schema.json"
       ],
       "spec_ids": [
         "DE-014"
@@ -934,8 +938,8 @@
       "kind": "catalog",
       "delivery": "artifact",
       "depends_on": [
-        "spec/schemas/cli-syntax.schema.json",
-        "spec/catalog/commands.json"
+        "spec/catalog/commands.json",
+        "spec/schemas/cli-syntax.schema.json"
       ],
       "spec_ids": [
         "DE-020",
@@ -948,8 +952,8 @@
       "kind": "fixture",
       "delivery": "artifact",
       "depends_on": [
-        "spec/schemas/command-syntax-cases.schema.json",
-        "spec/catalog/cli-syntax.json"
+        "spec/catalog/cli-syntax.json",
+        "spec/schemas/command-syntax-cases.schema.json"
       ],
       "spec_ids": [
         "DE-021"
@@ -996,6 +1000,10 @@
         "source/providers/image/file_capture.h",
         "source/runtime/acquisition/commands.cpp",
         "source/runtime/acquisition/commands.h",
+        "source/runtime/acquisition/observation.cpp",
+        "source/runtime/acquisition/observation.h",
+        "source/runtime/acquisition/operation.cpp",
+        "source/runtime/acquisition/operation.h",
         "source/runtime/acquisition/pipeline.cpp",
         "source/runtime/acquisition/pipeline.h",
         "source/runtime/capture/capture_port.h",
@@ -1015,6 +1023,7 @@
         "tests/images/acquisition_worker_probe.cpp",
         "tests/images/file_acquisition_probe.cpp",
         "tests/images/test_acquisition_commands.py",
+        "tests/images/test_acquisition_operations.py",
         "tests/images/test_acquisition_pipeline.py",
         "tests/images/test_acquisition_worker.py",
         "tests/images/test_file_acquisition.py",
@@ -1240,7 +1249,11 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/schemas/acquisition-command-parameters.schema.json",
-        "spec/schemas/acquisition-worker-definition.schema.json"
+        "spec/schemas/acquisition-operation-event.schema.json",
+        "spec/schemas/acquisition-worker-definition.schema.json",
+        "spec/schemas/acquisition-worker-record.schema.json",
+        "spec/schemas/acquisition-worker-state.schema.json",
+        "spec/schemas/command-operation-parameters.schema.json"
       ],
       "spec_ids": [
         "DE-021",
@@ -1442,6 +1455,7 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "source/platform/windows/acquisition_worker.h",
         "source/providers/image/file_capture.h",
         "source/runtime/capture/image_commands.h"
       ],
@@ -2240,7 +2254,9 @@
       "path": "tests/resilience/request_channel_probe.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/presentation/requests.h"
+      ],
       "spec_ids": [
         "DE-045"
       ]
@@ -2403,8 +2419,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/resilience/memory_fixture.py",
-        "tests/frontend/console_tui_fixture.py"
+        "tests/frontend/console_tui_fixture.py",
+        "tests/resilience/memory_fixture.py"
       ],
       "spec_ids": [
         "DE-015",
@@ -2417,9 +2433,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/resilience/memory_fixture.py",
+        "tests/frontend/gui_fixture.py",
         "tests/resilience/console_memory_fixture.py",
-        "tests/frontend/gui_fixture.py"
+        "tests/resilience/memory_fixture.py"
       ],
       "spec_ids": [
         "DE-015",
@@ -2485,9 +2501,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "source/providers/fake/graph.h",
         "source/runtime/graph/capture.h",
-        "source/runtime/presentation/session.h",
-        "source/providers/fake/graph.h"
+        "source/runtime/presentation/session.h"
       ],
       "spec_ids": [
         "DE-023",
@@ -2513,9 +2529,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "tests/frontend/gui_fixture.py",
         "tests/resilience/capture_campaign.cpp",
-        "tests/resilience/console_capture_fixture.py",
-        "tests/frontend/gui_fixture.py"
+        "tests/resilience/console_capture_fixture.py"
       ],
       "spec_ids": [
         "DE-023",
@@ -2583,6 +2599,7 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "source/runtime/acquisition/observation.h",
         "source/runtime/operation/watch.h"
       ],
       "spec_ids": [
@@ -2676,17 +2693,17 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/primitives/checked.h",
         "source/portable/primitives/checked.c",
-        "source/portable/primitives/view.h",
-        "source/portable/primitives/view.c",
-        "source/portable/primitives/extent.h",
+        "source/portable/primitives/checked.h",
         "source/portable/primitives/extent.c",
-        "tests/unit/portable_probe.c",
-        "tests/unit/portable_cpp.cpp",
-        "tests/property/test_primitives.py",
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/view.h",
+        "tests/legacy/README.md",
         "tests/legacy/primitive_probe.c",
-        "tests/legacy/README.md"
+        "tests/property/test_primitives.py",
+        "tests/unit/portable_cpp.cpp",
+        "tests/unit/portable_probe.c"
       ],
       "spec_ids": [
         "DE-051"
@@ -2761,8 +2778,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/portable/primitives/checked.h",
-        "source/portable/primitives/view.h",
-        "source/portable/primitives/extent.h"
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.h"
       ],
       "spec_ids": [
         "DE-031"
@@ -2775,8 +2792,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/portable/primitives/checked.h",
-        "source/portable/primitives/view.h",
-        "source/portable/primitives/extent.h"
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.h"
       ],
       "spec_ids": [
         "DE-031"
@@ -2798,8 +2815,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/primitives/view.h",
-        "source/portable/primitives/extent.h"
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.h"
       ],
       "spec_ids": [
         "DE-032"
@@ -2847,8 +2864,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/mbr/mbr.h",
         "source/portable/ebr/ebr.h",
+        "source/portable/mbr/mbr.h",
         "source/runtime/command/json.h"
       ],
       "spec_ids": [
@@ -2901,8 +2918,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/primitives/view.h",
-        "source/portable/primitives/extent.h"
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.h"
       ],
       "spec_ids": [
         "DE-032"
@@ -2997,8 +3014,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/corpus/partition_images.py",
-        "tests/unit/mbr_probe.cpp",
-        "tests/unit/gpt_probe.cpp"
+        "tests/unit/gpt_probe.cpp",
+        "tests/unit/mbr_probe.cpp"
       ],
       "spec_ids": [
         "DE-074",
@@ -3024,8 +3041,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/differential/observe_native.py",
-        "tests/differential/observe_external.py"
+        "tests/differential/observe_external.py",
+        "tests/differential/observe_native.py"
       ],
       "spec_ids": [
         "DE-074",
@@ -3052,13 +3069,13 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/portable/primitives/checked.c",
-        "source/portable/primitives/view.c",
-        "source/portable/primitives/extent.c",
-        "source/portable/mbr/mbr.c",
         "source/portable/ebr/ebr.c",
+        "source/portable/gpt/encoding.c",
         "source/portable/gpt/gpt.c",
-        "source/portable/gpt/encoding.c"
+        "source/portable/mbr/mbr.c",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/extent.c",
+        "source/portable/primitives/view.c"
       ],
       "spec_ids": [
         "DE-074",
@@ -3082,9 +3099,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "tests/corpus/partition_images.py",
         "tests/fuzz/partition_faults.cpp",
-        "tests/fuzz/sanitizer_control.cpp",
-        "tests/corpus/partition_images.py"
+        "tests/fuzz/sanitizer_control.cpp"
       ],
       "spec_ids": [
         "DE-074",
@@ -3097,9 +3114,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/differential/observe_native.py",
-        "tests/differential/observe_external.py",
         "tests/differential/compare.py",
+        "tests/differential/observe_external.py",
+        "tests/differential/observe_native.py",
         "tests/differential/test_adapters.py",
         "tests/fuzz/run_campaign.py"
       ],
@@ -3130,11 +3147,11 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/capture/map_observation.h",
-        "source/portable/mbr/mbr.h",
         "source/portable/ebr/ebr.h",
         "source/portable/gpt/gpt.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "source/portable/mbr/mbr.h",
+        "source/runtime/capture/map_observation.h"
       ],
       "spec_ids": [
         "DE-102",
@@ -3188,10 +3205,10 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/image/file_capture.h",
-        "source/runtime/capture/map_observation.h",
         "source/portable/hash/sha256.h",
-        "source/providers/image/local_file.h"
+        "source/providers/image/file_capture.h",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/map_observation.h"
       ],
       "spec_ids": [
         "DE-102",
@@ -3220,9 +3237,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "tests/corpus/partition_images.py",
         "tests/frontend/image_file_capture_probe.cpp",
-        "tests/frontend/image_observation_probe.cpp",
-        "tests/corpus/partition_images.py"
+        "tests/frontend/image_observation_probe.cpp"
       ],
       "spec_ids": [
         "DE-102",
@@ -3266,9 +3283,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "tests/frontend/image_console_fixture.py",
+        "tests/corpus/partition_images.py",
         "tests/frontend/gui_fixture.py",
-        "tests/corpus/partition_images.py"
+        "tests/frontend/image_console_fixture.py"
       ],
       "spec_ids": [
         "DE-102",
@@ -3323,8 +3340,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/acquisition/pipeline.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "source/runtime/acquisition/pipeline.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -3352,8 +3369,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "spec/schemas/acquisition-plan-prototype.schema.json",
-        "spec/schemas/acquisition-outcome-prototype.schema.json"
+        "spec/schemas/acquisition-outcome-prototype.schema.json",
+        "spec/schemas/acquisition-plan-prototype.schema.json"
       ],
       "spec_ids": [
         "DE-103",
@@ -3433,9 +3450,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "source/portable/hash/sha256.h",
         "source/providers/image/file_acquisition.h",
-        "source/providers/image/local_file.h",
-        "source/portable/hash/sha256.h"
+        "source/providers/image/local_file.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -3477,8 +3494,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/command/json.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "source/runtime/command/json.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -3492,7 +3509,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/image/file_acquisition.h"
+        "source/providers/image/file_acquisition.h",
+        "source/runtime/command/protocol.h",
+        "source/runtime/operation/watch.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -3509,6 +3528,9 @@
         "source/platform/windows/acquisition_worker.h",
         "source/platform/windows/worker_files.h",
         "source/providers/image/local_file.h",
+        "source/runtime/acquisition/commands.h",
+        "source/runtime/acquisition/observation.h",
+        "source/runtime/acquisition/operation.h",
         "tools/build-bootstrap.py"
       ],
       "spec_ids": [
@@ -3590,9 +3612,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        "source/portable/hash/sha256.h",
         "source/runtime/acquisition/commands.h",
-        "source/runtime/acquisition/pipeline.h",
-        "source/portable/hash/sha256.h"
+        "source/runtime/acquisition/pipeline.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -3605,8 +3627,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/acquisition/commands.h",
         "source/platform/windows/acquisition_worker.h",
+        "source/runtime/acquisition/commands.h",
         "tools/build-bootstrap.py"
       ],
       "spec_ids": [
@@ -3626,6 +3648,139 @@
       "spec_ids": [
         "DE-103",
         "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/observation.cpp",
+      "path": "source/runtime/acquisition/observation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/observation.h",
+        "source/runtime/acquisition/operation.h",
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/observation.h",
+      "path": "source/runtime/acquisition/observation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/operation.h",
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/operation.cpp",
+      "path": "source/runtime/acquisition/operation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/hash/sha256.h",
+        "source/runtime/acquisition/operation.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/operation.h",
+      "path": "source/runtime/acquisition/operation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/pipeline.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-operation-event.schema.json",
+      "path": "spec/schemas/acquisition-operation-event.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-worker-record.schema.json",
+        "spec/schemas/event.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-worker-record.schema.json",
+      "path": "spec/schemas/acquisition-worker-record.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-worker-state.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-worker-state.schema.json",
+      "path": "spec/schemas/acquisition-worker-state.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-outcome-prototype.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-operation-parameters.schema.json",
+      "path": "spec/schemas/command-operation-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-103",
+        "DE-022",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/images/test_acquisition_operations.py",
+      "path": "tests/images/test_acquisition_operations.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_acquisition_worker.py",
+        "tests/images/acquisition_command_probe.cpp",
+        "tests/operation/watch_probe.cpp",
+        "source/apps/disked/cli.cpp",
+        "spec/schemas/acquisition-operation-event.schema.json",
+        "spec/schemas/acquisition-worker-record.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-045"
       ]
     }
   ]

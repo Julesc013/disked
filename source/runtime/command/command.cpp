@@ -55,6 +55,10 @@ std::string validate_scalar(const Value& shape,const Value& value) {
         if(value.text.size()>32768)return "invalid_parameter";
         if(shape.find("enum") && !contains(array(shape,"enum"),value.text))return "invalid_parameter";
         if(text(shape,"x-disked-scalar")=="positive-byte-quantity" && !positive_byte_quantity(value.text))return "invalid_parameter";
+        if(text(shape,"x-disked-scalar")=="operation-id") {
+            const auto offset=value.text.compare(0,8,"fake-op:")==0?8:value.text.compare(0,9,"image-op:")==0?9:0;
+            if(!offset || value.text.size()!=static_cast<std::size_t>(offset)+32 || value.text.find_first_not_of("0123456789abcdef",offset)!=std::string::npos)return "invalid_parameter";
+        }
         if(text(shape,"x-disked-scalar")=="fake-operation-id" && (value.text.size()!=40 ||
             value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
         const auto scalar=text(shape,"x-disked-scalar");

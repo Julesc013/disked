@@ -24,7 +24,8 @@ MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
-SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters')})
+SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
+    'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event')})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -192,6 +193,33 @@ def fake_graph_bytes(value):
     if isinstance(value,dict):return b'{'+b','.join(fake_graph_bytes(k)+b':'+fake_graph_bytes(value[k]) for k in sorted(value))+b'}'
     raise SpecError('Unexpected value type in private fake graph encoding')
 
+def acquisition_record_bytes(value):
+    """Provisional native record representation; not the production journal ABI."""
+    if isinstance(value,bool):return b'true' if value else b'false'
+    if value is None or isinstance(value,str):return fake_graph_bytes(value)
+    if isinstance(value,list):return b'['+b','.join(acquisition_record_bytes(v) for v in value)+b']'
+    if isinstance(value,dict):return b'{'+b','.join(fake_graph_bytes(k)+b':'+acquisition_record_bytes(value[k]) for k in sorted(value))+b'}'
+    return canonical(value)
+
+def acquisition_record_limits(value, byte_bound):
+    count=0
+    def visit(node,depth=0):
+        nonlocal count
+        count+=1
+        if count>2048:raise SpecError('Acquisition record exceeds value bound')
+        if isinstance(node,str):
+            if len(node.encode('utf-8'))>1024:raise SpecError('Acquisition record exceeds string byte bound')
+        if isinstance(node,(dict,list)):
+            if depth>=20:raise SpecError('Acquisition record exceeds depth bound')
+            if isinstance(node,dict):
+                for key,child in node.items():
+                    if len(key.encode('utf-8'))>1024:raise SpecError('Acquisition record key exceeds byte bound')
+                    visit(child,depth+1)
+            else:
+                for child in node:visit(child,depth+1)
+    visit(value)
+    if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Acquisition record exceeds canonical byte bound')
+
 def semantic_validate(kind: str | None, value: dict):
     if kind == 'acquisition-worker-definition':
         for field in ('volume_id','created'):
@@ -208,6 +236,40 @@ def semantic_validate(kind: str | None, value: dict):
         strings(value)
     elif kind == 'acquisition-command-parameters':
         if value['phase']=='execute':semantic_validate('acquisition-worker-definition',value['definition'])
+    elif kind == 'acquisition-worker-state':
+        acquisition_record_limits(value,16384)
+        sequence=bounded_u64(value['sequence'],'acquisition sequence')
+        pid=bounded_u64(value['binding']['process_id'],'acquisition worker process')
+        created=bounded_u64(value['binding']['process_created'],'acquisition worker creation')
+        observed=bounded_u64(value['observed_filetime'],'acquisition observation time')
+        if not 1<=sequence<=64 or not 1<=pid<=0xffffffff or not created or not observed:
+            raise SpecError('Acquisition worker identity/sequence outside prototype bounds')
+        covered,source,zeros=(bounded_u64(value[k],'acquisition '+k) for k in ('checkpoint_bytes','source_bytes','substituted_bytes'))
+        if source>covered or zeros!=covered-source:raise SpecError('Acquisition worker coverage disagrees')
+        if value['phase']=='finished':
+            outcome=value['outcome']
+            for key in ('checkpoint_bytes','source_bytes','substituted_bytes'):
+                if value[key]!=outcome[key]:raise SpecError('Acquisition state/outcome counters disagree')
+            for key in ('checkpoint_bytes','source_bytes','substituted_bytes','attempt_read_bytes','attempt_written_bytes','attempt_verified_bytes','records'):
+                bounded_u64(outcome[key],'acquisition outcome '+key)
+            if int(outcome['records'])>1048576:raise SpecError('Acquisition map record bound exceeded')
+            if outcome['status'] in ('completed','completed_with_substitution'):
+                if outcome['uncertain_effect'] or not isinstance(value['receipt'],dict) or (outcome['status']=='completed')!=(zeros==0):
+                    raise SpecError('Contradictory acquisition completion')
+            # Full footprint coverage additionally requires the independent
+            # exact definition and is checked by the native observer/reader.
+    elif kind == 'acquisition-worker-record':
+        semantic_validate('acquisition-worker-state',value['state']);acquisition_record_limits(value,16384)
+        unsigned={k:v for k,v in value.items() if k!='digest'}
+        if hashlib.sha256(acquisition_record_bytes(unsigned)).hexdigest()!=value['digest']:
+            raise SpecError('Acquisition record digest mismatch')
+    elif kind == 'acquisition-operation-event':
+        semantic_validate('event',value);record=value['payload']['record'];semantic_validate('acquisition-worker-record',record)
+        if value['operation_id']!=record['state']['binding']['operation_id'] or value['sequence']!=record['state']['sequence']:
+            raise SpecError('Acquisition event identity/sequence disagrees')
+        if len(value['payload']['request_id'].encode('utf-8'))>128 or '\0' in value['payload']['request_id']:
+            raise SpecError('Invalid acquisition watch request identity')
+        if len(acquisition_record_bytes(value))>32768:raise SpecError('Acquisition event exceeds frame bound')
     elif kind == 'extent':
         start = bounded_u64(value['start_lba'],'start_lba')
         length = bounded_u64(value['length_lba'],'length_lba')

@@ -23,7 +23,7 @@ class RequestChannel final {
     std::shared_ptr<State> state_;
 public:
     RequestChannel();
-    Submission submit(const std::string& request,std::function<Outcome()> callback);
+    Submission submit(const std::string& request,std::function<Outcome()> callback,std::size_t response_bytes=65536);
     bool poll(Outcome& output);
     bool wait(Outcome& output,std::chrono::milliseconds duration);
 };
@@ -35,6 +35,6 @@ class BoundedRequests final {
     bool late_=false;
 public:
     Outcome run(const std::string& request,std::function<Outcome()> callback,
-        Outcome expired,std::chrono::milliseconds duration,const std::function<bool()>& progress={});
+        Outcome expired,std::chrono::milliseconds duration,const std::function<bool()>& progress={},std::size_t response_bytes=65536);
 };
 }

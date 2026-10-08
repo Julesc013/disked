@@ -143,7 +143,7 @@ Further acquisition consistency belongs to W033; W024 admits only its bounded
 read-only metadata observation and frontend profile.
 
 DE-W024 adds shared `image.inspect` and `table.verify` raw-file commands in the
-0.1.0-dev.18 Windows image/fake prototype. CLI/stdio and real native GUI, isolated
+Windows image/fake prototype. CLI/stdio and real native GUI, isolated
 TUI and shell fixtures compare geometry, independent findings, partial coverage
 and source refusals. File reads use the existing bounded request channel; timeout
 does not establish cancellation or free a still-executing slot. Capture remains
@@ -179,5 +179,11 @@ The next W033 component defines provisional prepare/execute command parameters,
 a strictly typed full worker definition, explicit effect grants and standard
 response/exit projections. A private probe exercises the common CLI/stdio/form
 decoders over the actual generated-file worker and controlled callback ports.
-The public command remains planned/unavailable; visible GUI/TUI/shell review and
-real operation watch/lifecycle integration still precede product admission.
+The public copy command remains planned/unavailable. The dev.19 product now
+routes explicit acquisition operation identities through the common inspect/
+cancel path and exposes bounded CLI/stdio watch batches and negotiated NDJSON
+events. Portable readers bind the independently obtained full definition,
+worker/attempt identity, record digests and monotonic checkpoint coverage.
+Visible GUI/TUI/shell copy review/submission and bounded rendering still precede
+acquisition command admission. Other platforms and physical storage remain
+separate qualification gates.

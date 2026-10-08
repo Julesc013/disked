@@ -57,7 +57,11 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     if(value.find("idempotency_key") && !string(value.find("idempotency_key")))return refused("@unparsed","invalid_request");
     if(schema->text!="org.disked.request/1")return refused(id->text,"incompatible_schema");
     const auto& features=value.find("required_features")->items;
-    const bool streaming=features.size()==1 && features.front().text=="org.disked.fake-operation-events/1" && command->text=="operation.watch" && events;
+    const auto* operation=value.find("parameters")->find("operation_id");
+    const bool matching_profile=features.size()==1 && operation && operation->kind==Value::Kind::string &&
+        ((features.front().text=="org.disked.fake-operation-events/1" && operation->text.compare(0,8,"fake-op:")==0) ||
+         (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0));
+    const bool streaming=matching_profile && command->text=="operation.watch" && events;
     if(!features.empty() && !streaming)return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
     if(!descriptor || command->text=="protocol.serve")return refused(id->text,"command_unavailable",3);

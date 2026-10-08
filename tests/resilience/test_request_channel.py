@@ -8,6 +8,7 @@ class Channel(unittest.TestCase):
         v=json.loads(p.stdout);self.assertTrue(v['one_call_one_completion']);self.assertTrue(v['callback_owned_lifetime'])
         self.assertEqual(5,v['invalid_completions_unknown']);self.assertLess(v['disconnected_owner_ms'],250)
         self.assertTrue(v['allocation_failure_receipt_preallocated'])
+        self.assertTrue(v['explicit_finite_response_bound'])
         self.assertTrue(v['timed_slot_retained_until_completion'])
         print(json.dumps(v))
 if __name__=='__main__':unittest.main(argv=[__file__]+REST)

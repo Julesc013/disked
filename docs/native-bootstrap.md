@@ -367,3 +367,22 @@ checkpoint cancellation, new-attempt resume, late admission and a separate
 code/state-directory layout. Shared parser/form decoding is not actual GUI/TUI/
 shell integration; `disked.exe` still does not admit acquisition. The command
 parameter schema is provisional and does not settle a stable public API.
+
+The dev.19 product adds acquisition observation to the existing operation
+commands. Explicit `image-op:` identities select the acquisition store;
+`fake-op:` selects the fake store. Inspection and checkpoint cancellation use
+the same command dispatch as the interactive frontends. CLI/stdio watch exposes
+actual verified byte checkpoints, exact cursor replay and explicit snapshots.
+NDJSON streaming requires `org.disked.acquisition-operation-events/1`; a reader
+first obtains the full definition through inspection to bind the event records.
+Run the public observation and independent reader checks with:
+
+```powershell
+python tests/images/test_acquisition_operations.py --probe build/windows-bootstrap/Release/acquisition_command_probe.exe --disked build/windows-bootstrap/Release/disked.exe --reader build/windows-bootstrap/Release/watch_probe.exe --root .
+```
+
+Acquisition watch batches have a finite one MiB CLI/stdio response bound. The
+interactive request slot retains its 64 KiB bound; complete visible acquisition
+review, submission and rendering qualification remain open. `image acquire`
+is still planned/unavailable. These observers cannot start or restart a copy,
+and corrupt or incomplete evidence remains unknown without repair.

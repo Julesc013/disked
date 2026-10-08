@@ -2,15 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:disked:schema:command-watch-parameters:1",
   "title": "command-watch-parameters",
-  "description": "Bounded fake-operation observer; no start, cancellation or storage authority.",
+  "description": "Bounded explicitly typed fake/acquisition operation observer; no start or source/destination/map authority.",
   "type": "object",
   "properties": {
     "operation_id": {
       "type": "string",
       "minLength": 40,
-      "maxLength": 40,
-      "pattern": "^fake-op:[0-9a-f]{32}$",
-      "x-disked-scalar": "fake-operation-id"
+      "maxLength": 41,
+      "pattern": "^(fake-op:|image-op:)[0-9a-f]{32}$",
+      "x-disked-scalar": "operation-id"
     },
     "state_directory": {
       "type": "string",
