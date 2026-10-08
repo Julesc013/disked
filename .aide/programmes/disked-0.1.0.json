@@ -44,7 +44,7 @@
     "DE-W024"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Continue DE-W040 with bounded semantic binary-journal payload integration: bind immutable definitions and separate receipts to framing, validate recoverable event payloads and reject contradictory histories. Preserve guarded fake flush/recovery assumptions and retain source-bound regressions. Real durability adapters, authenticated authority, independent safety review, physical qualification and DE-DEC-004/008 remain separate gates.",
+  "next_action": "Continue DE-W040 by integrating the closed guarded model event producer with the private typed binary journal reader. Emit bounded canonical definition/receipt/event payloads with exact publisher/worker/capture domains, validate actual generated traces and every crash/fault prefix, and retain rejected histories without repair or replay. Review format/durability assumptions; real observer/flush adapters, authenticated authority, independent safety review, physical qualification and DE-DEC-004/008 remain separate gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -324,6 +324,15 @@
       "review": ".aide/evidence/2026-10-09-plan-definitions/REVIEW.md",
       "unit_complete": false,
       "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "09bb6cb5c39f75a3fb81a3678ebf258930656419",
+      "scope": "Closed native fake-memory guarded journal/effect model, explicit stable/volatile crash fates, resource/capture/attempt guards, cancellation and retained journal generations",
+      "evidence": ".aide/evidence/2026-10-09-guarded-journal-model/reproduction-09bb6cb5/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-guarded-journal-model/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
     }
   ],
   "runner_status_observation": {
@@ -342,10 +351,10 @@
   ],
   "in_progress_slice": {
     "work_id": "DE-W040",
-    "source_revision": "09bb6cb5c39f75a3fb81a3678ebf258930656419",
-    "scope": "Closed native fake-memory guarded journal/effect model, explicit stable/volatile crash fates, resource/capture/attempt guards, cancellation and retained journal generations",
-    "evidence": ".aide/evidence/2026-10-09-guarded-journal-model/reproduction-09bb6cb5/clean-results.json",
-    "review": ".aide/evidence/2026-10-09-guarded-journal-model/REVIEW.md",
+    "source_revision": "0aed6f813a58947a413d73a51c0c4f12e005f84e",
+    "scope": "Private bounded semantic binary journal declaration reader: immutable payload/header/publisher bindings, receipt references, event/capture/attempt ordering, recovery and prefix-preserving rejection",
+    "evidence": ".aide/evidence/2026-10-09-journal-semantics/reproduction-0aed6f81/clean-results.json",
+    "review": ".aide/evidence/2026-10-09-journal-semantics/REVIEW.md",
     "unit_complete": false,
     "owner_accepted": false
   }

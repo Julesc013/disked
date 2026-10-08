@@ -1,0 +1,104 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\journal\test_semantics.py", line 193, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\journal\test_semantics.py", line 190, in main
+    assert not failed,json.dumps(failed[:12],indent=2)
+           ^^^^^^^^^^
+AssertionError: [
+  {
+    "name": "nonreplayable-before-state-is-useful-evidence",
+    "errors": [
+      {
+        "field": "disposition",
+        "expected": "valid_prefix",
+        "actual": "invalid"
+      },
+      {
+        "field": "diagnostic",
+        "expected": "",
+        "actual": "journal_semantic_rejected"
+      },
+      {
+        "field": "semantic_diagnostic",
+        "expected": "",
+        "actual": "semantic_step_scope"
+      },
+      {
+        "field": "records",
+        "expected": "8",
+        "actual": "7"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "15150",
+        "actual": "13187"
+      },
+      {
+        "field": "last_digest",
+        "expected": "d974b7a9e11336191bc178fdd3fc5af0703d40d73117577a9afcf8f618d98d37",
+        "actual": "3325fe0425b90cc0cd63401e2f28e7a4cbb162e3e0b9c98d4c988c2c38faf44a"
+      },
+      {
+        "field": "recovery_declaration",
+        "expected": "before",
+        "actual": ""
+      },
+      {
+        "field": "worker_exit_declared",
+        "expected": true,
+        "actual": false
+      }
+    ]
+  },
+  {
+    "name": "nonreplayable-intention-cannot-admit-retry",
+    "errors": [
+      {
+        "field": "semantic_diagnostic",
+        "expected": "semantic_replay_forbidden",
+        "actual": "semantic_step_scope"
+      },
+      {
+        "field": "records",
+        "expected": "8",
+        "actual": "7"
+      },
+      {
+        "field": "verified_bytes",
+        "expected": "15150",
+        "actual": "13187"
+      },
+      {
+        "field": "last_digest",
+        "expected": "d974b7a9e11336191bc178fdd3fc5af0703d40d73117577a9afcf8f618d98d37",
+        "actual": "3325fe0425b90cc0cd63401e2f28e7a4cbb162e3e0b9c98d4c988c2c38faf44a"
+      },
+      {
+        "field": "error_offset",
+        "expected": "15150",
+        "actual": "13187"
+      }
+    ]
+  },
+  {
+    "name": "record-kind-mismatch-3",
+    "errors": [
+      {
+        "field": "semantic_diagnostic",
+        "expected": "semantic_receipt_kind",
+        "actual": "semantic_id_reused"
+      }
+    ]
+  },
+  {
+    "name": "record-kind-mismatch-4",
+    "errors": [
+      {
+        "field": "semantic_diagnostic",
+        "expected": "semantic_receipt_kind",
+        "actual": "semantic_id_reused"
+      }
+    ]
+  }
+]
