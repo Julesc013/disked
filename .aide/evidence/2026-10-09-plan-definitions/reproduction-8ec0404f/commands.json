@@ -1,0 +1,135 @@
+[
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-clone.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked plan_definition_probe journal_codec_probe json_codec_probe provider_guard_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(journal\\.|protocol.json_codec|disked.acceptance|disked.invocation|provider_guard.positive_control)",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-focused-native.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/journal/test_definitions.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\plan_definition_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-plan-definitions\\reproduction-8ec0404f\\definition-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-definition-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/journal/test_codec.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\journal_codec_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-plan-definitions\\reproduction-8ec0404f\\codec-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-codec-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-check.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-freshness.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-spec-tests.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W040 --output .aide-local/context/DE-W040-definitions --byte-budget 350000",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W040-definitions",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-verify-context.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-disked-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-disked-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-disked-dependents.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\plan_definition_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-plan_definition_probe-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\plan_definition_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-plan_definition_probe-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\plan_definition_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-plan_definition_probe-dependents.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-definitions-8ec0404f",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-launch.log"
+  }
+]

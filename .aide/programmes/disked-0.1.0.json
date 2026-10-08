@@ -44,7 +44,7 @@
     "DE-W024"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Continue DE-W040 with immutable plan definitions and separate review/grant/admission/execution receipts, composable per-step recovery traits and a native guarded durability/effect model. Exercise crash/torn writes, ambiguous effects, stale epochs and observation-before-replay with fake targets; keep production encoding/admission and physical qualification gated by unresolved DE-DEC-004.",
+  "next_action": "Continue DE-W040 with a guarded fake durability/effect model and semantic journal payload integration. Exercise durable-intention-before-effect, required target flush/recapture before completion, stale worker/capture epochs, cancellation, ambiguous effects and observation-before-replay. Keep production admission, physical qualification and DE-DEC-004/008 separate.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -306,6 +306,15 @@
       "review": ".aide/evidence/2026-10-09-acquisition-public/REVIEW.md",
       "unit_complete": false,
       "owner_accepted": false
+    },
+    {
+      "work_id": "DE-W040",
+      "source_revision": "ce9ae70f28e6e8c7d6408563fd3508d51d263164",
+      "scope": "Private native binary journal framing and bounded source scanner with independent byte/corruption/torn-tail vectors",
+      "evidence": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-results.json",
+      "review": ".aide/evidence/2026-10-09-journal-codec/REVIEW.md",
+      "unit_complete": false,
+      "owner_accepted": false
     }
   ],
   "runner_status_observation": {
@@ -324,10 +333,10 @@
   ],
   "in_progress_slice": {
     "work_id": "DE-W040",
-    "source_revision": "ce9ae70f28e6e8c7d6408563fd3508d51d263164",
-    "scope": "Private native binary journal framing and bounded source scanner with independent byte/corruption/torn-tail vectors",
-    "evidence": ".aide/evidence/2026-10-09-journal-codec/reproduction-ce9ae70f/clean-results.json",
-    "review": ".aide/evidence/2026-10-09-journal-codec/REVIEW.md",
+    "source_revision": "8ec0404f95209e2582f08609f338a7da352a1e2b",
+    "scope": "Private immutable fake-model plan definitions, typed resource/dependency bindings, composable recovery properties and separate data-bound receipts",
+    "evidence": ".aide/evidence/2026-10-09-plan-definitions/reproduction-8ec0404f/clean-results.json",
+    "review": ".aide/evidence/2026-10-09-plan-definitions/REVIEW.md",
     "unit_complete": false,
     "owner_accepted": false
   }
