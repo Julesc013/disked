@@ -38,6 +38,9 @@ public:
     virtual json::Value create_outputs(const Plan&)=0;
     virtual void open_resume()=0;
     virtual Record next_record()=0;
+    // Before repairing a map tail or replaying an intent, reject destination
+    // coverage that neither the checkpoint prefix nor pending range explains.
+    virtual void validate_output_coverage(std::uint64_t checkpoint_end,std::uint64_t pending_end)=0;
     virtual void discard_incomplete_tail()=0;
     virtual void append_record(const std::string&)=0;
     virtual void flush_map()=0;

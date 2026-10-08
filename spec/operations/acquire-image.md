@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-103
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-103-01
 updated:
   by: codex
-  at: '2026-10-08T13:02:26.765242+00:00'
-  scope: DE-W033 private native acquisition pipeline; ordinary-file/provider admission and owner acceptance remain pending
+  at: '2026-10-08T14:09:59.155322+00:00'
+  scope: DE-W033 private Windows ordinary-file adapter; public command admission and owner acceptance remain pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -37,7 +37,7 @@ sources:
 
 ## Identity and availability
 
-Semantic ID: `image.acquire`. Operation specification: `DE-OP-003`. Earliest phase: **M4**. Initial target scope: explicit source and separately owned destination. Status: specified, not implemented or qualified. No availability is implied by the presence of this document.
+Semantic ID: `image.acquire`. Operation specification: `DE-OP-003`. Earliest phase: **M4**. Initial target scope: explicit source and separately owned destination. Public command status: specified and unavailable. Private native components are under local implementation/review; no public or physical-storage qualification is implied by this document.
 
 ## Required inputs and preconditions
 
@@ -147,8 +147,14 @@ Resume parses bounded ordered records, rebinds the exact original definition and
 source epoch plus owned destination/map generations and execution closure, and
 verifies each checkpoint's destination bytes. Ordinary policy additionally checks
 current successful-source prefix hashes; failing-read-mostly avoids that reread.
-An incomplete final record can be removed only after the complete prefix is
-validated; a corrupt complete record, reordered sequence, different identity,
+Before tail repair or new effects, the provider must validate that destination
+coverage is explained by the verified checkpoint prefix and at most its one
+pending range. The growing-file profile requires checkpoint-end <= file length
+<= pending-end (or checkpoint-end when no intent is pending). A test provider
+may explicitly preallocate known-zero storage, but must reject unexplained
+nonzero suffix bytes; that allowance is not the growing-file policy.
+An incomplete final record can be removed only after the complete prefix and
+destination coverage are validated; a corrupt complete record, reordered sequence, different identity,
 unexplained prefix or unknown critical record is refused. A pending effect is
 observed before replay: matching destination bytes can be checkpointed after
 required verification/flush, otherwise reread source must match that exact intent
@@ -177,3 +183,88 @@ SHA-256, ordered maps, grant/binding/alias refusal, bounded reads/retries,
 substitution, stops and uncertain-effect recovery. Actual ordinary file handles,
 capacity/sharing/no-clobber races, process interruptions, imports and frontend
 evidence remain required before DE-W033 is complete.
+
+## Private Windows ordinary-file acquisition profile
+
+The next DE-W033 component uses `source/providers/image/file_acquisition.*`.
+It remains private and is exercised by dedicated probes; its existence does not
+admit `image.acquire` in the product command registry. The selected prototype is
+Windows NT 10 x64 with the recorded v143/SDK build. Other OS/ABI profiles remain
+unverified. It copies raw bytes only; no mounts, snapshots, physical devices,
+elevation, sparse optimization, filesystem transformation or installation.
+
+Preparation observes source, executable and path identities using non-inherited
+handles without creating outputs. Execution needs a separate exact-plan grant
+for source reads, destination writes, map writes and host effects. The shared
+ordinary-file path guard rejects device/UNC/stream paths, reparse parents/files,
+multiple hard links, recall/offline files and names outside the bounded local
+fixed-drive profile. Original UTF-8 paths and file identifiers remain separate
+from invariant uppercase leaf lookup keys used to conservatively detect proposed
+output aliases. Logical file/parent identities do not establish all physical
+backing aliases. Observed volume IDs disclose a shared file-volume domain; they
+are not authenticated storage-topology or independent-backup evidence.
+
+Source epochs include file ID, volume, size, creation/write/change times,
+attributes and hard-link count. Parent and owned-output generations bind file ID,
+volume and creation time; progress checks additionally bind expected map length
+and verified destination coverage. Executable identity includes its metadata and
+bounded whole-executable SHA-256, and provider generation binds that code hash.
+Resume requires the same executable generation; changing from a fault probe to
+a normal probe does not establish compatibility. The host binding records the
+local computer name and profile, not global uniqueness, authenticated remote
+host identity or a security boundary.
+
+Pinned ancestors and source/code handles deny ordinary write/delete sharing;
+effect handles for destination/map use exclusive normal-file sharing. These
+checks are normal Windows file coordination, not privileged/physical fencing or
+protection against an administrator, preexisting writable mapping, malicious
+kernel component or external storage writer. Every dependent boundary rechecks
+the retained identities. Source consistency remains `live-uncoordinated`.
+
+Start uses `CREATE_NEW`, first for the map and then destination. Existing names
+are never truncated or cleaned up. If the first creation fails before an output
+exists, refusal can report no output effects. Failure after creation retains the
+partial owned files and an accurate failed result; missing/torn headers do not
+authorize automatic resumption or disposal. The receipt distinguishes creation
+attempts from obtaining both output handles. Destination files grow as chunks
+are written; no whole-image preallocation silently makes an unexplained suffix
+legitimate. Resume observes existing files read-only, then reopens without
+truncation, takes exclusive sharing and rechecks both identity and map length
+before any repair, append or image write.
+
+Receipts distinguish tracked expected map length from actual size observations
+on held map/destination handles. Missing/unobservable handles yield null size
+and retained observation errors where applicable, not an invented zero. Resource
+receipts identify whether their bindings are the prepared plan or effect-owned
+outputs. Attempt byte counters count successfully returned provider calls;
+partial/failed writes can leave more actual file bytes than that counter reports
+and must retain effect uncertainty until verified recovery.
+
+Map framing is exact canonical UTF-8 JSON followed by one LF per complete record.
+Each body is at most 16 KiB, traversed in bounded read windows; the final missing
+LF marks an incomplete tail. Complete invalid JSON, CRLF, unknown critical
+records, bad sequences/chains or trailing content after a seal are rejected.
+Incomplete tails can be truncated only after the valid prefix and explained
+destination extent pass validation. Maps remain private prototype evidence,
+not an authenticated ledger or the production recovery-journal encoding.
+
+Capacity checks use caller-available bytes from `GetDiskFreeSpaceExW`, including
+quota limits, reserve source bytes plus bounded record overhead before creation,
+and recheck local free space before map/data writes. Concurrent consumption,
+thin-provisioned backing, remote controller capacity and later hardware errors
+can invalidate that observation; actual short/error writes must retain partial
+effects. Per-file `FlushFileBuffers` and readback are API-level evidence only;
+successful API completion does not qualify power-loss survival, physical cache
+behavior or restore readiness. These API contracts follow Microsoft's
+[CreateFileW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew),
+[caller-available space](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw)
+and [buffer flushing](https://learn.microsoft.com/en-us/windows/win32/fileio/flushing-system-buffered-i-o-data-to-disk)
+documentation.
+
+Test expectations must independently compare generated source/destination bytes,
+map hashes and coverage, and preserve output bytes on refusal. Separately compiled
+fault probes may simulate read/short/partial-write/space failures and pause at
+named boundaries. A process-interruption test must observe the owned child alive,
+terminate and wait for that child, and then re-open the generated files with the
+same code generation. Such tests establish process behavior on the tested host,
+not physical disconnection, thin-provisioning exhaustion or power-loss behavior.

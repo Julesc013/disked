@@ -158,9 +158,12 @@ independent build/test and handoff workflow.
 DE-W033 is active. Its private native acquisition pipeline defines exact typed
 source/destination/map/host/executable/provider bindings and grants, bounded
 chunking, explicit substitution, intention/checkpoint ordering and resume
-verification. Independent in-memory port tests precede ordinary-file admission.
-This core is not yet linked to a public acquisition command: Windows output
-ownership, persistent maps, capacity/sharing faults, actual process interruptions
-and frontend lifecycle still need implementation and evidence. The provisional
+verification. Its private Windows file adapter adds pinned source/parent/code
+identities, exclusive effect handles, no-clobber output creation, growing images,
+persistent LF-framed maps and explained-extent resume. Tests use independent byte
+and hash expectations, actual sharing/creation races and observed owned-child
+termination on generated files. This core and adapter are not yet linked to a
+public acquisition command; asynchronous frontend lifecycle and command admission
+remain the next integration work. The provisional
 map encoding does not settle the production-journal decision. See
 [DE-103](../spec/operations/acquire-image.md) for its exact profile and limits.

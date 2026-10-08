@@ -2,6 +2,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "file_capture.h"
+#include "local_file.h"
 #include "map_observation.h"
 #include "sha256.h"
 #include <algorithm>
@@ -14,18 +15,7 @@ namespace {
 using V=json::Value;
 [[noreturn]] void fail(const char* code,DWORD platform=0) {throw ImageCaptureError(code,platform);}
 void checked(int status) {if(status!=DE_OK)fail("image_capture_internal");}
-class Handle {
-public:
-    HANDLE value=INVALID_HANDLE_VALUE;
-    explicit Handle(HANDLE h=INVALID_HANDLE_VALUE):value(h) {}
-    ~Handle() {if(value!=INVALID_HANDLE_VALUE)CloseHandle(value);}
-    Handle(const Handle&)=delete;Handle& operator=(const Handle&)=delete;
-    Handle(Handle&& h) noexcept:value(h.value) {h.value=INVALID_HANDLE_VALUE;}
-    Handle& operator=(Handle&& h) noexcept {
-        if(this!=&h) {if(value!=INVALID_HANDLE_VALUE)CloseHandle(value);value=h.value;h.value=INVALID_HANDLE_VALUE;}
-        return *this;
-    }
-};
+using local_file::Handle;
 std::string hex(const unsigned char* p,std::size_t size) {
     static const char alphabet[]="0123456789abcdef";std::string out;out.reserve(size*2);
     for(std::size_t i=0;i<size;++i) {out+=alphabet[p[i]>>4];out+=alphabet[p[i]&15];}return out;
@@ -44,69 +34,7 @@ std::string epoch(const V& source,std::uint64_t started) {
         .put("process_created",exact(filetime(created))).put("capture_started",exact(started)).put("sequence",exact(++sequence));
     return hash(json::dump(origin));
 }
-std::string utf8(const std::wstring& s) {
-    const auto n=WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,s.data(),static_cast<int>(s.size()),nullptr,0,nullptr,nullptr);
-    if(!n)fail("image_path_encoding",GetLastError());std::string out(static_cast<std::size_t>(n),'\0');
-    if(WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,s.data(),static_cast<int>(s.size()),&out[0],n,nullptr,nullptr)!=n)fail("image_path_encoding",GetLastError());
-    return out;
-}
-std::wstring wide(const std::string& s) {
-    if(s.empty() || s.size()>960 || s.find('\0')!=std::string::npos)fail("image_path_profile");
-    const auto n=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,s.data(),static_cast<int>(s.size()),nullptr,0);
-    if(n<=0)fail("image_path_encoding",GetLastError());if(n>240)fail("image_path_profile");
-    std::wstring out(static_cast<std::size_t>(n),L'\0');
-    if(MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,s.data(),static_cast<int>(s.size()),&out[0],n)!=n)fail("image_path_encoding",GetLastError());
-    return out;
-}
-bool letter(wchar_t c) {return (c>=L'A' && c<=L'Z') || (c>=L'a' && c<=L'z');}
-void component(const std::wstring& s) {
-    if(s.empty() || s==L"." || s==L"..")return;
-    if(s.back()==L'.' || s.back()==L' ')fail("image_path_profile");
-    for(const auto c:s)if(c<32 || c==127 || c==L':' || c==L'*' || c==L'?' || c==L'"' || c==L'<' || c==L'>' || c==L'|')fail("image_path_profile");
-    auto base=s.substr(0,s.find(L'.'));
-    while(!base.empty() && base.back()==L' ')base.pop_back();
-    for(auto& c:base)if(c>=L'a' && c<=L'z')c=static_cast<wchar_t>(c-L'a'+L'A');
-    if(base==L"CON" || base==L"PRN" || base==L"AUX" || base==L"NUL" || base==L"CONIN$" || base==L"CONOUT$")fail("image_path_profile");
-    if(base.size()==4 && (base.substr(0,3)==L"COM" || base.substr(0,3)==L"LPT") &&
-       ((base[3]>=L'1' && base[3]<=L'9') || base[3]==0x00b9 || base[3]==0x00b2 || base[3]==0x00b3))fail("image_path_profile");
-}
-void components(const std::wstring& s,std::size_t start) {
-    while(start<s.size()) {const auto end=s.find(L'\\',start);component(s.substr(start,end==s.npos?s.npos:end-start));if(end==s.npos)break;start=end+1;}
-}
-std::wstring path_for(const std::string& input) {
-    auto s=wide(input);std::replace(s.begin(),s.end(),L'/',L'\\');
-    if(s[0]==L'\\')fail("image_path_profile");
-    const bool drive=s.size()>=2 && s[1]==L':';
-    if(drive && (s.size()<3 || !letter(s[0]) || s[2]!=L'\\'))fail("image_path_profile");
-    components(s,drive?3:0);
-    wchar_t buffer[241];const auto n=GetFullPathNameW(s.c_str(),241,buffer,nullptr);
-    if(!n)fail("image_path_resolve",GetLastError());if(n>240)fail("image_path_profile");
-    s.assign(buffer,n);
-    if(s.size()<3 || !letter(s[0]) || s[1]!=L':' || s[2]!=L'\\')fail("image_path_profile");
-    components(s,3);
-    if(GetDriveTypeW(s.substr(0,3).c_str())!=DRIVE_FIXED)fail("image_local_drive_required");
-    return s;
-}
-BY_HANDLE_FILE_INFORMATION ordinary(HANDLE h,bool directory) {
-    if(GetFileType(h)!=FILE_TYPE_DISK)fail("image_file_type");
-    BY_HANDLE_FILE_INFORMATION info{};
-    if(!GetFileInformationByHandle(h,&info))fail("image_file_metadata",GetLastError());
-    if(info.dwFileAttributes&FILE_ATTRIBUTE_REPARSE_POINT)fail("image_reparse_source");
-    if(((info.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)!=0)!=directory)fail("image_file_type");
-    if(!directory && info.nNumberOfLinks!=1)fail("image_file_aliases");
-    // Refuse data that may invoke recall/tiering in this ordinary-local profile.
-    if(info.dwFileAttributes&(FILE_ATTRIBUTE_OFFLINE|0x00040000U|0x00400000U))fail("image_offline_source");
-    return info;
-}
-void bind_path(HANDLE h,const std::wstring& expected) {
-    wchar_t buffer[245];const auto size=GetFinalPathNameByHandleW(h,buffer,245,FILE_NAME_NORMALIZED|VOLUME_NAME_DOS);
-    if(!size)fail("image_path_identity",GetLastError());
-    if(size>=245)fail("image_path_profile");
-    const std::wstring final(buffer,size);
-    if(final.compare(0,4,L"\\\\?\\")!=0 || final.size()!=expected.size()+4 ||
-       CompareStringOrdinal(final.data()+4,static_cast<int>(final.size()-4),expected.data(),static_cast<int>(expected.size()),TRUE)!=CSTR_EQUAL)
-        fail("image_path_identity");
-}
+using local_file::utf8;using local_file::path_for;using local_file::ordinary;using local_file::bind_path;
 class Source {
     std::vector<Handle> ancestors_;
 public:
@@ -116,35 +44,15 @@ public:
 #ifdef DISKED_IMAGE_CAPTURE_TESTING
         if(GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_OPEN_GUARD",nullptr,0))fail("image_test_open_guard");
 #endif
-        std::size_t end=2;
-        for(;;) {
-            const auto parent=end==2?path.substr(0,3):path.substr(0,end);
-            Handle h(CreateFileW(parent.c_str(),FILE_READ_ATTRIBUTES,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
-                                 FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
-            if(h.value==INVALID_HANDLE_VALUE)fail("image_parent_open",GetLastError());ordinary(h.value,true);bind_path(h.value,parent);ancestors_.push_back(std::move(h));
-            end=path.find(L'\\',end+1);if(end==path.npos)break;
-        }
+        ancestors_=local_file::pin_parents(path);
         file=Handle(CreateFileW(path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
                                FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_RANDOM_ACCESS,nullptr));
         if(file.value==INVALID_HANDLE_VALUE)fail("image_source_open",GetLastError());ordinary(file.value,false);bind_path(file.value,path);
     }
 };
-struct Metadata {
-    V value;
-    std::uint64_t size=0;
-};
+using local_file::Metadata;
 Metadata metadata(HANDLE h) {
-    const auto info=ordinary(h,false);FILE_ID_INFO id{};FILE_BASIC_INFO basic{};FILE_STANDARD_INFO standard{};
-    if(!GetFileInformationByHandleEx(h,FileIdInfo,&id,sizeof(id)) ||
-       !GetFileInformationByHandleEx(h,FileBasicInfo,&basic,sizeof(basic)) ||
-       !GetFileInformationByHandleEx(h,FileStandardInfo,&standard,sizeof(standard)))fail("image_file_metadata",GetLastError());
-    if(standard.EndOfFile.QuadPart<0 || standard.Directory || standard.DeletePending)fail("image_file_metadata");
-    Metadata out;out.size=static_cast<std::uint64_t>(standard.EndOfFile.QuadPart);
-    out.value=V::object().put("volume_id",exact(id.VolumeSerialNumber)).put("file_id",V::string(hex(id.FileId.Identifier,16)))
-        .put("bytes",exact(out.size)).put("created",V::string(std::to_string(basic.CreationTime.QuadPart)))
-        .put("written",V::string(std::to_string(basic.LastWriteTime.QuadPart))).put("changed",V::string(std::to_string(basic.ChangeTime.QuadPart)))
-        .put("attributes",exact(basic.FileAttributes)).put("hardlinks",exact(info.nNumberOfLinks));
-    return out;
+    try {return local_file::metadata(h);}catch(const local_file::Error& e) {throw ImageCaptureError(e.what(),e.platform_code);}
 }
 std::uint64_t native(const de_u64& n) {
     char out[21];checked(de_u64_format(&n,out,sizeof(out)));return std::stoull(out);
@@ -228,6 +136,7 @@ public:
 };
 }
 CapturedImage capture_raw_image(const std::string& input,std::uint32_t unit) {
+    try {
     if(unit!=512 && unit!=4096)fail("image_geometry");
     const auto started=now(),ticks=GetTickCount64();Source source(input);const auto before=metadata(source.file.value);
     const auto blocks=before.size/unit+(before.size%unit?1:0);Capture capture(source.file.value);
@@ -255,5 +164,6 @@ CapturedImage capture_raw_image(const std::string& input,std::uint32_t unit) {
     json::Limits bounds;bounds.bytes=60*1024;bounds.depth=16;bounds.values=8192;bounds.string_bytes=1024;
     try {json::dump(out.report,bounds);}catch(const json::Error&) {fail("image_report_limit");}
     return out;
+    }catch(const local_file::Error& e) {throw ImageCaptureError(e.what(),e.platform_code);}
 }
 }

@@ -190,6 +190,12 @@ def main():
     v=run('torn-header-is-not-admitted',p,[dict(torn_append=True),dict(resume=True)],expected=dict(status='refused',diagnostic='acquisition_map_header'))
     base=run('resume-baseline',p,[dict(stop_after_bytes='4096')])
     def saved(v):return {k:copy.deepcopy(v[k]) for k in ('active','records','destination_hex')}
+    f=saved(base);unexplained=bytearray.fromhex(f['destination_hex']);unexplained[6000]=88
+    f['destination_hex']=unexplained.hex();f['records'].append(dict(bytes='{torn',complete=False))
+    v=run('unexplained-preallocated-suffix-before-tail-repair',p,[dict(resume=True)],f,
+          expected=dict(status='failed',diagnostic='fixture_unexplained_output'))
+    assert v['destination_hex']==f['destination_hex'] and v['records']==f['records']
+    assert not any(x in ('write_destination','discard_tail') or x.startswith('append:') for x in v['results'][0]['trace'])
     v=run('resumed-destination-mismatch',p,[dict(resume=True,destination_xor='0')],saved(base),expected=dict(status='failed',diagnostic='acquisition_destination_verification'))
     assert 'write_destination' not in v['results'][0]['trace']
     v=run('resumed-source-bytes-mismatch',p,[dict(resume=True,source_xor='0')],saved(base),expected=dict(status='failed',diagnostic='acquisition_resume_source_changed'))

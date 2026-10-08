@@ -60,6 +60,11 @@ public:
     void discard_incomplete_tail() override {
         before("discard_tail");if(records.empty() || records.back().complete)throw Error("fixture_tail");records.pop_back();after("discard_tail");
     }
+    void validate_output_coverage(std::uint64_t checkpoint,std::uint64_t pending) override {
+        before("validate_coverage");
+        if(checkpoint>destination.size() || pending>destination.size() ||
+           std::any_of(destination.begin()+static_cast<std::size_t>(pending),destination.end(),[](unsigned char b) {return b!=0;}))throw Error("fixture_unexplained_output");
+    }
     void append_record(const std::string& bytes) override {
         const auto v=disked::json::parse(bytes);const auto name="append:"+get(v,"type").text;before(name);
         if(boolean(settings,"torn_append")) {

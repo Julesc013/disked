@@ -197,6 +197,7 @@ Outcome execute(const Plan& input,const Grant& grant,Ports& ports,bool resume) {
             }
             fresh(ports,active);
             if(sealed && incomplete)fail("acquisition_map_after_seal");
+            ports.validate_output_coverage(out.checkpoint_bytes,has_pending?pending.offset+pending.size:out.checkpoint_bytes);
             if(incomplete)ports.discard_incomplete_tail();
             if(has_pending) {
                 out.uncertain_effect=true;

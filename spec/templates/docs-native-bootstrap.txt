@@ -317,3 +317,19 @@ evidence and implementing-agent review live under
 [the W024 checkpoint](../.aide/evidence/2026-10-08-image-commands/README.md).
 Owner acceptance, physical media, image containers, atomic/whole-image acquisition,
 other hosts/platforms and storage mutation remain separate work.
+
+DE-W033's private acquisition core and Windows ordinary-file adapter can be built
+with the same preset. They are exercised separately from the product command
+registry; `image.acquire` remains unavailable pending asynchronous admission.
+Run the generated-file tests with:
+
+```powershell
+python tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root .
+```
+
+Only the separately compiled fault probe has interruption controls. Its default
+grants are test-driver authority for generated fixtures, not owner acceptance or
+product authorization. Map identities, exact code generation, normal sharing,
+CREATE_NEW and checkpoint coverage are verified on the tested Windows host.
+Flush calls and killed-child recovery do not qualify power-loss survival,
+physical backing aliases, real failing media, restore readiness or other OSes.

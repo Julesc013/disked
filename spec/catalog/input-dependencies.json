@@ -3166,7 +3166,8 @@
       "depends_on": [
         "source/providers/image/file_capture.h",
         "source/runtime/capture/map_observation.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "source/providers/image/local_file.h"
       ],
       "spec_ids": [
         "DE-102",
@@ -3358,6 +3359,92 @@
         "DE-103",
         "DE-036",
         "DE-042"
+      ]
+    },
+    {
+      "id": "source/providers/image/local_file.h",
+      "path": "source/providers/image/local_file.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/providers/image/local_file.cpp",
+      "path": "source/providers/image/local_file.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/local_file.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_acquisition.h",
+      "path": "source/providers/image/file_acquisition.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/pipeline.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_acquisition.cpp",
+      "path": "source/providers/image/file_acquisition.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_acquisition.h",
+        "source/providers/image/local_file.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/images/file_acquisition_probe.cpp",
+      "path": "tests/images/file_acquisition_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_acquisition.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/images/test_file_acquisition.py",
+      "path": "tests/images/test_file_acquisition.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/file_acquisition_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-036",
+        "DE-023"
       ]
     }
   ]

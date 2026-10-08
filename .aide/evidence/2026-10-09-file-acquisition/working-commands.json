@@ -1,0 +1,100 @@
+[
+  {
+    "command": "cmake --build --preset windows-bootstrap --target file_acquisition_probe file_acquisition_fault image_file_capture_probe image_file_capture_fault acquisition_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/initial-build.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target file_acquisition_probe file_acquisition_fault image_file_capture_probe image_file_capture_fault acquisition_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/corrected-build.log"
+  },
+  {
+    "command": "python tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide-local/goal-0.1.0/file-acquisition-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/initial-cases-failed.log"
+  },
+  {
+    "command": "python tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide-local/goal-0.1.0/file-acquisition-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/113-cases.log"
+  },
+  {
+    "command": "python tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide-local/goal-0.1.0/file-acquisition-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/124-cases.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-full-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 8,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-native-stale-inputs.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-rebuilt.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap -R 'image.file_acquisition|image.acquisition_pipeline|disked.acceptance|disked_provider_guard.acceptance'",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-targeted-tests.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-spec-tests.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_acquisition_pipeline.py --probe build/windows-bootstrap/Release/acquisition_probe.exe --root . --validate-schemas --evidence .aide-local/goal-0.1.0/file-acquisition-core-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-core-cases.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target file_acquisition_probe file_acquisition_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-receipt-build.log"
+  },
+  {
+    "command": "python tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide-local/goal-0.1.0/file-acquisition-final-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-file-acquisition/working-file-cases.log"
+  }
+]
