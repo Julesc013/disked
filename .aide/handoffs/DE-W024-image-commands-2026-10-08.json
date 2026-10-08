@@ -1,0 +1,443 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W024",
+  "base_revision": "53227e9d881ecbd648c1f1ab81990bfcc6946ceb",
+  "spec_manifest_digest": "sha256:4616e165e75396a05b4f1f35a19a9b066f9d6d0d903deae5cf48022ef26dc05c",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "source/apps/disked/cli.cpp",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/presentation/session.cpp",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/interaction/commands.md",
+    "spec/interaction/protocol.md",
+    "spec/operations/map-verify.md",
+    "spec/storage/address-spaces.md",
+    "spec/storage/partition-tables.md",
+    "spec/work/units.json",
+    "tests/corpus/partition_images.py",
+    "tools/build-bootstrap.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-08-image-commands/FINDINGS.md",
+    ".aide/evidence/2026-10-08-image-commands/README.md",
+    ".aide/evidence/2026-10-08-image-commands/REVIEW.md",
+    ".aide/evidence/2026-10-08-image-commands/completion-observation-correction/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/completion-observation-correction/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/completion-observation-correction/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/completion-observation-correction/image-inspection.png",
+    ".aide/evidence/2026-10-08-image-commands/console-observer-correction/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/console-observer-correction/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/console-observer-correction/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/corpus-correction/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/corpus-correction/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/corpus-correction/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/execution-environment.json",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/aide-passive.json",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/bound-build.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/build.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/command-cases.json",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/command-cases.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/configure.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/context.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/disked-dependents.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/disked-headers.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/disked-imports.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/image-inspection.png",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/index.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/manifest.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/native-details.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/native-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/producer-schemas.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/results.json",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/spec-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/structural.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/verify-context.log",
+    ".aide/evidence/2026-10-08-image-commands/final-corrected/verify-manifest.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/bound-build.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/build.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/configure.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/disked-dependents.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/disked-headers.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/disked-imports.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/index.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/native-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/final-verification/structural.log",
+    ".aide/evidence/2026-10-08-image-commands/geometry-correction/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/geometry-correction/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/geometry-correction/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/initial/build.log",
+    ".aide/evidence/2026-10-08-image-commands/initial/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/initial/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/initial/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/initial/configure.log",
+    ".aide/evidence/2026-10-08-image-commands/parse-correction/cases.json",
+    ".aide/evidence/2026-10-08-image-commands/parse-correction/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/parse-correction/commands.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/aide-passive.json",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/bound-build.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/build.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/command-cases.json",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/command-cases.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/configure.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/context.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/disked-dependents.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/disked-headers.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/disked-imports.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/image-inspection.png",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/index.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/manifest.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/native-details.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/native-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/producer-schemas.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/results.json",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/spec-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/structural-after-closure-guard.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/structural.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/verify-context.log",
+    ".aide/evidence/2026-10-08-image-commands/port-verification/verify-manifest.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-build.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-clone.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-command-cases.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-configure.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-headers.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-imports.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-image-launch.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-launch.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-manifest.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-native-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-producer-schemas.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-results.json",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-spec-tests.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-structural.log",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/command-cases.json",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/commands.json",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/image-inspection.png",
+    ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/native-details.log",
+    ".aide/evidence/2026-10-08-image-commands/runner-status.json",
+    ".aide/handoffs/DE-W024-image-commands-2026-10-08.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "README.md",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/index.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/platform/windows/console/terminal.cpp",
+    "source/platform/windows/ui/gui.cpp",
+    "source/providers/image/file_capture.h",
+    "source/runtime/capture/capture_port.h",
+    "source/runtime/capture/image_commands.cpp",
+    "source/runtime/capture/image_commands.h",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/commands.md",
+    "spec/interaction/protocol.md",
+    "spec/manifest.json",
+    "spec/operations/map-verify.md",
+    "spec/reports/test-results.txt",
+    "spec/reports/validation.json",
+    "spec/roadmap/implementation.md",
+    "spec/schemas/command-image-path-parameters.schema.json",
+    "spec/storage/address-spaces.md",
+    "spec/templates/docs-development-plan.txt",
+    "spec/templates/docs-index.txt",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-readme.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/image_console_fixture.py",
+    "tests/frontend/test_image_commands.py",
+    "tests/native/test_protocol.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Completed and cleanly reproduced the initial ordinary-local-raw-file W024 shared command/frontend profile. Agent review permits local continuation; owner acceptance and broader product qualification are separate. Unverified: Initial Windows ordinary-local-raw-file image/fake prototype, not full DiskEd 0.1.0; No atomic/whole-image/physical-storage qualification, actual changing-media/hot-removal, other host/platform or owner acceptance",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/build.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/disked-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/structural.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/bound-build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/structural-after-closure-guard.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_commands.py --exe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked_image_test.exe --probe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe --root D:\\Projects\\DiskEd\\disked --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-08-image-commands\\port-verification\\command-cases.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/command-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/structural-after-closure-guard.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W024 --output .aide-local/context/DE-W024-commands-final-port-verification --byte-budget 350000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W024-commands-final-port-verification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/port-verification/verify-context.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_image_commands.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked_image_test.exe --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-08-image-commands\\reproduction-ca948633\\command-cases.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-command-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/native/test_protocol.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe --root . --identity build/windows-bootstrap/generated/build-identity.json --validate-schemas",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-producer-schemas.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-spec-tests.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-disked-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\build\\windows-bootstrap\\Release\\disked.exe image inspect D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633\\.aide-local\\sample-gpt.img --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-ca948633",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-image-launch.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/disked.exe",
+      "sha256": "sha256:4d55d13c2c15ba8becafd43194c06c5b162e4b59624bdae8b1200291ae14db5f"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/disked_image_actions.lib",
+      "sha256": "sha256:9e7c72454debf61b75ff548cb487bde89c5a32757166f4e605ab52124dee3409"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/disked_image_capture.lib",
+      "sha256": "sha256:8da18022095bcfc07337f48c626c6bc2805595c809259e269aaa6be34847569d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/disked_map_observation.lib",
+      "sha256": "sha256:d0b59781fb8c7ec0c3a156b1b459027b65cef6b56959b296e6ddf50ab7de2b48"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/disked_image_test.exe",
+      "sha256": "sha256:40e5a64a2e31347007a6315df80d7721b67ee72be61596770dbb38a262409068"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W024-commands-ca948633/image_file_capture_probe.exe",
+      "sha256": "sha256:e446606c08214d17f16786ad8db7762911e7eead2a71debda42d5a5b2781d76f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-08-image-commands/reproduction-ca948633/clean-results.json",
+      "sha256": "sha256:ce4c1862918963a115627050bde93486733b92d0d4e645068ab9e3b1b8795250"
+    },
+    {
+      "path": ".aide/evidence/2026-10-08-image-commands/README.md",
+      "sha256": "sha256:8e7e06dcf7d761a317bc89d4b0f65fda2c8e288041add7751fcf8daee58e201f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-08-image-commands/REVIEW.md",
+      "sha256": "sha256:54311bc4533ad9268446452cfcacc80f1896552dbf75101651ebeef6025f5d91"
+    },
+    {
+      "path": ".aide/evidence/2026-10-08-image-commands/runner-status.json",
+      "sha256": "sha256:fa2b9e14ed52b64d3e372ba0372f11c36e7cbfbec1ee6622a0e44d6e37e64bf2"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue the full 0.1.0 programme with DE-W033 ordinary generated-file acquisition: read the source-bound work context, define typed source/destination/host bindings and no-clobber/resume behavior before implementing the bounded pipeline. Local tests and agent review permit continuation under the existing owner grant; owner acceptance, physical-device/elevation, writer-journal, historical-platform and publication gates remain separate. DE-W030 physical inventory cannot be qualified under the ordinary-file grant.",
+  "performed_remote_writes": false
+}
