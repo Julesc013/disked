@@ -40,10 +40,14 @@ def inspect_map(path, expected, sealed=True):
     rows = []
     for sequence, body in enumerate(raw.splitlines()):
         row = json.loads(body)
+        assert row['schema'] == 'org.disked.acquisition-record-prototype/2'
         assert canonical(row) == body and row['sequence'] == str(sequence) and row['previous'] == previous
         previous = digest(body)
         if row['type'] == 'header':
             assert sequence == 0 and row['payload']['plan_digest'] == digest(canonical(row['payload']['plan']))
+            capture=row['payload']['capture']
+            assert capture['clock']=='windows-filetime-wall' and int(capture['started'])>0
+            assert capture['capture_epoch']==row['payload']['plan']['capture_epoch'] and capture['attempt_id']
         if row['type'] == 'checkpoint':
             c = row['payload']; size = int(c['length'])
             assert int(c['offset']) == position and c['sha256'] == digest(expected[position:position+size])
@@ -112,9 +116,14 @@ def main():
             assert Path(req['destination']).read_bytes()==Path(req['source']).read_bytes()==expected
             assert value['outcome']['checkpoint_bytes']==value['outcome']['source_bytes']==str(size)
             assert value['outcome']['substituted_bytes']=='0' and not value['outcome']['uncertain_effect']
-            inspect_map(Path(req['map']),expected)
+            map_rows=inspect_map(Path(req['map']),expected)
+            capture=map_rows[0]['payload']['capture'];receipt=value['receipt']
+            assert receipt['original_capture']==capture and receipt['attempt_id']==capture['attempt_id']
+            assert int(receipt['started_filetime'])>0 and int(receipt['finished_filetime'])>0 and int(receipt['elapsed_ms'])>=0
+            assert receipt['wall_clock_regressed']==(int(receipt['finished_filetime'])<int(receipt['started_filetime']))
             before=snapshot(req);v=run('sealed-resume-'+str(size),resume(req),status='completed')
             assert snapshot(req)==before and v['outcome']['attempt_written_bytes']=='0'
+            assert v['receipt']['original_capture']==capture and v['receipt']['attempt_id']!=capture['attempt_id']
         for chunk,size in ((65536,131073),(1048576,131073),(1048576,1048576),(1048576,1048577)):
             name='chunk-'+str(chunk)+'-'+str(size);req=fixture(name,size);req['options']=options(chunk)
             run(name,req,status='completed');assert Path(req['destination']).read_bytes()==source_bytes(size)

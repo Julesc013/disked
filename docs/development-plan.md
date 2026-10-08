@@ -163,7 +163,14 @@ identities, exclusive effect handles, no-clobber output creation, growing images
 persistent LF-framed maps and explained-extent resume. Tests use independent byte
 and hash expectations, actual sharing/creation races and observed owned-child
 termination on generated files. This core and adapter are not yet linked to a
-public acquisition command; asynchronous frontend lifecycle and command admission
-remain the next integration work. The provisional
+public acquisition command. A private Windows worker now exercises real file
+transfer with exact reviewed definitions and effect grants, persistent operation/
+worker/attempt identities, verified-checkpoint progress, cancellation and reconnect.
+It shares the four-worker memory/process budget with the fake worker. An unfinished
+or corrupt admission is observed without relaunch or cleanup. Capture-record v2
+preserves original provenance across same-code resume and records each attempt's
+wall-clock interval and monotonic elapsed time. Shared frontend/command integration
+remains the next work; source-bound evidence belongs to
+`.aide/evidence/2026-10-09-acquisition-worker/`. The provisional
 map encoding does not settle the production-journal decision. See
 [DE-103](../spec/operations/acquire-image.md) for its exact profile and limits.

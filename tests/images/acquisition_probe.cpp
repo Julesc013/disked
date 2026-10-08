@@ -23,7 +23,7 @@ class Fake final:public Ports {
     std::size_t cursor_=0;
     std::map<std::string,std::uint64_t> counts_;
 public:
-    V active,settings=V::object(),trace=V::array();
+    V active,settings=V::object(),trace=V::array(),capture;
     std::vector<unsigned char> source,destination;
     std::vector<Record> records;
     bool exists=false;
@@ -107,6 +107,18 @@ public:
         }
         return bytes>=numeric(settings,"stop_after_bytes");
     }
+    V capture_evidence() override {
+        before("capture");const auto v=settings.find("capture");auto result=v?*v:Ports::capture_evidence();after("capture");return result;
+    }
+    void original_capture(const V& value) override {before("original_capture");capture=value;after("original_capture");}
+    void checkpoint_observed(const Outcome& out) override {
+        before("checkpoint_observed");
+        if(records.empty() || !records.back().complete)throw Error("fixture_checkpoint_observation");
+        const auto row=disked::json::parse(records.back().bytes);
+        const auto& c=get(row,"payload");
+        if(get(row,"type").text!="checkpoint" || numeric(c,"offset")+numeric(c,"length")!=out.checkpoint_bytes)throw Error("fixture_checkpoint_observation");
+        after("checkpoint_observed");
+    }
 };
 }
 int main() {
@@ -129,7 +141,7 @@ int main() {
             if(boolean(step,"deny_host"))current.host_effects=false;
             if(const auto delta=step.find("source_xor")) {const auto pos=std::stoull(delta->text);if(pos>=io.source.size())throw Error("fixture_range");io.source[static_cast<std::size_t>(pos)]^=1;}
             if(const auto delta=step.find("destination_xor")) {const auto pos=std::stoull(delta->text);if(pos>=io.destination.size())throw Error("fixture_range");io.destination[static_cast<std::size_t>(pos)]^=1;}
-            const auto result=execute(plan,current,io,boolean(step,"resume"));results.items.push_back(V::object().put("outcome",result.report()).put("trace",io.trace));
+            const auto result=execute(plan,current,io,boolean(step,"resume"));results.items.push_back(V::object().put("outcome",result.report()).put("trace",io.trace).put("original_capture",io.capture));
         }
         auto rows=V::array();for(const auto& r:io.records)rows.items.push_back(V::object().put("bytes",V::string(r.bytes)).put("complete",V::boolean_value(r.complete)));
         const auto output=V::object().put("plan_digest",V::string(plan.digest)).put("results",results).put("active",io.active)

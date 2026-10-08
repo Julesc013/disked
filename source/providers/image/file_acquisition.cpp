@@ -77,6 +77,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
     std::uint64_t source_size_=0,map_size_=0,cursor_=0,last_complete_=0,checkpoint_=0;
     bool executed_=false,opened_=false,creation_attempted_=false;std::uint32_t platform_=0;
     acquisition::Plan plan_;
+    FileAcquisitionHooks hooks_;V original_capture_;std::uint64_t started_=0,ticks_=0;
     template<typename F> auto guarded(F&& f)->decltype(f()) {
         try {return f();}catch(const FileAcquisitionError& e) {platform_=e.platform_code;throw;}
         catch(const local_file::Error& e) {platform_=e.platform_code;throw FileAcquisitionError(e.what(),e.platform_code);}
@@ -165,7 +166,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         base_=expected;cursor_=last_complete_=0;
     }
 public:
-    explicit Impl(const FileAcquisitionRequest& request):request_(request),source_path_(request.source),destination_path_(request.destination),map_path_(request.map) {
+    explicit Impl(const FileAcquisitionRequest& request,const acquisition::Plan* reviewed):request_(request),source_path_(request.source),destination_path_(request.destination),map_path_(request.map) {
         if(destination_path_.location()==map_path_.location())throw FileAcquisitionError("acquisition_file_alias");
         source_=open(source_path_.value,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING,"image_source_open");
         source_metadata_=local_file::metadata(source_.value).value;source_size_=local_file::metadata(source_.value).size;
@@ -180,10 +181,11 @@ public:
             base_=observe_base();base_.put("destination",prospective("destination",destination_path_)).put("map",prospective("map",map_path_));
             FILETIME timestamp{};GetSystemTimeAsFileTime(&timestamp);static std::atomic<std::uint64_t> sequence{0};
             const auto origin=json::dump(source_metadata_)+std::to_string(timestamp.dwHighDateTime)+":"+std::to_string(timestamp.dwLowDateTime)+":"+std::to_string(GetCurrentProcessId())+":"+std::to_string(++sequence);
-            plan_=acquisition::prepare(V::object().put("schema",V::string("org.disked.acquisition-plan-prototype/1")).put("capture_epoch",V::string(hash(origin)))
+            plan_=acquisition::prepare(V::object().put("schema",V::string("org.disked.acquisition-plan-prototype/1")).put("capture_epoch",reviewed?field(reviewed->definition,"capture_epoch"):V::string(hash(origin)))
                 .put("resources",base_).put("bytes",number(source_size_)).put("chunk_bytes",number(request.chunk_bytes)).put("read_policy",V::string(request.read_policy))
                 .put("retry_limit",number(request.retries)).put("substitution",V::string(request.substitution)));
         }
+        if(reviewed && plan_.digest!=reviewed->digest)throw FileAcquisitionError("acquisition_reviewed_definition_changed");
     }
     const acquisition::Plan& plan() const {return plan_;}
     V observe() override { return guarded([&] {
@@ -268,15 +270,22 @@ public:
     }); }
     acquisition::Read read_destination(std::uint64_t offset,std::uint32_t size) override { return guarded([&] {return read(destination_.value,offset,size);}); }
     bool stop_requested() override { return guarded([&] {
+        if(hooks_.stop && hooks_.stop())return true;
 #ifdef DISKED_FILE_ACQUISITION_TESTING
         wchar_t value[24];const auto n=GetEnvironmentVariableW(L"DISKED_ACQ_TEST_STOP_AFTER",value,24);
         if(n && n<24)return checkpoint_>=std::stoull(local_file::utf8(std::wstring(value,n)));
 #endif
         return false;
     }); }
-    FileAcquisitionResult run(const acquisition::Grant& grant) {
+    V capture_evidence() override {return V::object().put("clock",V::string("windows-filetime-wall")).put("started",number(started_)).put("attempt_id",V::string(hooks_.attempt_id));}
+    void original_capture(const V& v) override {original_capture_=v;}
+    void checkpoint_observed(const acquisition::Outcome& out) override {if(hooks_.checkpoint)hooks_.checkpoint(out);}
+    FileAcquisitionResult run(const acquisition::Grant& grant,const FileAcquisitionHooks& hooks) {
         if(executed_)throw FileAcquisitionError("acquisition_session_consumed");executed_=true;
+        hooks_=hooks;FILETIME stamp{};GetSystemTimeAsFileTime(&stamp);started_=(static_cast<std::uint64_t>(stamp.dwHighDateTime)<<32)|stamp.dwLowDateTime;ticks_=GetTickCount64();
+        if(hooks_.attempt_id.empty())hooks_.attempt_id="file-attempt:"+std::to_string(GetCurrentProcessId())+":"+std::to_string(started_);
         auto outcome=acquisition::execute(plan_,grant,*this,request_.resume);
+        GetSystemTimeAsFileTime(&stamp);const auto finished=(static_cast<std::uint64_t>(stamp.dwHighDateTime)<<32)|stamp.dwLowDateTime;
         V map_bytes,destination_bytes;auto observations=V::array();
         const auto size=[&observations](HANDLE handle,const char* role,V& result) {
             if(handle==INVALID_HANDLE_VALUE)return;
@@ -292,18 +301,21 @@ public:
             .put("resources",opened_?active_:base_).put("resources_kind",V::string(opened_?"effect-owned":"prepared-plan")).put("source_consistency",V::string("live-uncoordinated"))
             .put("flush_scope",V::string("per-file-FlushFileBuffers-API-only")).put("physical_backing_qualified",V::boolean_value(false))
             .put("platform_code",number(platform_));
+        receipt.put("original_capture",original_capture_).put("attempt_id",V::string(hooks_.attempt_id)).put("started_filetime",number(started_))
+            .put("finished_filetime",number(finished)).put("elapsed_ms",number(GetTickCount64()-ticks_)).put("wall_clock_regressed",V::boolean_value(finished<started_));
         return {outcome,receipt};
     }
 };
-FileAcquisition::FileAcquisition(const FileAcquisitionRequest& request) {
+FileAcquisition::FileAcquisition(const FileAcquisitionRequest& request,const V* reviewed_definition) {
     if((!request.resume || request.explicit_options) &&
        ((request.chunk_bytes!=4096 && request.chunk_bytes!=65536 && request.chunk_bytes!=1048576) || request.retries>3 ||
         (request.read_policy!="ordinary" && request.read_policy!="failing-read-mostly") ||
         (request.substitution!="stop" && request.substitution!="zero-fill") || (request.read_policy=="failing-read-mostly" && request.retries)))
         throw FileAcquisitionError("acquisition_file_options");
-    try {impl_.reset(new Impl(request));}catch(const local_file::Error& e) {throw FileAcquisitionError(e.what(),e.platform_code);}
+    acquisition::Plan reviewed;if(reviewed_definition)reviewed=acquisition::prepare(*reviewed_definition);
+    try {impl_.reset(new Impl(request,reviewed_definition?&reviewed:nullptr));}catch(const local_file::Error& e) {throw FileAcquisitionError(e.what(),e.platform_code);}
 }
 FileAcquisition::~FileAcquisition()=default;
 const acquisition::Plan& FileAcquisition::plan() const {return impl_->plan();}
-FileAcquisitionResult FileAcquisition::execute(const acquisition::Grant& grant) {return impl_->run(grant);}
+FileAcquisitionResult FileAcquisition::execute(const acquisition::Grant& grant,const FileAcquisitionHooks& hooks) {return impl_->run(grant,hooks);}
 }

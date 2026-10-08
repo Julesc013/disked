@@ -109,6 +109,13 @@ void verify(Ports& ports,const Chunk& c,Outcome& out,bool source) {
     if(!source)out.attempt_verified_bytes+=c.size;
 }
 const std::string initial_hash="sha256:"+std::string(64,'0');
+void capture_valid(const V& capture,const Plan& p) {
+    keys(capture,{"clock","started","attempt_id","capture_epoch"});token(field(capture,"attempt_id"));
+    if(text(field(capture,"capture_epoch"))!=text(field(p.definition,"capture_epoch")))fail("acquisition_capture_epoch");
+    const auto clock=text(field(capture,"clock"));const auto& started=field(capture,"started");
+    if(clock=="unobserved") {if(started.kind!=V::Kind::null)fail("acquisition_capture_clock");}
+    else if(clock!="windows-filetime-wall" || integer(started)==0)fail("acquisition_capture_clock");
+}
 class Ledger {
     Ports& ports_;
 public:
@@ -121,7 +128,7 @@ public:
     V accept(const Record& r) {
         if(r.bytes.size()>16384)fail("acquisition_map_limit");
         auto v=json::parse(r.bytes,limits());keys(v,{"schema","type","sequence","previous","payload"});
-        if(text(field(v,"schema"))!="org.disked.acquisition-record-prototype/1" ||
+        if(text(field(v,"schema"))!="org.disked.acquisition-record-prototype/2" ||
            integer(field(v,"sequence"))!=sequence || text(field(v,"previous"))!=previous)fail("acquisition_map_chain");
         // Reject alternative lexemes/order/whitespace in the private exact-byte format.
         if(encode(v)!=r.bytes)fail("acquisition_map_encoding");
@@ -129,7 +136,7 @@ public:
     }
     void append(const char* type,V payload) {
         require(1);
-        auto v=V::object().put("schema",V::string("org.disked.acquisition-record-prototype/1"))
+        auto v=V::object().put("schema",V::string("org.disked.acquisition-record-prototype/2"))
             .put("type",V::string(type)).put("sequence",number(sequence)).put("previous",V::string(previous)).put("payload",std::move(payload));
         const auto bytes=encode(v);ports_.append_record(bytes);ports_.flush_map();previous=hash(bytes);++sequence;
     }
@@ -139,6 +146,7 @@ void checkpoint(Ports& ports,Ledger& ledger,const Chunk& c,Outcome& out,const V&
     ledger.append("checkpoint",chunk_value(c));out.checkpoint_bytes+=c.size;
     if(c.substituted)out.substituted_bytes+=c.size;else out.source_bytes+=c.size;
     out.uncertain_effect=false;
+    ports.checkpoint_observed(out);
 }
 }
 Plan prepare(const V& value) {
@@ -167,8 +175,9 @@ Outcome execute(const Plan& input,const Grant& grant,Ports& ports,bool resume) {
             ports.open_resume();const auto first=ports.next_record();
             if(first.end || !first.complete)fail("acquisition_map_header");
             const auto header=ledger.accept(first);if(text(field(header,"type"))!="header")fail("acquisition_map_header");
-            const auto& h=field(header,"payload");keys(h,{"plan","plan_digest","resources"});
+            const auto& h=field(header,"payload");keys(h,{"plan","plan_digest","resources","capture"});
             if(text(field(h,"plan_digest"))!=p.digest || encode(field(h,"plan"))!=encode(p.definition))fail("acquisition_resume_plan");
+            capture_valid(field(h,"capture"),p);ports.original_capture(field(h,"capture"));
             active=field(h,"resources");stable_outputs(planned,active,p.bytes);fresh(ports,active);outputs=true;
             for(;;) {
                 const auto r=ports.next_record();if(r.end)break;
@@ -220,11 +229,14 @@ Outcome execute(const Plan& input,const Grant& grant,Ports& ports,bool resume) {
                 }
             }
         } else {
+            auto capture=ports.capture_evidence();keys(capture,{"clock","started","attempt_id"});
+            capture.put("capture_epoch",field(p.definition,"capture_epoch"));capture_valid(capture,p);
             fresh(ports,planned);if(ports.stop_requested()) {out.status="paused";return out;}
             outputs=true;
             try {active=ports.create_outputs(p);}catch(const CreationRefusal&) {outputs=false;throw;}
             stable_outputs(planned,active,p.bytes);fresh(ports,active);
-            ledger.append("header",V::object().put("plan",p.definition).put("plan_digest",V::string(p.digest)).put("resources",active));
+            ledger.append("header",V::object().put("plan",p.definition).put("plan_digest",V::string(p.digest)).put("resources",active).put("capture",capture));
+            ports.original_capture(capture);
         }
         while(out.checkpoint_bytes<p.bytes) {
             fresh(ports,active);if(ports.stop_requested()) {out.status="paused";out.records=ledger.sequence;return out;}

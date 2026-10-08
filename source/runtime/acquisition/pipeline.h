@@ -29,6 +29,7 @@ struct Record {
     std::string bytes;
     bool complete=true,end=false;
 };
+struct Outcome;
 // A provider owns locks and fresh identity checks throughout a call. It must
 // reject aliases/no-clobber races before creating outputs. Each record is <=16KiB.
 class Ports {
@@ -49,6 +50,11 @@ public:
     virtual void flush_destination()=0;
     virtual Read read_destination(std::uint64_t,std::uint32_t)=0;
     virtual bool stop_requested()=0;
+    // Private record v2 adds original capture provenance outside immutable plan.
+    virtual json::Value capture_evidence() {return json::Value::object().put("clock",json::Value::string("unobserved")).put("started",json::Value{}).put("attempt_id",json::Value::string("fixture"));}
+    virtual void original_capture(const json::Value&) {}
+    // Only after destination verification and the complete checkpoint/map flush.
+    virtual void checkpoint_observed(const Outcome&) {}
 };
 struct Outcome {
     std::string status="failed",diagnostic;

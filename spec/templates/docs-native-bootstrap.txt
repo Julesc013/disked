@@ -333,3 +333,20 @@ product authorization. Map identities, exact code generation, normal sharing,
 CREATE_NEW and checkpoint coverage are verified on the tested Windows host.
 Flush calls and killed-child recovery do not qualify power-loss survival,
 physical backing aliases, real failing media, restore readiness or other OSes.
+
+The private acquisition worker adds actual detached file transfer, exact-definition
+grant admission and persistent observation through separate probe processes. It
+is not linked into `disked.exe` yet. Its generated-file lifecycle tests are:
+
+```powershell
+python tests/images/test_acquisition_worker.py --probe build/windows-bootstrap/Release/acquisition_worker_probe.exe --fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .
+```
+
+The separately compiled worker fault probe exercises late startup, checkpoint
+observer failure and incomplete operation-record writes. Ordinary probes ignore
+those controls. Repeated admission never launches a replacement writer; resume
+requires a new empty operation-state directory and a separate exact-definition
+grant. Prototype record v2 retains original capture evidence across same-code
+resume. Keep v1's original binary/evidence; cross-generation resume is not admitted.
+Local component evidence is retained under
+[the W033 worker checkpoint](../.aide/evidence/2026-10-09-acquisition-worker/README.md).

@@ -268,3 +268,68 @@ named boundaries. A process-interruption test must observe the owned child alive
 terminate and wait for that child, and then re-open the generated files with the
 same code generation. Such tests establish process behavior on the tested host,
 not physical disconnection, thin-provisioning exhaustion or power-loss behavior.
+
+## Native acquisition admission and worker integration
+
+The next component must exercise real file acquisition in an isolated native
+worker before the shared command/frontends are admitted. This remains a private
+prototype under DE-W033, not a fake-counter substitute for data transfer.
+
+Preparation returns an immutable operation definition binding the acquisition
+plan, source/destination/map paths and options, exact code/host observations and
+an explicitly selected existing operation-state directory with its generation
+and fixed metadata-file effects. It creates no outputs or state files. A separate
+grant binds that full definition digest and source-read, destination-write,
+map-write and host/state effects. Preserve the reviewed capture epoch when
+reobserving in another process, and refuse a changed definition before effects.
+The command catalogue's requires_plan flag applies to acquisition execution;
+metadata-only preparation is not execution or generic privileged plan.apply.
+
+Admission persists immutable request/grant evidence with CREATE_NEW in the
+owned empty state directory, then starts the same executable's private role
+with only explicitly inherited input/append-record/cancel-read/event handles.
+Source paths travel as bounded data, never as executable instructions. Validate
+handle types, file paths/identities, host/code/directory generations, job membership
+and budget before data effects. Metadata resources must not alias any planned
+source/image/map or execution dependency. An existing admission is observed,
+not relaunched; missing/partial evidence yields unresolved/refused state without
+cleanup or a replacement writer.
+
+This Windows prototype shares the existing owner/host aggregate limit of four
+workers, 128 MiB per process and 512 MiB per job; each attempt additionally has a
+one-process job. Closing a frontend/job handle must not kill a worker. The private
+aggregate object retains its historical `DiskEd.Fake.Workers.v1` name; that name
+neither restricts the new worker to fake data nor supplies storage authority.
+Admission observation is bounded to three seconds. Exceeding it returns unknown
+with the retained operation ID; it supplies no execution deadline or restart
+permission. Operation history is bounded to 64 records, 16 KiB per record and
+1 MiB total, using at most 32 coarse checkpoint observations plus startup/terminal
+states. Preserve incomplete/corrupt records unchanged on reconnect.
+
+The worker must survive frontend exit, retain an operation ID, random worker and
+attempt epochs plus PID/creation-time observations, and record bounded ordered
+states with exact definition bindings. Progress comes only from verified,
+map-flushed checkpoints. Operation records use a finite coarse progress budget;
+the acquisition map remains authoritative for individual ranges. Cancellation
+is a request until observed at a checkpoint; it cannot declare a hung call
+quiescent. The terminal record is written after the synchronous provider session
+returns and releases its resource handles. Unknown, reused or exited-without-
+terminal worker observations do not authorize restarting it.
+
+The private acquisition record format advances to version 2 to retain original
+capture provenance outside the immutable plan: capture epoch, first attempt ID,
+clock kind and observed start. Unobserved fixture clocks remain null; Windows
+FILETIME values are host wall-clock observations, not authenticated time. Each
+file attempt separately reports start/end FILETIME, monotonic elapsed time and
+wall-clock regression. Resume preserves the original header evidence and adds
+the current attempt receipt. Version 1 maps retain their existing reader/code
+generation; no automatic cross-generation admission is implied.
+
+Checkpoint/stop callbacks are private owned-worker ports. A checkpoint callback
+runs only after destination flush/readback and successful checkpoint map flush;
+failure to retain its operation record must not invent a completed operation.
+The first tests must demonstrate actual generated-file bytes, exact review/grant
+refusal, disconnect/reconnect, active-worker exclusion, checkpoint cancellation,
+late startup and incomplete worker evidence. Real power loss and other platforms
+remain separate qualification. Public CLI/stdio/GUI/TUI/shell availability waits
+for their own integration and evidence.

@@ -144,6 +144,32 @@ def main():
     assert v['results'][0]['outcome']['status']=='paused' and v['results'][0]['outcome']['checkpoint_bytes']=='4096'
     assert v['destination_hex']==source(9000).hex()
 
+    first_capture=dict(clock='windows-filetime-wall',started='134359400000000000',attempt_id='first-fixture-attempt')
+    later_capture=dict(clock='windows-filetime-wall',started='134359400010000000',attempt_id='later-fixture-attempt')
+    v=run('capture-retained-across-resume',p,[dict(capture=first_capture,stop_after_bytes='4096'),dict(capture=later_capture,resume=True)],expected=dict(status='completed'))
+    wanted=dict(first_capture,capture_epoch=p['capture_epoch'])
+    assert all(r['original_capture']==wanted for r in v['results'])
+    header=json.loads(v['records'][0]['bytes']);assert header['payload']['capture']==wanted
+    assert header['schema']=='org.disked.acquisition-record-prototype/2'
+    assert 'capture' not in v['results'][1]['trace']
+    for name,capture,diagnostic in (
+        ('unknown-clock',dict(first_capture,clock='unknown'), 'acquisition_capture_clock'),
+        ('unobserved-with-time',dict(first_capture,clock='unobserved'), 'acquisition_capture_clock'),
+        ('zero-time',dict(first_capture,started='0'), 'acquisition_capture_clock'),
+        ('overflow-time',dict(first_capture,started=str(2**64)), 'acquisition_integer'),
+        ('control-attempt',dict(first_capture,attempt_id='bad\x1bsequence'), 'acquisition_identity'),
+        ('unknown-field',dict(first_capture,extra=True), 'acquisition_shape'),
+        ('provider-epoch-field',dict(first_capture,capture_epoch='unreviewed'), 'acquisition_shape'),
+    ):
+        v=run('capture-'+name,p,[dict(capture=capture)],expected=dict(status='refused',diagnostic=diagnostic))
+        assert not v['records'] and 'create' not in v['results'][0]['trace']
+    v=run('checkpoint-observer-after-map-flush',p,expected=dict(status='completed'))
+    trace=v['results'][0]['trace'];pos=trace.index('checkpoint_observed')
+    assert trace[pos-2:pos+1]==['append:checkpoint','flush_map','checkpoint_observed']
+    v=run('checkpoint-observer-failure-retains-verified-prefix',p,[dict(crash='checkpoint_observed'),dict(resume=True)],expected=dict(status='completed'))
+    failed=v['results'][0]['outcome'];assert failed['status']=='failed' and failed['checkpoint_bytes']=='4096' and not failed['uncertain_effect']
+    assert v['destination_hex']==source(9000).hex()
+
     v=run('read-failure-retained',p,[dict(read_error_offset='4096')],expected=dict(status='failed',diagnostic='acquisition_source_read',checkpoint_bytes='4096'))
     assert json.loads(v['records'][-1]['bytes'])['type']=='read_failure'
     for error in ('line\ncode','x'*257,'delete\x7fcode'):
