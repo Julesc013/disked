@@ -27,4 +27,10 @@ json::Value complete_static(const Registry& registry,const std::vector<std::stri
 bool positive_byte_quantity(const std::string& value,std::string* bytes=nullptr);
 std::string validate_parameters(const Registry& registry,const json::Value& command,const json::Value& parameters,bool help=false);
 std::string form_parameters(const Registry& registry,const json::Value& command,const json::Value& editor,json::Value& typed);
+// Private presentation projection of the canonical parameter schema.
+json::Value form_shapes(const Registry&,const json::Value& command,const json::Value& editor);
+std::string form_discriminator(const Registry&,const json::Value& command);
+std::string form_default(const Registry&,const json::Value& command);
+std::size_t form_field_limit(const json::Value& shape);
+std::string form_field_text(const json::Value& shape,const json::Value& supplied);
 }

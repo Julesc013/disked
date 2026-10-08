@@ -151,7 +151,9 @@ Paging preserves all values and review state; changing an editor consumes review
 Optional empty fields are omitted from the reviewed request. Boolean editors
 accept exact `true` or `false`; an empty optional boolean is omitted. Review shows
 the resulting typed parameters before submission. Unsupported schema types still
-refuse a form; paging never hides an unreviewed implicit action. No extracted artwork is required; stock host icons
+refuse a form; paging never hides an unreviewed implicit action. Bounded object
+fields and phase-specific acquisition forms follow DE-103's canonical schema
+projection, explicit grants and fresh review rules. No extracted artwork is required; stock host icons
 do not admit redistribution of any supplied assets.
 
 Acceptance requires direct GUI-model/CLI/TUI parity for success and refusal,

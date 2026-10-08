@@ -6,17 +6,19 @@
 #include <iostream>
 
 using disked::json::Value;
-int main() {
+int main(int argc,char**) {
     const auto& registry=disked::command_registry();auto input=disked::fake_graph();
     disked::FrontendSession session(registry,input);Value discovery=Value::object(),commands=registry.commands;
     for(auto& c:commands.items) {
         bool available=false;for(const auto& row:bootstrap::commands)if(c.find("id")->text==row.id)available=row.implemented;
+        if(argc==2 && c.find("id")->text=="image.acquire")available=true;
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
     discovery.put("commands",commands);
     disked::TuiModel model(session,registry,discovery,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
         if(disked::FrontendSession::handles(command))return session.dispatch(id,command,parameters,revision);
-        return disked::completed(id,Value::object().put("test_static",Value::string(command)));
+        auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire")result.put("test_parameters",parameters);
+        return disked::completed(id,result);
     });
     const std::map<std::string,disked::TuiKey> keys={{"up",disked::TuiKey::Up},{"down",disked::TuiKey::Down},{"enter",disked::TuiKey::Enter},
         {"pageup",disked::TuiKey::PageUp},{"pagedown",disked::TuiKey::PageDown},{"tab",disked::TuiKey::Tab},{"backtab",disked::TuiKey::BackTab},

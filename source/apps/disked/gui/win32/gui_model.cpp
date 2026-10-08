@@ -66,24 +66,28 @@ void GuiModel::refresh() {
 }
 void GuiModel::stage(const std::string& command,const Value& supplied) {
     view_changed();
-    form_=reviewed_=false;command_=command;fields_=Value::array();parameters_=Value::object();outcome_=Outcome{};invalid_fields_.clear();
+    form_=reviewed_=false;command_=command;fields_=Value::array();parameters_=Value::object();typed_=Value::object();outcome_=Outcome{};invalid_fields_.clear();
     if(!available(command)) {result(refused("gui","command_unavailable",3));return;}
     const auto* descriptor=registry_.command(command);
     const auto* schema=descriptor?registry_.parameter_schemas.find(descriptor->find("parameter_schema")->text):nullptr;
     if(!schema) {result(refused("gui","schema_unavailable",3));return;}
-    for(const auto& pair:schema->find("properties")->fields) {
-        const auto type=pair.second.find("type")->text;
-        if(fields_.items.size()==16 || (type!="string" && type!="boolean")) {result(refused("gui","form_unavailable",3));return;}
+    discriminator_=form_discriminator(registry_,*descriptor);auto seed=supplied;
+    if(!discriminator_.empty() && !seed.find(discriminator_))seed.put(discriminator_,Value::string(form_default(registry_,*descriptor)));
+    try {shapes_=form_shapes(registry_,*descriptor,seed);}catch(const std::exception& e) {result(refused("gui",e.what(),3));return;}
+    std::vector<std::string> names;if(!discriminator_.empty())names.push_back(discriminator_);
+    for(const auto& pair:shapes_.fields)if(pair.first!=discriminator_)names.push_back(pair.first);
+    for(const auto& name:names) {
+        const auto& shape=*shapes_.find(name);std::size_t limit=0;
+        try {limit=form_field_limit(shape);}catch(const std::exception& e) {result(refused("gui",e.what(),3));return;}
+        if(fields_.items.size()==16) {result(refused("gui","form_unavailable",3));return;}
         std::string value;
-        if(pair.first=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
-        if(pair.first=="operation")value="target.inspect";
-        if(const auto* input=supplied.find(pair.first)) {
-            if(input->kind==Value::Kind::boolean && type=="boolean")value=input->boolean?"true":"false";
-            else if(input->kind==Value::Kind::string && type=="string")value=input->text;
-            else {result(refused("gui","invalid_parameter"));return;}
+        if(name=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
+        if(name=="operation")value="target.inspect";
+        if(const auto* input=seed.find(name)) {
+            try {value=form_field_text(shape,*input);}catch(...) {result(refused("gui","invalid_parameter"));return;}
         }
-        if(value.size()>4096 || !json::valid_utf8(value)) {result(refused("gui","form_limit"));return;}
-        fields_.items.push_back(Value::string(pair.first));parameters_.put(pair.first,Value::string(value));
+        if(value.size()>limit || !json::valid_utf8(value)) {result(refused("gui","form_limit"));return;}
+        fields_.items.push_back(Value::string(name));parameters_.put(name,Value::string(value));
     }
     revision_=snapshot_->revision();form_=true;notice_="Edit, then review. Empty optional fields are omitted; booleans use true/false.";
 }
@@ -94,18 +98,22 @@ void GuiModel::edit(const std::string& field,const std::string& value) {
     // Retain bounded rejected editor text so Review does not replace it with an
     // older valid identity. A separate error bit prevents admission, including
     // when the private API supplies malformed or over-buffer input.
-    if(value.size()>4096 || !json::valid_utf8(value) ||
+    if(value.size()>field_limit(field) || !json::valid_utf8(value) ||
        std::any_of(value.begin(),value.end(),[](unsigned char c){return c<32 || c==127;})) {
         invalid_fields_.insert(field);
         parameters_.put(field,Value::string(value.size()<=16388 && json::valid_utf8(value)?value:"[rejected invalid or oversized editor input]"));
         notice_="Invalid or oversized field; correct it before review";
-    } else {invalid_fields_.erase(field);parameters_.put(field,Value::string(value));notice_="Edited; review is required";}
+    } else {
+        if(field==discriminator_ && value!=parameters_.find(field)->text) {stage(command_,Value::object().put(field,Value::string(value)));return;}
+        invalid_fields_.erase(field);parameters_.put(field,Value::string(value));notice_="Edited; review is required";
+    }
 }
+std::size_t GuiModel::field_limit(const std::string& field) const {const auto* shape=shapes_.find(field);return shape?form_field_limit(*shape):4096;}
 void GuiModel::review() {
     if(!form_)return;
     view_changed();
     reviewed_=false;outcome_=Outcome{};
-    for(const auto& pair:parameters_.fields)if(pair.second.text.size()>4096) {notice_="form_limit; correct the field";return;}
+    for(const auto& pair:parameters_.fields)if(pair.second.text.size()>field_limit(pair.first)) {notice_="form_limit; correct the field";return;}
     if(!invalid_fields_.empty()) {notice_="invalid_parameter; correct the field";return;}
     const auto error=form_parameters(registry_,*registry_.command(command_),parameters_,typed_);
     if(!error.empty()) {notice_=error+"; correct the fields";return;}
@@ -138,7 +146,7 @@ Value GuiModel::details() const {
     Value current;
     if(outcome_.response.kind!=Value::Kind::null)current=outcome_.response;
     else if(form_)current=Value::object().put("command",Value::string(command_)).put("parameters",reviewed_?typed_:parameters_)
-        .put("expected_revision",Value::string(revision_)).put("reviewed",Value::boolean_value(reviewed_));
+        .put("expected_revision",FrontendSession::handles(command_)?Value::string(revision_):Value{}).put("reviewed",Value::boolean_value(reviewed_));
     else current=Value::object().put("current",snapshot_->value()).put("proposed",Value{})
         .put("proposed_reason",Value::string("Planning is not implemented; no storage changes are proposed"));
     if(!pending_.empty())current.put("pending_request",Value::string(pending_));

@@ -13,18 +13,7 @@ int wmain(int argc,wchar_t** argv) {
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>65536)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         const auto v=disked::json::parse(input);const auto mode=text(v,"mode");
         const disked::Registry registry{disked::json::parse(bootstrap::command_catalog_json),disked::json::parse(bootstrap::syntax_json),disked::json::parse(bootstrap::parameter_schemas_json)};
-        disked::AcquisitionActions ports;
-        ports.prepare=[](const V& p) {
-            disked::FileAcquisitionRequest r;r.source=text(p,"source");r.destination=text(p,"destination");r.map=text(p,"map");
-            if(const auto resume=p.find("resume"))r.resume=resume->boolean;
-            if(const auto n=p.find("chunk_bytes"))r.chunk_bytes=static_cast<std::uint32_t>(std::stoul(n->text));
-            if(const auto n=p.find("retry_limit"))r.retries=static_cast<std::uint32_t>(std::stoul(n->text));
-            if(const auto s=p.find("read_policy"))r.read_policy=s->text;if(const auto s=p.find("substitution"))r.substitution=s->text;
-            r.explicit_options=p.find("chunk_bytes") || p.find("retry_limit") || p.find("read_policy") || p.find("substitution");
-            try {return disked::prepare_acquisition_worker(r,text(p,"state_directory"));}
-            catch(const disked::FileAcquisitionError& e) {throw disked::AcquisitionCommandError(e.what(),e.platform_code);}
-        };
-        ports.execute=[](const V& d,const V& g) {return disked::start_acquisition_worker(d,g);};
+        auto ports=disked::acquisition_actions();
         unsigned prepare_calls=0,execute_calls=0;
         if(mode=="audit") {
             ports.prepare=[&](const V&) {++prepare_calls;return get(v,"reply");};

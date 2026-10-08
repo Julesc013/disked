@@ -171,7 +171,7 @@ public:
     }
     std::wstring get(int id) {
         const auto handle=controls.at(id);const int length=api.GetWindowTextLengthW(handle);
-        if(length>4097)throw Failure("gui_field_limit");
+        if(length>16385)throw Failure("gui_field_limit");
         std::wstring value(static_cast<std::size_t>(length)+1,L'\0');
         const auto copied=api.GetWindowTextW(handle,&value[0],length+1);value.resize(static_cast<std::size_t>(copied));return value;
     }
@@ -208,10 +208,23 @@ public:
                 const auto field_index=field_page*2+static_cast<std::size_t>(i);
                 const bool visible=state.find("form")->boolean && field_index<fields.size();
                 api.ShowWindow(controls.at(Label0+i),visible?SW_SHOW:SW_HIDE);api.ShowWindow(controls.at(Field0+i),visible?SW_SHOW:SW_HIDE);
-                if(visible) {set(Label0+i,"&"+std::to_string(i+1)+" "+fields[field_index]);set(Field0+i,state.find("parameters")->find(fields[field_index])->text);}
+                if(visible) {
+                    api.SendMessageW(controls.at(Field0+i),EM_SETLIMITTEXT,model->field_limit(fields[field_index])+1,0);
+                    set(Label0+i,"&"+std::to_string(i+1)+" "+fields[field_index]);
+                    const auto desired=state.find("parameters")->find(fields[field_index])->text;
+                    // A phase edit can replace the field list while its own
+                    // editor remains in the same slot. Preserve that caret.
+                    if(utf8(get(Field0+i))!=desired)set(Field0+i,desired);
+                }
             }
         }
-        set(Summary,"Current: cached fake observations | Proposed: none\r\nSelection: "+presentation_json(state.find("selection")?*state.find("selection"):Value{}));
+        const auto command=state.find("command");std::string summary="Current: cached fake observations | Proposed: none";
+        if(state.find("form")->boolean && command && command->text=="image.acquire") {
+            const auto phase=state.find("parameters")->find("phase");
+            summary=phase && phase->text=="prepare"?"Acquisition: metadata preparation; no copy admitted":
+                "Acquisition: execution request; inspect exact definition and effect grants";
+        }
+        set(Summary,summary+"\r\nSelection: "+presentation_json(state.find("selection")?*state.find("selection"):Value{}));
         set(Details,model->detail_text());
         set(Notice,state.find("notice")->text+" | High contrast: "+(contrast_known?(high_contrast?"on":"off"):"unknown"));
         api.EnableWindow(controls.at(Review),state.find("form")->boolean);
@@ -227,7 +240,8 @@ public:
         }
         if((id==Field0 || id==Field1) && notification==EN_CHANGE) {
             const auto index=field_page*2+static_cast<std::size_t>(id-Field0);if(index<fields.size())model->edit(fields[index],utf8(get(id)));
-            draw(false);return;
+            const auto next=model->state();std::vector<std::string> names;for(const auto& field:next.find("fields")->items)names.push_back(field.text);
+            draw(names!=fields);return;
         }
         if(notification!=BN_CLICKED && !(id==Navigator && notification==LBN_DBLCLK))return;
         switch(id) {

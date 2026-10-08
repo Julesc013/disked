@@ -196,6 +196,49 @@ std::string validate_parameters(const Registry& registry,const Value& command,co
     if(!help)for(const auto& key:array(*schema,"required"))if(!parameters.find(key.text))return "missing_parameter";
     return validate_shape(registry,*schema,parameters,0,help);
 }
+std::string form_discriminator(const Registry& registry,const Value& command) {
+    const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
+    return schema && schema->find("x-disked-form-discriminator")?text(*schema,"x-disked-form-discriminator"):"";
+}
+std::string form_default(const Registry& registry,const Value& command) {
+    const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
+    return schema && schema->find("x-disked-form-default")?text(*schema,"x-disked-form-default"):"";
+}
+Value form_shapes(const Registry& registry,const Value& command,const Value& editor) {
+    const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
+    if(!schema || !schema->find("properties"))throw std::invalid_argument("schema_unavailable");
+    auto properties=*schema->find("properties");const auto discriminator=form_discriminator(registry,command);
+    if(discriminator.empty())return properties;
+    if(!properties.find(discriminator))throw std::invalid_argument("form_unavailable");
+    const auto* selected=editor.find(discriminator);bool matched=false;
+    if(const auto* conditions=schema->find("allOf"))for(const auto& branch:conditions->items) {
+        const auto* condition=branch.find("if");const auto* constraints=condition?condition->find("properties"):nullptr;
+        const auto* identity=constraints?constraints->find(discriminator):nullptr;const auto* expected=identity?identity->find("const"):nullptr;
+        // Policy conditions involving additional fields do not select a form.
+        if(!constraints || constraints->fields.size()!=1 || !expected || !selected || json::dump(*expected)!=json::dump(*selected))continue;
+        const auto* then=branch.find("then");const auto* changes=then?then->find("properties"):nullptr;
+        if(changes)for(const auto& pair:changes->fields)if(pair.second.kind==Value::Kind::boolean && !pair.second.boolean)properties.fields.erase(pair.first);
+        matched=true;
+    }
+    if(!matched) {auto only=Value::object();only.put(discriminator,*properties.find(discriminator));return only;}
+    return properties;
+}
+std::size_t form_field_limit(const Value& shape) {
+    const auto type=text(shape,"type");
+    if(type=="string" || type=="boolean")return 4096;
+    const auto* budget=shape.find("x-disked-byte-budget");
+    if(type!="object" || !budget || budget->kind!=Value::Kind::number || budget->text!="16384")throw std::invalid_argument("form_unavailable");
+    return 16384;
+}
+std::string form_field_text(const Value& shape,const Value& supplied) {
+    const auto type=text(shape,"type");
+    if(type=="boolean" && supplied.kind==Value::Kind::boolean)return supplied.boolean?"true":"false";
+    if(type=="string" && supplied.kind==Value::Kind::string)return supplied.text;
+    if(type=="object" && supplied.kind==Value::Kind::object) {
+        json::Limits limits;limits.bytes=form_field_limit(shape);limits.depth=20;limits.values=2048;limits.string_bytes=1024;return json::dump(supplied,limits);
+    }
+    throw std::invalid_argument("invalid_parameter");
+}
 std::string form_parameters(const Registry& registry,const Value& command,const Value& editor,Value& typed) {
     const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
     if(!schema || !schema->find("properties"))return "schema_unavailable";

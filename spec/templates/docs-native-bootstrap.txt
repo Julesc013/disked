@@ -386,3 +386,21 @@ interactive request slot retains its 64 KiB bound; complete visible acquisition
 review, submission and rendering qualification remain open. `image acquire`
 is still planned/unavailable. These observers cannot start or restart a copy,
 and corrupt or incomplete evidence remains unknown without repair.
+
+The dev.20 shared GUI/TUI models add schema-owned phase forms and bounded
+structured definitions. The private `disked_acquisition_ui_test.exe` composition
+connects those forms to the same Windows acquisition adapter used by the command
+probe. Its build information labels this test composition explicitly. The product
+still reports `image.acquire` as unavailable. Run the model and actual native
+review/submission journeys with:
+
+```powershell
+python tests/frontend/test_acquisition_forms.py --exe build/windows-bootstrap/Release/disked_acquisition_ui_test.exe --product build/windows-bootstrap/Release/disked.exe --gui build/windows-bootstrap/Release/gui_model_probe.exe --tui build/windows-bootstrap/Release/tui_model_probe.exe --root .
+```
+
+Those tests create ordinary files, verify metadata preparation has no output
+effects, and check separately reviewed GUI/TUI copies against independent byte
+and map expectations. Native GUI tests own an inactive desktop; terminal tests
+own a hidden console. They do not inspect other applications or change user
+desktop settings. Shell execution of full structured definitions, interactive
+watch result limits and product admission remain open W033 work.

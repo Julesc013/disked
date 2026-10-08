@@ -438,3 +438,23 @@ an observer or failing its output does not cancel, restart or remove a worker's
 recovery dependencies. Watching has no source/destination/map effect handles.
 Provisional event support does not freeze the production journal or admit the
 acquisition command before its visible review/submission checks.
+
+## Phase-specific acquisition forms
+
+GUI/TUI acquisition editors derive their phase and fields from the canonical
+parameter schema. The discriminator is first and defaults to prepare. Prepare
+shows only source/destination/map/state and acquisition options; execute shows
+only the full definition, digest and four separate effect grants. An unknown or
+empty phase shows only its discriminator and cannot be reviewed successfully.
+Changing phase clears all other values, grants and review. No phase switch or
+preparation result implicitly enables execution or supplies an effect grant.
+
+Structured definition editors accept at most 16 KiB of compact JSON text, then
+use the common strict object decoder and its independent canonical bounds.
+Other editors retain their 4096-byte limit. Oversized, malformed or control input
+cannot authorize a previous valid definition. Review displays the complete typed,
+escaped request; a separate fresh submission consumes that review. Preparation
+may be submitted independently without any output-file or effect admission.
+Paging and navigation neither truncate values nor submit an operation.
+The fake inventory's graph revision is not an acquisition precondition. Review
+must not present it as authority or freshness for the independently bound files.

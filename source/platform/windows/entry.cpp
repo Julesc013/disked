@@ -4,6 +4,9 @@
 #include "invocation.h"
 #include "cli.h"
 #include "fake_worker.h"
+#ifdef DISKED_ACQUISITION_UI_TESTING
+#include "acquisition_worker.h"
+#endif
 #include "output.h"
 #include <cwchar>
 #include <cstdio>
@@ -12,6 +15,9 @@ namespace disked {
 int run_capture_campaign_producer(int argc,wchar_t** argv);
 #endif
 int windows_entry(int argc,wchar_t** argv) {
+#ifdef DISKED_ACQUISITION_UI_TESTING
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_acquisition_worker")==0)return run_acquisition_worker(argc,argv);
+#endif
 #ifdef DISKED_CAPTURE_CAMPAIGN
     if(argc>1 && std::wcscmp(argv[1],L"__disked_capture_probe")==0)return run_capture_campaign_producer(argc,argv);
 #endif

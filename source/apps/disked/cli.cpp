@@ -42,6 +42,9 @@ Outcome operation_action(const std::string& request,const std::string& command,c
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
+#ifdef DISKED_ACQUISITION_UI_TESTING
+    if(id=="image.acquire")return true;
+#endif
     for(const auto& c:bootstrap::commands)if(id==c.id)return c.implemented;
     return false;
 }
@@ -55,6 +58,9 @@ Value build_information() {
     IDENTITY_FIELD(input_digest);IDENTITY_FIELD(target);IDENTITY_FIELD(composition);IDENTITY_FIELD(compiler);
     IDENTITY_FIELD(sdk);IDENTITY_FIELD(configuration);IDENTITY_FIELD(language);IDENTITY_FIELD(crt);IDENTITY_FIELD(configuration_digest);
 #undef IDENTITY_FIELD
+#ifdef DISKED_ACQUISITION_UI_TESTING
+    result.put("private_acquisition_test_composition",Value::boolean_value(true));
+#endif
     return result.put("fake_provider",Value::string(fake_provider_identity()))
         .put("image_provider",Value::string(bootstrap::image_provider_id));
 }
@@ -84,6 +90,9 @@ Value discovery(const ParseResult* help=nullptr) {
 Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
     std::unique_ptr<FrontendSession>& session,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
+#ifdef DISKED_ACQUISITION_UI_TESTING
+    if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+#endif
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain") {
@@ -106,12 +115,15 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
 Submission frontend_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     RequestChannel& channel,const std::string& revision) {
-    if(implemented(command) && (fake_worker_command(command) || image_command(command))) {
+    if(implemented(command) && (fake_worker_command(command) || image_command(command) || command=="image.acquire")) {
         // The background callback owns only immutable request data. It never
         // captures the frontend/session or performs UI work after disconnection.
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
         return channel.submit(request,[request,command,parameters]() {
+#ifdef DISKED_ACQUISITION_UI_TESTING
+            if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+#endif
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
         });
     }
@@ -120,7 +132,7 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
 Outcome bounded_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     std::unique_ptr<BoundedRequests>& calls,const std::string& revision="") {
-    if(implemented(command) && (fake_worker_command(command) || image_command(command))) {
+    if(implemented(command) && (fake_worker_command(command) || image_command(command) || command=="image.acquire")) {
         if(!calls)calls.reset(new BoundedRequests());
         auto unresolved=Value::object().put("request_state",Value::string("unresolved"));
         if(const auto* state=parameters.find("state_directory"))unresolved.put("state_directory",*state);
@@ -129,6 +141,9 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
         return calls->run(request,[request,command,parameters]() {
+#ifdef DISKED_ACQUISITION_UI_TESTING
+            if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+#endif
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
         },
             std::move(expired),std::chrono::milliseconds(4000),{},command=="operation.watch" && acquisition_identity(parameters)?1048575:65536);
@@ -147,7 +162,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
         std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;});
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
-    if((fake_worker_command(parsed.command_id) || image_command(parsed.command_id)) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
+    if((fake_worker_command(parsed.command_id) || image_command(parsed.command_id) || parsed.command_id=="image.acquire") && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
         json::Limits limits;if(parsed.command_id=="operation.watch" && acquisition_identity(parsed.parameters))limits.bytes=1048575;
         return host.output_usable && output.write(presentation_json(outcome.response,limits)+"\n");

@@ -187,3 +187,11 @@ worker/attempt identity, record digests and monotonic checkpoint coverage.
 Visible GUI/TUI/shell copy review/submission and bounded rendering still precede
 acquisition command admission. Other platforms and physical storage remain
 separate qualification gates.
+
+The dev.20 component adds schema-derived prepare/execute forms with phase changes
+that clear values and grants, bounded structured definitions, and fresh review/
+submit controls. A marked private executable exercises actual native GUI/TUI
+metadata preparation and ordinary-file copying through the shared Windows
+adapter. These journeys supplement the model checks; they do not admit the public
+copy command. Complete structured shell input and interactive watch rendering,
+then qualify product admission with actual frontend and lifecycle tests.

@@ -157,6 +157,11 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  bootstrap_executable(disked_acquisition_ui_test)
+  target_compile_definitions(disked_acquisition_ui_test PRIVATE DISKED_ACQUISITION_UI_TESTING=1)
+  add_test(NAME frontend.acquisition_forms COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_acquisition_forms.py"
+    --exe "$<TARGET_FILE:disked_acquisition_ui_test>" --product "$<TARGET_FILE:disked>" --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(frontend.acquisition_forms PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
   foreach(target acquisition_worker_probe acquisition_worker_fault)
     add_executable(${target} tests/images/acquisition_worker_probe.cpp source/platform/windows/acquisition_worker.cpp)
     add_dependencies(${target} bootstrap_registry)

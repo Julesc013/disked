@@ -1,6 +1,7 @@
 #pragma once
 #include "session.h"
 #include <functional>
+#include <set>
 
 namespace disked {
 enum class TuiKey {Text,Up,Down,PageUp,PageDown,Enter,Tab,BackTab,Backspace,Escape,F2,F3,F4,F5,F6,F9,F10,Left,Right,Home,End,Delete};
@@ -27,6 +28,9 @@ private:
     std::string focus_,inventory_focus_,command_,review_revision_,notice_="Ready";
     std::vector<std::string> fields_;
     json::Value parameters_=json::Value::object(),typed_=json::Value::object();
+    json::Value shapes_=json::Value::object();
+    std::string discriminator_;
+    std::set<std::string> invalid_object_fields_;
     Outcome outcome_;
     json::Value earlier_=json::Value{};
     std::string pending_;

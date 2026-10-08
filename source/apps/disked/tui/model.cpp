@@ -57,24 +57,28 @@ void TuiModel::result(Outcome outcome) {
 }
 void TuiModel::stage(const std::string& command,const Value& supplied) {
     if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
-    command_=command;fields_.clear();parameters_=Value::object();field_=0;scroll_=0;
+    command_=command;fields_.clear();parameters_=Value::object();typed_=Value::object();field_=0;scroll_=0;invalid_object_fields_.clear();
     if(!available(command)) {result(refused("tui","command_unavailable",3));return;}
     const auto* descriptor=registry_.command(command);
     const auto* schema=descriptor?registry_.parameter_schemas.find(descriptor->find("parameter_schema")->text):nullptr;
     if(!schema) {result(refused("tui","schema_unavailable",3));return;}
-    for(const auto& pair:schema->find("properties")->fields) {
-        const auto type=pair.second.find("type")->text;
-        if(fields_.size()==16 || (type!="string" && type!="boolean")) {result(refused("tui","form_unavailable",3));return;}
-        fields_.push_back(pair.first);std::string value;
-        if(pair.first=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
-        if(pair.first=="operation")value="target.inspect";
-        if(const auto* input=supplied.find(pair.first)) {
-            if(input->kind==Value::Kind::boolean && type=="boolean")value=input->boolean?"true":"false";
-            else if(input->kind==Value::Kind::string && type=="string")value=input->text;
-            else {result(refused("tui","invalid_parameter"));return;}
+    discriminator_=form_discriminator(registry_,*descriptor);auto seed=supplied;
+    if(!discriminator_.empty() && !seed.find(discriminator_))seed.put(discriminator_,Value::string(form_default(registry_,*descriptor)));
+    try {shapes_=form_shapes(registry_,*descriptor,seed);}catch(const std::exception& e) {result(refused("tui",e.what(),3));return;}
+    std::vector<std::string> names;if(!discriminator_.empty())names.push_back(discriminator_);
+    for(const auto& pair:shapes_.fields)if(pair.first!=discriminator_)names.push_back(pair.first);
+    for(const auto& name:names) {
+        const auto& shape=*shapes_.find(name);std::size_t limit=0;
+        try {limit=form_field_limit(shape);}catch(const std::exception& e) {result(refused("tui",e.what(),3));return;}
+        if(fields_.size()==16) {result(refused("tui","form_unavailable",3));return;}
+        fields_.push_back(name);std::string value;
+        if(name=="target_id") {const auto selected=session_.selection();const auto* id=selected.find("target_id");if(id->kind==Value::Kind::string)value=id->text;}
+        if(name=="operation")value="target.inspect";
+        if(const auto* input=seed.find(name)) {
+            try {value=form_field_text(shape,*input);}catch(...) {result(refused("tui","invalid_parameter"));return;}
         }
-        if(value.size()>4096 || !json::valid_utf8(value)) {result(refused("tui","form_limit"));return;}
-        parameters_.put(pair.first,Value::string(value));
+        if(value.size()>limit || !json::valid_utf8(value)) {result(refused("tui","form_limit"));return;}
+        parameters_.put(name,Value::string(value));
     }
     review_revision_=snapshot_->revision();view_=View::Form;notice_="Edit fields, then F9. Empty optional fields are omitted; booleans use true/false.";
 }
@@ -96,17 +100,24 @@ void TuiModel::input(const TuiInput& e) {
     if(view_==View::Form) {
         if(e.key==TuiKey::Tab || e.key==TuiKey::BackTab) {if(!fields_.empty())field_=(field_+(e.key==TuiKey::Tab?1:fields_.size()-1))%fields_.size();follow_focus_=true;return;}
         if(e.key==TuiKey::Backspace && !fields_.empty()) {
-            auto& value=parameters_.fields[fields_[field_]].text;
-            if(!value.empty()) {std::size_t end=value.size()-1;while(end && (static_cast<unsigned char>(value[end])&0xc0)==0x80)--end;value.resize(end);}return;
+            const auto name=fields_[field_];auto value=parameters_.fields[name].text;
+            invalid_object_fields_.erase(name);
+            if(!value.empty()) {std::size_t end=value.size()-1;while(end && (static_cast<unsigned char>(value[end])&0xc0)==0x80)--end;value.resize(end);}
+            if(name==discriminator_)stage(command_,Value::object().put(name,Value::string(value)));
+            else parameters_.put(name,Value::string(value));return;
         }
         if(e.key==TuiKey::Text && !fields_.empty()) {
+            if(e.text.empty())return;
             auto& value=parameters_.fields[fields_[field_]].text;
+            const auto name=fields_[field_];const bool structured=shapes_.find(name)->find("type")->text=="object";
             const bool controls=std::any_of(e.text.begin(),e.text.end(),[](unsigned char c){return c<32 || c==127;});
-            if(controls || !json::valid_utf8(e.text))notice_="Control input ignored; nothing submitted";
-            else if(e.text.size()>4096-value.size())notice_="Field limit reached; nothing submitted";
-            else value+=e.text;return;
+            if(controls || !json::valid_utf8(e.text)) {if(structured)invalid_object_fields_.insert(name);notice_="Control input ignored; nothing submitted";}
+            else if(e.text.size()>form_field_limit(*shapes_.find(name))-value.size()) {if(structured)invalid_object_fields_.insert(name);notice_="Field limit reached; nothing submitted";}
+            else if(name==discriminator_)stage(command_,Value::object().put(discriminator_,Value::string(value+e.text)));
+            else {invalid_object_fields_.erase(name);value+=e.text;}return;
         }
         if(e.key==TuiKey::F9) {
+            if(!invalid_object_fields_.empty()) {notice_="invalid_parameter; correct the structured field";return;}
             const auto error=form_parameters(registry_,*registry_.command(command_),parameters_,typed_);
             if(!error.empty())notice_=error+"; correct the fields";
             else {view_=View::Review;scroll_=0;notice_="Review the exact request. Release F9, then press F9 to submit.";}return;
@@ -163,7 +174,8 @@ std::vector<std::string> TuiModel::body() const {
             lines.push_back("Typed parameters (empty optional fields omitted):");
             const auto typed=tui_json_lines(typed_);lines.insert(lines.end(),typed.begin(),typed.end());
         }
-        lines.push_back("Expected graph revision: "+review_revision_);
+        if(FrontendSession::handles(command_))lines.push_back("Expected graph revision: "+review_revision_);
+        if(command_=="image.acquire")lines.push_back("Execution binds the exact acquisition definition and digest, with separate effect grants.");
         lines.push_back("No storage permission is granted by review.");
     } else lines=tui_json_lines(outcome_.response);
     if(!pending_.empty())lines.push_back("Pending request: "+pending_+"; no outcome or permission to retry");

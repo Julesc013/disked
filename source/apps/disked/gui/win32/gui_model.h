@@ -21,6 +21,7 @@ public:
     json::Value rows() const;
     json::Value details() const;
     std::string detail_text() const;
+    std::size_t field_limit(const std::string&) const;
 private:
     FrontendSession& session_;
     const Registry& registry_;
@@ -31,6 +32,8 @@ private:
     bool commands_=false,form_=false,reviewed_=false;
     std::string focus_,target_focus_,command_,revision_,notice_="Ready";
     json::Value fields_=json::Value::array(),parameters_=json::Value::object(),typed_=json::Value::object();
+    json::Value shapes_=json::Value::object();
+    std::string discriminator_;
     Outcome outcome_;
     json::Value earlier_=json::Value{};
     std::string pending_;

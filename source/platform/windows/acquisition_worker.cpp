@@ -250,6 +250,20 @@ Outcome watch_acquisition_worker(const std::string& request,const V& parameters,
     } catch(const Failure& error) {return acquisition_observation(request,reply("unknown",id,last,error.what(),error.platform));}
       catch(const std::exception& error) {return acquisition_observation(request,reply("unknown",id,last,error.what()));}
 }
+AcquisitionActions acquisition_actions() {
+    AcquisitionActions ports;
+    ports.prepare=[](const V& p) {
+        FileAcquisitionRequest r;r.source=text(p,"source");r.destination=text(p,"destination");r.map=text(p,"map");
+        if(const auto resume=p.find("resume"))r.resume=resume->boolean;
+        if(const auto n=p.find("chunk_bytes"))r.chunk_bytes=static_cast<std::uint32_t>(std::stoul(n->text));
+        if(const auto n=p.find("retry_limit"))r.retries=static_cast<std::uint32_t>(std::stoul(n->text));
+        if(const auto s=p.find("read_policy"))r.read_policy=s->text;if(const auto s=p.find("substitution"))r.substitution=s->text;
+        r.explicit_options=p.find("chunk_bytes") || p.find("retry_limit") || p.find("read_policy") || p.find("substitution");
+        try {return prepare_acquisition_worker(r,text(p,"state_directory"));}
+        catch(const FileAcquisitionError& e) {throw AcquisitionCommandError(e.what(),e.platform_code);}
+    };
+    ports.execute=[](const V& d,const V& g) {return start_acquisition_worker(d,g);};return ports;
+}
 Outcome dispatch_acquisition_operation(const std::string& request,const std::string& command,const V& parameters) {
     if(command=="operation.watch")return watch_acquisition_worker(request,parameters);
     if(command!="operation.inspect" && command!="operation.cancel.request")return refused(request,"command_unavailable",3);
