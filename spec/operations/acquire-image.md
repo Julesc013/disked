@@ -333,3 +333,61 @@ refusal, disconnect/reconnect, active-worker exclusion, checkpoint cancellation,
 late startup and incomplete worker evidence. Real power loss and other platforms
 remain separate qualification. Public CLI/stdio/GUI/TUI/shell availability waits
 for their own integration and evidence.
+
+## Provisional shared acquisition request contract
+
+The next native command adapter uses the canonical `image.acquire` descriptor
+and shared parameter schema. `phase=prepare` binds source, destination, map,
+state_directory and optional resume/chunk/read/retry/substitution policy. It reads
+metadata and existing resume-header evidence only and returns the full immutable
+operation definition and digest without creating outputs or state files. No grant
+or execution-only field is accepted during preparation. Defaults remain 65536-byte
+chunks, no retries, ordinary reads and stop-on-error; resume without explicit
+policy derives the original map's effective options. Definition request options
+are always resolved and marked explicit. Metadata preparation is not source-byte
+acquisition, plan approval or effect authority.
+
+`phase=execute` accepts only that definition, its exact definition_digest and
+four separately supplied true booleans: allow_source_read, allow_destination_write,
+allow_map_write and allow_host_effects. It cannot accept replacement paths/options
+alongside the reviewed definition. Require resolved request options to agree with the inner plan. Validate the complete typed definition, inner
+plan and full digest before invoking the platform effect port. Missing, mixed,
+unknown or wrongly typed fields cannot initialize a provider or create state.
+
+CLI forms are `image acquire prepare SOURCE DESTINATION --map MAP --state-dir DIR`
+and `image acquire execute --definition-json JSON --definition-digest SHA256`
+with all four corresponding `--allow-...` flags. The definition option is parsed
+as bounded JSON data, never executed or expanded. Stdio supplies the same typed
+object directly; frontend form decoding uses the same schema and strict parser.
+Limit the definition to 16 KiB of canonical JSON, depth 20, 2048 values and
+1024 bytes per string; the text decoder additionally bounds its original input.
+Duplicate keys, invalid encoding, unknown fields and excess nesting are refused.
+Use compact JSON in text editors; a visual review and actual effect grant remain
+separate actions. Generic request plan_digest/idempotency fields remain reserved
+for their owning broker contract and do not substitute for this grant.
+
+A failing-read-mostly preparation permits only zero retries. Repeated execution
+observes its original attempt, with no implicit replacement. A completed transfer
+reply must retain the exact reviewed definition/binding and complete, certain
+coverage counters.
+
+The shared adapter returns the standard response envelope and existing exit
+classes: preparation/completed execution 0, invalid parameters 2, pre-admission
+refusal 3, terminal incomplete/failed execution 4, accepted_running 5 and unknown
+admission 6. Accepted-running carries a valid operation ID and an active,
+nonquiescent observation; a pre-admission refusal has no operation identity or
+execution state. A paused
+execution has not met the requested complete-image postcondition and returns
+failed/incomplete with its independent paused/quiescent outcome retained; it is
+not represented as completed copying. An inspection/cancellation request is a
+completed observation independently of the saved operation outcome. Explicit
+substitution completion retains its quality class and map; it does not certify
+the original source or restore readiness.
+
+Keep a returned identity and state-directory/digest recovery coordinates when
+post-invocation reply validation fails. An exception after an execution port is
+invoked produces unknown, never a fresh refusal/retry opportunity. Pin executable
+parents separately through launch when state and code directories do not share
+ancestors. The first adapter is tested through a private native probe before
+linking it into the product; static syntax definition alone grants no availability,
+stable API admission or complete frontend integration.

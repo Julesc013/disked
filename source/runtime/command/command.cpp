@@ -72,6 +72,78 @@ std::string validate_scalar(const Value& shape,const Value& value) {
     } else return "schema_unavailable";
     return "";
 }
+// Bounded compiled parameter-schema subset. Domain admission validates plan
+// semantics again before invoking an effect port; this is not a general schema
+// engine or a way to accept unknown mutation fields.
+std::string validate_shape(const Registry& registry,const Value& shape,const Value& value,std::size_t depth=0,bool help=false) {
+    if(depth>32)return "schema_unavailable";
+    if(shape.kind==Value::Kind::boolean)return shape.boolean?"":"invalid_parameter";
+    if(shape.kind!=Value::Kind::object)return "schema_unavailable";
+    bool referenced=false;
+    if(const auto ref=shape.find("$ref")) {
+        if(ref->kind!=Value::Kind::string)return "schema_unavailable";
+        const auto target=registry.parameter_schemas.find(ref->text);if(!target)return "schema_unavailable";
+        const auto error=validate_shape(registry,*target,value,depth+1,help);if(!error.empty())return error;referenced=true;
+    }
+    if(const auto c=shape.find("const"))if(json::dump(*c)!=json::dump(value))return "invalid_parameter";
+    if(const auto e=shape.find("enum")) {
+        bool match=false;for(const auto& c:e->items)if(json::dump(c)==json::dump(value))match=true;
+        if(!match)return "invalid_parameter";
+    }
+    const auto type=text(shape,"type");
+    const auto bound=[&](const char* key,std::size_t count,bool minimum) {
+        const auto v=shape.find(key);return !v || (minimum?count>=std::stoull(v->text):count<=std::stoull(v->text));
+    };
+    if(type=="object" || shape.find("properties") || shape.find("required")) {
+        if(value.kind!=Value::Kind::object)return "invalid_parameter";
+        if(!bound("minProperties",value.fields.size(),true) || !bound("maxProperties",value.fields.size(),false))return "invalid_parameter";
+        const auto properties=shape.find("properties");
+        for(const auto& pair:value.fields) {
+            const auto child=properties?properties->find(pair.first):nullptr;
+            if(child) {const auto error=validate_shape(registry,*child,pair.second,depth+1);if(!error.empty())return error;}
+            else if(shape.find("additionalProperties") && !boolean(shape,"additionalProperties"))return "invalid_parameter";
+        }
+        if(!help)for(const auto& k:array(shape,"required"))if(!value.find(k.text))return "missing_parameter";
+    } else if(type=="array") {
+        if(value.kind!=Value::Kind::array || !shape.find("items"))return "invalid_parameter";
+        if(!bound("minItems",value.items.size(),true) || !bound("maxItems",value.items.size(),false))return "invalid_parameter";
+        std::set<std::string> unique;
+        for(const auto& child:value.items) {
+            if(boolean(shape,"uniqueItems") && !unique.insert(json::dump(child)).second)return "invalid_parameter";
+            const auto error=validate_shape(registry,*shape.find("items"),child,depth+1);if(!error.empty())return error;
+        }
+    } else if(!type.empty()) {
+        const auto error=validate_scalar(shape,value);if(!error.empty())return error;
+        if(type=="string") {
+            std::size_t characters=0;for(const unsigned char c:value.text)if((c&0xc0)!=0x80)++characters;
+            if(!bound("minLength",characters,true) || !bound("maxLength",characters,false))return "invalid_parameter";
+            const auto scalar=text(shape,"x-disked-scalar");
+            const std::size_t hex=scalar=="file-generation-id"?32:scalar=="source-revision"?40:0;
+            if(hex && (value.text.size()!=hex || value.text.find_first_not_of("0123456789abcdef")!=std::string::npos))return "invalid_parameter";
+            if(scalar=="sha256-digest" && (value.text.size()!=71 || value.text.compare(0,7,"sha256:") || value.text.find_first_not_of("0123456789abcdef",7)!=std::string::npos))return "invalid_parameter";
+        }
+    } else if(!referenced && !shape.find("const") && !shape.find("enum") && !shape.find("allOf") && !shape.find("if") && !shape.find("required"))return "schema_unavailable";
+    if(const auto bytes=shape.find("x-disked-byte-budget")) {
+        json::Limits limits;limits.bytes=static_cast<std::size_t>(std::stoull(bytes->text));
+        limits.depth=20;limits.values=2048;limits.string_bytes=1024;
+        try {json::dump(value,limits);}catch(const json::Error&) {return "invalid_parameter";}
+    }
+    for(const auto& child:array(shape,"allOf")) {const auto error=validate_shape(registry,child,value,depth+1,help);if(!error.empty())return error;}
+    if(const auto condition=shape.find("if")) {
+        const auto error=validate_shape(registry,*condition,value,depth+1);
+        if(error=="schema_unavailable")return error;
+        if(const auto branch=shape.find(error.empty()?"then":"else"))return validate_shape(registry,*branch,value,depth+1,help);
+    }
+    return "";
+}
+std::string decode_parameter(const Value& shape,const std::string& text_value,Value& value) {
+    if(text(shape,"type")=="object") {
+        json::Limits limits;limits.bytes=16384;limits.string_bytes=1024;limits.values=2048;limits.depth=20;
+        try {value=json::parse(text_value,limits);}catch(const json::Error&) {return "invalid_parameter";}
+        if(value.kind!=Value::Kind::object)return "invalid_parameter";
+    } else value=Value::string(text_value);
+    return "";
+}
 }
 const Value* Registry::command(const std::string& id) const {
     for(const auto& c:commands.items)if(text(c,"id")==id)return &c;return nullptr;
@@ -115,10 +187,10 @@ std::string validate_parameters(const Registry& registry,const Value& command,co
     for(const auto& pair:parameters.fields) {
         const auto* shape=schema->find("properties")->find(pair.first);
         if(!shape)return "unexpected_parameter";
-        const auto error=validate_scalar(*shape,pair.second);if(!error.empty())return error;
+        const auto error=validate_shape(registry,*shape,pair.second);if(!error.empty())return error;
     }
     if(!help)for(const auto& key:array(*schema,"required"))if(!parameters.find(key.text))return "missing_parameter";
-    return "";
+    return validate_shape(registry,*schema,parameters,0,help);
 }
 std::string form_parameters(const Registry& registry,const Value& command,const Value& editor,Value& typed) {
     const auto* schema=registry.parameter_schemas.find(text(command,"parameter_schema"));
@@ -131,7 +203,9 @@ std::string form_parameters(const Registry& registry,const Value& command,const 
         if(text(*shape,"type")=="boolean") {
             if(pair.second.text!="true" && pair.second.text!="false")return "invalid_parameter";
             next.put(pair.first,Value::boolean_value(pair.second.text=="true"));
-        } else if(text(*shape,"type")=="string")next.put(pair.first,pair.second);
+        } else if(text(*shape,"type")=="string" || text(*shape,"type")=="object") {
+            Value value;const auto error=decode_parameter(*shape,pair.second.text,value);if(!error.empty())return error;next.put(pair.first,value);
+        }
         else return "form_unavailable";
     }
     const auto error=validate_parameters(registry,command,next);if(error.empty())typed=std::move(next);return error;
@@ -229,6 +303,10 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
         if(!binding) {result.error("option_not_applicable",input.token);continue;}
         const auto name=text(*binding,"parameter"), spelling=text(*binding,"option");
         Value value=binding->find("value_arity")->text=="0" ? Value::boolean_value(true) : Value::string(input.value);
+        const auto schema=registry.parameter_schemas.find(text(*selected,"parameter_schema"));
+        const auto properties=schema?schema->find("properties"):nullptr;
+        const auto shape=properties?properties->find(name):nullptr;
+        if(shape && text(*shape,"type")=="object" && !decode_parameter(*shape,input.value,value).empty()) {result.error("invalid_option_value",input.token);continue;}
         if(result.parameters.find(name) && !boolean(*binding,"repeatable")) {result.error("duplicate_option",input.token);continue;}
         if(boolean(*binding,"repeatable")) {
             if(!result.parameters.find(name))result.parameters.put(name,Value::array());
@@ -254,7 +332,7 @@ ParseResult parse_invocation(const Registry& registry,const std::vector<std::str
             const auto* schema=registry.parameter_schemas.find(text(*selected,"parameter_schema"));
             if(schema && schema->find("properties"))for(const auto& pair:result.parameters.fields) {
                 const auto* shape=schema->find("properties")->find(pair.first);
-                if(shape && !validate_scalar(*shape,pair.second).empty()) {token=parameter_tokens[pair.first];break;}
+                if(shape && !validate_shape(registry,*shape,pair.second).empty()) {token=parameter_tokens[pair.first];break;}
             }
             result.error(validation=="invalid_parameter"?"invalid_option_value":validation,token);
         }

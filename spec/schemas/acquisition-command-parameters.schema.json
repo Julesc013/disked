@@ -1,0 +1,190 @@
+{
+  "type": "object",
+  "properties": {
+    "phase": {
+      "type": "string",
+      "enum": [
+        "prepare",
+        "execute"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "destination": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "map": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "x-disked-scalar": "local-state-directory"
+    },
+    "resume": {
+      "type": "boolean"
+    },
+    "chunk_bytes": {
+      "type": "string",
+      "enum": [
+        "4096",
+        "65536",
+        "1048576"
+      ]
+    },
+    "retry_limit": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "read_policy": {
+      "type": "string",
+      "enum": [
+        "ordinary",
+        "failing-read-mostly"
+      ]
+    },
+    "substitution": {
+      "type": "string",
+      "enum": [
+        "stop",
+        "zero-fill"
+      ]
+    },
+    "definition": {
+      "type": "object",
+      "$ref": "urn:disked:schema:acquisition-worker-definition:1",
+      "x-disked-byte-budget": 16384
+    },
+    "definition_digest": {
+      "type": "string",
+      "minLength": 71,
+      "maxLength": 71,
+      "x-disked-scalar": "sha256-digest",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "allow_source_read": {
+      "type": "boolean"
+    },
+    "allow_destination_write": {
+      "type": "boolean"
+    },
+    "allow_map_write": {
+      "type": "boolean"
+    },
+    "allow_host_effects": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "phase"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "prepare"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source",
+          "destination",
+          "map",
+          "state_directory"
+        ],
+        "properties": {
+          "definition": false,
+          "definition_digest": false,
+          "allow_source_read": false,
+          "allow_destination_write": false,
+          "allow_map_write": false,
+          "allow_host_effects": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "execute"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "definition",
+          "definition_digest",
+          "allow_source_read",
+          "allow_destination_write",
+          "allow_map_write",
+          "allow_host_effects"
+        ],
+        "properties": {
+          "source": false,
+          "destination": false,
+          "map": false,
+          "state_directory": false,
+          "resume": false,
+          "chunk_bytes": false,
+          "retry_limit": false,
+          "read_policy": false,
+          "substitution": false,
+          "allow_source_read": {
+            "const": true
+          },
+          "allow_destination_write": {
+            "const": true
+          },
+          "allow_map_write": {
+            "const": true
+          },
+          "allow_host_effects": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "prepare"
+          },
+          "read_policy": {
+            "const": "failing-read-mostly"
+          }
+        },
+        "required": [
+          "phase",
+          "read_policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "retry_limit": {
+            "const": "0"
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-command-parameters:1",
+  "title": "Provisional prepare/execute acquisition parameters with separate exact-definition effects"
+}

@@ -296,7 +296,9 @@
         "spec/schemas/command-image-path-parameters.schema.json",
         "spec/schemas/command.schema.json",
         "spec/schemas/request.schema.json",
-        "spec/schemas/response.schema.json"
+        "spec/schemas/response.schema.json",
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "spec/schemas/acquisition-worker-definition.schema.json"
       ],
       "spec_ids": [
         "DE-021"
@@ -992,6 +994,8 @@
         "source/providers/image/file_acquisition.h",
         "source/providers/image/file_capture.cpp",
         "source/providers/image/file_capture.h",
+        "source/runtime/acquisition/commands.cpp",
+        "source/runtime/acquisition/commands.h",
         "source/runtime/acquisition/pipeline.cpp",
         "source/runtime/acquisition/pipeline.h",
         "source/runtime/capture/capture_port.h",
@@ -1006,9 +1010,11 @@
         "tests/frontend/test_image_commands.py",
         "tests/frontend/test_image_file_capture.py",
         "tests/frontend/test_image_observation.py",
+        "tests/images/acquisition_command_probe.cpp",
         "tests/images/acquisition_probe.cpp",
         "tests/images/acquisition_worker_probe.cpp",
         "tests/images/file_acquisition_probe.cpp",
+        "tests/images/test_acquisition_commands.py",
         "tests/images/test_acquisition_pipeline.py",
         "tests/images/test_acquisition_worker.py",
         "tests/images/test_file_acquisition.py",
@@ -1232,7 +1238,10 @@
       "path": "tools/build-bootstrap.py",
       "kind": "generator",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "spec/schemas/acquisition-worker-definition.schema.json"
+      ],
       "spec_ids": [
         "DE-021",
         "DE-022",
@@ -3534,6 +3543,89 @@
         "DE-103",
         "DE-036",
         "DE-015"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-command-parameters.schema.json",
+      "path": "spec/schemas/acquisition-command-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-worker-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-worker-definition.schema.json",
+      "path": "spec/schemas/acquisition-worker-definition.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-plan-prototype.schema.json"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/commands.h",
+      "path": "source/runtime/acquisition/commands.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/protocol.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/acquisition/commands.cpp",
+      "path": "source/runtime/acquisition/commands.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/commands.h",
+        "source/runtime/acquisition/pipeline.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/images/acquisition_command_probe.cpp",
+      "path": "tests/images/acquisition_command_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/commands.h",
+        "source/platform/windows/acquisition_worker.h",
+        "tools/build-bootstrap.py"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/images/test_acquisition_commands.py",
+      "path": "tests/images/test_acquisition_commands.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/acquisition_command_probe.cpp",
+        "tests/images/test_acquisition_worker.py"
+      ],
+      "spec_ids": [
+        "DE-103",
+        "DE-022"
       ]
     }
   ]

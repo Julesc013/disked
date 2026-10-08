@@ -57,7 +57,8 @@ void no_store_alias(const Directory& directory,const FileAcquisitionRequest& r) 
 void definition_valid(const V& d) {
     keys(d,{"schema","request","plan","store","host_id","image_digest","source_revision","input_digest","target_profile"});
     if(text(d,"schema")!="org.disked.acquisition-worker-definition/1" || text(d,"target_profile")!="windows.nt10.x64.win32")reject("acquisition_worker_version");
-    request_from(field(d,"request"));acquisition::prepare(field(d,"plan"));
+    if(!request_from(field(d,"request")).explicit_options)reject("acquisition_definition_options");
+    acquisition::prepare(field(d,"plan"));
     keys(field(d,"store"),{"path","generation","access","children","failure_domain"});
     identifier(text(d,"host_id"),"",64);identifier(text(d,"image_digest"),"",64);identifier(text(d,"source_revision"),"",40);identifier(text(d,"input_digest"),"sha256:",64);
     json::dump(d,row_limits());
@@ -176,7 +177,12 @@ V start_acquisition_worker(const V& definition,const V& grant) {
     std::string id;
     try {
         definition_valid(definition);grant_valid(grant,definition);
-        Directory directory(text(field(definition,"store"),"path"));Security security;Image image;applicable(definition,directory,security,image);
+        Directory directory(text(field(definition,"store"),"path"));Security security;Image image;
+        // The state directory need not share ancestors with the executable.
+        // Pin its code parents separately through launch, so changing an
+        // executable directory cannot redirect CreateProcess's reviewed path.
+        Directory code_parent(narrow(image.path.substr(0,image.path.find_last_of(L'\\'))));
+        applicable(definition,directory,security,image);
         if(GetFileAttributesW(directory.child(request_name).c_str())!=INVALID_FILE_ATTRIBUTES) {
             const auto header=header_read(directory);id=text(header,"operation_id");
             if(text(header,"definition_digest")!=digest(definition) || json::dump(field(header,"grant"))!=json::dump(grant))reject("acquisition_existing_definition_conflict");

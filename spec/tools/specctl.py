@@ -24,6 +24,7 @@ MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
+SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters')})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -192,7 +193,22 @@ def fake_graph_bytes(value):
     raise SpecError('Unexpected value type in private fake graph encoding')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'extent':
+    if kind == 'acquisition-worker-definition':
+        for field in ('volume_id','created'):
+            bounded_u64(value['store']['generation'][field],'acquisition directory '+field)
+        for field in ('chunk_bytes','retry_limit','read_policy','substitution'):
+            if value['request'][field]!=value['plan'][field]:raise SpecError('Acquisition request/plan options disagree')
+        if len(canonical(value))>16384:raise SpecError('Acquisition definition exceeds canonical byte bound')
+        def strings(node):
+            if isinstance(node,str) and len(node.encode('utf-8'))>1024:raise SpecError('Acquisition definition string exceeds byte bound')
+            if isinstance(node,dict):
+                for key,child in node.items():strings(key);strings(child)
+            elif isinstance(node,list):
+                for child in node:strings(child)
+        strings(value)
+    elif kind == 'acquisition-command-parameters':
+        if value['phase']=='execute':semantic_validate('acquisition-worker-definition',value['definition'])
+    elif kind == 'extent':
         start = bounded_u64(value['start_lba'],'start_lba')
         length = bounded_u64(value['length_lba'],'length_lba')
         if start < 0 or length <= 0 or start > U64_MAX or length > U64_MAX or start + length > U64_MAX:

@@ -16,6 +16,47 @@ class ProtocolCorrections(unittest.TestCase):
     @classmethod
     def setUpClass(cls):cls.bundle=sc.Bundle(ROOT)
 
+    def acquisition_definition(self):
+        resources={}
+        for role in ('source','destination','map','host','executable','provider'):
+            resources[role]=dict(identity=role,epoch='generation',access={'source':'read','destination':'create-write','map':'create-append','executable':'read'}.get(role,'observe'),
+                start='0',end='1' if role in ('source','destination') else '0',aliases=[role],failure_domain='fixture',
+                verification={'destination':'readback-sha256','map':'ordered-hash-chain'}.get(role,'identity-epoch'))
+        plan=dict(schema='org.disked.acquisition-plan-prototype/1',capture_epoch='fixture',resources=resources,
+            bytes='1',chunk_bytes='65536',retry_limit='0',read_policy='ordinary',substitution='stop')
+        return dict(schema='org.disked.acquisition-worker-definition/1',request=dict(source='C:\\fixture\\source.img',destination='C:\\fixture\\copy.img',map='C:\\fixture\\copy.map',
+            resume=False,explicit_options=True,chunk_bytes='65536',retry_limit='0',read_policy='ordinary',substitution='stop'),plan=plan,
+            store=dict(path='C:\\fixture\\state',generation=dict(volume_id='1',file_id='0'*32,created='1'),access='create-owned-metadata',
+                children=['acquisition.request','acquisition.records','acquisition.cancel','acquisition.admission'],failure_domain='fixture'),
+            host_id='0'*64,image_digest='0'*64,source_revision='0'*40,input_digest='sha256:'+'0'*64,target_profile='windows.nt10.x64.win32')
+
+    def test_acquisition_phases_forbid_mixed_effects_and_require_actual_grants(self):
+        uri=sc.SCHEMA_PREFIX+'acquisition-command-parameters:1'
+        prepare=dict(phase='prepare',source='fixture',destination='copy',map='map',state_directory='C:\\fixture\\state')
+        execute=dict(phase='execute',definition=self.acquisition_definition(),definition_digest='sha256:'+'0'*64,
+            allow_source_read=True,allow_destination_write=True,allow_map_write=True,allow_host_effects=True)
+        self.bundle.validate(uri,prepare);self.bundle.validate(uri,execute)
+        for flag in ('allow_source_read','allow_destination_write','allow_map_write','allow_host_effects'):
+            for v in [False,'true',None]:
+                with self.subTest(flag=flag,value=v),self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(execute,**{flag:v}))
+            with self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(prepare,**{flag:True}))
+        for key in ('source','destination','map','state_directory','resume','chunk_bytes','retry_limit','read_policy','substitution'):
+            with self.subTest(mixed=key),self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(execute,**{key:prepare.get(key,True)}))
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,dict(prepare,read_policy='failing-read-mostly',retry_limit='1'))
+
+    def test_acquisition_definition_bounded_generation_and_request_plan_agreement(self):
+        uri=sc.SCHEMA_PREFIX+'acquisition-worker-definition:1';value=self.acquisition_definition()
+        self.bundle.validate(uri,value)
+        for field in ('volume_id','created'):
+            edge=copy.deepcopy(value);edge['store']['generation'][field]=str(sc.U64_MAX);self.bundle.validate(uri,edge)
+            edge['store']['generation'][field]=str(sc.U64_MAX+1)
+            with self.subTest(field=field),self.assertRaises(sc.SpecError):self.bundle.validate(uri,edge)
+        for field,other in [('chunk_bytes','4096'),('retry_limit','1'),('read_policy','failing-read-mostly'),('substitution','zero-fill')]:
+            bad=copy.deepcopy(value);bad['request'][field]=other
+            with self.subTest(field=field),self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+        bad=copy.deepcopy(value);bad['request']['source']='\u00e9'*600
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,bad)
+
     def test_semantics_dispatch_from_schema_and_cannot_be_overridden(self):
         event=sc.read_json(ROOT/'examples/event-progress.json')
         for seq in ['0',str(sc.U64_MAX)]:

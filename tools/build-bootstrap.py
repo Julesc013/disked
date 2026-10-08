@@ -103,13 +103,25 @@ def generate(args):
     for key, value in identity.items():
         header.append("static const char* const " + key + " = " + cpp(value) + ";")
     schema_ids = {c['parameter_schema'] for c in commands if c['parameter_schema']}
-    schemas = {s['$id']: s for p in sorted((root/'spec/schemas').glob('*.json'))
-               for s in [read(p)] if s.get('$id') in schema_ids}
-    if set(schemas) != schema_ids:
+    all_schemas = {s['$id']: (s, p) for p in sorted((root/'spec/schemas').glob('*.json'))
+                   for s in [read(p)] if '$id' in s}
+    if not schema_ids <= all_schemas.keys():
         raise ValueError("Missing parameter schema")
-    for path in (root/'spec/schemas').glob('*.json'):
-        if read(path).get('$id') in schema_ids and path.relative_to(root).as_posix() not in inputs:
+    def references(node):
+        if isinstance(node, dict):
+            if '$ref' in node:yield node['$ref']
+            for value in node.values():yield from references(value)
+        elif isinstance(node, list):
+            for value in node:yield from references(value)
+    pending=list(sorted(schema_ids));schemas={}
+    while pending:
+        name=pending.pop()
+        if name in schemas:continue
+        if name not in all_schemas:raise ValueError('Unbound parameter schema reference: '+name)
+        value,path=all_schemas[name]
+        if path.relative_to(root).as_posix() not in inputs:
             raise ValueError("Parameter schema missing from build input closure: "+str(path))
+        schemas[name]=value;pending.extend(references(value))
     for name, value in [('command_catalog_json', commands), ('syntax_json', syntax), ('parameter_schemas_json', schemas)]:
         text = json.dumps(value, ensure_ascii=True, separators=(',', ':'))
         header.append('static const char* const '+name+' =')

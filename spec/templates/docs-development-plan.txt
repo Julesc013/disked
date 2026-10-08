@@ -174,3 +174,10 @@ remains the next work; source-bound evidence belongs to
 `.aide/evidence/2026-10-09-acquisition-worker/`. The provisional
 map encoding does not settle the production-journal decision. See
 [DE-103](../spec/operations/acquire-image.md) for its exact profile and limits.
+
+The next W033 component defines provisional prepare/execute command parameters,
+a strictly typed full worker definition, explicit effect grants and standard
+response/exit projections. A private probe exercises the common CLI/stdio/form
+decoders over the actual generated-file worker and controlled callback ports.
+The public command remains planned/unavailable; visible GUI/TUI/shell review and
+real operation watch/lifecycle integration still precede product admission.

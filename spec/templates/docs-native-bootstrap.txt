@@ -350,3 +350,20 @@ grant. Prototype record v2 retains original capture evidence across same-code
 resume. Keep v1's original binary/evidence; cross-generation resume is not admitted.
 Local component evidence is retained under
 [the W033 worker checkpoint](../.aide/evidence/2026-10-09-acquisition-worker/README.md).
+
+A second private probe now carries the canonical `image.acquire` prepare/execute
+parameters through the common CLI parser, stdio request dispatcher and frontend
+form decoder. Preparation reads metadata; execution separately requires the
+exact complete definition digest and four explicit effect grants. Structured
+JSON remains bounded data. Run its independent contract/file checks with:
+
+```powershell
+python tests/images/test_acquisition_commands.py --probe build/windows-bootstrap/Release/acquisition_command_probe.exe --root .
+```
+
+The probe's controlled callbacks verify pre-effect refusal and conservative
+post-invocation uncertainty. Its ordinary-file tests check completed bytes/maps,
+checkpoint cancellation, new-attempt resume, late admission and a separate
+code/state-directory layout. Shared parser/form decoding is not actual GUI/TUI/
+shell integration; `disked.exe` still does not admit acquisition. The command
+parameter schema is provisional and does not settle a stable public API.
