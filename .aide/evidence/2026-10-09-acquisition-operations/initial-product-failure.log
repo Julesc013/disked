@@ -1,0 +1,15 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-zt1pbr_4
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_operations.py", line 197, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_operations.py", line 161, in main
+    public('wrong-namespace-no-fallback','operation.inspect',dict(op,operation_id='fake-op:'+'a'*32),exits=(6,))
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_operations.py", line 46, in public
+    rows=run(name,[disked,'protocol','serve','--format','ndjson' if ndjson else 'json'],
+        request(command,params,features),exits)
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_operations.py", line 34, in run
+    assert p.returncode in exits and not p.stderr,(name,p.returncode,p.stdout,p.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('wrong-namespace-no-fallback', 2, b'{"diagnostics":[{"code":"operation_request_unavailable","message_key":"disked.operation_request_unavailable","parameters":{},"platform_code":"2","remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"acquisition-observer","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')
