@@ -49,6 +49,28 @@ The upstream recipe describes requirements and remains fixture-qualified. Its
 minimum reader is an authored requirement; `maximum_tested_reader` is explicitly
 `not_run`, which the pinned schema permits. This does not establish a real
 consumer's semantic acceptance or measured installed-state compatibility.
-Live Setup SDK/ABI use, all lifecycle modes, embedded H/D/S, installation,
+Installed Setup SDK/CoreShared use, all lifecycle modes, embedded H/D/S, installation,
 signatures, release licensing and other platforms need their own evidence.
 No supplied upstream script is executed.
+
+The separate [native source probe](../../../tests/setup/native/CMakeLists.txt)
+compiles original CoreStatic bytes selected by
+[`native-source-lock.json`](../../../external/universal-setup/native-source-lock.json)
+under a DiskEd-owned build. It is private fixture tooling, not linked into
+`disked.exe` or an installed-SDK qualification. Export from an explicitly
+selected local repository into a **new** directory:
+
+```text
+python release/bindings/universal-setup/export_native.py --repository UPSTREAM_REPOSITORY --output NEW_SOURCE_DIRECTORY
+cmake -S tests/setup/native -B NEW_BUILD_DIRECTORY -G "Visual Studio 17 2022" -A x64,version=10.0.19041.0 -T v143,version=14.44.35207,host=x64 -DUSK_SOURCE_DIR=ABSOLUTE_SOURCE_DIRECTORY -DCMAKE_SYSTEM_VERSION=10.0.19041.0
+cmake --build NEW_BUILD_DIRECTORY --config Release
+python tests/setup/run_source_consumer.py --probe NEW_BUILD_DIRECTORY/Release/setup_source_probe.exe --package REVIEWED_PACKAGE --inventory ORIGINAL_INDEPENDENT_INVENTORY.json --output NEW_CAMPAIGN_DIRECTORY
+```
+
+The probe whitelists six read-only commands, uses null lifecycle authority and
+copies supplier response bytes before invalidation. Its zero exit means an
+observation was captured; check the retained supplier return, response status
+and refusal separately. Both generic package commands refuse because this pin
+requires FacMan metadata. The archive inspector checks structure/source hash;
+it does not replace decoded-byte completeness verification. The unconfigured
+plan refusal is a gate observation, not a successful lifecycle plan.

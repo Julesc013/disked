@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-10T00:00:00Z'
-  scope: DE-W060 fixture package progress; proposed, no live Setup or owner acceptance claim
+  scope: DE-W060 read-only native source consumer progress; proposed, no installed SDK, live Setup or owner acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -38,6 +38,15 @@ sources:
 ---
 
 # Implementation sequence and first usable release
+
+DE-W060's private native source consumer complements package fixtures. The
+exact CoreStatic ABI is tested on owned Windows x64 fixtures under a separate
+DiskEd build; no upstream scripts run and no Setup runtime enters the shipping
+composition. Structural archive metadata remains separate from independent
+content verification. The pin's FacMan-specific verifier refuses generic
+DiskEd packages, so callable generic verification and all lifecycle modes stay
+unavailable. Installed SDK, CoreShared, other targets and owner acceptance
+remain separate qualification gates; this slice does not close full DE-W060.
 
 ## Gate sequence
 

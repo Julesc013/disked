@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-061
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -33,10 +33,12 @@ sources:
   resource: ../references/sources.json#setup-fixture-source-2026-10-10
 - id: launcher-background-source-2026-10-10
   resource: ../references/sources.json#launcher-background-source-2026-10-10
+- id: setup-source-consumer-2026-10-10
+  resource: ../references/sources.json#setup-source-consumer-2026-10-10
 updated:
   by: codex
   at: '2026-10-10T00:00:00Z'
-  scope: DE-W060 exact local source mapping and owned payload fixture contract; owner review pending
+  scope: DE-W060 read-only native source consumer and explicit generic verifier gap; owner review pending
 ---
 
 # Universal Setup boundary and installation modes
@@ -112,6 +114,42 @@ must preserve exact bytes. This stricter fixture rule does not redefine
 upstream empty-target policy. No installed-state truth, registration, upstream
 script execution, real installation, elevation, signature or publication is
 created. Quiescent fixture path checks are not hostile-filesystem isolation.
+
+## Native read-only source consumer
+
+The [source-consumer profile](../catalog/setup-source-consumer-prototype.json)
+selects ABI 1.0, Windows x64/MSVC 19.44, static release CRT and a C11 consumer
+of exact CoreStatic source. `external/universal-setup/native-source-lock.json`
+binds 84 original source/header/schema/build/license inputs. A DiskEd-owned
+exporter verifies all blobs before creating a new disposable root; a separate
+DiskEd-owned CMake project verifies the bytes before compiling. Original core
+and Zlib code is unmodified; upstream scripts and CMake are not executed.
+Original MIT/Zlib notices accompany the export. This source consumer is not
+an installed SDK, CoreShared or shipping DiskEd integration qualification.
+
+Only policy/command discovery, local archive inspection, package verify/audit
+and unconfigured read-only planning are admitted to the private probe. Other
+commands refuse before context creation. Every request has finite byte/response
+budgets, dry-run set, and null state, acceptance-root and activation pointers.
+Copy borrowed response bytes before another call or context destruction.
+Retain both C return/status and the supplier's JSON outcome: a zero probe exit
+does not mean the requested supplier operation succeeded. Context allocator
+balance does not claim that all internal provider memory uses that allocator.
+
+At this pin, `package.verify` and `package.audit` require FacMan manifest and
+component formats plus Factorio binding identity. The generic DiskEd package
+fixture therefore refuses, despite conforming to product-package/recipe
+schemas. This gap blocks generic callable verification; it does not authorize
+disguised identity, copied installer lists or a private fallback lifecycle.
+`install_local.plan` without lifecycle configuration refuses
+`live_target_acceptance_required`; no valid plan or live authority is inferred.
+
+The public archive inspector reports structural entries, stable source-read
+identity and source hash. It does not prove payload CRC/decoded bytes,
+authenticity, extraction or compatibility. Keep independent original-inventory
+content verification mandatory. A content-corrupt structurally valid archive
+can pass inspection while failing that verifier. Generated source, case,
+evidence, recovery and foreign fixtures must remain byte exact after calls.
 
 ## Normative requirements
 

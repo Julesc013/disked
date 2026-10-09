@@ -41,6 +41,7 @@
 - [report-worker-prototype.json](report-worker-prototype.json)
 - [requirements.json](requirements.json)
 - [setup-fixture-prototype.json](setup-fixture-prototype.json)
+- [setup-source-consumer-prototype.json](setup-source-consumer-prototype.json)
 - [targets.json](targets.json)
 - [tests.json](tests.json)
 - [validation-cases.json](validation-cases.json)

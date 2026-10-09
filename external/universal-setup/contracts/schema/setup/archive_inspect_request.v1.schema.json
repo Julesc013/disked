@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://julesc013.github.io/universal-setup/contracts/schema/setup/archive_inspect_request.v1.schema.json",
+  "title": "Bounded Local Archive Inspection Request",
+  "type": "object",
+  "required": ["schema", "archive_path", "archive_format", "budgets"],
+  "properties": {
+    "schema": { "const": "usk.archive_inspect_request.v1" },
+    "archive_path": {
+      "type": "string",
+      "description": "Absolute, lexically normalized local filesystem path in strict UTF-8. UNC and device namespaces are forbidden, and the UTF-8 identity must round-trip exactly through the host-native filesystem representation. The 32768 input budget does not grant native path support: Windows additionally admits at most 259 UTF-16 code units per file path, 247 per directory/ancestor, and 255 per component.",
+      "minLength": 1,
+      "maxLength": 32768,
+      "x-usk-max-utf8-bytes": 32768,
+      "x-usk-path-encoding": "utf-8",
+      "x-usk-path-kind": "absolute-local",
+      "x-usk-path-lexical-form": "normalized",
+      "x-usk-unc-policy": "forbidden",
+      "x-usk-device-namespace-policy": "forbidden",
+      "x-usk-native-roundtrip": "exact"
+    },
+    "archive_format": { "const": "zip" },
+    "budgets": {
+      "type": "object",
+      "required": ["max_entries", "max_uncompressed_bytes", "max_entry_bytes", "max_depth", "max_ratio", "max_elapsed_ms"],
+      "properties": {
+        "max_entries": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "max_uncompressed_bytes": { "type": "integer", "minimum": 1, "maximum": 1099511627776 },
+        "max_entry_bytes": { "type": "integer", "minimum": 1, "maximum": 274877906944 },
+        "max_depth": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "max_ratio": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "max_elapsed_ms": { "type": "integer", "minimum": 1, "maximum": 600000 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

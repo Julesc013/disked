@@ -26,6 +26,13 @@ tests. It does not qualify a live Setup consumer or installation mode. The
 existing local programme grant covers fixture work; formal owner acceptance,
 actual installation and production storage privileges remain separate.
 
+The next DE-W060 slice builds a private native C ABI source consumer from an
+84-input exact CoreStatic closure under DiskEd-owned CMake. No upstream scripts
+or installed SDK are used. Read-only fixture evidence distinguishes structural
+ZIP inspection from content verification, preserves the FacMan-specific generic
+package refusal, and leaves every live lifecycle/owner gate open. The shipped
+DiskEd executable and its prior native qualification are unchanged.
+
 The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. DE-W010 native build/launch results are retained separately under `.aide/evidence/2026-10-06-native-bootstrap/`; they do not qualify the full product or replace historical tooling results.
 
 ## Decisions that remain open

@@ -1,0 +1,39 @@
+{
+  "schema": "org.disked.setup-source-consumer-profile/1",
+  "status": "proposed-source-candidate",
+  "work_id": "DE-W060",
+  "source_lock": "external/universal-setup/native-source-lock.json",
+  "scope": "Native C consumer of the exact unmodified upstream CoreStatic source closure under a DiskEd-owned build. No upstream scripts, installed SDK package, live lifecycle or shipped DiskEd integration.",
+  "target": "windows.nt10.x64",
+  "compiler": "MSVC 19.44.35228.0",
+  "toolset": "14.44.35207",
+  "sdk": "10.0.19041.0",
+  "configuration": "Release",
+  "crt": "static-release-MT",
+  "provider_private_language": "C++17",
+  "consumer_language": "C11",
+  "abi": "usk C ABI 1.0",
+  "expected_x64_sizes": {"pointer":8,"usk_size":8,"string_view":16,"config":40,"allocator":32,"request":48,"error":48,"response":80,"legacy_config_prefix":16,"m1_config_prefix":24},
+  "upstream_commands": ["policy.inspect", "command_graph.inspect_v2", "install_local.inspect", "package.verify", "package.audit", "install_local.plan"],
+  "consumer_restrictions": [
+    "Reject every other command before creating a provider context; no arbitrary dispatch or apply path.",
+    "Always dry_run=1 and null setup-state, acceptance-root and activation; no lifecycle authority configured.",
+    "Read bounded request bytes from stdin; copy borrowed response bytes before the next provider call and context destruction.",
+    "A zero probe exit records an observation, not a successful supplier operation. Preserve C return, response status and JSON refusal/outcome separately."
+  ],
+  "limits": {"request_bytes":8192,"response_bytes":1048576,"archive_entries":64,"archive_uncompressed_bytes":16777216,"archive_entry_bytes":16777216,"archive_depth":8,"archive_ratio":100,"archive_elapsed_ms":10000},
+  "required_checks": [
+    "Four public C functions compile/link and actual ABI version, x64 layouts and size guards agree.",
+    "Caller-owned copies remain exact across next-command invalidation and context destruction; custom context allocator balances, without claiming all provider allocations use it.",
+    "Actual command graph and policy report available/read-only/planned state without granting lifecycle authority.",
+    "The exact qualified DiskEd portable ZIP is inspected read-only; archive size/hash, entry set and totals agree with the independent inventory.",
+    "A deflated fixture is inspected; this public inspector establishes structural metadata/hash, not payload CRC, decoded content or extraction correctness.",
+    "Malformed and over-budget archive/request shapes refuse without writes; raw supplier behavior is retained.",
+    "The generic DiskEd package/recipe fixture is refused by package.verify/audit because the pin requires FacMan metadata. No disguised FacMan identity or private fallback format.",
+    "Unconfigured read-only lifecycle planning refuses live_target_acceptance_required, leaving generated source/case/evidence/recovery fixtures exact.",
+    "Independent archive completeness verification remains required; an empty or content-corrupt archive inspection is not a package qualification.",
+    "Retain exact source blobs, build commands/compiler flags, native artifact/import observations and actual executions."
+  ],
+  "known_source_gap": "runtime/setup/verify/usk_package_verify.cpp hardcodes facman.built_package.v1, facman.package_components.v1 and factorio_binding lock identity. Generic product-package/recipe schemas are not consumed by this verifier.",
+  "unqualified": ["Installed find_package SDK", "CoreShared", "live lifecycle", "installed-state reader", "provider admission", "other targets", "DiskEd public setup commands", "carrier/signature/publication", "owner acceptance"]
+}

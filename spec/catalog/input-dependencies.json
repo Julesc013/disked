@@ -6656,6 +6656,152 @@
       "spec_ids": [
         "DE-061"
       ]
+    },
+    {
+      "id": "spec/catalog/setup-source-consumer-prototype.json",
+      "path": "spec/catalog/setup-source-consumer-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "external/universal-setup/native-source-lock.json"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "external/universal-setup/native-source-lock.json",
+      "path": "external/universal-setup/native-source-lock.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "external/universal-setup/contracts/schema/setup/archive_inspect_request.v1.schema.json",
+        "external/universal-setup/contracts/schema/setup/archive_inspection.v1.schema.json",
+        "external/universal-setup/contracts/schema/setup/package_verify_request.v1.schema.json",
+        "external/universal-setup/contracts/schema/setup/package_verify_report.v1.schema.json",
+        "external/universal-setup/LICENSE"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "release/bindings/universal-setup/export_native.py",
+      "path": "release/bindings/universal-setup/export_native.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "external/universal-setup/native-source-lock.json"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "tests/setup/native/CMakeLists.txt",
+      "path": "tests/setup/native/CMakeLists.txt",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "external/universal-setup/native-source-lock.json",
+        "tests/setup/native/source_probe.c"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "tests/setup/native/source_probe.c",
+      "path": "tests/setup/native/source_probe.c",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/setup-source-consumer-prototype.json",
+        "external/universal-setup/native-source-lock.json"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "tests/setup/run_source_consumer.py",
+      "path": "tests/setup/run_source_consumer.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/setup-source-consumer-prototype.json",
+        "tests/setup/native/CMakeLists.txt",
+        "tools/release/artifact_check.py"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "tests/setup/test_export_native.py",
+      "path": "tests/setup/test_export_native.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "release/bindings/universal-setup/export_native.py"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-setup-source-consumer/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-setup-source-consumer/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/setup/run_source_consumer.py",
+        "tests/setup/test_export_native.py",
+        "release/bindings/universal-setup/export_native.py"
+      ],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "external/universal-setup/contracts/schema/setup/archive_inspect_request.v1.schema.json",
+      "path": "external/universal-setup/contracts/schema/setup/archive_inspect_request.v1.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "external/universal-setup/contracts/schema/setup/archive_inspection.v1.schema.json",
+      "path": "external/universal-setup/contracts/schema/setup/archive_inspection.v1.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "external/universal-setup/contracts/schema/setup/package_verify_request.v1.schema.json",
+      "path": "external/universal-setup/contracts/schema/setup/package_verify_request.v1.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-061"
+      ]
+    },
+    {
+      "id": "external/universal-setup/contracts/schema/setup/package_verify_report.v1.schema.json",
+      "path": "external/universal-setup/contracts/schema/setup/package_verify_report.v1.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-061"
+      ]
     }
   ]
 }
