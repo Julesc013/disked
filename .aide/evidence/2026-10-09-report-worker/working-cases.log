@@ -1,0 +1,13 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-5crizx6d
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 201, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 187, in main
+    observed=wait(result['operation_id'],store,fault,False);h=json.loads((store/'report.request').read_bytes());raw,rows=history_check(store/'report.records',h)
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 63, in wait
+    handle=owned_process(state,str(exe))
+  File "D:\Projects\DiskEd\disked\tests\images\test_acquisition_worker.py", line 123, in owned_process
+    assert not terminate and state['phase']=='finished', C.get_last_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 31
