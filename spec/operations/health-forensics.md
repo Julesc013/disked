@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-09T04:33:40.059411+00:00'
-  scope: DE-W034 typed recorded acquisition-case source and disclosure; qualification pending
+  scope: DE-W034 joint source-case/export admission; public worker qualification pending
 ---
 
 # Health assessment and forensic workflow
@@ -179,6 +179,28 @@ completion qualifies that artifact alone. Exact case/source-resource admission,
 bounded service waits/cancellation/late results and all frontend journeys remain
 required before public `evidence.export` availability. Authenticated custody,
 current image verification and physical/platform qualification retain their gates.
+
+## Joint case and export admission
+
+The [joint prototype profile](../catalog/acquisition-case-export-prototype.json)
+binds the exact case revision, current metadata source and typed output effects
+under one immutable definition and grant. Read-only preparation creates no file.
+Execution requires separate case-read, report-write and host-effect declarations,
+then reconstructs and compares all reviewed inputs. No case-contained image path
+is followed and a matching digest authenticates no actor.
+
+Revalidate the held source before each native effect/resource step and after the
+effect finishes. Source applicability and output facts remain separate: a late
+source change can invalidate joint completion without erasing a verified created
+file or its receipt. An unavailable effect result remains uncertain. Preserve
+partial outputs; no automatic retry or deletion. These observations are not an
+atomic multi-resource transaction or privileged-writer fence.
+
+The strict provisional definition/outcome schemas describe this private contract.
+Public worker/store identity, reconnect, bounded service/cancellation/late results,
+descriptor syntax and all frontend journeys remain required before availability.
+Authenticated custody, current image verification and physical/platform gates
+remain separate. Schema/model passes do not admit the public command.
 
 ## Normative requirements
 

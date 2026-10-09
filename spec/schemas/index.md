@@ -4,6 +4,8 @@
 
 - [acceptance-receipt.schema.json](acceptance-receipt.schema.json)
 - [acceptance.schema.json](acceptance.schema.json)
+- [acquisition-case-export-definition.schema.json](acquisition-case-export-definition.schema.json)
+- [acquisition-case-export-outcome.schema.json](acquisition-case-export-outcome.schema.json)
 - [acquisition-command-parameters.schema.json](acquisition-command-parameters.schema.json)
 - [acquisition-operation-event.schema.json](acquisition-operation-event.schema.json)
 - [acquisition-outcome-prototype.schema.json](acquisition-outcome-prototype.schema.json)

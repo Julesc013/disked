@@ -25,7 +25,8 @@ SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
-    'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event')})
+    'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
+    'acquisition-case-export-definition','acquisition-case-export-outcome')})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -221,7 +222,56 @@ def acquisition_record_limits(value, byte_bound):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Acquisition record exceeds canonical byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'acquisition-worker-definition':
+    if kind == 'acquisition-case-export-definition':
+        source=value['source'];store=source['store'];effect=value['effect']
+        if source['case_revision']!=value['case']['revision'] or source['ancestors'][-1]!=store['generation']:
+            raise SpecError('Case export source revision/generation disagrees')
+        for generation in source['ancestors']+[store['generation']]:
+            for key in ('created','volume_id'):bounded_u64(generation[key],'case export '+key)
+        if store['failure_domain']!='observed-file-volume:'+store['generation']['volume_id']:
+            raise SpecError('Case export store failure domain disagrees')
+        for index,file in enumerate(source['files']):
+            metadata=file['metadata']
+            for key in ('attributes','bytes','changed','created','hardlinks','volume_id','written'):
+                bounded_u64(metadata[key],'case export file '+key)
+            attrs=int(metadata['attributes']);size=int(metadata['bytes'])
+            if attrs>0xffffffff or attrs & (0x10|0x400|0x1000|0x40000|0x400000) or not 0<size<=(1048576 if index else 32768):
+                raise SpecError('Case export file exceeds ordinary profile')
+        if not 0<bounded_u64(effect['artifact']['bytes'],'support artifact bytes')<=1048577:
+            raise SpecError('Case export artifact exceeds byte bound')
+        resources=effect['resources'];destination=resources['destination'];producer=resources['producer']
+        if destination['identity']==producer['identity'] or destination['location']==producer['location']:
+            raise SpecError('Case export resources alias')
+        if len(acquisition_record_bytes(effect))>16384:raise SpecError('Case export effect exceeds byte bound')
+        count=0
+        def visit(node,depth=0):
+            nonlocal count
+            count+=1
+            if count>4096 or depth>=24:raise SpecError('Case export definition exceeds value/depth bound')
+            if isinstance(node,str) and len(node.encode('utf-8'))>960:raise SpecError('Case export definition exceeds string byte bound')
+            if isinstance(node,dict):
+                for key,child in node.items():
+                    if len(key.encode('utf-8'))>960:raise SpecError('Case export key exceeds byte bound')
+                    visit(child,depth+1)
+            elif isinstance(node,list):
+                for child in node:visit(child,depth+1)
+        visit(value)
+        if len(acquisition_record_bytes(value))>32768:raise SpecError('Case export definition exceeds canonical byte bound')
+    elif kind == 'acquisition-case-export-outcome':
+        output=value['output'];counts=[]
+        for key in ('submitted_bytes','written_bytes','read_bytes','verified_bytes'):
+            number=output[key]
+            if number is not None and bounded_u64(number,'case export '+key)>1048577:raise SpecError('Case export counter exceeds artifact bound')
+            counts.append(number)
+        if int(output['verified_bytes'])>int(output['read_bytes']):raise SpecError('Case export verification exceeds observed bytes')
+        if output['status']=='completed':
+            if output['output_state']!='created' or output['flush']!='api_confirmed' or output['uncertain_effect'] or None in counts or len(set(counts))!=1 or counts[0]=='0':
+                raise SpecError('Case export output completion lacks verified effects')
+        if value['status']=='completed' and (value['source_state']!='matched' or output['status']!='completed'):
+            raise SpecError('Joint case export completion lacks source/output evidence')
+        if value['status']=='unknown' and (output['output_state']!='uncertain' or not output['uncertain_effect']):
+            raise SpecError('Unknown case export lacks uncertain effect')
+    elif kind == 'acquisition-worker-definition':
         for field in ('volume_id','created'):
             bounded_u64(value['store']['generation'][field],'acquisition directory '+field)
         for field in ('chunk_bytes','retry_limit','read_policy','substitution'):

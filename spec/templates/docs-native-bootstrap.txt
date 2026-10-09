@@ -615,3 +615,5 @@ actual creation; the product ignores those controls. See
 `.aide/evidence/2026-10-09-worker-store/` for source-bound results and limits.
 
 DE-W034 also implements a private typed recorded-acquisition case reader. It opens only selected worker metadata, binds exact request/history content and generations, and preserves recorded status separately from current-image verification or authenticity. Typed support projections and export remain private pending bounded public service/frontend admission; see [acquisition-cases.md](acquisition-cases.md).
+
+The provisional joint source/case/export definition and native checks are described in [acquisition-cases.md](acquisition-cases.md). Public worker/store and frontend admission remain pending.

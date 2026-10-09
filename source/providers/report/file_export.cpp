@@ -60,7 +60,7 @@ void event(const char* phase) {(void)phase;}
 }
 class FileReportExport::Impl final:public e::ExportPorts {
     Path destination_;std::unique_ptr<Path> producer_path_;Handle producer_,output_;V producer_metadata_,bindings_;std::string producer_digest_;
-    std::unique_ptr<e::ExportDefinition> definition_;bool used_=false,created_=false;std::uint32_t platform_=0;std::uint64_t written_=0;std::string phase_="prepared";std::function<bool()> stop_;
+    std::unique_ptr<e::ExportDefinition> definition_;bool used_=false,created_=false;std::uint32_t platform_=0;std::uint64_t written_=0;std::string phase_="prepared";std::function<bool()> stop_;std::function<void()> check_reads_;
     template<typename F> auto guarded(F&& f)->decltype(f()) {
         try {return f();}catch(const FileReportExportError& error) {platform_=error.platform_code;throw;}
         catch(const local_file::Error& error) {platform_=error.platform_code;throw FileReportExportError(error.what(),error.platform_code);}
@@ -83,6 +83,7 @@ public:
     }
     const e::ExportDefinition& definition() const {return *definition_;}
     V observe() override {return guarded([&] {
+        if(check_reads_)check_reads_();
         destination_.check();producer_path_->check();
         if(encode(local_file::metadata(producer_.value).value)!=encode(producer_metadata_))throw FileReportExportError("export_producer_changed");
         local_file::bind_path(producer_.value,producer_path_->value);
@@ -91,6 +92,9 @@ public:
         return V::object().put("destination",destination_.binding()).put("producer",producer_binding());
     });}
     void create() override {guarded([&] {
+        // A failed read-resource check before entering creation proves this
+        // call created nothing. Once CREATE_NEW is entered, retain uncertainty.
+        try {if(check_reads_)check_reads_();}catch(const std::exception& error) {throw e::CreationRefusal(error.what());}
         phase_="creation";ULARGE_INTEGER free{};if(!GetDiskFreeSpaceExW(destination_.parent.c_str(),&free,nullptr,nullptr)) {platform_=GetLastError();throw e::CreationRefusal("export_capacity_observation");}
 #ifdef DISKED_REPORT_EXPORT_TESTING
         if(flag(L"DISKED_REPORT_TEST_NO_CAPACITY"))throw e::CreationRefusal("export_capacity");
@@ -101,6 +105,7 @@ public:
         created_=true;event("created");local_file::ordinary(output_.value,false);local_file::bind_path(output_.value,destination_.value);
     });}
     std::uint32_t write(std::uint64_t offset,const char* bytes,std::uint32_t size) override {return guarded([&] {
+        if(check_reads_)check_reads_();
         phase_="write";if(size>65536 || offset+size>1048577)throw FileReportExportError("export_file_range");seek(output_.value,offset);DWORD got=0;auto count=size;
 #ifdef DISKED_REPORT_EXPORT_TESTING
         if(flag(L"DISKED_REPORT_TEST_WRITE_ERROR"))throw FileReportExportError("export_file_write",ERROR_DISK_FULL);
@@ -113,6 +118,7 @@ public:
         return static_cast<std::uint32_t>(got);
     });}
     void flush() override {guarded([&] {
+        if(check_reads_)check_reads_();
         phase_="flush";
 #ifdef DISKED_REPORT_EXPORT_TESTING
         if(flag(L"DISKED_REPORT_TEST_FLUSH_ERROR"))throw FileReportExportError("export_file_flush",ERROR_WRITE_FAULT);
@@ -120,6 +126,7 @@ public:
         if(!FlushFileBuffers(output_.value))throw FileReportExportError("export_file_flush",GetLastError());event("flushed");
     });}
     std::string read(std::uint64_t offset,std::uint32_t size) override {return guarded([&] {
+        if(check_reads_)check_reads_();
         phase_="readback";if(size>65536 || offset+size>1048577)throw FileReportExportError("export_file_range");seek(output_.value,offset);std::string bytes(size,'\0');DWORD got=0;
         if(!ReadFile(output_.value,&bytes[0],size,&got,nullptr))throw FileReportExportError("export_file_read",GetLastError());bytes.resize(got);
 #ifdef DISKED_REPORT_EXPORT_TESTING
@@ -128,7 +135,7 @@ public:
 #endif
         event("read");return bytes;
     });}
-    std::uint64_t size() override {return guarded([&] {return local_file::metadata(output_.value).size;});}
+    std::uint64_t size() override {return guarded([&] {if(check_reads_)check_reads_();return local_file::metadata(output_.value).size;});}
     bool stop_requested() override {
         if(stop_ && stop_())return true;
 #ifdef DISKED_REPORT_EXPORT_TESTING
@@ -139,8 +146,8 @@ public:
 #endif
         return false;
     }
-    FileReportExportResult execute(const e::ExportGrant& grant,const std::function<bool()>& stop) {
-        if(used_)throw FileReportExportError("export_session_used");used_=true;stop_=stop;const auto outcome=e::execute_export(*definition_,grant,*this);
+    FileReportExportResult execute(const e::ExportGrant& grant,const std::function<bool()>& stop,const std::function<void()>& check_reads) {
+        if(used_)throw FileReportExportError("export_session_used");used_=true;stop_=stop;check_reads_=check_reads;const auto outcome=e::execute_export(*definition_,grant,*this);
         V output;try {if(created_)output=local_file::metadata(output_.value).value;}catch(const std::exception&) {}
         auto receipt=V::object().put("definition_digest",V::string(definition_->digest())).put("artifact_digest",V::string(definition_->artifact().digest()))
             .put("routing_metadata_is_support_export",V::boolean_value(false)).put("output_path",V::string(local_file::utf8(destination_.value)))
@@ -154,5 +161,5 @@ FileReportExport::FileReportExport(const e::SupportArtifact& artifact,const std:
 }
 FileReportExport::~FileReportExport()=default;
 const e::ExportDefinition& FileReportExport::definition() const {return impl_->definition();}
-FileReportExportResult FileReportExport::execute(const e::ExportGrant& grant,const std::function<bool()>& stop) {return impl_->execute(grant,stop);}
+FileReportExportResult FileReportExport::execute(const e::ExportGrant& grant,const std::function<bool()>& stop,const std::function<void()>& check_reads) {return impl_->execute(grant,stop,check_reads);}
 }

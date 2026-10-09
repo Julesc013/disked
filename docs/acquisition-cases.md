@@ -44,3 +44,13 @@ prepare/execute contracts, bounded service effects and cancellation/late-result
 behavior, and actual CLI/stdio/GUI/TUI/shell parity. Authenticated custody, current
 acquired-image verification, other platforms and physical qualification remain
 open. DE-W034 and DiskEd 0.1.0 remain incomplete.
+
+The [joint admission proposal](../spec/catalog/acquisition-case-export-prototype.json)
+now binds case revision, current metadata resources and exact selected output
+effects together. It requires explicit case-read, report-write and host-effect
+declarations, reconstructs the reviewed inputs, and checks the held source around
+each native effect step. Source applicability and output effects have separate
+outcomes: a late source change cannot erase an actual verified output or receipt.
+These are synchronous observations, with native qualification retained separately.
+Durable worker/store identity, bounded service/cancellation/late results, public
+descriptor syntax and frontend integration remain required before availability.

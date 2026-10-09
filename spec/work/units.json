@@ -1563,7 +1563,8 @@
         "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root .",
         "python tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root .",
         "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root .",
-        "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root ."
+        "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .",
+        "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1600,7 +1601,16 @@
         "source/runtime/acquisition/operation.cpp",
         "source/runtime/acquisition/operation.h",
         "source/platform/windows/acquisition_worker.cpp",
-        "tests/images/acquisition_worker_probe.cpp"
+        "tests/images/acquisition_worker_probe.cpp",
+        "source/runtime/evidence/acquisition_export.h",
+        "source/runtime/evidence/acquisition_export.cpp",
+        "source/providers/report/file_acquisition_export.h",
+        "source/providers/report/file_acquisition_export.cpp",
+        "tests/evidence/acquisition_export_probe.cpp",
+        "tests/evidence/test_acquisition_export.py",
+        "spec/catalog/acquisition-case-export-prototype.json",
+        "spec/schemas/acquisition-case-export-definition.schema.json",
+        "spec/schemas/acquisition-case-export-outcome.schema.json"
       ]
     },
     {

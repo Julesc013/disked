@@ -96,3 +96,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W033/017 bounded worker-state directory repair: shared strong pins and all-generation/path checks, metadata-only refusal, exact opened-child paths, guarded executable-parent launch and retained post-CREATE_NEW failure facts. Generated-file evidence: `.aide/evidence/2026-10-09-worker-store/`. W033/017, full 0.1.0, physical/other-platform qualification and owner acceptance remain open.
 
 - [ ] DE-W034 recorded acquisition cases: qualify immutable native metadata snapshots, exact revisions, all disclosure gates and typed report export on real generated-file acquisitions; public admission/containment and current-image/authenticated custody remain open.
+
+- [ ] DE-W034: qualify joint acquisition-case/source/export admission, then bind the durable report worker/store and complete public service/frontend integration before availability.

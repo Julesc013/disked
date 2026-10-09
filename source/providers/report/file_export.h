@@ -19,6 +19,7 @@ public:
     ~FileReportExport();
     FileReportExport(const FileReportExport&)=delete;FileReportExport& operator=(const FileReportExport&)=delete;
     const evidence::proposal::ExportDefinition& definition() const;
-    FileReportExportResult execute(const evidence::proposal::ExportGrant&,const std::function<bool()>& stop={});
+    FileReportExportResult execute(const evidence::proposal::ExportGrant&,const std::function<bool()>& stop={},
+        const std::function<void()>& revalidate_read_resources={});
 };
 }
