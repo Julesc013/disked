@@ -160,7 +160,8 @@
         "provider.fake.bootstrap",
         "provider.image.raw.prototype",
         "provider.image.acquire.raw.prototype",
-        "provider.report.acquisition-case.prototype"
+        "provider.report.acquisition-case.prototype",
+        "provider.image.verify.recorded.prototype"
       ],
       "storage_authority": "none",
       "status": "prototype",
@@ -192,6 +193,21 @@
       "storage_authority": "image",
       "status": "prototype",
       "spec_ids": [
+        "DE-111",
+        "DE-103"
+      ]
+    },
+    {
+      "id": "provider.image.verify.recorded.prototype",
+      "role": "provider",
+      "depends_on": [
+        "provider.image.acquire.raw.prototype",
+        "provider.report.acquisition-case.prototype"
+      ],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-044",
         "DE-111",
         "DE-103"
       ]

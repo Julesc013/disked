@@ -86,7 +86,7 @@ def generate(args):
     if profile["fake_provider_id"] != "provider.fake.bootstrap/1":
         raise ValueError("Private fake graph profile requires an explicit provider identity change")
     if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain", "target.list", "target.inspect", "topology.show", "capability.explain",
-                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire", "health.assess", "evidence.export"}:
+                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire", "health.assess", "evidence.export", "image.verify"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")
@@ -97,12 +97,14 @@ def generate(args):
         raise ValueError("Acquisition profile requires an explicit provider identity change")
     if profile.get("report_provider_id") != "provider.report.acquisition-case.prototype/1":
         raise ValueError("Report profile requires an explicit provider identity change")
+    if profile.get("verification_provider_id") != "provider.image.verify.recorded.prototype/1":
+        raise ValueError("Verification profile requires an explicit provider identity change")
     if composition["scope"] != "image-only" or composition["target_id"] != profile["target_id"]:
         raise ValueError("Wrong bootstrap composition")
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
-    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype"}:
-        raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file observations/acquisition and recorded case report export")
+    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype"}:
+        raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file observations/acquisition and recorded case report export/verification")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
             raise ValueError("Invalid bootstrap component authority/dependency")
@@ -155,6 +157,7 @@ def generate(args):
     header += ["static const char* const image_provider_id = " + cpp(profile["image_provider_id"]) + ";"]
     header += ["static const char* const acquisition_provider_id = " + cpp(profile["acquisition_provider_id"]) + ";"]
     header += ["static const char* const report_provider_id = " + cpp(profile["report_provider_id"]) + ";"]
+    header += ["static const char* const verification_provider_id = " + cpp(profile["verification_provider_id"]) + ";"]
     for key, value in identity.items():
         header.append("static const char* const " + key + " = " + cpp(value) + ";")
     schema_ids = {c['parameter_schema'] for c in commands if c['parameter_schema']}

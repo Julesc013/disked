@@ -5,8 +5,8 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.33 prototype selects 19 command identities, including recorded
-acquisition support export. Earlier versioned development notes below describe
+The current dev.34 prototype selects 20 command identities, including recorded
+acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
@@ -698,11 +698,10 @@ separate. Collection or terminal-record failure preserves the actual verdict.
 python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .
 ```
 
-The private finite history reader supports a digest-bound cursor. Public
-image.verify commands, negotiated events, bounded caller request containment
-and GUI/TUI/shell journeys still need implementation and qualification. The
-product continues to exclude the native image-verification adapter and exposes
-19 available commands. These fixtures use generated ordinary files only.
+The private finite history reader supports a digest-bound cursor. At dev.33 the
+product excluded the native image-verification adapter and exposed 19 available
+commands; product integration is described below. These fixtures use generated
+ordinary files only.
 
 The `verification_command_probe` and its separate fault executable implement the
 provisional shared `image.verify` service with a real owned verification worker.
@@ -718,6 +717,36 @@ python tests/evidence/test_verification_commands.py --probe build/windows-bootst
 Private definitions may exceed public input: retain the 64 KiB request/review
 bound. Post-dispatch reply failure keeps unknown outcome and recovery routing.
 Observer failure retains the last validated cursor/state without cancelling the
-worker. The probe is not a product frontend. Actual product request containment
-and CLI/stdio/GUI/TUI/shell integration remain the next gate; the product keeps
-19 available commands and excludes the native verification adapter.
+worker. The probe is not a product frontend. Its dev.33 evidence excludes the
+product adapter; the subsequent dev.34 integration is described below.
+
+The dev.34 ordinary-file composition selects the same verification adapter in
+`disked.exe`. Its proposed execution contract is
+`spec/catalog/product-verification-prototype.json`. Prepare binds the selected
+original case, image, map, current code and empty private execution store without
+scanning or creating an operation. Review is inert. Execute requires the exact
+wrapper digest and all six explicit flags: case read, image read, map read, store
+write, host effects and private metadata. Every frontend uses the shared typed
+service; inspect/cancel/watch distinguish request completion, worker observation,
+verdict, quiescence and collection certainty. Contracts remain provisional.
+
+```text
+python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root .
+```
+
+The owned callback channel bounds CLI/stdio waits to four seconds and keeps a
+timed-out callback occupied until it actually completes. Cached discovery stays
+usable; no late unsolicited reply or replacement effect is allowed. Unknown
+receipts retain the selected store/review digest and any independently validated
+allocated ID. Native admission remains three seconds. A changed GUI view retains
+an earlier completion separately. Closing a watch cannot cancel its worker.
+
+Keep the public 64 KiB limit including the complete execute envelope and LF.
+Prepare projects the maximal legal escaped request identity before presentation;
+that projection grants no effects. Replies, event queues and escaped presentation
+have separate finite budgets. The private `disked_verification_test` executable
+provides named callback gates and worker/retention/reply faults; the product does
+not interpret those controls. Tests use generated ordinary files and owned hidden
+consoles/windows. Full DE-W034, authenticated custody/current-image authority,
+power-loss durability, all other platforms/storage and owner/privilege/release
+gates remain open.

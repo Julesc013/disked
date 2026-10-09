@@ -136,7 +136,7 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
     if(bytes>display_bytes)return {text};return lines;
 }
 std::vector<std::string> observation_lines(const Value& value) {
-    json::Limits limits;const bool expanded=acquisition_watch_response(value) || report_watch_response(value);
+    json::Limits limits;const bool expanded=acquisition_watch_response(value) || report_watch_response(value) || verification_response(value);
     if(expanded)limits=response_limits(value);
     return presentation_lines(value,limits,expanded?4194304:1048576);
 }

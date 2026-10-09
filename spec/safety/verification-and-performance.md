@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-044
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -120,8 +120,13 @@ last validated state/cursor. Observer close/timeout grants no cancellation, rest
 or dependency removal. Individual filesystem latency is not universally bounded.
 
 The private native command probe evaluates shared CLI/form/request behaviour and
-actual owned self-spawn/retention. Product composition/handler, bounded request
-channel and actual GUI/TUI/shell journeys remain a required gate before advertising
-availability. These contracts remain proposed; no stable ABI, full DE-W034, owner,
+actual owned self-spawn/retention. The [product verification profile](../catalog/product-verification-prototype.json)
+selects that adapter in the native ordinary-file composition. Qualification must
+include the bounded common channel, actual CLI/stdio/GUI/TUI/shell review/submit/watch,
+late changed-view completion, output disconnect, cancellation and retention faults.
+Prepare MUST fit the complete canonical execute envelope and framing, including a
+maximal escaped request identity; a definition that fits alone is insufficient.
+An oversized correlated reply MUST retain reviewed routing and any validated
+allocated operation identity without restarting or claiming absent effects. These contracts remain proposed; no stable ABI, full DE-W034, owner,
 other-platform, physical/elevation/customer/install/signing/publication qualification
 is implied by shared-service or schema validation.

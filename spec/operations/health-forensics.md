@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.13-proposed.1
+  version: 0.1.14-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -377,6 +377,10 @@ The provisional [verification command profile](../catalog/verification-command-p
 now fixes shared prepare/execute, six grants, exact retained request/state bindings,
 status/exit translation and negotiated finite observation. The private command
 probe uses actual generated acquisitions and contained ordinary-file readers.
-Product adapter/composition admission, bounded request-channel and actual native
-CLI/stdio/GUI/TUI/shell journeys remain required before image.verify availability.
+The [product verification profile](../catalog/product-verification-prototype.json)
+selects the existing adapter in the ordinary-file native composition. Availability
+requires bounded request-channel and actual CLI/stdio/GUI/TUI/shell evidence,
+including independent process/history/collection reconstruction and uncertain
+reply/retention outcomes. This historical verification is separate from an
+authenticated custody claim or authority for the latest image generation.
 Schema validity authenticates no actor, custody or current storage authority.

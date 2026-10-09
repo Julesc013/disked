@@ -25,6 +25,8 @@ def limits(v,encode,bytes_=262144,values=65536,depth=48):
             for y in x:visit(y,d+1)
     visit(v);require(len(encode(v))<=bytes_,'Verification canonical byte bound exceeded')
 def digest(v,encode):return 'sha256:'+hashlib.sha256(encode(v)).hexdigest()
+def public_request(p,encode,request='\x01'*128):
+    limits(dict(schema='org.disked.request/1',request_id=request,command='image.verify',parameters=p,required_features=[]),encode,65535,8192,32)
 def generation(g):number(g['created']);number(g['volume_id'])
 def file_resource(v,encode):
     m=v['metadata'];values={k:number(m[k]) for k in ['attributes','bytes','changed','created','hardlinks','volume_id','written']}
@@ -112,7 +114,11 @@ def validate(kind,v,encode):
         require('\0' not in v['payload']['request_id'] and len(v['payload']['request_id'].encode('utf-8'))<=128,'Verification observer request identity')
     elif kind=='verification-command-parameters':
         if v['phase']=='execute':definition(v['definition'],encode);limits(v['definition'],encode,65536,8192,32)
-    elif kind=='verification-preparation-result':definition(v['definition'],encode);require(v['definition_digest']==digest(v['definition'],encode),'Verification preparation digest mismatch');limits(v['definition'],encode,65536,8192,32)
+        # Actual request identity/envelope is validated by its owning transport.
+        limits(v,encode,65535,8192,32)
+    elif kind=='verification-preparation-result':
+        definition(v['definition'],encode);require(v['definition_digest']==digest(v['definition'],encode),'Verification preparation digest mismatch');limits(v['definition'],encode,65536,8192,32)
+        public_request(dict(phase='execute',definition=v['definition'],definition_digest=v['definition_digest'],**{'allow_'+n:True for n in ['case_read','image_read','map_read','store_write','host_effects','private_metadata']}),encode)
     elif kind=='verification-operation-result':
         d=v.get('definition');s=v.get('state')
         if d:definition(d,encode);require(v.get('definition_digest')==digest(d,encode),'Verification reply definition mismatch')

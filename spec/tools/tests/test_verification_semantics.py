@@ -44,6 +44,16 @@ class VerificationSemantics(unittest.TestCase):
         for key in q:
             bad=copy.deepcopy(q);bad.pop(key);self.bad('verification-command-parameters',bad)
         bad=copy.deepcopy(q);bad['allow_private_metadata']=False;self.bad('verification-command-parameters',bad)
+    def test_review_must_fit_complete_execute_envelope(self):
+        sys.path.insert(0,str(ROOT.parent/'tests/evidence'))
+        from verification_budget_fixture import envelope_boundary
+        q=envelope_boundary(self.d,sc.acquisition_record_bytes)
+        self.validate('verification-worker-definition',q['definition']);self.validate('verification-command-parameters',q)
+        self.assertLess(len(sc.acquisition_record_bytes(q['definition'])),65536)
+        self.assertEqual(len(sc.acquisition_record_bytes(q)),65500)
+        review={k:q[k] for k in ['definition','definition_digest']}
+        review.update(phase='prepare',execution_admitted=False,scope='recorded-acquired-image-verification',authenticity='not_established',latest_image_state='not_established',source_preservation='not_established',physical_admission=False,mutation_authority=False)
+        self.bad('verification-preparation-result',review)
     def test_cursor_and_resource_revalidation_contradictions(self):
         r=self.result();r['last_sequence']=str(2**64);self.bad('verification-operation-result',r)
         for after in [None,self.s['outcome']['before']]:

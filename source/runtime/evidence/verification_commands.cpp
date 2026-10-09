@@ -14,6 +14,19 @@ V annotate(V v) {return v.put("scope",V::string("recorded-acquired-image-verific
     .put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false));}
 V kind(V v,bool observing) {return annotate(v).put("request_kind",V::string(observing?"operation-observation":"verification-execution"));}
 json::Limits public_definition_limits() {return json::Limits{};}
+void public_request(const std::string& request,const V& parameters) {
+    // A budget projection only. It neither dispatches a request nor grants effects.
+    auto limits=json::Limits{};--limits.bytes; // Reserve the framing LF.
+    json::dump(V::object().put("schema",V::string("org.disked.request/1")).put("request_id",V::string(request))
+        .put("command",V::string("image.verify")).put("parameters",parameters).put("required_features",V::array()),limits);
+}
+void executable_review(const V& prepared) {
+    auto parameters=V::object().put("phase",V::string("execute")).put("definition",get(prepared,"definition")).put("definition_digest",get(prepared,"definition_digest"));
+    for(const auto n:{"case_read","image_read","map_read","store_write","host_effects","private_metadata"})parameters.put(std::string("allow_")+n,V::boolean_value(true));
+    // The largest legal 128-byte request ID may require six JSON bytes per byte.
+    // These flags are a nonexecuting budget projection, not an authority receipt.
+    public_request(std::string(128,'\x01'),parameters);
+}
 void sized(const Outcome& out) {json::dump(out.response,response_limits(out.response));}
 Outcome translate(const std::string& request,const V& reply,bool observing) {
     if(reply.kind!=V::Kind::object || reply.fields.size()!=6 || text(reply,"schema")!="org.disked.verification-admission-prototype/1")throw std::invalid_argument("verification_reply_shape");
@@ -76,15 +89,25 @@ Outcome unknown(const std::string& request,const V& reply,V retained,bool observ
 Outcome verification_observation(const std::string& request,const V& reply) {
     try {return translate(request,reply,true);}catch(const std::exception&) {return unknown(request,reply,V::object(),true);}
 }
+Outcome verification_unresolved_request(const std::string& request,const V& p) {
+    const auto id=p.find("operation_id");const bool observing=id && operation(*id);auto value=V::object().put("request_state",V::string("unresolved"));
+    if(const auto path=p.find("state_directory"))if(path->kind==V::Kind::string)value.put("state_directory",*path);
+    if(const auto d=p.find("definition"))if(const auto store=d->find("store"))if(const auto path=store->find("path"))if(path->kind==V::Kind::string)value.put("state_directory",*path);
+    if(const auto digest=p.find("definition_digest"))if(digest->kind==V::Kind::string)value.put("definition_digest",*digest);
+    auto out=completed(request,kind(value,observing));out.exit_code=6;out.response.put("status",V::string("unknown"));
+    if(observing)out.response.put("operation_id",*id);out.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));return out;
+}
 Outcome dispatch_verification(const Registry& registry,const std::string& request,const V& parameters,const VerificationActions& ports) {
     bool invoked=false;V reply;auto recovery=V::object();
     try {
         const auto descriptor=registry.command("image.verify");if(!descriptor)return refused(request,"command_unavailable",3);
         const auto error=validate_parameters(registry,*descriptor,parameters);if(!error.empty())return refused(request,error);
+        try {public_request(request,parameters);}catch(const json::Error&) {return refused(request,"parameter_limit");}
         if(text(parameters,"phase")=="prepare") {
             if(!ports.prepare)return refused(request,"verification_provider_unavailable",3);const auto prepared=ports.prepare(parameters);
             if(prepared.kind!=V::Kind::object || prepared.fields.size()!=2)throw std::invalid_argument("verification_preparation_shape");const auto& d=get(prepared,"definition");
             r::validate_definition(d);json::dump(d,public_definition_limits());if(text(prepared,"definition_digest")!=r::digest(d))throw std::invalid_argument("verification_preparation_digest");
+            executable_review(prepared);
             if(text(d,"case_operation_id")!=text(parameters,"case_operation_id") || text(get(get(d,"case_source"),"store"),"path")!=text(parameters,"case_directory") ||
                text(get(get(d,"image_binding"),"image"),"path")!=text(parameters,"image") || text(get(get(d,"image_binding"),"map"),"path")!=text(parameters,"map") ||
                text(get(d,"store"),"path")!=text(parameters,"state_directory"))throw std::invalid_argument("verification_preparation_inputs");

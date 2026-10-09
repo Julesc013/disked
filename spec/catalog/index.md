@@ -30,6 +30,7 @@
 - [operations.json](operations.json)
 - [ordinary-file-path-profile.json](ordinary-file-path-profile.json)
 - [plan-prototype.json](plan-prototype.json)
+- [product-verification-prototype.json](product-verification-prototype.json)
 - [project-graph.json](project-graph.json)
 - [publications.json](publications.json)
 - [report-export-prototype.json](report-export-prototype.json)

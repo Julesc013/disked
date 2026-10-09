@@ -8,4 +8,5 @@ struct VerificationActions {
 };
 Outcome dispatch_verification(const Registry&,const std::string& request,const json::Value& parameters,const VerificationActions&);
 Outcome verification_observation(const std::string& request,const json::Value& worker_reply);
+Outcome verification_unresolved_request(const std::string& request,const json::Value& parameters);
 }

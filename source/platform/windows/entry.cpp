@@ -6,6 +6,7 @@
 #include "fake_worker.h"
 #include "acquisition_worker.h"
 #include "report_worker.h"
+#include "verification_worker.h"
 #include "output.h"
 #include <cwchar>
 #include <cstdio>
@@ -14,6 +15,7 @@ namespace disked {
 int run_capture_campaign_producer(int argc,wchar_t** argv);
 #endif
 int windows_entry(int argc,wchar_t** argv) {
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_verification_worker")==0)return run_verification_worker(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_report_worker")==0)return run_report_worker(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_acquisition_worker")==0)return run_acquisition_worker(argc,argv);
 #ifdef DISKED_CAPTURE_CAMPAIGN

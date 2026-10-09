@@ -83,6 +83,20 @@ int main()try {
     }
     require(!denied_calls,"invalid_bound_dispatched_callback");
     report.put("explicit_finite_response_bound",Value::boolean_value(true));
+    auto routing=[](const std::string& id) {
+        auto out=completed(id,Value::object().put("state_directory",Value::string("owned-explicit-store")).put("definition_digest",Value::string("sha256:"+std::string(64,'a'))));
+        out.response.put("status",Value::string("unknown"));out.exit_code=6;return out;
+    };
+    require(channel.submit("routed-throw",[]()->Outcome {throw std::runtime_error("owned_callback_failure");},65536,routing("routed-throw")).pending,"routed_throw_submission");
+    result=await(channel);require(result.exit_code==6 && result.response.find("result")->find("state_directory")->text=="owned-explicit-store","throw_lost_routing");
+    require(channel.submit("routed-budget",[large] {auto out=large("routed-budget");out.response.put("operation_id",Value::string("verify-op:"+std::string(32,'b')));return out;},65536,routing("routed-budget")).pending,"routed_budget_submission");
+    result=await(channel);require(result.exit_code==6 && result.response.find("result")->find("definition_digest")->text=="sha256:"+std::string(64,'a') && result.response.find("operation_id")->text=="verify-op:"+std::string(32,'b'),"budget_lost_routing_or_id");
+    require(channel.submit("invalid-routed",[] {return completed("other",Value{});},65536,routing("invalid-routed")).pending,"invalid_routing_submission");
+    result=await(channel);require(result.exit_code==6 && result.response.find("result")->find("state_directory")->text=="owned-explicit-store","invalid_reply_lost_routing");
+    auto wrong=routing("wrong-request");unsigned unsafe_calls=0;
+    auto no=channel.submit("declared-request",[&unsafe_calls] {++unsafe_calls;return completed("declared-request",Value{});},65536,wrong);
+    require(!no.pending && no.outcome.exit_code==3 && !unsafe_calls,"invalid_fallback_dispatched");
+    report.put("unknown_preserves_routing_and_observed_id",Value::boolean_value(true));
     auto retained=std::make_shared<Gate>();auto finished=std::make_shared<std::atomic<bool>>(false);
     const auto before=Clock::now();
     {

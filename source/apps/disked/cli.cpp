@@ -10,12 +10,13 @@
 #include "fake_worker.h"
 #include "acquisition_worker.h"
 #include "report_worker.h"
+#include "verification_worker.h"
 #include "output.h"
 #include "memory_budget.h"
 #include "image_commands.h"
 #include "file_capture.h"
 #include <cstdio>
-#if defined(DISKED_IMAGE_COMMAND_TESTING) || defined(DISKED_REPORT_COMMAND_TESTING)
+#if defined(DISKED_IMAGE_COMMAND_TESTING) || defined(DISKED_REPORT_COMMAND_TESTING) || defined(DISKED_VERIFICATION_COMMAND_TESTING)
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
@@ -82,13 +83,38 @@ void report_test_wait() {
 Outcome report_action(const std::string& request,const Value& parameters) {
     report_test_wait();return dispatch_export(command_registry(),request,parameters,export_actions());
 }
+bool verification_identity(const Value& parameters) {
+    const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,10,"verify-op:")==0;
+}
+void verification_test_wait() {
+#ifdef DISKED_VERIFICATION_COMMAND_TESTING
+    wchar_t name[161];const auto count=GetEnvironmentVariableW(L"DISKED_VERIFICATION_TEST_GATE",name,161);
+    if(!count)return;if(count>=161)throw std::runtime_error("verification_test_gate_name");
+    struct Event {
+        HANDLE handle;
+        explicit Event(const std::wstring& value):handle(OpenEventW(SYNCHRONIZE|EVENT_MODIFY_STATE,FALSE,value.c_str())) {if(!handle)throw std::runtime_error("verification_test_gate_open");}
+        ~Event() {CloseHandle(handle);}
+    };
+    Event entered(std::wstring(name)+L".entered"),release(std::wstring(name)+L".release");
+    if(!SetEvent(entered.handle))throw std::runtime_error("verification_test_gate_signal");
+    if(WaitForSingleObject(release.handle,15000)!=WAIT_OBJECT_0)throw std::runtime_error("verification_test_gate_wait");
+#endif
+}
+Outcome verification_action(const std::string& request,const Value& parameters) {
+    verification_test_wait();auto out=dispatch_verification(command_registry(),request,parameters,verification_actions());
+#ifdef DISKED_VERIFICATION_COMMAND_TESTING
+    if(GetEnvironmentVariableW(L"DISKED_VERIFICATION_COMMAND_TEST_OVERSIZED_REPLY",nullptr,0))out.response.fields["result"].put("test_bad_reply",Value::string(std::string(1048576,'x')));
+#endif
+    return out;
+}
 bool background_command(const std::string& command) {
-    return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export";
+    return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export" || command=="image.verify";
 }
 std::size_t request_bytes(const std::string& command,const Value& parameters) {
-    return command=="operation.watch" && (acquisition_identity(parameters) || report_identity(parameters))?1048575:65536;
+    return command=="image.verify" || verification_identity(parameters) || (command=="operation.watch" && (acquisition_identity(parameters) || report_identity(parameters)))?1048575:65536;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
+    if(verification_identity(parameters)) {verification_test_wait();return dispatch_verification_operation(request,command,parameters);}
     if(report_identity(parameters)) {report_test_wait();return dispatch_report_operation(request,command,parameters);}
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
@@ -109,7 +135,8 @@ Value build_information() {
     return result.put("fake_provider",Value::string(fake_provider_identity()))
         .put("image_provider",Value::string(bootstrap::image_provider_id))
         .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id))
-        .put("report_provider",Value::string(bootstrap::report_provider_id));
+        .put("report_provider",Value::string(bootstrap::report_provider_id))
+        .put("verification_provider",Value::string(bootstrap::verification_provider_id));
 }
 Value command_description(const Value& command) {
     Value out=command;const bool available=implemented(command.find("id")->text);
@@ -119,7 +146,7 @@ Value command_description(const Value& command) {
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
         id=="shell.close"?"shell_session_only":id=="health.assess"?"compiled_fake_health_fixtures_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
-        id=="evidence.export"?"recorded_acquisition_case_support_export":fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
+        id=="image.verify"?"recorded_acquired_image_verification":id=="evidence.export"?"recorded_acquisition_case_support_export":fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
     Value result=Value::object(),commands=Value::array();
@@ -139,6 +166,7 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
     if(command=="evidence.export")return report_action(request,parameters);
+    if(command=="image.verify")return verification_action(request,parameters);
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain") {
@@ -169,8 +197,9 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
         return channel.submit(request,[request,command,parameters]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
             if(command=="evidence.export")return report_action(request,parameters);
+            if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
-        },request_bytes(command,parameters));
+        },request_bytes(command,parameters),command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):Outcome{});
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
@@ -188,9 +217,11 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         expired.exit_code=6;expired.response.put("status",Value::string("unknown"));
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
+        if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
         return calls->run(request,[request,command,parameters]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
             if(command=="evidence.export")return report_action(request,parameters);
+            if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
         },
             std::move(expired),std::chrono::milliseconds(4000),{},request_bytes(command,parameters));
@@ -205,7 +236,9 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
         .put("state_directory",*parameters.find("state_directory")));
     expired.exit_code=6;expired.response.put("status",Value::string("unknown")).put("operation_id",*parameters.find("operation_id"));
     expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
+    if(verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
     return calls->run(request,[request,parameters,queue]() {
+        if(verification_identity(parameters)) {verification_test_wait();return watch_verification_operation(request,parameters,queue);}
         if(report_identity(parameters)) {report_test_wait();return watch_report_worker(request,parameters,queue);}
         return acquisition_identity(parameters)?watch_acquisition_worker(request,parameters,queue):watch_fake_worker(request,parameters,queue);
     },std::move(expired),std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;},request_bytes("operation.watch",parameters));
@@ -213,7 +246,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
     if(background_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
-        json::Limits limits;if(parsed.command_id=="operation.watch" && (acquisition_identity(parsed.parameters) || report_identity(parsed.parameters)))limits=response_limits(outcome.response);
+        json::Limits limits;if(verification_response(outcome.response) || (parsed.command_id=="operation.watch" && (acquisition_identity(parsed.parameters) || report_identity(parsed.parameters))))limits=response_limits(outcome.response);
         return host.output_usable && output.write(presentation_json(outcome.response,limits)+"\n");
     }
     if(outcome.exit_code) {

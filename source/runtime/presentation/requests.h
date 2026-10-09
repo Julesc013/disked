@@ -23,7 +23,7 @@ class RequestChannel final {
     std::shared_ptr<State> state_;
 public:
     RequestChannel();
-    Submission submit(const std::string& request,std::function<Outcome()> callback,std::size_t response_bytes=65536);
+    Submission submit(const std::string& request,std::function<Outcome()> callback,std::size_t response_bytes=65536,Outcome unresolved=Outcome{});
     bool poll(Outcome& output);
     bool wait(Outcome& output,std::chrono::milliseconds duration);
 };

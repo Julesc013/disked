@@ -178,9 +178,16 @@ def main():
         bundle.validate('urn:disked:schema:verification-worker-definition:1',d);check('valid-private-definition-exceeds-public-budget',65536<len(canonical(d))<262144)
         out=call('oversized-private-review-not-presented',dict(mode='audit',request=frame(p),reply=large),exits=(3,));check('public-budget-before-execution',out['prepare_calls']==1 and out['execute_calls']==0)
         out=call('oversized-public-request-not-dispatched',dict(mode='audit',request=frame(execute(large)),reply={}),exits=(2,));check('oversized-request-zero-ports',out['prepare_calls']==out['execute_calls']==0)
+        from verification_budget_fixture import envelope_boundary
+        near=envelope_boundary(r['definition'],canonical);review={k:near[k] for k in ('definition','definition_digest')}
+        bundle.validate('urn:disked:schema:verification-worker-definition:1',near['definition']);bundle.validate('urn:disked:schema:verification-command-parameters:1',near)
+        check('body-and-parameters-fit-but-envelope-exceeds',len(canonical(near['definition']))<65536 and len(canonical(near))==65500 and len(canonical(frame(near)))>65535)
+        out=call('unexecutable-envelope-review-not-presented',dict(mode='audit',request=frame(p),reply=review),exits=(3,));check('unexecutable-review-zero-effects',out['prepare_calls']==1 and out['execute_calls']==0)
+        out=call('oversized-complete-envelope-zero-ports',dict(mode='audit',request=frame(near),reply={}),exits=(2,));check('complete-envelope-before-dispatch',out['prepare_calls']==out['execute_calls']==0)
+        call('typed-form-does-not-bypass-envelope',dict(mode='form',editor=near),exits=(2,))
         check('original-case-and-source-unchanged',original=={f.name:f.read_bytes() for f in case.iterdir() if f.is_file()} and src.read_bytes()==image.read_bytes()==expected)
         p=subprocess.run([str(product),'--json','image','verify','prepare',case_id,str(image),'--map',str(mapping),'--case-state-dir',str(case),'--state-dir',str(owned/'unselected')],capture_output=True,cwd=root,env=env,timeout=15)
-        check('product-handler-remains-unavailable',p.returncode==3 and json.loads(p.stdout)['status']=='refused' and not (owned/'unselected').exists())
+        check('product-refuses-unavailable-selected-store',p.returncode==3 and json.loads(p.stdout)['diagnostics'][0]['code']=='verification_preparation_or_definition_refused' and not (owned/'unselected').exists())
     report=dict(checks=len(checks),observations=checks,samples=samples,scope='Private command probe/shared provisional service; generated ordinary files and owned Windows workers only.',owner_accepted=False,product_admitted=False,physical_admitted=False)
     if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps(dict(checks=len(checks),status='passed',actual_samples=len(samples))))

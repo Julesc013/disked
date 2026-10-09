@@ -46,7 +46,7 @@ bool ShellModel::available(const std::string& id) const {
 void ShellModel::record(const std::string& kind,const Value& value) {
     if(sequence_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("shell_sequence_exhausted");
     std::vector<std::string> lines;
-    bool acquisition=acquisition_watch_response(value) || report_watch_response(value);
+    bool acquisition=acquisition_watch_response(value) || report_watch_response(value) || verification_response(value);
     try {lines=observation_lines(value);}
     catch(const json::Error& error) {
         ++dropped_;lines={"presentation_unavailable: "+error.code+"; complete result was not displayed; no retry performed"};

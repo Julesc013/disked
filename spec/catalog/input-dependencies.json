@@ -6054,7 +6054,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/evidence/verification_command_probe.cpp",
-        "spec/catalog/verification-command-prototype.json"
+        "spec/catalog/verification-command-prototype.json",
+        "tests/evidence/verification_budget_fixture.py"
       ],
       "spec_ids": [
         "DE-044",
@@ -6081,12 +6082,75 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/tools/verification_contracts.py",
-        "tests/evidence/fixtures/verification-contracts.json"
+        "tests/evidence/fixtures/verification-contracts.json",
+        "tests/evidence/verification_budget_fixture.py"
       ],
       "spec_ids": [
         "DE-044",
         "DE-111",
         "DE-022"
+      ]
+    },
+    {
+      "id": "spec/catalog/product-verification-prototype.json",
+      "path": "spec/catalog/product-verification-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/verification-command-prototype.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/catalog/compositions.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_product_verification.py",
+      "path": "tests/frontend/test_product_verification.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/product-verification-prototype.json",
+        "tests/frontend/verification_console_fixture.py",
+        "tests/frontend/gui_fixture.py",
+        "source/apps/disked/cli.cpp",
+        "source/platform/windows/verification_worker.cpp"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/frontend/verification_console_fixture.py",
+      "path": "tests/frontend/verification_console_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/acquisition_console_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/evidence/verification_budget_fixture.py",
+      "path": "tests/evidence/verification_budget_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/fixtures/verification-contracts.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-023"
       ]
     }
   ]

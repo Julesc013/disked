@@ -9,6 +9,7 @@ class Channel(unittest.TestCase):
         self.assertEqual(5,v['invalid_completions_unknown']);self.assertLess(v['disconnected_owner_ms'],250)
         self.assertTrue(v['allocation_failure_receipt_preallocated'])
         self.assertTrue(v['explicit_finite_response_bound'])
+        self.assertTrue(v['unknown_preserves_routing_and_observed_id'])
         self.assertTrue(v['timed_slot_retained_until_completion'])
         print(json.dumps(v))
 if __name__=='__main__':unittest.main(argv=[__file__]+REST)
