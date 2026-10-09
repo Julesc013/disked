@@ -35,7 +35,7 @@ def main():
             binary=build/('Release/'+program+'.exe');campaign=out/(kind+'-'+arch);run(kind+'-'+arch,[sys.executable,checkout/('tests/windows/'+script),'--probe',binary,'--output',campaign,'--pointer-bytes',str(pointer)],checkout)
             result=json.loads((campaign/'results.json').read_bytes());assert result['status']=='pass' and result['pointer_bytes']==pointer
             if kind=='adapter':assert result['native_executions']==49 and result['assertions']==258
-            else:assert result['controller_executions']==23 and result['actual_child_launches']==17 and result['assertions']==110
+            else:assert result['controller_executions']==24 and result['actual_child_launches']==18 and result['assertions']==116
             campaigns.append(dict(kind=kind,architecture=arch,assertions=result['assertions'],executions=result.get('native_executions',result.get('controller_executions')),child_launches=result.get('actual_child_launches',0),pointer_bytes=pointer))
             imports=run('imports-'+program+'-'+arch,[dumpbin,'/imports',binary],checkout)
             for api in ('FindFirstVolumeW','FindNextVolumeW','FindVolumeClose','GetVolumePathNamesForVolumeNameW'):assert api.encode() in imports

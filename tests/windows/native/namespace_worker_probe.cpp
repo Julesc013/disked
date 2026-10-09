@@ -12,7 +12,7 @@ void print(const V& v) {std::puts(disked::json::dump(v,n::namespace_worker_limit
 int wmain(int argc,wchar_t** argv) {
     if(argc>1 && std::wstring(argv[1])==L"__disked_nt_namespace_fixture_worker")return n::namespace_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify) {
         const auto fault=v.find("worker_fault");if(fault && fault->kind==V::Kind::string && fault->text=="native_table")return n::native_volume_api();
-        return disked::nt_fixture::api(v,notify);
+        auto api=disked::nt_fixture::api(v,notify);if(fault && fault->kind==V::Kind::string && fault->text=="native_error")api.error=&GetLastError;return api;
     });
     if(_setmode(_fileno(stdin),_O_BINARY)<0 || _setmode(_fileno(stdout),_O_BINARY)<0)return 7;
     if(argc!=1)return 2;

@@ -158,8 +158,10 @@ int namespace_worker_role(int argc,wchar_t** argv,const VolumeFactory& factory) 
         const auto* raw=static_cast<const Input*>(input.value);if(!raw->length || raw->length>sizeof(raw->bytes))throw std::invalid_argument("namespace_input_size");
         const std::string bytes(raw->bytes,raw->length);const auto h=json::parse(bytes,input_limits());header(h);
         if(text(h,"host_id")!=security.host_id || text(h,"code_sha256")!=image.digest)throw std::invalid_argument("namespace_worker_code");
-        const auto r=request(h);auto* value=static_cast<Output*>(output.value);auto api=factory(r.provider_input,[value] {InterlockedExchange(&value->entered,1);});VolumeCursor cursor(api);
-        if(cursor.native_binding())throw std::invalid_argument("namespace_native_port_not_admitted");signal(ha.value);
+        const auto r=request(h);auto* value=static_cast<Output*>(output.value);auto api=factory(r.provider_input,[value] {InterlockedExchange(&value->entered,1);});
+        const auto native=native_volume_api();
+        if(api.first==native.first || api.next==native.next || api.close==native.close || api.mounts==native.mounts || api.error==native.error)throw std::invalid_argument("namespace_native_port_not_admitted");
+        VolumeCursor cursor(api);signal(ha.value);
         if(WaitForSingleObject(hg.value,1000)!=WAIT_OBJECT_0)return 4;
         const auto snapshot=collect_volume_namespace(cursor,r.capture_epoch,r.policy,[&] {return WaitForSingleObject(hc.value,0)==WAIT_OBJECT_0;});
         auto reply=h;reply.fields.erase("policy");reply.fields.erase("provider_input");reply.put("schema",V::string("org.disked.nt-namespace-worker-reply/1")).put("request_digest",V::string(hash(bytes)))

@@ -41,8 +41,9 @@ def main():
     check('retirement is not cancellation or success',last['status']=='unknown' and last['result'] is None and last['worker']['observation']=='exited' and last['worker']['exit_code']=='31' and last['retired'] and not last['cancellation_requested'])
     r,v=run('crashed','normal','crash');check('crash controller exit',r.returncode==0);last,rows=admitted('crash',v)
     check('crashed reader has unknown capture',last['status']=='unknown' and last['worker']['exit_code']=='23' and last['worker']['observation']=='exited' and last['result'] is None)
-    r,v=run('native-binding-refused','normal','native_table');check('native binding controller exit',r.returncode==0);last,rows=admitted('native binding',v)
-    check('native table refused before admission/dispatch',last['status']=='unknown' and last['result'] is None and last['worker']['exit_code']=='3' and last['worker']['observation']=='exited' and not last['admitted'])
+    for fault in ('native_table','native_error'):
+        r,v=run(fault+'-binding-refused','normal',fault);check(fault+' binding controller exit',r.returncode==0);last,rows=admitted(fault+' binding',v)
+        check(fault+' table refused before admission/dispatch',last['status']=='unknown' and last['result'] is None and last['worker']['exit_code']=='3' and last['worker']['observation']=='exited' and not last['admitted'])
     for fault in ('capture','worker','digest','shape','status','claims','schema'):
         r,v=run('stale-'+fault,'stale',reply_fault=fault);check(fault+' controller exit',r.returncode==0);last,rows=admitted(fault,v)
         check(fault+' refuses result without replacement',last['status']=='unknown' and last['result'] is None and last['diagnostic'] in ('namespace_reply_binding','namespace_publication_digest','namespace_snapshot_shape','namespace_snapshot_claims') and last['worker']['observation']=='exited')

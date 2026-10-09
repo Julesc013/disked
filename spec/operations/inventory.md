@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-101
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -98,7 +98,9 @@ code-parent pins, current-user object security, exact executable identity,
 finite aggregate/local worker budgets and explicit inherited mapping/event
 capabilities. Bind capture/observer/worker/attempt identities to immutable input
 and one bounded publication. Refuse stale/malformed replies and unsupported
-authority claims. Native API table binding is rejected before dispatch here.
+authority claims. Any native pointer in the supplied table, including a mixed table, is rejected
+before dispatch here. Only the exact compiled fixture factory is qualified;
+pointer checks do not qualify arbitrary wrapper behavior.
 
 Finite waits retain the original attempt; they do not restart or imply exit.
 Cancellation requests and collector checkpoint decisions are separate. A complete
