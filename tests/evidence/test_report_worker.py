@@ -21,7 +21,12 @@ def report_process(state,executable):
         assert stamps[0].dwHighDateTime*2**32+stamps[0].dwLowDateTime==int(binding['process_created'])
         path=C.create_unicode_buffer(1024);length=W.DWORD(1024)
         if K.QueryFullProcessImageNameW(handle,0,path,C.byref(length)):assert Path(path.value).resolve()==executable.resolve()
-        else:assert K.WaitForSingleObject(handle,0)==0,('unavailable live process identity',binding)
+        else:
+            # Image lookup can become unavailable during teardown before the
+            # same creation-verified handle is signaled. Require actual exit;
+            # do not reopen/reassign a PID or treat a timeout as quiescence.
+            code=C.get_last_error()
+            assert K.WaitForSingleObject(handle,3000)==0,('unavailable live process identity',binding,code)
         return handle
     except BaseException:K.CloseHandle(handle);raise
 

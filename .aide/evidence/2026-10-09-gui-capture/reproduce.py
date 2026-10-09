@@ -44,9 +44,9 @@ run('build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],
 P=C/'build/windows-bootstrap/Release'
 catalog=json.loads(run('test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1']).stdout)
 selected=[t['name'] for t in catalog['tests']]
-assert len(selected)==68 and all(n in selected for n in ('frontend.gui_capture','frontend.gui_windows','frontend.product_export'))
+assert len(selected)==69 and all(n in selected for n in ('frontend.gui_capture','frontend.gui_windows','frontend.product_export'))
 native=run('native',['ctest','--preset','windows-bootstrap','--output-on-failure'],limit=1500)
-assert b'0 tests failed out of 68' in native.stdout
+assert b'0 tests failed out of 69' in native.stdout
 (E/'native-details.log').write_bytes((C/'build/windows-bootstrap/Testing/Temporary/LastTest.log').read_bytes())
 run('product-export',[sys.executable,'tests/frontend/test_product_export.py','--product',P/'disked.exe',
     '--fault',P/'disked_report_test.exe','--root',C,'--evidence',E/'product-export.json'],limit=200)
@@ -78,6 +78,8 @@ capture=json.loads((E/'gui-capture.json').read_bytes());assert capture['passed']
 assert capture['source_revision']==revision and not capture['source_dirty'] and capture['executable_sha256']==sha(P/'disked.exe')
 run('gui-windows',[sys.executable,'tests/frontend/test_gui_windows.py','--exe',P/'disked.exe','--guard',P/'disked_provider_guard.exe',
     '--unavailable',P/'disked_gui_unavailable.exe','--evidence',E/'gui-observations.json'])
+run('report-process-identity',[sys.executable,'tests/evidence/test_report_process.py','--evidence',E/'report-process-identity.json'])
+process_checks=json.loads((E/'report-process-identity.json').read_bytes());assert process_checks['passed'] and process_checks['checks']==7
 check=json.loads(run('check',[sys.executable,'spec/tools/specctl.py','check']).stdout)
 assert check['status']=='PASS' and check['schemas']==60
 manifest=json.loads(run('manifest',[sys.executable,'spec/tools/specctl.py','verify-manifest']).stdout)
@@ -87,7 +89,7 @@ context=json.loads(run('context',[sys.executable,'spec/tools/specctl.py','contex
 run('verify-context',[sys.executable,'spec/tools/specctl.py','verify-context','.aide-local/context/DE-W015-gui-capture'])
 identity=json.loads((C/'build/windows-bootstrap/generated/build-identity.json').read_bytes())
 assert identity['identity']['source_revision']==revision and identity['identity']['source_state']=='clean'
-assert len(identity['inputs'])==330 and all(sha(C/name)==expected for name,expected in identity['inputs'].items())
+assert len(identity['inputs'])==331 and all(sha(C/name)==expected for name,expected in identity['inputs'].items())
 project=ET.parse(C/'build/windows-bootstrap/disked.vcxproj')
 deps=[x.text or '' for x in project.iter() if x.tag.endswith('}AdditionalDependencies')]
 linked=('disked_case_evidence','disked_report_export','disked_file_case_source',
@@ -117,8 +119,8 @@ for name in ('disked.exe','disked_report_test.exe','export_command_probe.exe','e
     artifacts.append(dict(path=path.relative_to(R).as_posix(),bytes=path.stat().st_size,sha256=sha(path)))
 assert not subprocess.check_output(['git','status','--porcelain'],cwd=C)
 write(E/'clean-results.json',dict(passed=True,source=identity,base_revision='79807daa7ea86a2e87a20f4ec2333c398308d866',
-    host=host,observed_at=datetime.now(timezone.utc).isoformat(),native_ctest_groups_run=68,selected_native_groups=selected,
-    gui_capture_checks=capture['checks'],actual_gui_captures=6,product_export_checks=cases['checks'],actual_acquisition_copies=1,actual_report_outputs=6,actual_frontends=['cli','stdio','gui','tui','shell'],
+    host=host,observed_at=datetime.now(timezone.utc).isoformat(),native_ctest_groups_run=69,selected_native_groups=selected,
+    report_process_identity_checks=process_checks['checks'],gui_capture_checks=capture['checks'],actual_gui_captures=6,product_export_checks=cases['checks'],actual_acquisition_copies=1,actual_report_outputs=6,actual_frontends=['cli','stdio','gui','tui','shell'],
     actual_occupied_callback_timeout=True,structural_checks=check['checks'],manifest=manifest,context_bytes=context['bytes'],
     spec_tests=dict(run=183,passed=181,skipped=2),implemented_commands=19,public_evidence_available=True,
     product_links_case=True,product_links_export=True,product_links_export_commands=True,product_links_report_worker=True,

@@ -528,7 +528,8 @@
         "cmake --preset windows-bootstrap",
         "cmake --build --preset windows-bootstrap",
         "ctest --preset windows-bootstrap",
-        "python tests/frontend/test_gui_capture.py --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/frontend/test_gui_capture.py --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_report_process.py"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -543,7 +544,9 @@
         "tests/frontend/test_gui_capture.py",
         "tests/frontend/fixtures/gui-capture/fixtures.json",
         "tests/frontend/fixtures/gui-capture/frame-only.png",
-        "tests/frontend/fixtures/gui-capture/redrawn-client.png"
+        "tests/frontend/fixtures/gui-capture/redrawn-client.png",
+        "tests/evidence/test_report_worker.py",
+        "tests/evidence/test_report_process.py"
       ]
     },
     {
@@ -1599,7 +1602,8 @@
         "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root ."
+        "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root .",
+        "python tests/evidence/test_report_process.py"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1694,7 +1698,8 @@
         "tests/frontend/test_product_export.py",
         "tests/frontend/report_console_fixture.py",
         "source/platform/windows/ui/gui.cpp",
-        "tests/frontend/acquisition_console_fixture.py"
+        "tests/frontend/acquisition_console_fixture.py",
+        "tests/evidence/test_report_process.py"
       ]
     },
     {
