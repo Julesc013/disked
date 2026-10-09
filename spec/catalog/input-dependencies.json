@@ -4234,6 +4234,73 @@
       "spec_ids": [
         "DE-077"
       ]
+    },
+    {
+      "id": "spec/catalog/health-observation-prototype.json",
+      "path": "spec/catalog/health-observation-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/commands.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/health.h",
+      "path": "source/runtime/evidence/health.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h",
+        "spec/catalog/health-observation-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/health.cpp",
+      "path": "source/runtime/evidence/health.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/health.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/health/health_probe.cpp",
+      "path": "tests/health/health_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/health.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/health/test_health.py",
+      "path": "tests/health/test_health.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/health/health_probe.cpp",
+        "spec/catalog/health-observation-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
     }
   ]
 }

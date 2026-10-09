@@ -1189,7 +1189,7 @@
       "id": "DE-W032",
       "title": "Add bounded health observations and redaction",
       "phase": "M3",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W030"
@@ -1202,7 +1202,15 @@
       "allowed_paths": [
         "source/providers/health/**",
         "source/runtime/evidence/**",
-        "tests/health/**"
+        "tests/health/**",
+        "spec/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/**",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1229,11 +1237,20 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/health/test_health.py --probe build/windows-bootstrap/Release/health_observation_probe.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/health-observation-prototype.json",
+        "source/runtime/evidence/health.h",
+        "source/runtime/evidence/health.cpp",
+        "tests/health/health_probe.cpp",
+        "tests/health/test_health.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W033",

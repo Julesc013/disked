@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,6 +24,10 @@ disked:
   - DE-044
   requirements:
   - DE-REQ-111-01
+updated:
+  by: codex
+  at: '2026-10-09T00:44:34.134398+00:00'
+  scope: DE-W032 private bounded observation and support redaction contract
 ---
 
 # Health assessment and forensic workflow
@@ -51,6 +55,34 @@ An interrupted health query returns partial information. A degraded device can d
 ## Required adversarial cases
 
 No SMART over bridge, forged serial, media deterioration, accidental self-test, secret leakage, repaired original mislabeled forensic and incomplete acquisition hashes.
+
+## Private native observation contract
+
+DE-W032 first implements the [proposed observation profile](../catalog/health-observation-prototype.json)
+against fake/owned values. Its immutable request binds target generation/composite
+identity and observer/provider declarations. Every returned field belongs to the
+requested set; missing or unavailable data stays explicit. Raw bytes and vendor
+interpretation with its rule identity are separate. Neither a serial string nor a
+complete response establishes physical identity or safe media.
+
+Capture/worker epochs reject stale results. Request completion, timeout,
+cancellation and worker retirement remain distinct; outstanding workers prevent
+a replacement capture. Cancellation stops further dispatch without discarding
+valid partial evidence or inventing exit proof. Count, byte and epoch limits fail
+without silently truncating accepted observations.
+
+The default support projection omits identifiers, raw values and interpretation
+text. Its explicit policy can select additional classes; secret field content is
+never exported. Classification belongs to the selected request and cannot be
+downgraded by a returned field. Exact internal bytes and redacted support output
+remain separate. Public admission still requires reviewed adapter classification,
+actual containment, provider identity and target validation; declarations alone
+are not qualification.
+
+This private reducer does not issue queries or self-tests, access files/devices,
+or implement the public command. DE-W030 native inventory remains a prerequisite
+for actual observer admission. Forensic custody, acquisition coverage, write-blocking
+and physical/platform qualification remain separate DE-W033/034 and later gates.
 
 ## Normative requirements
 

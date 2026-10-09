@@ -47,6 +47,13 @@ target_include_directories(disked_hash PUBLIC source/portable/hash)
 set_target_properties(disked_hash PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_hash PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private bounded observation declarations; no product or physical query ports.
+add_library(disked_health_observation STATIC source/runtime/evidence/health.cpp)
+target_include_directories(disked_health_observation PUBLIC source/runtime/evidence)
+target_link_libraries(disked_health_observation PUBLIC disked_json)
+set_target_properties(disked_health_observation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_health_observation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 # Private DE-W040 framing spike; never linked into the product composition.
 add_library(disked_journal_prototype STATIC source/runtime/journal/codec.cpp)
 target_include_directories(disked_journal_prototype PUBLIC source/runtime/journal)
@@ -185,6 +192,14 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(health_observation_probe tests/health/health_probe.cpp)
+  target_link_libraries(health_observation_probe PRIVATE disked_health_observation)
+  set_target_properties(health_observation_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(health_observation_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(health_observation_probe PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  add_test(NAME health.observation_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/health/test_health.py"
+    --probe "$<TARGET_FILE:health_observation_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(health.observation_model PROPERTIES TIMEOUT 120)
   add_executable(journal_semantic_probe tests/journal/semantic_probe.cpp)
   target_link_libraries(journal_semantic_probe PRIVATE disked_journal_semantics)
   set_target_properties(journal_semantic_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
