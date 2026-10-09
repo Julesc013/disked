@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import shutil
 import tempfile
@@ -74,6 +75,21 @@ def history_check(path):
         row['digest'] = original; rows.append(row)
     assert 2 <= len(rows) <= 64
     return rows
+
+
+def reconnectable_start(value):
+    """An admission timeout is unresolved, never successful or safe to restart.
+
+    Allow only the specified timeout envelope. The caller must subsequently
+    inspect this exact operation and prove its terminal bytes/map and exit.
+    """
+    assert re.fullmatch(r'image-op:[0-9a-f]{32}', value.get('operation_id') or ''), value
+    if value.get('status') == 'unknown':
+        assert value.get('diagnostic') == 'acquisition_admission_unresolved', value
+        assert value.get('platform_code') == '0', value
+        assert value.get('value') == {'admission': 'unresolved'}, value
+    else:
+        assert value.get('status') in ('accepted_running', 'completed'), value
 
 
 K = C.WinDLL('kernel32', use_last_error=True)
@@ -228,7 +244,7 @@ def main():
             req=fixture('golden-'+str(size),size); reviewed=prepare('prepare-'+str(size),req)
             assert not Path(req['destination']).exists() and not Path(req['map']).exists()
             first=call('start-'+str(size),reviewed)
-            assert first['status'] in ('accepted_running','completed'),first
+            reconnectable_start(first)
             end=finished('reconnect-'+str(size),req,first);completed('golden-'+str(size),req,end)
             before=(Path(req['destination']).read_bytes(),Path(req['map']).read_bytes())
             repeat=call('no-relaunch-'+str(size),reviewed)
@@ -323,6 +339,23 @@ def main():
         req=fixture('late-admission',65537);reviewed=prepare('review-late-admission',req,True)
         first=call('admission-timeout-is-unresolved',reviewed,True,('ADMISSION_DELAY',))
         assert first['status']=='unknown' and first['operation_id'],first
+        reconnectable_start(first)
+        # Use the real delayed-worker response through the same gate as golden
+        # acquisitions, then reject unrelated uncertainty without any restart.
+        for name,key,value in (
+            ('unknown-diagnostic','diagnostic','acquisition_worker_unresolved'),
+            ('unknown-shape','value',{}),
+            ('unknown-platform','platform_code','5'),
+            ('missing-operation','operation_id',None),
+            ('malformed-operation','operation_id','image-op:wrong'),
+            ('refused-start','status','refused'),
+        ):
+            changed=copy.deepcopy(first);changed[key]=value
+            try:reconnectable_start(changed)
+            except AssertionError:pass
+            else:raise AssertionError(('invalid admission accepted',name))
+            observations.append(dict(name='reject-reconnect-'+name,passed=True,
+                scope='Synthetic contradictory envelope derived from actual delayed admission'))
         live=inspect('observe-late-admission',req,first['operation_id'],True)
         assert live['value']['worker_observation']=='running'
         repeat=call('late-admission-no-restart',reviewed,True)
@@ -331,7 +364,7 @@ def main():
 
         req=fixture('normal-ignores-fault-env',65537);reviewed=prepare('review-normal-no-fault',req)
         first=call('normal-ignores-fault-controls',reviewed,False,('ADMISSION_DELAY','CHECKPOINT_DELAY'))
-        assert first['status'] in ('completed','accepted_running'),first
+        reconnectable_start(first)
         completed('normal-no-fault',req,finished('normal-no-fault-finish',req,first))
 
         active=[]

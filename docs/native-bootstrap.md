@@ -351,7 +351,11 @@ python tests/images/test_acquisition_worker.py --probe build/windows-bootstrap/R
 
 The separately compiled worker fault probe exercises late startup, checkpoint
 observer failure and incomplete operation-record writes. Ordinary probes ignore
-those controls. Repeated admission never launches a replacement writer; resume
+those controls. The three-second admission wait may expire on an ordinary
+worker too; an exact unresolved admission retains its operation ID and requires
+reconnect. Tests must verify eventual terminal bytes/map and actual process exit,
+without relaunching or counting the timeout as success. Repeated admission never
+launches a replacement writer; resume
 requires a new empty operation-state directory and a separate exact-definition
 grant. Prototype record v2 retains original capture evidence across same-code
 resume. Keep v1's original binary/evidence; cross-generation resume is not admitted.
