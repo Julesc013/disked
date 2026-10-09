@@ -3,10 +3,23 @@
 PNG decoding only reads repository-produced filter-zero RGB fixtures; this is
 not a product image decoder, text recognizer or general visual qualification.
 """
-import argparse,ctypes as C,hashlib,json,struct,subprocess,zlib
+import argparse,ctypes as C,hashlib,json,shutil,struct,subprocess,sys,tempfile,zlib
+from contextlib import contextmanager
 from ctypes import wintypes as W
 from pathlib import Path
 from gui_fixture import Gui,U,capture_client_content
+
+@contextmanager
+def capture_directory(root):
+    root=root.resolve();root.mkdir(exist_ok=True)
+    path=Path(tempfile.mkdtemp(prefix='disked-gui-capture-',dir=root))
+    assert path.resolve().is_relative_to(root)
+    try:yield path
+    except BaseException:
+        print('Failed capture fixture retained: '+str(path),file=sys.stderr);raise
+    else:
+        assert path.resolve().is_relative_to(root)
+        shutil.rmtree(path)
 
 def sha(data):return 'sha256:'+hashlib.sha256(data).hexdigest()
 def png(path):
@@ -39,9 +52,7 @@ def main():
         check(name+'-client-classification',capture_client_content(body,w,h,box)==expected)
     alpha=bytes([0,0,0,0,0,0,0,255]);check('unused-alpha-is-not-painted-content',not capture_client_content(alpha,2,1,(0,0,2,1)))
     # The output folder belongs to this harness; nothing touches physical media.
-    import tempfile
-    with tempfile.TemporaryDirectory(prefix='disked-gui-capture-',dir=root/'.aide-local') as folder:
-        output=Path(folder)
+    with capture_directory(root/'.aide-local') as output:
         for name,argv in [('inventory',[]),('review',['--gui','target','inspect','fake:alpha@1']),('minimum',['--gui','target','inspect','fake:alpha@1'])]:
             ui=Gui(exe,argv,render=True)
             try:
@@ -58,7 +69,6 @@ def main():
                     check(name+'-capture-not-submission-'+str(index),ui.details()==before)
                     record=dict(name=name+'-'+str(index),geometry=geometry,sha256=sha(path.read_bytes()))
                     if args.evidence:
-                        import shutil
                         args.evidence.parent.mkdir(parents=True,exist_ok=True);selected=args.evidence.parent/path.name;shutil.copyfile(path,selected);record['path']=str(selected)
                     captures.append(record)
             finally:ui.close();assert ui.code==0 and not ui.error and not ui.output

@@ -207,6 +207,18 @@ class Gui:
         client=W.RECT();origin=W.POINT();assert U.GetClientRect(self.window,C.byref(client)) and U.ClientToScreen(self.window,C.byref(origin))
         left=origin.x-rect.left;top=origin.y-rect.top
         box=(left,top,left+client.right-client.left,top+client.bottom-client.top)
+        captions=[]
+        @CALLBACK
+        def button(hwnd,_):
+            if classname(hwnd)=='Button' and U.IsWindowVisible(hwnd) and caption(hwnd).strip():
+                bounds=W.RECT();assert U.GetWindowRect(hwnd,C.byref(bounds))
+                # Exclude button borders/focus rings: they can be painted even
+                # when a declared caption is absent from PrintWindow output.
+                region=(max(box[0],bounds.left-rect.left+6),max(box[1],bounds.top-rect.top+6),
+                    min(box[2],bounds.right-rect.left-6),min(box[3],bounds.bottom-rect.top-6))
+                if region[0]<region[2] and region[1]<region[3]:captions.append(region)
+            return True
+        assert U.EnumChildWindows(self.window,button,0)
         header=struct.pack('<IiiHHIIiiII',40,w,-h,1,32,0,w*h*4,0,0,0,0)
         info=C.create_string_buffer(header);bits=PTR();dc=G.CreateCompatibleDC(None)
         bitmap=G.CreateDIBSection(dc,info,0,C.byref(bits),None,0);old=G.SelectObject(dc,bitmap)
@@ -218,7 +230,7 @@ class Gui:
                 assert U.RedrawWindow(self.window,None,None,0x585)
                 assert U.PrintWindow(self.window,dc,2);G.GdiFlush()
                 value=C.string_at(bits,w*h*4)
-                return value if capture_client_content(value,w,h,box) else None
+                return value if capture_client_content(value,w,h,box) and all(capture_client_content(value,w,h,b) for b in captions) else None
             payload=wait(painted,3)
             if Path(path).suffix.lower()=='.png':
                 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
@@ -228,7 +240,7 @@ class Gui:
                     rgb[0::3]=row[2::4];rgb[1::3]=row[1::4];rgb[2::3]=row[0::4];rows.extend(rgb)
                 Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
             else:Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
-            return dict(width=w,height=h,client_box=list(box))
+            return dict(width=w,height=h,client_box=list(box),caption_boxes=[list(b) for b in captions])
         finally:G.SelectObject(dc,old);G.DeleteObject(bitmap);G.DeleteDC(dc)
     def close(self):
         if self.window and self.process.poll() is None:U.PostMessageW(self.window,0x10,0,0)

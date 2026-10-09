@@ -182,7 +182,10 @@ separate work. The implementation does not imply those checks have passed.
 The shared Windows test helper redraws only its live owned window before
 PrintWindow and measures that window's client rectangle. Retained captures must
 contain nonuniform client RGB content; title-bar/frame colors and unused DIB
-alpha cannot substitute for client paint. An actual frame-only false positive
+alpha cannot substitute for client paint. Visible declared button-caption
+interiors must also contain RGB content, excluding borders and focus rings.
+Neither condition recognizes the glyphs or proves complete rendering.
+An actual frame-only false positive
 and its redrawn counterpart are retained as exact byte-bound regression fixtures.
 The helper has finite dimensions and polling; these do not bound blocked OS API
 latency. Capturing or repainting never submits a reviewed request.

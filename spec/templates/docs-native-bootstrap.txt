@@ -629,7 +629,8 @@ implemented subset. Full case custody/before-after coverage, physical storage,
 other platforms, owner acceptance and full DE-W034 remain separate.
 
 The shared GUI capture helper now uses owned-window redraw and measured client
-RGB content to reject a frame-only false positive. Exact retained images and
+RGB content to reject a frame-only false positive. Visible button-caption
+interior checks reject partial caption paint as well. Exact retained images and
 actual inventory/review/minimum-window checks are part of
 `tests/frontend/test_gui_capture.py`. Repainting preserves inert review; title
 bar pixels and DIB alpha do not qualify client content. Clean evidence binds
