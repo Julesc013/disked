@@ -6983,7 +6983,10 @@
       "depends_on": [
         "source/platform/windows/storage/volume_namespace.cpp",
         "source/providers/windows/volume_inventory.cpp",
-        "source/runtime/command/json.cpp"
+        "source/runtime/command/json.cpp",
+        "source/platform/windows/storage/namespace_worker.cpp",
+        "tests/windows/native/volume_fixture.cpp",
+        "tests/windows/native/namespace_worker_probe.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -6997,7 +7000,9 @@
       "delivery": "artifact",
       "depends_on": [
         "source/providers/windows/volume_inventory.h",
-        "spec/catalog/nt-volume-namespace-prototype.json"
+        "spec/catalog/nt-volume-namespace-prototype.json",
+        "tests/windows/native/volume_fixture.h",
+        "tests/windows/native/volume_fixture.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7028,6 +7033,121 @@
         "tests/windows/native/volume_namespace_probe.cpp",
         "tests/windows/test_volume_namespace.py",
         "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-namespace-worker-prototype.json",
+      "path": "spec/catalog/nt-namespace-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/nt-volume-namespace-prototype.json",
+        "spec/catalog/ordinary-file-path-profile.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/namespace_worker.h",
+      "path": "source/platform/windows/storage/namespace_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/volume_inventory.h",
+        "spec/catalog/nt-namespace-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/namespace_worker.cpp",
+      "path": "source/platform/windows/storage/namespace_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/namespace_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/providers/image/local_file.cpp",
+        "source/portable/hash/sha256.cpp"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/volume_fixture.h",
+      "path": "tests/windows/native/volume_fixture.h",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/volume_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/volume_fixture.cpp",
+      "path": "tests/windows/native/volume_fixture.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/volume_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/namespace_worker_probe.cpp",
+      "path": "tests/windows/native/namespace_worker_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/volume_fixture.h",
+        "source/platform/windows/storage/namespace_worker.h",
+        "spec/catalog/nt-namespace-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_namespace_worker.py",
+      "path": "tests/windows/test_namespace_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_volume_namespace.py",
+        "tests/windows/native/namespace_worker_probe.cpp",
+        "spec/catalog/nt-namespace-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-nt-contained/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-nt-contained/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_namespace_worker.py",
+        "tests/windows/test_volume_namespace.py"
       ],
       "spec_ids": [
         "DE-034",

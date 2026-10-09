@@ -31,6 +31,7 @@
 - [journal-prototype.json](journal-prototype.json)
 - [journal-semantics-prototype.json](journal-semantics-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
+- [nt-namespace-worker-prototype.json](nt-namespace-worker-prototype.json)
 - [nt-volume-namespace-prototype.json](nt-volume-namespace-prototype.json)
 - [operations.json](operations.json)
 - [ordinary-file-path-profile.json](ordinary-file-path-profile.json)

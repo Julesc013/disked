@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-101
   profile: disked-spec/1
-  version: 0.1.1-proposed.1
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-101-01
 updated:
   by: codex
-  at: '2026-10-09T22:55:35.310800+00:00'
-  scope: DE-W030 private native volume namespace adapter; live/provider/physical/platform and owner qualification remain open
+  at: '2026-10-09T23:22:54.311228+00:00'
+  scope: DE-W030 contained injected namespace observer; live/provider/physical/platform and owner qualification remain open
 ---
 
 # Bounded native inventory
@@ -89,3 +89,22 @@ admit target.inventory, alter the fake/ordinary-image product composition or
 authorize device access. Actual live namespace, contained service, provider/graph
 identity and XP/other-platform import/launch qualification remain open. Native
 qualification injects Win32 replies and records that distinction.
+
+## Contained private namespace observation
+
+The [private observer profile](../catalog/nt-namespace-worker-prototype.json)
+adds same-file process containment under injected API ports only. Reuse strong
+code-parent pins, current-user object security, exact executable identity,
+finite aggregate/local worker budgets and explicit inherited mapping/event
+capabilities. Bind capture/observer/worker/attempt identities to immutable input
+and one bounded publication. Refuse stale/malformed replies and unsupported
+authority claims. Native API table binding is rejected before dispatch here.
+
+Finite waits retain the original attempt; they do not restart or imply exit.
+Cancellation requests and collector checkpoint decisions are separate. A complete
+snapshot can precede process exit. Explicit retirement or disconnect can stop
+only this owned injected reader job, which has no storage effect port; without a
+valid reply the capture remains unknown. This rule cannot authorize writer
+termination, cleanup or replay. A temporary session does not claim durable
+reconnect. Actual live namespace, physical identity/topology, graph/provider/
+product admission and historical/other-platform qualification remain open.

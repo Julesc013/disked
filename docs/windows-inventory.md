@@ -37,3 +37,25 @@ Microsoft documents the APIs and their returned buffers/order independently:
 [FindFirstVolumeW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew),
 [FindNextVolumeW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextvolumew),
 [GetVolumePathNamesForVolumeNameW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew).
+
+
+The next private component is a same-file contained observer under the
+[namespace worker profile](../spec/catalog/nt-namespace-worker-prototype.json).
+It reuses existing native worker code pins, ACLs, job limits and restricted
+handle lists. Input is a read-only bounded mapping; one verified reply binds
+all epochs and actual process creation. Late observation keeps the same attempt.
+Cancellation, publication and process exit are separate. Reader-only job
+retirement/disconnect never supplies writer authority or durable reconnect.
+
+The standalone CMake project also builds `nt_namespace_worker_probe`. Run:
+
+```text
+python tests/windows/test_namespace_worker.py --probe PRIVATE_BUILD/Release/nt_namespace_worker_probe.exe --output NEW_EVIDENCE --pointer-bytes 8
+```
+
+This selected worker uses modern job-list assignment; the API adapter's older
+documented floor does not establish XP support for this process host. Microsoft
+documents [job/handle-list attributes](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
+and [mapping access](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile).
+Native table binding can be inspected but cannot dispatch through this fixture
+worker. Actual live/storage/public/provider/platform qualification remains open.

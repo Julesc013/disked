@@ -12,6 +12,7 @@ add_executable(nt_volume_namespace_probe
   "${DISKED_ROOT}/source/platform/windows/storage/volume_namespace.cpp"
   "${DISKED_ROOT}/source/providers/windows/volume_inventory.cpp"
   "${DISKED_ROOT}/source/runtime/command/json.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/volume_fixture.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/volume_namespace_probe.cpp")
 target_include_directories(nt_volume_namespace_probe PRIVATE
   "${DISKED_ROOT}/source/platform/windows/storage"
@@ -21,3 +22,22 @@ target_compile_definitions(nt_volume_namespace_probe PRIVATE _WIN32_WINNT=0x0501
 target_compile_options(nt_volume_namespace_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_volume_namespace_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
 # A modern static CRT build is not an XP qualification. No shipped product link.
+add_executable(nt_namespace_worker_probe
+  "${DISKED_ROOT}/source/platform/windows/storage/namespace_worker.cpp"
+  "${DISKED_ROOT}/source/platform/windows/storage/volume_namespace.cpp"
+  "${DISKED_ROOT}/source/providers/windows/volume_inventory.cpp"
+  "${DISKED_ROOT}/source/providers/image/local_file.cpp"
+  "${DISKED_ROOT}/source/portable/hash/sha256.cpp"
+  "${DISKED_ROOT}/source/runtime/command/json.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/volume_fixture.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/namespace_worker_probe.cpp")
+target_include_directories(nt_namespace_worker_probe PRIVATE
+  "${DISKED_ROOT}/source/platform/windows/storage"
+  "${DISKED_ROOT}/source/platform/windows"
+  "${DISKED_ROOT}/source/providers/windows"
+  "${DISKED_ROOT}/source/providers/image"
+  "${DISKED_ROOT}/source/portable/hash"
+  "${DISKED_ROOT}/source/runtime/command")
+target_compile_definitions(nt_namespace_worker_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_NAMESPACE_WORKER_TESTING=1)
+target_compile_options(nt_namespace_worker_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_namespace_worker_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)

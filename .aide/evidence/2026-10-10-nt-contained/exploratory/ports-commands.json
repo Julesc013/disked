@@ -1,0 +1,60 @@
+[
+  {
+    "name": "ports-build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-working-6e5a2ca-x64",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-10-nt-contained/exploratory/ports-build-x64.log"
+  },
+  {
+    "name": "ports-worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-working-6e5a2ca-x64\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-nt-contained\\exploratory\\ports-worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-10-nt-contained/exploratory/ports-worker-x64.log"
+  },
+  {
+    "name": "ports-build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-working-6e5a2ca-Win32",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-10-nt-contained/exploratory/ports-build-Win32.log"
+  },
+  {
+    "name": "ports-worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-working-6e5a2ca-Win32\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-nt-contained\\exploratory\\ports-worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-10-nt-contained/exploratory/ports-worker-Win32.log"
+  }
+]
