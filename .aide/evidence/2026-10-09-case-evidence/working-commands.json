@@ -1,0 +1,65 @@
+[
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root . --evidence .aide/evidence/2026-10-09-case-evidence/working-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-native-cases.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root . --evidence .aide/evidence/2026-10-09-case-evidence/working-cases-2.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-native-cases-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root . --evidence .aide/evidence/2026-10-09-case-evidence/working-cases-3.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-native-cases-3.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-manifest.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked case_evidence_probe health_observation_probe provider_guard_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-build.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-spec-tests.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(evidence.case_model|health.observation_model|disked.invocation|disked.acceptance|provider_guard.positive_control)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-case-evidence/working-focused-native.log"
+  }
+]
