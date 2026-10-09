@@ -1,0 +1,15 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-gjae4wln
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 171, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 124, in main
+    call(dict(model,raw_request=request.decode()+' '*(32769-len(request))),'verification_case_input_limit')
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 52, in call
+    if refusal:check('refuse-'+refusal,r.returncode==3 and refusal in out.get('refusal',''),actual_diagnostic=out.get('refusal'))
+               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 48, in check
+    def check(name,ok,**data):assert ok,(name,data);facts.append(dict(name=name,passed=True,**data))
+                                     ^^
+AssertionError: ('refuse-verification_case_input_limit', {'actual_diagnostic': 'frame_limit_exceeded'})

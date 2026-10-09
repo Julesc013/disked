@@ -757,3 +757,28 @@ CLI/stdio/GUI/TUI/shell journeys, alongside separate private probe and full tool
 evidence. See `.aide/evidence/2026-10-10-product-verification/`. Those results apply
 to the recorded generated-file source/host/artifacts and preserve the open gates
 above.
+
+
+A separate private acquisition/verification report and native export coordinator
+is specified by `spec/catalog/acquisition-verification-report-prototype.json`.
+It joins an exact original acquisition case/raw request/history with an explicitly
+selected retained collection. Before/after facts, later observations, current
+source applicability and output effects remain distinct. All sixteen explicit
+disclosure policies have separate typed support bytes; the existing collection
+support format is unchanged. Exact joint digest plus case-read, collection-read,
+report-write and host-effects flags are required for create-new output. Each
+source retains its last check sequence. Late source changes cannot erase actual
+partial/completed output or receipts. No retained image/map/source path is opened.
+
+Build private probes with `cmake --build --preset windows-bootstrap --target
+verification_case_probe verification_case_fault --parallel 4`, then run:
+
+```text
+python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .
+```
+
+This private synchronous slice is not selected in dev.34. Public producer/worker,
+bounded caller/rendering and frontend admission are the next gate. Exact native
+qualification results belong in retained evidence, not an availability claim from
+this proposed profile. Full DE-W034, all 0.1.0 platforms/storage and owner/privilege/
+release gates remain open.

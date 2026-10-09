@@ -1618,7 +1618,8 @@
         "python tests/evidence/test_image_collection.py --probe build/windows-bootstrap/Release/image_verification_collection_probe.exe --observation-probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .",
         "python tests/evidence/test_verification_commands.py --probe build/windows-bootstrap/Release/verification_command_probe.exe --fault build/windows-bootstrap/Release/verification_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root ."
+        "python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root .",
+        "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1766,7 +1767,16 @@
         "tests/frontend/verification_console_fixture.py",
         "tests/evidence/verification_budget_fixture.py",
         "tests/resilience/request_channel_probe.cpp",
-        "tests/resilience/test_request_channel.py"
+        "tests/resilience/test_request_channel.py",
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/acquisition_verification.cpp",
+        "source/runtime/evidence/verification_case_export.h",
+        "source/runtime/evidence/verification_case_export.cpp",
+        "source/providers/report/file_verification_case_export.h",
+        "source/providers/report/file_verification_case_export.cpp",
+        "tests/evidence/verification_case_probe.cpp",
+        "tests/evidence/test_verification_case.py",
+        "spec/catalog/acquisition-verification-report-prototype.json"
       ]
     },
     {

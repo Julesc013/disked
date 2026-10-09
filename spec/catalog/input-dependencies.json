@@ -1005,6 +1005,8 @@
         "source/providers/image/file_acquisition.h",
         "source/providers/image/file_capture.cpp",
         "source/providers/image/file_capture.h",
+        "source/providers/report/file_verification_case_export.cpp",
+        "source/providers/report/file_verification_case_export.h",
         "source/runtime/acquisition/commands.cpp",
         "source/runtime/acquisition/commands.h",
         "source/runtime/acquisition/observation.cpp",
@@ -1018,10 +1020,23 @@
         "source/runtime/capture/image_commands.h",
         "source/runtime/capture/map_observation.cpp",
         "source/runtime/capture/map_observation.h",
+        "source/runtime/evidence/acquisition_verification.cpp",
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/verification_case_export.cpp",
+        "source/runtime/evidence/verification_case_export.h",
+        "source/runtime/journal/codec.cpp",
+        "source/runtime/journal/codec.h",
+        "spec/catalog/acquisition-verification-report-prototype.json",
+        "spec/catalog/journal-prototype.json",
         "tests/corpus/partition_images.py",
+        "tests/evidence/test_verification_case.py",
+        "tests/evidence/verification_case_probe.cpp",
+        "tests/frontend/acquisition_console_fixture.py",
         "tests/frontend/image_console_fixture.py",
         "tests/frontend/image_file_capture_probe.cpp",
         "tests/frontend/image_observation_probe.cpp",
+        "tests/frontend/test_acquisition_forms.py",
+        "tests/frontend/test_acquisition_interactive.py",
         "tests/frontend/test_image_commands.py",
         "tests/frontend/test_image_file_capture.py",
         "tests/frontend/test_image_observation.py",
@@ -1034,6 +1049,8 @@
         "tests/images/test_acquisition_pipeline.py",
         "tests/images/test_acquisition_worker.py",
         "tests/images/test_file_acquisition.py",
+        "tests/journal/codec_probe.cpp",
+        "tests/journal/test_codec.py",
         "tests/legacy/README.md",
         "tests/legacy/primitive_probe.c",
         "tests/legacy/run_mbr_probes.py",
@@ -1044,15 +1061,7 @@
         "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
         "tests/unit/portable_cpp.cpp",
-        "tests/unit/portable_probe.c",
-        "tests/frontend/acquisition_console_fixture.py",
-        "tests/frontend/test_acquisition_forms.py",
-        "tests/frontend/test_acquisition_interactive.py",
-        "source/runtime/journal/codec.h",
-        "source/runtime/journal/codec.cpp",
-        "tests/journal/codec_probe.cpp",
-        "tests/journal/test_codec.py",
-        "spec/catalog/journal-prototype.json"
+        "tests/unit/portable_probe.c"
       ],
       "spec_ids": [
         "DE-079"
@@ -6151,6 +6160,135 @@
         "DE-044",
         "DE-111",
         "DE-023"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/acquisition_verification.h",
+      "path": "source/runtime/evidence/acquisition_verification.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_collection.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/acquisition_verification.cpp",
+      "path": "source/runtime/evidence/acquisition_verification.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/report_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_case_export.h",
+      "path": "source/runtime/evidence/verification_case_export.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_case_export.cpp",
+      "path": "source/runtime/evidence/verification_case_export.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_case_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_verification_case_export.h",
+      "path": "source/providers/report/file_verification_case_export.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_case_export.h",
+        "source/providers/report/file_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_verification_case_export.cpp",
+      "path": "source/providers/report/file_verification_case_export.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/report/file_verification_case_export.h",
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_image_collection.h",
+        "source/providers/image/local_file.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/verification_case_probe.cpp",
+      "path": "tests/evidence/verification_case_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/report/file_verification_case_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_verification_case.py",
+      "path": "tests/evidence/test_verification_case.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/verification_case_probe.cpp",
+        "spec/catalog/acquisition-verification-report-prototype.json",
+        "tests/evidence/test_image_observation.py",
+        "tests/evidence/test_image_collection.py",
+        "tests/evidence/test_report_worker.py",
+        "tests/images/test_acquisition_worker.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/acquisition-verification-report-prototype.json",
+      "path": "spec/catalog/acquisition-verification-report-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/image-verification-collection-prototype.json",
+        "spec/catalog/acquisition-case-export-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
       ]
     }
   ]

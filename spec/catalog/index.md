@@ -5,6 +5,7 @@
 - [acquired-image-verification-prototype.json](acquired-image-verification-prototype.json)
 - [acquisition-case-export-prototype.json](acquisition-case-export-prototype.json)
 - [acquisition-case-prototype.json](acquisition-case-prototype.json)
+- [acquisition-verification-report-prototype.json](acquisition-verification-report-prototype.json)
 - [aliases.json](aliases.json)
 - [amendments.json](amendments.json)
 - [artifact-checker-prototype.json](artifact-checker-prototype.json)

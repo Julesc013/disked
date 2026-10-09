@@ -1,0 +1,12 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-mj0r78n5
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 173, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 167, in main
+    src.rename(src.with_suffix('.retained'));image.rename(image.with_suffix('.retained'));mapping.rename(mapping.with_suffix('.retained'))
+                                                                                          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 1076, in rename
+    os.rename(self, target)
+    ~~~~~~~~~^^^^^^^^^^^^^^
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-mj0r78n5\\private-customer-copy.map' -> 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-mj0r78n5\\private-customer-copy.retained'

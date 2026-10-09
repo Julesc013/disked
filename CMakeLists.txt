@@ -66,6 +66,12 @@ target_link_libraries(disked_report_export PUBLIC disked_case_evidence)
 set_target_properties(disked_report_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_report_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private joined evidence; not selected by the current product composition.
+add_library(disked_acquisition_verification STATIC source/runtime/evidence/acquisition_verification.cpp source/runtime/evidence/verification_case_export.cpp)
+target_link_libraries(disked_acquisition_verification PUBLIC disked_report_export)
+set_target_properties(disked_acquisition_verification PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_acquisition_verification PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 # Private DE-W040 framing spike; never linked into the product composition.
 add_library(disked_journal_prototype STATIC source/runtime/journal/codec.cpp)
 target_include_directories(disked_journal_prototype PUBLIC source/runtime/journal)
@@ -138,6 +144,12 @@ add_library(disked_file_acquisition_export STATIC source/providers/report/file_a
 target_link_libraries(disked_file_acquisition_export PUBLIC disked_file_case_source disked_file_report_export)
 set_target_properties(disked_file_acquisition_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_acquisition_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_file_verification_case_export STATIC source/providers/report/file_verification_case_export.cpp)
+target_link_libraries(disked_file_verification_case_export PUBLIC disked_acquisition_verification disked_file_case_source disked_file_report_export)
+target_compile_definitions(disked_file_verification_case_export PRIVATE _WIN32_WINNT=0x0A00)
+set_target_properties(disked_file_verification_case_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_file_verification_case_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_file_image_verification STATIC source/providers/image/file_verification.cpp)
 target_link_libraries(disked_file_image_verification PUBLIC disked_case_evidence disked_local_file)
@@ -291,6 +303,20 @@ if(BUILD_TESTING)
   add_test(NAME evidence.acquisition_export COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_acquisition_export.py"
     --probe "$<TARGET_FILE:acquisition_export_probe>" --fault "$<TARGET_FILE:acquisition_export_fault>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(evidence.acquisition_export PROPERTIES TIMEOUT 150 RESOURCE_LOCK disked_fake_workers)
+  add_executable(verification_case_probe tests/evidence/verification_case_probe.cpp)
+  target_link_libraries(verification_case_probe PRIVATE disked_file_verification_case_export)
+  add_executable(verification_case_fault tests/evidence/verification_case_probe.cpp source/providers/report/file_export.cpp source/providers/report/file_verification_case_export.cpp)
+  target_link_libraries(verification_case_fault PRIVATE disked_acquisition_verification disked_file_case_source)
+  target_include_directories(verification_case_fault PRIVATE source/providers/report)
+  target_compile_definitions(verification_case_fault PRIVATE DISKED_REPORT_EXPORT_TESTING=1 _WIN32_WINNT=0x0A00)
+  foreach(target verification_case_probe verification_case_fault)
+    set_target_properties(${target} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+    target_compile_options(${target} PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+    target_link_options(${target} PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  endforeach()
+  add_test(NAME evidence.verification_case_export COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_verification_case.py"
+    --probe "$<TARGET_FILE:verification_case_probe>" --fault "$<TARGET_FILE:verification_case_fault>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.verification_case_export PROPERTIES TIMEOUT 150 RESOURCE_LOCK disked_fake_workers)
   foreach(target report_worker_probe report_worker_fault)
     add_executable(${target} tests/evidence/report_worker_probe.cpp source/platform/windows/report_worker.cpp)
     target_link_libraries(${target} PRIVATE disked_report_observation)

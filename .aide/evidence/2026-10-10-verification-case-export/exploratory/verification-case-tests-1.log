@@ -1,0 +1,11 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-3sn4jgz8
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 170, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 103, in main
+    reviewed=call(base);audit(reviewed,acq,coll,request,history);check('native-prepare-no-output',not Path(base['destination']).exists() and reviewed['definition_digest']==digest(canonical(reviewed['definition'])))
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 53, in call
+    else:assert r.returncode==0 and 'refusal' not in out,(r.returncode,out)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, {'refusal': 'invalid_output_string'})

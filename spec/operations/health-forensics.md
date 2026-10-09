@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.14-proposed.1
+  version: 0.1.15-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -384,3 +384,24 @@ including independent process/history/collection reconstruction and uncertain
 reply/retention outcomes. This historical verification is separate from an
 authenticated custody claim or authority for the latest image generation.
 Schema validity authenticates no actor, custody or current storage authority.
+
+
+The [joined acquisition/verification report profile](../catalog/acquisition-verification-report-prototype.json)
+owns a private typed snapshot of the original acquisition and a selected retained
+verification collection. Construction requires exact original case/revision and
+raw request/history equality and at least one recorded verification observation.
+Original before/after facts and subsequent observations remain separate; custody,
+current-image state and power-loss persistence remain unestablished. The complete
+private snapshot/revision is distinct from all sixteen explicit disclosure
+projections. Existing collection support is unchanged.
+
+The private native export coordinator binds both selected ordinary metadata
+sources and the complete typed output effect. It requires the exact joint review
+digest and explicit case-read, collection-read, report-write and host-effects
+flags. Each source has a separate last observation and ordered check sequence;
+matched does not mean simultaneous or persistent freshness. Late source failures
+retain actual output outcomes, counters and receipts. Preparation creates no
+output; execution is create-new and single-use. Private synchronous qualification
+is not a public latency promise. Strict public schemas, contained report worker,
+bounded caller/render budgets and actual frontend admission remain the next gate;
+this slice adds no product command, stable ABI or full DE-W034 acceptance.

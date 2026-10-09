@@ -1,0 +1,15 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-1whl_wvt
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 171, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 125, in main
+    call(dict(model,raw_history_hex=('ff'*1048577)),'image_collection_history_encoding')
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 52, in call
+    if refusal:check('refuse-'+refusal,r.returncode==3 and refusal in out.get('refusal',''),actual_diagnostic=out.get('refusal'))
+               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_case.py", line 48, in check
+    def check(name,ok,**data):assert ok,(name,data);facts.append(dict(name=name,passed=True,**data))
+                                     ^^
+AssertionError: ('refuse-image_collection_history_encoding', {'actual_diagnostic': 'string_limit_exceeded'})
