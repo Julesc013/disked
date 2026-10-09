@@ -633,3 +633,11 @@ at 18 available commands; `evidence.export` is planned with a null handler.
 Bounded product dispatch/watch and actual CLI/stdio/GUI/TUI/shell export journeys
 remain pending. Retain cancellation observations and unresolved terminal evidence
 separately from actual output and process exit.
+
+
+Report operation observation has its own [provisional watch profile](../spec/catalog/report-watch-prototype.json).
+It binds the retained request/attempt/worker, validates /2 rows and reconnect
+cursors, and separates completed observations from logical effect outcomes.
+Finite follow and queue closure do not own the worker lifetime. Product report
+IDs are explicitly unavailable in the existing composition; private protocol/
+parser/reader tests are prerequisites for actual bounded frontend admission.

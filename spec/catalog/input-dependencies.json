@@ -4954,7 +4954,9 @@
       "depends_on": [
         "source/platform/windows/report_worker.h",
         "source/platform/windows/worker_files.h",
-        "source/providers/report/file_acquisition_export.h"
+        "source/providers/report/file_acquisition_export.h",
+        "source/runtime/evidence/report_observation.h",
+        "source/runtime/evidence/export_commands.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -5085,7 +5087,8 @@
       "depends_on": [
         "source/runtime/evidence/export_commands.h",
         "source/platform/windows/report_worker.h",
-        "spec/schemas/export-command-parameters.schema.json"
+        "spec/schemas/export-command-parameters.schema.json",
+        "source/runtime/evidence/report_observation.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -5165,7 +5168,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/schemas/report-worker-definition.schema.json",
-        "spec/schemas/report-worker-state.schema.json"
+        "spec/schemas/report-worker-state.schema.json",
+        "spec/schemas/report-operation-event.schema.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -5200,6 +5204,124 @@
       "delivery": "artifact",
       "depends_on": [
         "tools/build-bootstrap.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/report_observation.h",
+      "path": "source/runtime/evidence/report_observation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_operation.h",
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/report_observation.cpp",
+      "path": "source/runtime/evidence/report_observation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_observation.h",
+        "spec/catalog/report-watch-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_report_watch.py",
+      "path": "tests/evidence/test_report_watch.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/export_command_probe.cpp",
+        "tests/evidence/test_report_worker.py",
+        "tests/images/test_acquisition_worker.py",
+        "spec/catalog/report-watch-prototype.json",
+        "spec/schemas/report-operation-event.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/catalog/report-watch-prototype.json",
+      "path": "spec/catalog/report-watch-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/export-command-prototype.json",
+        "spec/schemas/report-operation-event.schema.json",
+        "spec/schemas/command-watch-parameters.schema.json",
+        "spec/schemas/export-operation-result.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-record.schema.json",
+      "path": "spec/schemas/report-worker-record.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-state.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-operation-event.schema.json",
+      "path": "spec/schemas/report-operation-event.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/event.schema.json",
+        "spec/schemas/report-worker-record.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_report_semantics.py",
+      "path": "spec/tools/tests/test_report_semantics.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/tools/specctl.py",
+        "spec/schemas/report-worker-state.schema.json",
+        "spec/schemas/report-worker-record.schema.json",
+        "spec/schemas/report-operation-event.schema.json"
       ],
       "spec_ids": [
         "DE-111",

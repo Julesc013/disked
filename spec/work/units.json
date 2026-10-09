@@ -1539,7 +1539,12 @@
         "source/runtime/command/command.cpp",
         "tools/build-bootstrap.py",
         "source/runtime/command/protocol.cpp",
-        "source/runtime/command/command.h"
+        "source/runtime/command/command.h",
+        "source/runtime/operation/watch.h",
+        "source/runtime/operation/watch.cpp",
+        "source/runtime/acquisition/observation.cpp",
+        "source/runtime/command/protocol.h",
+        "source/apps/disked/cli.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1573,7 +1578,8 @@
         "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .",
         "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1642,7 +1648,20 @@
         "source/runtime/command/command.cpp",
         "tools/build-bootstrap.py",
         "source/runtime/command/protocol.cpp",
-        "source/runtime/command/command.h"
+        "source/runtime/command/command.h",
+        "source/runtime/evidence/report_observation.h",
+        "source/runtime/evidence/report_observation.cpp",
+        "tests/evidence/test_report_watch.py",
+        "spec/catalog/report-watch-prototype.json",
+        "spec/schemas/report-worker-record.schema.json",
+        "spec/schemas/report-operation-event.schema.json",
+        "spec/tools/tests/test_report_semantics.py",
+        "source/runtime/operation/watch.h",
+        "source/runtime/operation/watch.cpp",
+        "source/runtime/acquisition/observation.cpp",
+        "source/runtime/command/protocol.h",
+        "source/apps/disked/cli.cpp",
+        "spec/tools/specctl.py"
       ]
     },
     {

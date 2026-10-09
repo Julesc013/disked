@@ -27,6 +27,7 @@ SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-gr
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
     'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
+SEMANTICS.update({SCHEMA_PREFIX+'report-worker-state:2':'report-worker-state',SCHEMA_PREFIX+'report-worker-record:2':'report-worker-record',SCHEMA_PREFIX+'report-operation-event:1':'report-operation-event'})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -221,8 +222,63 @@ def acquisition_record_limits(value, byte_bound):
     visit(value)
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Acquisition record exceeds canonical byte bound')
 
+def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
+    count=0
+    def visit(node,depth=0):
+        nonlocal count
+        count+=1
+        if count>value_bound or depth>=depth_bound:raise SpecError('Report record exceeds value/depth bound')
+        if isinstance(node,str) and len(node.encode('utf-8'))>1024:raise SpecError('Report record exceeds string bound')
+        if isinstance(node,dict):
+            for key,child in node.items():
+                if len(key.encode('utf-8'))>1024:raise SpecError('Report record key exceeds string bound')
+                visit(child,depth+1)
+        elif isinstance(node,list):
+            for child in node:visit(child,depth+1)
+    visit(value)
+    if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
+
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'report-worker-definition':
+    if kind == 'report-worker-state':
+        report_record_limits(value,65536);sequence=bounded_u64(value['sequence'],'report sequence');binding=value['binding']
+        if not 1<=sequence<=16 or not 1<=bounded_u64(binding['process_id'],'report process')<=0xffffffff or not bounded_u64(binding['process_created'],'report process creation') or not bounded_u64(value['observed_filetime'],'report observation'):
+            raise SpecError('Report identity/sequence outside prototype bounds')
+        if value['phase']!='finished':
+            if value['quiescent'] or value['outcome'] is not None or value['receipt'] is not None or value['effect_certainty']!=('not_started' if value['phase']=='prepared' else 'in_flight'):
+                raise SpecError('Contradictory active report state')
+        else:
+            if not value['quiescent'] or value['outcome'] is None:raise SpecError('Contradictory terminal report state')
+            semantic_validate('acquisition-case-export-outcome',value['outcome']);output=value['outcome']['output']
+            if value['effect_certainty']!=('uncertain' if output['uncertain_effect'] else 'observed'):raise SpecError('Report certainty disagrees with outcome')
+            receipt=value['receipt']
+            if receipt is None:
+                if output['status']=='completed':raise SpecError('Completed report has no receipt')
+            else:
+                r=receipt['output_receipt']
+                if r is None:
+                    if output['output_state']!='not_created':raise SpecError('Created report has no output receipt')
+                else:
+                    if bounded_u64(r['platform_code'],'report platform code')>0xffffffff:raise SpecError('Report platform code exceeds u32')
+                    created=r['output_created_observed'];metadata=r['output_metadata']
+                    if (output['output_state']=='created' and not created) or (output['output_state']=='not_created' and created):raise SpecError('Report creation receipt contradicts output')
+                    if metadata is not None:
+                        if not created:raise SpecError('Uncreated report has output metadata')
+                        values={k:bounded_u64(metadata[k],'report output '+k) for k in ('volume_id','bytes','created','written','changed','attributes','hardlinks')}
+                        if values['hardlinks']!=1 or values['attributes']>0xffffffff or values['attributes']&(0x10|0x400|0x1000|0x40000|0x400000):raise SpecError('Report metadata exceeds ordinary profile')
+                        if output['status']=='completed' and values['bytes']!=int(output['verified_bytes']):raise SpecError('Report metadata size disagrees with verified output')
+        # Exact reviewed digest, footprint and code/store applicability additionally
+        # need the retained header and are enforced by the native reader/profile.
+    elif kind == 'report-worker-record':
+        semantic_validate('report-worker-state',value['state']);report_record_limits(value,65536)
+        unsigned={k:v for k,v in value.items() if k!='digest'}
+        if hashlib.sha256(acquisition_record_bytes(unsigned)).hexdigest()!=value['digest']:raise SpecError('Report record digest mismatch')
+        if value['state']['sequence']=='1' and (value['state']['phase']!='prepared' or value['previous']!='0'*64):raise SpecError('Report first record is not anchored prepared state')
+    elif kind == 'report-operation-event':
+        semantic_validate('event',value);record=value['payload']['record'];semantic_validate('report-worker-record',record)
+        if value['operation_id']!=record['state']['binding']['operation_id'] or value['sequence']!=record['state']['sequence']:raise SpecError('Report event identity/sequence disagrees')
+        if len(value['payload']['request_id'].encode('utf-8'))>128 or '\0' in value['payload']['request_id']:raise SpecError('Invalid report watch request identity')
+        report_record_limits(value,67584,8256,32)
+    elif kind == 'report-worker-definition':
         semantic_validate('acquisition-case-export-definition',value['export'])
         store=value['store'];joint=value['export'];parents=store['ancestors']
         if parents[-1]!=store['generation'] or store['failure_domain']!='observed-file-volume:'+store['generation']['volume_id']:

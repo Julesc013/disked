@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:disked:schema:command-watch-parameters:1",
   "title": "command-watch-parameters",
-  "description": "Bounded explicitly typed fake/acquisition operation observer; no start or source/destination/map authority.",
+  "description": "Typed fake/acquisition/report selectors with exact kind prefixes. A composition without the selected backend refuses operation_unavailable; never infer another metadata kind or start an operation. Watch has no effect/start/resource-source authority.",
   "type": "object",
   "properties": {
     "operation_id": {
       "type": "string",
       "minLength": 40,
-      "maxLength": 41,
-      "pattern": "^(fake-op:|image-op:)[0-9a-f]{32}$",
+      "maxLength": 42,
+      "pattern": "^(fake-op:|image-op:|report-op:)[0-9a-f]{32}$",
       "x-disked-scalar": "operation-id"
     },
     "state_directory": {

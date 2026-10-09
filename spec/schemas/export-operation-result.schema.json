@@ -77,6 +77,31 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 960
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "urn:disked:schema:report-operation-event:1"
+      }
+    },
+    "observer_epoch": {
+      "type": "string",
+      "pattern": "^watch:[0-9a-f]{32}$"
+    },
+    "last_sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "worker_epoch": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "pattern": "^worker:[0-9a-f]{32}$"
+    },
+    "last_validated_state": {
+      "$ref": "urn:disked:schema:report-worker-state:2"
     }
   },
   "required": [

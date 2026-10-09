@@ -62,6 +62,7 @@ bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
+    if(const auto id=parameters.find("operation_id"))if(id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0)return refused(request,"operation_unavailable",3);
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
@@ -163,6 +164,7 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
 Outcome stream_watch(const std::string& request,const Value& parameters,std::unique_ptr<BoundedRequests>& calls,const ResponseSink& output) {
+    if(const auto id=parameters.find("operation_id"))if(id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0)return refused(request,"operation_unavailable",3);
     if(!calls)calls.reset(new BoundedRequests());
     const auto queue=std::make_shared<WatchQueue>();
     struct Close {std::shared_ptr<WatchQueue> queue;~Close() {queue->close();}} close{queue};

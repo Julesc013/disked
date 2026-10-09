@@ -125,22 +125,35 @@ void validate_observation(const V& s,const V& d,const std::string& operation) {
     const auto sequence=integer(field(s,"sequence"));if(sequence>record_count_limit)reject("report_worker_state");
     validate_state(s,h,static_cast<std::size_t>(sequence));
 }
+void validate_record(const V& row,const V& h) {
+    keys(row,{"schema","state","previous","digest"});
+    if(text(row,"schema")!="org.disked.report-worker-record-prototype/2")reject("report_worker_history_chain");
+    hex(text(row,"previous"),"",64);const auto hash=text(row,"digest");hex(hash,"",64);
+    auto unsigned_row=row;unsigned_row.fields.erase("digest");if(e::export_digest(json::dump(unsigned_row,row_limits()))!="sha256:"+hash)reject("report_worker_history_chain");
+    const auto& state=field(row,"state");const auto sequence=integer(field(state,"sequence"));
+    if(sequence>record_count_limit)reject("report_worker_state");validate_state(state,h,static_cast<std::size_t>(sequence));
+    if(sequence==1 && (text(state,"phase")!="prepared" || text(row,"previous")!=std::string(64,'0')))reject("report_worker_history_order");
+    json::dump(row,row_limits());
+}
+void validate_progress(const V& previous,const V& next) {
+    if(text(previous,"phase")=="finished" || text(next,"phase")=="prepared" ||
+       (text(previous,"cancellation_observation")=="observed" && text(next,"cancellation_observation")!="observed") ||
+       !equal(field(previous,"binding"),field(next,"binding")))reject("report_worker_history_order");
+    if(text(previous,"phase")=="prepared" && text(next,"phase")=="finished" &&
+       text(field(field(next,"outcome"),"output"),"output_state")!="not_created")reject("report_worker_history_order");
+}
 History read_history(const std::string& raw,const V& h) {
     validate_header(h);if(raw.size()>history_limit)reject("report_worker_history_limit");History out;std::size_t start=0;
     while(start<raw.size()) {
         const auto end=raw.find('\n',start);if(end==raw.npos) {out.complete=false;break;}
         if(end-start>record_limit || out.count>=record_count_limit)reject("report_worker_history_limit");
-        const auto bytes=raw.substr(start,end-start);auto row=json::parse(bytes,row_limits());keys(row,{"schema","state","previous","digest"});
-        if(text(row,"schema")!="org.disked.report-worker-record-prototype/2" || text(row,"previous")!=out.previous || json::dump(row,row_limits())!=bytes)reject("report_worker_history_chain");
-        const auto hash=text(row,"digest");hex(hash,"",64);row.fields.erase("digest");if(e::export_digest(json::dump(row,row_limits()))!="sha256:"+hash)reject("report_worker_history_chain");
-        const auto& state=field(row,"state");validate_state(state,h,out.count+1);
+        const auto bytes=raw.substr(start,end-start);auto row=json::parse(bytes,row_limits());validate_record(row,h);
+        if(text(row,"previous")!=out.previous || json::dump(row,row_limits())!=bytes)reject("report_worker_history_chain");
+        const auto hash=text(row,"digest");const auto& state=field(row,"state");
+        if(integer(field(state,"sequence"))!=out.count+1)reject("report_worker_state");
         if(!out.count && text(state,"phase")!="prepared")reject("report_worker_history_order");
-        if(out.count && (text(out.state,"phase")=="finished" || (text(out.state,"phase")=="executing" && text(state,"phase")=="prepared") ||
-           (text(out.state,"cancellation_observation")=="observed" && text(state,"cancellation_observation")!="observed") || !equal(field(out.state,"binding"),field(state,"binding"))))reject("report_worker_history_order");
-        if(out.count && text(state,"phase")=="prepared")reject("report_worker_history_order");
-        if(out.count && text(out.state,"phase")=="prepared" && text(state,"phase")=="finished" &&
-           text(field(field(state,"outcome"),"output"),"output_state")!="not_created")reject("report_worker_history_order");
-        row.put("digest",V::string(hash));out.records.push_back(row);out.state=state;out.previous=hash;++out.count;start=end+1;
+        if(out.count)validate_progress(out.state,state);
+        out.records.push_back(row);out.state=state;out.previous=hash;++out.count;start=end+1;
     }
     if(!out.count)reject("report_worker_history_empty");return out;
 }

@@ -12,7 +12,9 @@ struct WatchProfile {
     std::string operation_prefix,payload_schema,event_prefix;
     std::function<void(const json::Value&)> validate_record;
     std::function<void(const json::Value&,const json::Value&)> validate_progress;
+    std::size_t event_byte_limit=16384,event_value_limit=8192;
 };
+json::Limits watch_event_limits(const json::Value& event);
 WatchProfile fake_watch_profile();
 std::string validate_watch_event(const json::Value&,const WatchProfile&);
 std::string validate_watch_parameters(const json::Value& parameters);

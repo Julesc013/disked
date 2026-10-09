@@ -251,3 +251,10 @@ checks do not qualify real frontends. Operation watch, bounded product admission
 and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
 Preserve exact native case/effect/store/code bindings and separate disclosure
 selection from the private review/receipt routing metadata.
+
+
+The [report watch profile](../catalog/report-watch-prototype.json) defines exact
+report metadata selection, retained header/row validation, cursors, events,
+uncertain observations and resource bounds. It is a private implementation gate;
+the production composition still refuses report selectors. Real bounded product
+and CLI/stdio/GUI/TUI/shell admission remains required before availability.

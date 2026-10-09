@@ -9,6 +9,6 @@ WatchProfile acquisition_watch_profile(const json::Value& definition) {
         if(previous.find("phase")->text=="finished" ||
             std::stoull(next.find("checkpoint_bytes")->text)<std::stoull(previous.find("checkpoint_bytes")->text))
             throw std::invalid_argument("acquisition_worker_history_order");
-    }};
+    },32768,8192};
 }
 }

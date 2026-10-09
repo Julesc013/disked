@@ -44,7 +44,7 @@ std::string validate_watch_parameters(const Value& parameters) {
 }
 std::string validate_watch_event(const Value& value,const WatchProfile& profile) {
     try {
-        json::Limits limits;limits.bytes=profile.operation_prefix=="image-op:"?32768:16384;json::dump(value,limits);
+        json::Limits limits;limits.bytes=profile.event_byte_limit;limits.values=profile.event_value_limit;json::dump(value,limits);
         require(text(value,"schema")=="org.disked.event/1","watch_event_schema");
         if(const auto* required=value.find("required_features"))
             require(required->kind==Value::Kind::array && required->items.empty(),"unsupported_feature");
@@ -122,9 +122,16 @@ bool WatchReader::accept(const Value& value) {
     auto accepted_state=next_state;
     worker_.swap(worker);digest_.swap(digest);observer_.swap(observer);request_.swap(request);binding_=std::move(next_binding);state_=std::move(accepted_state);sequence_=next;snapshot_allowed_=false;return true;
 }
+json::Limits watch_event_limits(const Value& value) {
+    const auto type=value.find("type");json::Limits limits;limits.bytes=16384;
+    if(type && type->kind==Value::Kind::string) {
+        if(type->text=="acquisition.operation.record" || type->text=="acquisition.operation.snapshot")limits.bytes=32768;
+        else if(type->text=="report.operation.record" || type->text=="report.operation.snapshot") {limits.bytes=67584;limits.values=8256;}
+    }
+    return limits;
+}
 bool WatchQueue::push(const Value& value) {
-    const auto type=value.find("type");json::Limits limits;
-    limits.bytes=type && type->kind==Value::Kind::string && type->text.compare(0,22,"acquisition.operation.")==0?32768:16384;
+    const auto limits=watch_event_limits(value);
     const auto bytes=json::dump(value,limits).size();
     std::lock_guard<std::mutex> lock(mutex_);if(closed_)return false;
     require(total_count_<64 && bytes<=1048576-total_bytes_,"watch_queue_limit");

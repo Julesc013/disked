@@ -60,7 +60,8 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     const auto* operation=value.find("parameters")->find("operation_id");
     const bool matching_profile=features.size()==1 && operation && operation->kind==Value::Kind::string &&
         ((features.front().text=="org.disked.fake-operation-events/1" && operation->text.compare(0,8,"fake-op:")==0) ||
-         (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0));
+         (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0) ||
+         (features.front().text=="org.disked.report-operation-events/1" && operation->text.compare(0,10,"report-op:")==0));
     const bool streaming=matching_profile && command->text=="operation.watch" && events;
     if(!features.empty() && !streaming)return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
@@ -77,8 +78,7 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     return (streaming?events:handler)(id->text,command->text,*value.find("parameters"),revision?revision->text:"");
 }
 std::string response_frame(const Value& response) {
-    json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
-    std::string bytes=json::dump(response,limits);bytes+='\n';
+    std::string bytes=json::dump(response,response_limits(response));bytes+='\n';
     return bytes;
 }
 bool acquisition_watch_response(const Value& response) {
@@ -88,6 +88,16 @@ bool acquisition_watch_response(const Value& response) {
     const auto* scope=result->find("scope"),*request=result->find("request_kind"),*events=result->find("events");
     return string(scope) && scope->text=="ordinary-local-raw-file-acquisition" && string(request) &&
         request->text=="operation-observation" && kind(events,Value::Kind::array);
+}
+bool report_watch_response(const Value& response) {
+    const auto id=response.find("operation_id"),result=response.find("result");
+    if(!string(id) || id->text.size()!=42 || id->text.compare(0,10,"report-op:")!=0 || id->text.find_first_not_of("0123456789abcdef",10)!=std::string::npos || !kind(result,Value::Kind::object))return false;
+    const auto scope=result->find("scope"),request=result->find("request_kind"),events=result->find("events");
+    return string(scope) && scope->text=="recorded-acquisition-case-support-export" && string(request) && request->text=="operation-observation" && kind(events,Value::Kind::array);
+}
+json::Limits response_limits(const Value& response) {
+    json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
+    if(report_watch_response(response))limits.values=131072;return limits;
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;

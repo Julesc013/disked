@@ -104,3 +104,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Preserve uncertain attempts, created output and independent exit observations.
 
 - [ ] Admit the defined export service only after bounded inspect/cancel/watch and actual frontend journeys; retain private parser/request/form evidence separately.
+
+- [ ] Qualify report watch/reconnect evidence, then admit its exact service/composition through bounded product requests and actual frontend journeys.
