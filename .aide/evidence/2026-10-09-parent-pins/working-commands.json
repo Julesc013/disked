@@ -1,0 +1,149 @@
+[
+  {
+    "command": "cmake --build --preset windows-bootstrap --target file_acquisition_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-baseline-build.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --baseline --evidence .aide/evidence/2026-10-09-parent-pins/baseline-results.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-baseline-rename.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target file_acquisition_fault file_acquisition_probe image_file_capture_probe image_file_capture_fault image_observation_probe file_report_export_probe file_report_export_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-build-pins.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide/evidence/2026-10-09-parent-pins/working-fixed-pins.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-fixed-pins.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --capture-probe build/windows-bootstrap/Release/image_file_capture_probe.exe --root . --evidence .aide/evidence/2026-10-09-parent-pins/working-fixed-pins-2.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-fixed-pins-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_file_acquisition.py --probe build/windows-bootstrap/Release/file_acquisition_probe.exe --fault build/windows-bootstrap/Release/file_acquisition_fault.exe --root . --evidence .aide/evidence/2026-10-09-parent-pins/working-file-acquisition.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-file-acquisition.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/frontend/test_image_file_capture.py --probe build/windows-bootstrap/Release/image_file_capture_probe.exe --fault build/windows-bootstrap/Release/image_file_capture_fault.exe --map-probe build/windows-bootstrap/Release/image_observation_probe.exe --evidence .aide/evidence/2026-10-09-parent-pins/working-file-capture.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-file-capture.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-verify-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W033 --output .aide-local/context/DE-W033-parent-working --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W033-parent-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-verify-context.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_image_test provider_guard_probe file_acquisition_probe file_acquisition_fault image_file_capture_probe image_file_capture_fault image_observation_probe file_report_export_probe file_report_export_fault report_export_probe acquisition_worker_probe acquisition_worker_fault acquisition_command_probe watch_probe shell_model_probe gui_model_probe tui_model_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-build-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root . --evidence .aide/evidence/2026-10-09-parent-pins/working-report-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-report-regression.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-spec-tests.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-index-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-check-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-manifest-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-verify-manifest-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-parent-pins/validate-baseline-inputs.py",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-parent-pins/working-baseline-git-inputs.log"
+  }
+]

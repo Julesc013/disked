@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "mode": "strong-parent-contract",
+  "cases": 4,
+  "base_revision": "68bdb6f7a6200e8ddd8bde28c07f9d14b6697dab",
+  "probe": {
+    "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-parent-68bdb6f7\\build\\windows-bootstrap\\Release\\file_acquisition_fault.exe",
+    "sha256": "sha256:cb88608941258119c030bf61e9ca3cdbc89e89a02a436fa2c4548644f863e6b8"
+  },
+  "capture_probe": {
+    "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-parent-68bdb6f7\\build\\windows-bootstrap\\Release\\image_file_capture_probe.exe",
+    "sha256": "sha256:876b501c300c1d57adbd370c781c0a51ed5265120bf61bfed0ced50bfa4b155b"
+  },
+  "records": [
+    {
+      "role": "destination",
+      "pid": 24152,
+      "alive_observed_at_pause": true,
+      "terminal_observed": true,
+      "exit_code": 0,
+      "renamed": false,
+      "rename_platform_code": 32,
+      "original_parent_id": "19984723346724354",
+      "output_parent_id": "19984723346724354",
+      "old_parent_has_output": null,
+      "source_sha256": "sha256:e744f9862703e0a3bb4a750bbd5485bcb66b6cf308953903aaeefd0bab56e8d0",
+      "destination_sha256": "sha256:e744f9862703e0a3bb4a750bbd5485bcb66b6cf308953903aaeefd0bab56e8d0",
+      "map_sha256": "sha256:62ac5f8733dae34d55410f120d9c7f7e7b6b74c58bd71232aadcb3b4f708b72b",
+      "request_sha256": "sha256:02560f0957a235c7095c6d110f520650111dedd3a4d3583a80c9395df28539b0",
+      "output_sha256": "sha256:6ddd010e9468655822a3332e386dba4104f7ac802b140b9f914cf908a7f645ad",
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      }
+    },
+    {
+      "role": "map",
+      "pid": 44820,
+      "alive_observed_at_pause": true,
+      "terminal_observed": true,
+      "exit_code": 0,
+      "renamed": false,
+      "rename_platform_code": 32,
+      "original_parent_id": "22517998137120269",
+      "output_parent_id": "22517998137120269",
+      "old_parent_has_output": null,
+      "source_sha256": "sha256:e744f9862703e0a3bb4a750bbd5485bcb66b6cf308953903aaeefd0bab56e8d0",
+      "destination_sha256": "sha256:e744f9862703e0a3bb4a750bbd5485bcb66b6cf308953903aaeefd0bab56e8d0",
+      "map_sha256": "sha256:f65c4fb888adc51cff0b52012f99e4954b810ed8bda97e29f28be9f60e625ebe",
+      "request_sha256": "sha256:d3192c8bcce449b5bb717562026f46c6b09018dda54b4262b4cf220f7c9f2417",
+      "output_sha256": "sha256:9c0c252116ebd2c45439e5622afe5d1995672ca2a1254f98816ff2a71d756fa9",
+      "outcome": {
+        "attempt_read_bytes": "9000",
+        "attempt_verified_bytes": "9000",
+        "attempt_written_bytes": "9000",
+        "checkpoint_bytes": "9000",
+        "consistency": "live-uncoordinated",
+        "diagnostic": "",
+        "records": "8",
+        "schema": "org.disked.acquisition-outcome-prototype/1",
+        "source_bytes": "9000",
+        "status": "completed",
+        "substituted_bytes": "0",
+        "uncertain_effect": false
+      }
+    },
+    {
+      "name": "acquisition-no-weak-fallback",
+      "returncode": 3,
+      "metadata_only_handle_opened": true,
+      "strong_pin_refusal": {
+        "platform_code": "5",
+        "refusal": "image_parent_open"
+      },
+      "output_sha256": "sha256:5ad687bfaa3e7379aaa79f9ab1572925208436b50b830d51546f1ee152af7a51"
+    },
+    {
+      "name": "capture-no-weak-fallback",
+      "returncode": 3,
+      "metadata_only_handle_opened": true,
+      "strong_pin_refusal": {
+        "platform_code": "5",
+        "refusal": "image_parent_open"
+      },
+      "output_sha256": "sha256:5ad687bfaa3e7379aaa79f9ab1572925208436b50b830d51546f1ee152af7a51"
+    }
+  ],
+  "physical_io": false,
+  "power_loss_tested": false,
+  "all_namespace_fencing_qualified": false
+}
