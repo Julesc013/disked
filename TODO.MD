@@ -128,3 +128,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   snapshots and explicit redacted support export. Keep full DE-W034, authenticated
   custody/current-image authority, all platforms/storage and owner/privilege/release
   gates open.
+
+- [ ] DE-W030 native volume namespace: qualify exact Win32 reply parsing and
+  x64/x86 native fixture builds, then contain/admit explicit namespace observation.
+  Physical identity/topology, live namespace, XP/other platforms and full unit/owner
+  qualification remain open. Existing selected historical verification export is
+  already qualified at dev.36; do not recreate it from a stale next-action entry.

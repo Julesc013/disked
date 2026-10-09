@@ -245,3 +245,10 @@ constraint model, leaving the full work unit, live effects, channels and owner
 acceptance open. The next independent local slice can resume retained
 historical verification bindings in DE-W034 while Setup compatibility remains
 a separate unresolved integration requirement.
+
+Current inspection confirms the selected historical acquisition/verification
+report export is already qualified at dev.36. DE-W030 is the next missing native
+inventory prerequisite: its [private volume namespace adapter](windows-inventory.md)
+now has Windows x64/x86 API-response fixtures. Exact source-bound reproduction
+and import audits precede local review; live namespace, physical identities,
+contained public observation and platform/owner gates remain open.

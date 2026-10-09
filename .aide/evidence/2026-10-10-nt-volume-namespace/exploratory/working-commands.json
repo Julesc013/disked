@@ -1,0 +1,106 @@
+[
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "tests/windows/native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 2.401,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-x64",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 3.261,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/build-x64.log"
+  },
+  {
+    "name": "cases-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/windows/test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-x64\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-nt-volume-namespace\\exploratory\\working-cases-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.9,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/cases-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "tests/windows/native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 2.046,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-Win32",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 3.213,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/build-Win32.log"
+  },
+  {
+    "name": "cases-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/windows/test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-volume-working-f54673f-Win32\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-nt-volume-namespace\\exploratory\\working-cases-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 1.03,
+    "log": ".aide/evidence/2026-10-10-nt-volume-namespace/exploratory/cases-Win32.log"
+  }
+]

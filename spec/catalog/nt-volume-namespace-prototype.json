@@ -1,0 +1,66 @@
+{
+  "schema": "org.disked.nt-volume-namespace-profile/1",
+  "status": "proposed-private-adapter",
+  "work_id": "DE-W030",
+  "scope": "Native Win32 volume-namespace enumeration and explicitly selected mount-path observations. This is one component of native inventory, not physical disk identity, full topology, a public command or admitted provider.",
+  "api_functions": [
+    "FindFirstVolumeW",
+    "FindNextVolumeW",
+    "FindVolumeClose",
+    "GetVolumePathNamesForVolumeNameW",
+    "GetLastError"
+  ],
+  "api_reference_floor": "Microsoft documents these volume enumeration/mount APIs for XP desktop applications. Selected modern compiler/CRT/import closure and actual XP launch remain separately unqualified.",
+  "execution": "Construction performs no query. Only explicit collect dispatches enumeration. No application file/device opens, labels, filesystem/capacity reads, raw access, IOCTL, application media reads, deep tests, elevation, network, writes or installer/service actions. Default product startup remains unchanged. Qualification injects exact Win32 API replies; no host namespace is enumerated. Metadata API implementations may themselves access storage; no idle-media/no-spin-up or preservation claim follows.",
+  "names": "Preserve exact original UTF-16 code units as lowercase little-endian byte hex, separate from ASCII display with every nonprinting/non-ASCII unit escaped as \\uXXXX. Do not normalize, replace invalid surrogate units or execute text. Volume names must have the documented ASCII volume-GUID syntax before mount query. Mounts remain presentation paths, never storage identity or access authority. Even exact/ASCII-case duplicate paths are only observed conflicts; no complete filesystem-alias proof is claimed.",
+  "identity": "Each record has a capture/ordinal observation ID, not a disk ordinal or physical-media ID. Retain duplicate volume names and conflicting mount aliases as separate observations. Volume names, serials, GUIDs and path spelling do not authorize mutation; physical identity/capacity/layout/backing layers remain unknown. No cross-capture identity merge.",
+  "api_parsing": "Bound every native output buffer. FindFirst/Next success requires a NUL within the fixed 64-unit name buffer. Native last error is captured immediately. Only ERROR_NO_MORE_FILES establishes enumeration exhaustion; denial/removal/failure is explicit. Mount MULTI_SZ uses the API's returned unit count, validates exact termination, each path/count and all budgets. Accept an empty one- or two-NUL list. ERROR_MORE_DATA may trigger one bounded growth when the required count is larger and within remaining budget; inconsistent count or repeated growth refuses the observation. Never publish partial buffer contents as a complete list.",
+  "budgets": "Positive capture epoch is u64. Selected limits cannot exceed fixed maxima. Check cancellation before first/next/mount dispatch. Stop before exceeding accepted volume or total mount budgets and retain prior records with explicit partial/unknown remainder. Snapshot bytes/values/depth/string budgets apply to the complete view, without truncation. API latency itself is not universally bounded by these count/byte rules; containment and product waits remain future admission gates.",
+  "close": "Close a started search once, including cancellation, malformed input and exceptions. A failed close remains uncertain and is never retried by destruction or reinterpreted as quiescence. Reusing a cursor cannot restart enumeration. Observation completion and actual enclosing-process exit remain separate.",
+  "claims": {
+    "physical_identity": "unknown",
+    "full_topology": "not_observed",
+    "media_preservation": "not_established",
+    "physical_admission": false,
+    "mutation_authority": false,
+    "complete_alias_proof": false
+  },
+  "limits": {
+    "volumes": 64,
+    "mounts": 64,
+    "mounts_per_volume": 32,
+    "mount_buffer_units": 4096,
+    "total_mount_units": 8192,
+    "mount_path_units": 256,
+    "volume_buffer_units": 64,
+    "snapshot_bytes": 262144,
+    "snapshot_values": 16384,
+    "snapshot_depth": 24,
+    "fixture_request_bytes": 65535,
+    "fixture_request_values": 16384
+  },
+  "required_checks": [
+    "No API call on construction/help/invalid input; exact native table and callback arguments; enumeration handle closes once.",
+    "Empty exhausted inventory differs from denied/unavailable/removal; terminal error preserves prior entries.",
+    "Duplicate GUID spellings, alias conflicts and reordered entries never merge physical identities or select a destructive target.",
+    "Missing NUL, oversized/inconsistent MULTI_SZ, repeated ERROR_MORE_DATA, exact budgets and cancellation stop before further queries; prior accepted observations remain visible.",
+    "Exact UTF-16 byte preservation and inert display for Unicode, control, bidi and unpaired surrogate units.",
+    "Close failure/exception/reuse retains uncertainty without retry; actual fixture process exit is observed separately.",
+    "Compile and execute exact source under selected modern x64 and x86 toolchains, retain imports and distinguish API documentation floor from real XP support."
+  ],
+  "unqualified": [
+    "live host namespace",
+    "physical disks/layouts/sector sizes/backing relationships",
+    "provider/graph/public-service admission",
+    "hang containment",
+    "real XP/7/11/ARM64 launch",
+    "full DE-W030",
+    "owner acceptance",
+    "full 0.1.0 release"
+  ],
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew",
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextvolumew",
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew"
+  ]
+}

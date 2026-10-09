@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -30,8 +30,8 @@ sources:
   resource: ../references/sources.json#review-inputs-2026-10-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-09T22:55:35.310800+00:00'
+  scope: DE-W030 private native volume namespace adapter; live/provider/physical/platform and owner qualification remain open
 ---
 
 # Windows NT provider strategy
@@ -82,3 +82,22 @@ System/boot/encrypted or layered storage MUST be routed through dedicated provid
 
 - [DE-033](providers.md)
 - [DE-032](partition-tables.md)
+
+## Private native volume namespace adapter
+
+DE-W030 begins a bounded native Windows volume-namespace and selected mount-path
+adapter under the [proposed private profile](../catalog/nt-volume-namespace-prototype.json).
+Construction and product startup dispatch no query. Exact documented Win32 API
+replies have fixed buffers, finite growth/count budgets, immediate error capture
+and one search-handle close. Denied, removed, malformed, cancelled and uncertain
+close results remain explicit alongside prior accepted observations. API counts
+and byte limits do not establish a universal OS-call latency bound.
+
+Names retain original UTF-16 code units separately from inert ASCII display.
+Duplicate volume names and observed exact/ASCII-case mount conflicts are never
+merged into physical media identity. Capacity, sectors, disks/layouts/backing
+layers and complete alias proof remain unknown. This private component does not
+admit target.inventory, alter the fake/ordinary-image product composition or
+authorize device access. Actual live namespace, contained service, provider/graph
+identity and XP/other-platform import/launch qualification remain open. Native
+qualification injects Win32 replies and records that distinction.

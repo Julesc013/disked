@@ -1088,7 +1088,7 @@
       "id": "DE-W030",
       "title": "Implement native NT read-only inventory",
       "phase": "M3",
-      "status": "planned",
+      "status": "active",
       "risk": "R3",
       "dependencies": [
         "DE-W023",
@@ -1107,7 +1107,14 @@
       "allowed_paths": [
         "source/providers/windows/**",
         "source/platform/windows/storage/**",
-        "tests/windows/**"
+        "tests/windows/**",
+        "spec/**",
+        "docs/windows-inventory.md",
+        "docs/development-plan.md",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1126,7 +1133,8 @@
         "claiming unrun tests passed"
       ],
       "deliverables": [
-        "Read-only disk/volume/mount identity observations with explicit denial/unknown state."
+        "Read-only disk/volume/mount identity observations with explicit denial/unknown state.",
+        "Native volume-namespace/mount adapter with bounded exact API buffers, lossless UTF-16 representation, explicit unknown physical identity, no implicit startup dispatch and fixture-injected API qualification before live/provider/service admission."
       ],
       "acceptance": [
         "XP and modern import floors audited.",
@@ -1135,11 +1143,22 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/windows/test_volume_namespace.py --probe PRIVATE_BUILD/nt_volume_namespace_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/nt-volume-namespace-prototype.json",
+        "source/platform/windows/storage/volume_namespace.h",
+        "source/platform/windows/storage/volume_namespace.cpp",
+        "source/providers/windows/volume_inventory.h",
+        "source/providers/windows/volume_inventory.cpp",
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/native/volume_namespace_probe.cpp",
+        "tests/windows/test_volume_namespace.py",
+        ".aide/evidence/2026-10-10-nt-volume-namespace/reproduce.py"
+      ]
     },
     {
       "id": "DE-W031",

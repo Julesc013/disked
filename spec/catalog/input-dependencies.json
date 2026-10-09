@@ -6909,6 +6909,130 @@
         "DE-063",
         "DE-065"
       ]
+    },
+    {
+      "id": "spec/catalog/nt-volume-namespace-prototype.json",
+      "path": "spec/catalog/nt-volume-namespace-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/volume_namespace.h",
+      "path": "source/platform/windows/storage/volume_namespace.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/volume_namespace.cpp",
+      "path": "source/platform/windows/storage/volume_namespace.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/volume_namespace.h"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/volume_inventory.h",
+      "path": "source/providers/windows/volume_inventory.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/volume_namespace.h",
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/volume_inventory.cpp",
+      "path": "source/providers/windows/volume_inventory.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/volume_inventory.h",
+        "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/CMakeLists.txt",
+      "path": "tests/windows/native/CMakeLists.txt",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/volume_namespace.cpp",
+        "source/providers/windows/volume_inventory.cpp",
+        "source/runtime/command/json.cpp"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/volume_namespace_probe.cpp",
+      "path": "tests/windows/native/volume_namespace_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/volume_inventory.h",
+        "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_volume_namespace.py",
+      "path": "tests/windows/test_volume_namespace.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/volume_namespace_probe.cpp",
+        "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-nt-volume-namespace/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-nt-volume-namespace/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/native/volume_namespace_probe.cpp",
+        "tests/windows/test_volume_namespace.py",
+        "spec/catalog/nt-volume-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
     }
   ]
 }
