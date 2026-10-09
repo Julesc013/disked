@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-044
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -83,3 +83,45 @@ Performance reporting MUST distinguish submitted, written and verified bytes and
 
 - [DE-043](journal-and-recovery.md)
 - [DE-030](../storage/identity-and-graph.md)
+
+## Provisional shared verification commands and observation
+
+The [verification command profile](../catalog/verification-command-prototype.json)
+owns the proposed `image.verify` prepare/execute grammar, six independent grants,
+status/exit outcomes and public byte budgets. Preparation reads only the explicitly
+selected generated acquisition metadata/image/map and returns a review without
+creating an operation, output or verification scan. Execution binds the exact
+wrapper digest, resource/store/code definitions and all grants before dispatch.
+
+The native observer reports a separate request binding from the retained header.
+The shared service compares operation/attempt/worker/capture, definition and code
+identities against the state; the native layer additionally validates full retained
+history, actual PID/creation/path observations and collection bytes. Declared
+relationships alone authenticate no actor or retained history. A completed
+observation request is distinct from the logical verification verdict. Execution
+succeeds only for a matched terminal verdict, verified validated retention and
+applicable recorded attachment. Invalid, throwing or oversized replies after
+dispatch retain unknown outcome, reviewed digest/store and any valid allocated ID.
+
+Strict producer schemas close the definition, grant, outcome, state, record, event,
+parameters and results. Automatic semantic validation checks cross-field counters,
+digests, raw bytes, quiescence, retention and independent epoch domains. Compatible
+event readers may preserve additive observational fields while strict producers
+reject them; unknown required features remain a typed refusal. Private definitions
+can exceed a public request: keep the 64 KiB input limit and reject an oversized
+review before presentation/dispatch. Do not widen it to accommodate private storage.
+
+The proposed `org.disked.verification-operation-events/1` feature applies only to
+`operation.watch` with a verify-op selector. Bound records to the exact retained
+request, keep request/observer identity separate, and commit cursor advancement
+only after validation and budget checks. Finite follow is at most 2000 ms, with
+64 events and 786432 aggregate event bytes. Later observer failure retains the
+last validated state/cursor. Observer close/timeout grants no cancellation, restart
+or dependency removal. Individual filesystem latency is not universally bounded.
+
+The private native command probe evaluates shared CLI/form/request behaviour and
+actual owned self-spawn/retention. Product composition/handler, bounded request
+channel and actual GUI/TUI/shell journeys remain a required gate before advertising
+availability. These contracts remain proposed; no stable ABI, full DE-W034, owner,
+other-platform, physical/elevation/customer/install/signing/publication qualification
+is implied by shared-service or schema validation.

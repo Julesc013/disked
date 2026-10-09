@@ -126,7 +126,7 @@ json::Limits watch_event_limits(const Value& value) {
     const auto type=value.find("type");json::Limits limits;limits.bytes=16384;
     if(type && type->kind==Value::Kind::string) {
         if(type->text=="acquisition.operation.record" || type->text=="acquisition.operation.snapshot")limits.bytes=32768;
-        else if(type->text=="report.operation.record" || type->text=="report.operation.snapshot") {limits.bytes=67584;limits.values=8256;}
+        else if(type->text=="report.operation.record" || type->text=="report.operation.snapshot" || type->text=="verify.operation.record" || type->text=="verify.operation.snapshot") {limits.bytes=67584;limits.values=8256;}
     }
     return limits;
 }

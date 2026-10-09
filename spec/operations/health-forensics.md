@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.12-proposed.1
+  version: 0.1.13-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -372,3 +372,11 @@ contracts remain proposed; full before/after/custody coverage, authenticated act
 current acquired-image verification, other platforms, physical storage and owner
 acceptance remain unqualified. Neither structure checks nor a UI review grants
 storage authority or changes those gates.
+
+The provisional [verification command profile](../catalog/verification-command-prototype.json)
+now fixes shared prepare/execute, six grants, exact retained request/state bindings,
+status/exit translation and negotiated finite observation. The private command
+probe uses actual generated acquisitions and contained ordinary-file readers.
+Product adapter/composition admission, bounded request-channel and actual native
+CLI/stdio/GUI/TUI/shell journeys remain required before image.verify availability.
+Schema validity authenticates no actor, custody or current storage authority.

@@ -6,3 +6,4 @@
 - [environment-lock.json](environment-lock.json)
 - [requirements.txt](requirements.txt)
 - [specctl.py](specctl.py)
+- [verification_contracts.py](verification_contracts.py)

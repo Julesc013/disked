@@ -111,3 +111,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Qualify candidate recorded acquisition export/report backend in actual bounded CLI/stdio/GUI/TUI/shell journeys; retain exact bytes/imports and separate full case/custody and platform gates.
 
 - [ ] DE-W034: the private current acquired-image verifier is locally verified; retain verified immutable observation/support evidence; qualify bounded historical collections/private retention and product reader/watch/frontend integration. Preserve source-preservation/actor/physical and owner/platform gates separately.
+
+- [ ] Qualify shared provisional image.verify prepare/execute and negotiated watch
+  against actual owned workers, malformed grants/replies, public/private bounds
+  and independent producer contracts. Then qualify product request containment
+  and actual CLI/stdio/GUI/TUI/shell before availability. Full DE-W034, owner
+  acceptance, all platforms/storage and privilege/release gates remain open.

@@ -80,7 +80,18 @@ void validate_state(const V& s,const V& h,std::size_t sequence) {
     if(boolean(get(s,"quiescent"))!=(phase=="finished"))reject("verification_worker_quiescence");
     const auto d=verification(get(h,"definition"));counts(get(s,"progress"),d);const auto& p=get(s,"progress");
     if(phase=="prepared")for(const auto n:counters)if(integer(get(p,n)))reject("verification_worker_counters");
-    const auto& o=get(s,"outcome");if(o.kind!=V::Kind::null) {e::restore_verification_outcome(d,o);for(const auto n:counters)if(!same(get(o,n),get(p,n)))reject("verification_worker_counters");}
+    const auto& o=get(s,"outcome");if(o.kind!=V::Kind::null) {
+        e::restore_verification_outcome(d,o);
+        for(const auto name:{"before","after"})if(get(o,name).kind!=V::Kind::null) {
+            const auto& resources=get(o,name);e::prepare_verification(d.plan,resources);
+            for(const auto role:{"image","map"}) {const auto& resource=get(resources,role);
+                hex(text(resource,"identity"),"file:sha256:",64);hex(text(resource,"epoch"),"sha256:",64);hex(text(resource,"recorded_epoch"),"sha256:",64);
+            }
+        }
+        if(text(o,"resource_revalidation")=="unavailable" && get(o,"after").kind!=V::Kind::null)reject("verification_worker_resources");
+        if(text(o,"resource_revalidation")=="changed" && (get(o,"after").kind==V::Kind::null || same(get(o,"before"),get(o,"after"))))reject("verification_worker_resources");
+        for(const auto n:counters)if(!same(get(o,n),get(p,n)))reject("verification_worker_counters");
+    }
     if((phase=="prepared" || phase=="verifying") && o.kind!=V::Kind::null)reject("verification_worker_outcome");
     const auto& retention=get(s,"retention");keys(retention,{"state","bytes","digest","collection_revision","observation_revision","flush"});const auto state=text(retention,"state");one(state,{"empty","in_flight","verified","uncertain"});
     const auto& bytes=get(retention,"bytes");if(bytes.kind!=V::Kind::null && integer(bytes)>1048577)reject("verification_worker_retention");
@@ -103,13 +114,28 @@ void validate_progress(const V& a,const V& b) {
     for(const auto n:counters)if(integer(get(get(b,"progress"),n))<integer(get(get(a,"progress"),n)))reject("verification_worker_progress");
     if(text(a,"phase")=="persisting" && (!same(get(a,"outcome"),get(b,"outcome")) || text(b,"phase")!="finished"))reject("verification_worker_progress");
 }
+void validate_observation(const V& s,const V& d,const std::string& operation) {
+    validate_definition(d);hex(operation,"verify-op:",32);const auto& b=get(s,"binding");
+    hex(text(b,"attempt_id"),"attempt:",32);hex(text(b,"worker_epoch"),"worker:",32);hex(text(b,"capture_epoch"),"capture:",32);
+    // A comparison environment only; never a synthesized persisted header,
+    // grant, native file identity or history receipt.
+    const auto h=V::object().put("definition",d).put("definition_digest",V::string(digest(d))).put("operation_id",V::string(operation))
+        .put("attempt_id",get(b,"attempt_id")).put("worker_epoch",get(b,"worker_epoch")).put("capture_epoch",get(b,"capture_epoch"));
+    const auto n=integer(get(s,"sequence"));if(n>record_count_limit)reject("verification_worker_sequence");validate_state(s,h,static_cast<std::size_t>(n));
+}
+void validate_record(const V& row,const V& h) {
+    keys(row,{"schema","state","previous","digest"});if(text(row,"schema")!="org.disked.verification-worker-record-prototype/1")reject("verification_worker_chain");
+    hex(text(row,"previous"),"",64);hex(text(row,"digest"),"",64);auto unsigned_row=row;unsigned_row.fields.erase("digest");
+    if(acquisition_operation::hash(json::dump(unsigned_row,row_limits()))!=text(row,"digest"))reject("verification_worker_chain");
+    const auto n=integer(get(get(row,"state"),"sequence"));if(n>record_count_limit)reject("verification_worker_sequence");validate_state(get(row,"state"),h,static_cast<std::size_t>(n));
+    if(n==1 && (text(get(row,"state"),"phase")!="prepared" || text(row,"previous")!=std::string(64,'0')))reject("verification_worker_missing_start");json::dump(row,row_limits());
+}
 History read_history(const std::string& bytes,const V& h) {
     validate_header(h);if(bytes.size()>history_limit)reject("verification_worker_history_limit");History history;std::size_t offset=0;
     while(offset<bytes.size()) {
         const auto end=bytes.find('\n',offset);if(end==bytes.npos) {if(bytes.size()-offset>record_limit)reject("verification_worker_history_limit");history.complete=false;break;}
         if(end-offset>record_limit || history.count>=record_count_limit)reject("verification_worker_history_limit");const auto raw=bytes.substr(offset,end-offset);const auto row=json::parse(raw,row_limits());
-        keys(row,{"schema","state","previous","digest"});if(text(row,"schema")!="org.disked.verification-worker-record-prototype/1" || json::dump(row,row_limits())!=raw || text(row,"previous")!=history.previous)reject("verification_worker_chain");
-        auto unsigned_row=row;unsigned_row.fields.erase("digest");const auto hash=acquisition_operation::hash(json::dump(unsigned_row,row_limits()));if(text(row,"digest")!=hash)reject("verification_worker_chain");
+        validate_record(row,h);if(json::dump(row,row_limits())!=raw || text(row,"previous")!=history.previous)reject("verification_worker_chain");const auto hash=text(row,"digest");
         validate_state(get(row,"state"),h,history.count+1);if(history.count)validate_progress(history.state,get(row,"state"));else if(text(get(row,"state"),"phase")!="prepared")reject("verification_worker_missing_start");
         history.state=get(row,"state");history.records.push_back(row);history.previous=hash;++history.count;offset=end+1;
     }

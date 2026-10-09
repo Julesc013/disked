@@ -28,6 +28,7 @@ SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
     'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
 SEMANTICS.update({SCHEMA_PREFIX+'report-worker-state:2':'report-worker-state',SCHEMA_PREFIX+'report-worker-record:2':'report-worker-record',SCHEMA_PREFIX+'report-operation-event:1':'report-operation-event'})
+SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('verification-worker-definition','acquired-image-verification-outcome','verification-worker-state','verification-worker-record','verification-operation-event','verification-command-parameters','verification-preparation-result','verification-operation-result')})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -239,7 +240,11 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'report-worker-state':
+    if kind in ('verification-worker-definition','acquired-image-verification-outcome','verification-worker-state','verification-worker-record','verification-operation-event','verification-command-parameters','verification-preparation-result','verification-operation-result'):
+        from verification_contracts import validate
+        try:validate(kind,value,acquisition_record_bytes)
+        except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc
+    elif kind == 'report-worker-state':
         report_record_limits(value,65536);sequence=bounded_u64(value['sequence'],'report sequence');binding=value['binding']
         if not 1<=sequence<=16 or not 1<=bounded_u64(binding['process_id'],'report process')<=0xffffffff or not bounded_u64(binding['process_created'],'report process creation') or not bounded_u64(value['observed_filetime'],'report observation'):
             raise SpecError('Report identity/sequence outside prototype bounds')

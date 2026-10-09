@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.32 prototype selects 19 command identities, including recorded
+The current dev.33 prototype selects 19 command identities, including recorded
 acquisition support export. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
@@ -703,3 +703,21 @@ image.verify commands, negotiated events, bounded caller request containment
 and GUI/TUI/shell journeys still need implementation and qualification. The
 product continues to exclude the native image-verification adapter and exposes
 19 available commands. These fixtures use generated ordinary files only.
+
+The `verification_command_probe` and its separate fault executable implement the
+provisional shared `image.verify` service with a real owned verification worker.
+`spec/catalog/verification-command-prototype.json` fixes expected CLI/form/request
+semantics, six grants, strict producer relationships and finite negotiated watch
+before evaluation. Observations compare separately reported retained request
+bindings; execution never promotes an uncertain reply or attachment to success.
+
+```text
+python tests/evidence/test_verification_commands.py --probe build/windows-bootstrap/Release/verification_command_probe.exe --fault build/windows-bootstrap/Release/verification_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .
+```
+
+Private definitions may exceed public input: retain the 64 KiB request/review
+bound. Post-dispatch reply failure keeps unknown outcome and recovery routing.
+Observer failure retains the last validated cursor/state without cancelling the
+worker. The probe is not a product frontend. Actual product request containment
+and CLI/stdio/GUI/TUI/shell integration remain the next gate; the product keeps
+19 available commands and excludes the native verification adapter.

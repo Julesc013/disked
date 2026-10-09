@@ -2,9 +2,11 @@
 #include "file_case.h"
 #include "file_verification.h"
 #include "report_export.h"
+#include "verification_observation.h"
 #include "worker_files.h"
 #include "bootstrap_registry.h"
 #include <memory>
+#include <set>
 namespace disked {
 namespace {
 using namespace worker_files;using V=json::Value;namespace r=verification_operation;namespace e=evidence::proposal;
@@ -57,7 +59,7 @@ V header_read(const Directory& dir) {
 V observer(const V& binding) {
     auto v=V::object();for(const auto n:{"attempt_id","worker_epoch","capture_epoch","process_id","process_created"})v.put(n,field(binding,n));return v;
 }
-void collection_check(const std::string& bytes,const V& state,const V& header) {
+std::string collection_check(const std::string& bytes,const V& state,const V& header) {
     const auto collection=e::ImageVerificationCollection::restore(bytes);const auto& retained=field(state,"retention");const auto& view=collection.view();
     if(e::export_digest(bytes)!=text(retained,"digest") || bytes.size()!=integer(field(retained,"bytes")) || collection.revision()!=text(retained,"collection_revision") ||
        text(view,"collection_id")!="collection:"+text(header,"operation_id").substr(10) || field(view,"records").items.size()!=1 ||
@@ -67,6 +69,7 @@ void collection_check(const std::string& bytes,const V& state,const V& header) {
        encode(field(observation,"outcome"))!=encode(field(state,"outcome")) || encode(field(observation,"definition"))!=encode(field(d,"verification")) ||
        encode(field(observation,"verifier"))!=encode(field(d,"verifier")) || encode(field(observation,"case_source_before"))!=encode(field(d,"case_source")) ||
        encode(field(observation,"image_binding_before"))!=encode(field(d,"image_binding")))reject("verification_worker_collection_binding");
+    return text(observation,"attachment_applicability");
 }
 V inspect(const std::string& id,const Directory& dir,const V& h,r::History* captured=nullptr) {
     if(text(h,"operation_id")!=id)reject("verification_worker_identity");Security security;
@@ -76,7 +79,7 @@ V inspect(const std::string& id,const Directory& dir,const V& h,r::History* capt
         auto file=dir.open(records_name,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
         if(!file.valid() || file_identity(file.value)!=text(h,"records_id"))reject("verification_worker_history_identity");
         const auto history=r::read_history(read_file(file.value,r::history_limit),h);if(captured)*captured=history;
-        value.put("state",history.state).put("last_digest",V::string(history.previous)).put("history_complete",V::boolean_value(history.complete));
+        value.put("state",history.state).put("request_binding",r::expected_binding(h)).put("last_digest",V::string(history.previous)).put("history_complete",V::boolean_value(history.complete));
         const auto& binding=field(history.state,"binding");const auto pid=static_cast<DWORD>(integer(field(binding,"process_id")));
         Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|SYNCHRONIZE,FALSE,pid));std::string observed="unavailable";
         if(process.valid()) {
@@ -91,7 +94,8 @@ V inspect(const std::string& id,const Directory& dir,const V& h,r::History* capt
         if(text(field(history.state,"retention"),"state")=="verified") {
             auto collection=dir.open(collection_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
             if(!collection.valid() || file_identity(collection.value)!=text(h,"collection_id"))reject("verification_worker_collection_identity");
-            collection_check(read_file(collection.value,1048577),history.state,h);value.put("collection_validation",V::string("passed"));
+            const auto attachment=collection_check(read_file(collection.value,1048577),history.state,h);
+            value.put("collection_validation",V::string("passed")).put("attachment_applicability",V::string(attachment));
         }
         if(!history.complete)return reply("unknown",id,value,"verification_worker_history_torn");
         if(text(history.state,"phase")!="finished" && observed!="running")return reply("unknown",id,value,"verification_worker_unresolved");
@@ -189,6 +193,62 @@ V watch_verification_worker(const std::string& id,const std::string& directory,c
     if((n==0 && (after!=std::string(64,'0') || !worker.empty())) || n>history.count || (n && (text(history.records[n-1],"digest")!=after || text(h,"worker_epoch")!=worker)))reject("verification_watch_cursor");
     auto records=V::array();for(std::size_t i=n;i<history.count;++i)records.items.push_back(history.records[i]);
     out.fields["value"].put("records",records).put("last_sequence",number(history.count)).put("last_digest",V::string(history.previous)).put("worker_epoch",field(h,"worker_epoch"));return out;
+}
+namespace {
+bool operation_parameters(const V& p,bool watch) {
+    if(p.kind!=V::Kind::object)return false;
+    const std::set<std::string> keys=watch?std::set<std::string>{"operation_id","state_directory","after_sequence","after_digest","worker_epoch","follow_ms","snapshot"}:std::set<std::string>{"operation_id","state_directory"};
+    for(const auto& pair:p.fields)if(!keys.count(pair.first))return false;
+    const auto id=p.find("operation_id"),dir=p.find("state_directory");if(!id || id->kind!=V::Kind::string || !dir || dir->kind!=V::Kind::string || dir->text.size()<3 || dir->text.size()>960 ||
+       !json::valid_utf8(dir->text) || !((dir->text[0]>='A' && dir->text[0]<='Z') || (dir->text[0]>='a' && dir->text[0]<='z')) || dir->text[1]!=':' || dir->text[2]!='\\')return false;
+    try {identifier(id->text);}catch(const std::exception&) {return false;}return true;
+}
+Outcome unknown_watch(const std::string& request,const std::string& id,V last,const std::string& code,DWORD platform=0) {
+    last.put("scope",V::string("recorded-acquired-image-verification")).put("request_kind",V::string("operation-observation"))
+        .put("authenticity",V::string("not_established")).put("latest_image_state",V::string("not_established")).put("source_preservation",V::string("not_established"))
+        .put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false));if(!last.find("events"))last.put("events",V::array());
+    auto out=completed(request,last);out.exit_code=6;out.response.put("status",V::string("unknown")).put("operation_id",id.empty()?V{}:V::string(id));
+    auto d=diagnostic(code);if(platform)d.put("platform_code",V::string(std::to_string(platform)));out.response.fields["diagnostics"].items.push_back(d);return out;
+}
+}
+Outcome watch_verification_operation(const std::string& request,const V& p,const std::shared_ptr<WatchQueue>& events) {
+    if(!operation_parameters(p,true))return refused(request,"invalid_parameter");const auto invalid=validate_watch_parameters(p);if(!invalid.empty())return refused(request,invalid);
+    const auto id=text(p,"operation_id");auto last=V::object().put("state_directory",field(p,"state_directory"));
+    try {
+        Directory dir(text(p,"state_directory"));const auto header=header_read(dir);Security security;if(text(header,"operation_id")!=id)reject("verification_worker_identity");
+        const auto observer=security.identity("watch:");WatchCursor cursor(id,request,observer,p,verification_watch_profile(header));
+        auto collected=V::array();V validated_state;std::size_t bytes=0,delivered=0;const auto follow=p.find("follow_ms");const auto end=GetTickCount64()+(follow?std::stoull(follow->text):0);
+        for(;;) {
+#ifdef DISKED_VERIFICATION_WORKER_TESTING
+            if(delivered && GetEnvironmentVariableW(L"DISKED_VERIFICATION_WATCH_TEST_READ_FAILURE",nullptr,0))reject("verification_watch_test_read_failure");
+#endif
+            r::History history;auto out=verification_observation(request,inspect(id,dir,header,&history));std::vector<V> batch;auto candidate=cursor;auto next=collected;std::size_t added=0;
+            if(history.count) {
+                try {batch=candidate.project(history.state,history.records,history.previous);}catch(const std::invalid_argument& error) {return refused(request,error.what());}
+                for(const auto& item:batch) {const auto size=json::dump(item,watch_event_limits(item)).size();if(size>786432-bytes-added)throw std::invalid_argument("watch_queue_limit");added+=size;}
+                if(batch.size()>64-delivered)throw std::invalid_argument("watch_queue_limit");if(!events)for(const auto& item:batch)next.items.push_back(item);
+            }
+            auto pending=out;auto& value=pending.response.fields["result"];if(value.kind!=V::Kind::object)value=V::object();
+            value.put("state_directory",field(p,"state_directory")).put("observer_epoch",V::string(observer)).put("last_sequence",V::string(candidate.sequence())).put("last_digest",V::string(candidate.digest()))
+                .put("worker_epoch",candidate.worker().empty()?V{}:V::string(candidate.worker())).put("events",events?V::array():next);
+            if(!history.count && validated_state.kind!=V::Kind::null)value.put("last_validated_state",validated_state);
+            auto limits=response_limits(pending.response);limits.bytes-=2048;limits.values-=128;json::dump(pending.response,limits);
+            for(const auto& item:batch)if(events && !events->push(item))return out;
+            cursor=std::move(candidate);collected=std::move(next);bytes+=added;delivered+=batch.size();if(history.count)validated_state=history.state;
+            out=std::move(pending);last=out.response.fields["result"];if(out.exit_code || (history.count && text(history.state,"phase")=="finished"))return out;
+            if(GetTickCount64()>=end) {out.response.put("status",V::string("accepted_running"));out.exit_code=5;return out;}Sleep(25);
+        }
+    }catch(const Failure& error) {return unknown_watch(request,id,last,error.what(),error.platform);}
+     catch(const std::exception& error) {return unknown_watch(request,id,last,error.what());}
+}
+VerificationActions verification_actions() {
+    VerificationActions ports;ports.prepare=[](const V& p) {return prepare_verification_worker(text(p,"case_operation_id"),text(p,"case_directory"),text(p,"image"),text(p,"map"),text(p,"state_directory"));};
+    ports.execute=start_verification_worker;return ports;
+}
+Outcome dispatch_verification_operation(const std::string& request,const std::string& command,const V& p) {
+    if(command=="operation.watch")return watch_verification_operation(request,p);
+    if(command!="operation.inspect" && command!="operation.cancel.request")return refused(request,"command_unavailable",3);
+    if(!operation_parameters(p,false))return refused(request,"invalid_parameter");return verification_observation(request,observe_verification_worker(text(p,"operation_id"),text(p,"state_directory"),command=="operation.cancel.request"));
 }
 int run_verification_worker(int argc,wchar_t** argv) {
     try {

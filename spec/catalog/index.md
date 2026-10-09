@@ -39,4 +39,5 @@
 - [targets.json](targets.json)
 - [tests.json](tests.json)
 - [validation-cases.json](validation-cases.json)
+- [verification-command-prototype.json](verification-command-prototype.json)
 - [verification-worker-prototype.json](verification-worker-prototype.json)

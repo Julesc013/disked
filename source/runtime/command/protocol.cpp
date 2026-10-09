@@ -61,7 +61,8 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
     const bool matching_profile=features.size()==1 && operation && operation->kind==Value::Kind::string &&
         ((features.front().text=="org.disked.fake-operation-events/1" && operation->text.compare(0,8,"fake-op:")==0) ||
          (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0) ||
-         (features.front().text=="org.disked.report-operation-events/1" && operation->text.compare(0,10,"report-op:")==0));
+         (features.front().text=="org.disked.report-operation-events/1" && operation->text.compare(0,10,"report-op:")==0) ||
+         (features.front().text=="org.disked.verification-operation-events/1" && operation->text.compare(0,10,"verify-op:")==0));
     const bool streaming=matching_profile && command->text=="operation.watch" && events;
     if(!features.empty() && !streaming)return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
@@ -95,9 +96,15 @@ bool report_watch_response(const Value& response) {
     const auto scope=result->find("scope"),request=result->find("request_kind"),events=result->find("events");
     return string(scope) && scope->text=="recorded-acquisition-case-support-export" && string(request) && request->text=="operation-observation" && kind(events,Value::Kind::array);
 }
+bool verification_response(const Value& response) {
+    const auto result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto scope=result->find("scope");if(!string(scope) || scope->text!="recorded-acquired-image-verification")return false;
+    const auto phase=result->find("phase"),request=result->find("request_kind");
+    return (string(phase) && phase->text=="prepare") || (string(request) && (request->text=="verification-execution" || request->text=="operation-observation"));
+}
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
-    if(report_watch_response(response))limits.values=131072;return limits;
+    if(report_watch_response(response) || verification_response(response))limits.values=131072;return limits;
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;
@@ -162,6 +169,7 @@ int response_exit(const Value& value) {
         const auto code=d.find("code")->text;
         if(code=="command_unavailable" || code=="frontend_unavailable" || code=="interaction_unavailable" || code=="unsupported_feature" || code=="operation_unavailable" ||
            code=="export_provider_unavailable" || code=="export_provider_refused" || code=="export_definition_grant" || code=="export_preparation_or_definition_refused" ||
+           code=="verification_provider_unavailable" || code=="verification_provider_refused" || code=="verification_definition_grant" || code=="verification_preparation_or_definition_refused" ||
            code=="request_resource_limit" || code=="request_thread_unavailable" ||
            code=="memory_budget_unavailable" || code=="memory_budget_busy" || code=="memory_budget_mismatch" || code=="memory_budget_incompatible")return 3;
     }

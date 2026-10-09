@@ -390,13 +390,118 @@
       "request_schema": "urn:disked:schema:request:1",
       "result_schema": "urn:disked:schema:response:1",
       "spec_ids": [
-        "DE-044"
+        "DE-044",
+        "DE-111"
       ],
       "handler": null,
       "summary": "Verify image against explicit coverage",
-      "syntax_status": "unresolved",
-      "parameter_schema": null,
-      "argument_bindings": [],
+      "syntax_status": "defined",
+      "parameter_schema": "urn:disked:schema:verification-command-parameters:1",
+      "argument_bindings": [
+        {
+          "parameter": "phase",
+          "position": 0,
+          "completion": "schema-enum"
+        },
+        {
+          "parameter": "case_operation_id",
+          "position": 1,
+          "completion": "none"
+        },
+        {
+          "parameter": "image",
+          "position": 2,
+          "completion": "none"
+        },
+        {
+          "parameter": "map",
+          "option": "--map",
+          "value_arity": 1,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "case_directory",
+          "option": "--case-state-dir",
+          "value_arity": 1,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "state_directory",
+          "option": "--state-dir",
+          "value_arity": 1,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "definition",
+          "option": "--definition-json",
+          "value_arity": 1,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "definition_digest",
+          "option": "--definition-digest",
+          "value_arity": 1,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_case_read",
+          "option": "--allow-case-read",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_image_read",
+          "option": "--allow-image-read",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_map_read",
+          "option": "--allow-map-read",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_store_write",
+          "option": "--allow-store-write",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_host_effects",
+          "option": "--allow-host-effects",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        },
+        {
+          "parameter": "allow_private_metadata",
+          "option": "--allow-private-metadata",
+          "value_arity": 0,
+          "repeatable": false,
+          "option_aliases": [],
+          "completion": "none"
+        }
+      ],
       "completion_policy": "static-only"
     },
     {

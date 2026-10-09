@@ -817,7 +817,9 @@
       "path": "spec/tools/specctl.py",
       "kind": "generator",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "spec/tools/verification_contracts.py"
+      ],
       "spec_ids": [
         "DE-076"
       ]
@@ -5748,7 +5750,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/evidence/verification_operation.h"
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/evidence/verification_commands.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -5765,7 +5768,8 @@
         "source/platform/windows/worker_files.h",
         "source/providers/report/file_case.h",
         "source/providers/image/file_verification.h",
-        "source/runtime/evidence/report_export.h"
+        "source/runtime/evidence/report_export.h",
+        "source/runtime/evidence/verification_observation.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -5813,6 +5817,276 @@
       "spec_ids": [
         "DE-111",
         "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_commands.h",
+      "path": "source/runtime/evidence/verification_commands.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/protocol.h"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_commands.cpp",
+      "path": "source/runtime/evidence/verification_commands.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_commands.h",
+        "source/runtime/evidence/verification_operation.h",
+        "spec/catalog/verification-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_observation.h",
+      "path": "source/runtime/evidence/verification_observation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/operation/watch.h"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_observation.cpp",
+      "path": "source/runtime/evidence/verification_observation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_observation.h"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/catalog/verification-command-prototype.json",
+      "path": "spec/catalog/verification-command-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/verification-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/tools/verification_contracts.py",
+      "path": "spec/tools/verification_contracts.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/verification-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/evidence/verification_command_probe.cpp",
+      "path": "tests/evidence/verification_command_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_commands.h",
+        "source/platform/windows/verification_worker.h",
+        "source/runtime/evidence/verification_observation.h"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquired-image-verification-outcome.schema.json",
+      "path": "spec/schemas/acquired-image-verification-outcome.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-command-parameters.schema.json",
+      "path": "spec/schemas/verification-command-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/verification-worker-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-operation-event.schema.json",
+      "path": "spec/schemas/verification-operation-event.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/verification-worker-record.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-operation-result.schema.json",
+      "path": "spec/schemas/verification-operation-result.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/verification-operation-event.schema.json",
+        "spec/schemas/verification-worker-definition.schema.json",
+        "spec/schemas/verification-worker-state.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-preparation-result.schema.json",
+      "path": "spec/schemas/verification-preparation-result.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/verification-worker-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-worker-definition.schema.json",
+      "path": "spec/schemas/verification-worker-definition.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-case-export-definition.schema.json",
+        "spec/schemas/acquisition-plan-prototype.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-worker-grant.schema.json",
+      "path": "spec/schemas/verification-worker-grant.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-worker-record.schema.json",
+      "path": "spec/schemas/verification-worker-record.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/verification-worker-state.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/schemas/verification-worker-state.schema.json",
+      "path": "spec/schemas/verification-worker-state.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquired-image-verification-outcome.schema.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_verification_commands.py",
+      "path": "tests/evidence/test_verification_commands.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/verification_command_probe.cpp",
+        "spec/catalog/verification-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "tests/evidence/fixtures/verification-contracts.json",
+      "path": "tests/evidence/fixtures/verification-contracts.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_verification_semantics.py",
+      "path": "spec/tools/tests/test_verification_semantics.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/tools/verification_contracts.py",
+        "tests/evidence/fixtures/verification-contracts.json"
+      ],
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-022"
       ]
     }
   ]
