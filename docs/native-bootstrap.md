@@ -613,3 +613,5 @@ python tests/operation/test_worker_directory.py --probe build/windows-bootstrap/
 Separate native fake/acquisition fault probes cover validation failure after
 actual creation; the product ignores those controls. See
 `.aide/evidence/2026-10-09-worker-store/` for source-bound results and limits.
+
+DE-W034 also implements a private typed recorded-acquisition case reader. It opens only selected worker metadata, binds exact request/history content and generations, and preserves recorded status separately from current-image verification or authenticity. Typed support projections and export remain private pending bounded public service/frontend admission; see [acquisition-cases.md](acquisition-cases.md).

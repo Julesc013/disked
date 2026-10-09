@@ -1,8 +1,8 @@
 {
   "schema": "org.disked.report-export-profile/1",
   "status": "proposed",
-  "scope": "Private typed support artifact, inward export port and Windows ordinary-file adapter. Public evidence.export admission and acquired-image custody integration remain pending; no public/persisted ABI or physical qualification.",
-  "artifact": "Only a typed Case.support(policy) projection may construct an artifact. Freeze compact sorted-key UTF-8 JSON using the private case encoding plus one literal LF byte. Its exact digest, byte count, policy, encoding and fixture scope bind the immutable definition. Never serialize the private case or original custody hashes. Maximum artifact is 1048577 bytes, including LF.",
+  "scope": "Private typed health-fixture or recorded-acquisition support artifact, inward export port and Windows ordinary-file adapters. Public evidence.export admission and authenticated acquired-image custody remain pending; no public/persisted ABI or physical qualification.",
+  "artifact": "Only a typed Case.support(policy) or AcquisitionCase.support(policy) projection may construct an artifact. Freeze compact sorted-key UTF-8 JSON using the private case encoding plus one literal LF byte. Its exact digest, byte count, policy, encoding and scope bind the immutable definition. Fixture and recorded-acquisition scopes are distinct. Never serialize the private case or original custody/history hashes. Maximum artifact is 1048577 bytes, including LF.",
   "definition": "Immutable schema org.disked.report-export-definition-prototype/1 binds artifact description and exact destination/producer resources. Destination identity, ancestor epoch and normalized location bind create-write/readback-sha256. Producer identity, metadata epoch, location and full executable digest bind read access. A different policy, payload, destination, parent or producer requires a different definition; no field is updated in place.",
   "grant": "Exact definition_digest plus report_write and host_effects must be explicitly true. Grant mismatch or a false flag refuses before port observation or creation. A grant is a caller declaration, not authentication or owner acceptance. The native session permits only one execution call; it has no implicit retry, overwrite, force, resume, installation or storage privilege.",
   "ports": "Runtime uses observe/create/write/flush/read/size/stop_requested inward ports. Revalidate exact resources before creation and between bounded I/O steps. Only CreationRefusal after proving no file was created may report not_created from a failed creation. Other creation errors leave output uncertain. Once creation succeeds, cancellation/failure retains the output. No automatic deletion or replacement.",
@@ -12,11 +12,25 @@
   "public_draft": {
     "command_id": "evidence.export",
     "availability": "planned",
-    "phases": ["prepare", "execute"],
+    "phases": [
+      "prepare",
+      "execute"
+    ],
     "prepare": "Select an exact admitted case revision and disclosure policy plus destination. Return immutable artifact/resource definition and digest; create no file. Only the selected support payload is an export; surrounding paths/producer/routing metadata are not redacted support content.",
     "execute": "Require exact reviewed definition/digest, case revision/policy and separate report-write/host-effect grant. Reconstruct and compare all authoritative inputs, then use the bounded shared service. Return completed only for verified artifact; uncertainty/partial state must remain explicit. No supplied paths inside case contents are dereferenced and no supplied JSON can authenticate provenance.",
     "remaining": "Close parameter/result schemas, actual admitted case repository, bounded frontend wait/late-result behavior and cross-frontend parity before marking the public command available. Physical/acquisition custody remains separate."
   },
-  "limits": {"artifact_bytes": 1048577, "chunk_bytes": 65536, "definition_bytes": 16384, "producer_bytes": 16777216},
-  "claims": {"physical_backing_qualified": false, "source_preservation": "not_established", "authenticity": "not_established", "power_loss_persistence": "not_established", "worker_exit": "unobserved"}
+  "limits": {
+    "artifact_bytes": 1048577,
+    "chunk_bytes": 65536,
+    "definition_bytes": 16384,
+    "producer_bytes": 16777216
+  },
+  "claims": {
+    "physical_backing_qualified": false,
+    "source_preservation": "not_established",
+    "authenticity": "not_established",
+    "power_loss_persistence": "not_established",
+    "worker_exit": "unobserved"
+  }
 }

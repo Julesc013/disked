@@ -1,5 +1,6 @@
 #pragma once
 #include "case_report.h"
+#include "acquisition_case.h"
 #include <cstdint>
 
 namespace disked { namespace evidence { namespace proposal {
@@ -8,6 +9,7 @@ class SupportArtifact final {
     std::string bytes_,digest_;json::Value description_;
 public:
     SupportArtifact(const Case&,const json::Value& policy);
+    SupportArtifact(const AcquisitionCase&,const json::Value& policy);
     const std::string& bytes() const {return bytes_;}
     const std::string& digest() const {return digest_;}
     const json::Value& description() const {return description_;}

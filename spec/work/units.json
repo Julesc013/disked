@@ -1562,7 +1562,8 @@
         "python -m unittest discover -s spec/tools/tests -v",
         "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root .",
         "python tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root .",
-        "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root ."
+        "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root .",
+        "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1587,7 +1588,19 @@
         "tests/evidence/test_export.py",
         "tests/evidence/test_file_export.py",
         "source/providers/image/local_file.h",
-        "source/providers/image/local_file.cpp"
+        "source/providers/image/local_file.cpp",
+        "source/runtime/evidence/acquisition_case.h",
+        "source/runtime/evidence/acquisition_case.cpp",
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_case.cpp",
+        "tests/evidence/acquisition_case_probe.cpp",
+        "tests/evidence/test_acquisition_case.py",
+        "spec/catalog/acquisition-case-prototype.json",
+        "source/platform/windows/worker_files.h",
+        "source/runtime/acquisition/operation.cpp",
+        "source/runtime/acquisition/operation.h",
+        "source/platform/windows/acquisition_worker.cpp",
+        "tests/images/acquisition_worker_probe.cpp"
       ]
     },
     {

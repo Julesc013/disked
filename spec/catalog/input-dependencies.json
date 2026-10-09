@@ -4482,7 +4482,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/evidence/case_report.h",
-        "spec/catalog/report-export-prototype.json"
+        "spec/catalog/report-export-prototype.json",
+        "source/runtime/evidence/acquisition_case.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -4663,6 +4664,113 @@
       "spec_ids": [
         "DE-015",
         "DE-103"
+      ]
+    },
+    {
+      "id": "spec/catalog/acquisition-case-prototype.json",
+      "path": "spec/catalog/acquisition-case-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/case-evidence-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/acquisition_case.h",
+      "path": "source/runtime/evidence/acquisition_case.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/case_report.h",
+        "source/runtime/acquisition/operation.h",
+        "spec/catalog/acquisition-case-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/acquisition_case.cpp",
+      "path": "source/runtime/evidence/acquisition_case.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_case.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_case.h",
+      "path": "source/providers/report/file_case.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_case.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_case.cpp",
+      "path": "source/providers/report/file_case.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/report/file_case.h",
+        "source/platform/windows/worker_files.h",
+        "source/providers/image/local_file.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/acquisition_case_probe.cpp",
+      "path": "tests/evidence/acquisition_case_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_export.h",
+        "source/runtime/evidence/report_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_acquisition_case.py",
+      "path": "tests/evidence/test_acquisition_case.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/acquisition_case_probe.cpp",
+        "tests/evidence/test_case.py",
+        "tests/images/test_acquisition_worker.py",
+        "spec/catalog/acquisition-case-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
       ]
     }
   ]

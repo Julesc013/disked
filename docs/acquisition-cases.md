@@ -1,0 +1,46 @@
+# Recorded acquisition cases
+
+The private native case reader captures an explicitly selected acquisition
+operation's `acquisition.request` and `acquisition.records`. It validates their
+contract and chain, holds ordinary read-only file and ancestor handles, and
+checks exact contents, paths and metadata generations. The
+[proposed profile](../spec/catalog/acquisition-case-prototype.json) owns these
+semantics. It opens no image path recorded inside either metadata file.
+
+The immutable case retains the original before definition, accepted records,
+exact history digest/completeness, and an after snapshot only for a complete
+finished history. Its revision binds that content. The native source binding
+separately identifies current files and ancestors. An unchanged content revision
+does not establish resource-generation continuity. Open/torn histories, absent
+configuration data, worker exit, actor authenticity and current image validity
+remain qualified or unknown; a recorded completion is not a new verification.
+
+Default support contains structural state and recorded outcome. Raw counters,
+code/random identifiers and labeled inference require their own policy flags.
+Literal declared source/destination/map paths require identifiers, raw values and
+customer-data selection together. Original private/history/custody hashes,
+resource/capture hashes, grants, diagnostics, receipt extensions and torn content
+remain omitted under every policy. The typed artifact is exact compact JSON plus
+LF; its new hash covers only selected support content.
+
+With the installed pinned Windows toolchain:
+
+```powershell
+cmake --preset windows-bootstrap
+cmake --build --preset windows-bootstrap --target disked acquisition_worker_fault acquisition_case_probe
+python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .
+ctest --preset windows-bootstrap -R '^evidence\.(acquisition_case|case_model|export_model|file_export)$'
+```
+
+The test creates actual disposable-file acquisitions, verifies source/copy/map
+independently and checks typed support/export bytes. Pure-model alterations are
+synthetic; the live writer uses a separate admission-delay fault seam. The
+private probe's surrounding case/source output contains original metadata and
+paths and is not a redacted support payload.
+
+These private case/export libraries remain unlinked from `disked.exe`.
+Public `evidence.export` admission still needs exact case/source-resource and
+prepare/execute contracts, bounded service effects and cancellation/late-result
+behavior, and actual CLI/stdio/GUI/TUI/shell parity. Authenticated custody, current
+acquired-image verification, other platforms and physical qualification remain
+open. DE-W034 and DiskEd 0.1.0 remain incomplete.

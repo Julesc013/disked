@@ -2,6 +2,7 @@
 
 [Bundle index](../index.md). These files are not additional independent sources of normative authority.
 
+- [acquisition-case-prototype.json](acquisition-case-prototype.json)
 - [aliases.json](aliases.json)
 - [amendments.json](amendments.json)
 - [artifact-checker-prototype.json](artifact-checker-prototype.json)

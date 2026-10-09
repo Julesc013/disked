@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T02:30:40.213717+00:00'
-  scope: DE-W034 native report export port and explicit artifact effects
+  at: '2026-10-09T04:33:40.059411+00:00'
+  scope: DE-W034 typed recorded acquisition-case source and disclosure; qualification pending
 ---
 
 # Health assessment and forensic workflow
@@ -155,6 +155,30 @@ synchronous adapter remains unlinked from the product; public evidence.export
 parameters, admitted case sources, bounded service behavior and frontend parity
 remain required before admission. Acquisition/custody and physical/platform
 qualification retain their separate gates.
+
+## Recorded acquisition cases
+
+The [proposed acquisition-case profile](../catalog/acquisition-case-prototype.json)
+adds a typed, immutable view of an explicitly selected ordinary-file worker's
+request and history. Its native reader holds the two fixed metadata files and
+strong ancestors, checks actual paths/generations/content and binds the recorded
+operation, host declaration, store and history file identity. It never follows
+source, destination or map paths inside the records. The pure model validates the
+request/plan/grant declarations and bounded canonical history before retaining
+before/after snapshots and an exact content revision. Open/torn history and
+missing configuration evidence remain explicit; a record hash authenticates no
+actor and establishes no current image bytes, worker exit or preservation claim.
+
+Default support discloses structural state and recorded outcome only. Raw values,
+code/random identifiers and labeled inference have separate gates. Literal
+declared paths require identifiers, customer-data and raw-value selection
+together. Original case/definition/history/record hashes, resource/capture hashes,
+grants, diagnostics, receipt extensions and torn contents stay omitted under
+every policy. The typed support artifact can use the private bounded exporter;
+completion qualifies that artifact alone. Exact case/source-resource admission,
+bounded service waits/cancellation/late results and all frontend journeys remain
+required before public `evidence.export` availability. Authenticated custody,
+current image verification and physical/platform qualification retain their gates.
 
 ## Normative requirements
 

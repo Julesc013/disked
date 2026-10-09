@@ -55,9 +55,9 @@ set_target_properties(disked_health_observation PROPERTIES CXX_STANDARD 14 CXX_S
 target_compile_options(disked_health_observation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 # Private DE-W034 fixture case builder; not linked into the product composition.
-add_library(disked_case_evidence STATIC source/runtime/evidence/case_report.cpp)
+add_library(disked_case_evidence STATIC source/runtime/evidence/case_report.cpp source/runtime/evidence/acquisition_case.cpp)
 target_include_directories(disked_case_evidence PUBLIC source/runtime/evidence)
-target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disked_hash)
+target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disked_hash disked_acquisition)
 set_target_properties(disked_case_evidence PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_case_evidence PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
@@ -126,6 +126,13 @@ target_link_libraries(disked_file_report_export PUBLIC disked_report_export disk
 target_compile_definitions(disked_file_report_export PRIVATE _WIN32_WINNT=0x0A00)
 set_target_properties(disked_file_report_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_report_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_file_case_source STATIC source/providers/report/file_case.cpp)
+target_include_directories(disked_file_case_source PUBLIC source/providers/report PRIVATE source/platform/windows)
+target_link_libraries(disked_file_case_source PUBLIC disked_case_evidence disked_local_file)
+target_compile_definitions(disked_file_case_source PRIVATE _WIN32_WINNT=0x0A00)
+set_target_properties(disked_file_case_source PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_file_case_source PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_file_acquisition STATIC source/providers/image/file_acquisition.cpp)
 target_include_directories(disked_file_acquisition PUBLIC source/providers/image)
@@ -221,6 +228,16 @@ if(BUILD_TESTING)
   add_test(NAME operation.directory_pins COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/operation/test_worker_directory.py"
     --probe "$<TARGET_FILE:worker_directory_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(operation.directory_pins PROPERTIES TIMEOUT 90)
+  add_executable(acquisition_case_probe tests/evidence/acquisition_case_probe.cpp)
+  target_include_directories(acquisition_case_probe PRIVATE source/platform/windows)
+  target_compile_definitions(acquisition_case_probe PRIVATE _WIN32_WINNT=0x0A00)
+  target_link_libraries(acquisition_case_probe PRIVATE disked_file_case_source disked_file_report_export)
+  set_target_properties(acquisition_case_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(acquisition_case_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(acquisition_case_probe PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
+  add_test(NAME evidence.acquisition_case COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_acquisition_case.py"
+    --probe "$<TARGET_FILE:acquisition_case_probe>" --product "$<TARGET_FILE:disked>" --worker-fault "$<TARGET_FILE:acquisition_worker_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.acquisition_case PROPERTIES TIMEOUT 150 RESOURCE_LOCK disked_fake_workers)
   add_executable(report_export_probe tests/evidence/export_probe.cpp)
   target_link_libraries(report_export_probe PRIVATE disked_report_export)
   add_executable(file_report_export_probe tests/evidence/file_export_probe.cpp)
