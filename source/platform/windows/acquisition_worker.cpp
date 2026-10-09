@@ -44,6 +44,7 @@ FileAcquisitionRequest request_from(const V& v) {
     r.chunk_bytes=static_cast<std::uint32_t>(n);r.retries=static_cast<std::uint32_t>(retry);r.read_policy=text(v,"read_policy");r.substitution=text(v,"substitution");return r;
 }
 V store_binding(const Directory& directory) {
+    directory.check();
     auto names=V::array();for(const auto n:{request_name,records_name,cancel_name,lock_name})names.items.push_back(V::string(narrow(n)));
     return V::object().put("path",V::string(narrow(directory.path))).put("generation",local_file::generation(directory.pinned.back().value,true))
         .put("access",V::string("create-owned-metadata")).put("children",names).put("failure_domain",V::string("observed-file-volume:"+text(local_file::generation(directory.pinned.back().value,true),"volume_id")));
@@ -135,7 +136,7 @@ V prepare_acquisition_worker(const FileAcquisitionRequest& request,const std::st
     definition_valid(definition);return V::object().put("definition",definition).put("definition_digest",V::string(digest(definition)));
 }
 V start_acquisition_worker(const V& definition,const V& grant) {
-    std::string id;
+    std::string id;bool claimed=false,existing=false;
     try {
         definition_valid(definition);grant_valid(grant,definition);
         Directory directory(text(field(definition,"store"),"path"));Security security;Image image;
@@ -146,6 +147,7 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         applicable(definition,directory,security,image);
         if(GetFileAttributesW(directory.child(request_name).c_str())!=INVALID_FILE_ATTRIBUTES) {
             const auto header=header_read(directory);id=text(header,"operation_id");
+            existing=true;
             if(text(header,"definition_digest")!=digest(definition) || json::dump(field(header,"grant"))!=json::dump(grant))reject("acquisition_existing_definition_conflict");
             auto observed=inspect(id,directory,header);
             if(text(observed,"status")=="completed" && text(field(field(observed,"value"),"state"),"phase")=="active")observed.put("status",V::string("accepted_running"));
@@ -156,11 +158,11 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         // reopening outputs exclusively. The child revalidates this exact plan
         // under its own pinned source/output/code handles before any data effect.
         {FileAcquisition reviewed(request,&field(definition,"plan"));}
-        ULARGE_INTEGER available{};if(!GetDiskFreeSpaceExW(directory.path.c_str(),&available,nullptr,nullptr))worker_files::fail("acquisition_operation_capacity_observation");
+        directory.check();ULARGE_INTEGER available{};if(!GetDiskFreeSpaceExW(directory.path.c_str(),&available,nullptr,nullptr))worker_files::fail("acquisition_operation_capacity_observation");
         if(available.QuadPart<history_limit+32768)reject("acquisition_operation_capacity");
         auto attributes=security.attributes;
-        auto lock=directory.open(lock_name,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes);if(!lock.valid())worker_files::fail("acquisition_operation_busy");
         id=security.identity("image-op:");
+        auto lock=directory.open(lock_name,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes,&claimed);if(!lock.valid())worker_files::fail("acquisition_operation_busy");
         auto records=directory.open(records_name,GENERIC_READ|FILE_APPEND_DATA,FILE_SHARE_READ|FILE_SHARE_WRITE,CREATE_NEW,&attributes);
         if(!records.valid())worker_files::fail("acquisition_operation_create");
         auto cancel=directory.open(cancel_name,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,CREATE_NEW,&attributes);
@@ -183,6 +185,7 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=list.list;
         startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
         std::wstring command=L"\""+image.path+L"\" __disked_acquisition_worker";for(const auto h:handles)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(h));
+        directory.check();code_parent.check();
         PROCESS_INFORMATION raw{};if(!CreateProcessW(image.path.c_str(),&command[0],nullptr,nullptr,TRUE,DETACHED_PROCESS|EXTENDED_STARTUPINFO_PRESENT,nullptr,directory.path.c_str(),&startup.StartupInfo,&raw))worker_files::fail("acquisition_spawn_failed");
         Handle process(raw.hProcess),thread(raw.hThread);child_input=Handle();child_records=Handle();child_cancel=Handle();child_event=Handle();input=Handle();records=Handle();cancel=Handle();
         HANDLE waits[]={event.value,process.value};const auto wait=WaitForMultipleObjects(2,waits,FALSE,3000);
@@ -190,9 +193,9 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         auto observed=inspect(id,directory,header);
         if(text(observed,"status")=="completed" && text(field(field(observed,"value"),"state"),"phase")=="active")observed.put("status",V::string("accepted_running"));
         return observed;
-    } catch(const Failure& e) {return reply(id.empty()?"refused":"unknown",id,V::object(),e.what(),e.platform);}
-      catch(const FileAcquisitionError& e) {return reply(id.empty()?"refused":"unknown",id,V::object(),e.what(),e.platform_code);}
-      catch(const std::exception& e) {return reply(id.empty()?"refused":"unknown",id,V::object(),e.what());}
+    } catch(const Failure& e) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),e.what(),e.platform);}
+      catch(const FileAcquisitionError& e) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),e.what(),e.platform_code);}
+      catch(const std::exception& e) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),e.what());}
 }
 V observe_acquisition_worker(const std::string& id,const std::string& state_directory,bool cancel_request) {
     try {

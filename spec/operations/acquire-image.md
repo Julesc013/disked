@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-103
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-103-01
 updated:
   by: codex
-  at: '2026-10-09T03:02:06.355305+00:00'
-  scope: DE-W033 shared strong ancestor pins and generation/path revalidation; owner/release acceptance pending
+  at: '2026-10-09T03:33:56.250500+00:00'
+  scope: DE-W033/017 strong worker-state and code-parent guards with exact creation facts; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -527,3 +527,24 @@ qualifies observer bounds only. Physical/failing-media and other-platform claims
 require their own environments, providers and evidence.
 The fake inventory's graph revision is not an acquisition precondition. Review
 must not present it as authority or freshness for the independently bound files.
+
+## Shared worker-state directory coordination
+
+The [ordinary-file path profile](../catalog/ordinary-file-path-profile.json)
+now governs state-directory and executable-parent pins. Require directory read/list
+access with no write/delete sharing; refuse weaker fallback. Snapshot and check
+every ancestor generation and normalized handle path at construction, child open,
+directory enumeration, definition binding and dependent process launch. Child
+handles must match their exact expected path. In-process ancestor snapshots do not
+add cross-session ancestry continuity to existing persisted definition schemas.
+
+Retain a successful CREATE_NEW fact before later validation. Post-creation
+validation failure leaves the file and an unknown admission with its allocated
+operation ID. A failure before creation remains refused, without a new operation
+ID. Preserve files and require separate reconciliation; never replay or clean up
+a partial claim automatically. The created-validation fault control exists only
+in separately compiled test binaries and is not accepted by the product.
+
+These are tested ordinary Windows process/API boundaries, not physical namespace
+fences, elevated/external-writer protection, power-loss persistence or additional
+platform qualification. Existing map/code-generation resume rules remain in force.

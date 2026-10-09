@@ -92,3 +92,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W034: admit native consent-selected report-file export through the bounded shared service; retain acquisition/custody and physical/platform qualification gates.
 
 - [x] DE-W033 bounded shared-parent repair: retain the old destination/map rename defect, require readable/listable directory pins with no write/delete sharing, recheck every ancestor generation/path and bound source/code/output paths, and refuse weaker fallback. Generated-file regression evidence lives in `.aide/evidence/2026-10-09-parent-pins/`; W033, other-platform/physical qualification and owner acceptance remain open.
+
+- [x] DE-W033/017 bounded worker-state directory repair: shared strong pins and all-generation/path checks, metadata-only refusal, exact opened-child paths, guarded executable-parent launch and retained post-CREATE_NEW failure facts. Generated-file evidence: `.aide/evidence/2026-10-09-worker-store/`. W033/017, full 0.1.0, physical/other-platform qualification and owner acceptance remain open.

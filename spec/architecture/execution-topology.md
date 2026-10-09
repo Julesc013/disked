@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-015
   profile: disked-spec/1
-  version: 0.1.16-proposed.1
+  version: 0.1.17-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-015-02
 updated:
   by: codex
-  at: '2026-10-06T17:56:37.398435+00:00'
-  scope: DE-W012/017 bounded fake event watch and frontend parity; owner acceptance pending
+  at: '2026-10-09T03:33:56.250116+00:00'
+  scope: DE-W033/017 strong worker-state and code-parent guards with exact creation facts; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -226,3 +226,24 @@ Essential startup MUST run without opening devices, fetching dependencies, extra
 Every executor/verifier/recovery role MUST bind its execution host and supported plan subset; loss of a remote target MUST NOT redirect to local storage.
 
 **Verification:** Reconnect and cross-boot fake transcripts with host mismatch, unknown required features and missing remote target; require explicit refusal.
+
+## Shared worker-state directory coordination
+
+The [ordinary-file path profile](../catalog/ordinary-file-path-profile.json)
+now governs state-directory and executable-parent pins. Require directory read/list
+access with no write/delete sharing; refuse weaker fallback. Snapshot and check
+every ancestor generation and normalized handle path at construction, child open,
+directory enumeration, definition binding and dependent process launch. Child
+handles must match their exact expected path. In-process ancestor snapshots do not
+add cross-session ancestry continuity to existing persisted definition schemas.
+
+Retain a successful CREATE_NEW fact before later validation. Post-creation
+validation failure leaves the file and an unknown admission with its allocated
+operation ID. A failure before creation remains refused, without a new operation
+ID. Preserve files and require separate reconciliation; never replay or clean up
+a partial claim automatically. The created-validation fault control exists only
+in separately compiled test binaries and is not accepted by the product.
+
+These are tested ordinary Windows process/API boundaries, not physical namespace
+fences, elevated/external-writer protection, power-loss persistence or additional
+platform qualification. Existing map/code-generation resume rules remain in force.

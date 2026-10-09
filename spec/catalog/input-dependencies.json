@@ -3528,7 +3528,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/portable/hash/sha256.h",
-        "source/runtime/command/json.h"
+        "source/runtime/command/json.h",
+        "source/providers/image/local_file.h"
       ],
       "spec_ids": [
         "DE-103",
@@ -4636,6 +4637,32 @@
         "DE-036",
         "DE-103",
         "DE-102"
+      ]
+    },
+    {
+      "id": "tests/operation/directory_probe.cpp",
+      "path": "tests/operation/directory_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/worker_files.h"
+      ],
+      "spec_ids": [
+        "DE-015",
+        "DE-103"
+      ]
+    },
+    {
+      "id": "tests/operation/test_worker_directory.py",
+      "path": "tests/operation/test_worker_directory.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/operation/directory_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-015",
+        "DE-103"
       ]
     }
   ]

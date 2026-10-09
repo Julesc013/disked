@@ -73,6 +73,15 @@ class Failures(unittest.TestCase):
         self.assertEqual(6,code,response);self.assertEqual('unknown',response['status'])
         if operation:self.assertEqual(operation,response['operation_id'])
 
+    def test_post_creation_validation_failure_preserves_unknown_claim(self):
+        with store() as state:
+            code,value=invoke(ARGS.fault,['plan','simulate','fake:complete','--state-dir',state],'created_validation')
+            before=files(state);again,repeated=invoke(ARGS.fault,['plan','simulate','fake:complete','--state-dir',state])
+            self.unknown(code,value);self.assertIsNotNone(value['operation_id'])
+            self.assertEqual('operation_directory_changed',value['diagnostics'][0]['code'])
+            self.assertEqual({'request.json':b''},before);self.assertEqual(before,files(state));self.unknown(again,repeated)
+            OBS.append(dict(test='injected validation failure after actual creation',response=value,repeated=repeated,files=inventory(state)))
+
     def test_created_claim_write_failure_remains_unknown_and_is_not_retried(self):
         for mode in ('full','short','flush'):
             with self.subTest(mode=mode),store() as state:
@@ -156,14 +165,15 @@ class Failures(unittest.TestCase):
             self.assertEqual('denied',responses[2]['result']['target']['properties']['state'])
 
     def test_product_does_not_read_test_injection_control(self):
-        with store() as state:
-            code,admitted=invoke(ARGS.exe,['plan','simulate','fake:complete','--state-dir',state],'claim.full')
-            self.assertEqual(5,code,admitted);handle=process(state);self.assertTrue(handle)
-            try:self.assertEqual(0,wait(handle))
-            finally:K.CloseHandle(handle)
-            end,final=invoke(ARGS.exe,['operation','inspect',admitted['operation_id'],'--state-dir',state])
-            self.assertEqual(0,end,final);self.assertEqual('succeeded',final['result']['state']['outcome'])
-            OBS.append(dict(test='product ignores fault control',final=final))
+        for fault in ('claim.full','created_validation'):
+            with self.subTest(fault=fault),store() as state:
+                code,admitted=invoke(ARGS.exe,['plan','simulate','fake:complete','--state-dir',state],fault)
+                self.assertEqual(5,code,admitted);handle=process(state);self.assertTrue(handle)
+                try:self.assertEqual(0,wait(handle))
+                finally:K.CloseHandle(handle)
+                end,final=invoke(ARGS.exe,['operation','inspect',admitted['operation_id'],'--state-dir',state])
+                self.assertEqual(0,end,final);self.assertEqual('succeeded',final['result']['state']['outcome'])
+                OBS.append(dict(test='product ignores fault control',control=fault,final=final))
 
 if __name__=='__main__':
     run=unittest.main(argv=[__file__]+REST,verbosity=2,exit=False)

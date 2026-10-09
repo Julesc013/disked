@@ -29,6 +29,7 @@ int worker_exit(const std::string& code) {
     for(std::size_t i=0;i<sizeof(worker_failures)/sizeof(*worker_failures);++i)if(code==worker_failures[i])return static_cast<int>(100+i);return 199;
 }
 Value request_definition(const std::string& fixture,const Security& security,const Image& image,const Directory& directory) {
+    directory.check();
     return Value::object().put("fixture_id",Value::string(fixture)).put("host_id",Value::string(security.host_id))
         .put("source_revision",Value::string(bootstrap::source_revision)).put("input_digest",Value::string(bootstrap::input_digest))
         .put("image_digest",Value::string(image.digest)).put("provider_id",Value::string(fake_provider_identity()))
@@ -89,7 +90,8 @@ Outcome inspect(const std::string& request,const Directory& directory,const Valu
     }
 }
 Outcome start(const std::string& request,const std::string& fixture_id,const Directory& directory,const Security& security) {
-    Image image;const auto definition=request_definition(fixture_id,security,image,directory);
+    Image image;Directory code_parent(narrow(image.path.substr(0,image.path.find_last_of(L'\\'))));
+    const auto definition=request_definition(fixture_id,security,image,directory);
     auto prior=directory.open(L"request.json",GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,OPEN_EXISTING);
     if(prior.valid()) {
         prior=Handle();Value header;
@@ -112,9 +114,10 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         .put("operation_id",Value::string(id)).put("worker_epoch",Value::string(epoch)).put("definition",definition)
         .put("definition_digest",Value::string(op::hash(json::dump(definition))));
     const auto header_bytes=json::dump(header)+"\n";
-    auto anchor=directory.open(L"request.json",GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes);
-    if(!anchor.valid())fail("operation_admission_contended");
+    bool claimed=false;
     try {
+        auto anchor=directory.open(L"request.json",GENERIC_WRITE,FILE_SHARE_READ,CREATE_NEW,&attributes,&claimed);
+        if(!anchor.valid())fail("operation_admission_contended");
         write_file(anchor.value,header_bytes,"claim");anchor=Handle();
         auto records=directory.open(L"operation.records",FILE_APPEND_DATA|FILE_READ_ATTRIBUTES,FILE_SHARE_READ,CREATE_NEW,&attributes);
         auto cancel=directory.open(L"cancel.request",GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,CREATE_NEW,&attributes);
@@ -143,6 +146,7 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         // Windows 10 assigns the specified jobs as part of process creation.
         // There is no parent-owned suspended child awaiting a later assignment
         // or ResumeThread call if this frontend disconnects during admission.
+        directory.check();code_parent.check();
         if(!CreateProcessW(image.path.c_str(),&command[0],nullptr,nullptr,TRUE,
             DETACHED_PROCESS|EXTENDED_STARTUPINFO_PRESENT,nullptr,directory.path.c_str(),&startup.StartupInfo,&raw))fail("operation_spawn_failed");
         Handle process(raw.hProcess),thread(raw.hThread);
@@ -165,9 +169,11 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         out.response.put("status",Value::string("accepted_running"));out.exit_code=5;
         return out;
     } catch(const Failure& error) {
+        if(!claimed)throw;
         auto out=result(request,id,Value::object().put("admission",Value::string("unresolved")),"unknown",6,error.what());
         out.response.fields["diagnostics"].items.back().put("platform_code",Value::string(std::to_string(error.platform)));return out;
     } catch(const std::exception& error) {
+        if(!claimed)throw;
         return result(request,id,Value::object().put("admission",Value::string("unresolved")),"unknown",6,error.what());
     }
 }

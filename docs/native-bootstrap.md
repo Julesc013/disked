@@ -593,3 +593,23 @@ These host observations do not establish a physical namespace fence, protection
 against elevated/external writers, power-loss persistence or other-platform
 qualification. The baseline defect observation is retained separately from fixed
 qualification in `.aide/evidence/2026-10-09-parent-pins/`.
+
+Dev.24 applies the shared strong directory guard to fake/acquisition worker state
+and executable parents. It also retains exact CREATE_NEW facts when later
+validation fails: such an admission is unknown and preserves its operation ID and
+partial file. No incomplete claim is automatically removed or replayed. Existing
+persisted directory identity fields are unchanged; per-session ancestor checks do
+not imply cross-session ancestry continuity. Public evidence.export is still
+unavailable, and the development composition still has 18 available commands.
+
+The generated-directory test covers both rename/refusal, actual creation-time
+changes and metadata-only permission refusal:
+
+```powershell
+cmake --build --preset windows-bootstrap --target worker_directory_probe
+python tests/operation/test_worker_directory.py --probe build/windows-bootstrap/Release/worker_directory_probe.exe --root .
+```
+
+Separate native fake/acquisition fault probes cover validation failure after
+actual creation; the product ignores those controls. See
+`.aide/evidence/2026-10-09-worker-store/` for source-bound results and limits.

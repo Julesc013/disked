@@ -299,6 +299,15 @@ def main():
         map_check(Path(req['map']),Path(req['source']).read_bytes(),False)
         assert Path(req['destination']).read_bytes()==Path(req['source']).read_bytes()[:65536]
 
+        req=fixture('post-create-validation');reviewed=prepare('review-post-create-validation',req,True)
+        first=call('post-create-validation-unknown',reviewed,True,('STORE:created_validation',))
+        assert first['status']=='unknown' and first['operation_id'] and first['diagnostic']=='operation_directory_changed',first
+        before={p.name:p.read_bytes() for p in Path(req['state_directory']).iterdir()}
+        assert before=={'acquisition.admission':b''}
+        assert not Path(req['destination']).exists() and not Path(req['map']).exists()
+        repeat=call('post-create-validation-no-restart',reviewed,True)
+        assert repeat['status']=='refused' and before=={p.name:p.read_bytes() for p in Path(req['state_directory']).iterdir()},repeat
+
         for fault in ('full','short','flush'):
             req=fixture('worker-store-fault-'+fault);reviewed=prepare('review-store-fault-'+fault,req,True)
             first=call('store-fault-retained-'+fault,reviewed,True,('STORE:acquisition_record.'+fault,))

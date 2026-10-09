@@ -9,6 +9,7 @@
 #include <sddl.h>
 #include "json.h"
 #include "sha256.h"
+#include "local_file.h"
 #include <cstring>
 #include <cwctype>
 #include <cstdint>
@@ -150,7 +151,7 @@ inline std::wstring final_path(HANDLE file) {
     if(!size || size>=1024)fail("operation_file_path");return std::wstring(path,size);
 }
 struct Directory {
-    std::wstring path;std::vector<Handle> pinned;std::string identity;
+    std::wstring path;std::vector<local_file::Handle> pinned;std::string identity;Value generations;
     explicit Directory(const std::string& input):path(wide(input)) {
         if(path.size()<3 || path.size()>240 || !((path[0]>=L'A' && path[0]<=L'Z') || (path[0]>=L'a' && path[0]<=L'z')) ||
            path[1]!=L':' || path[2]!=L'\\')fail("operation_path_invalid");
@@ -165,27 +166,47 @@ struct Directory {
                 if(part.empty() || part==L"." || part==L".." || part.back()==L'.' || part.back()==L' ')fail("operation_path_invalid");
                 start=end+1;
             }
-            auto handle=Handle(CreateFileW(path.substr(0,end).c_str(),FILE_READ_ATTRIBUTES,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,
-                OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
-            if(!handle.valid())fail("operation_directory_unavailable");
-            if(!(file_info(handle.value).dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY))fail("operation_directory_unavailable");
-            pinned.push_back(std::move(handle));
         }
+        try {
+            // The synthetic leaf is never opened. It includes this directory
+            // itself in the common strong ancestor-pin closure.
+            pinned=local_file::pin_parents(child(L"_"));
+            generations=local_file::parent_generations(pinned);
+        } catch(const local_file::Error& error) {throw Failure("operation_directory_unavailable",error.platform_code);}
         identity=file_identity(pinned.back().value);
+        check();
     }
     std::wstring child(const wchar_t* name) const {return path+(path.back()==L'\\'?L"":L"\\")+name;}
-    Handle open(const wchar_t* name,DWORD access,DWORD share,DWORD creation,SECURITY_ATTRIBUTES* security=nullptr) const {
+    void check() const {
+        try {local_file::check_parents(child(L"_"),pinned,generations);}
+        catch(const local_file::Error& error) {throw Failure("operation_directory_changed",error.platform_code);}
+    }
+    Handle open(const wchar_t* name,DWORD access,DWORD share,DWORD creation,SECURITY_ATTRIBUTES* security=nullptr,bool* created=nullptr) const {
+        if(created)*created=false;
+        check();
         Handle file(CreateFileW(child(name).c_str(),access,share,security,creation,FILE_ATTRIBUTE_NORMAL|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
         if(!file.valid())return file;
+        // Preserve this fact before metadata/path validation can fail. Closing
+        // a handle after rejection does not remove its newly created file.
+        if(created)*created=creation==CREATE_NEW;
+#ifdef DISKED_WORKER_TEST_STORE_FAULTS
+        char fault[128]{};const auto count=GetEnvironmentVariableA("DISKED_TEST_STORE_FAULT",fault,sizeof(fault));
+        if(creation==CREATE_NEW && count>0 && count<sizeof(fault) && std::strcmp(fault,"created_validation")==0)
+            throw Failure("operation_directory_changed",ERROR_SHARING_VIOLATION);
+#endif
         const auto info=file_info(file.value);
-        if((info.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) || info.nNumberOfLinks!=1)fail("operation_file_type");return file;
+        if((info.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) || info.nNumberOfLinks!=1)fail("operation_file_type");
+        const auto expected=L"\\\\?\\"+child(name),actual=final_path(file.value);
+        if(CompareStringOrdinal(expected.c_str(),-1,actual.c_str(),-1,TRUE)!=CSTR_EQUAL)throw Failure("operation_file_path",0);
+        check();return file;
     }
     void empty() const {
+        check();
         WIN32_FIND_DATAW data{};const auto search=FindFirstFileW(child(L"*").c_str(),&data);
         if(search==INVALID_HANDLE_VALUE)fail("operation_directory_unavailable");bool found=false;
         do {if(std::wcscmp(data.cFileName,L".") && std::wcscmp(data.cFileName,L"..")) {found=true;break;}}while(FindNextFileW(search,&data));
         const auto error=GetLastError();FindClose(search);
-        if(found)fail("operation_directory_not_empty");if(error!=ERROR_NO_MORE_FILES)fail("operation_directory_unavailable");
+        if(found)fail("operation_directory_not_empty");if(error!=ERROR_NO_MORE_FILES)fail("operation_directory_unavailable");check();
     }
 };
 struct Image {
