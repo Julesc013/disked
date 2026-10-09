@@ -1,0 +1,142 @@
+[
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-configure.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-case-working --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-context.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault report_export_probe file_report_export_probe file_report_export_fault case_evidence_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-case-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-verify-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-win32.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^evidence\\.",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-evidence-regressions.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-spec-tests.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build-refined.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-final.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-index-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-check-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-verify-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-acquisition-cases/inspect-failed-fixture.py",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-retained-fixture.log"
+  }
+]

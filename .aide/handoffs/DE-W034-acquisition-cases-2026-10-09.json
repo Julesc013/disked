@@ -1,0 +1,710 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W034",
+  "base_revision": "8e193dd07aee4e8d164719fdc874739214e1ade7",
+  "spec_manifest_digest": "sha256:7484a48b74fee8479913da76858126510dbe5785bee10540397e902e21ace0e0",
+  "status": "partial",
+  "files_read": [
+    ".aide/handoffs/DE-W033-worker-store-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "TODO.MD",
+    "docs/acquisition-cases.md",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/providers/image/local_file.h",
+    "source/providers/report/file_case.cpp",
+    "source/providers/report/file_case.h",
+    "source/providers/report/file_export.cpp",
+    "source/providers/report/file_export.h",
+    "source/runtime/acquisition/operation.cpp",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_case.h",
+    "source/runtime/evidence/case_report.cpp",
+    "source/runtime/evidence/case_report.h",
+    "source/runtime/evidence/report_export.cpp",
+    "source/runtime/evidence/report_export.h",
+    "spec/START-HERE.md",
+    "spec/bundle.json",
+    "spec/catalog/acquisition-case-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/ordinary-file-path-profile.json",
+    "spec/catalog/report-export-prototype.json",
+    "spec/index.md",
+    "spec/operations/acquire-image.md",
+    "spec/operations/health-forensics.md",
+    "spec/schemas/acquisition-worker-definition.schema.json",
+    "spec/schemas/handoff.schema.json",
+    "spec/work/units.json",
+    "tests/evidence/acquisition_case_probe.cpp",
+    "tests/evidence/test_acquisition_case.py",
+    "tests/evidence/test_case.py",
+    "tests/images/test_acquisition_worker.py",
+    "tools/build-inputs.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-acquisition-cases/.gitattributes",
+    ".aide/evidence/2026-10-09-acquisition-cases/README.md",
+    ".aide/evidence/2026-10-09-acquisition-cases/REVIEW.md",
+    ".aide/evidence/2026-10-09-acquisition-cases/WORKING-FINDINGS.md",
+    ".aide/evidence/2026-10-09-acquisition-cases/failed-fixture-inspection.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/inspect-failed-fixture.py",
+    ".aide/evidence/2026-10-09-acquisition-cases/inventory.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduce.py",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/case-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-build.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-case-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-check.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-clone.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-configure.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-context.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-discovery.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-freshness.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-host.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-launch.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-manifest.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-native.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-python-environment.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-results.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-test-catalog.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/commands.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/native-artifacts.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/native-details.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/product-link-closure.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/sample-hash-check.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/sample-support.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-build-final.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-build-refined.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-build.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-final.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-final.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases-win32.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-cases.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-check-final.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-check.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-commands.json",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-configure.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-context.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-evidence-regressions.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-index-final.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-index.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-manifest.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-retained-fixture.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-spec-tests.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-verify-context.log",
+    ".aide/evidence/2026-10-09-acquisition-cases/working-verify-manifest.log",
+    ".aide/handoffs/DE-W034-acquisition-cases-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/acquisition-cases.md",
+    "docs/native-bootstrap.md",
+    "source/providers/report/file_case.cpp",
+    "source/providers/report/file_case.h",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_case.h",
+    "source/runtime/evidence/report_export.cpp",
+    "source/runtime/evidence/report_export.h",
+    "spec/bundle.json",
+    "spec/catalog/acquisition-case-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/report-export-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/evidence/acquisition_case_probe.cpp",
+    "tests/evidence/test_acquisition_case.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Clean source 327b8ae8b817eb5eaa3f2f796bc7c08bd038504c: typed recorded-acquisition case/native read adapter and policy-selected support/export. 153 focused checks, 16 policies, two actual independently verified acquisitions, all 62 Windows native groups; 947 structural checks, 256-file manifest and 175 spec tests with two skips. Dev.25, 18 available commands; public export unavailable. Public joint-source/effect admission and bounded frontend/service integration are next; full DE-W034/0.1.0 and owner acceptance remain open.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-configure.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-case-working --byte-budget 450000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-context.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault report_export_probe file_report_export_probe file_report_export_fault case_evidence_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-case-working",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-verify-context.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-index.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-check.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-win32.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R ^evidence\\.",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-evidence-regressions.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-spec-tests.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build-refined.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target acquisition_case_probe disked acquisition_worker_fault",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-build-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-final.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-bound.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-index-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-check-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-verify-manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-cases-retained.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-acquisition-cases/inspect-failed-fixture.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/working-retained-fixture.log"
+    },
+    {
+      "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/evidence/test_acquisition_case.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\acquisition_case_probe.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe --worker-fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\acquisition_worker_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-acquisition-cases\\reproduction-327b8ae8\\case-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-case-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-case --byte-budget 450000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-case",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\acquisition_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\acquisition_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\acquisition_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-acquisition_case_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-case-327b8ae8",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/clean-spec-tests.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/disked.exe",
+      "sha256": "sha256:b0182fef0dbb149fa3725c42aa57f8fd1136fbe255da5ba1a925bed89f9ac0d2"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/acquisition_case_probe.exe",
+      "sha256": "sha256:ca4e0416a33726db7871334ef375242994b48af44401d77347bad52ced169e8a"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/acquisition_worker_fault.exe",
+      "sha256": "sha256:7fddad889a7d93255939b7b48a3b78a026ff8df34aebeab7790a9fe36643e555"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/case_evidence_probe.exe",
+      "sha256": "sha256:d0b4ac3593fb5e5cc532cab8e3c4a6e23f2cba82c01368fbb3ec7b078e3aecdd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/report_export_probe.exe",
+      "sha256": "sha256:63f76215fc8d21198ab23adf65c74279f31690a0b7aeb68e63f1e9884f7d0c7d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/file_report_export_probe.exe",
+      "sha256": "sha256:27ee6dc0bd2413a08caf914c5433f4fe34c23433ddbd950b6b564a0c6f0c9772"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/disked_case_evidence.lib",
+      "sha256": "sha256:626d9bad01a9a6fcef4049cafefd090f1793cd037e3dd6cbb8af82b7bbae55b9"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/disked_file_case_source.lib",
+      "sha256": "sha256:a5fd0234a4afc368a16ef312e95249a4295eab49286a42c7085b8f681045c4f6"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/disked_report_export.lib",
+      "sha256": "sha256:0a847aadcd4c0937558ef3711e96be4eaaa7dee2bf92a1bac89624c68593f8b9"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-cases-327b8ae8/disked_file_report_export.lib",
+      "sha256": "sha256:2117aaa0e02eb5eae3fcd34451170102e64859b6c2001ed4edb762a488dc3e1d"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/acquisition_case_probe.exe",
+      "sha256": "sha256:ca4e0416a33726db7871334ef375242994b48af44401d77347bad52ced169e8a"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/acquisition_command_probe.exe",
+      "sha256": "sha256:e58522e68b17a47181f0e9952b2abb7adf081a008ee6e0d7dc4309fb779856c9"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/acquisition_probe.exe",
+      "sha256": "sha256:9a3955b09621a3ee0bc28678d1d1c5eb84a7a4d7986b32568d282b8d70d522be"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/acquisition_worker_fault.exe",
+      "sha256": "sha256:7fddad889a7d93255939b7b48a3b78a026ff8df34aebeab7790a9fe36643e555"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/acquisition_worker_probe.exe",
+      "sha256": "sha256:92070281674839a7c5817f1b5f12c84f8cf7c7d459b8defc9be43e46115bfdfc"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/capture_probe.exe",
+      "sha256": "sha256:8b5d1ae661db7b33ebcfb4fb7b8b8a0309d4feb746fffd4abf53342960865d7b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/case_evidence_probe.exe",
+      "sha256": "sha256:d0b4ac3593fb5e5cc532cab8e3c4a6e23f2cba82c01368fbb3ec7b078e3aecdd"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/command_parser_probe.exe",
+      "sha256": "sha256:7dff6a142dde0d40bd8604bff3cfea430d8e36e825be0b1ea75d4b05b81e350a"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked.exe",
+      "sha256": "sha256:b0182fef0dbb149fa3725c42aa57f8fd1136fbe255da5ba1a925bed89f9ac0d2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_capture_campaign.exe",
+      "sha256": "sha256:6fcd6e375034543fcb32b5c35c8fcfdafab6c170fbe9a1e46c5edc9488f0c51c"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_file_wait.exe",
+      "sha256": "sha256:4652b7931363f3687e68f20fc4bcdbd5b76c2d85caa538e7965854a059b63695"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_gui_unavailable.exe",
+      "sha256": "sha256:0bbe3d53a2e2fda1392c4d18cb8c084fac79572904911a969afcf6ee50538284"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_image_test.exe",
+      "sha256": "sha256:b69a1540dfaecfb6bd74b6210dae20aa28c681a15f810924eb918dc5bfc38ff8"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_memory_test.exe",
+      "sha256": "sha256:2cfbbb48e453801f7e51856f8c3936c0c71f23d236c4f441e603ee8b0661059f"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_provider_guard.exe",
+      "sha256": "sha256:1e698d14448b58ea6df520fb2ba36ac8f23d0a85b5e547814a4598204c588789"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_store_fault.exe",
+      "sha256": "sha256:637934daa248fb0d3b9fcb37cce3ff6e00fc908af9739795a68916640760db54"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_tui_fault.exe",
+      "sha256": "sha256:85235d22320d08c11e077c20cd44520baaea11fb6ea8d9f625a7eca57785b831"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_worker_delayed.exe",
+      "sha256": "sha256:e7f5880c817ba03833235f5f2870f26f7f2e689cc5018889996eb1ee9d60cd52"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/disked_worker_memory_limit.exe",
+      "sha256": "sha256:5ae7cbdec99fd2addf62e09f328c75d02062df2b7bf9ef57ba1439c8860b6532"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/file_acquisition_fault.exe",
+      "sha256": "sha256:8c9b300af19d92dc3f52426325afdea4186b258e89368ef63bf39b4bddb73b1c"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/file_acquisition_probe.exe",
+      "sha256": "sha256:b1f4e924262133a0059420d205e28f33e8201066edfda52e117855aae2bdf975"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/file_report_export_fault.exe",
+      "sha256": "sha256:f012a1a60ae98a1fdfab363da8495ab17d13d269635271e723dcb076761872dd"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/file_report_export_probe.exe",
+      "sha256": "sha256:27ee6dc0bd2413a08caf914c5433f4fe34c23433ddbd950b6b564a0c6f0c9772"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/frontend_service_probe.exe",
+      "sha256": "sha256:a406c3c4ffb7aa15f119abc8ef0997c498d0387c00a2be1d4ca5fc19b089b939"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/gpt_probe.exe",
+      "sha256": "sha256:0557f9936857edf1cf9f89ede38d2cf44279108f3bae4741e23da3c1058b0da8"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/guarded_journal_probe.exe",
+      "sha256": "sha256:f09de1daaf59e3437db48e1c6cbde7224651728fa535f86d20edf80b2bfe1fea"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/gui_model_probe.exe",
+      "sha256": "sha256:0aec6e0aaf1a5d54d8b32ab38890c8254ec55e473b97e38fccbaec224bbe8643"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/health_observation_probe.exe",
+      "sha256": "sha256:a8aa1e2f3a295fdb13c813062d04214fe54b9b4dc55c08be64360a8c08b648ff"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/image_file_capture_fault.exe",
+      "sha256": "sha256:b03d6f75691e0ca30503a870deff3a23629efcf06bd95dcedafb39b8164448e7"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/image_file_capture_probe.exe",
+      "sha256": "sha256:da0853654f0232b55122c811cf4923d5a9b05c6e61162e5285057ec0b2a1fc55"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/image_observation_probe.exe",
+      "sha256": "sha256:421a69737efdb90424564c9caac97dfd48ecf96fa913672cdc31e992f9aa338f"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/invocation_policy_probe.exe",
+      "sha256": "sha256:bbf8e6565798fc2427bf71ff1154c87e84003100b69eb1bb24d681a19b5908a2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/journal_codec_probe.exe",
+      "sha256": "sha256:ae2499f0acd380df2f796c49d27a64d13229e59db66232f41b087b4e14314c87"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/journal_semantic_probe.exe",
+      "sha256": "sha256:7723fea1160dbf6f53df37414bff8c5b83945de6cc437fd36c524d43452ea97b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/json_codec_probe.exe",
+      "sha256": "sha256:0bf4f7f944e884ad682c93f10fd85ed3423199d5dfcf3ac0cf687df0a87eaea2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/mbr_probe.exe",
+      "sha256": "sha256:96dc2cb7b6dea7400a9299a6f55a9f0606e1cac6c3a159e5f3cead5fd0e43233"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/model_journal_producer_probe.exe",
+      "sha256": "sha256:944aed1446b39a5b5e5c3e9f87f441eb7648f4e2a7165cfd44f16b5bf1b50373"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/operation_reducer_probe.exe",
+      "sha256": "sha256:185aa4280a25dd51c72a6e2c4d6c40f54ede028ac1b7c5d9177e32eb139ba75b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/plan_definition_probe.exe",
+      "sha256": "sha256:fb622fc5cf4c5e3b0598fb5a4d61b376f996e29b5861756c86d65cd95371933e"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/portable_cpp.exe",
+      "sha256": "sha256:1b5728b5e1848b8b1ca4727093434769c72d2314e564dd4d5e9f5324eec7a9b0"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/portable_probe.exe",
+      "sha256": "sha256:c404ef0c8e3b77f600d15407ca855b9c9ad0374c23fe2bf4c6a1f5f1218dfcf7"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/protocol_reader_probe.exe",
+      "sha256": "sha256:42be5a2278dedb5ff842eb705a3bdecfaf2bfefe65ea56c76ad2a5b313ce3fa1"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/provider_guard_probe.exe",
+      "sha256": "sha256:f55784ecfaa1a32423df3260ad9e89bec75a397d6b079ce061aca5b7b3973a75"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/report_export_probe.exe",
+      "sha256": "sha256:63f76215fc8d21198ab23adf65c74279f31690a0b7aeb68e63f1e9884f7d0c7d"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/request_channel_probe.exe",
+      "sha256": "sha256:46c3d68bf6addd7767674e1a3bb1d2d64ac3f64aaca472a0ca1b7ff0d30f39d2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/shell_model_probe.exe",
+      "sha256": "sha256:12222cc8d3ab01bbabf187a835ca8cd059b0eb51004c7c295d194b3171ca72e6"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/tui_model_probe.exe",
+      "sha256": "sha256:0f5171608cea96df283193ce1cd56f52c09e3e45df2a8cb709c92a21e8b89c44"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/watch_probe.exe",
+      "sha256": "sha256:05c812a246e0bfd93b75c442d0ad1741d71a0bf3662b712a1d15863ca909d4a5"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-case-327b8ae8/build/windows-bootstrap/Release/worker_directory_probe.exe",
+      "sha256": "sha256:9c2f9c823749b717fac6906f35c1e577b8a654163d2f433026e8507117d2ae71"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/OWNED-CUSTOMER-SOURCE.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/OWNED-CUSTOMER-COPY.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/OWNED-CUSTOMER-MAP.map",
+      "sha256": "sha256:b9cebb17d4d76004c180a9153b7089f514f87826a9ba88c83263e7009f9fadda"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/state/acquisition.request",
+      "sha256": "sha256:59fe14c09084fdf3106f015b6587b22cfefc94148676a05f30473f5a7727e4ec"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/state/acquisition.records",
+      "sha256": "sha256:97f08bc4eade9a53a4327640d0671e84eef533be7962cef1655bed4eb9c0f7e3"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-0albszf7/owned/support.json",
+      "sha256": "sha256:952c9d7d2374f72997c31a7d8f02fd7b07bc2c719434d401af2f48315321f638"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-acquisition-cases/reproduction-327b8ae8/sample-support.json",
+      "sha256": "sha256:952c9d7d2374f72997c31a7d8f02fd7b07bc2c719434d401af2f48315321f638"
+    }
+  ],
+  "blockers": [
+    "Public joint case/source/effect admission, bounded export service/cancellation/late effects, frontend parity, authenticated custody/current-image qualification, other specified platform/storage work and owner/release gates remain open. Local bounded implementation is available; no goal blocker/completion is claimed."
+  ],
+  "next_safe_step": "Continue DE-W034 with the exact public evidence.export prepare/execute contract for the recorded acquisition case. Bind immutable case content and the native source-resource binding together with the consent-selected artifact and destination/effect definition; require explicit case-read, report-write and host-effect authority. Integrate a bounded shared service/report worker with durable operation/attempt identities, cancellation and late-effect observation, then actual CLI/stdio/GUI/TUI/shell parity before availability. Use the typed recorded-acquisition case/native source rather than replacing it with a fake-only public selector. Preserve no-clobber/retained partial outputs and do not retry an uncertain writer automatically. Authenticated custody, current acquired-image validity, full recovery closure, cross-session ancestry continuity where required, all other specified platform/storage work, owner acceptance and physical-device/elevation/customer-data/installation/signing/publication gates remain separate. Local bounded implementation continues.",
+  "performed_remote_writes": false
+}

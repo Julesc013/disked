@@ -1,0 +1,23 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-0albszf7
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_acquisition_case.py", line 100, in main
+    try:(state_dir/'acquisition.records').open('wb');raise AssertionError('live byte writer succeeded')
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-0albszf7\\owned\\state\\acquisition.records'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_acquisition_case.py", line 177, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_acquisition_case.py", line 101, in main
+    except PermissionError as error:check('live-native-byte-write-refused',error.winerror in (5,32))
+                                    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_acquisition_case.py", line 21, in check
+    assert value,(name,extra);observations.append(dict(name=name,passed=True,**extra))
+           ^^^^^
+AssertionError: ('live-native-byte-write-refused', {})
