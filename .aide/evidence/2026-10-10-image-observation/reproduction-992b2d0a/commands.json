@@ -1,0 +1,296 @@
+[
+  {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T13:18:53.478868+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-host.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T13:18:53.784115+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-python-environment.log"
+  },
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-local",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T13:18:53.892424+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-clone.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:19:12.115773+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-configure.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:19:16.267614+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-build.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:20:31.993566+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-test-catalog.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:20:32.131580+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-native.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\image_verification_observation_probe.exe",
+      "--product",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-image-observation\\reproduction-992b2d0a\\image-observation.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:23.241476+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-image-observation.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:26.972668+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-check.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:29.345157+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-manifest.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:29.988798+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-freshness.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W034",
+      "--output",
+      ".aide-local/context/DE-W034-image-observation",
+      "--byte-budget",
+      "500000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:30.812640+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-context.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      ".aide-local/context/DE-W034-image-observation"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:31.968000+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-verify-context.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.110734+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-disked-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.147775+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-disked-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.185286+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-disked-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\image_verification_observation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.221540+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-image_verification_observation_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\image_verification_observation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.258700+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-image_verification_observation_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\image_verification_observation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.295148+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-image_verification_observation_probe-dependents.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.333982+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-launch.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a\\build\\windows-bootstrap\\Release\\disked.exe",
+      "commands",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.356064+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-discovery.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-image-observation-992b2d0a",
+    "started_at": "2026-10-09T13:28:34.378830+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reproduction-992b2d0a/clean-spec-tests.log"
+  }
+]

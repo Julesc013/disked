@@ -1,0 +1,210 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/working-configure.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/renamed-configure.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "image_verification_observation_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/renamed-build.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "image_verification_observation_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/namespace-build.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-observation-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/working-tests.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "image_verification_observation_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/refined-build.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-observation-refined.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/refined-tests.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "image_verification_observation_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reviewed-build.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-observation-reviewed.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/reviewed-tests.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "image_verification_observation_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/scope-guard-build.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-observation-scope-guard.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/scope-guard-tests.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-10-image-observation/working-spec-tests.log",
+    "scope": "Exploratory dirty checkout, not final coherent source evidence. Initial configure rejected a duplicate target; no old target build was run. A renamed-target build then rejected the incorrect generated namespace."
+  }
+]
