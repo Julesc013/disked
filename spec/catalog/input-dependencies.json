@@ -5430,6 +5430,107 @@
       "spec_ids": [
         "DE-111"
       ]
+    },
+    {
+      "id": "source/runtime/evidence/image_verification.h",
+      "path": "source/runtime/evidence/image_verification.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/acquisition/pipeline.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/image_verification.cpp",
+      "path": "source/runtime/evidence/image_verification.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_verification.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_verification.h",
+      "path": "source/providers/image/file_verification.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_verification.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_verification.cpp",
+      "path": "source/providers/image/file_verification.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_verification.h",
+        "source/providers/image/local_file.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/image_verification_probe.cpp",
+      "path": "tests/evidence/image_verification_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_verification.h",
+        "source/providers/report/file_case.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_image_verification.py",
+      "path": "tests/evidence/test_image_verification.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/image_verification_probe.cpp",
+        "tests/images/test_acquisition_worker.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/acquired-image-verification-prototype.json",
+      "path": "spec/catalog/acquired-image-verification-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-111",
+        "DE-103",
+        "DE-044"
+      ]
     }
   ]
 }

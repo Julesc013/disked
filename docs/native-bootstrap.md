@@ -636,3 +636,21 @@ actual inventory/review/minimum-window checks are part of
 bar pixels and DIB alpha do not qualify client content. Clean evidence binds
 the selected executable and harness separately. This is not complete visual,
 accessibility, DPI or other-platform qualification.
+
+The private acquired-image verifier adds a read-only current-byte observation
+under DE-W034. It independently checks the explicit original plan, canonical map
+chain/checkpoints/substitutions/seal, current output identities and chunk hashes,
+with separate before/after resource checks. No stored path is followed and no
+resume, replay, repair, output creation or write port exists. A matching image is
+not an authenticated actor, source-preservation or point-in-time acquisition claim.
+
+The synchronous ordinary-file adapter is qualified separately from product
+availability and bounded worker containment:
+
+```text
+python tests/evidence/test_image_verification.py --probe build/windows-bootstrap/Release/acquired_image_verification_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .
+```
+
+Current case/support reports still say image verification was not performed.
+Binding the separate verification receipt into case/custody, product worker/watch,
+all frontends and platform qualification remains work; no public command is added.

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.8-proposed.2
+  version: 0.1.9-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T06:29:23.462435+00:00'
-  scope: DE-W034 native recorded acquisition report composition; full custody and platform qualification pending
+  at: '2026-10-09T11:43:14.786783+00:00'
+  scope: DE-W034 explicit read-only current acquired-image verification; product worker/custody and platform gates remain open
 ---
 
 # Health assessment and forensic workflow
@@ -226,6 +226,39 @@ budgets. Test-only delays and metadata-write failures qualify actual process/API
 behaviour, not power loss or physical storage. Public export descriptors,
 parameter/result contracts, bounded common service/watch and all frontend journeys
 remain admission gates. Retention grants no new writer permission.
+
+## Current acquired-file verification
+
+The [private verification profile](../catalog/acquired-image-verification-prototype.json)
+defines a separate current-byte observation before evaluating its implementation.
+Explicitly select image/map paths and an exact recorded plan. Do not follow paths
+contained in case/map metadata. Bind current read resources and original output
+generations, require both read grants, and use read ports only. No resume, replay,
+map repair or automatic creation/write path is part of verification.
+
+Independently validate canonical map ordering/hash chain, chunk geometry,
+pending/checkpoint pairs, substitutions and full seal coverage. Read checkpointed
+image ranges and distinguish bytes returned from bytes matched. Preserve matching
+prefixes while later mismatch, unavailable reads, torn maps, cancellation or
+resource changes keep the complete result unqualified. Bind separate before/after
+resource observations; a transient observed generation change cannot be forgotten
+merely because a later observation matches again.
+
+`matched` concerns current held ordinary-file bytes matching the recorded map.
+Substituted zeros remain substituted data. A consistent map authenticates no actor
+and establishes no untouched source, point-in-time acquisition, worker exit,
+healthy media, physical fencing or power-loss persistence. Existing acquisition
+case/support claims remain `current_image_verification: not_performed` unless a
+separate applicable verification observation is explicitly bound to them.
+The native case source's revision and before/after bindings remain a separate
+applicability check. A later unavailable case binding must retain the independently
+observed image result; it cannot authorize a current-case completion claim.
+
+The initial Windows adapter/probe is private and synchronous, with bounded
+allocations, records and ranges. OS-call latency and asynchronous containment are
+not thereby bounded. Native generated-file qualification, typed case/custody
+integration, bounded product worker/watch and frontend journeys remain separate
+steps; this component does not add an available product command or stable ABI.
 
 ## Normative requirements
 

@@ -1566,7 +1566,9 @@
         "tests/frontend/test_product_export.py",
         "tests/frontend/report_console_fixture.py",
         "source/platform/windows/ui/gui.cpp",
-        "tests/frontend/acquisition_console_fixture.py"
+        "tests/frontend/acquisition_console_fixture.py",
+        "source/providers/image/file_verification.h",
+        "source/providers/image/file_verification.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1603,7 +1605,8 @@
         "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root .",
-        "python tests/evidence/test_report_process.py"
+        "python tests/evidence/test_report_process.py",
+        "python tests/evidence/test_image_verification.py --probe build/windows-bootstrap/Release/acquired_image_verification_probe.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1699,7 +1702,14 @@
         "tests/frontend/report_console_fixture.py",
         "source/platform/windows/ui/gui.cpp",
         "tests/frontend/acquisition_console_fixture.py",
-        "tests/evidence/test_report_process.py"
+        "tests/evidence/test_report_process.py",
+        "source/runtime/evidence/image_verification.h",
+        "source/runtime/evidence/image_verification.cpp",
+        "source/providers/image/file_verification.h",
+        "source/providers/image/file_verification.cpp",
+        "tests/evidence/image_verification_probe.cpp",
+        "tests/evidence/test_image_verification.py",
+        "spec/catalog/acquired-image-verification-prototype.json"
       ]
     },
     {

@@ -108,3 +108,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Qualify report watch/reconnect evidence, then admit its exact service/composition through bounded product requests and actual frontend journeys.
 
 - [ ] Qualify candidate recorded acquisition export/report backend in actual bounded CLI/stdio/GUI/TUI/shell journeys; retain exact bytes/imports and separate full case/custody and platform gates.
+
+- [ ] DE-W034: qualify private current acquired-image/map verification on actual disposable images, then bind its before/after observations and evidence applicability into case/custody and bounded product worker/frontend contracts. Preserve source-preservation/actor/physical claims as separate gates.

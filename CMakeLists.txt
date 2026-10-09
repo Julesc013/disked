@@ -55,7 +55,7 @@ set_target_properties(disked_health_observation PROPERTIES CXX_STANDARD 14 CXX_S
 target_compile_options(disked_health_observation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 # DE-W034 recorded acquisition case builder; ordinary metadata only.
-add_library(disked_case_evidence STATIC source/runtime/evidence/case_report.cpp source/runtime/evidence/acquisition_case.cpp)
+add_library(disked_case_evidence STATIC source/runtime/evidence/case_report.cpp source/runtime/evidence/acquisition_case.cpp source/runtime/evidence/image_verification.cpp)
 target_include_directories(disked_case_evidence PUBLIC source/runtime/evidence)
 target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disked_hash disked_acquisition)
 set_target_properties(disked_case_evidence PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -138,6 +138,12 @@ add_library(disked_file_acquisition_export STATIC source/providers/report/file_a
 target_link_libraries(disked_file_acquisition_export PUBLIC disked_file_case_source disked_file_report_export)
 set_target_properties(disked_file_acquisition_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_acquisition_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_file_image_verification STATIC source/providers/image/file_verification.cpp)
+target_link_libraries(disked_file_image_verification PUBLIC disked_case_evidence disked_local_file)
+target_compile_definitions(disked_file_image_verification PRIVATE _WIN32_WINNT=0x0A00)
+set_target_properties(disked_file_image_verification PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_file_image_verification PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_file_acquisition STATIC source/providers/image/file_acquisition.cpp)
 target_include_directories(disked_file_acquisition PUBLIC source/providers/image)
@@ -330,6 +336,15 @@ if(BUILD_TESTING)
   add_test(NAME evidence.file_export COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_file_export.py"
     --probe "$<TARGET_FILE:file_report_export_probe>" --fault "$<TARGET_FILE:file_report_export_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(evidence.file_export PROPERTIES TIMEOUT 120)
+  add_executable(acquired_image_verification_probe tests/evidence/image_verification_probe.cpp)
+  target_link_libraries(acquired_image_verification_probe PRIVATE disked_file_image_verification disked_file_case_source)
+  set_target_properties(acquired_image_verification_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(acquired_image_verification_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(acquired_image_verification_probe PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  add_test(NAME evidence.acquired_image_verification COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_image_verification.py"
+    --probe "$<TARGET_FILE:acquired_image_verification_probe>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.acquired_image_verification PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
+
   add_executable(case_evidence_probe tests/evidence/case_probe.cpp)
   target_link_libraries(case_evidence_probe PRIVATE disked_case_evidence disked_presentation)
   set_target_properties(case_evidence_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
