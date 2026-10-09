@@ -9,6 +9,8 @@ class ImageVerificationObservation final {
 public:
     ImageVerificationObservation(const AcquisitionCase&,const std::string& raw_request,
         const VerificationDefinition&,const VerificationOutcome&,const json::Value& context);
+    static ImageVerificationObservation restore(const AcquisitionCase&,const std::string& raw_request,
+        const json::Value& retained);
     const json::Value& view() const {return view_;}
     const std::string& revision() const {return revision_;}
     json::Value support(const json::Value& policy) const;

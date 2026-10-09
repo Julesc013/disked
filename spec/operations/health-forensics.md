@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.10-proposed.1
+  version: 0.1.11-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T12:56:04.621118+00:00'
-  scope: DE-W034 immutable verification observations and selected private support artifacts; product worker/custody and platform gates remain open
+  at: '2026-10-09T13:59:19.684583+00:00'
+  scope: DE-W034 bounded historical observation collections and explicitly granted private retention; product worker and platform gates remain open
 ---
 
 # Health assessment and forensic workflow
@@ -290,6 +290,32 @@ cannot rewrite the immutable historical observation or authorize an automatic
 retry. This probe qualification does not admit a new product command or a stable
 worker/store contract. Durable custody collections, bounded reader/watch and all
 frontend/platform/physical qualification remain gates.
+
+## Private historical verification collections
+
+The [collection profile](../catalog/image-verification-collection-prototype.json)
+defines bounded snapshots with the exact original raw request/history, typed
+case and ordered verification observations. Each new snapshot retains old
+records and binds a separate observer attempt/worker/capture/process identity.
+Ordinal collection order does not establish fresh sampling or clock order.
+Restore rebuilds the original case, typed observations and every chain binding;
+it performs no OS calls and follows no path retained in a record.
+
+Complete private retention and selected support are separate typed artifacts.
+Private retention needs an additional private-metadata grant at the effect port;
+its canonical bytes include original paths/metadata and are never support data.
+Review binds the exact collection revision and complete create-new effect.
+Flush/readback facts do not establish power-loss persistence or actor custody.
+
+An ordinary-file reader takes only an explicit selected path and expected
+artifact digest, retains strong file/parent bindings, applies finite byte/read
+budgets and validates the entire retained snapshot. It must not reopen the
+original case/image/map paths, and late selected-file applicability stays
+separate from the immutable historical facts. Qualify actual generated-file
+retention/reload, disclosure, malformed/contradictory records and held-source
+changes. Bounded workers, watch/cancel and actual image.verify frontends remain
+required before product availability. This private profile freezes no stable
+persisted ABI and grants no physical, owner, release or authentication claim.
 
 ## Normative requirements
 

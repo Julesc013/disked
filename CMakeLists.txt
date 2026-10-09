@@ -61,7 +61,7 @@ target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disk
 set_target_properties(disked_case_evidence PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_case_evidence PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_report_export STATIC source/runtime/evidence/report_export.cpp source/runtime/evidence/acquisition_export.cpp source/runtime/evidence/report_operation.cpp source/runtime/evidence/image_observation.cpp)
+add_library(disked_report_export STATIC source/runtime/evidence/report_export.cpp source/runtime/evidence/acquisition_export.cpp source/runtime/evidence/report_operation.cpp source/runtime/evidence/image_observation.cpp source/runtime/evidence/image_collection.cpp)
 target_link_libraries(disked_report_export PUBLIC disked_case_evidence)
 set_target_properties(disked_report_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_report_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -127,9 +127,9 @@ target_compile_definitions(disked_file_report_export PRIVATE _WIN32_WINNT=0x0A00
 set_target_properties(disked_file_report_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_report_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_file_case_source STATIC source/providers/report/file_case.cpp)
+add_library(disked_file_case_source STATIC source/providers/report/file_case.cpp source/providers/report/file_image_collection.cpp)
 target_include_directories(disked_file_case_source PUBLIC source/providers/report PRIVATE source/platform/windows)
-target_link_libraries(disked_file_case_source PUBLIC disked_case_evidence disked_local_file)
+target_link_libraries(disked_file_case_source PUBLIC disked_report_export disked_local_file)
 target_compile_definitions(disked_file_case_source PRIVATE _WIN32_WINNT=0x0A00)
 set_target_properties(disked_file_case_source PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_case_source PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -355,6 +355,15 @@ if(BUILD_TESTING)
   add_test(NAME evidence.image_verification_observation COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_image_observation.py"
     --probe "$<TARGET_FILE:image_verification_observation_probe>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(evidence.image_verification_observation PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
+
+  add_executable(image_verification_collection_probe tests/evidence/image_collection_probe.cpp)
+  target_link_libraries(image_verification_collection_probe PRIVATE disked_file_case_source disked_file_report_export)
+  set_target_properties(image_verification_collection_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(image_verification_collection_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(image_verification_collection_probe PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  add_test(NAME evidence.image_verification_collection COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_image_collection.py"
+    --probe "$<TARGET_FILE:image_verification_collection_probe>" --observation-probe "$<TARGET_FILE:image_verification_observation_probe>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.image_verification_collection PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
 
   add_executable(case_evidence_probe tests/evidence/case_probe.cpp)
   target_link_libraries(case_evidence_probe PRIVATE disked_case_evidence disked_presentation)

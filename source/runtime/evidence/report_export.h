@@ -5,6 +5,8 @@
 
 namespace disked { namespace evidence { namespace proposal {
 class ImageVerificationObservation;
+class ImageVerificationCollection;
+class CollectionRetentionArtifact;
 // Typed selected content only; no constructor accepts arbitrary JSON/bytes.
 class SupportArtifact final {
     std::string bytes_,digest_;json::Value description_;
@@ -12,19 +14,31 @@ public:
     SupportArtifact(const Case&,const json::Value& policy);
     SupportArtifact(const AcquisitionCase&,const json::Value& policy);
     SupportArtifact(const ImageVerificationObservation&,const json::Value& policy);
+    SupportArtifact(const ImageVerificationCollection&,const json::Value& policy);
+    const std::string& bytes() const {return bytes_;}
+    const std::string& digest() const {return digest_;}
+    const json::Value& description() const {return description_;}
+};
+// Closed typed artifact union. No byte/JSON constructor or subclass can turn
+// arbitrary content into an admitted export. Private retention stays distinct.
+class ExportArtifact final {
+    std::string bytes_,digest_;json::Value description_;
+public:
+    ExportArtifact(const SupportArtifact&);
+    ExportArtifact(const CollectionRetentionArtifact&);
     const std::string& bytes() const {return bytes_;}
     const std::string& digest() const {return digest_;}
     const json::Value& description() const {return description_;}
 };
 class ExportDefinition final {
-    SupportArtifact artifact_;json::Value definition_;std::string digest_;
+    ExportArtifact artifact_;json::Value definition_;std::string digest_;
 public:
-    ExportDefinition(const SupportArtifact&,const json::Value& resources);
-    const SupportArtifact& artifact() const {return artifact_;}
+    ExportDefinition(const ExportArtifact&,const json::Value& resources);
+    const ExportArtifact& artifact() const {return artifact_;}
     const json::Value& value() const {return definition_;}
     const std::string& digest() const {return digest_;}
 };
-struct ExportGrant {std::string definition_digest;bool report_write=false,host_effects=false;};
+struct ExportGrant {std::string definition_digest;bool report_write=false,host_effects=false,private_metadata=false;};
 // Only an adapter which proves creation did not occur may throw this type.
 struct CreationRefusal : Error {explicit CreationRefusal(const char* code):Error(code) {}};
 class ExportPorts {

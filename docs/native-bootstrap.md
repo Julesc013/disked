@@ -674,3 +674,13 @@ a wrong or inner-only digest grants no write. Recorded matching is distinct from
 attachment applicability and present-day state. No resource/customer hashes,
 paths or arbitrary diagnostics enter this support artifact. Durable custody,
 bounded reader/watch, public command/frontend and platform admission remain work.
+
+Private historical verification collections retain the original raw metadata and
+typed verification records in bounded snapshots. Their proposed contract is
+`spec/catalog/image-verification-collection-prototype.json`. Private complete
+retention requires an extra private-metadata grant; policy-selected support
+omits original paths/hashes. Strict reload uses only an explicit selected file
+and expected artifact digest. Native save/reload, source changes and record
+contradictions need applicable qualification. This adds no image.verify command,
+authenticated custody, latest-image authority or stable persisted ABI; bounded
+reader/watch/cancel/frontend and platform/owner/physical gates remain open.

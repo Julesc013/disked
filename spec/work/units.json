@@ -1608,7 +1608,8 @@
         "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root .",
         "python tests/evidence/test_report_process.py",
         "python tests/evidence/test_image_verification.py --probe build/windows-bootstrap/Release/acquired_image_verification_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/evidence/test_image_observation.py --probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_image_observation.py --probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_image_collection.py --probe build/windows-bootstrap/Release/image_verification_collection_probe.exe --observation-probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1717,7 +1718,14 @@
         "source/runtime/evidence/image_observation.cpp",
         "tests/evidence/image_observation_probe.cpp",
         "tests/evidence/test_image_observation.py",
-        "spec/catalog/image-verification-observation-prototype.json"
+        "spec/catalog/image-verification-observation-prototype.json",
+        "source/runtime/evidence/image_collection.h",
+        "source/runtime/evidence/image_collection.cpp",
+        "source/providers/report/file_image_collection.h",
+        "source/providers/report/file_image_collection.cpp",
+        "tests/evidence/image_collection_probe.cpp",
+        "tests/evidence/test_image_collection.py",
+        "spec/catalog/image-verification-collection-prototype.json"
       ]
     },
     {

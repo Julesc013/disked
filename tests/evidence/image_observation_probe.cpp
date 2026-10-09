@@ -1,4 +1,5 @@
 #include "image_observation.h"
+#include "image_collection.h"
 #include "acquisition_export.h"
 #include "file_case.h"
 #include "file_verification.h"
@@ -58,9 +59,14 @@ int main(int argc,char** argv) {
         catch(const std::exception&) {context.put("image_after",V{}).put("image_binding_revalidation",V::string("unavailable"));}
         context.put("clock",V::object().put("domain",V::string("windows-filetime-wall")).put("started",V::string(std::to_string(start))).put("finished",V::string(std::to_string(now()))).put("elapsed_ms",V::string(std::to_string(GetTickCount64()-ticks))));
         const e::ImageVerificationObservation observation(report,raw,d,o,context);
-        auto model=V::object().put("mode",V::string("model")).put("header",get(report.view(),"before")).put("raw_request",V::string(raw)).put("records",V::string(records))
+        auto model=V::object().put("mode",V::string("model")).put("header",get(report.view(),"before")).put("raw_request",V::string(raw)).put("records",disked::json::valid_utf8(records)?V::string(records):V{})
+            .put("records_hex",V::string(e::image_collection_hex(records)))
             .put("definition",d.value).put("definition_digest",V::string(d.digest)).put("outcome",o.view()).put("context",context);
         auto out=result(observation,report,model);
+        disked::worker_files::Security observer_security;
+        out.put("observer_binding",V::object().put("attempt_id",V::string(observer_security.identity("attempt:"))).put("worker_epoch",V::string(observer_security.identity("worker:")))
+            .put("capture_epoch",V::string(observer_security.identity("capture:"))).put("process_id",V::string(std::to_string(GetCurrentProcessId())))
+            .put("process_created",V::string(disked::worker_files::process_created(GetCurrentProcess()))));
         if(exports) {
             const auto& selected=get(input,"exports");if(selected.kind!=V::Kind::array || selected.items.empty() || selected.items.size()>16)throw e::Error("observation_probe_export_limit");auto observations=V::array();
             for(std::size_t i=0;i<selected.items.size();++i) {

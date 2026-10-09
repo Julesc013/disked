@@ -1,5 +1,6 @@
 #include "report_export.h"
 #include "image_observation.h"
+#include "image_collection.h"
 #include "sha256.h"
 #include <algorithm>
 
@@ -50,7 +51,14 @@ SupportArtifact::SupportArtifact(const ImageVerificationObservation& report,cons
     description_=V::object().put("bytes",number(bytes_.size())).put("digest",V::string(digest_)).put("policy",policy)
         .put("encoding",V::string("private-case-json-utf8-lf/1")).put("scope",V::string("recorded-image-verification-support"));
 }
-ExportDefinition::ExportDefinition(const SupportArtifact& artifact,const V& bindings):artifact_(artifact) {
+SupportArtifact::SupportArtifact(const ImageVerificationCollection& report,const V& policy) {
+    bytes_=json::dump(report.support(policy),case_limits())+'\n';if(bytes_.size()>1048577)throw Error("export_artifact_limit");digest_=export_digest(bytes_);
+    description_=V::object().put("bytes",number(bytes_.size())).put("digest",V::string(digest_)).put("policy",policy)
+        .put("encoding",V::string("private-case-json-utf8-lf/1")).put("scope",V::string("recorded-image-verification-collection-support"));
+}
+ExportArtifact::ExportArtifact(const SupportArtifact& artifact):bytes_(artifact.bytes()),digest_(artifact.digest()),description_(artifact.description()) {}
+ExportArtifact::ExportArtifact(const CollectionRetentionArtifact& artifact):bytes_(artifact.bytes()),digest_(artifact.digest()),description_(artifact.description()) {}
+ExportDefinition::ExportDefinition(const ExportArtifact& artifact,const V& bindings):artifact_(artifact) {
     resources(bindings);definition_=V::object().put("schema",V::string("org.disked.report-export-definition-prototype/1"))
         .put("artifact",artifact.description()).put("resources",bindings);digest_=export_digest(encode(definition_));
 }
@@ -64,7 +72,8 @@ V ExportOutcome::view() const {
 }
 ExportOutcome execute_export(const ExportDefinition& definition,const ExportGrant& grant,ExportPorts& ports) {
     ExportOutcome out;
-    if(grant.definition_digest!=definition.digest() || !grant.report_write || !grant.host_effects) {out.diagnostic="export_grant";return out;}
+    const bool private_content=field(definition.artifact().description(),"scope").text=="recorded-image-verification-collection-private";
+    if(grant.definition_digest!=definition.digest() || !grant.report_write || !grant.host_effects || (private_content && !grant.private_metadata)) {out.diagnostic="export_grant";return out;}
     const auto& expected=field(definition.value(),"resources");const auto& bytes=definition.artifact().bytes();
     bool creating=false;
     auto fresh=[&] {const auto current=ports.observe();resources(current);if(encode(current)!=encode(expected))throw Error("export_binding_changed");};

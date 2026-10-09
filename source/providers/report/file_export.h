@@ -14,7 +14,7 @@ struct FileReportExportResult {evidence::proposal::ExportOutcome outcome;json::V
 class FileReportExport final {
     class Impl;std::unique_ptr<Impl> impl_;
 public:
-    FileReportExport(const evidence::proposal::SupportArtifact&,const std::string& destination,
+    FileReportExport(const evidence::proposal::ExportArtifact&,const std::string& destination,
         const json::Value* reviewed_definition=nullptr);
     ~FileReportExport();
     FileReportExport(const FileReportExport&)=delete;FileReportExport& operator=(const FileReportExport&)=delete;

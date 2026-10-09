@@ -19,6 +19,7 @@
 - [fake-health-command.json](fake-health-command.json)
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [health-observation-prototype.json](health-observation-prototype.json)
+- [image-verification-collection-prototype.json](image-verification-collection-prototype.json)
 - [image-verification-observation-prototype.json](image-verification-observation-prototype.json)
 - [input-dependencies.json](input-dependencies.json)
 - [journal-model.json](journal-model.json)

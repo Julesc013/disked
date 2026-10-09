@@ -98,6 +98,23 @@ ImageVerificationObservation::ImageVerificationObservation(const AcquisitionCase
         .put("attachment_applicability",V::string(applicable)).put("scope",V::string("recorded-acquired-image-verification")).put("claims",claims());
     revision_=export_digest(encode(view_));
 }
+ImageVerificationObservation ImageVerificationObservation::restore(const AcquisitionCase& report,const std::string& raw,const V& retained) {
+    encode(retained);const auto& d=get(retained,"definition");
+    auto definition=prepare_verification(acquisition::prepare(get(d,"plan")),get(d,"resources"));
+    definition.value=d;definition.digest=text(get(retained,"definition_digest"));
+    const auto& v=get(retained,"outcome");VerificationOutcome o;
+    o.status=text(get(v,"status"));o.diagnostic=text(get(v,"diagnostic"));o.revalidation=text(get(v,"resource_revalidation"));o.before=get(v,"before");o.after=get(v,"after");
+    o.records=integer(get(v,"records"));o.consumed_map_bytes=integer(get(v,"consumed_map_bytes"));o.covered_bytes=integer(get(v,"covered_bytes"));o.read_bytes=integer(get(v,"read_bytes"));
+    o.matched_bytes=integer(get(v,"matched_bytes"));o.source_bytes=integer(get(v,"source_bytes"));o.substituted_bytes=integer(get(v,"substituted_bytes"));
+    for(const auto key:{"sealed","pending"})if(get(v,key).kind!=V::Kind::boolean)fail("image_observation_shape");
+    o.sealed=get(v,"sealed").boolean;o.pending=get(v,"pending").boolean;if(!same(o.view(),v))fail("image_observation_shape");
+    const auto& stored_clock=get(retained,"clock");keys(stored_clock,{"domain","started","finished","elapsed_ms","wall_clock_regressed"});auto timing=V::object();
+    for(const auto key:{"domain","started","finished","elapsed_ms"})timing.put(key,get(stored_clock,key));
+    auto context=V::object().put("verifier",get(retained,"verifier")).put("clock",timing)
+        .put("case_before",get(retained,"case_source_before")).put("case_after",get(retained,"case_source_after")).put("case_revalidation",get(retained,"case_revalidation"))
+        .put("image_before",get(retained,"image_binding_before")).put("image_after",get(retained,"image_binding_after")).put("image_binding_revalidation",get(retained,"image_binding_revalidation"));
+    ImageVerificationObservation result(report,raw,definition,o,context);if(!same(result.view(),retained))fail("image_observation_retained_mismatch");return result;
+}
 V ImageVerificationObservation::support(const V& policy) const {
     keys(policy,{"identifiers","raw_values","interpretations","customer_data"});for(const auto& entry:policy.fields)if(entry.second.kind!=V::Kind::boolean)fail("image_observation_policy");
     const auto& observed=get(view_,"outcome");auto summary=V::object().put("recorded_status",get(observed,"status")).put("resource_revalidation",get(observed,"resource_revalidation"))

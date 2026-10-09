@@ -71,7 +71,7 @@ class FileReportExport::Impl final:public e::ExportPorts {
             .put("access",V::string("read")).put("digest",V::string(producer_digest_));
     }
 public:
-    Impl(const e::SupportArtifact& artifact,const std::string& destination,const V* reviewed):destination_(destination) {
+    Impl(const e::ExportArtifact& artifact,const std::string& destination,const V* reviewed):destination_(destination) {
         wchar_t module[241];const auto length=GetModuleFileNameW(nullptr,module,241);if(!length || length>=241)throw FileReportExportError("export_producer_path",GetLastError());
         producer_path_.reset(new Path(local_file::utf8(std::wstring(module,length))));producer_=open_read(producer_path_->value);
         const auto metadata=local_file::metadata(producer_.value);producer_metadata_=metadata.value;if(!metadata.size || metadata.size>16777216)throw FileReportExportError("export_producer_limit");
@@ -156,7 +156,7 @@ public:
         return {outcome,receipt};
     }
 };
-FileReportExport::FileReportExport(const e::SupportArtifact& artifact,const std::string& path,const V* reviewed) {
+FileReportExport::FileReportExport(const e::ExportArtifact& artifact,const std::string& path,const V* reviewed) {
     try {impl_.reset(new Impl(artifact,path,reviewed));}catch(const local_file::Error& error) {throw FileReportExportError(error.what(),error.platform_code);}
 }
 FileReportExport::~FileReportExport()=default;
