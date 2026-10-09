@@ -19,6 +19,13 @@ The amended baseline is **proposed and awaiting review**. The specification tool
 
 These are work groups, not new IDs or a second dependency graph. Run `python spec/tools/specctl.py next` for current dependency readiness. A dependency-ready result is not an execution grant. The explicit 0.1.0 programme grant selects every platform/storage operation specified at base 40ac8ec and permits local continuation across units after tests and agent review. Owner acceptance and release/storage privileges remain separate; see `.aide/programmes/disked-0.1.0.json`. The retained baseline review records that grant separately from the still-pending acceptance ledger; `next` therefore continues to show the unaccepted W000 dependency.
 
+DE-W060 begins with an [offline package fixture binding](setup-fixtures.md):
+exact local upstream schema/source identities, independent native payload
+inventory, package/recipe agreement and owned-directory equality/retention
+tests. It does not qualify a live Setup consumer or installation mode. The
+existing local programme grant covers fixture work; formal owner acceptance,
+actual installation and production storage privileges remain separate.
+
 The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. DE-W010 native build/launch results are retained separately under `.aide/evidence/2026-10-06-native-bootstrap/`; they do not qualify the full product or replace historical tooling results.
 
 ## Decisions that remain open

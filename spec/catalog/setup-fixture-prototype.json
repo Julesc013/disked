@@ -1,0 +1,56 @@
+{
+  "schema": "org.disked.setup-fixture-profile/1",
+  "status": "proposed-local-fixture",
+  "work_id": "DE-W060",
+  "source_lock": "external/universal-setup/source-lock.json",
+  "target": "windows.nt10.x64.win32",
+  "composition": "windows.native.image.prototype",
+  "entrypoint": "disked.exe",
+  "component_id": "disked.prototype",
+  "scope": "Offline contract mapping, deterministic portable ZIP and extraction into new marker-owned fixture directories. This is not a second installer or an installed-state authority.",
+  "preconditions": [
+    "Source-bound clean native build identity and independently enumerated nonempty staging inventory before packaging.",
+    "Quiescent ordinary local regular files; links, remote/device namespaces, unsafe names and collisions refuse.",
+    "Explicit new fixture workspace and explicit new output child; existing empty or occupied roots refuse without changes."
+  ],
+  "package_mapping": {
+    "product": "org.disked",
+    "product_version": "Exact 0.1.0-dev.N identity; no stable-release promotion.",
+    "source": "usk.source_manifest.v1 local_package binds payload.zip byte count and raw hex SHA-256.",
+    "components": "One disked.prototype component maps every independent inventory file to file/path/integer bytes/raw hex SHA-256; windows/x64.",
+    "immutable_paths": "Exact sorted inventory file paths.",
+    "mutable_paths": [],
+    "preserved_paths": [],
+    "external_state": "Configuration, cases, journals, evidence and recovery are external to the immutable payload, never bundled or owned by this fixture.",
+    "authenticity_refs": [],
+    "license_refs": [],
+    "sbom_refs": [],
+    "provenance_refs": ["build-info.json"],
+    "release_eligibility": "Unavailable: owner license, complete notices, signatures and channel/target qualification remain separate. Empty references make no qualification claim."
+  },
+  "recipe_mapping": {
+    "contract": "usk.setup_recipe.v1; authored requirements, not a callable lifecycle request or permission.",
+    "scope": "portable",
+    "payload_root": "{INSTALL_ROOT}",
+    "mutable_root": "{CONFIG_ROOT}",
+    "preserved_root": "{CASE_ROOT}",
+    "lifecycle_operations": ["verify"],
+    "rollback_disposition": "refused",
+    "recovery_disposition": "refused",
+    "installed_state_compatibility": "Schema reference 1.0 only, no reader qualification.",
+    "unavailable": ["install", "repair", "update", "move", "uninstall", "per_user", "machine", "managed_portable", "embedded_host", "signed_carrier", "msi", "msix"]
+  },
+  "fixture_operations": ["init-fixtures", "assemble", "verify", "extract-fixture"],
+  "expected_results": [
+    "Assembled payload ZIP contains exactly inventory paths and bytes; each package component and immutable path agrees with that inventory.",
+    "Package and recipe validate against five exact unmodified pinned upstream schemas using an offline reference registry.",
+    "Verification and extraction require separately selected inventory and build-info inputs; a wholly replaced internally consistent bundle cannot redefine expected bytes. They reject missing/extra/changed metadata or payload, mismatched product/version/component/digest/topology, stale source locks and unsupported mode claims.",
+    "Extracted ordinary fixture files equal the independent inventory and original payload, including the one disked.exe entrypoint.",
+    "Existing empty/occupied/file/link roots refuse without overwrite or deletion; generated foreign, case, recovery and evidence bytes remain exact.",
+    "A write failure retains partial fixture output for inspection; no automatic cleanup, retry, install record, host integration or rollback claim.",
+    "Checksums establish equality only. Real Setup ABI integration, live lifecycle, authenticity, other targets and owner acceptance remain not_run."
+  ],
+  "limits": {"metadata_bytes": 4194304, "copy_chunk": 65536, "workspace_name_bytes": 96},
+  "cli_exits": {"pass": 0, "refusal_or_io": 1, "usage": 2},
+  "qualification": "Fixture-only; no physical access, network acquisition, SDK execution, installation, registry/PATH/shortcuts/services, elevation, signing or publication. Quiescent fixture ownership is a test boundary, not isolation from hostile concurrent filesystem mutation."
+}

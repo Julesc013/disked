@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-061
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -29,10 +29,14 @@ sources:
   resource: ../references/sources.json#ulk-readme
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: setup-fixture-source-2026-10-10
+  resource: ../references/sources.json#setup-fixture-source-2026-10-10
+- id: launcher-background-source-2026-10-10
+  resource: ../references/sources.json#launcher-background-source-2026-10-10
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-10T00:00:00Z'
+  scope: DE-W060 exact local source mapping and owned payload fixture contract; owner review pending
 ---
 
 # Universal Setup boundary and installation modes
@@ -62,6 +66,49 @@ Inactive H inside D is permitted by [DE-060](composition.md), without granting t
 DiskEd owns product selection, storage semantics and active-operation dependency reports. Universal Setup owns generic software lifecycle as qualified; MSI/MSIX owners retain their resources. [Deployment profiles](deployment-profiles.md), [acquisition policy](component-acquisition.md) and [channels](channels-and-servicing.md) define DiskEd's requirements without forking upstream schemas. No other repository is changed by this task.
 
 Maintenance distinguishes pause requested, checkpoint reached, resources released, recovery still dependent and unknown/unreachable. It cannot treat unreachable as quiescent. Retain exact generations or defer. Generic upstream gaps become consumer test requirements for DE-W060/062, not a private fallback installer.
+
+## Initial fixture binding
+
+The [fixture profile](../catalog/setup-fixture-prototype.json) selects exact
+local Setup source `2e64f654b370f500ddbab45ae097df63352c3c25`; the
+[source record](../references/sources.json#setup-fixture-source-2026-10-10) and
+`external/universal-setup/source-lock.json` retain Git blobs,
+byte counts and hashes. This is a local observation, not a claim about current
+remote heads. Five unmodified MIT product/source/component/recipe/state-reference
+schemas are retained for offline validation. Launcher source is independently
+pinned as optional background; it is not a runtime dependency.
+
+Setup's exported C ABI has four `usk_*_v1` functions and CMake SDK targets
+Headers/CoreStatic/CoreShared. Product-package/recipe conformance remains
+fixture-qualified and is not the callable command request. The inspected
+source restricts managed-portable mutation behind a separate human live-lane
+acceptance. DiskEd does not promote that gate or claim its own integration from
+upstream retained tests. Source inspection is not a native SDK build or ABI test.
+
+The DiskEd binding constructs an offline portable ZIP from a separately
+enumerated nonempty inventory and maps exact entry paths, integer byte counts
+and raw hexadecimal hashes into `usk.product_package.v1`. Recipe version/digest,
+component set and topology must agree, beyond independent field types. Fixture
+verification and extraction require separately selected original inventory and
+native build-info; an internally consistent replaced package cannot redefine
+the expected bytes. Schema references resolve only from the pinned local closure.
+
+This provisional profile selects Windows x64 `0.1.0-dev.N` and an immutable
+payload with external configuration/case/recovery/evidence roots. Those external
+roots acquire no package ownership. Empty authenticity/license/SBOM references
+mean no release qualification; source/launch evidence and owner licensing remain
+separate. Recipe `verify` is an authored selection, not a live SDK invocation.
+Install/repair/update/move/uninstall, per-user/machine, embedded hosts and native
+carriers remain unavailable through this binding.
+
+Extraction writes ordinary files only below a new explicitly marker-owned
+fixture child. Every existing root, including an empty root, refuses. A write
+failure retains partial output with no cleanup, replay or rollback claim.
+Generated occupied-root, foreign/case/evidence/recovery and interruption tests
+must preserve exact bytes. This stricter fixture rule does not redefine
+upstream empty-target policy. No installed-state truth, registration, upstream
+script execution, real installation, elevation, signature or publication is
+created. Quiescent fixture path checks are not hostile-filesystem isolation.
 
 ## Normative requirements
 

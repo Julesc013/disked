@@ -2119,7 +2119,7 @@
       "id": "DE-W060",
       "title": "Pin and map Universal Setup package integration",
       "phase": "M3+",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -2131,12 +2131,18 @@
         "DE-062",
         "DE-063",
         "DE-064",
-        "DE-065"
+        "DE-065",
+        "DE-077"
       ],
       "allowed_paths": [
         "release/bindings/universal-setup/**",
         "tests/setup/**",
-        "external/**"
+        "external/**",
+        "spec/**",
+        "docs/setup-fixtures.md",
+        "docs/development-plan.md",
+        "TODO.MD",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2155,7 +2161,8 @@
         "claiming unrun tests passed"
       ],
       "deliverables": [
-        "Exact source contract mapping and payload equality tests on fixture directories."
+        "Exact source contract mapping and payload equality tests on fixture directories.",
+        "Source-bound fixture-only package/recipe mapping with offline pinned schemas and retained native payload equality evidence; no lifecycle ABI admission."
       ],
       "acceptance": [
         "No assumed unsupported Setup modes.",
@@ -2163,11 +2170,28 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python -m unittest discover -s tests/setup -v"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/setup-fixture-prototype.json",
+        "release/bindings/universal-setup/package_fixture.py",
+        "release/bindings/universal-setup/README.md",
+        "tests/setup/test_package_fixture.py",
+        "external/universal-setup/source-lock.json",
+        "external/universal-setup/README.md",
+        "external/universal-setup/LICENSE",
+        "external/universal-setup/contracts/schema/package/product_package.v1.schema.json",
+        "external/universal-setup/contracts/schema/package/component_manifest.v1.schema.json",
+        "external/universal-setup/contracts/schema/package/source_manifest.v1.schema.json",
+        "external/universal-setup/contracts/schema/setup/product_setup_recipe.v1.schema.json",
+        "external/universal-setup/contracts/schema/state/installed_state_compatibility.v1.schema.json",
+        "tools/release/artifact_check.py",
+        "spec/catalog/artifact-checker-prototype.json",
+        ".aide/evidence/2026-10-10-setup-fixtures/reproduce.py"
+      ]
     },
     {
       "id": "DE-W061",
