@@ -1,0 +1,135 @@
+[
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-joint-65134c4 --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-joint-65134c4",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-verify-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-check.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target acquisition_export_probe acquisition_export_fault disked file_report_export_probe file_report_export_fault acquisition_case_probe report_export_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-build.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --evidence .aide/evidence/2026-10-09-joint-export/working-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-cases.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^evidence\\.",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-evidence-regressions.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --evidence .aide/evidence/2026-10-09-joint-export/working-cases-semantic.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-cases-semantic.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-index-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-verify-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-joint-working --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-context-updated.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-joint-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-verify-context-updated.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-spec-tests.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --evidence .aide/evidence/2026-10-09-joint-export/working-cases-final.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-cases-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-check-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-manifest-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-joint-export/working-verify-manifest-final.log"
+  }
+]
