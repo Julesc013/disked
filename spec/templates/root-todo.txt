@@ -44,7 +44,7 @@ release/storage authority remain separate. The programme record is
 
 - [ ] Resolve original-code licensing before redistribution; review third-party rights independently.
 - [ ] DE-W060/062: qualify deployment profiles, finite carriers and one servicing owner per installation.
-- [ ] DE-W063: implement independently staged nonempty artifact verification before a release candidate.
+- [x] DE-W063 local checker implementation: separate nonempty staging inventory, bounded ZIP verification and owned regression fixtures. Owner acceptance, release-candidate qualification and publication remain open.
 - [ ] DE-W061: validate live AIDE import and worker boundaries in a separately authorized disposable environment.
 - [ ] Review AIDE roughly weekly; next review **2026-10-11**. Update exact pins and evidence until a stable release is reviewed and qualified. No automatic schedule is configured.
 - [ ] DE-W080/090: qualify exact target/operation compositions and satisfy scoped release gates.
@@ -82,3 +82,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W033 acquisition: Windows ordinary-file public prepare/execute/inspect/cancel/watch, native GUI/TUI/shell, structured input, bounded watch and copy/cancel/resume have clean source-bound fixture evidence. The requirement audit keeps physical backing, thin provisioning, real failing media, power loss and other-platform qualification open; W033 remains partial. See `.aide/evidence/2026-10-09-acquisition-public/`.
 - [ ] Strengthen the shared GUI screenshot helper to reject frame-only captures; the separate redraw-verified execution review and original failed frame are retained.
 - [ ] DE-W040 active: proposed binary framing codec and independent native byte/corruption/torn-tail/stream-budget tests implemented. Immutable fake-model definitions, separate data-bound receipts and composable recovery properties are proposed with an independent native fixture suite. Closed guarded fake-memory transitions, crash/fault recovery and epoch/dependency checks now have a native fixture suite. A private semantic binary reader now checks immutable payloads, receipt references, event/capture order and recovery declarations against independent native fixtures. A private native model-history producer now generates independently checked binary fixtures from recorded action proofs. Repeated-crash, checkpoint/cancellation, append/flush and resource-change audits now preserve exit proofs and attempt-local intentions. Review the exact format/durability proposal before live adapters. No production writer admission while DE-DEC-004 remains unresolved.
+
+- [ ] Review DE-W063: local completeness tooling and regression checks implemented; retain clean source-bound native staging evidence at the review boundary. Owner acceptance, publication, authenticity and runtime remain separate.

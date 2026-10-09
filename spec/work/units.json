@@ -2511,7 +2511,7 @@
       "id": "DE-W063",
       "title": "Implement and qualify publication completeness tooling",
       "phase": "delivery",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W010"
@@ -2524,7 +2524,14 @@
         "tools/release/**",
         "tests/artifacts/**",
         "release/**",
-        ".aide/evidence/**"
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "CMakeLists.txt",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        "tools/build-inputs.json"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2551,11 +2558,20 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/artifacts/test_artifact_check.py",
+        "ctest --preset windows-bootstrap -R '^(artifacts.archive_completeness|disked.invocation|disked.acceptance|provider_guard.positive_control)$'"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/artifact-checker-prototype.json",
+        "tools/release/artifact_check.py",
+        "tests/artifacts/test_artifact_check.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/catalog/compositions.json"
+      ]
     },
     {
       "id": "DE-W019",

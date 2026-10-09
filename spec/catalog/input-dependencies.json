@@ -4197,6 +4197,43 @@
         "DE-043",
         "DE-042"
       ]
+    },
+    {
+      "id": "spec/catalog/artifact-checker-prototype.json",
+      "path": "spec/catalog/artifact-checker-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/compositions.json"
+      ],
+      "spec_ids": [
+        "DE-077"
+      ]
+    },
+    {
+      "id": "tools/release/artifact_check.py",
+      "path": "tools/release/artifact_check.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/artifact-checker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-077"
+      ]
+    },
+    {
+      "id": "tests/artifacts/test_artifact_check.py",
+      "path": "tests/artifacts/test_artifact_check.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/release/artifact_check.py",
+        "spec/catalog/artifact-checker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-077"
+      ]
     }
   ]
 }

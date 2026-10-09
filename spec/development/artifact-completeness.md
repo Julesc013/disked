@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-077
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-077-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-09T00:17:57.213441+00:00'
+  scope: DE-W063 independent local staging inventory and bounded ZIP completeness checker
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -45,7 +45,53 @@ After an authorized publication, download and compare delivered bytes. Record st
 
 ## Scope
 
-Artifact-validator implementation and an empty-but-valid archive regression belong to the release-tooling work unit. The supplied claim of 15 archive-checker tests is not an executable checker in this repository. No such tests are reported as passed here. Product runtime and platform checks apply to the actual composed artifact once one exists.
+Artifact-validator implementation and an empty-but-valid archive regression belong to the release-tooling work unit. The supplied claim of 15 archive-checker tests is not an executable checker in this repository. The native repository now contains its own checker and owned regression fixtures
+below; the supplied historical count is not their evidence. Product runtime and platform checks apply to the actual composed artifact once one exists.
+
+## Local checker implementation contract
+
+`tools/release/artifact_check.py` implements the proposed
+[artifact checker profile](../catalog/artifact-checker-prototype.json).
+`inventory` reads quiescent reviewed local staging, requires a nonempty explicit
+entrypoint selection, and enumerates sorted regular file paths, sizes and SHA-256
+hashes before packaging. It rejects links, special files, empty directories and
+unsafe/colliding paths. Output is created without clobbering outside staging.
+The inventory still needs actual owner review; the tool cannot approve it.
+
+`verify` reads that separate nonempty inventory and streams ZIP entries against
+it. Single-volume stored/deflated ZIP supports bounded classic/ZIP64 metadata,
+local headers and data descriptors. Unsupported carriers, encryption/compression
+and non-ZIP64 extra fields refuse. Expected parent directory entries are optional;
+unreviewed directories, missing/extra/duplicate/case-colliding files, unsafe names,
+link/reparse/special entries and changed size/CRC/hash reject. Exact NFC names are
+preserved; unsupported names refuse rather than silently normalize. Conservative
+Unicode case folding also checks directory component spelling.
+
+Central-directory and whole-source budgets are checked before ZIP metadata is
+loaded. The complete raw compressed extent is decoded with bounded output buffers;
+declared lengths cannot hide additional output. Require exact deflate EOF with no
+compressed suffix, actual output size/CRC/hash, matching local ZIP64 sizes and
+descriptor values, and contiguous nonoverlapping local records through the central
+directory. File content is streamed in bounded reads. Limits for counts, JSON,
+metadata, paths, content and archives are explicit in the profile; they are not
+measured allocator/time guarantees. The verifier never extracts or executes
+archive content. A pass identifies completeness and hashes only; authenticity,
+publication, extraction and runtime remain `not_run`.
+
+Staging checks compare path/descriptor identity, size and modification time, then
+each API's own before/after fingerprint, and recheck files/directories after the
+walk. Windows path and descriptor APIs may expose different legacy ctime values;
+ctime is compared within the same API, without discarding identity/size/mtime
+checks. Quiescent reviewed staging is required. These checks are not a hostile
+concurrent-filesystem sandbox or atomic directory snapshot. Device/remote/alternate-
+stream source namespaces refuse before opening. No platform/runtime claim follows
+from successfully checking bytes; unsupported hosts/carriers remain unverified.
+
+The owned suite includes valid-empty, omissions, extras, duplicates, collisions,
+unsafe names, links, changed bytes, malformed/bounded metadata, CRC/deflate faults,
+ZIP64/data-descriptor controls and no-clobber CLI behavior. Actual build staging
+and exact source-bound results belong in DE-W063 evidence, separately from owner
+acceptance and release publication.
 
 ## Normative requirements
 

@@ -507,4 +507,7 @@ if(BUILD_TESTING)
   add_test(NAME provider_guard.positive_control COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/native/test_provider_guard.py" "$<TARGET_FILE:provider_guard_probe>")
   set_tests_properties(provider_guard.positive_control PROPERTIES TIMEOUT 15)
+  add_test(NAME artifacts.archive_completeness COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/artifacts/test_artifact_check.py")
+  set_tests_properties(artifacts.archive_completeness PROPERTIES TIMEOUT 120)
 endif()

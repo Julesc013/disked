@@ -1,0 +1,16 @@
+{
+  "schema": "org.disked.artifact-checker-profile/1",
+  "status": "proposed",
+  "inventory_schema": "org.disked.artifact-inventory-prototype/1",
+  "scope": "Independent regular-file staging inventory and local ZIP content completeness; no extraction, archive execution, publication, authenticity or runtime qualification.",
+  "limits": {"files": 4096, "parent_directories": 4096, "zip_entries": 8192, "inventory_bytes": 4194304, "central_bytes": 8388608, "file_bytes": 536870912, "total_content_bytes": 1073741824, "archive_bytes": 536870912, "read_chunk": 65536, "path_utf8_bytes": 1024, "component_utf8_bytes": 255},
+  "inventory_fields": ["schema", "required_entrypoints", "files"],
+  "file_fields": ["path", "type", "bytes", "sha256"],
+  "inventory_rules": "Nonempty sorted unique files and required entrypoints; canonical decimal sizes, SHA-256 digests, regular files, nonempty required entrypoints. Inventory is independently generated before packaging and requires actual owner review; a valid schema is not acceptance.",
+  "paths": "Preserve exact NFC Unicode paths with slash separators; reject control/format/private/unassigned/surrogate characters, absolute/traversal/backslash/alternate-stream/wildcard/reserved-device names, trailing dot/space, duplicates, conservative Unicode case-fold collisions and file/directory conflicts. Never silently normalize names. Directory component spelling is consistent across files.",
+  "staging": "Reviewed quiescent local staging only. Reject symbolic/reparse/hard links, special files and empty directories. Compare path/descriptor identity, size and mtime, then each API's own fingerprint including ctime before/after reads; recheck directories and files after enumeration. These checks detect changes but are not a hostile concurrent-filesystem isolation boundary.",
+  "zip": "Single-volume stored/deflated ZIP, optional expected parent directory entries, bounded classic/ZIP64 end metadata and local headers, 32/64-bit data descriptors, ZIP64 extra fields only. Consume complete raw compressed extents with bounded output buffers; require exact decompressor EOF, actual output length, CRC/hash and descriptor values. Reject unsupported compression/encryption/extra fields, inconsistent local names/flags/types/ZIP64 sizes, reparse/special/link entries, hidden expanded/compressed suffixes, prefix/trailing/inter-record data, overlapping/gapped local records, missing/extra/duplicate/colliding paths and size/CRC/hash mismatch. All content is streamed, never extracted or executed.",
+  "sources": "Ordinary local regular files only; reject remote/device/extended-device and alternate-stream source namespaces before opening. Inventory output is created with no-clobber semantics outside staging through non-reparse parents.",
+  "cli": {"inventory": "--staging DIR --required PATH [--required PATH] --output FILE", "verify": "--inventory FILE --archive ZIP", "success_exit": 0, "rejection_or_io_exit": 1, "usage_exit": 2},
+  "proof": "Pass establishes content completeness against the supplied independent inventory and records archive/inventory hashes. Owner review, authenticity, publication, extraction and runtime remain separate. Unsupported carriers/platforms remain unverified. Serialized/read limits are not measured allocator/time guarantees."
+}

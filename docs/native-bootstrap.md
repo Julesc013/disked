@@ -31,6 +31,9 @@ The product is `build/windows-bootstrap/Release/disked.exe`; other test executab
 are internal probes. `generated/build-identity.json` records the source closure,
 compiler hash and embedded revision/configuration. Dirty builds explicitly report
 `source_state=dirty`; only a clean rebuild binds the artifact to the named commit.
+The [local artifact checker](artifact-checker.md) compares an independently
+inventoried staging payload with its ZIP without extracting or executing entries.
+Its completeness result does not qualify or publish a release.
 
 Commands remain globally planned while discovery reports the actual composition's
 implemented subset. `build.inspect`, `command.list`, `mode.explain` and the transport selector

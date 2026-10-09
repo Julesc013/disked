@@ -4,6 +4,7 @@
 
 - [aliases.json](aliases.json)
 - [amendments.json](amendments.json)
+- [artifact-checker-prototype.json](artifact-checker-prototype.json)
 - [cli-syntax.json](cli-syntax.json)
 - [commands.json](commands.json)
 - [components.json](components.json)
