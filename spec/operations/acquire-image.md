@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-103
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-103-01
 updated:
   by: codex
-  at: '2026-10-08T19:14:13.654692+00:00'
-  scope: DE-W033 public Windows ordinary-file acquisition and bounded frontend contract; owner/release acceptance pending
+  at: '2026-10-09T03:02:06.355305+00:00'
+  scope: DE-W033 shared strong ancestor pins and generation/path revalidation; owner/release acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -215,6 +215,17 @@ Resume requires the same executable generation; changing from a fault probe to
 a normal probe does not establish compatibility. The host binding records the
 local computer name and profile, not global uniqueness, authenticated remote
 host identity or a security boundary.
+
+The shared [ordinary-file path profile](../catalog/ordinary-file-path-profile.json)
+requires readable/listable ancestor handles with `GENERIC_READ` and
+`FILE_SHARE_READ` only; preparation refuses if these cannot be acquired.
+Metadata-only handles permitted a real directory rename on the tested host and
+are not an allowed fallback. Snapshot and recheck every ancestor generation and
+normalized handle path, plus source/code and effect-owned file paths at dependent
+boundaries. Prospective destination/map epochs bind the full ancestor array and
+absence marker. These private epochs and code generation change in dev.23; old
+map/binary evidence remains historical and does not authorize cross-generation
+resume.
 
 Pinned ancestors and source/code handles deny ordinary write/delete sharing;
 effect handles for destination/map use exclusive normal-file sharing. These

@@ -37,6 +37,7 @@ std::string epoch(const V& source,std::uint64_t started) {
 using local_file::utf8;using local_file::path_for;using local_file::ordinary;using local_file::bind_path;
 class Source {
     std::vector<Handle> ancestors_;
+    V parent_generations_;
 public:
     std::wstring path;
     Handle file;
@@ -45,10 +46,13 @@ public:
         if(GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_OPEN_GUARD",nullptr,0))fail("image_test_open_guard");
 #endif
         ancestors_=local_file::pin_parents(path);
+        parent_generations_=local_file::parent_generations(ancestors_);
         file=Handle(CreateFileW(path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
                                FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_RANDOM_ACCESS,nullptr));
         if(file.value==INVALID_HANDLE_VALUE)fail("image_source_open",GetLastError());ordinary(file.value,false);bind_path(file.value,path);
+        check();
     }
+    void check() const {local_file::check_parents(path,ancestors_,parent_generations_);ordinary(file.value,false);bind_path(file.value,path);}
 };
 using local_file::Metadata;
 Metadata metadata(HANDLE h) {
@@ -146,7 +150,7 @@ CapturedImage capture_raw_image(const std::string& input,std::uint32_t unit) {
         .put("capture_epoch",V::string(epoch(before.value,started))).put("started_filetime",exact(started))
         .put("source_before",before.value).put("path",V::string(input)).put("resolved_path",V::string(utf8(source.path)))
         .put("partial_final_block",V::boolean_value(before.size%unit!=0));
-    out.region_manifest=capture.verify(receipt);
+    source.check();out.region_manifest=capture.verify(receipt);source.check();
     try {
         auto after=metadata(source.file.value);
 #ifdef DISKED_IMAGE_CAPTURE_TESTING

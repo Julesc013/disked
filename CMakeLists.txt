@@ -339,6 +339,9 @@ if(BUILD_TESTING)
   add_test(NAME image.file_acquisition COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_file_acquisition.py"
     --probe "$<TARGET_FILE:file_acquisition_probe>" --fault "$<TARGET_FILE:file_acquisition_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.file_acquisition PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME image.parent_pins COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_parent_pins.py"
+    --probe "$<TARGET_FILE:file_acquisition_fault>" --capture-probe "$<TARGET_FILE:image_file_capture_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(image.parent_pins PROPERTIES TIMEOUT 90 RESOURCE_LOCK disked_fake_workers)
   add_executable(acquisition_probe tests/images/acquisition_probe.cpp)
   target_link_libraries(acquisition_probe PRIVATE disked_acquisition)
   set_target_properties(acquisition_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

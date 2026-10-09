@@ -1300,7 +1300,8 @@
         "DE-045",
         "DE-022",
         "DE-024",
-        "DE-027"
+        "DE-027",
+        "DE-102"
       ],
       "allowed_paths": [
         ".aide/evidence/**",
@@ -1372,7 +1373,12 @@
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
         "README.md",
-        "tests/native/test_protocol.py"
+        "tests/native/test_protocol.py",
+        "spec/catalog/ordinary-file-path-profile.json",
+        "source/providers/report/file_export.cpp",
+        "spec/operations/map-verify.md",
+        "spec/index.md",
+        "spec/catalog/index.md"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1400,7 +1406,8 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --capture-probe build/windows-bootstrap/Release/image_file_capture_probe.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1478,7 +1485,14 @@
         "tests/frontend/test_acquisition_interactive.py",
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
-        "tests/native/test_protocol.py"
+        "tests/native/test_protocol.py",
+        "spec/catalog/ordinary-file-path-profile.json",
+        "tests/images/test_parent_pins.py",
+        "source/providers/image/file_capture.cpp",
+        "source/providers/image/file_capture.h",
+        "source/providers/report/file_export.cpp",
+        "tests/frontend/test_image_file_capture.py",
+        "tests/evidence/test_file_export.py"
       ]
     },
     {

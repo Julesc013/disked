@@ -33,6 +33,8 @@ std::string utf8(const std::wstring& input);
 BY_HANDLE_FILE_INFORMATION ordinary(HANDLE,bool directory);
 void bind_path(HANDLE,const std::wstring& expected);
 std::vector<Handle> pin_parents(const std::wstring& path);
+json::Value parent_generations(const std::vector<Handle>&);
+void check_parents(const std::wstring& path,const std::vector<Handle>&,const json::Value& expected);
 Metadata metadata(HANDLE);
 json::Value generation(HANDLE,bool directory);
 }}

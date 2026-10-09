@@ -7,6 +7,8 @@ definition. It never exports the full private case or original custody hashes.
 The [proposed profile](../spec/catalog/report-export-prototype.json) owns the
 encoding, effect, resource, verification and public-admission boundaries.
 
+The shared [ordinary-file path profile](../spec/catalog/ordinary-file-path-profile.json)
+owns ancestor coordination for this adapter and image/acquisition consumers.
 Preparation observes ordinary local paths, pins ancestor and executable handles,
 checks absence and records identities. It creates nothing. Ancestor handles
 require directory list/read access with write/delete sharing

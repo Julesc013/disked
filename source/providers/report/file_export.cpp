@@ -22,28 +22,14 @@ void seek(HANDLE h,std::uint64_t offset) {
     if(!SetFilePointerEx(h,n,nullptr,FILE_BEGIN))throw FileReportExportError("export_file_seek",GetLastError());
 }
 struct Path {
-    std::wstring value,parent;std::vector<Handle> handles;std::vector<std::wstring> paths;V ancestors=V::array();
+    std::wstring value,parent;std::vector<Handle> handles;V ancestors=V::array();
     explicit Path(const std::string& input):value(local_file::path_for(input)),handles(local_file::pin_parents(value)) {
         const auto slash=value.rfind(L'\\');if(value.size()<=3 || slash==value.size()-1)throw FileReportExportError("export_output_path");
-        parent=slash==2?value.substr(0,3):value.substr(0,slash);std::size_t end=2;
-        for(;;) {paths.push_back(end==2?value.substr(0,3):value.substr(0,end));end=value.find(L'\\',end+1);if(end==value.npos)break;}
-        if(paths.size()!=handles.size())throw FileReportExportError("export_parent_shape");
-        // Metadata-only handles do not enforce delete sharing on this host.
-        // Require data/list read access with no write/delete sharing so ancestor
-        // rename cannot redirect CREATE_NEW between validation and creation.
-        for(std::size_t i=0;i<handles.size();++i) {
-            Handle h(CreateFileW(paths[i].c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
-                FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
-            if(h.value==INVALID_HANDLE_VALUE)throw FileReportExportError("export_parent_pin",GetLastError());
-            local_file::ordinary(h.value,true);local_file::bind_path(h.value,paths[i]);handles[i]=std::move(h);
-            ancestors.items.push_back(local_file::generation(handles[i].value,true));
-        }
+        parent=slash==2?value.substr(0,3):value.substr(0,slash);
+        ancestors=local_file::parent_generations(handles);
     }
     void check() const {
-        for(std::size_t i=0;i<handles.size();++i) {
-            local_file::ordinary(handles[i].value,true);local_file::bind_path(handles[i].value,paths[i]);
-            if(encode(local_file::generation(handles[i].value,true))!=encode(ancestors.items[i]))throw FileReportExportError("export_parent_changed");
-        }
+        local_file::check_parents(value,handles,ancestors);
     }
     V binding() const {
         auto leaf=value.substr(value.rfind(L'\\')+1);const auto n=LCMapStringEx(LOCALE_NAME_INVARIANT,LCMAP_UPPERCASE,leaf.data(),static_cast<int>(leaf.size()),nullptr,0,nullptr,nullptr,0);

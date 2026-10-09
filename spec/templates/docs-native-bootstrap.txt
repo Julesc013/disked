@@ -569,3 +569,27 @@ It remains unlinked from the product; evidence.export remains unavailable. The
 adapter's synchronous fixtures do not qualify public native wait containment,
 acquisition/custody integration or physical/platform evidence. See
 [report-export.md](report-export.md) for its development contract and commands.
+
+The dev.23 composition repairs shared ordinary-file ancestor coordination for
+image capture and acquisition. Every ancestor must permit directory list/read
+access; inaccessible strong pins refuse instead of falling back to metadata
+handles. Every held ancestor generation and normalized path is revalidated,
+along with bound source, executable and effect-owned paths. Private prospective
+acquisition epochs now bind the full ancestor array. Old maps still require their
+original executable generation; this is no cross-generation resume grant.
+See [the shared path contract](../spec/catalog/ordinary-file-path-profile.json).
+The same helper supplies the private report adapter. Public evidence.export
+remains unavailable; the composition still exposes 18 development commands.
+
+The focused native coordination test uses only owned disposable directories:
+
+```powershell
+python tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --capture-probe build/windows-bootstrap/Release/image_file_capture_probe.exe --root .
+```
+
+It checks destination/map rename refusal while the exact worker is alive, and
+refusal when metadata access succeeds but stronger directory access is denied.
+These host observations do not establish a physical namespace fence, protection
+against elevated/external writers, power-loss persistence or other-platform
+qualification. The baseline defect observation is retained separately from fixed
+qualification in `.aide/evidence/2026-10-09-parent-pins/`.

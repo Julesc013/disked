@@ -3440,7 +3440,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/command/json.h"
+        "source/runtime/command/json.h",
+        "spec/catalog/ordinary-file-path-profile.json"
       ],
       "spec_ids": [
         "DE-103",
@@ -4464,7 +4465,8 @@
       "kind": "catalog",
       "delivery": "content",
       "depends_on": [
-        "spec/catalog/case-evidence-prototype.json"
+        "spec/catalog/case-evidence-prototype.json",
+        "spec/catalog/ordinary-file-path-profile.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -4606,6 +4608,34 @@
         "DE-111",
         "DE-044",
         "DE-036"
+      ]
+    },
+    {
+      "id": "spec/catalog/ordinary-file-path-profile.json",
+      "path": "spec/catalog/ordinary-file-path-profile.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-036",
+        "DE-103",
+        "DE-102"
+      ]
+    },
+    {
+      "id": "tests/images/test_parent_pins.py",
+      "path": "tests/images/test_parent_pins.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ordinary-file-path-profile.json",
+        "tests/images/file_acquisition_probe.cpp",
+        "tests/frontend/image_file_capture_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-036",
+        "DE-103",
+        "DE-102"
       ]
     }
   ]

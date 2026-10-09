@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-102
   profile: disked-spec/1
-  version: 0.1.24-proposed.1
+  version: 0.1.25-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,9 +26,8 @@ disked:
   - DE-REQ-102-01
 updated:
   by: codex
-  at: '2026-10-08T11:37:12.699410+00:00'
-  scope: DE-W024 initial shared raw-file command contract; prototype under local development,
-    owner acceptance pending
+  at: '2026-10-09T03:06:32.114695+00:00'
+  scope: DE-W033/024 shared strong ancestor coordination and captured-byte verification; owner acceptance pending
 ---
 
 # Read-only partition-map verification
@@ -127,6 +126,14 @@ sources. Bind each opened handle's normalized path to the resolved selection;
 short-name/drive aliases that do not preserve that binding are refused in this
 profile. Refuse offline/recall attributes before reading. These are explicit
 prototype restrictions, not permanent filesystem-name or provider-support claims.
+The shared [ordinary-file path profile](../catalog/ordinary-file-path-profile.json)
+requires directory read/list handles with no write/delete sharing. Metadata-only
+ancestor pins are insufficient on the tested host and cannot be a fallback.
+Snapshot each ancestor generation and recheck every retained normalized path and
+generation, plus the source path, before and after final captured-byte verification.
+Unavailable strong pins or changed path/generation refuse; these checks do not
+qualify elevated/external writers or drive-namespace remapping.
+
 No volume/physical-device open, mounting, elevation,
 network discovery, source write or destination creation is part of capture.
 Ordinary reads can still cause host filesystem/cache activity.

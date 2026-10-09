@@ -38,10 +38,10 @@ Handle open(const std::wstring& path,DWORD access,DWORD sharing,DWORD creation,c
     local_file::ordinary(h.value,false);local_file::bind_path(h.value,path);return h;
 }
 struct Path {
-    std::wstring value,parent;std::vector<Handle> ancestors;V generation;
+    std::wstring value,parent;std::vector<Handle> ancestors;V generation,ancestor_generations;
     explicit Path(const std::string& input):value(local_file::path_for(input)),ancestors(local_file::pin_parents(value)) {
         const auto slash=value.rfind(L'\\');if(value.size()<=3 || slash==value.size()-1)throw FileAcquisitionError("acquisition_output_path");
-        parent=slash==2?value.substr(0,3):value.substr(0,slash);generation=local_file::generation(ancestors.back().value,true);
+        parent=slash==2?value.substr(0,3):value.substr(0,slash);ancestor_generations=local_file::parent_generations(ancestors);generation=ancestor_generations.items.back();
     }
     std::string location() const {
         auto leaf=value.substr(value.rfind(L'\\')+1);
@@ -51,8 +51,7 @@ struct Path {
         return "location:"+hash(json::dump(V::object().put("parent",generation).put("leaf_lookup",V::string(local_file::utf8(folded)))));
     }
     void check() const {
-        for(std::size_t i=0;i<ancestors.size();++i)local_file::ordinary(ancestors[i].value,true);
-        if(json::dump(local_file::generation(ancestors.back().value,true))!=json::dump(generation))throw FileAcquisitionError("acquisition_parent_changed");
+        local_file::check_parents(value,ancestors,ancestor_generations);
     }
 };
 void seek(HANDLE h,std::uint64_t offset) {
@@ -88,13 +87,15 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         return "observed-local-host:"+hash(local_file::utf8(std::wstring(value,size)));
     }
     V prospective(const char* role,const Path& p) const {
-        return binding(role,p.location(),hash(json::dump(p.generation)+":absence"),domain(p.generation),source_size_);
+        return binding(role,p.location(),hash(json::dump(p.ancestor_generations)+":absence"),domain(p.generation),source_size_);
     }
     V owned(const char* role,const Path& path,HANDLE file) const {
+        local_file::bind_path(file,path.value);
         const auto g=local_file::generation(file,false);return binding(role,file_id(g),hash(json::dump(g)),domain(g),source_size_,path.location());
     }
     V observe_base() const {
         source_path_.check();destination_path_.check();map_path_.check();code_path_->check();
+        local_file::bind_path(source_.value,source_path_.value);local_file::bind_path(code_.value,code_path_->value);
         const auto source=local_file::metadata(source_.value),code=local_file::metadata(code_.value);
         return V::object().put("source",binding("source",file_id(source.value),hash(json::dump(source.value)),domain(source.value),source.size))
             .put("host",binding("host",host(),"windows.nt10.x64.local-file-profile/1","host-observation",0))

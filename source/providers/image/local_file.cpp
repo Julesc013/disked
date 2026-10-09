@@ -92,12 +92,27 @@ std::vector<Handle> pin_parents(const std::wstring& path) {
     std::vector<Handle> out;std::size_t end=2;
     for(;;) {
         const auto parent=end==2?path.substr(0,3):path.substr(0,end);
-        Handle h(CreateFileW(parent.c_str(),FILE_READ_ATTRIBUTES,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
+        // Metadata-only access did not enforce delete sharing on the tested
+        // host. Require list/read access and deny write/delete sharing.
+        Handle h(CreateFileW(parent.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
             FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
         if(h.value==INVALID_HANDLE_VALUE)fail("image_parent_open",GetLastError());ordinary(h.value,true);bind_path(h.value,parent);out.push_back(std::move(h));
         end=path.find(L'\\',end+1);if(end==path.npos)break;
     }
     return out;
+}
+json::Value parent_generations(const std::vector<Handle>& handles) {
+    auto out=V::array();for(const auto& h:handles)out.items.push_back(generation(h.value,true));return out;
+}
+void check_parents(const std::wstring& path,const std::vector<Handle>& handles,const V& expected) {
+    if(expected.kind!=V::Kind::array || expected.items.size()!=handles.size() || handles.empty())fail("image_parent_shape");
+    std::size_t end=2;
+    for(std::size_t i=0;i<handles.size();++i) {
+        const auto parent=end==2?path.substr(0,3):path.substr(0,end);ordinary(handles[i].value,true);bind_path(handles[i].value,parent);
+        if(json::dump(generation(handles[i].value,true))!=json::dump(expected.items[i]))fail("image_parent_changed");
+        end=path.find(L'\\',end+1);
+        if((i+1==handles.size())!=(end==path.npos))fail("image_parent_shape");
+    }
 }
 json::Value generation(HANDLE h,bool directory) {
     ordinary(h,directory);FILE_ID_INFO id{};FILE_BASIC_INFO basic{};FILE_STANDARD_INFO standard{};
