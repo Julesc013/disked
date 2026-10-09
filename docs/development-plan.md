@@ -237,3 +237,11 @@ evaluation. Clean native reproduction and agent review govern local continuation
 Public image.verify commands, negotiated events, bounded caller requests and
 actual frontend journeys are the next gate; all platform/storage and owner
 acceptance remain open.
+
+The bounded DE-W062 fixture slice has a [clean native reproduction and local
+review](../.aide/evidence/2026-10-10-carrier-fixtures/REVIEW.md) at `d4102ab`.
+It proves the selected external H/D/ZIP construction and private servicing
+constraint model, leaving the full work unit, live effects, channels and owner
+acceptance open. The next independent local slice can resume retained
+historical verification bindings in DE-W034 while Setup compatibility remains
+a separate unresolved integration requirement.

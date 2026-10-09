@@ -1,0 +1,388 @@
+[
+  {
+    "name": "source-consumer-reproduction",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-source-consumer\\reproduce.py",
+      "--repository",
+      "D:\\Projects\\DiskEd\\disked",
+      "--source-revision",
+      "d4102abd5a1ea619b5123210bd8b801cb8657ea2",
+      "--upstream-repository",
+      "D:\\Projects\\Universal\\universal-setup",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--package-evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\results.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 209.192,
+    "log": "logs/source-consumer-reproduction.log"
+  },
+  {
+    "name": "configure-H",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\tests\\setup\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DUSK_SOURCE_DIR=D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\source",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+      "-DDISKED_BUILD_HOST_FIXTURE=ON"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.333,
+    "log": "logs/configure-H.log"
+  },
+  {
+    "name": "build-H",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build",
+      "--config",
+      "Release",
+      "--target",
+      "disked_setup_host_fixture"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 1.285,
+    "log": "logs/build-H.log"
+  },
+  {
+    "name": "H-product-binding",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "host.inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.052,
+    "log": "logs/H-product-binding.log"
+  },
+  {
+    "name": "assemble",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "assemble",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--host",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\carrier"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.408,
+    "log": "logs/assemble.log"
+  },
+  {
+    "name": "repeat-assemble",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "assemble",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--host",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\repeat-carrier"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.382,
+    "log": "logs/repeat-assemble.log"
+  },
+  {
+    "name": "verify",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "verify",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\carrier",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.186,
+    "log": "logs/verify.log"
+  },
+  {
+    "name": "occupied-carrier-root",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "assemble",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--host",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\carrier"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 1,
+    "expected_exit": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.196,
+    "log": "logs/occupied-carrier-root.log"
+  },
+  {
+    "name": "occupied-data-retention",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "assemble",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--host",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\occupied-case"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 1,
+    "expected_exit": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.209,
+    "log": "logs/occupied-data-retention.log"
+  },
+  {
+    "name": "H-native-campaign",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\tests\\setup\\run_source_consumer.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "--package",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W060-setup-fixtures-e1683b1\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-campaign"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.869,
+    "log": "logs/H-native-campaign.log"
+  },
+  {
+    "name": "H-S-structure",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe",
+      "install_local.inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.03,
+    "log": "logs/H-S-structure.log"
+  },
+  {
+    "name": "independent-H-damaged-D",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\damaged-D\\disked-setup-host-fixture.exe",
+      "host.inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\damaged-D",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.06,
+    "log": "logs/independent-H-damaged-D.log"
+  },
+  {
+    "name": "independent-H-source-inspect",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\damaged-D\\disked-setup-host-fixture.exe",
+      "install_local.inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\damaged-D",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.035,
+    "log": "logs/independent-H-source-inspect.log"
+  },
+  {
+    "name": "changed-D-refusal",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout\\release\\carriers\\fixture.py",
+      "verify",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\repeat-carrier",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-setup-fixtures\\reproduction-e1683b1\\build-info.json",
+      "--host-input",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\host-input.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 1,
+    "expected_exit": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.222,
+    "log": "logs/changed-D-refusal.log"
+  },
+  {
+    "name": "composition-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/composition",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.458,
+    "log": "logs/composition-tests.log"
+  },
+  {
+    "name": "H-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.036,
+    "log": "logs/H-headers.log"
+  },
+  {
+    "name": "H-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\build\\Release\\disked_setup_host_fixture.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.037,
+    "log": "logs/H-imports.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W062",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\context",
+      "--byte-budget",
+      "430000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 1.222,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.185,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-clean-d4102ab\\sdk\\checkout",
+    "exit_code": 0,
+    "expected_exit": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.045,
+    "log": "logs/final-source-status.log"
+  }
+]

@@ -65,3 +65,12 @@ This does not embed H or qualify a native Setup carrier. Servicing previews
 preserve exact active/uncertain/recovery generations, reject competing owners
 and keep external data outside payload ownership. Their generated views and
 `eligible` results grant no live servicing or storage authority.
+
+Clean carrier source `d4102ab` passed two separate 33-execution/223-assertion
+native campaigns, four additional host/ZIP inspection launches, 26 carrier and
+servicing tests, 30 package/export tests and the 215-test tooling suite (two
+skipped). The deterministic ZIP retains exact dev.36 D bytes. The independent
+H still launches and inspects source structure beside damaged disposable D;
+this proves an inspection route, not repair or successful recovery. See the
+[carrier review](../.aide/evidence/2026-10-10-carrier-fixtures/REVIEW.md) for
+exact build, import, source and artifact identities and remaining gates.
