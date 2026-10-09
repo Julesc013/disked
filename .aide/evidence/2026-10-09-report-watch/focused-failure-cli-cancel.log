@@ -1,0 +1,11 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-gpqi8lbr
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 193, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 154, in main
+    out=prod([*command,id,'--state-dir',p['state_directory']],(3,));check('product-report-unavailable',out['status']=='refused' and any(d['code']=='operation_unavailable' for d in out['diagnostics']))
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 41, in prod
+    assert p.returncode in exits and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (2, b'{"diagnostics":[{"code":"unexpected_operand","message_key":"disked.unexpected_operand","parameters":{"token":4},"platform_code":null,"remediation":[],"severity":"error"},{"code":"invalid_option_value","message_key":"disked.invalid_option_value","parameters":{"token":3},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')

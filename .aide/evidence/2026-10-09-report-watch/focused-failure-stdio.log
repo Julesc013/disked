@@ -1,0 +1,11 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-3fewd_w1
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 193, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 155, in main
+    out=prod([], (3,),canonical(request('operation.watch',params,[FEATURE]))+b'\n');check('product-stream-report-unavailable',out['status']=='refused' and any(d['code']=='operation_unavailable' for d in out['diagnostics']))
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 41, in prod
+    assert p.returncode in exits and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (2, b'', b'disked: unknown_option\n')

@@ -1,0 +1,32 @@
+{
+  "scope": "Actual exploratory failures and review repair; not execution/qualification records",
+  "failures": [
+    {
+      "kind": "fixture_invocation",
+      "log": ".aide/evidence/2026-10-09-report-watch/focused-failure-cli-cancel.log",
+      "fixture": ".aide-local/disked-acq-worker-gpqi8lbr",
+      "result": "Extra request word after operation cancel caused typed unexpected_operand/invalid_option_value before effects",
+      "repair": "Use canonical command words operation cancel from catalog; retained expected operation_unavailable refusal"
+    },
+    {
+      "kind": "fixture_invocation",
+      "log": ".aide/evidence/2026-10-09-report-watch/focused-failure-stdio.log",
+      "fixture": ".aide-local/disked-acq-worker-3fewd_w1",
+      "result": "Nonexistent --stdio flag was rejected with unknown_option",
+      "repair": "Use canonical protocol serve --format=ndjson; retained expected operation_unavailable refusal"
+    },
+    {
+      "kind": "agent_introduced_tooling_regression",
+      "log": null,
+      "result": "Exploratory new zero-byte regression test caught comparing string counters to integer zero",
+      "repair": "Retained the original correct string-zero guard; all five new semantic tests and clean full suite pass. No prior product bug claimed."
+    },
+    {
+      "kind": "code_review",
+      "log": null,
+      "result": "Initial watch batching checked event limits before cursor adoption, but not the full prospective reply",
+      "repair": "Preflight full reply before delivering/adopting cursor; preserve earlier collected events/state/cursor and reserve bounded diagnostic space"
+    }
+  ],
+  "failed_fixtures_retained": true
+}

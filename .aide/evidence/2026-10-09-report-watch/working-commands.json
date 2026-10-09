@@ -1,0 +1,123 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/build-working.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/build-final-working.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/structural-working.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/tooling-working.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_report_watch.py",
+      "--probe",
+      "build/windows-bootstrap/Release/export_command_probe.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/export_command_fault.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/report-watch-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/focused-failure-cli-cancel.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_report_watch.py",
+      "--probe",
+      "build/windows-bootstrap/Release/export_command_probe.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/export_command_fault.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/report-watch-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/focused-failure-stdio.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_report_watch.py",
+      "--probe",
+      "build/windows-bootstrap/Release/export_command_probe.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/export_command_fault.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/report-watch-final-regressions.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-report-watch/focused-working.log",
+    "scope": "Exploratory dirty-worktree check; clean source reproduction is authoritative"
+  }
+]
