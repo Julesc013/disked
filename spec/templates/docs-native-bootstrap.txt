@@ -658,3 +658,19 @@ python tests/evidence/test_image_verification.py --probe build/windows-bootstrap
 Current case/support reports still say image verification was not performed.
 Binding the separate verification receipt into case/custody, product worker/watch,
 all frontends and platform qualification remains work; no public command is added.
+
+The private immutable image-verification observation binds the original case,
+exact raw request and history, verification definition/outcome, code/clocks and
+separate before/after case/image resources. Earlier acquisition case claims remain
+unchanged. Its typed support projection tests all sixteen disclosure policies and
+explicitly reviewed ordinary-file exports:
+
+```text
+python tests/evidence/test_image_observation.py --probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .
+```
+
+The private export review binds the observation/source and selected output effect;
+a wrong or inner-only digest grants no write. Recorded matching is distinct from
+attachment applicability and present-day state. No resource/customer hashes,
+paths or arbitrary diagnostics enter this support artifact. Durable custody,
+bounded reader/watch, public command/frontend and platform admission remain work.

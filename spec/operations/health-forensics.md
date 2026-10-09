@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.9-proposed.1
+  version: 0.1.10-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T11:43:14.786783+00:00'
-  scope: DE-W034 explicit read-only current acquired-image verification; product worker/custody and platform gates remain open
+  at: '2026-10-09T12:56:04.621118+00:00'
+  scope: DE-W034 immutable verification observations and selected private support artifacts; product worker/custody and platform gates remain open
 ---
 
 # Health assessment and forensic workflow
@@ -259,6 +259,37 @@ allocations, records and ranges. OS-call latency and asynchronous containment ar
 not thereby bounded. Native generated-file qualification, typed case/custody
 integration, bounded product worker/watch and frontend journeys remain separate
 steps; this component does not add an available product command or stable ABI.
+
+## Immutable verification observations and disclosure
+
+The [private observation profile](../catalog/image-verification-observation-prototype.json)
+binds exact acquisition case/request/history semantics, raw request resource bytes,
+verification definition/outcome, actual verifier code/clocks and separate case and
+image before/after bindings. Validate relationships between counters, seals,
+resource revalidation and outcomes before recording. Contradictory declarations
+cannot construct a successful observation. No stored path is followed here.
+
+Keep the original acquisition case and its earlier `not_performed` claim immutable.
+This separate record preserves image-byte matching when a later case/image binding
+makes attachment changed or unavailable. Historical applicability and matching do
+not qualify the latest files or grant execution. Retain exact bounded full-view
+identity without treating its digest as observer or custody authentication.
+
+All sixteen four-boolean disclosure policies have explicit projections. Default
+support contains recorded status and applicability markers; raw values select
+bounded counters/clocks; identifiers select only random case/operation/attempt/
+worker identities and verifier code; interpretations remain labeled inferences.
+Do not disclose original customer/resource/private-record hashes, routing paths,
+arbitrary diagnostics or substitute pseudonyms under any policy. The selected
+artifact's own digest covers only its support bytes.
+
+Private ordinary-file exports separately review the complete observation/source/
+effect wrapper and require its digest plus explicit output/host-effect grants.
+Keep source applicability and actual output facts separate. A late source change
+cannot rewrite the immutable historical observation or authorize an automatic
+retry. This probe qualification does not admit a new product command or a stable
+worker/store contract. Durable custody collections, bounded reader/watch and all
+frontend/platform/physical qualification remain gates.
 
 ## Normative requirements
 

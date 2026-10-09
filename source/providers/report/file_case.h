@@ -16,6 +16,8 @@ public:
     ~FileAcquisitionCase();
     FileAcquisitionCase(const FileAcquisitionCase&)=delete;FileAcquisitionCase& operator=(const FileAcquisitionCase&)=delete;
     const evidence::proposal::AcquisitionCase& report() const;
+    const std::string& request_bytes() const;
+    const std::string& history_bytes() const;
     json::Value binding() const;
     void check() const;
 };

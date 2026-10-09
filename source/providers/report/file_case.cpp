@@ -58,6 +58,8 @@ public:
 FileAcquisitionCase::FileAcquisitionCase(const std::string& operation,const std::string& path):impl_(new Impl(operation,path)) {}
 FileAcquisitionCase::~FileAcquisitionCase()=default;
 const evidence::proposal::AcquisitionCase& FileAcquisitionCase::report() const {impl_->check();return *impl_->snapshot;}
+const std::string& FileAcquisitionCase::request_bytes() const {impl_->check();return impl_->header_bytes;}
+const std::string& FileAcquisitionCase::history_bytes() const {impl_->check();return impl_->records_bytes;}
 json::Value FileAcquisitionCase::binding() const {return impl_->binding();}
 void FileAcquisitionCase::check() const {impl_->check();}
 }

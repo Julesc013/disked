@@ -1,4 +1,5 @@
 #include "report_export.h"
+#include "image_observation.h"
 #include "sha256.h"
 #include <algorithm>
 
@@ -43,6 +44,11 @@ SupportArtifact::SupportArtifact(const AcquisitionCase& report,const V& policy) 
     bytes_=json::dump(report.support(policy),case_limits())+'\n';if(bytes_.size()>1048577)throw Error("export_artifact_limit");digest_=export_digest(bytes_);
     description_=V::object().put("bytes",number(bytes_.size())).put("digest",V::string(digest_)).put("policy",policy)
         .put("encoding",V::string("private-case-json-utf8-lf/1")).put("scope",V::string("recorded-acquisition-case-support"));
+}
+SupportArtifact::SupportArtifact(const ImageVerificationObservation& report,const V& policy) {
+    bytes_=json::dump(report.support(policy),case_limits())+'\n';if(bytes_.size()>1048577)throw Error("export_artifact_limit");digest_=export_digest(bytes_);
+    description_=V::object().put("bytes",number(bytes_.size())).put("digest",V::string(digest_)).put("policy",policy)
+        .put("encoding",V::string("private-case-json-utf8-lf/1")).put("scope",V::string("recorded-image-verification-support"));
 }
 ExportDefinition::ExportDefinition(const SupportArtifact& artifact,const V& bindings):artifact_(artifact) {
     resources(bindings);definition_=V::object().put("schema",V::string("org.disked.report-export-definition-prototype/1"))

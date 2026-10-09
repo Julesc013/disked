@@ -61,7 +61,7 @@ target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disk
 set_target_properties(disked_case_evidence PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_case_evidence PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_report_export STATIC source/runtime/evidence/report_export.cpp source/runtime/evidence/acquisition_export.cpp source/runtime/evidence/report_operation.cpp)
+add_library(disked_report_export STATIC source/runtime/evidence/report_export.cpp source/runtime/evidence/acquisition_export.cpp source/runtime/evidence/report_operation.cpp source/runtime/evidence/image_observation.cpp)
 target_link_libraries(disked_report_export PUBLIC disked_case_evidence)
 set_target_properties(disked_report_export PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_report_export PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -344,6 +344,17 @@ if(BUILD_TESTING)
   add_test(NAME evidence.acquired_image_verification COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_image_verification.py"
     --probe "$<TARGET_FILE:acquired_image_verification_probe>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(evidence.acquired_image_verification PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
+
+  add_executable(image_verification_observation_probe tests/evidence/image_observation_probe.cpp)
+  add_dependencies(image_verification_observation_probe bootstrap_registry)
+  target_include_directories(image_verification_observation_probe PRIVATE "${generated}" source/platform/windows)
+  target_link_libraries(image_verification_observation_probe PRIVATE disked_file_image_verification disked_file_case_source disked_file_report_export)
+  set_target_properties(image_verification_observation_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(image_verification_observation_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(image_verification_observation_probe PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  add_test(NAME evidence.image_verification_observation COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_image_observation.py"
+    --probe "$<TARGET_FILE:image_verification_observation_probe>" --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.image_verification_observation PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
 
   add_executable(case_evidence_probe tests/evidence/case_probe.cpp)
   target_link_libraries(case_evidence_probe PRIVATE disked_case_evidence disked_presentation)

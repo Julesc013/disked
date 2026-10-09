@@ -4512,7 +4512,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/evidence/report_export.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "source/runtime/evidence/image_observation.h"
       ],
       "spec_ids": [
         "DE-111",
@@ -5529,6 +5530,81 @@
       "spec_ids": [
         "DE-111",
         "DE-103",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/image_observation.h",
+      "path": "source/runtime/evidence/image_observation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_case.h",
+        "source/runtime/evidence/image_verification.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/image_observation.cpp",
+      "path": "source/runtime/evidence/image_observation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_observation.h",
+        "source/runtime/evidence/acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/image_observation_probe.cpp",
+      "path": "tests/evidence/image_observation_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_observation.h",
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_export.h",
+        "source/providers/image/file_verification.h",
+        "source/platform/windows/worker_files.h",
+        "tools/build-bootstrap.py",
+        "source/runtime/evidence/acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_image_observation.py",
+      "path": "tests/evidence/test_image_observation.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/image_observation_probe.cpp",
+        "tests/images/test_acquisition_worker.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/image-verification-observation-prototype.json",
+      "path": "spec/catalog/image-verification-observation-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/acquired-image-verification-prototype.json",
+        "spec/catalog/acquisition-case-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
         "DE-044"
       ]
     }
