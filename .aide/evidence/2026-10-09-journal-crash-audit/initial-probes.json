@@ -1,0 +1,90 @@
+{
+  "passed": false,
+  "cases": 5,
+  "actions": 165,
+  "generations": 6,
+  "observations": [
+    {
+      "name": "repeated-crash-after-before-reconciliation",
+      "passed": false,
+      "errors": [
+        {
+          "binary_diagnostic": "semantic_recovery_order",
+          "accepted_records": "6",
+          "retained_records": 13
+        }
+      ]
+    },
+    {
+      "name": "repeated-crash-after-after-reconciliation",
+      "passed": false,
+      "errors": [
+        {
+          "binary_diagnostic": "semantic_recovery_order",
+          "accepted_records": "6",
+          "retained_records": 11
+        }
+      ]
+    },
+    {
+      "name": "repeated-crash-cancellation-before-reconciliation",
+      "passed": false,
+      "errors": [
+        {
+          "binary_diagnostic": "semantic_recovery_order",
+          "accepted_records": "7",
+          "retained_records": 9
+        }
+      ]
+    },
+    {
+      "name": "repeated-crash-after-seal-fork-and-terminal-reconciliation",
+      "passed": false,
+      "errors": [
+        {
+          "binary_diagnostic": "semantic_recovery_order",
+          "accepted_records": "9",
+          "retained_records": 11
+        }
+      ]
+    },
+    {
+      "name": "crash-stable-new-attempt-has-no-inherited-intention",
+      "passed": false,
+      "errors": [
+        {
+          "action": 20,
+          "op": "reconcile",
+          "expected": {
+            "expect": {},
+            "error": "model_recovery_intention"
+          },
+          "actual_error": "",
+          "actual_snapshot": {}
+        },
+        {
+          "final_expected": {
+            "operation_status": "unresolved",
+            "completed_steps": "0",
+            "dispatches": "1",
+            "stable_intention": false
+          },
+          "final_actual": {
+            "operation_status": "unresolved",
+            "completed_steps": "0",
+            "dispatches": "1",
+            "stable_intention": true
+          }
+        },
+        {
+          "binary_diagnostic": "semantic_recovery_scope",
+          "accepted_records": "7",
+          "retained_records": 8
+        }
+      ]
+    }
+  ],
+  "file_io": false,
+  "authorizes_effects": false,
+  "qualifies_durability": false
+}
