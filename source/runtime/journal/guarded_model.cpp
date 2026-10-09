@@ -47,6 +47,7 @@ struct GuardedModel::Impl {
     bool cancellation=false,cancel_durable=false,cancel_ack=false,retry_observed=false,needs_recovery=false,unbound=false;
     std::string sealed_outcome,last_completed;
     bool result_observed=false;
+    bool exit_declared=false;
     std::uint64_t model_generation=1;
     Impl(const Definition& d,const std::vector<V>& receipts,const V& config):definition(d) {
         keys(config,{"entries_limit","bytes_limit","attempts_limit","qualified_fake_flush"});
@@ -138,18 +139,20 @@ struct GuardedModel::Impl {
         const auto kind=str(frame,"kind");const auto& data=get(frame,"data");
         if(kind=="4") {
             attempt=str(frame,"attempt_id");worker_identity=str(frame,"worker_identity");worker_epoch=number(frame,"worker_epoch");
+            pending=false;intention_stable=false;retry_observed=false;result_observed=false;target_flushed=false;recovery_flushed=false;exit_declared=false;exit_capture=0;flush_capture=0;dispatch_capture=0;
             if(!restoring) {worker="running";logical="active";phase="idle";needs_recovery=false;recovery="none";}
         }
         if(kind=="5") {active=str(frame,"step_id");pending=true;intention_stable=true;if(!restoring)phase="prepared";}
         if(kind=="6")finish_step(str(frame,"step_id"));
         if(kind=="7") {cancellation=true;cancel_durable=true;}
         if(kind=="8") {
+            exit_capture=number(data,"exit_capture_epoch",false);exit_declared=true;
             const auto observed=str(data,"observed");
             if(observed=="after") {finish_step(str(frame,"step_id"));if(!restoring) {logical="active";needs_recovery=false;recovery="after";}}
             if(observed=="before") {active=str(frame,"step_id");pending=false;retry_observed=true;phase="retry_proposed";effect="observed_before";recovery="before";}
             if(observed=="terminal" && !restoring) {logical="ready_to_seal";phase="idle";needs_recovery=false;recovery="observed_terminal";}
         }
-        if(kind=="9") {sealed_outcome=str(data,"outcome");cancel_ack=boolean(data,"cancel_acknowledged");if(!restoring) {logical=sealed_outcome;phase="sealed";needs_recovery=false;recovery="none";}}
+        if(kind=="9") {exit_capture=number(data,"exit_capture_epoch",false);exit_declared=true;sealed_outcome=str(data,"outcome");cancel_ack=boolean(data,"cancel_acknowledged");if(!restoring) {logical=sealed_outcome;phase="sealed";needs_recovery=false;recovery="none";}}
     }
     void flush(const std::string& fault) {
         option(fault,{"none","error","unqualified"});
@@ -168,13 +171,13 @@ struct GuardedModel::Impl {
         if(recovering)recovery_flushed=true;else {target_flushed=true;phase="target_flushed";}
     }
     void recover_prefix() {
-        expected.clear();done.clear();active.clear();last_completed.clear();pending=false;intention_stable=false;retry_observed=false;cancel_durable=false;cancellation=false;cancel_ack=false;sealed_outcome.clear();
+        expected.clear();done.clear();active.clear();last_completed.clear();pending=false;intention_stable=false;retry_observed=false;cancel_durable=false;cancellation=false;cancel_ack=false;sealed_outcome.clear();exit_declared=false;
         for(const auto& p:bound)expected[p.first]=str(p.second,"state_digest");
         for(std::size_t i=0;i<journal.stable;++i)apply_stable(journal.frames[i],true);
         unbound=journal.stable<4;
         if(active.empty() || (!pending && !all_done()))active=next_step();
         worker="exited";logical="unresolved";needs_recovery=true;recovery=unbound?"unbound":"required";phase="recovery";
-        effect=pending?"uncertain":"not_started";target_flushed=false;recovery_flushed=false;captured=false;exit_capture=capture_epoch;
+        effect=pending?"uncertain":"not_started";target_flushed=false;recovery_flushed=false;captured=false;if(!exit_declared)exit_capture=capture_epoch;
     }
     void perform(const V& action) {
         encode(action,65536);const auto op=str(action,"op");const auto found=action_fields.find(op);if(found==action_fields.end())bad("model_action_unknown");

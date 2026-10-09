@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.7-proposed.1
+  version: 0.1.8-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-043-03
 updated:
   by: codex
-  at: '2026-10-08T23:43:15.464866+00:00'
-  scope: DE-W040 private native model-history binary producer and ordered exit/capture declarations
+  at: '2026-10-08T23:57:53.532613+00:00'
+  scope: DE-W040 repeated-crash proof reconstruction and attempt-local intention reset
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -215,6 +215,25 @@ automatically replays. A partial tail blocks further append. Explicitly forking 
 new fake journal generation requires quiescence and fresh observation, retains the
 old prefix/tail digest and does not itself transfer worker/effect authority.
 An incomplete bootstrap remains unbound and cannot authorize retry.
+
+Repeated crash reconstruction rebuilds the admitted attempt from the complete
+retained prefix. A new admission clears its predecessor's pending intention,
+retry/result/flush and declared-exit state; cumulative completed effects remain.
+An old attempt's intention cannot support an after-state claim in a new attempt
+that has no intention of its own. The latest recovery/seal exit proof of the
+retained current attempt survives another crash. A later crash observation is
+used only when that prefix has no exit declaration; it cannot redefine a recorded
+exit epoch. Aborted attempt identities remain reserved in this closed model.
+These are fake-prefix assumptions, not authentication or physical absence proofs.
+
+The repeated-crash native audit cuts successful before/after recovery, cancellation
+and seal/fork traces at every action boundary. It considers acknowledged and
+complete volatile prefixes, partial next records and dispatched unflushed target
+fates, with independent resource/record expectations. Additional probes cover
+failed recovery/checkpoint appends and flushes, reserved attempt reuse, missing
+new-attempt intentions and changed resource identities, epochs, state and
+availability. It compares actual generated binary histories with an independent
+encoder and preserves rejected-action atomicity and false authority claims.
 
 The fake log hashes canonical events and their previous digest as specified by
 the profile; this is an inspectable simulated history, not a new physical ABI.

@@ -210,6 +210,9 @@ if(BUILD_TESTING)
   add_test(NAME journal.model_binary_producer COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/journal/test_producer.py"
     --probe "$<TARGET_FILE:model_journal_producer_probe>" --semantic-probe "$<TARGET_FILE:journal_semantic_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(journal.model_binary_producer PROPERTIES TIMEOUT 120)
+  add_test(NAME journal.repeated_crash_audit COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/journal/test_crash_audit.py"
+    --probe "$<TARGET_FILE:model_journal_producer_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(journal.repeated_crash_audit PROPERTIES TIMEOUT 120)
   add_executable(plan_definition_probe tests/journal/definition_probe.cpp)
   target_link_libraries(plan_definition_probe PRIVATE disked_plan_prototype)
   set_target_properties(plan_definition_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

@@ -123,5 +123,6 @@
     "DE-DEC-004",
     "DE-DEC-008"
   ],
-  "ordering": "Critical capture claims require a newer capture than the last recorded claim; sealing also requires post-exit capture. Cancellation of an intended undispatched step requires before-state reconciliation before acknowledgement."
+  "ordering": "Critical capture claims require a newer capture than the last recorded claim; sealing also requires post-exit capture. Cancellation of an intended undispatched step requires before-state reconciliation before acknowledgement.",
+  "reconstruction": "Rebuild completed effects and current attempt from the selected complete prefix. An admitted new attempt clears predecessor pending/intention/retry/result/flush/exit-declaration state while retaining cumulative completed resource states. The latest recovery/seal exit proof of that admitted attempt survives later crashes; use the new crash observation only when no exit proof survives. Aborted attempt identities remain reserved in the closed model. Missing or partial admission never inherits its authority."
 }

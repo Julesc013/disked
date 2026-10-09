@@ -532,3 +532,12 @@ record binary cut. Exact source-bound validation lives in the DE-W040 evidence.
 cmake --build --preset windows-bootstrap --target model_journal_producer_probe journal_semantic_probe
 python tests/journal/test_producer.py --probe build/windows-bootstrap/Release/model_journal_producer_probe.exe --semantic-probe build/windows-bootstrap/Release/journal_semantic_probe.exe --root .
 ```
+
+
+`journal.repeated_crash_audit` now exercises repeated failures through actual native
+fake-model recovery, checkpoint, cancellation and retained generation histories.
+The model preserves the recorded exit epoch of the restored attempt and clears
+old intention/proof state when another attempt is admitted. Action cuts and resource
+fates are chosen independently; binary histories are compared with Python encoding
+and all rejected actions must leave snapshots unchanged. This remains a closed
+fixture audit, with no live journal writer or physical durability qualification.
