@@ -51,3 +51,9 @@ remains required. Read-only planning without lifecycle configuration refuses
 `live_target_acceptance_required`. Actual native commands, imports and retained
 qualification belong to the source-consumer evidence, separate from dev.36's
 earlier product qualification.
+
+Clean source `23079a5` passed 33 native executions/223 assertions, 30
+package/export tests and the 215-test tooling suite (two skipped). The
+[source-consumer review](../.aide/evidence/2026-10-10-setup-source-consumer/REVIEW.md)
+retains actual build, launch, source/hash and import observations. The probe is
+private fixture tooling and does not replace the shipped product executable.

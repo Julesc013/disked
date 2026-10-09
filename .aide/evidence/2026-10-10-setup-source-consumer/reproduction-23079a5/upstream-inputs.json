@@ -1,0 +1,564 @@
+{
+  "schema": "org.disked.setup-native-source-lock-prototype/1",
+  "revision": "2e64f654b370f500ddbab45ae097df63352c3c25",
+  "tree": "b836676ca8f487d48063071733ca5ff5c5c8abab",
+  "core_sources": [
+    "runtime/base/usk_json.cpp",
+    "runtime/base/usk_record_io.cpp",
+    "runtime/base/usk_sha256.cpp",
+    "runtime/base/usk_stable_file.cpp",
+    "runtime/base/usk_utf8_path.cpp",
+    "runtime/setup/audit/usk_audit_repository.cpp",
+    "runtime/setup/evidence/usk_live_evidence.cpp",
+    "runtime/setup/kernel/usk_api.c",
+    "runtime/setup/lifecycle/usk_lifecycle.cpp",
+    "runtime/setup/lifecycle/usk_install_restart.cpp",
+    "runtime/setup/lifecycle/usk_public_lifecycle.cpp",
+    "runtime/setup/package/usk_archive_inspect.cpp",
+    "runtime/setup/policy/usk_target_inspect.cpp",
+    "runtime/setup/policy/usk_target_policy.cpp",
+    "runtime/setup/state/usk_state_repository.cpp",
+    "runtime/setup/streaming/usk_streaming_source_target.cpp",
+    "runtime/setup/transaction/usk_transaction_session.cpp",
+    "runtime/setup/transaction/usk_install_lease.cpp",
+    "runtime/setup/transaction/usk_replacement_session.cpp",
+    "runtime/setup/transaction/usk_commit_authority.cpp",
+    "runtime/setup/transaction/usk_stream_entry_journal.cpp",
+    "runtime/setup/verify/usk_package_verify.cpp"
+  ],
+  "zlib_sources": [
+    "external/zlib/upstream/adler32.c",
+    "external/zlib/upstream/crc32.c",
+    "external/zlib/upstream/inffast.c",
+    "external/zlib/upstream/inflate.c",
+    "external/zlib/upstream/inftrees.c",
+    "external/zlib/upstream/zutil.c"
+  ],
+  "private_include_dirs": [
+    "external/zlib/upstream",
+    "runtime/base",
+    "runtime/setup/audit",
+    "runtime/setup/evidence",
+    "runtime/setup/lifecycle",
+    "runtime/setup/package",
+    "runtime/setup/policy",
+    "runtime/setup/state",
+    "runtime/setup/streaming",
+    "runtime/setup/transaction",
+    "runtime/setup/verify"
+  ],
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "blob": "a455eca77b8e7a96575ab86a5e94f791e20311ae",
+      "bytes": 48040,
+      "sha256": "sha256:2b8d643df473bdb6aec4b818c83dc48639c8cba635b87147878c338deb9e01ed"
+    },
+    {
+      "path": "LICENSE",
+      "blob": "5847c796200f8f586ba61cd4b1895b4703b23f7a",
+      "bytes": 1064,
+      "sha256": "sha256:fb32a9968f4a0e33e1e2f367ebe81f0d1703fd38b2e473d9e300f4efd8292b53"
+    },
+    {
+      "path": "contracts/abi/usk_c_abi.v1.toml",
+      "blob": "483f5ab1ad0b36b5396372dc8c564856579ed2af",
+      "bytes": 1287,
+      "sha256": "sha256:07c2d023d4ecf6854301f10babb779a8ccd20eafb8f088a4cc29e361ca7beea0"
+    },
+    {
+      "path": "contracts/schema/setup/archive_inspect_request.v1.schema.json",
+      "blob": "b2095693fa0df72290859a9f3ab7723b42fdf236",
+      "bytes": 2035,
+      "sha256": "sha256:1cb830518ad3bd35fb548858b9133980aa4f90a6dfbff0dd8563463e1cfe43fd",
+      "retained_path": "external/universal-setup/contracts/schema/setup/archive_inspect_request.v1.schema.json"
+    },
+    {
+      "path": "contracts/schema/setup/archive_inspection.v1.schema.json",
+      "blob": "64c12cb70cdf1e0c00516a9a4c99cbd078bccca9",
+      "bytes": 4097,
+      "sha256": "sha256:f320075893d7e0fa3dd505e5cd4ebb3fb648d8f173f540ea6b2caff7bc51be4f",
+      "retained_path": "external/universal-setup/contracts/schema/setup/archive_inspection.v1.schema.json"
+    },
+    {
+      "path": "contracts/schema/setup/package_verify_report.v1.schema.json",
+      "blob": "57c4e387e6615e1c3c68d411a4247a02326ac9ae",
+      "bytes": 1487,
+      "sha256": "sha256:875feff080b4f7078f5dc9450a6e0ef59f9fe8aeee958f26acf1134749733cbe",
+      "retained_path": "external/universal-setup/contracts/schema/setup/package_verify_report.v1.schema.json"
+    },
+    {
+      "path": "contracts/schema/setup/package_verify_request.v1.schema.json",
+      "blob": "6f5c3c36a0d223920ee45ced0ed40d9601040a9d",
+      "bytes": 651,
+      "sha256": "sha256:7382b28a0f20e37972941ee891aeab0a72ec7d0fd9f5fcbad0cb9a706f98f82f",
+      "retained_path": "external/universal-setup/contracts/schema/setup/package_verify_request.v1.schema.json"
+    },
+    {
+      "path": "external/zlib/provenance.v1.toml",
+      "blob": "066997f1510c9dcb9c51559428f6eca5b9433057",
+      "bytes": 2271,
+      "sha256": "sha256:32da90314ca2b4a878a25fdcfd93564b808b57c622f6e304340b204bcc106731"
+    },
+    {
+      "path": "external/zlib/upstream/LICENSE",
+      "blob": "b7a69d058e616651eae27b3f90c0b7fd36c099b2",
+      "bytes": 1002,
+      "sha256": "sha256:e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "external/zlib/upstream/adler32.c",
+      "blob": "04b81d29bad1691878648d7ae1680726abd905e4",
+      "bytes": 4964,
+      "sha256": "sha256:9cd1443a24ff2a3053961695bd432035c58347386a420d3388232376ebabe211"
+    },
+    {
+      "path": "external/zlib/upstream/crc32.c",
+      "blob": "d9ade51502393a910646bcc19bbee7976ac2c5d3",
+      "bytes": 29735,
+      "sha256": "sha256:da37f3483e77c20f64c28cf55d62d7bed9d62af33eb401be906835d84539b9c9"
+    },
+    {
+      "path": "external/zlib/upstream/crc32.h",
+      "blob": "137df68d616c5ed38913579ba37b4e4c533fa903",
+      "bytes": 591749,
+      "sha256": "sha256:9a2223575183ac2ee8a247f20bf3ac066e8bd0140369556bdbdffc777435749e"
+    },
+    {
+      "path": "external/zlib/upstream/gzguts.h",
+      "blob": "266305debc8bac945863ed844adec8d7994ba3f1",
+      "bytes": 7088,
+      "sha256": "sha256:db7690315cda93c0742701365d5218932ff0e2e6b8713c95019553502ada7d2b"
+    },
+    {
+      "path": "external/zlib/upstream/inffast.c",
+      "blob": "d1657f3f30348aedf10add2838004a7ea0344c39",
+      "bytes": 12982,
+      "sha256": "sha256:f96787a11bb7131ffd2221fb40db27f6a5a1dfb12f59c0bc388807010749c34a"
+    },
+    {
+      "path": "external/zlib/upstream/inffast.h",
+      "blob": "49c6d156c5c652dbd9e2e6aff90e20eb279a2b37",
+      "bytes": 422,
+      "sha256": "sha256:05cc5dc9ff1da7b8b52a4bd8bda0d8a5c236a2f39efe84b941516ea13857e6c5"
+    },
+    {
+      "path": "external/zlib/upstream/inffixed.h",
+      "blob": "05ce88e4ff5cd4e7ffe05d3a8309af1bf3b0e989",
+      "bytes": 5968,
+      "sha256": "sha256:fd7c4b1dbdacb283421d0675744aaecda44e840e183b5131448bac94564f6adb"
+    },
+    {
+      "path": "external/zlib/upstream/inflate.c",
+      "blob": "5f5d4922b7157792c817b622acfa95fecf1ba8b2",
+      "bytes": 52247,
+      "sha256": "sha256:90221ea7d762e7044057f6ad5013e969086c6ba3d3051716b7aa786d7a6362ec"
+    },
+    {
+      "path": "external/zlib/upstream/inflate.h",
+      "blob": "f758e0dcc18dc1dcfd875d3df98d71aa5743d349",
+      "bytes": 6683,
+      "sha256": "sha256:e6a43bd0e24ab2cf5fa1dca630859e9a2f6a721f033f75faf179f5c0299e4fe2"
+    },
+    {
+      "path": "external/zlib/upstream/inftrees.c",
+      "blob": "dcbc64e05b15c1083452787519041c0df3004421",
+      "bytes": 16672,
+      "sha256": "sha256:f7ee9ce5925fc9d1579c76e574feed85f5ca4ccddc446a7795578854bbc65743"
+    },
+    {
+      "path": "external/zlib/upstream/inftrees.h",
+      "blob": "84d053697cd881db2f1d3a303e238a0cce0bf886",
+      "bytes": 3003,
+      "sha256": "sha256:d3a7ea301d8ec514823d052a2e42af4636bc81a0cf07052f526030f208068fb8"
+    },
+    {
+      "path": "external/zlib/upstream/zconf.h",
+      "blob": "828ca617e90747c2f05ef0b8e2db4bc2b1be0e5f",
+      "bytes": 16955,
+      "sha256": "sha256:cb7c2c84211473b4699223edd363d3207b43b9578e739b5bf638f42204ea6e0f"
+    },
+    {
+      "path": "external/zlib/upstream/zlib.h",
+      "blob": "a57d336134217efeddab550ed53df4b89adeca5d",
+      "bytes": 103848,
+      "sha256": "sha256:818667d6ab6a37fe7469cb06a7f0cb2c2cb2f2c948a03e5accf1a4a74bf3020a"
+    },
+    {
+      "path": "external/zlib/upstream/zutil.c",
+      "blob": "4ea02a9c3644eebd10b2b9aec238689c2c32a93c",
+      "bytes": 7454,
+      "sha256": "sha256:1279908a15580224a2c1f377555ffdd150327fed71801aa77fc35978dcb741c8"
+    },
+    {
+      "path": "external/zlib/upstream/zutil.h",
+      "blob": "a9bc23ca62956e59b6ee304b0b6889f3ca776d7b",
+      "bytes": 8512,
+      "sha256": "sha256:a12243cc6d338ffad0c8e3500fbc05bc7fdcdc25a469393b1c2f7e5df307fff3"
+    },
+    {
+      "path": "include/usk/usk_allocator.h",
+      "blob": "f49b02d4bca273be48111dd7d6198fc3d6f0d5a6",
+      "bytes": 338,
+      "sha256": "sha256:cea3886b1030d6965963680c53ffa9f4eb459365a4f3ce31867f24cd3f48cc5f"
+    },
+    {
+      "path": "include/usk/usk_api.h",
+      "blob": "da95da96ebba978772378f14b0c5ca57deaac2f4",
+      "bytes": 1705,
+      "sha256": "sha256:bb035e5525cbe6c58d73b1d69fcb3a42231dd5e7ea9a4980b119f4631e2d581f"
+    },
+    {
+      "path": "include/usk/usk_audit.h",
+      "blob": "c9fcf2b5bb75d1738d0168da9e0e5491ce51cc50",
+      "bytes": 289,
+      "sha256": "sha256:6e2a0322b44f18963751f6762128388eb4ee82219b53ad3d55aace49cc85fa4d"
+    },
+    {
+      "path": "include/usk/usk_command.h",
+      "blob": "745fee6581a5c4e75641facaca416983dd66de06",
+      "bytes": 756,
+      "sha256": "sha256:73c3bd3c752a9c2af8539c8b1026afc32646186f3752063c2665033ee3f5b251"
+    },
+    {
+      "path": "include/usk/usk_context.h",
+      "blob": "1695bb3b72b53edb2aea0aaab6b26ffef0332038",
+      "bytes": 147,
+      "sha256": "sha256:aad9b309af9e126497e8ec6c72f39da012870430f156b95059523f517036b5d7"
+    },
+    {
+      "path": "include/usk/usk_error.h",
+      "blob": "55bdcf82c13affcc9ee6039eb3d32d76e76b2faa",
+      "bytes": 289,
+      "sha256": "sha256:e96d9d1b2b0256c7e587f9466899717fa87b9ee0ea04ba1fc1323198d7611e71"
+    },
+    {
+      "path": "include/usk/usk_install.h",
+      "blob": "303365b01f36c7f45381b3b029f10df49bb3e3c6",
+      "bytes": 316,
+      "sha256": "sha256:a17de6c578aa9f9af871ea79b90d006c734e4a9e8176b6e6ed9bc7b913785284"
+    },
+    {
+      "path": "include/usk/usk_manifest.h",
+      "blob": "473eb6bfba7e80c5516683da0055390e58b8f2e5",
+      "bytes": 296,
+      "sha256": "sha256:4d8090ec0daa984c8b6a1d70e380f02feee05acc1514520456d4cf1b374b2c77"
+    },
+    {
+      "path": "include/usk/usk_result.h",
+      "blob": "9b082d15522b6037cb4ac32109d3d1eab04e4558",
+      "bytes": 429,
+      "sha256": "sha256:36b2dd57c30c62da331e0428e12915344db4d4571ffdaa9f1d801fc38b2dde85"
+    },
+    {
+      "path": "include/usk/usk_transaction.h",
+      "blob": "780196c106a41319a83a32fdeb0bc4022cb3df28",
+      "bytes": 382,
+      "sha256": "sha256:5607412f33b4710b173f42165c2d2983e015c4e53db0da501c391d1aee2f4a72"
+    },
+    {
+      "path": "include/usk/usk_types.h",
+      "blob": "fe690b118082d27f3d0d77ad5672649ca2aef470",
+      "bytes": 727,
+      "sha256": "sha256:5d130f4b52dbe00687b33bb08c79dc10cd48f412de48b5d92b11ef11e728d9f9"
+    },
+    {
+      "path": "include/usk/usk_verify.h",
+      "blob": "b7bde3176b9278d2c7155b24154144c1fdae50d0",
+      "bytes": 267,
+      "sha256": "sha256:8175a3902ae3e3d1fce5adeef264c488839c0fd61daa848d0b311c990d6f8b79"
+    },
+    {
+      "path": "release/license.v1.toml",
+      "blob": "c9adc250a78f7c6138b55772a1aef84c29f2af0a",
+      "bytes": 622,
+      "sha256": "sha256:226e04a82b7f3146fa5194673a78ccd4046cadd4217c63a859c70a26ab2b7961"
+    },
+    {
+      "path": "runtime/base/usk_effect_dispatch.h",
+      "blob": "2d19503cbaed96fe1b6d881d5970b41bd39eea3d",
+      "bytes": 1033,
+      "sha256": "sha256:f8035f180af8a030584640579c4c3e16d43a8a7ab161c4f34630eee7e645f2be"
+    },
+    {
+      "path": "runtime/base/usk_json.cpp",
+      "blob": "d4ffa5e71129deca1df85466c6b6eca4822ce248",
+      "bytes": 13319,
+      "sha256": "sha256:fb1f0c2693fdb1e8e033887cba4a3db90965a0823f7a5815b6c9f482bca8e696"
+    },
+    {
+      "path": "runtime/base/usk_json.h",
+      "blob": "5f607f6c61af4d7db973e2958626a694b8ce27b9",
+      "bytes": 1584,
+      "sha256": "sha256:d7a92dcdb8fee1633dd0d23a7dcc41d255801fa11bdc35e3571b445e8cd6b5c3"
+    },
+    {
+      "path": "runtime/base/usk_record_io.cpp",
+      "blob": "e5742b27a43f40828adb55f73aecfc8b6c4df1b1",
+      "bytes": 21421,
+      "sha256": "sha256:6cf9bd61be87fe8e1ed1f6edbc7f8f954226aad15d7484b40080937824652e73"
+    },
+    {
+      "path": "runtime/base/usk_record_io.h",
+      "blob": "1e6cf7f42c04dd5223d1c30940d6649218b06959",
+      "bytes": 2383,
+      "sha256": "sha256:542cf86f5cd42d3c98526f710258d69d73365587312269517200b15c7b4b0849"
+    },
+    {
+      "path": "runtime/base/usk_sha256.cpp",
+      "blob": "caa9b7d3b73fb49699c9be1dbeeae7c18612f459",
+      "bytes": 5084,
+      "sha256": "sha256:843c5e5ed52d2f6ccaa52d01ab2d76f6a31abd57e9523e21f0ff768b0e3b1502"
+    },
+    {
+      "path": "runtime/base/usk_sha256.h",
+      "blob": "fb6b35ed9546374f99beceb1ef7d2eb7518964ef",
+      "bytes": 813,
+      "sha256": "sha256:c8c23e8f6ed8ce838b73ff4af4051e7d2fde2c7698feb727f1bcd968fc9c5dc8"
+    },
+    {
+      "path": "runtime/base/usk_stable_file.cpp",
+      "blob": "fe0fb9a8603c7ad59b554b720c62197c2a7e7a3f",
+      "bytes": 11673,
+      "sha256": "sha256:1ede6f324b6f160a055aefb7fec5770dbf33d085409940b028313ff939d2f51d"
+    },
+    {
+      "path": "runtime/base/usk_stable_file.h",
+      "blob": "ecbe6f4621cfa301ec1368f6acaa3d2b075681aa",
+      "bytes": 1283,
+      "sha256": "sha256:b7515cb3edf7dd2829a55933210841d918e75506c7d915d1d4e36b4201df671c"
+    },
+    {
+      "path": "runtime/base/usk_utf8_path.cpp",
+      "blob": "72d793e69b9b12384e63fcaa9712c143c330800d",
+      "bytes": 5228,
+      "sha256": "sha256:1a7808268a3bd108b42afec9e471f469891b24594aea0698f87930b9069d8b3d"
+    },
+    {
+      "path": "runtime/base/usk_utf8_path.h",
+      "blob": "bb32487510bdbc5a3ef7c677a96950118f5dbcad",
+      "bytes": 1005,
+      "sha256": "sha256:36814bdb7673da9d970faf8a9f626a68812c90992567078c6e1f55594f1b4268"
+    },
+    {
+      "path": "runtime/setup/audit/usk_audit_repository.cpp",
+      "blob": "66e862fcb3f6add787e9325dd7db3c7b621ee992",
+      "bytes": 10458,
+      "sha256": "sha256:d97a4f9a66672cf3d8b481bb11aebcf125d22b21365a43fa03ec2b6c8d62e98b"
+    },
+    {
+      "path": "runtime/setup/audit/usk_audit_repository.h",
+      "blob": "3b81a957cb82775b6b56d77736bbca96343b690e",
+      "bytes": 1485,
+      "sha256": "sha256:0ce9894c1ca7933f51b96f61e556caeebbd206b3ac46a4450919f25f446fe524"
+    },
+    {
+      "path": "runtime/setup/evidence/usk_live_evidence.cpp",
+      "blob": "709f4ab9072750e2a12ad0d86925db90662ecce7",
+      "bytes": 19082,
+      "sha256": "sha256:81027835d51812f404c2925a64e0e764318d90667eec47eba8e17a1f780e74d4"
+    },
+    {
+      "path": "runtime/setup/evidence/usk_live_evidence.h",
+      "blob": "16db4805e9fb791b9c7a8e7cf3e7f9d02f606dd0",
+      "bytes": 3438,
+      "sha256": "sha256:97d0002f975749e7eb8265672c978c00f955c65465b33a1c943b899a2bb41271"
+    },
+    {
+      "path": "runtime/setup/kernel/usk_api.c",
+      "blob": "c2362a8ee9614d9e8acaad3b31d51c65b436d67a",
+      "bytes": 31330,
+      "sha256": "sha256:244e66f78fccadb371c6593a4b0a551c6d5d37daf5a231d12ae541fbe8135597"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_install_restart.cpp",
+      "blob": "e2b3ab7bfa2dcdcaab1015a2786bb6f0728624f0",
+      "bytes": 17335,
+      "sha256": "sha256:4c4e2bf2d839471b43c7112f0dcd2b746d2e69bbbb534e2af9872939db1b3f96"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_install_restart.h",
+      "blob": "92e6616842235f648a7f87d98c976cab4ea1aa92",
+      "bytes": 2362,
+      "sha256": "sha256:e8cf7a1ba55c48fd7ced969d4354784155c951398111e7bf84f28a90ae6ef4e7"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_lifecycle.cpp",
+      "blob": "5e18a33dd2be43025251bbf84536b8c2f12b51c1",
+      "bytes": 124815,
+      "sha256": "sha256:fd9f43afd2673a511cb1b9c36a980c18df662214a36c1d2cfe7e490cbd28da86"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_lifecycle.h",
+      "blob": "8d595e4c50c6fb85336fddd63654766c8e9ce90a",
+      "bytes": 10349,
+      "sha256": "sha256:3555aac0ebe6903e1cf3911c0a9a3a300a1f315560d7a5c617271abdd4463efa"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_protected_install_publisher_internal.h",
+      "blob": "b7f4b1e5b117dee8af36516ef77bc20a96a2976f",
+      "bytes": 5229,
+      "sha256": "sha256:b6076a5a373d87de78ec523388bae5adcfdbda5f0cef0cf0440a7679d91c9bfe"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_protected_publisher_finalization_internal.h",
+      "blob": "cf4765efed4c9456d9a28dc9ff0f81f7b591a107",
+      "bytes": 2109,
+      "sha256": "sha256:d2fdeee27dc996f39d9da461d99270d0c4476b064dc33a898fc71a7929e1997b"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_public_lifecycle.cpp",
+      "blob": "157b34fa171a8991af897d0bae3b207b5ab58be8",
+      "bytes": 125664,
+      "sha256": "sha256:a23a66ae5ccc6c0f3a05a9190f8c44eeb70b0bcf6d57eed314e6f517eab381fd"
+    },
+    {
+      "path": "runtime/setup/lifecycle/usk_public_lifecycle.h",
+      "blob": "7216b45cc25cda03519bbf7862dcd7ca57fa03f7",
+      "bytes": 1783,
+      "sha256": "sha256:b16350e370ac3e57a3f2bf9340d69400606ea8a3a89a319739208bf95e02112b"
+    },
+    {
+      "path": "runtime/setup/package/usk_archive_inspect.cpp",
+      "blob": "b279e2868c54ae88d05395c8d6944f763c74f9f8",
+      "bytes": 66259,
+      "sha256": "sha256:d4865e8ff16e7b05a54ca1b05176e66871c33ae35a71316cd6cf7b93b8da7aa6"
+    },
+    {
+      "path": "runtime/setup/package/usk_archive_inspect.h",
+      "blob": "1ccf18ed3d051a3d2978fce2ffdb7a4d478a46da",
+      "bytes": 410,
+      "sha256": "sha256:6e38cae53ceb2a815cb37f0b9b359a251ec44d58c522927e9bdd028044cd2b86"
+    },
+    {
+      "path": "runtime/setup/package/usk_archive_payload.h",
+      "blob": "838e4758a95d5b8a1833213954566f7c4450aec2",
+      "bytes": 3565,
+      "sha256": "sha256:50210f96f1109b97e2494c67853068c7df1e4489dbb70cb76b5f6642b8d4e0c7"
+    },
+    {
+      "path": "runtime/setup/policy/usk_target_inspect.cpp",
+      "blob": "2691696507dd01750b74052f751a07cf97a4ef9d",
+      "bytes": 13961,
+      "sha256": "sha256:ad13e0332aac98d126c7299c2eed6096b1354aa7a7f091d783924aceea33e681"
+    },
+    {
+      "path": "runtime/setup/policy/usk_target_inspect.h",
+      "blob": "8a59c1c9a5af674e15b9d83b6a1c445a19f50212",
+      "bytes": 913,
+      "sha256": "sha256:8a894521378f901c7aae34f2e742f550d0f2e9f816b732e647d611aa55df56fe"
+    },
+    {
+      "path": "runtime/setup/policy/usk_target_policy.cpp",
+      "blob": "443399e0d7087dc19b92691da59960e51aeb533a",
+      "bytes": 10375,
+      "sha256": "sha256:12991f0849007d2688ac9fc89b8b282b4bbaf8120bf13af99d849bc5c40f16da"
+    },
+    {
+      "path": "runtime/setup/policy/usk_target_policy.h",
+      "blob": "fc1b845d19c24d3c66c5a86c55a6d955b2bb88fa",
+      "bytes": 2107,
+      "sha256": "sha256:b1ca8ed0ab19458ae0e4aadb0cbc540297eb71a6becaa3375de61aae32aebe39"
+    },
+    {
+      "path": "runtime/setup/state/usk_state_repository.cpp",
+      "blob": "26f4dde1f869818a74aad07c958c66d162842801",
+      "bytes": 22251,
+      "sha256": "sha256:a53ec41e7455c5e6e0e0386dcc6dcf19c0f3d65dedf95ccd63c7bb5161f42d44"
+    },
+    {
+      "path": "runtime/setup/state/usk_state_repository.h",
+      "blob": "b5def2452d3e9dc74b82dc76f4c76d37d37143cf",
+      "bytes": 2287,
+      "sha256": "sha256:1b97b45d754563b80052fd1f5ef5a4fde466edb27369ae81bd85295d83818b21"
+    },
+    {
+      "path": "runtime/setup/streaming/usk_streaming_source_target.cpp",
+      "blob": "1132b8bb5031d7950e4b62125ad557b1719eb208",
+      "bytes": 17349,
+      "sha256": "sha256:263315a1c8b8361fadfa760bac85938426170a71b95ed01738545aaa7e73ab1d"
+    },
+    {
+      "path": "runtime/setup/streaming/usk_streaming_source_target.h",
+      "blob": "e86f94be4075574c5035161054cc42809a952f8b",
+      "bytes": 2611,
+      "sha256": "sha256:a3e657f3a6515cc7bacc96d4c7652abdaa344b2e28c1f10d1240f4852ea2aedf"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_commit_authority.cpp",
+      "blob": "318363cc8880b920fcaa5d41f2f1a9829dc59866",
+      "bytes": 4527,
+      "sha256": "sha256:85660013da0d5550915e6863758de9b109c7b362532785e3cfa6874361f0bbc4"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_commit_authority.h",
+      "blob": "da47044ac01094f08fb931f10ea0006c9525b6bb",
+      "bytes": 1573,
+      "sha256": "sha256:862d4370c4b89c85bd0f94b62c0fbe7ade860c330b9193d09b048d000e9df56f"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_install_lease.cpp",
+      "blob": "9db41e036999e7ca9a0a5194c34b8ac670c0289d",
+      "bytes": 9547,
+      "sha256": "sha256:4146991524af7e1087f0fa52d1d92dcb54eb20118d860aaffaec4cbc876217a7"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_install_lease.h",
+      "blob": "534d63ae0fc6c35ee6232c6549b06d65e41a4a05",
+      "bytes": 2394,
+      "sha256": "sha256:c65ec2a453922eb0d3745d8ba130de1727bdf0293ed40c36e43b7f8fa65db10d"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_replacement_session.cpp",
+      "blob": "18fe4ff7ff624dd078373f29d0a9b89a2ff1c749",
+      "bytes": 18762,
+      "sha256": "sha256:d833a6bdc5f18ed171156d994ba09f7b7dc5be1034fa16e99acf730627bd4dd5"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_replacement_session.h",
+      "blob": "6251b14d51f03023aae727e58cfc839bbc688098",
+      "bytes": 2396,
+      "sha256": "sha256:7dfc062c6d6d98e6fa4bb11a575a9d2b3fd1db8350f4fad8236d85aaef41f59e"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_stream_entry_journal.cpp",
+      "blob": "1039a0f50181186d4cd0d2807f790e9e19dafea9",
+      "bytes": 10244,
+      "sha256": "sha256:cbf75c4fbe176c58363b79a4bf829f15b0bb2bef134bd10ff265675d246805f9"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_stream_entry_journal.h",
+      "blob": "bbc7e3c8217389d6f8046fe1bf71313f9c06d0b9",
+      "bytes": 1400,
+      "sha256": "sha256:65dd1fe11779ec005990edc20df54a2092e7d827395841da5ddd366b3c2bb78a"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_transaction_session.cpp",
+      "blob": "a5772677d872716a992ab6099d387d87d7d0eda3",
+      "bytes": 69149,
+      "sha256": "sha256:e45fe5984ce9efaff4452723015f62b4570dff974f4a9cb1039bba98aa54a8ba"
+    },
+    {
+      "path": "runtime/setup/transaction/usk_transaction_session.h",
+      "blob": "c8a9cf27e906829e26895bb33a853f16a8b8a355",
+      "bytes": 6120,
+      "sha256": "sha256:677f63fb75d5bc4cbbdf67909e1f64b4ccd91344a9289a142a96ad8d10107bcd"
+    },
+    {
+      "path": "runtime/setup/verify/usk_package_verify.cpp",
+      "blob": "2068b61fdc8ed96feca2789f2c96a67e1d2a381d",
+      "bytes": 26787,
+      "sha256": "sha256:6cea5b35e6be500943b5a59756e56b9149a8731c6c10bea0fe9f4a7dd0caeaa9"
+    },
+    {
+      "path": "runtime/setup/verify/usk_package_verify.h",
+      "blob": "f6553611838d3aab17b94063515db9e40f6c6bc0",
+      "bytes": 559,
+      "sha256": "sha256:59b96dd660b1b3a2bdc96fba6a11349a25c7fbfd47a98d3ab229fecd61c024b6"
+    }
+  ],
+  "selection": "Exact CoreStatic source list from pinned CMake, including private inflate; no protected publisher or upstream scripts.",
+  "license_expression": "MIT AND Zlib",
+  "source_copy": "Disposable owned export only; repository retains metadata and four unmodified schemas.",
+  "source_sdk_equivalence": "Same unmodified CoreStatic source set and Z_PREFIX. DiskEd-owned MSVC /MT build differs from a packaged find_package SDK and grants no installed SDK qualification."
+}

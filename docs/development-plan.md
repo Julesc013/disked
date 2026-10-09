@@ -33,6 +33,11 @@ ZIP inspection from content verification, preserves the FacMan-specific generic
 package refusal, and leaves every live lifecycle/owner gate open. The shipped
 DiskEd executable and its prior native qualification are unchanged.
 
+The [clean source-consumer review](../.aide/evidence/2026-10-10-setup-source-consumer/REVIEW.md)
+records the completed local slice and actual refusals. Continue finite
+carrier/ownership fixture work under the programme grant while the generic
+callable verifier, installed SDK and live lifecycle remain unqualified.
+
 The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. DE-W010 native build/launch results are retained separately under `.aide/evidence/2026-10-06-native-bootstrap/`; they do not qualify the full product or replace historical tooling results.
 
 ## Decisions that remain open
