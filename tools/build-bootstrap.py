@@ -11,6 +11,55 @@ def read(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def parameter_schema_closure(all_schemas, schema_ids, inputs, root):
+    """Bind offline references, including local JSON pointers, to exact inputs.
+
+    The native registry indexes references by identity. Qualify local pointers
+    with their owning schema ID; never fetch or merge a competing schema owner.
+    """
+    pending = list(sorted(schema_ids)); schemas = {}
+
+    def qualify(node, owner):
+        if isinstance(node, dict):
+            result = {}
+            for key, value in node.items():
+                if key == '$ref':
+                    if not isinstance(value, str):
+                        raise ValueError('Invalid parameter schema reference')
+                    value = owner + value if value.startswith('#') else value
+                    pending.append(value)
+                else:
+                    value = qualify(value, owner)
+                result[key] = value
+            return result
+        if isinstance(node, list):
+            return [qualify(value, owner) for value in node]
+        return node
+
+    while pending:
+        name = pending.pop()
+        if name in schemas:
+            continue
+        owner, separator, fragment = name.partition('#')
+        if owner not in all_schemas:
+            raise ValueError('Unbound parameter schema reference: ' + name)
+        value, path = all_schemas[owner]
+        if path.relative_to(root).as_posix() not in inputs:
+            raise ValueError('Parameter schema missing from build input closure: ' + str(path))
+        if separator and fragment:
+            if not fragment.startswith('/'):
+                raise ValueError('Unsupported parameter schema fragment: ' + name)
+            for token in fragment[1:].split('/'):
+                if re.search(r'~(?![01])', token):
+                    raise ValueError('Invalid parameter schema pointer: ' + name)
+                token = token.replace('~1', '/').replace('~0', '~')
+                if not isinstance(value, dict) or token not in value:
+                    raise ValueError('Unbound parameter schema pointer: ' + name)
+                value = value[token]
+        schemas[name] = qualify(value, owner)
+    return schemas
+
+
 def sha(data):
     return "sha256:" + hashlib.sha256(data).hexdigest()
 
@@ -110,21 +159,7 @@ def generate(args):
                    for s in [read(p)] if '$id' in s}
     if not schema_ids <= all_schemas.keys():
         raise ValueError("Missing parameter schema")
-    def references(node):
-        if isinstance(node, dict):
-            if '$ref' in node:yield node['$ref']
-            for value in node.values():yield from references(value)
-        elif isinstance(node, list):
-            for value in node:yield from references(value)
-    pending=list(sorted(schema_ids));schemas={}
-    while pending:
-        name=pending.pop()
-        if name in schemas:continue
-        if name not in all_schemas:raise ValueError('Unbound parameter schema reference: '+name)
-        value,path=all_schemas[name]
-        if path.relative_to(root).as_posix() not in inputs:
-            raise ValueError("Parameter schema missing from build input closure: "+str(path))
-        schemas[name]=value;pending.extend(references(value))
+    schemas = parameter_schema_closure(all_schemas, schema_ids, inputs, root)
     for name, value in [('command_catalog_json', commands), ('syntax_json', syntax), ('parameter_schemas_json', schemas)]:
         text = json.dumps(value, ensure_ascii=True, separators=(',', ':'))
         header.append('static const char* const '+name+' =')

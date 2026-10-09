@@ -1,0 +1,162 @@
+[
+  {
+    "label": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:31:47.409345+00:00",
+    "elapsed_seconds": 1.804,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/configure.log"
+  },
+  {
+    "label": "build-working",
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:31:49.292890+00:00",
+    "elapsed_seconds": 105.856,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/build-working.log"
+  },
+  {
+    "label": "focused-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "tests/evidence/test_export_commands.py",
+      "--probe",
+      "build/windows-bootstrap/Release/export_command_probe.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/export_command_fault.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide/evidence/2026-10-09-export-command/focused-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:32:33.976933+00:00",
+    "elapsed_seconds": 2.889,
+    "exit_code": 1,
+    "log": ".aide/evidence/2026-10-09-export-command/focused-working.log"
+  },
+  {
+    "label": "context-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W034",
+      "--output",
+      ".aide-local/context/export-service-working",
+      "--byte-budget",
+      "500000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:34:02.645678+00:00",
+    "elapsed_seconds": 1.057,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/context-working.log"
+  },
+  {
+    "label": "tooling-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:34:02.660648+00:00",
+    "elapsed_seconds": 108.457,
+    "exit_code": 1,
+    "log": ".aide/evidence/2026-10-09-export-command/tooling-working.log"
+  },
+  {
+    "label": "focused-working-repaired",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "tests/evidence/test_export_commands.py",
+      "--probe",
+      "build/windows-bootstrap/Release/export_command_probe.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/export_command_fault.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide/evidence/2026-10-09-export-command/focused-working-repaired.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:35:16.911965+00:00",
+    "elapsed_seconds": 8.945,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/focused-working-repaired.log"
+  },
+  {
+    "label": "index-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "spec/tools/specctl.py",
+      "index"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:35:51.442724+00:00",
+    "elapsed_seconds": 0.872,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/index-working.log"
+  },
+  {
+    "label": "structural-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:35:52.400658+00:00",
+    "elapsed_seconds": 1.948,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/structural-working.log"
+  },
+  {
+    "label": "manifest-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "spec/tools/specctl.py",
+      "manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:38:05.626178+00:00",
+    "elapsed_seconds": 1.464,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/manifest-working.log"
+  },
+  {
+    "label": "verify-manifest-working",
+    "command": [
+      ".aide-local/venv/Scripts/python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:38:07.178209+00:00",
+    "elapsed_seconds": 0.726,
+    "exit_code": 0,
+    "log": ".aide/evidence/2026-10-09-export-command/verify-manifest-working.log"
+  }
+]

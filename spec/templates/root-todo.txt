@@ -102,3 +102,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Qualify private report-worker execution evidence, then close public export
   prepare/execute contracts, bounded common service/watch and frontend journeys.
   Preserve uncertain attempts, created output and independent exit observations.
+
+- [ ] Admit the defined export service only after bounded inspect/cancel/watch and actual frontend journeys; retain private parser/request/form evidence separately.

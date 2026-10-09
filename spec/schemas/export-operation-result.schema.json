@@ -1,0 +1,92 @@
+{
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "const": "recorded-acquisition-case-support-export"
+    },
+    "authenticity": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "current_image_verification": {
+      "type": "string",
+      "const": "not_performed"
+    },
+    "request_kind": {
+      "type": "string",
+      "enum": [
+        "operation-observation",
+        "export-execution"
+      ]
+    },
+    "definition": {
+      "$ref": "urn:disked:schema:report-worker-definition:1"
+    },
+    "definition_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "state": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:disked:schema:report-worker-state:2"
+        }
+      ]
+    },
+    "last_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "history_complete": {
+      "type": "boolean"
+    },
+    "worker_observation": {
+      "type": "string",
+      "enum": [
+        "running",
+        "exited",
+        "unavailable",
+        "reused_identity",
+        "changed_image_path"
+      ]
+    },
+    "cancellation_request": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "too_late"
+      ]
+    },
+    "admission": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "request_state": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    }
+  },
+  "required": [
+    "scope",
+    "authenticity",
+    "current_image_verification",
+    "request_kind"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:export-operation-result:1",
+  "title": "Provisional export execution/observation result; response status and bound state relationships require service validation"
+}

@@ -1535,7 +1535,11 @@
         ".aide/programmes/**",
         "source/providers/report/**",
         "source/platform/windows/report_worker.h",
-        "source/platform/windows/report_worker.cpp"
+        "source/platform/windows/report_worker.cpp",
+        "source/runtime/command/command.cpp",
+        "tools/build-bootstrap.py",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/command/command.h"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1568,7 +1572,8 @@
         "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root .",
         "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .",
         "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1623,7 +1628,21 @@
         "tests/evidence/test_report_worker.py",
         "spec/catalog/report-worker-prototype.json",
         "spec/schemas/report-worker-definition.schema.json",
-        "spec/schemas/report-worker-grant.schema.json"
+        "spec/schemas/report-worker-grant.schema.json",
+        "source/runtime/evidence/export_commands.h",
+        "source/runtime/evidence/export_commands.cpp",
+        "tests/evidence/export_command_probe.cpp",
+        "tests/evidence/test_export_commands.py",
+        "spec/schemas/export-command-parameters.schema.json",
+        "spec/schemas/export-preparation-result.schema.json",
+        "spec/schemas/report-worker-state.schema.json",
+        "spec/schemas/export-operation-result.schema.json",
+        "spec/catalog/export-command-prototype.json",
+        "spec/tools/tests/test_bootstrap_schema_closure.py",
+        "source/runtime/command/command.cpp",
+        "tools/build-bootstrap.py",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/command/command.h"
       ]
     },
     {

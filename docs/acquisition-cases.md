@@ -61,3 +61,13 @@ identities support private reconnect and cancellation; failed terminal writes
 retain uncertain state and created output. This does not yet admit public
 `evidence.export`: common service/watch and actual frontend contracts/journeys
 remain pending. See the canonical report-worker prototype profile.
+
+
+The provisional `evidence.export` prepare/execute syntax and common inward
+service contract are defined in the [export command profile](../spec/catalog/export-command-prototype.json)
+and closed parameter/result producer schemas. The actual command remains
+planned/unavailable in the product composition. Private request/parser/form
+checks do not qualify real frontends. Operation watch, bounded product admission
+and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
+Preserve exact native case/effect/store/code bindings and separate disclosure
+selection from the private review/receipt routing metadata.

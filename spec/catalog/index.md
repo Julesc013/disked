@@ -14,6 +14,7 @@
 - [compositions.json](compositions.json)
 - [concepts.json](concepts.json)
 - [decisions.json](decisions.json)
+- [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [health-observation-prototype.json](health-observation-prototype.json)

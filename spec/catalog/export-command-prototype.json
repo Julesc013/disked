@@ -1,0 +1,20 @@
+{
+  "schema": "org.disked.export-command-profile/1",
+  "status": "proposed",
+  "command_id": "evidence.export",
+  "availability": "planned; syntax defined; product handler null",
+  "prepare": "evidence export prepare <case_operation_id> <destination> --case-state-dir <directory> --state-dir <existing-empty-execution-directory>. Only image-op acquisition metadata is a supported source. Preparation reads existing metadata/code/parents and creates no files. Required case/source/effect/store/code/host bindings and exact artifact policy enter the immutable definition; returned selections must match the request.",
+  "disclosure": "--include-identifiers, --include-raw-values, --include-interpretations and --include-customer-data are independent booleans, default false. Literal routing disclosure additionally requires the existing triple-consent policy. Secret content and original private custody hashes remain excluded. Review definitions and receipts contain private routing metadata and are not the selected support artifact.",
+  "execute": "evidence export execute --definition-json <object> --definition-digest <sha256> --allow-case-read --allow-report-write --allow-store-write --allow-host-effects. All four explicit flags and the exact wrapper digest are required before the effect port. No implicit grant, generic force, destination overwrite, automatic retry, rollback or cleanup. Structural/semantic definition validity still does not prove native resource freshness or authenticated approval.",
+  "responses": "Prepare returns org.disked.response/1 completed/exit 0 with the provisional preparation result and execution_admitted false. Execution returns accepted_running/5 only with an actual report-op ID, complete validated active history and observed running worker; completed/0 only with a bound quiescent terminal joint completed outcome. Terminal failed/refused/cancelled joint effects become failed/4. Unknown joint effects or unresolved/malformed/throwing post-dispatch replies become unknown/6, retaining execution directory, reviewed digest and any valid allocated ID. Pre-effect provider absence/refusal is refused/3; invalid parameters are refused/2.",
+  "observation": "A valid observation can complete/0 while the logical operation remains active, failed, cancelled or unknown. It never promotes failed/unknown effects to success. State identities, phases, counters, exact receipts and reviewed definitions are revalidated; history/file/host applicability is checked by the native reader. Torn/incomplete/invalid observation remains unknown/6. Requested cancellation is distinct from worker observation; a late request cannot erase a completed effect.",
+  "limits": "Private definition at most 65536 bytes, depth 28, 8192 values, 1024 bytes per string; existing public input frame is independently bounded to 65536 bytes including framing and envelope. A maximum private definition may not fit a public frame. Oversized replies after dispatch become unknown with retained routing, never no-effect refusal.",
+  "next_gate": "Integrate bounded requests and real operation inspect/cancel/watch into the common product service and qualify actual CLI/stdio/GUI/TUI/shell journeys before availability. Current private probe parser/request/form tests establish shared contract behavior, not those journeys or stable public ABI.",
+  "limitations": [
+    "No physical storage or current acquired-image verification",
+    "No authenticated custody/approval",
+    "No other platform qualification",
+    "Ordinary prototype history; no production journal or power-loss persistence claim",
+    "No owner acceptance or full DE-W034 completion"
+  ]
+}

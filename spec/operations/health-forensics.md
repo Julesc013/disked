@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.7-proposed.2
+  version: 0.1.8-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -241,3 +241,13 @@ remain admission gates. Retention grants no new writer permission.
 - [DE-042](../safety/planning.md)
 - [DE-043](../safety/journal-and-recovery.md)
 - [DE-044](../safety/verification-and-performance.md)
+
+
+The provisional `evidence.export` prepare/execute syntax and common inward
+service contract are defined in the [export command profile](../catalog/export-command-prototype.json)
+and closed parameter/result producer schemas. The actual command remains
+planned/unavailable in the product composition. Private request/parser/form
+checks do not qualify real frontends. Operation watch, bounded product admission
+and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
+Preserve exact native case/effect/store/code bindings and separate disclosure
+selection from the private review/receipt routing metadata.

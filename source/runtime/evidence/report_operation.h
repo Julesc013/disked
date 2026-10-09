@@ -11,6 +11,9 @@ void validate_grant(const json::Value&,const json::Value& definition);
 void validate_header(const json::Value&);
 json::Value expected_binding(const json::Value& header);
 void validate_state(const json::Value&,const json::Value& header,std::size_t sequence);
+// Validate one returned observation against its exact reviewed definition.
+// This checks contents/bindings; the native reader separately checks the chain.
+void validate_observation(const json::Value& state,const json::Value& definition,const std::string& operation);
 struct History {
     json::Value state;std::vector<json::Value> records;
     std::string previous=std::string(64,'0');std::size_t count=0;bool complete=true;

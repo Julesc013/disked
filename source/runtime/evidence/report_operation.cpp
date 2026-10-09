@@ -116,6 +116,15 @@ void validate_state(const V& s,const V& h,std::size_t sequence) {
     }
     json::dump(s,row_limits());
 }
+void validate_observation(const V& s,const V& d,const std::string& operation) {
+    validate_definition(d);hex(operation,"report-op:",32);
+    const auto& b=field(s,"binding");hex(text(b,"worker_epoch"),"worker:",32);hex(text(b,"attempt_id"),"attempt:",32);
+    // A comparison environment, not a synthesized receipt or persisted header.
+    const auto h=V::object().put("definition",d).put("operation_id",V::string(operation)).put("definition_digest",V::string(digest(d)))
+        .put("worker_epoch",field(b,"worker_epoch")).put("attempt_id",field(b,"attempt_id"));
+    const auto sequence=integer(field(s,"sequence"));if(sequence>record_count_limit)reject("report_worker_state");
+    validate_state(s,h,static_cast<std::size_t>(sequence));
+}
 History read_history(const std::string& raw,const V& h) {
     validate_header(h);if(raw.size()>history_limit)reject("report_worker_history_limit");History out;std::size_t start=0;
     while(start<raw.size()) {

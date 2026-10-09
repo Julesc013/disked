@@ -59,6 +59,8 @@ std::string validate_scalar(const Value& shape,const Value& value) {
             const auto offset=value.text.compare(0,8,"fake-op:")==0?8:value.text.compare(0,9,"image-op:")==0?9:0;
             if(!offset || value.text.size()!=static_cast<std::size_t>(offset)+32 || value.text.find_first_not_of("0123456789abcdef",offset)!=std::string::npos)return "invalid_parameter";
         }
+        if(text(shape,"x-disked-scalar")=="acquisition-operation-id" && (value.text.size()!=41 ||
+            value.text.compare(0,9,"image-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",9)!=std::string::npos))return "invalid_parameter";
         if(text(shape,"x-disked-scalar")=="fake-operation-id" && (value.text.size()!=40 ||
             value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
         const auto scalar=text(shape,"x-disked-scalar");
@@ -79,6 +81,18 @@ std::string validate_scalar(const Value& shape,const Value& value) {
 // Bounded compiled parameter-schema subset. Domain admission validates plan
 // semantics again before invoking an effect port; this is not a general schema
 // engine or a way to accept unknown mutation fields.
+json::Limits parameter_limits(const Value& shape) {
+    json::Limits limits;limits.bytes=16384;limits.depth=20;limits.values=2048;limits.string_bytes=1024;
+    const auto bound=[&](const char* key,std::size_t fallback,std::size_t maximum) {
+        const auto p=shape.find(key);if(!p)return fallback;
+        if(p->kind!=Value::Kind::number || !json::decimal_u64(p->text))throw std::invalid_argument("schema_budget");
+        const auto n=std::stoull(p->text);if(!n || n>maximum)throw std::invalid_argument("schema_budget");return static_cast<std::size_t>(n);
+    };
+    limits.bytes=bound("x-disked-byte-budget",limits.bytes,65536);
+    limits.depth=bound("x-disked-depth-budget",limits.depth,32);
+    limits.values=bound("x-disked-value-budget",limits.values,8192);
+    limits.string_bytes=bound("x-disked-string-budget",limits.string_bytes,32768);return limits;
+}
 std::string validate_shape(const Registry& registry,const Value& shape,const Value& value,std::size_t depth=0,bool help=false) {
     if(depth>32)return "schema_unavailable";
     if(shape.kind==Value::Kind::boolean)return shape.boolean?"":"invalid_parameter";
@@ -109,12 +123,16 @@ std::string validate_shape(const Registry& registry,const Value& shape,const Val
         }
         if(!help)for(const auto& k:array(shape,"required"))if(!value.find(k.text))return "missing_parameter";
     } else if(type=="array") {
-        if(value.kind!=Value::Kind::array || !shape.find("items"))return "invalid_parameter";
+        if(value.kind!=Value::Kind::array)return "invalid_parameter";
+        if(!shape.find("items") && !shape.find("const") && !shape.find("enum"))return "schema_unavailable";
         if(!bound("minItems",value.items.size(),true) || !bound("maxItems",value.items.size(),false))return "invalid_parameter";
         std::set<std::string> unique;
-        for(const auto& child:value.items) {
+        const auto tuple=shape.find("prefixItems");if(tuple && tuple->kind!=Value::Kind::array)return "schema_unavailable";
+        for(std::size_t i=0;i<value.items.size();++i) {
+            const auto& child=value.items[i];
             if(boolean(shape,"uniqueItems") && !unique.insert(json::dump(child)).second)return "invalid_parameter";
-            const auto error=validate_shape(registry,*shape.find("items"),child,depth+1);if(!error.empty())return error;
+            const auto item=tuple && i<tuple->items.size()?&tuple->items[i]:shape.find("items");
+            if(item) {const auto error=validate_shape(registry,*item,child,depth+1);if(!error.empty())return error;}
         }
     } else if(!type.empty()) {
         const auto error=validate_scalar(shape,value);if(!error.empty())return error;
@@ -127,10 +145,9 @@ std::string validate_shape(const Registry& registry,const Value& shape,const Val
             if(scalar=="sha256-digest" && (value.text.size()!=71 || value.text.compare(0,7,"sha256:") || value.text.find_first_not_of("0123456789abcdef",7)!=std::string::npos))return "invalid_parameter";
         }
     } else if(!referenced && !shape.find("const") && !shape.find("enum") && !shape.find("allOf") && !shape.find("if") && !shape.find("required"))return "schema_unavailable";
-    if(const auto bytes=shape.find("x-disked-byte-budget")) {
-        json::Limits limits;limits.bytes=static_cast<std::size_t>(std::stoull(bytes->text));
-        limits.depth=20;limits.values=2048;limits.string_bytes=1024;
-        try {json::dump(value,limits);}catch(const json::Error&) {return "invalid_parameter";}
+    if(shape.find("x-disked-byte-budget")) {
+        try {json::dump(value,parameter_limits(shape));}catch(const json::Error&) {return "invalid_parameter";}
+        catch(const std::exception&) {return "schema_unavailable";}
     }
     for(const auto& child:array(shape,"allOf")) {const auto error=validate_shape(registry,child,value,depth+1,help);if(!error.empty())return error;}
     if(const auto condition=shape.find("if")) {
@@ -142,8 +159,8 @@ std::string validate_shape(const Registry& registry,const Value& shape,const Val
 }
 std::string decode_parameter(const Value& shape,const std::string& text_value,Value& value) {
     if(text(shape,"type")=="object") {
-        json::Limits limits;limits.bytes=16384;limits.string_bytes=1024;limits.values=2048;limits.depth=20;
-        try {value=json::parse(text_value,limits);}catch(const json::Error&) {return "invalid_parameter";}
+        try {value=json::parse(text_value,parameter_limits(shape));}catch(const json::Error&) {return "invalid_parameter";}
+        catch(const std::exception&) {return "schema_unavailable";}
         if(value.kind!=Value::Kind::object)return "invalid_parameter";
     } else value=Value::string(text_value);
     return "";
