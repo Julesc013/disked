@@ -236,6 +236,9 @@ if(BUILD_TESTING)
   add_test(NAME frontend.product_export COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_product_export.py"
     --product "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_report_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.product_export PROPERTIES TIMEOUT 200 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME frontend.gui_capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_gui_capture.py"
+    --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(frontend.gui_capture PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)
   add_executable(worker_directory_probe tests/operation/directory_probe.cpp)
   target_include_directories(worker_directory_probe PRIVATE source/platform/windows source/portable/hash)
   target_link_libraries(worker_directory_probe PRIVATE disked_local_file)

@@ -527,7 +527,8 @@
         "python -m unittest discover -s spec/tools/tests -v",
         "cmake --preset windows-bootstrap",
         "cmake --build --preset windows-bootstrap",
-        "ctest --preset windows-bootstrap"
+        "ctest --preset windows-bootstrap",
+        "python tests/frontend/test_gui_capture.py --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -537,7 +538,12 @@
         "spec/catalog/compositions.json",
         "spec/fixtures/invocation.json",
         "tools/build-inputs.json",
-        "tools/build-bootstrap.py"
+        "tools/build-bootstrap.py",
+        "tests/frontend/gui_fixture.py",
+        "tests/frontend/test_gui_capture.py",
+        "tests/frontend/fixtures/gui-capture/fixtures.json",
+        "tests/frontend/fixtures/gui-capture/frame-only.png",
+        "tests/frontend/fixtures/gui-capture/redrawn-client.png"
       ]
     },
     {

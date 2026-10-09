@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-024
   profile: disked-spec/1
-  version: 0.1.16-proposed.1
+  version: 0.1.17-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-024-02
 updated:
   by: codex
-  at: '2026-10-08T19:14:13.655279+00:00'
-  scope: DE-W033 bounded acquisition watch presentation and native frontend parity; owner acceptance pending
+  at: '2026-10-09T10:10:51.022912+00:00'
+  scope: DE-W015 owned capture redraw and real frame-only regression; visual/platform and owner qualification remain separate
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -176,3 +176,19 @@ explorer. [DE-026](terminal-session.md) owns the exact key/entry/lifecycle contr
 Actual console buffer/input tests and model parity establish the exercised
 Windows lane; screen-reader, GUI, remote and other backend qualification remain
 separate work. The implementation does not imply those checks have passed.
+
+### Native capture evidence
+
+The shared Windows test helper redraws only its live owned window before
+PrintWindow and measures that window's client rectangle. Retained captures must
+contain nonuniform client RGB content; title-bar/frame colors and unused DIB
+alpha cannot substitute for client paint. An actual frame-only false positive
+and its redrawn counterpart are retained as exact byte-bound regression fixtures.
+The helper has finite dimensions and polling; these do not bound blocked OS API
+latency. Capturing or repainting never submits a reviewed request.
+
+Native fixture checks cover repeated inventory/review and minimum-size captures,
+inert review data and separately observed caption text/pixels. This guard is not
+text recognition or complete layout, accessibility, contrast, DPI, locale or
+other-platform qualification. Preserve earlier failed evidence and qualify the
+exact harness, executable, host and selected captures independently.

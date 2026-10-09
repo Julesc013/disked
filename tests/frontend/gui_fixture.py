@@ -32,6 +32,8 @@ bind(U,'SendMessageTimeoutW',RESULT,[W.HWND,W.UINT,WP,LP,W.UINT,W.UINT,C.POINTER
 bind(U,'PostMessageW',W.BOOL,[W.HWND,W.UINT,WP,LP]);bind(U,'IsWindowEnabled',W.BOOL,[W.HWND])
 bind(U,'IsWindowVisible',W.BOOL,[W.HWND])
 bind(U,'GetWindowRect',W.BOOL,[W.HWND,C.POINTER(W.RECT)]);bind(U,'GetClientRect',W.BOOL,[W.HWND,C.POINTER(W.RECT)])
+bind(U,'ClientToScreen',W.BOOL,[W.HWND,C.POINTER(W.POINT)])
+bind(U,'RedrawWindow',W.BOOL,[W.HWND,PTR,W.HANDLE,W.UINT])
 bind(U,'PrintWindow',W.BOOL,[W.HWND,W.HDC,W.UINT]);bind(U,'GetSysColor',W.DWORD,[C.c_int])
 bind(U,'SetWindowPos',W.BOOL,[W.HWND,W.HWND,C.c_int,C.c_int,C.c_int,C.c_int,W.UINT])
 bind(G,'CreateCompatibleDC',W.HDC,[W.HDC]);bind(G,'DeleteDC',W.BOOL,[W.HDC])
@@ -39,6 +41,23 @@ bind(G,'CreateDIBSection',PTR,[W.HDC,PTR,W.UINT,C.POINTER(PTR),W.HANDLE,W.DWORD]
 bind(G,'SelectObject',PTR,[W.HDC,PTR]);bind(G,'DeleteObject',W.BOOL,[PTR])
 bind(G,'GdiFlush',W.BOOL,[])
 bind(K,'CreateToolhelp32Snapshot',W.HANDLE,[W.DWORD,W.DWORD]);bind(K,'CloseHandle',W.BOOL,[W.HANDLE])
+
+def capture_client_content(payload,width,height,box):
+    """Reject a uniform client while ignoring title/frame pixels and DIB alpha.
+
+    This is a private evidence guard, not proof of text, layout or accessibility.
+    The live caller measures the client rectangle on its own window.
+    """
+    left,top,right,bottom=box
+    if len(payload)!=width*height*4 or not (0<=left<right<=width and 0<=top<bottom<=height):
+        raise ValueError('capture_geometry')
+    first=None
+    for y in range(top,bottom):
+        for (pixel,) in struct.iter_unpack('<I',payload[(y*width+left)*4:(y*width+right)*4]):
+            color=pixel & 0xffffff
+            if first is None:first=color
+            elif color!=first:return True
+    return False
 
 class GUIINFO(C.Structure):
     _fields_=[('cbSize',W.DWORD),('flags',W.DWORD),('active',W.HWND),('focus',W.HWND),('capture',W.HWND),('menu',W.HWND),('move',W.HWND),('caret',W.HWND),('caretRect',W.RECT)]
@@ -181,17 +200,25 @@ class Gui:
         return dict(pid=self.process.pid,title=caption(self.window),children=children,notice=self.text(103),modules=modules(self.process.pid),
                     colors={str(i):U.GetSysColor(i) for i in [5,8,15,18]},created_files=[p.name for p in Path(self.temp.name).iterdir()])
     def screenshot(self,path):
+        pid=W.DWORD();assert U.GetWindowThreadProcessId(self.window,C.byref(pid))
+        assert self.process.poll() is None and pid.value==self.process.pid
         rect=W.RECT();assert U.GetWindowRect(self.window,C.byref(rect));w=rect.right-rect.left;h=rect.bottom-rect.top
         assert 0<w<=4096 and 0<h<=4096
+        client=W.RECT();origin=W.POINT();assert U.GetClientRect(self.window,C.byref(client)) and U.ClientToScreen(self.window,C.byref(origin))
+        left=origin.x-rect.left;top=origin.y-rect.top
+        box=(left,top,left+client.right-client.left,top+client.bottom-client.top)
         header=struct.pack('<IiiHHIIiiII',40,w,-h,1,32,0,w*h*4,0,0,0,0)
         info=C.create_string_buffer(header);bits=PTR();dc=G.CreateCompatibleDC(None)
         bitmap=G.CreateDIBSection(dc,info,0,C.byref(bits),None,0);old=G.SelectObject(dc,bitmap)
         try:
             assert bitmap
             def painted():
+                # Invalidate/erase/frame/all children, then process owned paint.
+                # A successful PrintWindow can otherwise contain only a frame.
+                assert U.RedrawWindow(self.window,None,None,0x585)
                 assert U.PrintWindow(self.window,dc,2);G.GdiFlush()
                 value=C.string_at(bits,w*h*4)
-                return value if len(set(struct.iter_unpack('<I',value)))>10 else None
+                return value if capture_client_content(value,w,h,box) else None
             payload=wait(painted,3)
             if Path(path).suffix.lower()=='.png':
                 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
@@ -201,6 +228,7 @@ class Gui:
                     rgb[0::3]=row[2::4];rgb[1::3]=row[1::4];rgb[2::3]=row[0::4];rows.extend(rgb)
                 Path(path).write_bytes(b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',w,h,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(rows))+chunk(b'IEND',b''))
             else:Path(path).write_bytes(struct.pack('<2sIHHI',b'BM',54+len(payload),0,0,54)+header+payload)
+            return dict(width=w,height=h,client_box=list(box))
         finally:G.SelectObject(dc,old);G.DeleteObject(bitmap);G.DeleteDC(dc)
     def close(self):
         if self.window and self.process.poll() is None:U.PostMessageW(self.window,0x10,0,0)
