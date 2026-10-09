@@ -1,0 +1,254 @@
+[
+  {
+    "command": "cmake -S .aide-local/goal-0.1.0/directory-baseline -B .aide-local/goal-0.1.0/directory-baseline/build -G \"Visual Studio 17 2022\" -A x64,version=10.0.19041.0 -T v143,version=14.44.35207,host=x64 -DCMAKE_SYSTEM_VERSION=10 .0.19041.0 -DROOT=D:/Projects/DiskEd/disked",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-configure.log"
+  },
+  {
+    "command": "cmake --build .aide-local/goal-0.1.0/directory-baseline/build --config Release",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-build.log"
+  },
+  {
+    "command": "cmake -S .aide-local/goal-0.1.0/directory-baseline -B .aide-local/goal-0.1.0/directory-baseline/build -G \"Visual Studio 17 2022\" -A x64,version=10.0.19041.0 -T v143,version=14.44.35207,host=x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 -DROOT=D:/Projects/DiskEd/disked",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-configure-exact.log"
+  },
+  {
+    "command": "cmake --build .aide-local/goal-0.1.0/directory-baseline/build --config Release",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-build-exact.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/operation/test_worker_directory.py --probe .aide-local/goal-0.1.0/directory-baseline/build/Release/worker_directory_probe.exe --root . --baseline --evidence .aide/evidence/2026-10-09-worker-store/baseline-results.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-observation.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/operation/test_worker_directory.py --probe .aide-local/goal-0.1.0/directory-baseline/build/Release/worker_directory_probe.exe --root . --baseline --evidence .aide/evidence/2026-10-09-worker-store/baseline-results.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-observation-details.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/operation/test_worker_directory.py --probe .aide-local/goal-0.1.0/directory-baseline/build/Release/worker_directory_probe.exe --root . --baseline --evidence .aide/evidence/2026-10-09-worker-store/baseline-results.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-observation-confirmed.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target worker_directory_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-build-directory.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/operation/test_worker_directory.py --probe build/windows-bootstrap/Release/worker_directory_probe.exe --root . --evidence .aide/evidence/2026-10-09-worker-store/working-fixed.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-fixed-directory.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/operation/test_worker_directory.py --probe build/windows-bootstrap/Release/worker_directory_probe.exe --root . --evidence .aide/evidence/2026-10-09-worker-store/working-fixed-generations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-fixed-directory-generations.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-verify-manifest.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_store_fault acquisition_worker_probe acquisition_worker_fault worker_directory_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-build-workers.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/resilience/test_store_failures.py --exe build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_store_fault.exe --evidence .aide/evidence/2026-10-09-worker-store/working-store-failures.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-store-failures.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/images/test_acquisition_worker.py --probe build/windows-bootstrap/Release/acquisition_worker_probe.exe --fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root . --evidence .aide/evidence/2026-10-09-worker-store/working-acquisition-workers.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-acquisition-workers.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-spec-tests.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W033 --output .aide-local/context/DE-W033-store-working --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 2,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W033-store-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 2,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-verify-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-index-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-check-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-manifest-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-verify-manifest-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W033 --output .aide-local/context/DE-W033-store-working --byte-budget 450000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-context-fixed.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W033-store-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-verify-context-fixed.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-check-closure-fixed.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-manifest-closure-fixed.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-verify-manifest-closure-fixed.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-worker-store/validate-baseline-inputs.py",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-baseline-git-inputs.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-worker-store/inspect_failed_fixture.py",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-inspect-failed-fixture.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/frontend/test_acquisition_interactive.py --exe build/windows-bootstrap/Release/disked.exe --product build/windows-bootstrap/Release/disked.exe --shell build/windows-bootstrap/Release/shell_model_probe.exe --reader build/windows-bootstrap/Release/watch_probe.exe --root . --evidence .aide/evidence/2026-10-09-worker-store/working-interactive-progress.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-interactive-progress.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index --check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-progress-freshness.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-progress-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-progress-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-09-worker-store/inspect_failed_fixture.py",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-worker-store/working-inspect-failed-generation.log"
+  }
+]
