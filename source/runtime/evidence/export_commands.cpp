@@ -11,6 +11,10 @@ bool operation(const V& id) {return id.kind==V::Kind::string && id.text.size()==
 void digest(const std::string& s,bool prefix=true) {
     const std::size_t offset=prefix?7:0;if(s.size()!=offset+64 || (prefix && s.compare(0,7,"sha256:")) || s.find_first_not_of("0123456789abcdef",offset)!=s.npos)throw std::invalid_argument("export_reply_digest");
 }
+void acquisition_definition(const V& d) {
+    r::validate_definition(d);
+    if(r::joined_definition(d))throw std::invalid_argument("export_profile_unavailable");
+}
 V annotate(V value,bool observation) {
     return value.put("scope",V::string("recorded-acquisition-case-support-export"))
         .put("request_kind",V::string(observation?"operation-observation":"export-execution"))
@@ -26,7 +30,7 @@ Outcome translate(const std::string& request,const V& reply,bool observation) {
     for(const auto& pair:value.fields)if(!keys.count(pair.first))throw std::invalid_argument("export_reply_shape");
     const auto reviewed=value.find("definition"),hash=value.find("definition_digest"),state=value.find("state");
     if(reviewed) {
-        r::validate_definition(*reviewed);if(!hash || hash->kind!=V::Kind::string || hash->text!=r::digest(*reviewed))throw std::invalid_argument("export_reply_digest");
+        acquisition_definition(*reviewed);if(!hash || hash->kind!=V::Kind::string || hash->text!=r::digest(*reviewed))throw std::invalid_argument("export_reply_digest");
         value.put("state_directory",get(get(*reviewed,"store"),"path"));
     } else if(hash)throw std::invalid_argument("export_reply_shape");
     if(state && state->kind!=V::Kind::null) {if(!reviewed || !operation(id))throw std::invalid_argument("export_reply_identity");r::validate_observation(*state,*reviewed,id.text);}
@@ -78,7 +82,7 @@ Outcome dispatch_export(const Registry& registry,const std::string& request,cons
         if(text(parameters,"phase")=="prepare") {
             if(!ports.prepare)return refused(request,"export_provider_unavailable",3);const auto prepared=ports.prepare(parameters);
             if(prepared.kind!=V::Kind::object || prepared.fields.size()!=2)throw std::invalid_argument("export_preparation_shape");
-            r::validate_definition(get(prepared,"definition"));if(text(prepared,"definition_digest")!=r::digest(get(prepared,"definition")))throw std::invalid_argument("export_preparation_digest");
+            acquisition_definition(get(prepared,"definition"));if(text(prepared,"definition_digest")!=r::digest(get(prepared,"definition")))throw std::invalid_argument("export_preparation_digest");
             const auto& d=get(prepared,"definition");const auto& joint=get(d,"export");const auto& effect=get(joint,"effect");
             if(text(get(joint,"case"),"operation_id")!=text(parameters,"case_operation_id") || text(get(get(joint,"source"),"store"),"path")!=text(parameters,"case_directory") ||
                text(get(get(effect,"resources"),"destination"),"location")!=text(parameters,"destination") || text(get(d,"store"),"path")!=text(parameters,"state_directory"))throw std::invalid_argument("export_preparation_inputs");
@@ -89,7 +93,7 @@ Outcome dispatch_export(const Registry& registry,const std::string& request,cons
                 .put("scope",V::string("recorded-acquisition-case-support-export")).put("authenticity",V::string("not_established")).put("current_image_verification",V::string("not_performed"));
             auto out=completed(request,report);json::dump(out.response);return out;
         }
-        const auto& reviewed=get(parameters,"definition");r::validate_definition(reviewed);
+        const auto& reviewed=get(parameters,"definition");acquisition_definition(reviewed);
         if(text(parameters,"definition_digest")!=r::digest(reviewed))return refused(request,"export_definition_grant",3);
         auto grant=V::object().put("definition_digest",get(parameters,"definition_digest"));
         for(const auto n:{"case_read","report_write","store_write","host_effects"}) {

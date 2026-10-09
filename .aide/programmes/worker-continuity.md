@@ -32,3 +32,15 @@ An alternative worker can be qualified later against the same recorded native
 build, parser regression and sanitizer-investigation tasks, with patch quality,
 interruptions, manual repair and cost recorded. Do not claim an alternative is
 qualified merely because its command-line program is installed.
+
+During the joined-report worker slice based on local revision
+`5d51b9b014568ae80f3856722307ffc034f5bdc7`, the execution tool rejected one
+PowerShell/Python file-generation command before execution with
+`CreateProcess ... rejected: blocked by policy`. Read-only inspection confirmed
+that its proposed worker/schema files were absent. The response supplied no
+specific reason, cyber classification, request ID or service identity. It is an
+execution-policy rejection, not evidence of the reported Daybreak notice's
+trigger. Direct structured file patches and ordinary native builds/tests then
+succeeded. The development scope and tests were retained; no access restriction
+was disabled, enrollment requested or feedback submitted. Exact subsequent
+commands/results belong in the source-bound joined-worker evidence and handoff.

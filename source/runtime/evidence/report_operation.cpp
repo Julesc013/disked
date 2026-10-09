@@ -22,10 +22,30 @@ void generation(const V& v) {
 const V& joint(const V& d) {return field(d,"export");}
 const V& artifact(const V& d) {return field(field(joint(d),"effect"),"artifact");}
 void outcome(const V& out,const V& definition) {
-    keys(out,{"schema","status","source_state","diagnostic","output","scope","authenticity","current_image_verification"});
-    if(text(out,"schema")!="org.disked.acquisition-case-export-outcome-prototype/1" || text(out,"scope")!="recorded-acquisition-case-support-export" ||
-       text(out,"authenticity")!="not_established" || text(out,"current_image_verification")!="not_performed")reject("report_worker_outcome");
-    one(text(out,"status"),{"refused","failed","cancelled","completed","unknown"});one(text(out,"source_state"),{"not_observed","unresolved","matched","changed"});nullable_diagnostic(field(out,"diagnostic"));
+    const bool joined=joined_definition(definition);
+    if(joined) {
+        keys(out,{"schema","status","diagnostic","source_checks","source_observations","output","scope","authenticity","custody_authentication","current_image_state","power_loss_persistence"});
+        if(text(out,"schema")!="org.disked.acquisition-verification-export-outcome-prototype/1" || text(out,"scope")!="recorded-acquisition-verification-support-export" ||
+           text(out,"custody_authentication")!="not_established" || text(out,"current_image_state")!="not_established" || text(out,"power_loss_persistence")!="not_established")reject("report_worker_outcome");
+        const auto checks=integer(field(out,"source_checks"));if(checks>256)reject("report_worker_source_checks");const auto& sources=field(out,"source_observations");keys(sources,{"case","collection"});
+        std::uint64_t maximum=0;unsigned parity=1;for(const auto role:{"case","collection"}) {
+            const auto& observed=field(sources,role);keys(observed,{"state","check_sequence"});one(text(observed,"state"),{"not_observed","unresolved","matched","changed"});
+            const auto n=integer(field(observed,"check_sequence"));if(n>checks || (n==0)!=(text(observed,"state")=="not_observed") || (n && n%2!=parity%2))reject("report_worker_source_checks");
+            if(n>maximum)maximum=n;++parity;
+        }
+        if(maximum!=checks)reject("report_worker_source_checks");
+        if(integer(field(field(sources,"case"),"check_sequence"))!=(checks%2?checks:(checks?checks-1:0)) ||
+           integer(field(field(sources,"collection"),"check_sequence"))!=(checks%2?checks-1:checks))reject("report_worker_source_checks");
+        if(text(out,"status")=="completed" && (checks<4 || text(field(sources,"case"),"state")!="matched" || text(field(sources,"collection"),"state")!="matched" ||
+           integer(field(field(sources,"case"),"check_sequence"))!=checks-1 || integer(field(field(sources,"collection"),"check_sequence"))!=checks))reject("report_worker_source_checks");
+    } else {
+        keys(out,{"schema","status","source_state","diagnostic","output","scope","authenticity","current_image_verification"});
+        if(text(out,"schema")!="org.disked.acquisition-case-export-outcome-prototype/1" || text(out,"scope")!="recorded-acquisition-case-support-export" ||
+           text(out,"current_image_verification")!="not_performed")reject("report_worker_outcome");
+        one(text(out,"source_state"),{"not_observed","unresolved","matched","changed"});
+    }
+    if(text(out,"authenticity")!="not_established")reject("report_worker_outcome");
+    one(text(out,"status"),{"refused","failed","cancelled","completed","unknown"});nullable_diagnostic(field(out,"diagnostic"));
     const auto& o=field(out,"output");
     keys(o,{"schema","status","diagnostic","phase","output_state","submitted_bytes","written_bytes","read_bytes","verified_bytes","flush","uncertain_effect","worker_exit","physical_backing_qualified","power_loss_persistence","source_preservation","authenticity"});
     if(text(o,"schema")!="org.disked.report-export-outcome-prototype/1" || text(o,"worker_exit")!="unobserved" || boolean(field(o,"physical_backing_qualified")) ||
@@ -39,8 +59,8 @@ void outcome(const V& out,const V& definition) {
     const auto uncertain=boolean(field(o,"uncertain_effect"));
     if(text(o,"output_state")=="not_created" && (submitted || written || read || verified || !known || uncertain || text(o,"flush")!="not_attempted"))reject("report_worker_counters");
     if(text(o,"status")=="completed" && (!known || uncertain || text(o,"output_state")!="created" || text(o,"flush")!="api_confirmed" ||
-       submitted!=size || written!=size || read!=size || verified!=size || text(o,"phase")!="completed"))reject("report_worker_outcome");
-    if(text(out,"status")=="completed" && (text(out,"source_state")!="matched" || text(o,"status")!="completed"))reject("report_worker_outcome");
+       submitted!=size || written!=size || read!=size || verified!=size || text(o,"phase")!="completed" || field(o,"diagnostic").kind!=V::Kind::null))reject("report_worker_outcome");
+    if(text(out,"status")=="completed" && ((!joined && text(out,"source_state")!="matched") || text(o,"status")!="completed" || field(out,"diagnostic").kind!=V::Kind::null))reject("report_worker_outcome");
     if(text(out,"status")=="unknown" && (!uncertain || text(o,"output_state")!="uncertain"))reject("report_worker_outcome");
 }
 void receipt(const V& v,const V& out,const V& definition) {
@@ -70,10 +90,13 @@ void receipt(const V& v,const V& out,const V& definition) {
 json::Limits definition_limits() {json::Limits l;l.bytes=definition_limit;l.depth=28;l.values=8192;l.string_bytes=1024;return l;}
 json::Limits row_limits() {json::Limits l;l.bytes=record_limit;l.depth=28;l.values=8192;l.string_bytes=1024;return l;}
 std::string digest(const V& v) {return e::export_digest(json::dump(v,definition_limits()));}
+bool joined_definition(const V& d) {return text(d,"schema")=="org.disked.report-worker-definition-prototype/2";}
 void validate_definition(const V& d) {
     keys(d,{"schema","export","store","host_id","image_digest","source_revision","input_digest","target_profile"});
-    if(text(d,"schema")!="org.disked.report-worker-definition-prototype/1" || text(d,"target_profile")!="windows.nt10.x64.win32")reject("report_worker_version");
-    e::validate_acquisition_export_review(joint(d));hex(text(d,"host_id"),"",64);hex(text(d,"image_digest"),"",64);hex(text(d,"source_revision"),"",40);hex(text(d,"input_digest"),"sha256:",64);
+    const bool joined=joined_definition(d);
+    if((!joined && text(d,"schema")!="org.disked.report-worker-definition-prototype/1") || text(d,"target_profile")!="windows.nt10.x64.win32")reject("report_worker_version");
+    if(joined)e::validate_verification_case_export_review(joint(d));else e::validate_acquisition_export_review(joint(d));
+    hex(text(d,"host_id"),"",64);hex(text(d,"image_digest"),"",64);hex(text(d,"source_revision"),"",40);hex(text(d,"input_digest"),"sha256:",64);
     if(text(field(field(field(joint(d),"effect"),"resources"),"producer"),"digest")!="sha256:"+text(d,"image_digest"))reject("report_worker_code_binding");
     const auto& s=field(d,"store");keys(s,{"path","generation","ancestors","access","children","failure_domain"});
     const auto path=text(s,"path");if(path.empty() || path.size()>960 || path.find('\0')!=path.npos || text(s,"access")!="create-owned-metadata")reject("report_worker_store");
@@ -82,11 +105,13 @@ void validate_definition(const V& d) {
     if(!equal(parents.items.back(),field(s,"generation")) || text(s,"failure_domain")!="observed-file-volume:"+text(field(s,"generation"),"volume_id"))reject("report_worker_store");
     const auto& names=field(s,"children");if(names.kind!=V::Kind::array || names.items.size()!=4)reject("report_worker_store");
     std::size_t i=0;for(const auto n:{"report.request","report.records","report.cancel","report.admission"}) {if(names.items[i].kind!=V::Kind::string || names.items[i++].text!=n)reject("report_worker_store");}
-    if(equal(field(s,"generation"),field(field(field(joint(d),"source"),"store"),"generation")))reject("report_worker_source_store_alias");
+    const auto& source=joined?field(field(joint(d),"sources"),"case"):field(joint(d),"source");
+    if(equal(field(s,"generation"),field(field(source,"store"),"generation")))reject("report_worker_source_store_alias");
     json::dump(d,definition_limits());
 }
 void validate_grant(const V& g,const V& d) {
-    keys(g,{"definition_digest","case_read","report_write","store_write","host_effects"});
+    if(joined_definition(d)) {keys(g,{"definition_digest","case_read","collection_read","report_write","store_write","host_effects"});if(!boolean(field(g,"collection_read")))reject("report_worker_grant");}
+    else keys(g,{"definition_digest","case_read","report_write","store_write","host_effects"});
     if(text(g,"definition_digest")!=digest(d))reject("report_worker_grant");
     for(const auto n:{"case_read","report_write","store_write","host_effects"})if(!boolean(field(g,n)))reject("report_worker_grant");
 }

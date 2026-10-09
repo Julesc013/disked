@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.15-proposed.1
+  version: 0.1.16-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -402,6 +402,25 @@ flags. Each source has a separate last observation and ordered check sequence;
 matched does not mean simultaneous or persistent freshness. Late source failures
 retain actual output outcomes, counters and receipts. Preparation creates no
 output; execution is create-new and single-use. Private synchronous qualification
-is not a public latency promise. Strict public schemas, contained report worker,
-bounded caller/render budgets and actual frontend admission remain the next gate;
-this slice adds no product command, stable ABI or full DE-W034 acceptance.
+is not a public latency promise. This slice adds no product command, stable ABI
+or full DE-W034 acceptance.
+
+The [joined report worker profile](../catalog/joined-report-worker-prototype.json)
+extends the existing private report role through explicit definition version 2;
+version 1 retains acquisition-only meaning. Strict producer schemas dispatch
+bounded-integer and relationship checks automatically. Outer execution authority
+requires the exact worker definition digest and separate case-read,
+collection-read, report-write, store-write and host-effects flags. Preparation
+must fit the complete retained header before returning review content.
+
+The worker reconstructs both selected source generations and exact output
+before admitting effects. Shared state/record version 2 preserves independent
+source visits, output facts, receipts and exact process/attempt/worker identity.
+Completed joined records require matched final adjacent case/collection checks
+after at least four visits and completed verified output. Observation timeout,
+caller departure or a lost terminal record cannot authorize a replacement or
+invent completion. Applicable native reconstruction and exact artifact counters
+remain necessary beyond standalone producer-schema checks. Common command,
+bounded public-envelope/rendering and CLI/stdio/GUI/TUI/shell admission remain
+the next gate. The product links the private adapter in dev.35 without selecting
+a new public command variant.

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-044
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -148,6 +148,16 @@ flags. Each source has a separate last observation and ordered check sequence;
 matched does not mean simultaneous or persistent freshness. Late source failures
 retain actual output outcomes, counters and receipts. Preparation creates no
 output; execution is create-new and single-use. Private synchronous qualification
-is not a public latency promise. Strict public schemas, contained report worker,
-bounded caller/render budgets and actual frontend admission remain the next gate;
-this slice adds no product command, stable ABI or full DE-W034 acceptance.
+is not a public latency promise. This slice adds no product command, stable ABI
+or full DE-W034 acceptance.
+
+The [joined report worker profile](../catalog/joined-report-worker-prototype.json)
+defines strict private producer schemas and the shared contained report role.
+Version 2 binds both selected sources, exact effect and execution store; version
+1 retains acquisition-only meaning. Source visits are ordered and independently
+observed, not a simultaneous snapshot. Completed records require final adjacent
+matched visits and the exact reviewed verified output. Grants, current native
+reconstruction, retained record validity and actual process exit require separate
+evidence. A timed-out observer, departed client or missing terminal record cannot
+prove quiescence or justify restarting effects. Public command/frontend admission
+and caller/render budgets remain a separate gate after private qualification.

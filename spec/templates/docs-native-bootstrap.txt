@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.34 prototype selects 20 command identities, including recorded
+The current dev.35 prototype selects 20 command identities, including recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
@@ -777,8 +777,22 @@ verification_case_probe verification_case_fault --parallel 4`, then run:
 python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .
 ```
 
-This private synchronous slice is not selected in dev.34. Public producer/worker,
-bounded caller/rendering and frontend admission are the next gate. Exact native
-qualification results belong in retained evidence, not an availability claim from
-this proposed profile. Full DE-W034, all 0.1.0 platforms/storage and owner/privilege/
-release gates remain open.
+At source `2b4e67e2c4a98ad800d29b210448dd5db0f6ebbb`, this private synchronous
+slice was not linked or selected in dev.34. Dev.35 links the private joined
+adapter and extends the existing report role through explicit worker definition
+version 2. The acquisition-only version 1 retains its meaning. Preparation
+checks the complete bounded retained header. Execution requires the exact outer
+digest and separate case-read, collection-read, report-write, store-write and
+host-effects grants. Joined outcomes retain separate final source positions and
+actual output facts; automatic producer semantics reject contradictory records.
+
+Run the fixture above with `--worker build/windows-bootstrap/Release/report_worker_probe.exe
+--worker-fault build/windows-bootstrap/Release/report_worker_fault.exe` to include
+actual contained exports, denied grants, rehashed contradictory histories, late
+admission, cancellation, observer departure and output/terminal-record faults.
+The full CTest preset includes those checks serially with acquisition-only
+regressions. Retained evidence records actual results at the exact source.
+
+Common command selection, public-envelope/render budgets and actual frontend
+admission are the next gate. Full DE-W034, all 0.1.0 platforms/storage and
+owner/privilege/release gates remain open.

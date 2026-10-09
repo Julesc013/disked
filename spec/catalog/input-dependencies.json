@@ -818,7 +818,8 @@
       "kind": "generator",
       "delivery": "artifact",
       "depends_on": [
-        "spec/tools/verification_contracts.py"
+        "spec/tools/verification_contracts.py",
+        "spec/tools/joined_report_contracts.py"
       ],
       "spec_ids": [
         "DE-076"
@@ -1061,7 +1062,8 @@
         "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
         "tests/unit/portable_cpp.cpp",
-        "tests/unit/portable_probe.c"
+        "tests/unit/portable_probe.c",
+        "spec/catalog/joined-report-worker-prototype.json"
       ],
       "spec_ids": [
         "DE-079"
@@ -4984,7 +4986,9 @@
         "source/platform/windows/worker_files.h",
         "source/providers/report/file_acquisition_export.h",
         "source/runtime/evidence/report_observation.h",
-        "source/runtime/evidence/export_commands.h"
+        "source/runtime/evidence/export_commands.h",
+        "source/providers/report/file_verification_case_export.h",
+        "spec/catalog/joined-report-worker-prototype.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -4999,7 +5003,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/platform/windows/report_worker.h"
+        "source/platform/windows/report_worker.h",
+        "spec/schemas/report-worker-definition-v2.schema.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -5180,7 +5185,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/schemas/acquisition-case-export-definition.schema.json",
-        "spec/schemas/acquisition-case-export-outcome.schema.json"
+        "spec/schemas/acquisition-case-export-outcome.schema.json",
+        "spec/schemas/acquisition-verification-export-outcome.schema.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -6270,7 +6276,8 @@
         "tests/evidence/test_image_observation.py",
         "tests/evidence/test_image_collection.py",
         "tests/evidence/test_report_worker.py",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "tests/evidence/test_joined_report_worker.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -6285,6 +6292,106 @@
       "depends_on": [
         "spec/catalog/image-verification-collection-prototype.json",
         "spec/catalog/acquisition-case-export-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/joined-report-worker-prototype.json",
+      "path": "spec/catalog/joined-report-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/acquisition-verification-report-prototype.json",
+        "spec/catalog/report-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-verification-export-definition.schema.json",
+      "path": "spec/schemas/acquisition-verification-export-definition.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-case-export-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/acquisition-verification-export-outcome.schema.json",
+      "path": "spec/schemas/acquisition-verification-export-outcome.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-case-export-outcome.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-definition-v2.schema.json",
+      "path": "spec/schemas/report-worker-definition-v2.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-verification-export-definition.schema.json",
+        "spec/schemas/report-worker-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/tools/joined_report_contracts.py",
+      "path": "spec/tools/joined_report_contracts.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition-v2.schema.json",
+        "spec/schemas/acquisition-verification-export-outcome.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_joined_report_semantics.py",
+      "path": "spec/tools/tests/test_joined_report_semantics.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/tools/specctl.py",
+        "spec/tools/joined_report_contracts.py",
+        "spec/tools/tests/test_report_semantics.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_joined_report_worker.py",
+      "path": "tests/evidence/test_joined_report_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/report_worker_probe.cpp",
+        "tests/evidence/test_report_worker.py",
+        "spec/catalog/joined-report-worker-prototype.json",
+        "spec/schemas/report-worker-definition-v2.schema.json",
+        "spec/schemas/acquisition-verification-export-outcome.schema.json"
       ],
       "spec_ids": [
         "DE-111",

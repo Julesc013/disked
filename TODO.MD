@@ -40,7 +40,7 @@ release/storage authority remain separate. The programme record is
 - [ ] DE-W021-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
 - [x] DE-W034 private joined acquisition/verification report and two-source support export: clean native evidence and local review retained; full unit/owner gates remain open.
-- [ ] DE-W034: qualify strict public joined-report worker/frontend admission.
+- [ ] DE-W034: qualify private joined-report producer/contained-worker contracts, then common command and frontend admission.
 - [x] DE-W034 private same-file verification worker, finite history cursor, cancellation and collections have clean native qualification; full work/owner/physical gates remain separate.
 
 ## Delivery and maintenance

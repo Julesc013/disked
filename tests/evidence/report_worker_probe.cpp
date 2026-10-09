@@ -10,7 +10,10 @@ int wmain(int argc,wchar_t** argv) {
         if(argc!=1)throw std::runtime_error("probe_input");std::string input;char block[4096];
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>4194304)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         auto limits=disked::report_operation::definition_limits();limits.bytes=4194304;limits.string_bytes=1048576;const auto v=disked::json::parse(input,limits);const auto mode=text(v,"mode");V result;
-        if(mode=="prepare") {
+        if(mode=="prepare-joined") {
+            if(v.fields.size()!=8)throw std::runtime_error("probe_input");result=disked::prepare_joined_report_worker(text(v,"operation_id"),text(v,"case_directory"),
+                text(v,"collection_path"),text(v,"collection_digest"),field(v,"policy"),text(v,"destination"),text(v,"state_directory"));
+        }else if(mode=="prepare") {
             if(v.fields.size()!=6)throw std::runtime_error("probe_input");result=disked::prepare_report_worker(text(v,"operation_id"),text(v,"case_directory"),field(v,"policy"),text(v,"destination"),text(v,"state_directory"));
         }else if(mode=="start") {
             if(v.fields.size()!=3)throw std::runtime_error("probe_input");result=disked::start_report_worker(field(v,"definition"),field(v,"grant"));

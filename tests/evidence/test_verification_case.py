@@ -42,6 +42,7 @@ def combined_support(acq,coll,p):
 def main():
     ap=argparse.ArgumentParser()
     for n in ('probe','fault','product'):ap.add_argument('--'+n,type=Path,required=True)
+    ap.add_argument('--worker',type=Path);ap.add_argument('--worker-fault',type=Path)
     ap.add_argument('--root',type=Path,default=Path('.'));ap.add_argument('--evidence',type=Path);a=ap.parse_args()
     root=a.root.resolve();probe=a.probe.resolve();fault=a.fault.resolve();product=a.product.resolve();facts=[];exports=[];samples=[]
     env={k:v for k,v in os.environ.items() if not k.startswith(('DISKED_REPORT_','DISKED_TEST_','DISKED_ACQ_','DISKED_VERIFICATION_'))}
@@ -167,6 +168,10 @@ def main():
         for path in (src,image,mapping):path.rename(path.with_name(path.name+'.retained'))
         new=call(dict(base,destination=str(owned/'missing-original.json')));check('actual-original-media-paths-not-followed',new['report']==reviewed['report'] and new['revision']==reviewed['revision'])
         check('actual-retained-metadata-unchanged',request==(case/'acquisition.request').read_bytes() and history==(case/'acquisition.records').read_bytes() and body==retained.read_bytes())
+        if a.worker or a.worker_fault:
+            assert a.worker and a.worker_fault
+            from test_joined_report_worker import exercise
+            exercise(root,owned,a.worker.resolve(),a.worker_fault.resolve(),product,env,start['operation_id'],case,retained,body,acq,coll,check,samples,exports)
     result=dict(passed=True,checks=len(facts),observations=facts,actual_exports=exports,samples=samples,limitations=['Private synchronous two-source/export adapter on the recorded Windows host; no public worker/frontend admission or stable API.','Synthetic source/executor faults are separate from actual generated native acquisition, verification, retention and file effects.','Historical claims, source observations, output facts and actual worker exit are separate; no authenticated custody/current-image/physical/power-loss claim.','Full DE-W034, all scoped 0.1.0 platforms/storage, owner and privilege/release gates remain open.'])
     if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS acquisition verification report:',len(facts),'checks;',len(exports),'actual completed/retained exports')

@@ -1619,7 +1619,7 @@
         "python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .",
         "python tests/evidence/test_verification_commands.py --probe build/windows-bootstrap/Release/verification_command_probe.exe --fault build/windows-bootstrap/Release/verification_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root .",
-        "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --worker build/windows-bootstrap/Release/report_worker_probe.exe --worker-fault build/windows-bootstrap/Release/report_worker_fault.exe"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1776,7 +1776,14 @@
         "source/providers/report/file_verification_case_export.cpp",
         "tests/evidence/verification_case_probe.cpp",
         "tests/evidence/test_verification_case.py",
-        "spec/catalog/acquisition-verification-report-prototype.json"
+        "spec/catalog/acquisition-verification-report-prototype.json",
+        "spec/catalog/joined-report-worker-prototype.json",
+        "spec/schemas/acquisition-verification-export-definition.schema.json",
+        "spec/schemas/acquisition-verification-export-outcome.schema.json",
+        "spec/schemas/report-worker-definition-v2.schema.json",
+        "spec/tools/joined_report_contracts.py",
+        "spec/tools/tests/test_joined_report_semantics.py",
+        "tests/evidence/test_joined_report_worker.py"
       ]
     },
     {

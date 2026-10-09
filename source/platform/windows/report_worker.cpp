@@ -1,5 +1,6 @@
 #include "report_worker.h"
 #include "file_acquisition_export.h"
+#include "file_verification_case_export.h"
 #include "worker_files.h"
 #include "bootstrap_registry.h"
 #include "report_observation.h"
@@ -27,7 +28,12 @@ V store_binding(const Directory& dir) {
 }
 void no_alias(const V& d,const Directory& dir) {
     const auto& joint=field(d,"export");
-    if(encode(field(field(field(joint,"source"),"store"),"generation"))==encode(local_file::generation(dir.pinned.back().value,true)))reject("report_worker_source_store_alias");
+    const auto& source=r::joined_definition(d)?field(field(joint,"sources"),"case"):field(joint,"source");
+    if(encode(field(field(source,"store"),"generation"))==encode(local_file::generation(dir.pinned.back().value,true)))reject("report_worker_source_store_alias");
+    if(r::joined_definition(d)) {
+        const auto selected=local_file::path_for(text(field(field(joint,"sources"),"collection"),"path"));
+        for(const auto name:{request_name,records_name,cancel_name,lock_name})if(CompareStringOrdinal(selected.c_str(),-1,dir.child(name).c_str(),-1,TRUE)==CSTR_EQUAL)reject("report_worker_collection_store_alias");
+    }
     const auto dest=local_file::path_for(text(field(field(field(joint,"effect"),"resources"),"destination"),"location"));
     auto parents=local_file::pin_parents(dest);if(encode(local_file::generation(parents.back().value,true))!=encode(local_file::generation(dir.pinned.back().value,true)))return;
     const auto leaf=dest.substr(dest.find_last_of(L'\\')+1);for(const auto n:{request_name,records_name,cancel_name,lock_name})
@@ -39,11 +45,49 @@ void applicable(const V& d,const Directory& dir,const Security& security,const I
        text(d,"input_digest")!=bootstrap::input_digest || encode(field(d,"store"))!=encode(store_binding(dir)))reject("report_worker_definition_changed");
     no_alias(d,dir);
 }
-std::unique_ptr<FileAcquisitionExport> reconstruct(const V& d) {
-    const auto& joint=field(d,"export");const auto& effect=field(joint,"effect");
-    return std::unique_ptr<FileAcquisitionExport>(new FileAcquisitionExport(text(field(joint,"case"),"operation_id"),
-        text(field(field(joint,"source"),"store"),"path"),field(field(effect,"artifact"),"policy"),
-        text(field(field(effect,"resources"),"destination"),"location"),&joint));
+struct ReportResult {V outcome,receipt;};
+class ReportSession {
+public:
+    virtual ~ReportSession()=default;
+    virtual ReportResult execute(const std::function<bool()>& stop)=0;
+};
+class AcquisitionSession final:public ReportSession {
+    FileAcquisitionExport effect_;
+public:
+    explicit AcquisitionSession(const V& joint):effect_(text(field(joint,"case"),"operation_id"),text(field(field(joint,"source"),"store"),"path"),
+        field(field(field(joint,"effect"),"artifact"),"policy"),text(field(field(field(joint,"effect"),"resources"),"destination"),"location"),&joint) {}
+    ReportResult execute(const std::function<bool()>& stop) override {
+        const auto result=effect_.execute({effect_.definition().digest(),true,true,true},stop);return {result.outcome.view(),result.receipt};
+    }
+};
+class JoinedSession final:public ReportSession {
+    FileVerificationCaseExport effect_;
+public:
+    explicit JoinedSession(const V& joint):effect_(text(field(joint,"report"),"case_operation_id"),text(field(field(field(joint,"sources"),"case"),"store"),"path"),
+        text(field(field(joint,"sources"),"collection"),"path"),text(field(field(joint,"sources"),"collection"),"digest"),
+        field(field(field(joint,"effect"),"artifact"),"policy"),text(field(field(field(joint,"effect"),"resources"),"destination"),"location"),&joint) {}
+    ReportResult execute(const std::function<bool()>& stop) override {
+        const auto result=effect_.execute({effect_.definition().digest(),true,true,true,true},stop);return {result.outcome.view(),result.receipt};
+    }
+};
+std::unique_ptr<ReportSession> reconstruct(const V& d) {
+    const auto& joint=field(d,"export");if(r::joined_definition(d))return std::unique_ptr<ReportSession>(new JoinedSession(joint));
+    return std::unique_ptr<ReportSession>(new AcquisitionSession(joint));
+}
+V prepared_definition(const V& joint,const Directory& dir,const Security& security,const Image& image,bool joined) {
+    auto d=V::object().put("schema",V::string(joined?"org.disked.report-worker-definition-prototype/2":"org.disked.report-worker-definition-prototype/1")).put("export",joint)
+        .put("store",store_binding(dir)).put("host_id",V::string(security.host_id)).put("image_digest",V::string(image.digest))
+        .put("source_revision",V::string(bootstrap::source_revision)).put("input_digest",V::string(bootstrap::input_digest)).put("target_profile",V::string(bootstrap::target));
+    r::validate_definition(d);no_alias(d,dir);const auto digest=r::digest(d);
+    auto grant=V::object().put("definition_digest",V::string(digest)).put("case_read",V::boolean_value(true)).put("report_write",V::boolean_value(true))
+        .put("store_write",V::boolean_value(true)).put("host_effects",V::boolean_value(true));if(joined)grant.put("collection_read",V::boolean_value(true));
+    // All actual identities have these fixed widths. Maximum file identity
+    // decimal widths bound the complete retained header before any claim.
+    const auto projection=V::object().put("schema",V::string("org.disked.report-worker-request-prototype/1")).put("operation_id",V::string("report-op:"+std::string(32,'0')))
+        .put("worker_epoch",V::string("worker:"+std::string(32,'0'))).put("attempt_id",V::string("attempt:"+std::string(32,'0'))).put("definition",d)
+        .put("definition_digest",V::string(digest)).put("grant",grant).put("records_id",V::string("18446744073709551615:18446744073709551615"))
+        .put("cancel_id",V::string("18446744073709551615:18446744073709551614"));r::validate_header(projection);
+    return V::object().put("definition",d).put("definition_digest",V::string(digest));
 }
 V reply(const char* status,const std::string& id,V value,const std::string& diagnostic="",DWORD platform=0) {
     return V::object().put("schema",V::string("org.disked.report-admission-prototype/1")).put("status",V::string(status))
@@ -106,10 +150,12 @@ void delay(const wchar_t*) {}
 }
 V prepare_report_worker(const std::string& id,const std::string& case_dir,const V& policy,const std::string& destination,const std::string& execution_dir) {
     Directory dir(execution_dir);dir.empty();Security security;Image image;FileAcquisitionExport session(id,case_dir,policy,destination);
-    auto d=V::object().put("schema",V::string("org.disked.report-worker-definition-prototype/1")).put("export",session.definition().value())
-        .put("store",store_binding(dir)).put("host_id",V::string(security.host_id)).put("image_digest",V::string(image.digest))
-        .put("source_revision",V::string(bootstrap::source_revision)).put("input_digest",V::string(bootstrap::input_digest)).put("target_profile",V::string(bootstrap::target));
-    r::validate_definition(d);no_alias(d,dir);return V::object().put("definition",d).put("definition_digest",V::string(r::digest(d)));
+    return prepared_definition(session.definition().value(),dir,security,image,false);
+}
+V prepare_joined_report_worker(const std::string& id,const std::string& case_dir,const std::string& collection,const std::string& digest,
+    const V& policy,const std::string& destination,const std::string& execution_dir) {
+    Directory dir(execution_dir);dir.empty();Security security;Image image;FileVerificationCaseExport session(id,case_dir,collection,digest,policy,destination);
+    return prepared_definition(session.definition().value(),dir,security,image,true);
 }
 V start_report_worker(const V& d,const V& g) {
     std::string id;bool claimed=false,existing=false;
@@ -151,9 +197,11 @@ V start_report_worker(const V& d,const V& g) {
      catch(const FileReportExportError& error) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),error.what(),error.platform_code);}
      catch(const std::exception& error) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),error.what());}
 }
-V observe_report_worker(const std::string& id,const std::string& directory,bool cancel_request) {
+V observe_report_worker(const std::string& id,const std::string& directory,bool cancel_request,bool common_profile) {
     try {
-        identifier(id);Directory dir(directory);const auto h=header_read(dir);auto observed=inspect(id,dir,h);
+        identifier(id);Directory dir(directory);const auto h=header_read(dir);
+        if(common_profile && r::joined_definition(field(h,"definition")))return reply("refused","",V::object(),"report_worker_profile_unavailable");
+        auto observed=inspect(id,dir,h);
         if(cancel_request && text(observed,"status")=="completed") {
             auto& value=observed.fields["value"];if(text(field(value,"state"),"phase")=="finished")value.put("cancellation_request",V::string("too_late"));
             else {
@@ -191,6 +239,7 @@ Outcome watch_report_worker(const std::string& request,const V& parameters,const
     try {
         Directory dir(text(parameters,"state_directory"));const auto header=header_read(dir);Security security;
         if(text(header,"operation_id")!=id)reject("report_worker_identity");
+        if(r::joined_definition(field(header,"definition")))return refused(request,"report_worker_profile_unavailable",3);
         const auto observer=security.identity("watch:");WatchCursor cursor(id,request,observer,parameters,report_watch_profile(header));
         auto collected=V::array();V validated_state;std::size_t bytes=0,delivered=0;
         const auto follow=parameters.find("follow_ms");const auto end=GetTickCount64()+(follow?std::stoull(follow->text):0);
@@ -244,7 +293,7 @@ Outcome dispatch_report_operation(const std::string& request,const std::string& 
     if(command=="operation.watch")return watch_report_worker(request,parameters);
     if(command!="operation.inspect" && command!="operation.cancel.request")return refused(request,"command_unavailable",3);
     if(!operation_parameters(parameters,false))return refused(request,"invalid_parameter");
-    return export_observation(request,observe_report_worker(text(parameters,"operation_id"),text(parameters,"state_directory"),command=="operation.cancel.request"));
+    return export_observation(request,observe_report_worker(text(parameters,"operation_id"),text(parameters,"state_directory"),command=="operation.cancel.request",true));
 }
 int run_report_worker(int argc,wchar_t** argv) {
     try {
@@ -263,7 +312,9 @@ int run_report_worker(int argc,wchar_t** argv) {
         auto binding=r::expected_binding(h);binding.put("process_id",number(GetCurrentProcessId())).put("process_created",V::string(process_created(GetCurrentProcess())));
         auto state=V::object().put("schema",V::string("org.disked.report-worker-state-prototype/2")).put("binding",binding).put("sequence",number(0)).put("phase",V::string("prepared"))
             .put("cancellation_observation",V::string("not_observed")).put("effect_certainty",V::string("not_started")).put("observed_filetime",number(0)).put("quiescent",V::boolean_value(false)).put("outcome",V{}).put("receipt",V{});
-        Recorder recorder{records.value,h,r::History{}};recorder.save(state,"report_prepared");FileAcquisitionExportResult result;std::unique_ptr<FileAcquisitionExport> session;bool dispatched=false;
+        Recorder recorder{records.value,h,r::History{}};recorder.save(state,"report_prepared");
+        ReportResult result{r::joined_definition(field(h,"definition"))?e::VerificationCaseExportOutcome{}.view():e::AcquisitionExportOutcome{}.view(),V{}};
+        std::unique_ptr<ReportSession> session;bool dispatched=false;
         try {
             session=reconstruct(field(h,"definition"));delay(L"DISKED_REPORT_WORKER_TEST_ADMISSION_DELAY");
             if(!SetEvent(event.value))fail("report_worker_admission_signal");event=Handle();delay(L"DISKED_REPORT_WORKER_TEST_EFFECT_DELAY");
@@ -273,14 +324,15 @@ int run_report_worker(int argc,wchar_t** argv) {
                 if(flag=="1" && text(state,"cancellation_observation")=="not_observed") {state.put("cancellation_observation",V::string("observed"));recorder.save(state,"report_cancel_observed");}
                 return flag=="1";
             };
-            const auto& joint=field(field(h,"definition"),"export");result=session->execute(e::AcquisitionExportGrant{r::digest(joint),true,true,true},stop);
+            result=session->execute(stop);
         }catch(const std::exception& error) {
-            result.outcome.diagnostic=error.what();result.outcome.output.diagnostic=error.what();
-            if(dispatched) {result.outcome.status="unknown";result.outcome.output.status="failed";result.outcome.output.output_state="uncertain";result.outcome.output.uncertain_effect=true;result.outcome.output.written_known=false;}
+            result.outcome.put("diagnostic",V::string(error.what()));auto output=field(result.outcome,"output");output.put("diagnostic",V::string(error.what()));
+            if(dispatched) {result.outcome.put("status",V::string("unknown"));output.put("status",V::string("failed")).put("output_state",V::string("uncertain"))
+                .put("uncertain_effect",V::boolean_value(true)).put("written_bytes",V{});}result.outcome.put("output",output);
         }
         session.reset(); // Handles are released before recording effect quiescence.
         delay(L"DISKED_REPORT_WORKER_TEST_RECEIPT_DELAY");state.put("phase",V::string("finished")).put("quiescent",V::boolean_value(true))
-            .put("effect_certainty",V::string(result.outcome.output.uncertain_effect?"uncertain":"observed")).put("outcome",result.outcome.view()).put("receipt",result.receipt);
+            .put("effect_certainty",V::string(field(field(result.outcome,"output"),"uncertain_effect").boolean?"uncertain":"observed")).put("outcome",result.outcome).put("receipt",result.receipt);
         recorder.save(state,"report_finished");if(event.valid())SetEvent(event.value);return 0;
     }catch(...) {return 199;}
 }
