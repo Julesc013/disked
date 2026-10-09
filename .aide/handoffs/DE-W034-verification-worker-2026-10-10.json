@@ -1,0 +1,698 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W034",
+  "base_revision": "a16407504f5626a680499cd775620560d82ab12c",
+  "spec_manifest_digest": "sha256:15d030852e260e5c4ca5e7d1cd0d7bf77e949772f42bdc2696cf296ef44c5ca0",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/providers/image/file_verification.cpp",
+    "source/providers/image/file_verification.h",
+    "source/providers/report/file_case.h",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_case.h",
+    "source/runtime/evidence/image_collection.h",
+    "source/runtime/evidence/image_observation.cpp",
+    "source/runtime/evidence/image_observation.h",
+    "source/runtime/evidence/image_verification.cpp",
+    "source/runtime/evidence/image_verification.h",
+    "source/runtime/evidence/report_operation.cpp",
+    "source/runtime/evidence/report_operation.h",
+    "source/runtime/operation/watch.h",
+    "spec/START-HERE.md",
+    "spec/catalog/image-verification-collection-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/index.md",
+    "spec/operations/health-forensics.md",
+    "spec/work/units.json",
+    "tests/evidence/image_observation_probe.cpp",
+    "tests/evidence/report_worker_probe.cpp",
+    "tests/evidence/test_report_worker.py",
+    "tools/build-inputs.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-10-verification-worker/.gitattributes",
+    ".aide/evidence/2026-10-10-verification-worker/README.md",
+    ".aide/evidence/2026-10-10-verification-worker/REVIEW.md",
+    ".aide/evidence/2026-10-10-verification-worker/evidence-inventory.json",
+    ".aide/evidence/2026-10-10-verification-worker/exploratory-results.json",
+    ".aide/evidence/2026-10-10-verification-worker/reproduce.py",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-build.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-check.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-clone.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-configure.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-context.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-discovery.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-headers.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-imports.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-freshness.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-host.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-dependents.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-headers.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-imports.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-launch.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-manifest.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-native.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-python-environment.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-results.json",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-spec-tests.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-test-catalog.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification-worker.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-headers.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-imports.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-headers.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-imports.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verify-context.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/commands.json",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/native-artifacts.json",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/native-details.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/product-link-closure.log",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/sample-independent-check.json",
+    ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/verification-worker.json",
+    ".aide/evidence/2026-10-10-verification-worker/working-expanded.json",
+    ".aide/handoffs/DE-W034-verification-worker-2026-10-10.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/verification_worker.cpp",
+    "source/platform/windows/verification_worker.h",
+    "source/providers/image/file_verification.cpp",
+    "source/providers/image/file_verification.h",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_case.h",
+    "source/runtime/evidence/image_observation.cpp",
+    "source/runtime/evidence/image_observation.h",
+    "source/runtime/evidence/image_verification.cpp",
+    "source/runtime/evidence/image_verification.h",
+    "source/runtime/evidence/verification_operation.cpp",
+    "source/runtime/evidence/verification_operation.h",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/verification-worker-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/roadmap/implementation.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/evidence/test_verification_worker.py",
+    "tests/evidence/verification_worker_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Implemented and cleanly qualified the private same-file verification worker at 736028ba92cd4201ccaa71ff56eed8aede391a5c. Actual progress/cancellation/verdict/retention/process observations and retained fault evidence remain separate. Full DE-W034/0.1.0, public command/frontends and owner/storage/release gates remain incomplete.",
+  "tests": [
+    {
+      "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/evidence/test_verification_worker.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe --collection D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-verification-worker\\reproduction-736028ba\\verification-worker.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification-worker.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-image-observation --byte-budget 500000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-image-observation",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-spec-tests.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/.gitattributes",
+      "sha256": "sha256:d5db6bc4c8a48b086f2c32e7a97b9c783cbaee8d73f6b2fce648678ea64c7b57"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/exploratory-results.json",
+      "sha256": "sha256:150bb0780e8e0d7b817f7e13d4e03b9a2da84a4098c9be35b0417bc88c6927e8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/README.md",
+      "sha256": "sha256:e8fa2e7a60ae158e3671fc072f4e52ae7d7893294d146c5d52eb2554320960e8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduce.py",
+      "sha256": "sha256:1000972628c6a630511d46cd6e354142e425d61e8bae66f3416207b0829c3669"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-build.log",
+      "sha256": "sha256:bf6b898d808b566e243807b65f13d4b6285465dfee82f6cfc54149b64c2fcc70"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-check.log",
+      "sha256": "sha256:5a8a0b9b2d767b02c13b85891bfdda4ed14efd1ffca7e59d26e0648bacf841f7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-clone.log",
+      "sha256": "sha256:cb21975a824dbe63170696224521dcd176cce65ae97dd01cc4c07de2585f90ad"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-configure.log",
+      "sha256": "sha256:f5fb3987bc734f7c904e3276019999308b4f903c6248bd0217adb3883a31c8a1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-context.log",
+      "sha256": "sha256:108e2048fdd3aa97a73104691ac484e69d2e0823c17c013854693401f699c1fc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-discovery.log",
+      "sha256": "sha256:1f9d9f0c02477a03fc7c367ac68eeaaa5d04ddc151440a8cb2830743a9fb1823"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-dependents.log",
+      "sha256": "sha256:cfeec156869f4f17ef66ec3f53598e3548b4ad146cff072d327bb9a19c591504"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-headers.log",
+      "sha256": "sha256:3ceffbe50b610cbc579b09d3482b8dcdec620cae42f48f67c247be2e2af5d628"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-imports.log",
+      "sha256": "sha256:868e326b8bb513038fd56e41551ddc684132c30103642dfdd4b22de669d5eccc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-freshness.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-host.log",
+      "sha256": "sha256:928cf0151ea56d3375dba0c25854fc4bae8f97eb7ed540cbddeff4bd36a47304"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-dependents.log",
+      "sha256": "sha256:4800d36eea3b48cc422b3e4881bae5f93983eeb1d03e197ab468c4f385ab8005"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-headers.log",
+      "sha256": "sha256:9b814d94827651c7b81118434d81bb6ba320e54595dabe297b33ad7cc5b15796"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-imports.log",
+      "sha256": "sha256:15bd8a9a59c7f1788798a0bc97a975726bbdb1f18482ff01e8da907ae9460a0a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-launch.log",
+      "sha256": "sha256:8ec4c87d93d78b11e345ecbb7d32583e73b647dfd16677494a5268b1507e7483"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-manifest.log",
+      "sha256": "sha256:bc86ce63c250b087ff6847c4da98ed14d51b2148bbfd064f9e9fb9ef577adda5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-native.log",
+      "sha256": "sha256:b58da8008b106c4464a81ef4d7c113710b008342f76bafb6cf2643d6e1e6a2aa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-results.json",
+      "sha256": "sha256:c6716a1084e5fcf2b9a8ede73eb031c664fccd01e9e7fd7c194f3d8d4ce804ec"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-spec-tests.log",
+      "sha256": "sha256:0b22b71dc5578a9780b7eeaa7ddaa0ed94b8ba349f77eba8eb5fcb3ae2d5b4ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-test-catalog.log",
+      "sha256": "sha256:828cef4c50079fe3f121e40d568e2289b2b0b5db1fd9cb175e15a34090f7619a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification-worker.log",
+      "sha256": "sha256:2046306c1f44c3901d4c7f1242ef7f24b200bd90bce83a02d68b6d6ac9bf24ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-dependents.log",
+      "sha256": "sha256:353b94ea30097a240a7f93bdb5da67b827de841619febb0b7ca1b916de08abe6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-headers.log",
+      "sha256": "sha256:6a5dbb44b4e898b550cd9365dbe9dfa1a28bc4b86009fd3c1d807636ebb77279"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-imports.log",
+      "sha256": "sha256:d5074465b1dc0b3b9e657446e69828a624b051ee5acc97d30728591a185f9492"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-dependents.log",
+      "sha256": "sha256:de30520a954b0205d9e497ff3cc33be1795324fd7917408ddc0add8ffaffd379"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-headers.log",
+      "sha256": "sha256:3510b58ede5b8f4a15bf2c933a8ec4ecd3192247106907268fc1842ebef92683"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-imports.log",
+      "sha256": "sha256:c2648596f9ad63fe85367165444387df6072c5b5fd1c019620d3e1d5b33670cb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verify-context.log",
+      "sha256": "sha256:1637760636b63cffa476ff1ce9fafcd6ce613971825d5fa87dd7c43803f7804a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/commands.json",
+      "sha256": "sha256:d4b0ddbc9d40648d46af2225313c5c97b49675f4abb9c5708b3cd87b68ccb254"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/native-artifacts.json",
+      "sha256": "sha256:06f9ccde1bd378166a4ff3f4178d04a1dbb331c5105ec4ccd46ad8a929658d8b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/native-details.log",
+      "sha256": "sha256:ca6c19d554633f73c976e08c77a79468c216d5785f614fd21ed47eb32e3f8363"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/product-link-closure.log",
+      "sha256": "sha256:1eb34959a9a12b9cae3b25a705593262f6aeebf96dc78ba520864d2ad21c1b6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/sample-independent-check.json",
+      "sha256": "sha256:509056c3e41089272fab62f14835afe94760b8fba3b5489988db0eed43e0237b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/verification-worker.json",
+      "sha256": "sha256:248efcfc4806d644be27ef8300410935cb625ff7f32d8ff302d6d120c5124def"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/REVIEW.md",
+      "sha256": "sha256:a62315512b8b2a4c6e153a92872303df19f009f317d8763a26f1d82336352ad3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-worker/working-expanded.json",
+      "sha256": "sha256:63aa40c5f5bf07d4b8acdf4a5cb7abc7fbadb7533616328a4ce49fc1449744d8"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/disked.exe",
+      "sha256": "sha256:4c2bfc763fa8bc6003db3b929db180a883ed38f4ef9012dd0d82d415f0431532"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/verification_worker_probe.exe",
+      "sha256": "sha256:bd7a4ec9004316a87f446858391b081555ce8f4cf9e5551656dd53becee44efe"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/verification_worker_fault.exe",
+      "sha256": "sha256:42b49632568403337589c6af4d67b70269e86d945142fe9d957c8a35643e194a"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/image_verification_collection_probe.exe",
+      "sha256": "sha256:016ac024a1539e669fc58fb2c6b2419a92ef3b61f56c0dac7c9601c744565bbd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/disked_report_export.lib",
+      "sha256": "sha256:7901186539002feecf7bfba4f979b18666e194b326568a15d2cbd21d2cc241bd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/disked_file_report_export.lib",
+      "sha256": "sha256:77e13e1d29d76ab21ae255664c2e481e1fc3b375156dbc0b36cc0b99b6cbd013"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/disked_case_evidence.lib",
+      "sha256": "sha256:6fc51d95268a74b71799b4bfff5d4a0017e538d616d5f6af1f1179f8712d4c51"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-736028ba/disked_file_case_source.lib",
+      "sha256": "sha256:4a6e60fe74ec82f6fa57df754e3012bd82a4fdce4f7bd0e3d3f0e92e4368e4cd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-working/verification_worker_probe.exe",
+      "sha256": "sha256:60ab092e8a76b7685d2ef11b4614a2b2db9295f90ecd8335fd4bac9470a6093a"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-working/verification_worker_fault.exe",
+      "sha256": "sha256:939049f47b17b3d29d566ba5cd5b10d767ae57e6b262f598d2d75de14c979b96"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-working/disked.exe",
+      "sha256": "sha256:0add4a205b06f0337009abfabce0ca8b0faad55589f368c4aead6d0255239cb6"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-worker-working/image_verification_collection_probe.exe",
+      "sha256": "sha256:70e3fe38f93314c3d257bd2e4ba01941c57556abe17e3bcab21a8040f580b1f7"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/normal/verification.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/normal/verification.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/normal/verification.collection",
+      "sha256": "sha256:421f37c87c71642f5741d810a6eaaaded5c4ef6139abfb6d240047a51176685b"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/normal/verification.records",
+      "sha256": "sha256:f0f62e60749bebd25f6ef8a963007accb81333f54821ebbefa5160ec66036ead"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/normal/verification.request",
+      "sha256": "sha256:470d19526fe482223a1a0388d65fbea16d23e371130877e27dabd455654af46f"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/copy.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/copy.map",
+      "sha256": "sha256:ce7ac0b7e716dac7fcd4f0b83e110bf051300f78f29481b707a60b744efb81c5"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/source.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/state/acquisition.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/state/acquisition.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/state/acquisition.records",
+      "sha256": "sha256:795f1f4c5ca02b6c8a604f3a84b1f026f7da69ca3d5affc3f2cbb62a5117060f"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-6robikob/original/state/acquisition.request",
+      "sha256": "sha256:9535d8bbd21f9a1765a6d334eb763911cdfff1fd93fa5329f9d066f6a8a4ca87"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/damaged.img",
+      "sha256": "sha256:397e191b6c26d04b2ced44ca25d7ca3c1c3f8f84e964963b211d074e48adb99a"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/mismatch/verification.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/mismatch/verification.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/mismatch/verification.collection",
+      "sha256": "sha256:f8b80a2788a2e3b1f5027eedd1a65480887ff3cd872fef72bbb94ce10bef7d8a"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/mismatch/verification.records",
+      "sha256": "sha256:d23435b180ea33f204c430bcc48c73ad46a0272e7a7a611537a43cc552372c9b"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/mismatch/verification.request",
+      "sha256": "sha256:50a7109c3f76cc966004ba0a4533f94a868289696106026a9cde762c9a5b2b74"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/normal/verification.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/normal/verification.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/normal/verification.collection",
+      "sha256": "sha256:dc6b0682ab549a7c3b5d018365199d631f059a9199e93dd2f0003dbb478d2536"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/normal/verification.records",
+      "sha256": "sha256:f03f6fd6881ab99ab2df41e3f4fd7af7b7d5b3bff9cce76fbd11c37493c51cb8"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/normal/verification.request",
+      "sha256": "sha256:42c686258d5a2f3cfcacf8849f0f302565bc456cc03235be58a74a0ec6094966"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/copy.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/copy.map",
+      "sha256": "sha256:cb6267134794110c196c2c06e88ef152ba3c2c8b0fc36b57b8e255a25d6ffc1a"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/source.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/state/acquisition.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/state/acquisition.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/state/acquisition.records",
+      "sha256": "sha256:e22d0247d795114e213e78c1e2bc386ee91e81f2d1f4c70769cd7e340770881f"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-14t8l1xi/original/state/acquisition.request",
+      "sha256": "sha256:fd3158a257171e4c1700673ec3228a8126a81c08fdcf58871167b2cbc343dd1d"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/normal/verification.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/normal/verification.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/normal/verification.collection",
+      "sha256": "sha256:f38303bc0427834a1f327e070efeda3573083b7c9654054d248a94d78b981733"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/normal/verification.records",
+      "sha256": "sha256:fad6450560574ca11713c392bfea5c6c0bd900cd91241458646174a50b9d27ac"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/normal/verification.request",
+      "sha256": "sha256:d2ec34b9a98123c4d31ba23d7ee07f71cb97ee021a2c943063e6613191f16a0a"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/copy.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/copy.map",
+      "sha256": "sha256:4a873b4e0b15abe5d3880da1ce4a72590e5c16fcb584b907ee097c55bce3744d"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/source.img",
+      "sha256": "sha256:c4b993f079ae008dabc1893ffb0484d99bd1b76b03aa17d8c10c13bd24f7de6e"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/state/acquisition.admission",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/state/acquisition.cancel",
+      "sha256": "sha256:5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/state/acquisition.records",
+      "sha256": "sha256:da515f36c71a2685bc6e5ca9bdf759dd617e8ff7a3f0c73a4e47c1043154919c"
+    },
+    {
+      "path": ".aide-local/disked-acq-worker-fiedi0n4/original/state/acquisition.request",
+      "sha256": "sha256:e0698104eecb47e44205a696f285eed96eef5a5cfc8d4537609ea0ed297f2b54"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Define and implement the provisional image.verify prepare/execute command payloads using this exact resource/grant/worker contract, then qualify public negotiated observation/cursors, bounded request containment and actual CLI/stdio/GUI/TUI/shell journeys before availability. Continue under the recorded local grant; keep full DE-W034, owner acceptance and physical/elevation/customer/install/signing/publication gates separate.",
+  "performed_remote_writes": false
+}

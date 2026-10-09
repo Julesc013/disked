@@ -1,0 +1,372 @@
+[
+  {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T15:24:32.153585+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-host.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T15:24:32.482477+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-python-environment.log"
+  },
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-local",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T15:24:32.591140+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-clone.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:24:45.123125+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-configure.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:24:50.443948+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-build.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:26:19.175016+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-test-catalog.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:26:19.294133+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-native.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_verification_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe",
+      "--fault",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe",
+      "--product",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "--collection",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-verification-worker\\reproduction-736028ba\\verification-worker.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:34:30.194397+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification-worker.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:00.201439+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-check.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:02.520133+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-manifest.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:03.204735+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-freshness.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W034",
+      "--output",
+      ".aide-local/context/DE-W034-image-observation",
+      "--byte-budget",
+      "500000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:04.003903+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-context.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      ".aide-local/context/DE-W034-image-observation"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:05.090389+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verify-context.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.120331+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.156276+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.191728+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-disked-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.226160+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.261872+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.297527+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_probe-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.332122+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.367451+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.402247+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-verification_worker_fault-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.437136+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.472035+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\image_verification_collection_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.507064+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-image_verification_collection_probe-dependents.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.542508+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-launch.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba\\build\\windows-bootstrap\\Release\\disked.exe",
+      "commands",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.563457+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-discovery.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-worker-736028ba",
+    "started_at": "2026-10-09T15:35:07.585184+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-verification-worker/reproduction-736028ba/clean-spec-tests.log"
+  }
+]
