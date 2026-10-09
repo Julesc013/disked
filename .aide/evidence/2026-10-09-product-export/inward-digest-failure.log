@@ -1,0 +1,26 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 5: evidence.export_commands
+1/2 Test #5: evidence.export_commands .........***Failed   18.25 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-i55xqdlc
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 164, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 159, in main
+    native_prepare=product_call(product_argv,(0,));check('product-prepare-inert-bound',native_prepare['status']=='completed' and no_effects(pp) and native_prepare['result']['definition']['image_digest']==digest(product.read_bytes()))
+                                                   ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 21, in check
+    def check(name,value,**details):assert value,(name,details);checks.append(dict(name=name,passed=True,**details))
+                                           ^^^^^
+AssertionError: ('product-prepare-inert-bound', {})
+
+    Start 6: evidence.report_watch
+2/2 Test #6: evidence.report_watch ............   Passed   18.95 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  37.21 sec
+
+The following tests FAILED:
+	  5 - evidence.export_commands (Failed)
+Errors while running CTest

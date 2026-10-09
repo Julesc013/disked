@@ -1,0 +1,40 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 5: evidence.export_commands
+1/2 Test #5: evidence.export_commands .........***Failed    0.48 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-2fpe2l9y
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 164, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 39, in main
+    prepared=product_call(['image','acquire','prepare',str(src),str(dst),'--map',str(mapping),'--state-dir',str(case)])['result']
+             ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 35, in product_call
+    assert p.returncode in exits and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"diagnostics":[{"code":"memory_budget_incompatible","message_key":"disked.memory_budget_incompatible","parameters":{"process_limit_bytes":"268435456"},"platform_code":"5","remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')
+
+    Start 6: evidence.report_watch
+2/2 Test #6: evidence.report_watch ............***Failed    0.48 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-c4o64_zn
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 203, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 57, in main
+    prepared=prod(['image','acquire','prepare',str(src),str(dst),'--map',str(mapping),'--state-dir',str(case)])['result']
+             ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_watch.py", line 41, in prod
+    assert p.returncode in exits and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"diagnostics":[{"code":"memory_budget_incompatible","message_key":"disked.memory_budget_incompatible","parameters":{"process_limit_bytes":"268435456"},"platform_code":"5","remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   0.99 sec
+
+The following tests FAILED:
+	  5 - evidence.export_commands (Failed)
+	  6 - evidence.report_watch (Failed)
+Errors while running CTest

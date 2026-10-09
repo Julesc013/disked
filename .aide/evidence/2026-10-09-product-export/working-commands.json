@@ -1,0 +1,179 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/build-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/build-fixed-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/frontend/test_product_export.py",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/disked_report_test.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/product-export-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/frontend-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/frontend/test_product_export.py",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--fault",
+      "build/windows-bootstrap/Release/disked_report_test.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/product-export-fixed.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/frontend-fixed-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/structural-failure-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/structural-fixed-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/structural-source-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/tooling-failure-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure",
+      "-R",
+      "^evidence\\.(export_commands|report_watch)$"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/inward-overlap-failure.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure",
+      "-R",
+      "^evidence\\.(export_commands|report_watch)$"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 8,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/inward-digest-failure.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure",
+      "-R",
+      "^evidence\\.export_commands$"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/inward-corrected-working.log",
+    "scope": "Exploratory dirty-worktree check; clean exact-source reproduction is authoritative"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      ".aide-local/goal-0.1.0/verify_product_export_blobs.py",
+      "--staged"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-product-export/working-failures.json",
+    "scope": "Evidence packaging verification; no native test rerun"
+  }
+]

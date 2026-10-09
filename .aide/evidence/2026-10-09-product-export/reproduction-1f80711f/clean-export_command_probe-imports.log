@@ -2,35 +2,30 @@ Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 
-Dump of file build\windows-bootstrap\Release\disked.exe
+Dump of file D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-product-export-1f80711f\build\windows-bootstrap\Release\export_command_probe.exe
 
 File Type: EXECUTABLE IMAGE
 
   Section contains the following imports:
 
     KERNEL32.dll
-             14013F000 Import Address Table
-             140189728 Import Name Table
+             14008F000 Import Address Table
+             1400BEDC8 Import Name Table
                      0 time date stamp
                      0 Index of first forwarder reference
 
-                         612 WideCharToMultiByte
                          2DC GetStdHandle
-                         258 GetFileType
-                         26A GetLastError
-                         542 SetLastError
-                         205 GetConsoleMode
-                         29F GetNumberOfConsoleInputEvents
-                         20B GetConsoleScreenBufferInfo
-                         20A GetConsoleProcessList
                           CE CreateFileW
                          17E FindClose
                          189 FindFirstFileW
                          195 FindNextFileW
                          1A8 FlushFileBuffers
+                         232 GetDiskFreeSpaceExW
                          239 GetDriveTypeW
+                         24F GetFileAttributesW
                          251 GetFileInformationByHandle
                          256 GetFileSizeEx
+                         258 GetFileType
                          25A GetFinalPathNameByHandleW
                          47A ReadFile
                          534 SetFilePointerEx
@@ -39,9 +34,8 @@ File Type: EXECUTABLE IMAGE
                          132 DuplicateHandle
                          267 GetHandleInformation
                          53E SetHandleInformation
-                          E0 CreatePipe
-                         427 PeekNamedPipe
-                         28B GetNamedPipeInfo
+                         26A GetLastError
+                         542 SetLastError
                          527 SetEvent
                          5EB WaitForSingleObject
                           C2 CreateEventW
@@ -50,12 +44,12 @@ File Type: EXECUTABLE IMAGE
                          2C8 GetProcessTimes
                          220 GetCurrentProcess
                          221 GetCurrentProcessId
-                         246 GetExitCodeProcess
                           E8 CreateProcessW
                          36E InitializeProcThreadAttributeList
                          11A DeleteProcThreadAttributeList
                          5CE UpdateProcThreadAttribute
                          412 OpenProcess
+                         2F3 GetSystemTimeAsFileTime
                          312 GetTickCount64
                          38B IsProcessInJob
                           D5 CreateJobObjectW
@@ -67,53 +61,31 @@ File Type: EXECUTABLE IMAGE
                          2B8 GetProcAddress
                          3CA LoadLibraryExW
                          3D6 LocalFree
+                         44C QueryFullProcessImageNameW
                          1E8 GetComputerNameW
                           9D CompareStringOrdinal
                          3F6 MultiByteToWideChar
-                          75 CancelSynchronousIo
-                         4B7 ReleaseMutex
-                          DD CreateMutexW
-                          24 AssignProcessToJobObject
-                         50A SetConsoleMode
-                         471 ReadConsoleInputW
-                         625 WriteConsoleW
-                         4FA SetConsoleCtrlHandler
-                         176 FillConsoleOutputCharacterW
-                          B7 CreateConsoleScreenBuffer
-                         4F8 SetConsoleActiveScreenBuffer
-                         4FC SetConsoleCursorInfo
-                         4FE SetConsoleCursorPosition
-                         623 WriteConsoleOutputCharacterW
-                         624 WriteConsoleOutputW
-                         2DA GetStartupInfoW
-                         281 GetModuleHandleW
-                         3F5 MulDiv
-                         232 GetDiskFreeSpaceExW
-                         24F GetFileAttributesW
-                         2F3 GetSystemTimeAsFileTime
-                         44C QueryFullProcessImageNameW
-                         521 SetEndOfFile
+                         612 WideCharToMultiByte
                          3B7 LCMapStringEx
                          263 GetFullPathNameW
                          252 GetFileInformationByHandleEx
-                         35A HeapSize
-                         452 QueryPerformanceCounter
-                         453 QueryPerformanceFrequency
-                         225 GetCurrentThreadId
+                         625 WriteConsoleW
                          4B9 ReleaseSRWLockExclusive
                            0 AcquireSRWLockExclusive
                          5B8 TryAcquireSRWLockExclusive
-                         5F4 WakeConditionVariable
-                         5F3 WakeAllConditionVariable
-                         592 SleepConditionVariableSRW
-                         36C InitializeCriticalSectionEx
+                         225 GetCurrentThreadId
+                         452 QueryPerformanceCounter
                          138 EnterCriticalSection
                          3C4 LeaveCriticalSection
+                         36C InitializeCriticalSectionEx
                          114 DeleteCriticalSection
                          134 EncodePointer
                          10D DecodePointer
+                         281 GetModuleHandleW
                          2E1 GetStringTypeW
                          1CA GetCPInfo
+                         5F3 WakeAllConditionVariable
+                         592 SleepConditionVariableSRW
                          4D6 RtlCaptureContext
                          4DD RtlLookupFunctionEntry
                          4E4 RtlVirtualUnwind
@@ -121,8 +93,9 @@ File Type: EXECUTABLE IMAGE
                          580 SetUnhandledExceptionFilter
                          59F TerminateProcess
                          38C IsProcessorFeaturePresent
-                         385 IsDebuggerPresent
                          36F InitializeSListHead
+                         385 IsDebuggerPresent
+                         2DA GetStartupInfoW
                          4DF RtlPcToFileHeader
                          469 RaiseException
                          4E3 RtlUnwindEx
@@ -131,12 +104,8 @@ File Type: EXECUTABLE IMAGE
                          5B3 TlsGetValue
                          5B4 TlsSetValue
                          5B2 TlsFree
-                          F5 CreateThread
-                         168 ExitThread
-                         1B5 FreeLibraryAndExitThread
-                         280 GetModuleHandleExW
-                         55C SetStdHandle
                          167 ExitProcess
+                         280 GetModuleHandleExW
                          1DF GetCommandLineA
                          1E0 GetCommandLineW
                          351 HeapAlloc
@@ -147,6 +116,8 @@ File Type: EXECUTABLE IMAGE
                          394 IsValidLocale
                          31E GetUserDefaultLCID
                          15C EnumSystemLocalesW
+                         205 GetConsoleMode
+                         477 ReadConsoleW
                          358 HeapReAlloc
                          184 FindFirstFileExW
                          392 IsValidCodePage
@@ -155,16 +126,16 @@ File Type: EXECUTABLE IMAGE
                          241 GetEnvironmentStringsW
                          1B3 FreeEnvironmentStringsW
                          525 SetEnvironmentVariableW
+                         55C SetStdHandle
                          2BE GetProcessHeap
                          209 GetConsoleOutputCP
-                         477 ReadConsoleW
-                         4E2 RtlUnwind
+                         35A HeapSize
 
   Summary
 
-        8000 .data
-        9000 .pdata
-       4C000 .rdata
+        4000 .data
+        5000 .pdata
+       31000 .rdata
         1000 .reloc
         1000 .rsrc
-      13E000 .text
+       8E000 .text

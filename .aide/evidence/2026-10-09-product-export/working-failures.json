@@ -1,0 +1,44 @@
+{
+  "scope": "Actual exploratory errors and repairs; no invented production defect or qualification",
+  "failures": [
+    {
+      "kind": "agent_introduced_metadata_error",
+      "logs": [
+        "structural-failure-working.log",
+        "tooling-failure-working.log"
+      ],
+      "result": "New typed dependency kind test and loader inventory status unverified were outside existing catalog enums; structural and full tooling checks failed.",
+      "repair": "Use existing fixture dependency kind and inspected loader status backed by actual dumpbin output. Clean full structural/tooling validation was rerun."
+    },
+    {
+      "kind": "windows_job_admission",
+      "log": "inward-overlap-failure.log",
+      "fixtures": [
+        ".aide-local/disked-acq-worker-2fpe2l9y",
+        ".aide-local/disked-acq-worker-c4o64_zn"
+      ],
+      "result": "Concurrent standalone frontend test and CTest run returned memory_budget_incompatible with Windows code 5 before acquisition preparation/effects.",
+      "repair": "Retain guards and failed fixtures. Confirm owned standalone processes exited, then run native suites serially. Job admission succeeded; exact kernel cause is not established."
+    },
+    {
+      "kind": "agent_introduced_test_expectation",
+      "log": "inward-digest-failure.log",
+      "fixture": ".aide-local/disked-acq-worker-i55xqdlc",
+      "result": "New native image-binding assertion compared a bare schema digest against sha256-prefixed independent file digest.",
+      "repair": "Compare the same digest representation while retaining independent executable-byte hashing and inert-preparation checks."
+    },
+    {
+      "kind": "code_review",
+      "log": "frontend-fixed-working.log",
+      "result": "Initial export execution timeout did not copy state-directory routing nested in the immutable definition.",
+      "repair": "Preserve definition.store.path and exact wrapper digest without I/O or invented operation identity. Actual held callback times out, remains occupied, completes one effect and is explicitly reconciled without replay."
+    },
+    {
+      "kind": "evidence_selection_error",
+      "log": null,
+      "result": "First staged-blob proof rejected an ignored Python bytecode cache created by syntax checking; it had entered the filesystem inventory but was not a Git artifact.",
+      "repair": "Exclude disposable Python caches from retained evidence selection and changed-file claims. Keep the cache untouched; recheck actual staged evidence, artifacts and exact source inputs."
+    }
+  ],
+  "failed_fixtures_retained": true
+}
