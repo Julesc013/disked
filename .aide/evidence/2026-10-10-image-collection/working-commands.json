@@ -1,0 +1,188 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4",
+      "--target",
+      "image_verification_collection_probe",
+      "image_verification_observation_probe",
+      "disked"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/working-build.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4",
+      "--target",
+      "image_verification_collection_probe",
+      "image_verification_observation_probe",
+      "disked"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/corrected-build.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_collection.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_collection_probe.exe",
+      "--observation-probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-collection-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 1,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/working-tests.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4",
+      "--target",
+      "image_verification_collection_probe",
+      "image_verification_observation_probe",
+      "disked"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/reviewed-build.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_collection.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_collection_probe.exe",
+      "--observation-probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-collection-reviewed.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/reviewed-tests.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4",
+      "--target",
+      "image_verification_collection_probe",
+      "image_verification_observation_probe",
+      "disked"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/lossless-build.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_collection.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_collection_probe.exe",
+      "--observation-probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-collection-lossless.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/lossless-tests.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4",
+      "--target",
+      "image_verification_collection_probe",
+      "image_verification_observation_probe",
+      "disked"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/final-working-build.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_collection.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_collection_probe.exe",
+      "--observation-probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\image-collection-final-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/final-working-tests.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_observation.py",
+      "--probe",
+      "build/windows-bootstrap/Release/image_verification_observation_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      "."
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-image-collection/prior-observation-tests.log"
+  }
+]

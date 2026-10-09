@@ -1,0 +1,18 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\disked-acq-worker-ffp6ftux
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_image_collection.py", line 175, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_image_collection.py", line 133, in main
+    rejected('wrong-'+key,lambda v,k=key:v['records'][0].update({k:'2' if k=='sequence' else 'sha256:'+'0'*64}))
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_image_collection.py", line 131, in rejected
+    call(dict(mode='restore',retention_bytes=(encode(value)+b'\n').decode()),refusal=code);facts[-1].update(name=name,input_kind='synthetic-record-alteration')
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_image_collection.py", line 47, in call
+    if refusal:check('refuse-'+refusal,r.returncode==3 and refusal in out['refusal'])
+               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_image_collection.py", line 19, in check
+    def check(name,condition,**data):assert condition,(name,data);facts.append(dict(name=name,passed=True,**data))
+                                            ^^^^^^^^^
+AssertionError: ('refuse-image_collection_record_mismatch', {})
