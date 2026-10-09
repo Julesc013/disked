@@ -1,15 +1,22 @@
 # Implementing-agent review: Setup fixture mapping
 
-Reviewed packaging source: `92d72bb7a7a1b312b74db9dcbeccba9bdda94548`.
+Reviewed packaging source: `e1683b1093bf810edfdf5911acaca3c510b28bf6`.
 Native payload source: `ec30be78ba9e9f61dc578ff67b9d0af186166145`.
 This review permits local continuation under the existing programme grant. It
 is not independent review, owner acceptance, provider admission or release.
 
-This first candidate's byte/shape results are retained as history. Final review
+First candidate `92d72bb` byte/shape results are retained as history. Final review
 caught its `maximum_tested_reader: 1.0` ambiguity: no installed-state reader was
-exercised. The implementation/profile now use explicit `not_run`, and reject
-promotion to a version without a new contract. The new packaging source must
-receive its own clean qualification before this slice's final handoff.
+exercised. Final source `e1683b1` uses explicit `not_run` and rejects promotion
+to a version without a new contract. Its own clean reproduction passed. The
+pinned schema permits the string; real consumer semantic acceptance and reader
+compatibility remain unverified. Minimum reader 1.0 is an authored requirement.
+
+The closure handoff exporter initially labelled expected nonzero refusal commands
+as passing tests. The existing handoff validator rejected that representation.
+The final handoff records the actual zero-exit assertion harness and successful
+commands; raw refusal exits and their explicit expected values stay in the
+retained command receipts. No validator or expected product outcome was relaxed.
 
 The clean reproduction passed 23 recorded commands, including four expected
 negative outcomes: repeated extraction, repeated assembly, occupied generated
@@ -28,7 +35,7 @@ source/output overlap, occupied empty/file/data roots, and retained partial
 assembly/extraction without cleanup or reuse. Synthetic test payloads are
 explicitly not executable qualification. Tooling ran 215 tests: 213 passed,
 two skipped. Structural validation passed 1,035 checks. The clean context is
-289,439 bytes; manifest and source freshness checks passed.
+289,649 bytes; manifest and source freshness checks passed.
 
 Fourteen packaging inputs and 22 selected upstream Git blobs have exact retained
 hashes. Five MIT schemas are unmodified and resolve offline. Schema conformance
@@ -53,7 +60,8 @@ inputs cannot become genuine approval or native qualification.
 
 The first source freeze `5248a8a` emitted a Windows license checkout conversion
 warning. Exact license bytes are preserved by the subsequent source-bound
-attribute rule; only `92d72bb` receives the clean qualification. Earlier structural
+attribute rule. `92d72bb` received initial byte/shape qualification and `e1683b1`
+received final qualification after the reader-claim correction. Earlier structural
 validation also rejected a spec link escaping its canonical tree; the link was
 fixed without weakening the validator. Neither event is hidden or promoted
 into a runtime pass. No new service/policy rejection occurred in this slice.

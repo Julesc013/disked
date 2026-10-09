@@ -5,12 +5,14 @@ Universal Setup product/recipe schemas and verifies ordinary fixture extraction.
 It is independent of actual software installation. The full work unit and owner
 acceptance remain open.
 
-Clean packaging source `92d72bb` passed 22 fixture tests, independent archive and
+Clean packaging source `e1683b1` passed 22 fixture tests, independent archive and
 extraction equality, occupied-root retention and actual original/extracted
 launches. The dev.36 executable retains its separately qualified native source
 `ec30be78` and exact SHA-256; it was not rebuilt by the packaging test. See the
 [retained review](../.aide/evidence/2026-10-10-setup-fixtures/REVIEW.md) for commands,
 hashes and remaining qualification. No live Setup mode is inferred from this.
+The provisional recipe explicitly reports `maximum_tested_reader: not_run`;
+the minimum reader is a requirement, not a test receipt.
 
 The [binding guide](../release/bindings/universal-setup/README.md) gives exact
 commands. The [profile](../spec/catalog/setup-fixture-prototype.json) owns expected

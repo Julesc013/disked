@@ -1,0 +1,417 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.259,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "e1683b1093bf810edfdf5911acaca3c510b28bf6"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 20.587,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.131,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity = [System.Security.Principal.WindowsIdentity]::GetCurrent(); $principal = [System.Security.Principal.WindowsPrincipal]::new($identity); [ordered]@{identity=$identity.Name; elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)} | ConvertTo-Json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.176,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\host.log"
+  },
+  {
+    "name": "original-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W034-joined-public-ec30be78\\disked.exe",
+      "--cli",
+      "--json",
+      "build",
+      "inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.028,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\original-launch.log"
+  },
+  {
+    "name": "inventory",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\tools\\release\\artifact_check.py",
+      "inventory",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\staging",
+      "--required",
+      "disked.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.218,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\inventory.log"
+  },
+  {
+    "name": "init-fixtures",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "init-fixtures",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.163,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\init-fixtures.log"
+  },
+  {
+    "name": "assemble",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "assemble",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\staging",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json",
+      "--output",
+      "package"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.298,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\assemble.log"
+  },
+  {
+    "name": "independent-zip",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\tools\\release\\artifact_check.py",
+      "verify",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--archive",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\package\\payload.zip"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.104,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\independent-zip.log"
+  },
+  {
+    "name": "verify",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "verify",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.202,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\verify.log"
+  },
+  {
+    "name": "extract-fixture",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json",
+      "--output",
+      "extracted"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.382,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\extract-fixture.log"
+  },
+  {
+    "name": "extracted-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\extracted\\disked.exe",
+      "--cli",
+      "--json",
+      "build",
+      "inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.141,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\extracted-launch.log"
+  },
+  {
+    "name": "occupied-root",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json",
+      "--output",
+      "extracted"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.203,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\occupied-root.log"
+  },
+  {
+    "name": "repeat-assembly",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "assemble",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\staging",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json",
+      "--output",
+      "package"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.191,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\repeat-assembly.log"
+  },
+  {
+    "name": "occupied-case-retention",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\build-info.json",
+      "--output",
+      "generated-case"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.21,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\occupied-case-retention.log"
+  },
+  {
+    "name": "unsupported-install",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "install"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 2,
+    "exit_code": 2,
+    "status": "pass",
+    "elapsed_seconds": 0.16,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\unsupported-install.log"
+  },
+  {
+    "name": "setup-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/setup",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 5.338,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\setup-tests.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 141.769,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.074,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\check.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W060",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\context",
+      "--byte-budget",
+      "340000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 1.914,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.038,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.697,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.084,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-e1683b1\\logs\\final-source-status.log"
+  }
+]

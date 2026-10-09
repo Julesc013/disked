@@ -30,7 +30,7 @@ occupied-root and unsupported-mode controls, and retains commands/logs/hashes.
 It does not rebuild or rerun the unchanged native suite.
 
 ```text
-python .aide/evidence/2026-10-10-setup-fixtures/reproduce.py --source-revision 92d72bb7a7a1b312b74db9dcbeccba9bdda94548 --exe .aide-local/artifacts/DE-W034-joined-public-ec30be78/disked.exe --native-evidence .aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-results.json --output NEW_OUTPUT_DIRECTORY
+python .aide/evidence/2026-10-10-setup-fixtures/reproduce.py --source-revision e1683b1093bf810edfdf5911acaca3c510b28bf6 --exe .aide-local/artifacts/DE-W034-joined-public-ec30be78/disked.exe --native-evidence .aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-results.json --output NEW_OUTPUT_DIRECTORY
 ```
 
 This is fixture package conformance/equality, not live Setup ABI, lifecycle,
@@ -43,10 +43,16 @@ the checker was not relaxed. The failure appeared in tool output before raw
 logs were established; it is disclosed here, not represented as a retained
 raw failure log. Subsequent exact-source logs determine validation claims.
 
-Clean qualification at `92d72bb` passed: 22 fixture tests, 213 tooling tests
+Final clean qualification at `e1683b1` passed: 22 fixture tests, 213 tooling tests
 passed plus two skipped, 1,035 structural checks, actual original/extracted
 launches and exact byte equality. Raw commands/logs and independent inputs are
-under `reproduction-92d72bb/`. [REVIEW.md](REVIEW.md) records the implementing-agent
-review and limits. `inventory.json` binds retained evidence and seven local
-artifacts. The Windows checkout warning at initial source `5248a8a` prompted an
+under `reproduction-e1683b1/`. [REVIEW.md](REVIEW.md) records the implementing-agent
+review and limits. `inventory.json` binds retained evidence and local artifacts,
+including the earlier candidate's history. The Windows checkout warning at
+initial source `5248a8a` prompted an
 explicit license-byte preservation rule before clean qualification.
+
+Initial `92d72bb` results remain under their original path. Final review caught
+an ambiguous `maximum_tested_reader: 1.0` value without an actual reader test.
+The final profile uses `not_run` and received a fresh clean reproduction; schema
+permission for that string is not a live consumer/reader compatibility claim.
