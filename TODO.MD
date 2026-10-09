@@ -124,13 +124,14 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Product verification request containment and actual CLI/stdio/GUI/TUI/shell
   prepare/execute/watch have clean native qualification at dev.34. Evidence:
   `.aide/evidence/2026-10-10-product-verification/`.
-- [ ] Bind retained historical verification collections into acquisition-case/report
-  snapshots and explicit redacted support export. Keep full DE-W034, authenticated
+- [x] Selected retained historical verification collection/case/report support export
+  has native and frontend qualification at dev.36 (`2026-10-10-joined-report-public`). Keep full DE-W034, authenticated
   custody/current-image authority, all platforms/storage and owner/privilege/release
   gates open.
 
-- [ ] DE-W030 native volume namespace: qualify exact Win32 reply parsing and
-  x64/x86 native fixture builds, then contain/admit explicit namespace observation.
-  Physical identity/topology, live namespace, XP/other platforms and full unit/owner
-  qualification remain open. Existing selected historical verification export is
-  already qualified at dev.36; do not recreate it from a stale next-action entry.
+- [x] DE-W030 private volume namespace adapter: clean x64/x86 builds each passed
+  49 native fixture executions and 258 assertions at `17129e6e`. Evidence:
+  `.aide/evidence/2026-10-10-nt-volume-namespace/`. No live API dispatch or product admission.
+- [ ] DE-W030: contain explicit namespace observation and qualify injected process
+  faults before provider/graph/service admission. Physical identity/topology, live
+  namespace, XP/other platforms and full unit/owner qualification remain open.
