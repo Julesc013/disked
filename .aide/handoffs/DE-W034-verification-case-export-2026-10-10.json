@@ -1,0 +1,678 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W034",
+  "base_revision": "8a761a36b0fb6d9804ec137f9cd5ca8691c2d532",
+  "spec_manifest_digest": "sha256:1c3b29885d6dc4fafe7e6a518a6e69bfff63034ca4c2b5d09443adb3bb9481d5",
+  "status": "partial",
+  "files_read": [
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/programmes/worker-continuity.md",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "source/providers/report/file_acquisition_export.cpp",
+    "source/providers/report/file_case.cpp",
+    "source/providers/report/file_export.cpp",
+    "source/providers/report/file_image_collection.cpp",
+    "source/providers/report/file_verification_case_export.cpp",
+    "source/providers/report/file_verification_case_export.h",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_export.cpp",
+    "source/runtime/evidence/acquisition_verification.cpp",
+    "source/runtime/evidence/acquisition_verification.h",
+    "source/runtime/evidence/image_collection.cpp",
+    "source/runtime/evidence/report_export.cpp",
+    "source/runtime/evidence/verification_case_export.cpp",
+    "source/runtime/evidence/verification_case_export.h",
+    "spec/START-HERE.md",
+    "spec/catalog/acquisition-verification-report-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/index.md",
+    "spec/operations/health-forensics.md",
+    "spec/safety/verification-and-performance.md",
+    "spec/work/units.json",
+    "tests/evidence/test_acquisition_export.py",
+    "tests/evidence/test_image_collection.py",
+    "tests/evidence/test_image_observation.py",
+    "tests/evidence/test_report_worker.py",
+    "tests/evidence/test_verification_case.py",
+    "tests/evidence/verification_case_probe.cpp",
+    "tests/frontend/test_product_verification.py",
+    "tools/build-inputs.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-10-verification-case-export/README.md",
+    ".aide/evidence/2026-10-10-verification-case-export/REVIEW.md",
+    ".aide/evidence/2026-10-10-verification-case-export/closure-check.log",
+    ".aide/evidence/2026-10-10-verification-case-export/closure-commands.json",
+    ".aide/evidence/2026-10-10-verification-case-export/closure-index.log",
+    ".aide/evidence/2026-10-10-verification-case-export/closure-manifest.log",
+    ".aide/evidence/2026-10-10-verification-case-export/closure-verify-manifest.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-1.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-2.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-3.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-4.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-5.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-6.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-7.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-check.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-clean-runner.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-configure.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-index.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-manifest.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-next.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-1.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-2.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-3.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-4.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-5.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-6.log",
+    ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-verify-manifest.log",
+    ".aide/evidence/2026-10-10-verification-case-export/failed-fixtures.json",
+    ".aide/evidence/2026-10-10-verification-case-export/inventory.json",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduce.py",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-build.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-check.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-clone.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-configure.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-context.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-discovery.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-headers.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-imports.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-freshness.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-host.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-joined-export.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-launch.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-manifest.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-native.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-python-environment.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-results.json",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-spec-tests.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-test-catalog.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-dependents.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-headers.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-imports.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-dependents.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-headers.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-imports.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verify-context.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/commands.json",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/disked-link-closure.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/joined-export.json",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/native-artifacts.json",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/native-details.log",
+    ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/verification_case_probe-link-closure.log",
+    ".aide/evidence/2026-10-10-verification-case-export/working-artifacts.json",
+    ".aide/evidence/2026-10-10-verification-case-export/working-results.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/providers/report/file_verification_case_export.cpp",
+    "source/providers/report/file_verification_case_export.h",
+    "source/runtime/evidence/acquisition_verification.cpp",
+    "source/runtime/evidence/acquisition_verification.h",
+    "source/runtime/evidence/report_export.h",
+    "source/runtime/evidence/verification_case_export.cpp",
+    "source/runtime/evidence/verification_case_export.h",
+    "spec/bundle.json",
+    "spec/catalog/acquisition-verification-report-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/safety/verification-and-performance.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/work/units.json",
+    "tests/evidence/test_verification_case.py",
+    "tests/evidence/verification_case_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Private joined acquisition/verification report and two-source selected export qualified at 2b4e67e2c4a98ad800d29b210448dd5db0f6ebbb: 76 native groups, 197 focused checks, 21 actual completed/interrupted outputs, 387 exact inputs and 196 tooling tests (194 pass/two skips). Existing product dev.34/20 command availability unchanged; full unit/programme and owner/privilege/release gates open. User-reported service notice was not a current tool error; no remote write.",
+  "tests": [
+    {
+      "command": "powershell -NoProfile -Command $identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/evidence/test_verification_case.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_fault.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-verification-case-export\\reproduction-2b4e67e2\\joined-export.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-joined-export.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-verification-case --byte-budget 500000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-verification-case",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verify-context.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\verification_case_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-verification-case-2b4e67e2",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/closure-index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/closure-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/closure-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/closure-verify-manifest.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 1)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-1.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 2)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-2.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 3)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-3.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 4)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-4.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 5)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-5.log"
+    },
+    {
+      "command": "Working native tests/evidence/test_verification_case.py (exploratory run 6)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-6.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/closure-check.log",
+      "sha256": "sha256:89783e12060546f481375464937e50e947e8a4a686294b3f4e646f66e4e6269d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/closure-commands.json",
+      "sha256": "sha256:aa6e6fbc28a4cc60cc8d908bbf029c190f0dc6914c3ad797baa280f2499b1bb2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/closure-index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/closure-manifest.log",
+      "sha256": "sha256:de0f5dde7220517f97e92f38a72ac30a96da844c082469537ba03daf51771808"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/closure-verify-manifest.log",
+      "sha256": "sha256:2931e7878d040e44d2dda297a469409e50b58b8a59798c315388954303b1a01d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-1.log",
+      "sha256": "sha256:f0b27fde505dc267156cdd6a560bfe9395f4831b2025f4bb9a542f4e3bf17c18"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-2.log",
+      "sha256": "sha256:0e2b88b4d53270fe6ba65e8f8d926c396ecfacedc4e8a9b0c96bb528c6501827"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-3.log",
+      "sha256": "sha256:b034b85b7a5002681fbdd4ab4512368407e8e94a308514c0ff1b8da679eec27b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-4.log",
+      "sha256": "sha256:2b6e77c35e24bf7303a493986414e4bd7f8758a63c8725090b341cca05a70537"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-5.log",
+      "sha256": "sha256:5ddaceb8b9a9d60224882d817615637c281847158f2bdb81d0948c07a522ad49"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-6.log",
+      "sha256": "sha256:36a311c5bbdaa5dd3acbbaa5c81d8e629de001dd49f9ef5b1e5988f5cab6ab0b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-build-7.log",
+      "sha256": "sha256:9e31731c32ab916ef610b8d99aeb76b486648018fe5fed8487780c4bebb5958a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-check.log",
+      "sha256": "sha256:89783e12060546f481375464937e50e947e8a4a686294b3f4e646f66e4e6269d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-clean-runner.log",
+      "sha256": "sha256:5fb60a2e7a168c6cfae78ace201be0025424854090cf23d88934eb927faf21d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-configure.log",
+      "sha256": "sha256:1ad0918ea73b23c998940c2b8e7753c20659a5eef01a3b9ef2d5db534d7ec28f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-index.log",
+      "sha256": "sha256:870e1add4c218937466cec4bd260ec6afde17814514de5bf2093c3f83a4d7a9c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-manifest.log",
+      "sha256": "sha256:de0f5dde7220517f97e92f38a72ac30a96da844c082469537ba03daf51771808"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-next.log",
+      "sha256": "sha256:49119d56f0442477a3f4e570974dba013c8f9aa28b559797f3979586baf71200"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-1.log",
+      "sha256": "sha256:407a4795af2b5165589d4f7191928a980bebbd2022db3c0e3c77c46cd20e7837"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-2.log",
+      "sha256": "sha256:2624106c6c28b1dd33eaed9ffe5710af97e988274d92972007ad249462a4be23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-3.log",
+      "sha256": "sha256:df6744941c7077d7f097cdaa0dc76acc471ad74704eed9f099dd92056b293b20"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-4.log",
+      "sha256": "sha256:34e117503b39a97b196ebbe23b27e2855f8711beccb3ed017edfedf986c9ee52"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-5.log",
+      "sha256": "sha256:6bb721265c53ffd7256f1fc6f745f79ea5da530e75f315df883b96cf93b4d38c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-tests-6.log",
+      "sha256": "sha256:874c8be8830b76c8a35861e3f22f4a8f2886198d554f740bd4a691775d4d5b43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/exploratory/verification-case-verify-manifest.log",
+      "sha256": "sha256:2931e7878d040e44d2dda297a469409e50b58b8a59798c315388954303b1a01d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/failed-fixtures.json",
+      "sha256": "sha256:f560ea50a4b87eaf20bf6f733deca913d1174fd4c43c73562d09a19fddab35a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/README.md",
+      "sha256": "sha256:bb6ecc3a963bca78c8c08307a811b1e002f441519e1801ea90e8f428aee7a37a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduce.py",
+      "sha256": "sha256:5568fba9423597dc82fde6eed219bb085b6df487d0284e4e2e7870bdadfd1b53"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-build.log",
+      "sha256": "sha256:4a0f9e88661e0d9ec27594bf42bf84cd867541ed61462e6adc4be7f9924fe27b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-check.log",
+      "sha256": "sha256:89783e12060546f481375464937e50e947e8a4a686294b3f4e646f66e4e6269d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-clone.log",
+      "sha256": "sha256:64a7a6393cbcf3940cdacfb92be71d024b14ec3a22fca3dc344a0115486ca60a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-configure.log",
+      "sha256": "sha256:98f7b1bf52d9cb1dd27d38d286738cf956fbbf18b28d9fd0859502a5c7ffab45"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-context.log",
+      "sha256": "sha256:80237826ddf0140eff7710b9df7ec6b6f281c7dca21376ed96cdcadf7984a21c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-discovery.log",
+      "sha256": "sha256:a787b92f1916754ef76b133f42fcde949a83a7cb1e2f94256eb5e5ffc04f69ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-dependents.log",
+      "sha256": "sha256:c8777eeda66603bf404456fb96dd91e48168ced8d2d6935171e39227476ad0a1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-headers.log",
+      "sha256": "sha256:998229e8c2c937a329c2575b9b6d65080bd21dc94ed0cbcbc9719b6dcef07647"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-disked-imports.log",
+      "sha256": "sha256:380a36de30e70ee561835cb411f0fe8926d8fd909bf4edccd61bb95f4037da21"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-freshness.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-host.log",
+      "sha256": "sha256:928cf0151ea56d3375dba0c25854fc4bae8f97eb7ed540cbddeff4bd36a47304"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-joined-export.log",
+      "sha256": "sha256:874c8be8830b76c8a35861e3f22f4a8f2886198d554f740bd4a691775d4d5b43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-launch.log",
+      "sha256": "sha256:64ebaba23344cfc72aacfd14eb1a372d1f19e5ae807fcb0d39d497b258578ed5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-manifest.log",
+      "sha256": "sha256:2931e7878d040e44d2dda297a469409e50b58b8a59798c315388954303b1a01d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-native.log",
+      "sha256": "sha256:d0bcb6116d823c1984939ebc678436b11b7a8fad40283dd4d3c8f427c4d20456"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-results.json",
+      "sha256": "sha256:6615ad4af7a7993bf98009d8d939d39e0125267d1cc0ea802ee426384afff1b4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-spec-tests.log",
+      "sha256": "sha256:5273fad61607bb63ef3c66e30ab21a8e23e318b8773032bdcc89cf1e12cc242f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-test-catalog.log",
+      "sha256": "sha256:8f13222dcc31788aef70bac9cd356817cfa410cd6df3a7a925f31efcf6457c7a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-dependents.log",
+      "sha256": "sha256:7af68911e2bebb891536d654dedcc40299ac0e7966e5224aceb7ece1c618946d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-headers.log",
+      "sha256": "sha256:c69199e0be1c6d01e5869b3639bbf7376be30343454312d146f11137d08d2ac9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_fault-imports.log",
+      "sha256": "sha256:8389fa5d4db4c2133cdc499053ac09b9779b9da437eb0f99fd9f73dfd067ff13"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-dependents.log",
+      "sha256": "sha256:8865cfd6c2d5f3b21b5231d3372e897b221d9d887280f6574a9a912f7dc71e74"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-headers.log",
+      "sha256": "sha256:5b09a995373808e2e40b2d2f0f7e1ca46f3ce5d6677c82a81a3c608b76a5a67b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verification_case_probe-imports.log",
+      "sha256": "sha256:ced5960225dfd35bfd2d39b608cf5c957e14c72f2dba37146ea4c2d946d20e86"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/clean-verify-context.log",
+      "sha256": "sha256:1637760636b63cffa476ff1ce9fafcd6ce613971825d5fa87dd7c43803f7804a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/commands.json",
+      "sha256": "sha256:febe44c165f64bbec554fce802116dbd983d4e387c4d67b6510a125005d3a0cc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/disked-link-closure.log",
+      "sha256": "sha256:39d2608306f5e2156241313ce60a369674622d1c2eb3ffaba14a95d9f6f7a163"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/joined-export.json",
+      "sha256": "sha256:c4a9c8f99634341c27b11680fc0bd710dbbdeadfff1ff0e097ad21a184d38118"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/native-artifacts.json",
+      "sha256": "sha256:37146a2fbce76e8196b0093b5e203d1a9d9571c52f4fc1beaa9658d982218d0c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/native-details.log",
+      "sha256": "sha256:8cb57637fbe772a3419e719ae09209dee62c5b890e6a2a7cd17635f9c1d46db3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/reproduction-2b4e67e2/verification_case_probe-link-closure.log",
+      "sha256": "sha256:9f360f25cc1c454552cd0213063342a8c2ac165a25e58c03ca4cea1131da106f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/REVIEW.md",
+      "sha256": "sha256:4792aa955e364e180350c2a5b3bb32cfe4db14e6325b068fbbf5915ec78193e0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/working-artifacts.json",
+      "sha256": "sha256:8b046fc68ce7b7eae1249af15b10aaf12449531e24697521bb5616eb61b48c21"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/working-results.json",
+      "sha256": "sha256:9e26df1c38c612ecf4a6cf6fb88dd3fa83c042ce78c77295a34423b928516662"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/disked.exe",
+      "sha256": "sha256:994d8d3fa82fd413b937f48555a0e40afe2ad3220180d6e909eb7ac824eea26c"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/verification_case_probe.exe",
+      "sha256": "sha256:7108ca46b6155871a1d025fc5aeccacd68b7da6772f02736cb6e82dfed2f5fd3"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/verification_case_fault.exe",
+      "sha256": "sha256:52851a818f2a92e93ea1b4d8a3c792a55753c754518ab72ef1ca3e78cc6a9aff"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/disked_acquisition_verification.lib",
+      "sha256": "sha256:b6872625cd47fb033b80c5afa355f690f12e522b3aa1383fb0bfd046fdc680fc"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/disked_file_verification_case_export.lib",
+      "sha256": "sha256:a9e83233081ad7126fcb4d3be6440220fa8e3ffc2a026617beeeea5fada447ee"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-2b4e67e2/disked_report_export.lib",
+      "sha256": "sha256:845be996b02e5200e21293e8b427bea779d42120f2dadd9a37f15d4de3acd9cd"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-working/disked.exe",
+      "sha256": "sha256:84622c7f5e4ffce84352b2bfe4fef79f85a0c8a005cb0d8b641ee75a35528aa0"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-working/verification_case_probe.exe",
+      "sha256": "sha256:f821cf2dc76fa1b0b138af2c47cee206d49b7aee811ce6484fe54414d2dad12e"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-verification-case-working/verification_case_fault.exe",
+      "sha256": "sha256:fdd2ec4ff2a539a26dc0a266859cffea60f760ba420ba35558db4a209cd24d17"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-verification-case-export/inventory.json",
+      "sha256": "sha256:4abe4abac485b04ac87ef53eb259cd84cd6dec75d6465f9488d270c432c9c45b"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Qualify strict public producer semantics and a contained report worker for the joined acquisition/verification artifact, then bounded common-channel/rendering and actual CLI/stdio/GUI/TUI/shell admission. Preserve exact two-source review/authority, independent historical/current/output facts and explicit disclosures; keep full DE-W034, all 0.1.0 platforms/storage and owner/privilege/release gates open.",
+  "performed_remote_writes": false
+}
