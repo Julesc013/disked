@@ -1,0 +1,7 @@
+Private DE-W032 health observation and support redaction were verified from clean source `8e29f3275f070562c6c9141e79c804ef8c9d8286`, based on `97d8540448a9be5992fe1a597366a95b9cde99f6`.
+
+Results retain exact commands/raw logs, 258 source-input hashes, Windows host/toolchain, actual product/probe launches and PE imports/dependencies, 95 independently chosen fixture results and four artifact hashes. Four of 55 CTest groups passed; other 51 were not rerun at this revision. Structural validation passed 935 checks and the spec suite ran 175 tests with 173 passes and two unavailable-symlink skips. Context, freshness and the 250-file manifest passed.
+
+Product remains 0.1.0-dev.21 with 17 available commands. health.assess remains unavailable; the private model and journal libraries are unlinked. No real query/device, self-test, health/reliability guarantee, OS worker containment, forensic admission, signing/installation/publication or remote write was performed. This is partial unit progress and does not complete DiskEd 0.1.0.
+
+Use the retained reproduce.py at the matching clean source checkpoint with the existing pinned toolchain/Python dependencies. The script was retained after that checkpoint; copy/reference it from this evidence commit. Destinations must be unused. Different source/evidence commits change build stamps; no byte-for-byte claim across paths/timestamps is made. REVIEW.md is implementing-agent review, not owner acceptance or independent qualification.
