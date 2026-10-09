@@ -39,7 +39,7 @@ Microsoft documents the APIs and their returned buffers/order independently:
 [GetVolumePathNamesForVolumeNameW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew).
 
 
-The next private component is a same-file contained observer under the
+A private same-file contained observer is implemented under the
 [namespace worker profile](../spec/catalog/nt-namespace-worker-prototype.json).
 It reuses existing native worker code pins, ACLs, job limits and restricted
 handle lists. Input is a read-only bounded mapping; one verified reply binds
@@ -59,3 +59,9 @@ documents [job/handle-list attributes](https://learn.microsoft.com/en-us/windows
 and [mapping access](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile).
 Native table binding can be inspected but cannot dispatch through this fixture
 worker. Actual live/storage/public/provider/platform qualification remains open.
+
+The [retained implementing-agent review](../.aide/evidence/2026-10-10-nt-contained/REVIEW.md)
+records clean x64/x86 evidence at `d3798a7`: each architecture ran 49 adapter
+processes with 258 assertions, and 24 controller invocations with 18 actual
+reader launches and 116 assertions. Both full and mixed native tables are
+refused before admission. The shipped dev.36 product composition is unchanged.

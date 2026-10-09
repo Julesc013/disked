@@ -242,9 +242,9 @@ The bounded DE-W062 fixture slice has a [clean native reproduction and local
 review](../.aide/evidence/2026-10-10-carrier-fixtures/REVIEW.md) at `d4102ab`.
 It proves the selected external H/D/ZIP construction and private servicing
 constraint model, leaving the full work unit, live effects, channels and owner
-acceptance open. The next independent local slice can resume retained
-historical verification bindings in DE-W034 while Setup compatibility remains
-a separate unresolved integration requirement.
+acceptance open. The selected retained historical verification bindings in
+DE-W034 have separate later qualification at dev.36; Setup compatibility remains
+an unresolved integration requirement.
 
 Current inspection confirms the selected historical acquisition/verification
 report export is already qualified at dev.36. DE-W030 is the next missing native
@@ -252,3 +252,12 @@ inventory prerequisite: its [private volume namespace adapter](windows-inventory
 now has Windows x64/x86 API-response fixtures. Exact source-bound reproduction
 and import audits precede local review; live namespace, physical identities,
 contained public observation and platform/owner gates remain open.
+
+The DE-W030 contained injected namespace observer has exact-source native
+qualification at `d3798a7` ([review](../.aide/evidence/2026-10-10-nt-contained/REVIEW.md)).
+Each x64/x86 campaign verifies 49 adapter processes plus 24 controller invocations
+and 18 actual child launches; late observation, checkpoint cancellation, reader
+retirement, client disconnect and strict reply binding remain separate. The
+next local slice is conservative capture/epoch-safe graph binding from generated
+namespace observations. Native physical identity/topology, live/public/provider
+admission and the full platform/owner/release gates remain open.

@@ -1,0 +1,432 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.729,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "acfe15a884cd282303958f1287f1e9a84f9ee413"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 11.118,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.232,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent(); $diskedPrincipal = [System.Security.Principal.WindowsPrincipal]::new($diskedIdentity); [ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=[Environment]::OSVersion.VersionString} | ConvertTo-Json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.212,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.373,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 15.023,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "adapter-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\adapter-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.0,
+    "log": "logs/adapter-x64.log"
+  },
+  {
+    "name": "imports-nt_volume_namespace_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/imports-nt_volume_namespace_probe-x64.log"
+  },
+  {
+    "name": "headers-nt_volume_namespace_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/headers-nt_volume_namespace_probe-x64.log"
+  },
+  {
+    "name": "dependents-nt_volume_namespace_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/dependents-nt_volume_namespace_probe-x64.log"
+  },
+  {
+    "name": "worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.19,
+    "log": "logs/worker-x64.log"
+  },
+  {
+    "name": "imports-nt_namespace_worker_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/imports-nt_namespace_worker_probe-x64.log"
+  },
+  {
+    "name": "headers-nt_namespace_worker_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/headers-nt_namespace_worker_probe-x64.log"
+  },
+  {
+    "name": "dependents-nt_namespace_worker_probe-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/dependents-nt_namespace_worker_probe-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.465,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32",
+      "--config",
+      "Release"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.714,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "adapter-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\adapter-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.166,
+    "log": "logs/adapter-Win32.log"
+  },
+  {
+    "name": "imports-nt_volume_namespace_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/imports-nt_volume_namespace_probe-Win32.log"
+  },
+  {
+    "name": "headers-nt_volume_namespace_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/headers-nt_volume_namespace_probe-Win32.log"
+  },
+  {
+    "name": "dependents-nt_volume_namespace_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/dependents-nt_volume_namespace_probe-Win32.log"
+  },
+  {
+    "name": "worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.339,
+    "log": "logs/worker-Win32.log"
+  },
+  {
+    "name": "imports-nt_namespace_worker_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/imports-nt_namespace_worker_probe-Win32.log"
+  },
+  {
+    "name": "headers-nt_namespace_worker_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/headers-nt_namespace_worker_probe-Win32.log"
+  },
+  {
+    "name": "dependents-nt_namespace_worker_probe-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/dependents-nt_namespace_worker_probe-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 148.936,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.146,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\context",
+      "--byte-budget",
+      "530000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.903,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.037,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.727,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\nt-contained-clean-acfe15a\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/final-source-status.log"
+  }
+]

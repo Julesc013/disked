@@ -132,6 +132,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W030 private volume namespace adapter: clean x64/x86 builds each passed
   49 native fixture executions and 258 assertions at `17129e6e`. Evidence:
   `.aide/evidence/2026-10-10-nt-volume-namespace/`. No live API dispatch or product admission.
-- [ ] DE-W030: contain explicit namespace observation and qualify injected process
-  faults before provider/graph/service admission. Physical identity/topology, live
-  namespace, XP/other platforms and full unit/owner qualification remain open.
+- [x] DE-W030 contained injected namespace observer: clean x64/x86 late/cancel/
+  hang/crash/retirement/disconnect and bound producer-refusal campaigns at `d3798a7`.
+  Evidence: `.aide/evidence/2026-10-10-nt-contained/`. No live/product/provider admission.
+- [ ] DE-W030: bind capture/epoch-safe graph observations, then qualify native
+  identity/topology and live/provider/service/platform admission. Full unit,
+  physical/owner/release authority and the full 0.1.0 scope remain open.
