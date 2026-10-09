@@ -151,8 +151,10 @@ class ProtocolCorrections(unittest.TestCase):
 
 class TemporaryCorrectiveFixture(unittest.TestCase):
     # This live-repository fixture tests binding/freshness, not a fixed prose
-    # size. DE-W017's added safety inputs exceed the old 180 KB fixture allowance.
-    context_budget=260000
+    # size. Current declared inputs exceed the old 260 KB fixture allowance.
+    # Explicit capacity changes no assertions; undersized payload/artifact
+    # rejection remains tested separately with no truncation or partial output.
+    context_budget=350000
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.repo=Path(self.temp.name)/'repo';self.root=self.repo/'spec'
         shutil.copytree(ROOT,self.root,ignore=shutil.ignore_patterns('__pycache__'))
