@@ -1,0 +1,682 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W034",
+  "base_revision": "095b647a90b8fd354dc7b7fadfb2cd7bd98ebafc",
+  "spec_manifest_digest": "sha256:a4ace4079a23dc4a514436b8391feffca2583fa5bdf72e86c85e92681cedef00",
+  "status": "partial",
+  "files_read": [
+    ".aide/evidence/2026-10-09-export-command/README.md",
+    ".aide/evidence/2026-10-09-export-command/build-working.log",
+    ".aide/evidence/2026-10-09-export-command/configure.log",
+    ".aide/evidence/2026-10-09-export-command/context-working.log",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.command.json",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.json",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.log",
+    ".aide/evidence/2026-10-09-export-command/focused-working.log",
+    ".aide/evidence/2026-10-09-export-command/index-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/index-working.log",
+    ".aide/evidence/2026-10-09-export-command/manifest-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/manifest-working.log",
+    ".aide/evidence/2026-10-09-export-command/reproduce.py",
+    ".aide/evidence/2026-10-09-export-command/structural-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/structural-working.log",
+    ".aide/evidence/2026-10-09-export-command/tooling-working.log",
+    ".aide/evidence/2026-10-09-export-command/verify-manifest-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/verify-manifest-working.log",
+    ".aide/evidence/2026-10-09-export-command/working-commands.json",
+    ".aide/evidence/2026-10-09-export-command/working-failures.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/acquisition-cases.md",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/report_worker.h",
+    "source/platform/windows/worker_files.h",
+    "source/providers/report/file_acquisition_export.cpp",
+    "source/providers/report/file_case.cpp",
+    "source/providers/report/file_export.cpp",
+    "source/runtime/acquisition/commands.cpp",
+    "source/runtime/acquisition/commands.h",
+    "source/runtime/acquisition/observation.cpp",
+    "source/runtime/acquisition/observation.h",
+    "source/runtime/command/command.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/evidence/export_commands.cpp",
+    "source/runtime/evidence/export_commands.h",
+    "source/runtime/evidence/report_operation.cpp",
+    "source/runtime/evidence/report_operation.h",
+    "source/runtime/operation/watch.cpp",
+    "source/runtime/operation/watch.h",
+    "spec/START-HERE.md",
+    "spec/bundle.json",
+    "spec/catalog/acquisition-case-export-prototype.json",
+    "spec/catalog/acquisition-case-prototype.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/export-command-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/report-worker-prototype.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/schemas/export-command-parameters.schema.json",
+    "spec/schemas/export-operation-result.schema.json",
+    "spec/schemas/export-preparation-result.schema.json",
+    "spec/schemas/handoff.schema.json",
+    "spec/schemas/index.md",
+    "spec/schemas/report-worker-state.schema.json",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/tools/tests/test_bootstrap_schema_closure.py",
+    "spec/work/units.json",
+    "tests/evidence/export_command_probe.cpp",
+    "tests/evidence/test_export_commands.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-export-command/README.md",
+    ".aide/evidence/2026-10-09-export-command/REVIEW.md",
+    ".aide/evidence/2026-10-09-export-command/build-working.log",
+    ".aide/evidence/2026-10-09-export-command/configure.log",
+    ".aide/evidence/2026-10-09-export-command/context-working.log",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.command.json",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.json",
+    ".aide/evidence/2026-10-09-export-command/focused-working-repaired.log",
+    ".aide/evidence/2026-10-09-export-command/focused-working.log",
+    ".aide/evidence/2026-10-09-export-command/index-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/index-working.log",
+    ".aide/evidence/2026-10-09-export-command/inventory.json",
+    ".aide/evidence/2026-10-09-export-command/manifest-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/manifest-working.log",
+    ".aide/evidence/2026-10-09-export-command/reproduce.py",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-build.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-check.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-clone.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-configure.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-context.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-discovery.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export-cases.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-dependents.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-headers.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-imports.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-dependents.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-headers.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-imports.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-freshness.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-host.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-launch.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-manifest.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-native.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-python-environment.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-results.json",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-test-catalog.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/commands.json",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/export-cases.json",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/native-artifacts.json",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/native-details.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/product-link-closure.log",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/sample-hash-check.json",
+    ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/sample-support.json",
+    ".aide/evidence/2026-10-09-export-command/structural-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/structural-working.log",
+    ".aide/evidence/2026-10-09-export-command/tooling-working.log",
+    ".aide/evidence/2026-10-09-export-command/verify-manifest-working.command.json",
+    ".aide/evidence/2026-10-09-export-command/verify-manifest-working.log",
+    ".aide/evidence/2026-10-09-export-command/working-commands.json",
+    ".aide/evidence/2026-10-09-export-command/working-failures.json",
+    ".aide/handoffs/DE-W034-export-command-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/acquisition-cases.md",
+    "docs/native-bootstrap.md",
+    "source/runtime/command/command.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/evidence/export_commands.cpp",
+    "source/runtime/evidence/export_commands.h",
+    "source/runtime/evidence/report_operation.cpp",
+    "source/runtime/evidence/report_operation.h",
+    "spec/bundle.json",
+    "spec/catalog/acquisition-case-export-prototype.json",
+    "spec/catalog/acquisition-case-prototype.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/export-command-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/report-worker-prototype.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/schemas/export-command-parameters.schema.json",
+    "spec/schemas/export-operation-result.schema.json",
+    "spec/schemas/export-preparation-result.schema.json",
+    "spec/schemas/index.md",
+    "spec/schemas/report-worker-state.schema.json",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/tools/tests/test_bootstrap_schema_closure.py",
+    "spec/work/units.json",
+    "tests/evidence/export_command_probe.cpp",
+    "tests/evidence/test_export_commands.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Defined provisional canonical export prepare/execute parameters/results and inward command service; actual ordinary output, explicit grants, cancellation and unresolved terminal state qualified in native probes. Clean full Windows/tooling checks passed. Public product export/frontend/watch, full DE-W034 and all-platform/storage 0.1.0 remain pending.",
+  "tests": [
+    {
+      "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/evidence/test_export_commands.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-export-command\\reproduction-dd4cf580\\export-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-export-command --byte-budget 500000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-export-command",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/build-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --evidence .aide/evidence/2026-10-09-export-command/focused-working.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/focused-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/export-service-working --byte-budget 500000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/context-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/tooling-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --evidence .aide/evidence/2026-10-09-export-command/focused-working-repaired.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/focused-working-repaired.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/index-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/structural-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/manifest-working.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-export-command/verify-manifest-working.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/disked.exe",
+      "sha256": "sha256:a3195cb72bd1ca3d5009918737921951fd25aa1ccb39e8530d8d985387fc8166"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/export_command_probe.exe",
+      "sha256": "sha256:9caa7d62eaed6d18d83a1a669f3c8b17acc82d04c66de8c29f3cec408b8290b2"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/export_command_fault.exe",
+      "sha256": "sha256:86eb74e316c7f74650a8680d12da3dea654e10eb514c16438595c3a45e038e8d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/disked_export_commands.lib",
+      "sha256": "sha256:d925a9f7a6d4ce60b6735c2f12a900cf0f7bcd2f95918ac041da4254b18cd830"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/disked_report_export.lib",
+      "sha256": "sha256:766f03c85464d1fd238ad98e7c49418e1e8168045ce1baca40c962932546898f"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-export-command-dd4cf580/disked_file_acquisition_export.lib",
+      "sha256": "sha256:d68e98054067d76a6be16d3fd240a8119ebe4494ee758ca720709510adb36ccd"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_case_probe.exe",
+      "sha256": "sha256:633ccc62010d1366308b25a4654592ebfea6040fd4cfebe867800af5c51553d5"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_command_probe.exe",
+      "sha256": "sha256:cc04658395c06c9a47a7b89761033dd55c3e16878d875c71b26e45bd07c3344b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_export_fault.exe",
+      "sha256": "sha256:8bd343b6fe96c02b2332485fb8c26bcdba47034fe07da99aa0867c1f920e2553"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_export_probe.exe",
+      "sha256": "sha256:9f33eccba698a7bb2fc7ffba24ff1befcf2050327dbc56c7ad615b05f808632c"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_probe.exe",
+      "sha256": "sha256:24fb434daef23af0506a75af2b84c31ffc83f576805d0b1002884c4165efbf21"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_worker_fault.exe",
+      "sha256": "sha256:8bca770472769f8baa1afc8330bd95edc353e3124b157fc34913ea47f8c4a2ea"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/acquisition_worker_probe.exe",
+      "sha256": "sha256:78b9ecdeb5c9dce3dbfb355305f4c121d592e9d02a24d61189fa98974d351e80"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/capture_probe.exe",
+      "sha256": "sha256:47974b4e7645769d23100717afa3e056060cc490515cc37f96a3de583e5b1bf6"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/case_evidence_probe.exe",
+      "sha256": "sha256:44e7e8511ae6525cb0cd5fe1f6e6c5828e17c6ee4343373c9652f205be1c6b54"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/command_parser_probe.exe",
+      "sha256": "sha256:7a3a330487705bee6a6654934bd65744c08a729fdfa3954ee2ff4f95ea9b1cb1"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked.exe",
+      "sha256": "sha256:a3195cb72bd1ca3d5009918737921951fd25aa1ccb39e8530d8d985387fc8166"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_capture_campaign.exe",
+      "sha256": "sha256:f09fc36439dc38276fc24f562425be7de22f38f5b0d6f2bb03d8daaf4fd36973"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_file_wait.exe",
+      "sha256": "sha256:349dda710794008787872deec9554fa646934e8e5d228b5d966de5d50f00cf11"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_gui_unavailable.exe",
+      "sha256": "sha256:353010907c00f9d11e898b6397ebd559e95724e8edb41c6ea046dfe5899ea8f8"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_image_test.exe",
+      "sha256": "sha256:cf5731e497fdace20e28962fcea495d9c29e009f2725e625dbf964ed6b2c0e30"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_memory_test.exe",
+      "sha256": "sha256:37039039de1892c9c644ca34e9a4501f2979dbc187915f57e0653ee1dba2e085"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_provider_guard.exe",
+      "sha256": "sha256:e135ea0d618c3eaf8a55670941345f7f3286540aadd92f7b8d805a5159247a39"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_store_fault.exe",
+      "sha256": "sha256:c72312ecd811b8037ddfe7897c9c63e5a9999f6cc71042d49da255d3dc685e0f"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_tui_fault.exe",
+      "sha256": "sha256:b1065b602cc64df986d2a7f35d81d589167ffcc709e5560dea0589f4616649e3"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_worker_delayed.exe",
+      "sha256": "sha256:4e910dea80c4751beb7b1abf032857200bee7d929aa0bd876a61efb707b5406b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/disked_worker_memory_limit.exe",
+      "sha256": "sha256:2f5f4b7a9c747d15c824a4a78dcf65216e9ed67aac4b28e1d9f55caa9f2938db"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/export_command_fault.exe",
+      "sha256": "sha256:86eb74e316c7f74650a8680d12da3dea654e10eb514c16438595c3a45e038e8d"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/export_command_probe.exe",
+      "sha256": "sha256:9caa7d62eaed6d18d83a1a669f3c8b17acc82d04c66de8c29f3cec408b8290b2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/file_acquisition_fault.exe",
+      "sha256": "sha256:406a08d35a2cb58a2ac2e1de77370f1012943b7c6a95656950d984fe2dd90cdd"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/file_acquisition_probe.exe",
+      "sha256": "sha256:34589da315bdb55162c71b83193e6ac903577bd470a6936c805c9945cacc44f3"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/file_report_export_fault.exe",
+      "sha256": "sha256:f993ac223368d143401223c4531ba51f83a0e7e1762c55a0aa31e336bf1ad009"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/file_report_export_probe.exe",
+      "sha256": "sha256:af3eccda2dc929602e980c488443552b6f75afc445d80ab5b1d02e1490b21ccb"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/frontend_service_probe.exe",
+      "sha256": "sha256:a185d00f3b8c842897f282f41af6517e7ad1f8c18568a0b34ccad0b65c868162"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/gpt_probe.exe",
+      "sha256": "sha256:19b402f0b10500d67a3b8f8b382746b768fb133f09242f2cf1fd14dc799617b1"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/guarded_journal_probe.exe",
+      "sha256": "sha256:f1690ed0b785f105aee6d9c0ef856e008ab4568d0113e29516aa5c8c726856f2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/gui_model_probe.exe",
+      "sha256": "sha256:5b746332d35cfd87f43de818e3d1c45463dd6d458e37e14715b1a1dadbacaeda"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/health_observation_probe.exe",
+      "sha256": "sha256:fb70d5bb67c5e1f18f551a02515baf964250159198457ff7a371c7314b486263"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/image_file_capture_fault.exe",
+      "sha256": "sha256:2b14353619aad2d0fa06872d584d8b9ef2f1b55290c4cf9ba84e74a8df8bdd4a"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/image_file_capture_probe.exe",
+      "sha256": "sha256:14761d5970c7bfe07f9a4ca1fb8755716b1072b1a7f5ffdbcb0d66e65ef58b87"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/image_observation_probe.exe",
+      "sha256": "sha256:36ae39a29f4c0db145b54a5a2355be09de5a1f6da019f0c6287f40c68140c80b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/invocation_policy_probe.exe",
+      "sha256": "sha256:c1be744fd3af054046ef2cb2f25b882954989d596b106af1c283bf947b5c3b09"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/journal_codec_probe.exe",
+      "sha256": "sha256:4e42a594c49ad28596b212f2d3250798ed3c093a43fa607563b463e523e8f971"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/journal_semantic_probe.exe",
+      "sha256": "sha256:8f13db3b7d3de6778f9eeab3148bdbbebc4cd25910633f5cf1c4daf053a22db2"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/json_codec_probe.exe",
+      "sha256": "sha256:ce973764861b328f253b6d45774f3684155da09c1c080b846bbb5d094d95c588"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/mbr_probe.exe",
+      "sha256": "sha256:fba486a3257837fa15cfb9f7a65a3716e5d2e877505fea59786e142ce16fcec4"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/model_journal_producer_probe.exe",
+      "sha256": "sha256:29ed566556ad0ee78f66d8afd953766fffd849ae96346c8b5e742a422eb34309"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/operation_reducer_probe.exe",
+      "sha256": "sha256:6eb2e9b960d38c5f9529cc60cfdfe356fd5095ac2d7853549d13873a20baab14"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/plan_definition_probe.exe",
+      "sha256": "sha256:202e64992deff08838ce14b5595777cd3f10ae304a505d7d653a4bc74c8f6b34"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/portable_cpp.exe",
+      "sha256": "sha256:6447f4d550aa150d1cc1719e75d0311d85436b978960cf7303fba3a42ad8defe"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/portable_probe.exe",
+      "sha256": "sha256:ed3bd6c1cb7ab8844c8b890fcf263923a5733317ff83bdbf01d410c4ba11621b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/protocol_reader_probe.exe",
+      "sha256": "sha256:247b8c0e10e1aca01f5d872404c109de8851bf13130f21ce7665e841dd49c28b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/provider_guard_probe.exe",
+      "sha256": "sha256:970a1c96dcd2ff701daeb4e2a924769e3c9bc5a821d829d2011968e972a89c7d"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/report_export_probe.exe",
+      "sha256": "sha256:1a35540fa957c5a3a73a05ddb5acc20449132adf99f4996571f4b054fb0fdb3f"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/report_worker_fault.exe",
+      "sha256": "sha256:cc92f45e4099135f01ac33e856dbfdf580df7df32f2460588d3b0e14daf162ff"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/report_worker_probe.exe",
+      "sha256": "sha256:33da6d946de2793005aeb6458fffe041e67fd70451b127ec48404fc40eedcaef"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/request_channel_probe.exe",
+      "sha256": "sha256:3a1c3d449ca92b7307e7accebe2d43ee850477f2f5abbb14424c231761751414"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/shell_model_probe.exe",
+      "sha256": "sha256:216d5d10f6cd415437562d2a051dfea13344630f59e5c98e941f294592071ca0"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/tui_model_probe.exe",
+      "sha256": "sha256:675ee77f8b20c06c8e20bb29309fc5d982c5e43848bcda9ab1f14358323ea798"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/watch_probe.exe",
+      "sha256": "sha256:02acc3ab14c2f7e9472de58634ab970e52e828f96c68610a5575854ffb7790e0"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-export-command-dd4cf580/build/windows-bootstrap/Release/worker_directory_probe.exe",
+      "sha256": "sha256:19f1c2a48e5b92d36443a2dbbcca78c2c6fcadab349e3980a776ef515a4edb26"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/sample-support.json",
+      "sha256": "sha256:3b0da3dc51b78a8170ff98f71d82ffbeaf010eeda06d6bef17fcbc002361d5d2"
+    }
+  ],
+  "blockers": [
+    "Bounded product dispatch/watch/reconnect and actual frontend journeys remain implementation work.",
+    "Physical/customer/elevation/install/signing/publication/owner and other platform qualifications remain separate gates."
+  ],
+  "next_safe_step": "Continue DE-W034 with bounded product dispatch, report operation reconnect/inspect/cancel/watch and actual CLI/stdio/GUI/TUI/shell journeys before availability. Preserve exact case/source/effect/code/store binding, /2 cancellation observations and uncertain terminal effects. Scope remains all specified platforms and storage operations; owner and physical/elevation/customer/install/signing/publication gates are separate.",
+  "performed_remote_writes": false
+}

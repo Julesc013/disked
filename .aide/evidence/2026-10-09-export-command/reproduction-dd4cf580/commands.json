@@ -1,0 +1,334 @@
+[
+  {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:40:57.987651+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-host.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:40:58.301119+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-python-environment.log"
+  },
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-local",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T07:40:58.405588+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-clone.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:41:10.758565+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-configure.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:41:15.304524+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-build.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:42:23.094688+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-test-catalog.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:42:23.235006+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-native.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_export_commands.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "--fault",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe",
+      "--product",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-export-command\\reproduction-dd4cf580\\export-cases.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:37.231244+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export-cases.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:45.928309+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-check.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:48.331048+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-manifest.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:48.984258+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-freshness.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W034",
+      "--output",
+      ".aide-local/context/DE-W034-export-command",
+      "--byte-budget",
+      "500000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:49.792321+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-context.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      ".aide-local/context/DE-W034-export-command"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:50.879324+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-verify-context.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.023036+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.059886+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.096221+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-disked-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.132386+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.168790+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.205857+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_probe-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.242398+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.279852+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\export_command_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.315975+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-export_command_fault-dependents.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.352570+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-launch.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580\\build\\windows-bootstrap\\Release\\disked.exe",
+      "commands",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.374256+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-discovery.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-export-command-dd4cf580",
+    "started_at": "2026-10-09T07:50:53.397052+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-export-command/reproduction-dd4cf580/clean-spec-tests.log"
+  }
+]

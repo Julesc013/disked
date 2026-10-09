@@ -1,23 +1,28 @@
-The provisional `evidence.export` prepare/execute contract and inward service are
-implemented under local review. The product remains at 18 available commands;
-export is planned, its syntax is defined, and its product handler is null.
+Source `dd4cf58046d34ee4dae09a604be7b899b5c6ddd1` passed a clean local Windows reproduction of the provisional
+inward export service. It is 0.1.0-dev.29 with 18 public commands; evidence.export
+remains planned, its syntax is defined and its product handler is null.
 
-Working tests exercised canonical request/parser/form paths in a dedicated native
-probe, actual generated acquisition metadata, exact default-redacted report bytes,
-explicit grants, retained cancellation and failed terminal persistence. These are
-private shared-service checks, not real product frontend journeys or full DE-W034
-admission. `working-failures.json` and raw logs retain exploratory failures.
+65/65 native groups, 188 focused export checks,
+970 structural checks and 178 tooling tests (176 passed,
+two skipped) passed. The runner independently checked 317 build inputs, generated
+acquisition bytes/map, actual report bytes, retained state and six selected native
+artifacts. See REVIEW.md and reproduction-dd4cf580/clean-results.json for scope,
+commands, logs, hashes and limitations. working-failures.json preserves failures.
 
-`reproduce.py` rebuilds an exact committed source in a fresh owned local clone
-using the already installed compiler/SDK/Python. It runs all 65 native groups,
-focused export cases, tooling and structural/freshness/manifest checks, verifies
-input/artifact identities and records actual imports/launch/discovery. It refuses
-existing reproduction/artifact paths and preserves failures. The driver does not
-grant authority or imply that a pending run passed.
+Reproduce with the already installed pinned toolchain and dependencies from the
+exact committed source using a fresh owned path:
 
-No physical/customer media, elevation, installation, signing, publication,
-owner acceptance, authenticated custody, current-image verification, other
-platform or power-loss qualification is established. Private definitions/receipts
-contain generated routing metadata; only the selected support bytes are redacted.
-Bounded product dispatch/watch and actual CLI/stdio/GUI/TUI/shell export journeys
-remain the next gate. The complete all-platform/storage 0.1.0 goal remains active.
+```text
+python .aide/evidence/2026-10-09-export-command/reproduce.py --source dd4cf58046d34ee4dae09a604be7b899b5c6ddd1
+```
+
+The runner refuses existing clone/artifact paths. Preserve failures and their
+dependencies; do not delete or retry an uncertain attempt. Private parser/request/
+form checks do not qualify actual product frontends, bounded product watch or full
+DE-W034. Definitions/receipts contain generated private routing metadata; only
+sample-support.json is the selected default-redacted payload. Stored transcripts
+use repository line endings; hashes bind the retained bytes.
+
+No physical/customer media, elevation, installation, signing, publication, owner
+acceptance, authenticated custody, current-image verification, other-platform or
+power-loss qualification. The all-platform/storage 0.1.0 goal remains active.

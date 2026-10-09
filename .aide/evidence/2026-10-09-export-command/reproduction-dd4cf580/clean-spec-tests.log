@@ -52,7 +52,7 @@ test_watch_cursor_relationships_and_budget (test_fake_operation.FakeOperation.te
 test_all_target_claims_remain_unqualified (test_specctl.BundleTests.test_all_target_claims_remain_unqualified) ... ok
 test_cli_doctor_reports_actual_environment (test_specctl.BundleTests.test_cli_doctor_reports_actual_environment) ... ok
 test_cli_error_is_structured_and_nonzero (test_specctl.BundleTests.test_cli_error_is_structured_and_nonzero) ... ok
-test_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check) ... FAIL
+test_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check) ... ok
 test_generation_is_deterministic (test_specctl.BundleTests.test_generation_is_deterministic) ... ok
 test_impact_is_conservative_and_named (test_specctl.BundleTests.test_impact_is_conservative_and_named) ... ok
 test_no_acceptance_is_manufactured (test_specctl.BundleTests.test_no_acceptance_is_manufactured) ... ok
@@ -177,19 +177,7 @@ test_legacy_acceptance_is_retained_but_cannot_authorize (test_specctl.TemporaryB
 test_legacy_claim_with_unverifiable_digest_cannot_authorize (test_specctl.TemporaryBundleTests.test_legacy_claim_with_unverifiable_digest_cannot_authorize) ... ok
 test_manifest_order_uses_serialized_paths_on_every_platform (test_specctl.TemporaryBundleTests.test_manifest_order_uses_serialized_paths_on_every_platform) ... ok
 
-======================================================================
-FAIL: test_complete_structural_check (test_specctl.BundleTests.test_complete_structural_check)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\Projects\DiskEd\disked\spec\tools\tests\test_specctl.py", line 33, in test_complete_structural_check
-    self.assertEqual('PASS', result['status'], result['errors'])
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: 'PASS' != 'FAIL'
-- PASS
-+ FAIL
- : ['generated freshness: Generated files stale/missing: generated/index.json, index.md, schemas/index.md, catalog/index.md, generated/command-reference.txt']
+Ran 178 tests in 108.575s
 
-----------------------------------------------------------------------
-Ran 178 tests in 108.060s
-
-FAILED (failures=1, skipped=2)
+OK (skipped=2)
