@@ -1,0 +1,91 @@
+[
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "acquired_image_verification_probe",
+      "disked",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-image-verification/working-build.log",
+    "scope": "Exploratory dirty checkout; product/probe source identities are separate. Final clean source-bound verification is authoritative."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_verification.py",
+      "--probe",
+      "build/windows-bootstrap/Release/acquired_image_verification_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/image-verification-working.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-image-verification/working-tests.log",
+    "scope": "Exploratory dirty checkout; product/probe source identities are separate. Final clean source-bound verification is authoritative."
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--target",
+      "acquired_image_verification_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-image-verification/refined-build.log",
+    "scope": "Exploratory dirty checkout; product/probe source identities are separate. Final clean source-bound verification is authoritative."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_image_verification.py",
+      "--probe",
+      "build/windows-bootstrap/Release/acquired_image_verification_probe.exe",
+      "--product",
+      "build/windows-bootstrap/Release/disked.exe",
+      "--root",
+      ".",
+      "--evidence",
+      ".aide-local/goal-0.1.0/image-verification-refined.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-image-verification/refined-tests.log",
+    "scope": "Exploratory dirty checkout; product/probe source identities are separate. Final clean source-bound verification is authoritative."
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-image-verification/working-spec-tests.log",
+    "scope": "Exploratory dirty checkout; product/probe source identities are separate. Final clean source-bound verification is authoritative."
+  }
+]
