@@ -4457,6 +4457,156 @@
         "DE-044",
         "DE-036"
       ]
+    },
+    {
+      "id": "spec/catalog/report-export-prototype.json",
+      "path": "spec/catalog/report-export-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/case-evidence-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/report_export.h",
+      "path": "source/runtime/evidence/report_export.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/case_report.h",
+        "spec/catalog/report-export-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/report_export.cpp",
+      "path": "source/runtime/evidence/report_export.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_export.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_export.h",
+      "path": "source/providers/report/file_export.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "source/providers/report/file_export.cpp",
+      "path": "source/providers/report/file_export.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/report/file_export.h",
+        "source/providers/image/local_file.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/export_fixture.h",
+      "path": "tests/evidence/export_fixture.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/export_probe.cpp",
+      "path": "tests/evidence/export_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/export_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/file_export_probe.cpp",
+      "path": "tests/evidence/file_export_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/export_fixture.h",
+        "source/providers/report/file_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_export.py",
+      "path": "tests/evidence/test_export.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/export_probe.cpp",
+        "tests/evidence/export_fixture.h",
+        "spec/catalog/report-export-prototype.json",
+        "tests/evidence/test_case.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_file_export.py",
+      "path": "tests/evidence/test_file_export.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/file_export_probe.cpp",
+        "tests/evidence/export_fixture.h",
+        "spec/catalog/report-export-prototype.json",
+        "tests/evidence/test_case.py"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044",
+        "DE-036"
+      ]
     }
   ]
 }

@@ -1509,7 +1509,8 @@
         "TODO.MD",
         ".aide/evidence/**",
         ".aide/handoffs/**",
-        ".aide/programmes/**"
+        ".aide/programmes/**",
+        "source/providers/report/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1537,7 +1538,9 @@
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v",
-        "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root ."
+        "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root .",
+        "python tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root .",
+        "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1550,7 +1553,19 @@
         "source/runtime/evidence/health.h",
         "source/runtime/evidence/health.cpp",
         "CMakeLists.txt",
-        "tools/build-inputs.json"
+        "tools/build-inputs.json",
+        "spec/catalog/report-export-prototype.json",
+        "source/runtime/evidence/report_export.h",
+        "source/runtime/evidence/report_export.cpp",
+        "source/providers/report/file_export.h",
+        "source/providers/report/file_export.cpp",
+        "tests/evidence/export_fixture.h",
+        "tests/evidence/export_probe.cpp",
+        "tests/evidence/file_export_probe.cpp",
+        "tests/evidence/test_export.py",
+        "tests/evidence/test_file_export.py",
+        "source/providers/image/local_file.h",
+        "source/providers/image/local_file.cpp"
       ]
     },
     {

@@ -46,6 +46,6 @@ private values. The probe handles owned JSON fixtures only and has no file-expor
 device, self-test, acquisition or privileged port.
 
 The builder is currently unlinked from `disked.exe`; public `evidence.export`
-remains unavailable. Bounded report-file creation and readback, public execution
-parameters/effect grants, actual acquisition/case integration and physical/platform
-qualification remain required follow-on work. DE-W034 and DiskEd 0.1.0 are incomplete.
+remains unavailable. The private native report adapter is described in
+[report-export.md](report-export.md). Public execution parameters/service admission,
+actual acquisition/case integration and physical/platform qualification remain required. DE-W034 and DiskEd 0.1.0 are incomplete.

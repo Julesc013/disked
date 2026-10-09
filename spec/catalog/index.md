@@ -25,6 +25,7 @@
 - [plan-prototype.json](plan-prototype.json)
 - [project-graph.json](project-graph.json)
 - [publications.json](publications.json)
+- [report-export-prototype.json](report-export-prototype.json)
 - [requirements.json](requirements.json)
 - [targets.json](targets.json)
 - [tests.json](tests.json)

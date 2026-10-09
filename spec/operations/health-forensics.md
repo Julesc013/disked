@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T01:45:30.009458+00:00'
-  scope: DE-W034 private case/custody/projection contract
+  at: '2026-10-09T02:30:40.213717+00:00'
+  scope: DE-W034 native report export port and explicit artifact effects
 ---
 
 # Health assessment and forensic workflow
@@ -137,10 +137,24 @@ the existing category/content gates and unconditional secret omission apply.
 Record/count/aggregate budgets reject without editing old evidence or truncating
 it. These are proposed serialized contracts, not a frozen public storage ABI.
 
-Report-file creation/readback and the public evidence.export execution contract
-remain required follow-on work. Export success will concern that output artifact,
-not media health, forensic custody or original-source preservation. Operator and
-software declarations must remain separate from authenticated/qualified claims.
+The [proposed export profile](../catalog/report-export-prototype.json) binds a
+typed support projection to exact UTF-8/LF bytes, destination/ancestor generations
+and producer metadata/content. Preparation creates no file. Execution requires a
+matching immutable definition and separate report-write/host-effect flags. The
+native ordinary-file adapter holds parents/producer, uses creation without
+overwriting, rejects nonordinary paths, flushes and verifies exact readback.
+Submitted, acknowledged-written, read and verified counts remain distinct; lost
+acknowledgement and incomplete effects remain uncertain. Failure/cancellation
+retains any created output; there is no automatic deletion, retry or overwrite.
+
+Export completion concerns that output artifact. Per-file flush API confirmation
+does not establish power-loss persistence, media health, forensic custody,
+original-source preservation, worker exit or authenticated approval. Surrounding
+paths/producer/routing receipts are not redacted support content. This private
+synchronous adapter remains unlinked from the product; public evidence.export
+parameters, admitted case sources, bounded service behavior and frontend parity
+remain required before admission. Acquisition/custody and physical/platform
+qualification retain their separate gates.
 
 ## Normative requirements
 

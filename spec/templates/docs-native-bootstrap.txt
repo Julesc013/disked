@@ -561,3 +561,11 @@ old intention/proof state when another attempt is admitted. Action cuts and reso
 fates are chosen independently; binary histories are compared with Python encoding
 and all rejected actions must leave snapshots unchanged. This remains a closed
 fixture audit, with no live journal writer or physical durability qualification.
+
+DE-W034 also has a private typed support-file export port and Windows ordinary-file
+adapter. It binds exact consent-selected bytes and producer/destination identities,
+requires separate effect flags, creates without overwriting and verifies readback.
+It remains unlinked from the product; evidence.export remains unavailable. The
+adapter's synchronous fixtures do not qualify public native wait containment,
+acquisition/custody integration or physical/platform evidence. See
+[report-export.md](report-export.md) for its development contract and commands.
