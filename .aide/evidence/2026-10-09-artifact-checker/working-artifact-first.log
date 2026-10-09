@@ -1,0 +1,423 @@
+test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) ... 
+  test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=4096) ... FAIL
+  test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=8192) ... FAIL
+  test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=24576) ... FAIL
+  test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=16384) ... FAIL
+test_case_collision (__main__.Artifacts.test_case_collision) ... ok
+test_changed_same_size (__main__.Artifacts.test_changed_same_size) ... FAIL
+test_changed_size (__main__.Artifacts.test_changed_size) ... FAIL
+test_cli_complete_flow (__main__.Artifacts.test_cli_complete_flow) ... ok
+test_cli_no_clobber_or_inside_staging (__main__.Artifacts.test_cli_no_clobber_or_inside_staging) ... ok
+test_crc_failure (__main__.Artifacts.test_crc_failure) ... ok
+test_data_descriptors (__main__.Artifacts.test_data_descriptors) ... ok
+test_directory_with_data (__main__.Artifacts.test_directory_with_data) ... ok
+test_dos_reparse_flag (__main__.Artifacts.test_dos_reparse_flag) ... FAIL
+test_duplicate (__main__.Artifacts.test_duplicate) ... ok
+test_empty_staging_directory (__main__.Artifacts.test_empty_staging_directory) ... ok
+test_encryption_refused (__main__.Artifacts.test_encryption_refused) ... ERROR
+test_extra (__main__.Artifacts.test_extra) ... ERROR
+test_extra_directory (__main__.Artifacts.test_extra_directory) ... ok
+test_file_directory_collision (__main__.Artifacts.test_file_directory_collision) ... ok
+test_inventory_contract (__main__.Artifacts.test_inventory_contract) ... ERROR
+test_inventory_json_duplicate_key (__main__.Artifacts.test_inventory_json_duplicate_key) ... ERROR
+test_inventory_parent_case_collision (__main__.Artifacts.test_inventory_parent_case_collision) ... ERROR
+test_local_name_conflict (__main__.Artifacts.test_local_name_conflict) ... ok
+test_matching_deflated (__main__.Artifacts.test_matching_deflated) ... ERROR
+test_matching_stored (__main__.Artifacts.test_matching_stored) ... ERROR
+test_metadata_budget_before_zip_reader (__main__.Artifacts.test_metadata_budget_before_zip_reader) ... FAIL
+test_missing_required (__main__.Artifacts.test_missing_required) ... ERROR
+test_multidisk_refused (__main__.Artifacts.test_multidisk_refused) ... ERROR
+test_optional_expected_directory (__main__.Artifacts.test_optional_expected_directory) ... ok
+test_staging_case_collision (__main__.Artifacts.test_staging_case_collision) ... ok
+test_staging_hardlink (__main__.Artifacts.test_staging_hardlink) ... ok
+test_trailing_archive_bytes (__main__.Artifacts.test_trailing_archive_bytes) ... ok
+test_truncated_archive (__main__.Artifacts.test_truncated_archive) ... ok
+test_unknown_extra_field (__main__.Artifacts.test_unknown_extra_field) ... ERROR
+test_unsafe_names (__main__.Artifacts.test_unsafe_names) ... ok
+test_unsupported_compression (__main__.Artifacts.test_unsupported_compression) ... ok
+test_valid_but_empty (__main__.Artifacts.test_valid_but_empty) ... ok
+test_zip64_local_headers (__main__.Artifacts.test_zip64_local_headers) ... ERROR
+
+======================================================================
+ERROR: test_encryption_refused (__main__.Artifacts.test_encryption_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_extra (__main__.Artifacts.test_extra)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 120, in walk
+    walk(path)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_inventory_contract (__main__.Artifacts.test_inventory_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 120, in walk
+    walk(path)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_inventory_json_duplicate_key (__main__.Artifacts.test_inventory_json_duplicate_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_inventory_parent_case_collision (__main__.Artifacts.test_inventory_parent_case_collision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_matching_deflated (__main__.Artifacts.test_matching_deflated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_matching_stored (__main__.Artifacts.test_matching_stored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_missing_required (__main__.Artifacts.test_missing_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 120, in walk
+    walk(path)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_multidisk_refused (__main__.Artifacts.test_multidisk_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_unknown_extra_field (__main__.Artifacts.test_unknown_extra_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 27, in setUp
+    self.expected=check.inventory(self.stage,['disked.exe']);self.archive=self.work/'product.zip'
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 129, in inventory
+    walk(root)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 120, in walk
+    walk(path)
+    ~~~~^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 126, in walk
+    with pinned(path) as (file,opened):sha=hash_file(file,opened.st_size);files_seen.append((path,fingerprint(opened)))
+         ~~~~~~^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+ERROR: test_zip64_local_headers (__main__.Artifacts.test_zip64_local_headers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 74, in test_zip64_local_headers
+    self.assertEqual(check.verify_zip(self.expected,self.archive)['status'],'pass')
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 197, in verify_zip
+    with pinned(archive) as (file,s):
+         ~~~~~~^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 74, in pinned
+    if fingerprint(before)!=fingerprint(opened) or not stat.S_ISREG(opened.st_mode):reject('file_changed')
+                                                                                    ~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tools\release\artifact_check.py", line 31, in reject
+    def reject(code):raise Rejected(code)
+                     ^^^^^^^^^^^^^^^^^^^^
+disked_artifact_check.Rejected: file_changed
+
+======================================================================
+FAIL: test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=4096)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 62, in test_archive_link_and_special_types
+    with self.subTest(mode=mode):self.denied([(info,b'x')],'archive_file_type')
+                                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_file_type'
+- file_changed
++ archive_file_type
+
+
+======================================================================
+FAIL: test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=8192)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 62, in test_archive_link_and_special_types
+    with self.subTest(mode=mode):self.denied([(info,b'x')],'archive_file_type')
+                                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_file_type'
+- file_changed
++ archive_file_type
+
+
+======================================================================
+FAIL: test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=24576)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 62, in test_archive_link_and_special_types
+    with self.subTest(mode=mode):self.denied([(info,b'x')],'archive_file_type')
+                                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_file_type'
+- file_changed
++ archive_file_type
+
+
+======================================================================
+FAIL: test_archive_link_and_special_types (__main__.Artifacts.test_archive_link_and_special_types) (mode=16384)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 62, in test_archive_link_and_special_types
+    with self.subTest(mode=mode):self.denied([(info,b'x')],'archive_file_type')
+                                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_file_type'
+- file_changed
++ archive_file_type
+
+
+======================================================================
+FAIL: test_changed_same_size (__main__.Artifacts.test_changed_same_size)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 52, in test_changed_same_size
+    def test_changed_same_size(self):self.denied([('disked.exe',b'x'*(self.stage/'disked.exe').stat().st_size)],'archive_content')
+                                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_content'
+- file_changed
++ archive_content
+
+
+======================================================================
+FAIL: test_changed_size (__main__.Artifacts.test_changed_size)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 53, in test_changed_size
+    def test_changed_size(self):self.denied([('disked.exe',b'x')],'archive_size')
+                                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_size'
+- file_changed
++ archive_size
+
+
+======================================================================
+FAIL: test_dos_reparse_flag (__main__.Artifacts.test_dos_reparse_flag)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 64, in test_dos_reparse_flag
+    info=zipfile.ZipInfo('disked.exe');info.external_attr=0x400;self.denied([(info,b'x')],'archive_file_type')
+                                                                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 40, in denied
+    if code:self.assertEqual(str(error.exception),code)
+            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_file_type'
+- file_changed
++ archive_file_type
+
+
+======================================================================
+FAIL: test_metadata_budget_before_zip_reader (__main__.Artifacts.test_metadata_budget_before_zip_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\artifacts\test_artifact_check.py", line 94, in test_metadata_budget_before_zip_reader
+    self.assertEqual(str(error.exception),'archive_metadata_budget')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'file_changed' != 'archive_metadata_budget'
+- file_changed
++ archive_metadata_budget
+
+
+----------------------------------------------------------------------
+Ran 35 tests in 1.028s
+
+FAILED (failures=8, errors=11)

@@ -1,0 +1,149 @@
+[
+  {
+    "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-host.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m,zlib;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"));print(\\\"zlib=\\\"+zlib.ZLIB_RUNTIME_VERSION)\"",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-python-environment.log"
+  },
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-clone.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked provider_guard_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-test-catalog.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(artifacts.archive_completeness|disked.invocation|disked.acceptance|provider_guard.positive_control)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-focused-native.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/artifacts/test_artifact_check.py --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-artifact-checker\\reproduction-67cbcb7c\\artifact-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-artifact-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-check.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-freshness.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W063 --output .aide-local/context/DE-W063-artifact --byte-budget 350000",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W063-artifact",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-verify-context.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-disked-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-disked-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-disked-dependents.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-launch.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\tools\\release\\artifact_check.py inventory --staging D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\stage --required disked.exe --output D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\expected.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-inventory.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-artifact-checker\\make_zip.py D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\stage D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\disked.zip",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-package-fixture.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c\\tools\\release\\artifact_check.py verify --inventory D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\expected.json --archive D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W063-67cbcb7c\\disked.zip",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-verify-archive.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-artifact-67cbcb7c",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-artifact-checker/reproduction-67cbcb7c/clean-spec-tests.log"
+  }
+]

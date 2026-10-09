@@ -1,0 +1,9 @@
+DE-W063 was built and verified from clean source `67cbcb7c8f4d4106b82fcc89f4d820fb9fc1f25f`, based on `065d4731687bef564dce07aa42fcb3885644d19f`.
+
+The clean reproduction results retain exact commands, raw logs, 253 source-input hashes, actual Windows host/toolchain, PE dependencies/imports, direct native launch and three artifact identities: staged executable, independent expected inventory and ZIP. Four of 54 CTest groups passed; the other 50 were not rerun at this revision. The checker suite passed 51 tests without skips, structural validation passed 933 checks and the spec suite passed 173 tests with two unavailable-symlink skips.
+
+The independently inventoried staging selection was reviewed locally before packaging; this is not owner acceptance. Only disked.exe was included. Archive verification proves content completeness against that inventory and does not extract or execute content. Authenticity, publication, delivered-byte checks and archive runtime qualification remain not run. All five private journal libraries remain outside the product.
+
+Use retained reproduce.py and make_zip.py from this directory at the matching clean source checkpoint with the recorded installed toolchain/Python dependencies. These files were retained after the source checkpoint; copy or reference them from the evidence commit. Destinations must be unused. Different source/evidence commits have different build stamps; no bit-for-bit claim across paths/timestamps is made.
+
+FINDINGS.md and hidden-tail-counterexample.json preserve the working-candidate defect, exact generated fixture bytes and corrected rejection. Earlier working runs are developmental evidence, not additional clean/full qualification. REVIEW.md is implementing-agent review. Local continuation is authorized; owner acceptance and release/storage privileges remain separate. DiskEd 0.1.0 is still incomplete and the programme remains active.

@@ -1,0 +1,41 @@
+{
+  "schema": "org.disked.artifact-counterexample/1",
+  "source_revision": "67cbcb7c8f4d4106b82fcc89f4d820fb9fc1f25f",
+  "archive_hex": "504b0304140000000800a65b495d566f1d473c0000002e0000000a0000006469736b65642e6578652dc8d10d80300840c15518c0a568799a260d26085ab7f7c7fbbcf3714cf6b1b20261d12bb54da4bdc9b5897313ff63e5469f1a981c38a18949ea981f504b0304140000000800a65b495dfc92a7b817000000150000000f000000646f63732f726561646d652e7478744bcbac28292d4a5548c94f2ecd4dcd2b492cc9cccf0300504b01021400140000000800a65b495d566f1d473c0000002e0000000a00000000000000000000008001000000006469736b65642e657865504b01021400140000000800a65b495dfc92a7b817000000150000000f0000000000000000000000800164000000646f63732f726561646d652e747874504b0506000000000200020075000000a80000000000",
+  "archive_sha256": "sha256:c82b3ebb9fc8f0cbfd015c6113a9ed47c93959a1709f3e31d6a9f60ddbe7fff4",
+  "prefix_hex": "6f776e656420666978747572652065786563757461626c652062797465732c206e65766572206578656375746564",
+  "hidden_expanded_suffix_hex": "756e6465636c617265642067656e657261746564207461696c",
+  "expected_inventory": {
+    "schema": "org.disked.artifact-inventory-prototype/1",
+    "required_entrypoints": [
+      "disked.exe"
+    ],
+    "files": [
+      {
+        "path": "disked.exe",
+        "type": "regular",
+        "bytes": "46",
+        "sha256": "sha256:ba906949989806a1cb0a181f501643256b844badf1be630a11a12a5979faa76b"
+      },
+      {
+        "path": "docs/readme.txt",
+        "type": "regular",
+        "bytes": "21",
+        "sha256": "sha256:55871819d203dbc93536d69c1456e44ab1674154bb03da7243917631ce47b60c"
+      }
+    ]
+  },
+  "standard_zip_reader_observation": {
+    "bytes": 46,
+    "sha256": "sha256:ba906949989806a1cb0a181f501643256b844badf1be630a11a12a5979faa76b",
+    "equals_expected_prefix": true
+  },
+  "corrected_checker": {
+    "status": "fail",
+    "diagnostic": "archive_size"
+  },
+  "tool_sha256": "sha256:2270afea34d1c194332b3a847c241a1b4b8f73bea80e218e65553b2561864082",
+  "archive_execution": false,
+  "publication": false,
+  "note": "Exact generated fixture retained as hex. Standard reader output stops at declared size; complete raw stream includes a suffix. Working development failure log predates the correction and was not a committed source checkpoint."
+}
