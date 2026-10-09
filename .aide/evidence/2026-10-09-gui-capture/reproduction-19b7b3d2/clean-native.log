@@ -1,0 +1,162 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/goal-0.1.0/clean-gui-capture-19b7b3d2/build/windows-bootstrap
+      Start  1: frontend.product_export
+ 1/68 Test  #1: frontend.product_export ............   Passed   20.64 sec
+      Start  2: frontend.gui_capture
+ 2/68 Test  #2: frontend.gui_capture ...............   Passed    0.91 sec
+      Start  3: operation.directory_pins
+ 3/68 Test  #3: operation.directory_pins ...........   Passed    1.13 sec
+      Start  4: evidence.acquisition_export
+ 4/68 Test  #4: evidence.acquisition_export ........   Passed    7.80 sec
+      Start  5: evidence.report_worker
+ 5/68 Test  #5: evidence.report_worker .............   Passed   30.45 sec
+      Start  6: evidence.export_commands
+ 6/68 Test  #6: evidence.export_commands ...........   Passed    9.46 sec
+      Start  7: evidence.report_watch
+ 7/68 Test  #7: evidence.report_watch ..............***Failed    1.45 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\.aide-local\disked-acq-worker-yqic_tbu
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\tests\evidence\test_report_watch.py", line 203, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\tests\evidence\test_report_watch.py", line 91, in main
+    done=wait('complete',p,id);body=independent('complete',p,q,id)
+  File "D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\tests\evidence\test_report_watch.py", line 83, in wait
+    exited(state,exe);return out
+    ~~~~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\tests\evidence\test_report_watch.py", line 43, in exited
+    handle=report_process(state,exe)
+  File "D:\Projects\DiskEd\disked\.aide-local\goal-0.1.0\clean-gui-capture-19b7b3d2\tests\evidence\test_report_worker.py", line 24, in report_process
+    else:assert K.WaitForSingleObject(handle,0)==0,('unavailable live process identity',binding)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('unavailable live process identity', {'attempt_id': 'attempt:d213263a464b57eff21516024c4e27ad', 'definition_digest': 'sha256:a85e9394344509f44f6ba1bbb7b018c8b73a17c02653bbcd23a4482111fe8a40', 'host_id': 'ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7', 'image_digest': '9eddc71e72ca9d7cabcfecd45216218142e0ee45c3ceab2cc5ed9d15fef7097b', 'operation_id': 'report-op:fe8d64d319ef8bf023d0701521e15511', 'process_created': '134360155147278389', 'process_id': '56564', 'worker_epoch': 'worker:2a9000a51aac845ed9d97e8af9142c78'})
+
+      Start  8: evidence.acquisition_case
+ 8/68 Test  #8: evidence.acquisition_case ..........   Passed    7.73 sec
+      Start  9: evidence.export_model
+ 9/68 Test  #9: evidence.export_model ..............   Passed    1.87 sec
+      Start 10: evidence.file_export
+10/68 Test #10: evidence.file_export ...............   Passed   10.12 sec
+      Start 11: evidence.case_model
+11/68 Test #11: evidence.case_model ................   Passed    5.62 sec
+      Start 12: health.observation_model
+12/68 Test #12: health.observation_model ...........   Passed    0.28 sec
+      Start 13: health.command
+13/68 Test #13: health.command .....................   Passed    3.06 sec
+      Start 14: journal.semantic_reader
+14/68 Test #14: journal.semantic_reader ............   Passed   13.36 sec
+      Start 15: journal.guarded_model
+15/68 Test #15: journal.guarded_model ..............   Passed    1.92 sec
+      Start 16: journal.model_binary_producer
+16/68 Test #16: journal.model_binary_producer ......   Passed    2.65 sec
+      Start 17: journal.repeated_crash_audit
+17/68 Test #17: journal.repeated_crash_audit .......   Passed    4.27 sec
+      Start 18: journal.plan_definitions
+18/68 Test #18: journal.plan_definitions ...........   Passed    0.37 sec
+      Start 19: journal.binary_codec
+19/68 Test #19: journal.binary_codec ...............   Passed    0.27 sec
+      Start 20: frontend.acquisition_forms
+20/68 Test #20: frontend.acquisition_forms .........   Passed    5.81 sec
+      Start 21: frontend.acquisition_interactive
+21/68 Test #21: frontend.acquisition_interactive ...   Passed   64.90 sec
+      Start 22: image.acquisition_commands
+22/68 Test #22: image.acquisition_commands .........   Passed   29.93 sec
+      Start 23: image.acquisition_operations
+23/68 Test #23: image.acquisition_operations .......   Passed   17.56 sec
+      Start 24: image.acquisition_worker
+24/68 Test #24: image.acquisition_worker ...........   Passed   43.24 sec
+      Start 25: image.file_acquisition
+25/68 Test #25: image.file_acquisition .............   Passed   42.05 sec
+      Start 26: image.parent_pins
+26/68 Test #26: image.parent_pins ..................   Passed    0.98 sec
+      Start 27: image.acquisition_pipeline
+27/68 Test #27: image.acquisition_pipeline .........   Passed    6.17 sec
+      Start 28: image.shared_commands
+28/68 Test #28: image.shared_commands ..............   Passed   19.37 sec
+      Start 29: image.file_capture
+29/68 Test #29: image.file_capture .................   Passed    3.49 sec
+      Start 30: image.map_observation
+30/68 Test #30: image.map_observation ..............   Passed    1.52 sec
+      Start 31: portable.gpt
+31/68 Test #31: portable.gpt .......................   Passed    3.36 sec
+      Start 32: portable.gpt_guard
+32/68 Test #32: portable.gpt_guard .................   Passed    0.02 sec
+      Start 33: portable.mbr_ebr
+33/68 Test #33: portable.mbr_ebr ...................   Passed    1.19 sec
+      Start 34: portable.mbr_guard
+34/68 Test #34: portable.mbr_guard .................   Passed    0.02 sec
+      Start 35: portable.checked
+35/68 Test #35: portable.checked ...................   Passed    0.30 sec
+      Start 36: portable.c_cpp_linkage
+36/68 Test #36: portable.c_cpp_linkage .............   Passed    0.04 sec
+      Start 37: operation.watch_reader
+37/68 Test #37: operation.watch_reader .............   Passed    0.44 sec
+      Start 38: resilience.capture
+38/68 Test #38: resilience.capture .................   Passed    0.48 sec
+      Start 39: resilience.request_channel
+39/68 Test #39: resilience.request_channel .........   Passed    0.40 sec
+      Start 40: shell.model
+40/68 Test #40: shell.model ........................   Passed    1.33 sec
+      Start 41: operation.reducer
+41/68 Test #41: operation.reducer ..................   Passed    0.71 sec
+      Start 42: frontend.gui_model
+42/68 Test #42: frontend.gui_model .................   Passed    0.56 sec
+      Start 43: frontend.gui_windows
+43/68 Test #43: frontend.gui_windows ...............   Passed    2.28 sec
+      Start 44: frontend.tui_model
+44/68 Test #44: frontend.tui_model .................   Passed    0.42 sec
+      Start 45: frontend.tui_windows
+45/68 Test #45: frontend.tui_windows ...............   Passed    3.68 sec
+      Start 46: shell.windows
+46/68 Test #46: shell.windows ......................   Passed    6.35 sec
+      Start 47: frontend.service
+47/68 Test #47: frontend.service ...................   Passed    0.37 sec
+      Start 48: frontend.transport
+48/68 Test #48: frontend.transport .................   Passed    1.18 sec
+      Start 49: invocation.policy
+49/68 Test #49: invocation.policy ..................   Passed    5.51 sec
+      Start 50: protocol.compatible_reader
+50/68 Test #50: protocol.compatible_reader .........   Passed    0.78 sec
+      Start 51: command.syntax
+51/68 Test #51: command.syntax .....................   Passed   11.49 sec
+      Start 52: protocol.json_codec
+52/68 Test #52: protocol.json_codec ................   Passed    2.83 sec
+      Start 53: operation.watch
+53/68 Test #53: operation.watch ....................   Passed   31.13 sec
+      Start 54: resilience.capture_campaign
+54/68 Test #54: resilience.capture_campaign ........   Passed    9.10 sec
+      Start 55: resilience.frontend_memory
+55/68 Test #55: resilience.frontend_memory .........   Passed    7.05 sec
+      Start 56: resilience.store_failures
+56/68 Test #56: resilience.store_failures ..........   Passed   16.58 sec
+      Start 57: resilience.request_waiting
+57/68 Test #57: resilience.request_waiting .........   Passed   19.50 sec
+      Start 58: resilience.output_waiting
+58/68 Test #58: resilience.output_waiting ..........   Passed   17.63 sec
+      Start 59: operation.worker
+59/68 Test #59: operation.worker ...................   Passed   22.49 sec
+      Start 60: resilience.gui_waiting
+60/68 Test #60: resilience.gui_waiting .............   Passed    6.30 sec
+      Start 61: resilience.console_waiting
+61/68 Test #61: resilience.console_waiting .........   Passed   12.71 sec
+      Start 62: resilience.worker_budget
+62/68 Test #62: resilience.worker_budget ...........   Passed    8.16 sec
+      Start 63: disked.invocation
+63/68 Test #63: disked.invocation ..................   Passed    1.40 sec
+      Start 64: disked.acceptance
+64/68 Test #64: disked.acceptance ..................   Passed    2.87 sec
+      Start 65: disked_provider_guard.invocation
+65/68 Test #65: disked_provider_guard.invocation ...   Passed    1.36 sec
+      Start 66: disked_provider_guard.acceptance
+66/68 Test #66: disked_provider_guard.acceptance ...   Passed    2.96 sec
+      Start 67: provider_guard.positive_control
+67/68 Test #67: provider_guard.positive_control ....   Passed    0.12 sec
+      Start 68: artifacts.archive_completeness
+68/68 Test #68: artifacts.archive_completeness .....   Passed    1.53 sec
+
+99% tests passed, 1 tests failed out of 68
+
+Total Test time (real) = 563.07 sec
+
+The following tests FAILED:
+	  7 - evidence.report_watch (Failed)
+Errors while running CTest

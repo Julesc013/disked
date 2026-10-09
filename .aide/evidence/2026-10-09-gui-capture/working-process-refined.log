@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_process.py", line 22, in main
+    assert inbox.get(timeout=5)==b'ready\n';thread.join(timeout=1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_process.py", line 50, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_process.py", line 44, in main
+    release();assert child.wait(timeout=5)==0 and not child.stderr.read()
+    ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_process.py", line 19, in release
+    if child.poll() is None:child.stdin.write(b'quit\n');child.stdin.flush()
+                                                         ~~~~~~~~~~~~~~~~~^^
+OSError: [Errno 22] Invalid argument
+Exception ignored while finalizing file <_io.BufferedWriter name=3>:
+OSError: [Errno 22] Invalid argument

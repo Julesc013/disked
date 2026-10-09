@@ -1,0 +1,26 @@
+{
+  "kind": "implementing-agent inspection of actual retained PNGs",
+  "source_revision": "a47fbd5c0149a83117ed69caff93ce35b89ddd38",
+  "files": [
+    {
+      "path": ".aide/evidence/2026-10-09-gui-capture/reproduction-a47fbd5c/review-1.png",
+      "sha256": "sha256:ac801a4a4dd009677d742af6d4ae4dbf7036cc22fbfd0ae09b7257a397320f6c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-gui-capture/reproduction-a47fbd5c/minimum-1.png",
+      "sha256": "sha256:db3538e740b85127805172b9745fad35088b10c78d53d0e4c09816f9cc71dd36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-gui-capture/reproduction-a47fbd5c/gui-export-execute-review.png",
+      "sha256": "sha256:624cb8dd1316adede695fa13950ea1ff4f8585e31d29167a83bb5b2e00462d26"
+    }
+  ],
+  "observations": [
+    "Review request, Submit reviewed and navigation captions visibly rendered in the three inspected captures.",
+    "The focused minimum case requests 640x480; the actual retained frame is 1000x713 after native minimum tracking on this host. It is not a successful 640x480 layout claim.",
+    "The separate native GUI suite queries WM_GETMINMAXINFO, resizes to that declared minimum and checks child rectangles."
+  ],
+  "limitations": [
+    "Not text recognition, exhaustive glyph/layout/accessibility/DPI/locale or other-platform qualification. No new input or reviewed submission was performed by visual inspection."
+  ]
+}

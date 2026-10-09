@@ -1,0 +1,36 @@
+{
+  "failures": [
+    {
+      "kind": "incomplete_capture_guard",
+      "source_revision": "bbf422ce7ba4076683995daa05f8bbd9ba17ba7e",
+      "evidence": ".aide/evidence/2026-10-09-gui-capture/reproduction-bbf422ce/clean-native.log",
+      "result": "67/68 native groups passed; second reviewed capture had uniform submit-caption interior despite nonuniform client content.",
+      "repair": "Keep the caption assertion and require painted interiors for all visible declared buttons before accepting a capture. Preserve future failed screenshot folders.",
+      "limitations": "The initial test used unconditional TemporaryDirectory cleanup, so the failed second-frame image was not retained. Its assertion and full native logs are retained; the earlier actual frame-only diagnosis remains unchanged."
+    },
+    {
+      "kind": "process_observation_race",
+      "source_revision": "19b7b3d292c74f01cd342979385e072b1c67f4f0",
+      "evidence": ".aide/evidence/2026-10-09-gui-capture/reproduction-19b7b3d2/clean-native.log",
+      "fixture": ".aide-local/goal-0.1.0/clean-gui-capture-19b7b3d2/.aide-local/disked-acq-worker-yqic_tbu",
+      "result": "67/68 native groups passed. Capture passed; report-watch image lookup was unavailable after creation identity matched, before the same handle was signaled. The original API error code was not recorded; exact kernel cause is unproven.",
+      "repair": "Require observed exit of the same creation-verified handle within a bounded wait, preserving rejection when live. Never reopen a PID, assume exit, terminate/restart a worker or delete its dependencies. Failed generated fixture remains retained."
+    },
+    {
+      "kind": "binary_context_binding",
+      "source_revision": "5c51d1b412b8a1303f612e0482293339c83a5627",
+      "evidence": ".aide/evidence/2026-10-09-gui-capture/reproduction-5c51d1b4/clean-context.log",
+      "result": "69/69 native groups and focused capture/export/process checks passed; context generation failed with exit 2 because it decoded a required PNG artifact as UTF-8. The runner stopped before subsequent context/input/import/tooling/artifact checks.",
+      "repair": "Read required artifacts as bytes; decode only declared required content. Retain binary closure inputs and strict UTF-8 content validation. Regression checks verify exact binary copy/hash/length, reject source/copy changes, and reject binary required content before partial output."
+    },
+    {
+      "kind": "agent_introduced_controlled_child_errors",
+      "logs": [
+        "working-process-working.log",
+        "working-process-refined.log"
+      ],
+      "result": "New owned-child readiness fixture used Windows text newline against its LF marker, then an incorrectly escaped child snippet and duplicate release could obscure failure.",
+      "repair": "Keep the exact LF readiness expectation; emit it through the child binary stream using a raw snippet and release the controlled child only once. The scoped actual-exit/live/creation-mismatch regression passes."
+    }
+  ]
+}
