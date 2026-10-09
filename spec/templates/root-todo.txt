@@ -86,3 +86,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Review DE-W063: local completeness tooling and regression checks implemented; retain clean source-bound native staging evidence at the review boundary. Owner acceptance, publication, authenticity and runtime remain separate.
 
 - [ ] DE-W032 active: verify the provisional fake-only health.assess command through the shared CLI/stdio/GUI/TUI/shell service, retaining exact target/revision checks, explicit unknown/unavailable data and opt-in support disclosure. The bounded private collector is implemented. Native SMART/adapters, provider admission, containment and physical/platform qualification remain open.
+
+- [ ] DE-W034 active: verify the private native case/custody builder with immutable before/after snapshots, exact chain hashes, explicit fixture provenance and separate support projection. Complete bounded native report-file export and public execution grants, acquisition/case integration and physical/platform qualification. No public evidence.export or forensic qualification yet.

@@ -461,6 +461,14 @@ production admission. Its independent vectors check exact little-endian fields,
 identity/chain binding, all small-frame cuts and single-byte corruptions, strict
 producers/compatible observational readers, source faults and finite budgets.
 
+DE-W034 adds a private native case/custody builder and fixture probe, described in
+[case evidence](case-evidence.md). It retains immutable collector snapshots,
+phase/sequence guards, separate public-field inference and a policy-selected
+support chain that never exports original private-content hashes. It is currently
+unlinked from the product. Native report-file export and actual acquisition/case
+and physical/platform qualification remain open; public `evidence.export` is
+unavailable.
+
 ```powershell
 cmake --build --preset windows-bootstrap --target journal_codec_probe
 python tests/journal/test_codec.py --probe build/windows-bootstrap/Release/journal_codec_probe.exe --root .

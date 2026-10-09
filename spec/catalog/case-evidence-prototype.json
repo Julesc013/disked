@@ -1,0 +1,62 @@
+{
+  "schema": "org.disked.case-evidence-profile/1",
+  "status": "proposed",
+  "scope": "Private native fixture observation/custody builder and support projection. Not a public/persisted case ABI, file exporter, acquisition, operator authentication or physical forensic qualification.",
+  "code_fields": [
+    "source_revision",
+    "input_digest",
+    "configuration_digest"
+  ],
+  "view_fields": [
+    "schema",
+    "case_id",
+    "code_identity",
+    "context_digest",
+    "collection_state",
+    "records",
+    "comparison",
+    "claims"
+  ],
+  "record_fields": [
+    "sequence",
+    "phase",
+    "event",
+    "origin",
+    "fixture_digest",
+    "context_digest",
+    "clock",
+    "capture",
+    "previous_digest",
+    "digest"
+  ],
+  "phases": [
+    "before",
+    "observation",
+    "after"
+  ],
+  "origins": [
+    "compiled-fixture",
+    "injected-fixture"
+  ],
+  "limits": {
+    "records": 16,
+    "case_json_bytes": 1048576,
+    "json_values": 131072,
+    "json_depth": 32,
+    "case_id_bytes": 128
+  },
+  "binding": "Case ID and code declarations produce a context digest. Every immutable record binds that context, its exact validated collector snapshot, fixture digest, phase/origin, ordinal sequence and previous record digest. Canonical JSON uses lexically sorted keys, unescaped UTF-8 except quote/backslash escapes and every U+0000..U+001F control encoded as lowercase \\u00xx (including newline/tab), and compact separators. Hash is sha256 of the record without its digest. Genesis previous_digest is sha256: followed by 64 zeros. The complete case digest hashes the full view. No digest authenticates origin/actor or proves physical truth.",
+  "collection": "First record must be before; subsequent records are observation or a final after. After closes recording. Missing after remains open and incomparable. Each append deep-copies a typed collector state; later collector updates and returned-view edits do not change it. Recording does not query, retire or prove observer exit/fresh sampling. Request/capture/worker epochs remain local to their source; case sequence is a separate domain. Pending/timed-out/unavailable states remain explicit. Failed append leaves all old records/digests unchanged. Aggregate full and all 16 policy-selected projections must fit; no truncation.",
+  "provenance": "Origin is a fixture declaration, not hardware/provider admission. Fixture/code/target/provider identities are exact data bindings, not authentication. Clock is unobserved with null timestamp. Native observations, authenticated actors, acquisition custody, durable append/file export and actual before/after storage verification require their adapters and evidence at later gates.",
+  "comparison": "Only matching declared target and observer/provider/requested public-field bindings can be compared. Every requested public raw value and interpretation must be available/received; otherwise not_comparable. Equality/difference is an inference about recorded fixture public observations, never source preservation, healthy media or fresh sampling. Identifier/customer/secret values do not participate. Support output reveals comparison only when both raw_values and interpretations are selected.",
+  "redaction": "Use the validated collector policy/classification. Default support omits identities and values. Identifier/customer content requires its category flag; secret content always omitted. Original case/context/fixture/custody digests are never exported in support, even with all flags. When identifiers are selected, a separate hash chain covers only the disclosed projection, including prior projection digest; it is explicitly selected-projection-only and not original custody proof. Case/code IDs follow the identifiers flag. No hashes or pseudonyms of omitted values are substituted.",
+  "claims": {
+    "authenticity": "not_established",
+    "source_preservation": "not_established",
+    "storage_postconditions": "not_established",
+    "reliability": "not_established",
+    "physical_admission": false,
+    "mutation_authority": false
+  },
+  "next_gate": "Integrate bounded native report-file creation/readback through an inward export port and explicit effect grants; define public evidence.export prepare/execute behavior before admission. Preserve full DE-W034 before/after, acquisition provenance, custody/report and physical/platform obligations."
+}

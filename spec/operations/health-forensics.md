@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T01:19:44.761672+00:00'
-  scope: DE-W032 provisional fake command and bounded support disclosure contract
+  at: '2026-10-09T01:45:30.009458+00:00'
+  scope: DE-W034 private case/custody/projection contract
 ---
 
 # Health assessment and forensic workflow
@@ -111,6 +111,36 @@ mutation or establish physical identity, media reliability or observer admission
 This bounded prototype may proceed under the recorded local continuation grant.
 DE-W032 remains partial; DE-W030 inventory and actual observers, classification,
 containment, forensic custody and platform qualification retain their own gates.
+
+## Private case evidence contract
+
+DE-W034's [proposed case profile](../catalog/case-evidence-prototype.json)
+records immutable before/observation/after snapshots from the validated native
+collector. Each record binds exact case/code/fixture/target/provider declarations,
+its phase, a distinct case sequence and the prior record digest. The builder
+records a snapshot; it does not issue a fresh query, retire workers, authenticate
+an operator or establish physical preservation. An absent after snapshot and
+unavailable fields remain explicit. Native acquisition/custody/file persistence
+and observer admission require their own ports and actual evidence.
+
+Public-field comparison is a labeled inference. Changed target/provider/requested
+field bindings, missing values and unavailable raw/interpretation remain
+incomparable; identifiers, customer labels and secrets do not decide the result.
+Support projection only discloses that comparison with both raw and interpreted
+content selected. It never certifies reliability or storage postconditions.
+
+The support payload never contains the original private case/context/fixture or
+custody digests: these can disclose omitted content. An opt-in identifier policy
+may bind the disclosed projection with a separate chain, explicitly distinguished
+from original custody. Default output uses ordinal labels, states and availability;
+the existing category/content gates and unconditional secret omission apply.
+Record/count/aggregate budgets reject without editing old evidence or truncating
+it. These are proposed serialized contracts, not a frozen public storage ABI.
+
+Report-file creation/readback and the public evidence.export execution contract
+remain required follow-on work. Export success will concern that output artifact,
+not media health, forensic custody or original-source preservation. Operator and
+software declarations must remain separate from authenticated/qualified claims.
 
 ## Normative requirements
 

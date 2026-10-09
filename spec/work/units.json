@@ -1485,7 +1485,7 @@
       "id": "DE-W034",
       "title": "Implement case evidence and reports",
       "phase": "M4",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W032",
@@ -1502,7 +1502,14 @@
         "source/runtime/evidence/**",
         "source/runtime/case/**",
         "docs/**",
-        "tests/evidence/**"
+        "tests/evidence/**",
+        "spec/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1529,11 +1536,22 @@
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "source/runtime/evidence/case_report.h",
+        "source/runtime/evidence/case_report.cpp",
+        "tests/evidence/case_probe.cpp",
+        "tests/evidence/test_case.py",
+        "spec/catalog/case-evidence-prototype.json",
+        "source/runtime/evidence/health.h",
+        "source/runtime/evidence/health.cpp",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     },
     {
       "id": "DE-W040",

@@ -54,6 +54,13 @@ target_link_libraries(disked_health_observation PUBLIC disked_json)
 set_target_properties(disked_health_observation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_health_observation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private DE-W034 fixture case builder; not linked into the product composition.
+add_library(disked_case_evidence STATIC source/runtime/evidence/case_report.cpp)
+target_include_directories(disked_case_evidence PUBLIC source/runtime/evidence)
+target_link_libraries(disked_case_evidence PUBLIC disked_health_observation disked_hash)
+set_target_properties(disked_case_evidence PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_case_evidence PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 # Private DE-W040 framing spike; never linked into the product composition.
 add_library(disked_journal_prototype STATIC source/runtime/journal/codec.cpp)
 target_include_directories(disked_journal_prototype PUBLIC source/runtime/journal)
@@ -192,6 +199,14 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  add_executable(case_evidence_probe tests/evidence/case_probe.cpp)
+  target_link_libraries(case_evidence_probe PRIVATE disked_case_evidence disked_presentation)
+  set_target_properties(case_evidence_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(case_evidence_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  target_link_options(case_evidence_probe PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)
+  add_test(NAME evidence.case_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_case.py"
+    --probe "$<TARGET_FILE:case_evidence_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(evidence.case_model PROPERTIES TIMEOUT 120)
   add_executable(health_observation_probe tests/health/health_probe.cpp)
   target_link_libraries(health_observation_probe PRIVATE disked_health_observation)
   set_target_properties(health_observation_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
