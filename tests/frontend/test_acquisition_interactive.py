@@ -54,11 +54,20 @@ def main():
         response=json.loads(p.stdout);assert response['request_id']=='public-acquisition'
         observations.append(dict(name='public-stdio',exit_code=p.returncode,input_sha256=digest(raw),output_sha256=digest(p.stdout),passed=True));return response
     def finish(p,first):
-        end=time.monotonic()+30
+        # This is a completion/byte-integrity journey, not a 30-second transfer
+        # performance contract. Per-chunk FlushFileBuffers can legitimately
+        # exceed that total while durable checkpoints keep advancing. Retain
+        # finite overall and no-progress limits; neither timeout permits replay
+        # or cleanup of an unfinished worker's dependencies.
+        end=time.monotonic()+90;progress_end=time.monotonic()+30;checkpoint=-1
         while True:
             value,_=call(['operation','inspect',first['operation_id'],'--state-dir',p['state_directory']]);state=value['result']['state']
             if state['phase']=='finished':break
-            assert time.monotonic()<end,'retain unfinished worker dependencies';time.sleep(.02)
+            current=int(state['checkpoint_bytes']);assert current>=checkpoint,state
+            now=time.monotonic()
+            if current>checkpoint:checkpoint=current;progress_end=now+30
+            assert now<end and now<progress_end,('retain unfinished worker dependencies',state)
+            time.sleep(.02)
         h=owned_process(state,str(a.exe))
         if h:
             try:assert K.WaitForSingleObject(h,2000)==0
