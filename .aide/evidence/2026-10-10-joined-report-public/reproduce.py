@@ -2,19 +2,31 @@
 Uses installed pinned tools and a fresh local clone; owned native tests run serially.
 """
 import argparse,hashlib,json,shutil,subprocess,sys,xml.etree.ElementTree as ET
+from types import SimpleNamespace
 from datetime import datetime,timezone
 from pathlib import Path
-R=Path.cwd();ap=argparse.ArgumentParser();ap.add_argument('--source',required=True);a=ap.parse_args()
+R=Path.cwd();ap=argparse.ArgumentParser();ap.add_argument('--source',required=True);ap.add_argument('--resume',action='store_true');a=ap.parse_args()
 revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip();assert revision==a.source and len(revision)==40
 C=R/('.aide-local/goal-0.1.0/clean-joined-public-'+revision[:8]);E=R/('.aide/evidence/2026-10-10-joined-report-public/reproduction-'+revision[:8]);A=R/('.aide-local/artifacts/DE-W034-joined-public-'+revision[:8])
-assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'])
-assert not C.exists() and not E.exists() and not A.exists();E.mkdir(parents=True);A.mkdir(parents=True);commands=[]
+if a.resume:
+    assert C.is_dir() and E.is_dir() and A.is_dir()
+    assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=C,text=True).strip()==revision
+    assert not subprocess.check_output(['git','status','--porcelain'],cwd=C)
+    commands=json.loads((E/'commands.json').read_bytes())
+else:
+    assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'])
+    assert not C.exists() and not E.exists() and not A.exists();E.mkdir(parents=True);A.mkdir(parents=True);commands=[]
 
 def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n')
 def sha(path):return 'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
 def run(name,argv,cwd=C,limit=120):
     argv=[str(x) for x in argv];log=E/('clean-'+name+'.log')
+    if a.resume and name in ('host','python-environment','clone','configure','build','test-catalog','native','joined-frontends'):
+        retained=[c for c in commands if c['evidence_path']==log.relative_to(R).as_posix()]
+        assert len(retained)==1 and retained[0]['command']==argv and retained[0]['cwd']==str(cwd) and retained[0]['exit_code']==0 and retained[0]['status']=='pass' and log.is_file(),name
+        print(name+' retained actual pass',flush=True)
+        return SimpleNamespace(stdout=log.read_bytes(),stderr=b'',returncode=0)
     r=subprocess.run(argv,capture_output=True,cwd=cwd,timeout=limit);log.write_bytes(r.stdout+r.stderr)
     commands.append(dict(command=argv,cwd=str(cwd),exit_code=r.returncode,status='pass' if not r.returncode else 'fail',evidence_path=log.relative_to(R).as_posix()));write(E/'commands.json',commands);print(name+' exit '+str(r.returncode),flush=True)
     if r.returncode:raise RuntimeError(name+' failed; retain actual logs/dependencies')
@@ -30,9 +42,12 @@ catalog=json.loads(run('test-catalog',['ctest','--preset','windows-bootstrap','-
 native=run('native',['ctest','--preset','windows-bootstrap','--output-on-failure'],limit=1800);assert b'0 tests failed out of 77' in native.stdout
 (E/'native-details.log').write_bytes((C/'build/windows-bootstrap/Testing/Temporary/LastTest.log').read_bytes())
 run('joined-frontends',[sys.executable,'tests/frontend/test_product_export.py','--product',P/'disked.exe','--fault',P/'disked_report_test.exe','--probe',P/'export_command_probe.exe','--root',C,'--joined','--evidence',E/'joined-frontends.json'],limit=240)
-f=json.loads((E/'joined-frontends.json').read_bytes());assert f['passed'] and f['joined'] and f['checks']>=280 and len(f['verified_outputs'])==6
+f=json.loads((E/'joined-frontends.json').read_bytes());assert f['passed'] and f['joined'] and f['checks']==len(f['observations']) and len(f['verified_outputs'])==6
 names=[x['name'] for x in f['observations']]
 assert names.count('joined-missing-grant-before-effects')==31 and names.count('synthetic-joined-false-grants-zero-ports')==31 and names.count('synthetic-public-producer-contradiction-refused')==9
+for frontend in ('cli','stdio','gui','tui','shell'):
+    for suffix in ('prepare-inert','actual-operation-id','independent-complete-effect','independent-selected-joined-content','reconnect-records','actual-streaming','resume-exact','repeat-no-new-attempt'):
+        assert names.count(frontend+'-'+suffix)==1
 for name in ('original-image-paths-unavailable','synthetic-exact-joined-grant-one-port','synthetic-preparation-source-mismatch-no-effect-port','bounded-wait-preserves-routing','occupied-slot-refuses-second-effect','late-callback-single-actual-effect','late-effect-never-replayed','selected-collection-unchanged'):assert name in names
 source=next(s for s in f['samples'] if s['kind']=='actual-joined-source');body=bytes.fromhex(source['collection_hex']);coll=json.loads(body);assert body==canonical(coll)+b'\n' and coll['original_case']==source['acquisition']
 frontend_samples=[s for s in f['samples'] if s['kind']=='actual-frontend-report'];assert {s['frontend'] for s in frontend_samples}=={'cli','stdio','gui','tui','shell'}
@@ -42,8 +57,9 @@ for sample in frontend_samples:
     assert all(sample['result'][key]=='not_established' for key in ('authenticity','custody_authentication','current_image_state','power_loss_persistence'))
     assert bytes.fromhex(sample['support_hex'])==canonical(sample['support'])+b'\n'
 run('joined-worker',[sys.executable,'tests/evidence/test_verification_case.py','--probe',P/'verification_case_probe.exe','--fault',P/'verification_case_fault.exe','--product',P/'disked.exe','--worker',P/'report_worker_probe.exe','--worker-fault',P/'report_worker_fault.exe','--root',C,'--evidence',E/'joined-worker.json'],limit=240)
-w=json.loads((E/'joined-worker.json').read_bytes());assert w['passed'] and w['checks']>=523 and len(w['actual_exports'])==47
+w=json.loads((E/'joined-worker.json').read_bytes());assert w['passed'] and w['checks']==len(w['observations']) and len(w['actual_exports'])==47
 worker_names=[x['name'] for x in w['observations']];assert worker_names.count('joined-public-compatible-observation')==3
+assert worker_names.count('joined-31-false-grants-no-effects')==31 and worker_names.count('joined-sixteen-worker-selected-policies')==16
 joined_workers=[s for s in w['samples'] if s.get('kind','').startswith('actual-joined-worker-')];assert len(joined_workers)==26
 check=json.loads(run('check',[sys.executable,'spec/tools/specctl.py','check']).stdout);assert check['status']=='PASS' and check['schemas']==76
 manifest=json.loads(run('manifest',[sys.executable,'spec/tools/specctl.py','verify-manifest']).stdout);run('freshness',[sys.executable,'spec/tools/specctl.py','index','--check'])
@@ -64,5 +80,5 @@ for name in ('disked.exe','disked_report_test.exe','export_command_probe.exe','g
 for name in ('bootstrap_registry.h','build-identity.json'):
     target=A/name;shutil.copyfile(C/'build/windows-bootstrap/generated'/name,target);artifacts.append(dict(path=target.relative_to(R).as_posix(),bytes=target.stat().st_size,sha256=sha(target)))
 assert not subprocess.check_output(['git','status','--porcelain'],cwd=C)
-write(E/'clean-results.json',dict(passed=True,base_revision='ba3d81644c286bbc10a380d901d122f6da3421a5',source=identity,host=host,observed_at=datetime.now(timezone.utc).isoformat(),qualification_recipe_sha256=sha(Path(__file__)),native_ctest_groups_run=77,selected_native_groups=selected,joined_frontend_checks=f['checks'],joined_worker_checks=w['checks'],actual_frontend_report_outputs=6,actual_joined_workers=len(joined_workers),private_actual_exports=len(w['actual_exports']),synthetic_port_and_budget_tests_separate=True,structural_checks=check['checks'],manifest=manifest,context_bytes=context['bytes'],spec_tests=dict(run=215,passed=213,skipped=2),implemented_commands=20,product_selects_joined_public_profile=True,artifacts=artifacts,limitations=['One Windows native ordinary-file prototype; all five joined frontends have actual generated-source evidence.','Synthetic ports/envelope/render fixtures are distinct from real generated-file effects.','Historical evidence does not authenticate custody, qualify current media or prove power-loss persistence.','Full DE-W034 and all 0.1.0 platforms/storage, owner and privilege/release gates remain open.']))
+write(E/'clean-results.json',dict(passed=True,base_revision='ba3d81644c286bbc10a380d901d122f6da3421a5',source=identity,host=host,observed_at=datetime.now(timezone.utc).isoformat(),qualification_resumed=a.resume,qualification_recipe_sha256=sha(Path(__file__)),native_ctest_groups_run=77,selected_native_groups=selected,joined_frontend_checks=f['checks'],joined_worker_checks=w['checks'],actual_frontend_report_outputs=6,actual_joined_workers=len(joined_workers),private_actual_exports=len(w['actual_exports']),synthetic_port_and_budget_tests_separate=True,structural_checks=check['checks'],manifest=manifest,context_bytes=context['bytes'],spec_tests=dict(run=215,passed=213,skipped=2),implemented_commands=20,product_selects_joined_public_profile=True,artifacts=artifacts,limitations=['One Windows native ordinary-file prototype; all five joined frontends have actual generated-source evidence.','Synthetic ports/envelope/render fixtures are distinct from real generated-file effects.','Historical evidence does not authenticate custody, qualify current media or prove power-loss persistence.','Full DE-W034 and all 0.1.0 platforms/storage, owner and privilege/release gates remain open.']))
 print('Clean DE-W034 public joined report PASS at '+revision,flush=True)

@@ -1,0 +1,824 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W034",
+  "base_revision": "ba3d81644c286bbc10a380d901d122f6da3421a5",
+  "spec_manifest_digest": "sha256:570414bc3a67951d41976a72b4bed15d3fe1a48cbd55bbbc9b081419bcff58a1",
+  "status": "partial",
+  "files_read": [
+    ".aide/programmes/disked-0.1.0.json",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/platform/windows/report_worker.cpp",
+    "source/runtime/command/command.cpp",
+    "source/runtime/command/command.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/evidence/export_commands.cpp",
+    "source/runtime/evidence/report_operation.cpp",
+    "source/runtime/evidence/verification_commands.cpp",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/presentation/session.cpp",
+    "spec/START-HERE.md",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/joined-report-public-prototype.json",
+    "spec/catalog/joined-report-worker-prototype.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/index.md",
+    "spec/operations/health-forensics.md",
+    "spec/safety/verification-and-performance.md",
+    "spec/schemas/export-command-parameters.schema.json",
+    "spec/schemas/export-operation-result.schema.json",
+    "spec/schemas/report-worker-definition-parameter.schema.json",
+    "spec/schemas/report-worker-grant-v2.schema.json",
+    "spec/tools/export_contracts.py",
+    "spec/tools/joined_report_contracts.py",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_export_semantics.py",
+    "spec/tools/tests/test_joined_report_semantics.py",
+    "spec/tools/tests/test_report_semantics.py",
+    "spec/tools/verification_contracts.py",
+    "spec/work/units.json",
+    "tests/evidence/export_command_probe.cpp",
+    "tests/evidence/test_joined_report_worker.py",
+    "tests/evidence/test_verification_case.py",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/report_console_fixture.py",
+    "tests/frontend/test_product_export.py",
+    "tests/frontend/test_product_verification.py",
+    "tests/frontend/tui_probe.cpp",
+    "tests/interaction/shell_probe.cpp",
+    "tests/interaction/test_shell_model.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tests/resilience/test_request_channel.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-10-joined-report-public/README.md",
+    ".aide/evidence/2026-10-10-joined-report-public/REVIEW.md",
+    ".aide/evidence/2026-10-10-joined-report-public/clean-execution.log",
+    ".aide/evidence/2026-10-10-joined-report-public/clean-resume.log",
+    ".aide/evidence/2026-10-10-joined-report-public/closure-check.log",
+    ".aide/evidence/2026-10-10-joined-report-public/closure-commands.json",
+    ".aide/evidence/2026-10-10-joined-report-public/closure-index.log",
+    ".aide/evidence/2026-10-10-joined-report-public/closure-manifest.log",
+    ".aide/evidence/2026-10-10-joined-report-public/closure-verify-manifest.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/gui-export-execute-review.png",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/gui-export-prepare-review.png",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-2.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-3.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-4.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-5.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-configure.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-model-tests.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-regressions.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-tool-tests.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-1.json",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-1.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-2.json",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-2.log",
+    ".aide/evidence/2026-10-10-joined-report-public/exploratory/working-build-identity.json",
+    ".aide/evidence/2026-10-10-joined-report-public/inventory.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduce.py",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-build.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-check.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-clone.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-configure.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-context.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-discovery.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-headers.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-imports.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-dependents.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-headers.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-imports.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-dependents.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-headers.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-imports.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-freshness.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-host.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-frontends.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-worker.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-launch.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-manifest.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-native.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-python-environment.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-results.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-spec-tests.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-test-catalog.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-verify-context.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/commands.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/disked-link-closure.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/disked_report_test-link-closure.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/export_command_probe-link-closure.log",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/gui-export-execute-review.png",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/gui-export-prepare-review.png",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/joined-frontends.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/joined-worker.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/native-artifacts.json",
+    ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/native-details.log",
+    ".aide/evidence/2026-10-10-joined-report-public/working-results.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/report_worker.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/protocol.h",
+    "source/runtime/evidence/export_commands.cpp",
+    "source/runtime/evidence/export_commands.h",
+    "source/runtime/presentation/session.cpp",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/joined-report-public-prototype.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/safety/verification-and-performance.md",
+    "spec/schemas/export-command-parameters.schema.json",
+    "spec/schemas/export-operation-result-v2.schema.json",
+    "spec/schemas/export-preparation-result-v2.schema.json",
+    "spec/schemas/index.md",
+    "spec/schemas/report-worker-definition-parameter.schema.json",
+    "spec/schemas/report-worker-grant-v2.schema.json",
+    "spec/tools/export_contracts.py",
+    "spec/tools/index.md",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_export_semantics.py",
+    "spec/work/units.json",
+    "tests/evidence/test_export_commands.py",
+    "tests/evidence/test_joined_report_worker.py",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/report_console_fixture.py",
+    "tests/frontend/test_gui_model.py",
+    "tests/frontend/test_product_export.py",
+    "tests/frontend/test_tui_model.py",
+    "tests/frontend/tui_probe.cpp",
+    "tests/native/test_protocol.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tests/resilience/test_request_channel.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Public joined-report prototype qualified at ec30be78ba9e9f61dc578ff67b9d0af186166145: 77 native groups, 272 public frontend/port/producer checks, 523 worker/report checks, 401 exact native inputs and 215 tooling tests (213 pass/two skips). Dev.36 has twenty available commands; both report profiles retain exact authority and separate actual/synthetic evidence. Full DE-W034/0.1.0 and owner/platform/privilege/release gates remain open. No remote writes.",
+  "tests": [
+    {
+      "command": "powershell -NoProfile -Command $identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_product_export.py --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked_report_test.exe --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\export_command_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78 --joined --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-joined-report-public\\reproduction-ec30be78\\joined-frontends.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-frontends.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/evidence/test_verification_case.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\verification_case_probe.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\verification_case_fault.exe --product D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe --worker D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\report_worker_probe.exe --worker-fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\report_worker_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-joined-report-public\\reproduction-ec30be78\\joined-worker.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-worker.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W034 --output .aide-local/context/DE-W034-joined-public --byte-budget 500000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W034-joined-public",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-verify-context.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked_report_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked_report_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked_report_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\export_command_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-joined-public-ec30be78",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-spec-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/closure-index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/closure-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/closure-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/closure-verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe .aide/evidence/2026-10-10-joined-report-public/reproduce.py --source ec30be78ba9e9f61dc578ff67b9d0af186166145",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/clean-execution.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe .aide/evidence/2026-10-10-joined-report-public/reproduce.py --source ec30be78ba9e9f61dc578ff67b9d0af186166145 --resume",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/clean-resume.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-2.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-3.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-4.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-5.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-tool-tests.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R '^(frontend.gui_model|frontend.tui_model|resilience.request_channel)$'",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-model-tests.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R '^(evidence.export_commands|evidence.report_watch|evidence.verification_case_export|frontend.product_export|native.protocol)$'",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-regressions.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root . --joined --evidence .aide-local/goal-0.1.0/joined-public-working-frontends-1.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-1.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root . --joined --evidence .aide-local/goal-0.1.0/joined-public-working-frontends-2.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-2.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/clean-execution.log",
+      "sha256": "sha256:8ab77b18a09e12a73c304e6e0b165f04435a05e06ef598a11de00819505dc2a6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/clean-resume.log",
+      "sha256": "sha256:8cc1ed0150dcbd8d6c8bb872848be264fac314f4150bdec09663eb36a9b0fcb5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/closure-check.log",
+      "sha256": "sha256:3ebf5b8753b4db9f01ec4ac44bbebe44a710d0db4cd65d66cf6ab9856fc473c8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/closure-commands.json",
+      "sha256": "sha256:5251d7c4eee199464acdf815919b26cdfac4e4e835bb7490f1998f81dbce8c1b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/closure-index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/closure-manifest.log",
+      "sha256": "sha256:10f93fca29c20c725b1fd20d71d28f6d379263b1dd6338def3f80945bfc88035"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/closure-verify-manifest.log",
+      "sha256": "sha256:aebd4585c376d9459e6bccfab1c6a80687ceac2877afc3005d7352480a1c9cbe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/gui-export-execute-review.png",
+      "sha256": "sha256:52ceb6d24dd4c2f6b803c73650ff520e5bbff5af74c389c915bbede2e80dc552"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/gui-export-prepare-review.png",
+      "sha256": "sha256:f5f263772a2990ac30a1f3c6d13e147fe74e9c6e106460924856efee7d31cf97"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-2.log",
+      "sha256": "sha256:63cb3de686a770d5675e24b5a3c0b76883ff980181dd8eed3d9eb4edc008e353"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-3.log",
+      "sha256": "sha256:0f8d580a5b26488aa2e2e1f3beadc2fcab49b092586a51626db5fdf31da3c166"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-4.log",
+      "sha256": "sha256:60502c08511b16d695a5524b39a33ae07c465945994d1f8bff72674c34f17903"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build-5.log",
+      "sha256": "sha256:14aab058ac588281207f52956b2586f7585217315203002e98cc39ed9729009f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-build.log",
+      "sha256": "sha256:e52349fa8a71602b29c80b9acf46a374de08799e12b8dee1b93b65c957d30b56"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-configure.log",
+      "sha256": "sha256:14026bc4217b8e367b260c799724b53b8cc3c7c5a4ba574aff19847c6433c2c2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-model-tests.log",
+      "sha256": "sha256:3d2e67792f6da898db3a4600007f0c148c047ba85dd356d41e4189f92f3d1abe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-regressions.log",
+      "sha256": "sha256:2393f610be2cdc8be78066baa609d5b20cc56408ae41addc29ba9cc3e6deb2a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-tool-tests.log",
+      "sha256": "sha256:99939da6a5e6597869e8a409a807ff391303daea1280ddea15f543a56045abcb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-1.json",
+      "sha256": "sha256:9ca627b495cc36cbd67157f6d8d494d86923a4f945a47ea7e678c25cea60e3fd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-1.log",
+      "sha256": "sha256:80994c3549def9701027cf9229b252b9c2c7ee4cc97fcd50a243aa4f67796dfe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-2.json",
+      "sha256": "sha256:1538731105c4556a1ce5af4030acb5635c42e76379af772030fe9ca10c927048"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/joined-public-working-frontends-2.log",
+      "sha256": "sha256:b033ca1ed83910d1e28cb40754562db817a2cd639bc7afcd17c7eecf22bf1192"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/exploratory/working-build-identity.json",
+      "sha256": "sha256:6e29f59971037b5b425e331076255669aba1e29cf0f3be3ec55f452ab49cd28d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/README.md",
+      "sha256": "sha256:6c038e6ab83cb547eceed315081c293e9f469a7413d0cd1d7e301be6136483c2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduce.py",
+      "sha256": "sha256:4b3e953405541ab502b4a2616ab099b6f131133219576f38eb1869fc241b78c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-build.log",
+      "sha256": "sha256:d6d0c43c00b087fc9b22c3201efd3966de488f2ba6d9c115fdf6a3a991404114"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-check.log",
+      "sha256": "sha256:3ebf5b8753b4db9f01ec4ac44bbebe44a710d0db4cd65d66cf6ab9856fc473c8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-clone.log",
+      "sha256": "sha256:95f13f9f8fd135b6439d47123a236d6c1cef55dce00f10585b7619242199192d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-configure.log",
+      "sha256": "sha256:d9893fdb2d758ea63c002a8830986a5e1356448255da34fd3d948792c1a7d996"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-context.log",
+      "sha256": "sha256:fd96dd7cd9262d4ed258643d9cdbfcc5e793d32fc6df97cf9d6821ea3d754d04"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-discovery.log",
+      "sha256": "sha256:fa5324f81a3a2a5d14d9bdf4efd97983de7dc81f63b82d640b8d0f10d27b6aee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-dependents.log",
+      "sha256": "sha256:352277be22ef0b6e7a7fc3a0638010fbefa01d4b89e8cedf17c61184788e8420"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-headers.log",
+      "sha256": "sha256:214483a51d32c3c284f7b02226a7797861750f7410707c220c52875873623adc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked-imports.log",
+      "sha256": "sha256:3604dd61797c03ab18d3fe23deb000ee808273e4ed2789a457899281a82c1a13"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-dependents.log",
+      "sha256": "sha256:2964d921a08dc7a2dac373ce8efbce710da20a227c09baa58c4149f9629342d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-headers.log",
+      "sha256": "sha256:19890444e2a8cc47f53a7acc1dec14a648efa5d37bd304518fd32b555f08c70d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-disked_report_test-imports.log",
+      "sha256": "sha256:adeb14c687940e6e84d7c1c1a20c838c51e535e3bd1b56119098950985092200"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-dependents.log",
+      "sha256": "sha256:dc2b4bbae0722311d7c88c45d6cce08a0803cc7e68b9cf486479b2d1bf29635e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-headers.log",
+      "sha256": "sha256:d29385921c714f2a3fc7ac8b447445c20b71317c1930fa497c7ae59b412b2f00"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-export_command_probe-imports.log",
+      "sha256": "sha256:699eb10c3aebad4594441999628a4d3e2b76def659a1c2f4af883b9f6747302d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-freshness.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-host.log",
+      "sha256": "sha256:928cf0151ea56d3375dba0c25854fc4bae8f97eb7ed540cbddeff4bd36a47304"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-frontends.log",
+      "sha256": "sha256:f1922793e449e850c9304f550dc252cea5a5572f72224ecd76b6d9978512a482"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-joined-worker.log",
+      "sha256": "sha256:5f4784c525f09aec86f93b382749a9f422a25c2470bc2002873e412d709294cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-launch.log",
+      "sha256": "sha256:c3bc58a3c2fea435a9c57b02713cecc19a5bdbe58bbd2cef81ab2fde9e307971"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-manifest.log",
+      "sha256": "sha256:aebd4585c376d9459e6bccfab1c6a80687ceac2877afc3005d7352480a1c9cbe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-native.log",
+      "sha256": "sha256:a4ba27ddd6ce57adecb6f7866bd416e5036c9e37e9cba31ee6f734c6d83b7fa5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-results.json",
+      "sha256": "sha256:0b9451257e17546d7ce2f3c41ceed4265eb9e4cdbeec4189a697c6f29f467d54"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-spec-tests.log",
+      "sha256": "sha256:5a71b7562a0117ce8b0936651c978d55ec09dfdf4bf2f8b60f2b825b8ec86b6e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-test-catalog.log",
+      "sha256": "sha256:91e24cea0f2e978cd0c3950eeff2d75014b2ba96e182d8f43faecd1d77b78278"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/clean-verify-context.log",
+      "sha256": "sha256:1637760636b63cffa476ff1ce9fafcd6ce613971825d5fa87dd7c43803f7804a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/commands.json",
+      "sha256": "sha256:827444d64eb69651dae47ec282eb947cbd756039927b7b3ba16b9fd8c4a2a245"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/disked-link-closure.log",
+      "sha256": "sha256:22165a3e50ac6b15a4308f15d2894ae8c2238cf1fad6788f4116c2e77d6315fe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/disked_report_test-link-closure.log",
+      "sha256": "sha256:22165a3e50ac6b15a4308f15d2894ae8c2238cf1fad6788f4116c2e77d6315fe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/export_command_probe-link-closure.log",
+      "sha256": "sha256:bb32a02a6f3ac2c57a1aa27d66610377784bfb8eb42543df97cf579512d2d056"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/gui-export-execute-review.png",
+      "sha256": "sha256:a3646458ac9ae90a791b85cd00807827070cfb4dab55bce174a1a412b46a21b5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/gui-export-prepare-review.png",
+      "sha256": "sha256:4520e991137530b06ae7f7662a3b7af4e603d9a0960edb2b66092f2a45162dfd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/joined-frontends.json",
+      "sha256": "sha256:9ddf7272f4d00c317444dd3822cc8d3471c13d59e27554869209d9f6dcda5c88"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/joined-worker.json",
+      "sha256": "sha256:42bfd4cf369a711306bbcfa24f02c185a4e86129688faf7f2115f070f3cbb9de"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/native-artifacts.json",
+      "sha256": "sha256:508e238a3d08adf6ecb6d2e0cd93a672269c193c3e7d769132e978363829c3d0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/reproduction-ec30be78/native-details.log",
+      "sha256": "sha256:393484d46c17dbe8f26d04d9cc44d9ed069c1fcfba4b6818ed05a01a35ce4051"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/REVIEW.md",
+      "sha256": "sha256:8f8b2500705458d056efc8cbee3e39dbac4304b47eb299ed9eea638c0a810bd6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/working-results.json",
+      "sha256": "sha256:5116d6edf792f86f05d04ba049e34f49bd3eccb52d260cace236a6c57508b35f"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/disked.exe",
+      "sha256": "sha256:ac2721db6b26231ed52c31742f472063bed8c7bd88ceb8f14690eb37dd63994d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/disked_report_test.exe",
+      "sha256": "sha256:54192228be5b900c2f92a2d083d1a4a42d50f9ba796998b3ec05bd1e5105a90f"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/export_command_probe.exe",
+      "sha256": "sha256:33a2c24f03ef9062b834b7f5a0fd1fe6d664983d2bb9480a52669b89cce98472"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/gui_model_probe.exe",
+      "sha256": "sha256:d6deaa5ea2f150044b2fa46847f79c11fa60c091c9856f7d93d9041035a029d0"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/tui_model_probe.exe",
+      "sha256": "sha256:316dfda3e88cc30dd00a01fbee76c92f1f67bf18fa943f26e0d6848009f69ad9"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/request_channel_probe.exe",
+      "sha256": "sha256:90d2a35abfef1288bbe4be61248ebd3f6d87cd20a4eec1e93479d849e4ae693b"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/disked_file_verification_case_export.lib",
+      "sha256": "sha256:43119f10c0c4b4e20d0ee605e00b8843f2353e9cbf4cf36f03b6abd69ee5d36d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/disked_report_export.lib",
+      "sha256": "sha256:fb820216facf84deee07cd49acb972ed3676dc1da7d000a38c28becad809a07d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/bootstrap_registry.h",
+      "sha256": "sha256:ca529198177da116035b0ebf219386765ec1cb6c1a1964a622bb8d43157f58d6"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-ec30be78/build-identity.json",
+      "sha256": "sha256:7d3cefc6e4fa8deb40bceaf74a3ac1ecba981012a9c6acee53951fb7c445cd17"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/disked.exe",
+      "sha256": "sha256:c4c06017b5cd96d07b2ee2d3776b99aa6e83a353b7638da3a3ddc8bd637f5178"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/disked_report_test.exe",
+      "sha256": "sha256:c85f4e54d66fbe5baec8b8d8657be199bb5d663ac2fdc881f87228f7940196eb"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/export_command_probe.exe",
+      "sha256": "sha256:7a6a801b9fab31129062913ae17cfd333c8468f233b8df49df153f2e210ab4e9"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/gui_model_probe.exe",
+      "sha256": "sha256:2f026df8fd8239df10e8897238fa7d36517edfe9b87dcbcc6cda120bc495b8ce"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/tui_model_probe.exe",
+      "sha256": "sha256:b7deaad5ff50ee6c6f4b0743edc05aad18f76b3549b3c6732f3ffb19d3e36ffc"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/request_channel_probe.exe",
+      "sha256": "sha256:4100d9917da81b24a49badcca22bdc2bf21e45074cefc400f965b416455b22a1"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/disked_file_verification_case_export.lib",
+      "sha256": "sha256:a277673f00a6f2581cf1351bccc9c8989b00406fc25834df53a49aada623d5f0"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-joined-public-working-ba3d816/disked_report_export.lib",
+      "sha256": "sha256:7d1aa32fed234ec98aeb6102692818ac2503d02f0ea266d30b1a6226751f32c0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-joined-report-public/inventory.json",
+      "sha256": "sha256:0381c519a2c7c4d998991fed75d4c23a80ae3afc8ca002110dde32336681a99e"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Start DE-W060 exact Universal Setup source/payload contract mapping in owned fixture directories. Inspect the selected work record, canonical composition/carrier/servicing contracts and an exact pinned source without assuming unsupported Setup modes. Define expected payload identity, occupied-root refusal and customer-evidence retention before implementing fixture bindings and tests. No actual installation, host registration/elevation, execution of fetched scripts, signing or publication is authorized. Full DE-W034 and the all-platform/storage 0.1.0 programme remain open; DE-W035 integration waits for its dependencies.",
+  "performed_remote_writes": false
+}

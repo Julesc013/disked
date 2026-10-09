@@ -820,5 +820,5 @@ image/map/source paths, and then exercises prepare/execute/watch through CLI,
 stdio, GUI, TUI and shell. It independently checks selected bytes, histories,
 worker exit, denied grants and occupied callback behavior. The new
 `frontend.joined_report` CTest group runs serially with other owned worker tests.
-Source-bound clean qualification is pending for this change. Full DE-W034, all
+Source-bound clean qualification at `ec30be78ba9e9f61dc578ff67b9d0af186166145` is retained in `.aide/evidence/2026-10-10-joined-report-public/`, with implementing-agent review and separate remaining gates. Full DE-W034, all
 0.1.0 platforms/storage and owner/privilege/release gates remain open.

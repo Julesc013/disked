@@ -41,7 +41,7 @@ release/storage authority remain separate. The programme record is
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
 - [x] DE-W034 private joined acquisition/verification report and two-source support export: clean native evidence and local review retained; full unit/owner gates remain open.
 - [x] DE-W034 private joined-report producer/contained-worker contracts: clean native evidence and local review retained; full unit/owner gates remain open.
-- [ ] DE-W034 joined common command/frontend candidate: 280 generated-file frontend checks and native budget/model/acquisition-only regressions pass in the working tree; freeze and clean-qualify exact dev.36 source before recording local continuation review.
+- [x] DE-W034 provisional joined common command/frontend slice: clean dev.36 evidence and implementing-agent review retained in `.aide/evidence/2026-10-10-joined-report-public/`; full unit/owner/platform/storage gates remain open.
 - [x] DE-W034 private same-file verification worker, finite history cursor, cancellation and collections have clean native qualification; full work/owner/physical gates remain separate.
 
 ## Delivery and maintenance
@@ -91,7 +91,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W032 active: verify the provisional fake-only health.assess command through the shared CLI/stdio/GUI/TUI/shell service, retaining exact target/revision checks, explicit unknown/unavailable data and opt-in support disclosure. The bounded private collector is implemented. Native SMART/adapters, provider admission, containment and physical/platform qualification remain open.
 
-- [ ] DE-W034 active: complete the broader case/custody programme and physical/platform qualification. Provisional acquisition-only evidence.export has retained native qualification; the joined public variant is a locally tested dev.36 candidate awaiting clean source-bound qualification. Authenticated forensic/custody claims remain unqualified.
+- [ ] DE-W034 active: complete the broader case/custody programme and physical/platform qualification. Provisional acquisition-only evidence.export has retained native qualification; the joined public variant has clean dev.36 native qualification on the recorded host. Authenticated forensic/custody claims remain unqualified.
 
 - [ ] DE-W034: admit native consent-selected report-file export through the bounded shared service; retain acquisition/custody and physical/platform qualification gates.
 
