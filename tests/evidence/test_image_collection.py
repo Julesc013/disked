@@ -72,7 +72,8 @@ def main():
             child.stdin.write(canonical(grant)+b'\n');child.stdin.flush();reviews.append(review)
         child.stdin.close();child.stdin=None;assert child.wait(timeout=35)==0;assert not child.stderr.read();result=json.loads(lines.get(timeout=10));assert len(result['exports'])==len(items)
         return result,reviews
-    with fixture_directory(root/'.aide-local/goal-0.1.0') as owned:
+    scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
+    with fixture_directory(scratch) as owned:
         state=owned/'state';state.mkdir();src=owned/'private-customer-source.img';image=owned/'private-customer-copy.img';mapping=owned/'private-customer-map.jsonl';expected=source_bytes(262145);src.write_bytes(expected)
         review=cli(['image','acquire','prepare',str(src),str(image),'--map',str(mapping),'--state-dir',str(state)])['result']
         first=cli(['image','acquire','execute','--definition-json',canonical(review['definition']).decode(),'--definition-digest',review['definition_digest'],'--allow-source-read','--allow-destination-write','--allow-map-write','--allow-host-effects']);assert first['operation_id'],first
