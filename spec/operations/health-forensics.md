@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.7-proposed.1
+  version: 0.1.7-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -213,8 +213,10 @@ image paths remain declarations and are never followed by this report role.
 
 Persist operation/attempt/worker identities and actual process identity. Prepared,
 executing, effect certainty, worker-observed cancellation and finished receipts
-remain separate. Close provider handles before recording effect quiescence; this
-does not establish process exit. A delayed admission retains an unknown operation
+remain separate. The versioned worker `cancellation_observation` says
+`not_observed` or `observed`; it never asserts that no request exists. Close
+provider handles before recording effect quiescence; this does not establish
+process exit. A delayed admission retains an unknown operation
 and must not cause restart. Repeating the same admission only observes its store.
 A failed terminal write retains the last valid state and actual created output,
 without inventing a completion receipt. Torn histories remain unknown.

@@ -102,12 +102,12 @@ V expected_binding(const V& h) {
         .put("definition_digest",field(h,"definition_digest")).put("image_digest",field(d,"image_digest")).put("host_id",field(d,"host_id"));
 }
 void validate_state(const V& s,const V& h,std::size_t sequence) {
-    keys(s,{"schema","binding","sequence","phase","cancellation","effect_certainty","observed_filetime","quiescent","outcome","receipt"});
-    if(text(s,"schema")!="org.disked.report-worker-state-prototype/1" || !sequence || sequence>record_count_limit || integer(field(s,"sequence"))!=sequence || !integer(field(s,"observed_filetime")))reject("report_worker_state");
+    keys(s,{"schema","binding","sequence","phase","cancellation_observation","effect_certainty","observed_filetime","quiescent","outcome","receipt"});
+    if(text(s,"schema")!="org.disked.report-worker-state-prototype/2" || !sequence || sequence>record_count_limit || integer(field(s,"sequence"))!=sequence || !integer(field(s,"observed_filetime")))reject("report_worker_state");
     auto b=field(s,"binding");keys(b,{"operation_id","worker_epoch","attempt_id","definition_digest","image_digest","host_id","process_id","process_created"});
     if(!integer(field(b,"process_id")) || integer(field(b,"process_id"))>0xffffffffULL || !integer(field(b,"process_created")))reject("report_worker_identity");
     b.fields.erase("process_id");b.fields.erase("process_created");if(!equal(b,expected_binding(h)))reject("report_worker_identity");
-    one(text(s,"cancellation"),{"not_requested","observed"});const auto phase=text(s,"phase"),certainty=text(s,"effect_certainty");const auto quiet=boolean(field(s,"quiescent"));
+    one(text(s,"cancellation_observation"),{"not_observed","observed"});const auto phase=text(s,"phase"),certainty=text(s,"effect_certainty");const auto quiet=boolean(field(s,"quiescent"));
     if(phase=="prepared" || phase=="executing") {
         if(quiet || field(s,"outcome").kind!=V::Kind::null || field(s,"receipt").kind!=V::Kind::null || certainty!=(phase=="prepared"?"not_started":"in_flight"))reject("report_worker_state");
     } else {
@@ -122,12 +122,12 @@ History read_history(const std::string& raw,const V& h) {
         const auto end=raw.find('\n',start);if(end==raw.npos) {out.complete=false;break;}
         if(end-start>record_limit || out.count>=record_count_limit)reject("report_worker_history_limit");
         const auto bytes=raw.substr(start,end-start);auto row=json::parse(bytes,row_limits());keys(row,{"schema","state","previous","digest"});
-        if(text(row,"schema")!="org.disked.report-worker-record-prototype/1" || text(row,"previous")!=out.previous || json::dump(row,row_limits())!=bytes)reject("report_worker_history_chain");
+        if(text(row,"schema")!="org.disked.report-worker-record-prototype/2" || text(row,"previous")!=out.previous || json::dump(row,row_limits())!=bytes)reject("report_worker_history_chain");
         const auto hash=text(row,"digest");hex(hash,"",64);row.fields.erase("digest");if(e::export_digest(json::dump(row,row_limits()))!="sha256:"+hash)reject("report_worker_history_chain");
         const auto& state=field(row,"state");validate_state(state,h,out.count+1);
         if(!out.count && text(state,"phase")!="prepared")reject("report_worker_history_order");
         if(out.count && (text(out.state,"phase")=="finished" || (text(out.state,"phase")=="executing" && text(state,"phase")=="prepared") ||
-           (text(out.state,"cancellation")=="observed" && text(state,"cancellation")!="observed") || !equal(field(out.state,"binding"),field(state,"binding"))))reject("report_worker_history_order");
+           (text(out.state,"cancellation_observation")=="observed" && text(state,"cancellation_observation")!="observed") || !equal(field(out.state,"binding"),field(state,"binding"))))reject("report_worker_history_order");
         if(out.count && text(state,"phase")=="prepared")reject("report_worker_history_order");
         if(out.count && text(out.state,"phase")=="prepared" && text(state,"phase")=="finished" &&
            text(field(field(state,"outcome"),"output"),"output_state")!="not_created")reject("report_worker_history_order");

@@ -30,7 +30,7 @@ def history_check(path,header):
     previous='0'*64;binding=None;rows=[]
     for sequence,body in enumerate(raw.splitlines(),1):
         assert len(body)<=65536 and sequence<=16;row=json.loads(body);assert canonical(row)==body
-        assert row['schema']=='org.disked.report-worker-record-prototype/1' and row['previous']==previous
+        assert row['schema']=='org.disked.report-worker-record-prototype/2' and row['previous']==previous
         unsigned=copy.deepcopy(row);previous=unsigned.pop('digest');assert hashlib.sha256(canonical(unsigned)).hexdigest()==previous
         state=row['state'];assert state['sequence']==str(sequence) and int(state['observed_filetime'])>0
         b=state['binding'];assert b['definition_digest']==header['definition_digest']
@@ -167,7 +167,8 @@ def main():
             ('wrong-artifact-receipt',lambda x:x[-1]['state']['receipt']['output_receipt'].update(artifact_digest='sha256:'+'f'*64)),
             ('impossible-output-metadata',lambda x:x[-1]['state']['receipt']['output_receipt']['output_metadata'].update(bytes='0')),
             ('effects-before-dispatch',lambda x:x.__delitem__(1)),
-            ('observed-cancel-reverted',lambda x:x[1]['state'].update(cancellation='observed')),
+            ('observed-cancel-reverted',lambda x:x[1]['state'].update(cancellation_observation='observed')),
+            ('unsupported-older-state-format',lambda x:x[0].update(schema='org.disked.report-worker-record-prototype/1')),
             ('post-terminal-record',lambda x:x.append(copy.deepcopy(x[-1])))]:
             altered=copy.deepcopy(rows);change(altered)
             if name=='effects-before-dispatch':altered[-1]['state']['sequence']='2'
@@ -200,7 +201,7 @@ def main():
         d,store,out=prepare('cancel-before-output',fault);result=call(request(d),fault,dict(DISKED_REPORT_WORKER_TEST_EFFECT_DELAY='1'))
         cancelled=call(dict(mode='cancel',operation_id=result['operation_id'],state_directory=str(store)),fault);check('cancellation-request-distinct',cancelled['value']['cancellation_request']=='requested' and not out.exists())
         observed,h,raw,rows=finished(d,store,out,fault,result);state=observed['value']['state']
-        check('worker-observed-cancellation-before-output',state['cancellation']=='observed' and state['outcome']['status']=='cancelled' and state['outcome']['output']['output_state']=='not_created' and not out.exists())
+        check('worker-observed-cancellation-before-output',state['cancellation_observation']=='observed' and state['outcome']['status']=='cancelled' and state['outcome']['output']['output_state']=='not_created' and not out.exists())
         samples.append(dict(kind='actual-cancellation-before-output',definition=d,header=h,records=rows,observation=observed))
         d,store,out=prepare('cancel-created-output',fault);release=store.parent/'release'
         result=call(request(d),fault,dict(DISKED_REPORT_TEST_EVENT='created',DISKED_REPORT_TEST_PAUSE='1',DISKED_REPORT_TEST_RELEASE_FILE=str(release)))
@@ -210,7 +211,7 @@ def main():
         check('actual-created-output-worker-still-running',interim['value']['worker_observation']=='running' and interim['value']['state']['phase']=='executing')
         cancel=call(dict(mode='cancel',operation_id=result['operation_id'],state_directory=str(store)),fault);check('created-output-cancel-requested',cancel['value']['cancellation_request']=='requested')
         release.write_bytes(b'1');observed,h,raw,rows=finished(d,store,out,fault,result);state=observed['value']['state']
-        check('cancellation-retains-created-file',state['cancellation']=='observed' and state['outcome']['status']=='cancelled' and state['outcome']['output']['output_state']=='created' and state['receipt']['output_receipt']['output_created_observed'] and out.read_bytes()==b'')
+        check('cancellation-retains-created-file',state['cancellation_observation']=='observed' and state['outcome']['status']=='cancelled' and state['outcome']['output']['output_state']=='created' and state['receipt']['output_receipt']['output_created_observed'] and out.read_bytes()==b'')
         samples.append(dict(kind='actual-cancellation-after-creation',definition=d,header=h,records=rows,observation=observed))
         d,store,out=prepare('late-receipt',fault);result=call(request(d),fault,dict(DISKED_REPORT_WORKER_TEST_RECEIPT_DELAY='1'))
         end=time.monotonic()+5
@@ -220,7 +221,7 @@ def main():
         check('actual-output-before-terminal-receipt',digest(data)==d['definition']['export']['effect']['artifact']['digest'])
         cancelled=call(dict(mode='cancel',operation_id=result['operation_id'],state_directory=str(store)),fault);check('late-cancel-requested-not-effect-proof',cancelled['value']['cancellation_request']=='requested')
         observed,h,raw,rows=finished(d,store,out,fault,result);state=observed['value']['state']
-        check('completed-effect-survives-late-cancellation',state['outcome']['status']=='completed' and state['cancellation']=='not_requested' and out.read_bytes()==data)
+        check('completed-effect-survives-late-cancellation',state['outcome']['status']=='completed' and state['cancellation_observation']=='not_observed' and out.read_bytes()==data)
         samples.append(dict(kind='actual-late-receipt-and-cancel',definition=d,header=h,records=rows,observation=observed))
         d,store,out=prepare('lost-terminal-receipt',fault);result=call(request(d),fault,dict(DISKED_TEST_STORE_FAULT='report_finished.full'))
         observed=wait(result['operation_id'],store,fault,False);h=json.loads((store/'report.request').read_bytes());raw,rows=history_check(store/'report.records',h)

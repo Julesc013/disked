@@ -90,7 +90,7 @@ struct Recorder {
     void save(V state,const char* point) {
         if(history.count>=r::record_count_limit || file_size(file)>r::history_limit-r::record_limit-1)reject("report_worker_history_limit");
         FILETIME now{};GetSystemTimeAsFileTime(&now);state.put("sequence",number(history.count+1)).put("observed_filetime",number(file_time(now)));
-        r::validate_state(state,header,history.count+1);auto row=V::object().put("schema",V::string("org.disked.report-worker-record-prototype/1")).put("state",state).put("previous",V::string(history.previous));
+        r::validate_state(state,header,history.count+1);auto row=V::object().put("schema",V::string("org.disked.report-worker-record-prototype/2")).put("state",state).put("previous",V::string(history.previous));
         const auto hash_value=hash(json::dump(row,r::row_limits()));row.put("digest",V::string(hash_value));
         write_file(file,json::dump(row,r::row_limits())+'\n',point);history.state=state;history.previous=hash_value;++history.count;
     }
@@ -178,8 +178,8 @@ int run_report_worker(int argc,wchar_t** argv) {
         if(!QueryInformationJobObject(nullptr,JobObjectExtendedLimitInformation,&budget,sizeof(budget),nullptr) || budget.BasicLimitInformation.ActiveProcessLimit!=1 || budget.ProcessMemoryLimit!=128*1024*1024 ||
            budget.BasicLimitInformation.LimitFlags!=(JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY))reject("report_worker_role_budget");
         auto binding=r::expected_binding(h);binding.put("process_id",number(GetCurrentProcessId())).put("process_created",V::string(process_created(GetCurrentProcess())));
-        auto state=V::object().put("schema",V::string("org.disked.report-worker-state-prototype/1")).put("binding",binding).put("sequence",number(0)).put("phase",V::string("prepared"))
-            .put("cancellation",V::string("not_requested")).put("effect_certainty",V::string("not_started")).put("observed_filetime",number(0)).put("quiescent",V::boolean_value(false)).put("outcome",V{}).put("receipt",V{});
+        auto state=V::object().put("schema",V::string("org.disked.report-worker-state-prototype/2")).put("binding",binding).put("sequence",number(0)).put("phase",V::string("prepared"))
+            .put("cancellation_observation",V::string("not_observed")).put("effect_certainty",V::string("not_started")).put("observed_filetime",number(0)).put("quiescent",V::boolean_value(false)).put("outcome",V{}).put("receipt",V{});
         Recorder recorder{records.value,h,r::History{}};recorder.save(state,"report_prepared");FileAcquisitionExportResult result;std::unique_ptr<FileAcquisitionExport> session;bool dispatched=false;
         try {
             session=reconstruct(field(h,"definition"));delay(L"DISKED_REPORT_WORKER_TEST_ADMISSION_DELAY");
@@ -187,7 +187,7 @@ int run_report_worker(int argc,wchar_t** argv) {
             state.put("phase",V::string("executing")).put("effect_certainty",V::string("in_flight"));recorder.save(state,"report_executing");dispatched=true;
             const auto stop=[&] {
                 const auto flag=read_file(cancel.value,1);if(flag!="0" && flag!="1")reject("report_worker_cancel_invalid");
-                if(flag=="1" && text(state,"cancellation")=="not_requested") {state.put("cancellation",V::string("observed"));recorder.save(state,"report_cancel_observed");}
+                if(flag=="1" && text(state,"cancellation_observation")=="not_observed") {state.put("cancellation_observation",V::string("observed"));recorder.save(state,"report_cancel_observed");}
                 return flag=="1";
             };
             const auto& joint=field(field(h,"definition"),"export");result=session->execute(e::AcquisitionExportGrant{r::digest(joint),true,true,true},stop);
