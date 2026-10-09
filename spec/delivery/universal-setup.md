@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-061
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -98,6 +98,9 @@ payload with external configuration/case/recovery/evidence roots. Those external
 roots acquire no package ownership. Empty authenticity/license/SBOM references
 mean no release qualification; source/launch evidence and owner licensing remain
 separate. Recipe `verify` is an authored selection, not a live SDK invocation.
+The minimum reader is a requirement; `maximum_tested_reader` is `not_run`.
+The upstream schema allows this string, without proving a real consumer would
+accept it or establishing installed-state compatibility.
 Install/repair/update/move/uninstall, per-user/machine, embedded hosts and native
 carriers remain unavailable through this binding.
 

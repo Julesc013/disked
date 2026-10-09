@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-04T07:27:09.204646+00:00'
-  scope: CLI syntax refinement; proposed, no native parser or acceptance claim
+  at: '2026-10-10T00:00:00Z'
+  scope: DE-W060 fixture package progress; proposed, no live Setup or owner acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -85,6 +85,15 @@ The October amendment is specification/tooling work within DE-W000, stopped at n
 Keep DE-W010 small: one native executable, essential build/mode/command discovery, declared loader closure, fake-only composition and actual build/import evidence. DE-W011-016 add invocation, command/protocol, graph and frontends, and unprivileged process roles. DE-W017 verifies the combined failure matrix; DE-W018 runs nonblocking historical primitive/text probes. Record actual native build/test commands when the toolchain is selected, not fictional commands or only the spec-tool floor.
 
 M2/M3 image parsing and inspection can proceed without finished Setup or production journal work. DE-W035 later proves optional read-only native integration. DE-W060/062 cover pinned Setup and finite carrier/owner contracts; DE-W063 covers artifact completeness. DE-W043 covers image-only formatting after the journal gate. Shared storage, tape/optical, conversions and repair split into operation-specific work through DE-W080. The existing M0-M8 risk order remains.
+
+DE-W060 now has an initial [fixture package profile](../catalog/setup-fixture-prototype.json)
+and exact local upstream source/schema mapping. Recorded clean fixture tests
+exercise independent native payload/ZIP/extraction equality, occupied-root data
+retention and interrupted writes. This is partial delivery development: no live
+SDK/ABI, install/repair/update/uninstall, carrier, installed-state compatibility,
+servicing-owner or other-target qualification follows from it. Continue SDK and
+delivery work under the local programme grant while retaining separate owner,
+installation, storage and release gates; the full 0.1.0 finish line is unchanged.
 
 License, launch, journal, elevation, canonicalization, setup-host, channel and historical-terminal decisions block only their affected implementation or release claim. A first public inspector is a selected qualified release, not completion of all historical targets. AIDE remains optional development infrastructure; roughly weekly pin reviews are tracked as DE-W061 follow-up.
 

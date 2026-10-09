@@ -1,0 +1,417 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 1.72,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "92d72bb7a7a1b312b74db9dcbeccba9bdda94548"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 12.084,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.257,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity = [System.Security.Principal.WindowsIdentity]::GetCurrent(); $principal = [System.Security.Principal.WindowsPrincipal]::new($identity); [ordered]@{identity=$identity.Name; elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)} | ConvertTo-Json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.318,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\host.log"
+  },
+  {
+    "name": "original-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W034-joined-public-ec30be78\\disked.exe",
+      "--cli",
+      "--json",
+      "build",
+      "inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.138,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\original-launch.log"
+  },
+  {
+    "name": "inventory",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\tools\\release\\artifact_check.py",
+      "inventory",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\staging",
+      "--required",
+      "disked.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.235,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\inventory.log"
+  },
+  {
+    "name": "init-fixtures",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "init-fixtures",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.167,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\init-fixtures.log"
+  },
+  {
+    "name": "assemble",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "assemble",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\staging",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json",
+      "--output",
+      "package"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.309,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\assemble.log"
+  },
+  {
+    "name": "independent-zip",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\tools\\release\\artifact_check.py",
+      "verify",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--archive",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\package\\payload.zip"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.106,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\independent-zip.log"
+  },
+  {
+    "name": "verify",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "verify",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.232,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\verify.log"
+  },
+  {
+    "name": "extract-fixture",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json",
+      "--output",
+      "extracted"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.372,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\extract-fixture.log"
+  },
+  {
+    "name": "extracted-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\extracted\\disked.exe",
+      "--cli",
+      "--json",
+      "build",
+      "inspect"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.137,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\extracted-launch.log"
+  },
+  {
+    "name": "occupied-root",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json",
+      "--output",
+      "extracted"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.201,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\occupied-root.log"
+  },
+  {
+    "name": "repeat-assembly",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "assemble",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures",
+      "--staging",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\staging",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json",
+      "--output",
+      "package"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.195,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\repeat-assembly.log"
+  },
+  {
+    "name": "occupied-case-retention",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "extract-fixture",
+      "--workspace",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures",
+      "--bundle",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\fixtures\\package",
+      "--inventory",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\independent-inventory.json",
+      "--build-info",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\build-info.json",
+      "--output",
+      "generated-case"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 1,
+    "exit_code": 1,
+    "status": "pass",
+    "elapsed_seconds": 0.21,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\occupied-case-retention.log"
+  },
+  {
+    "name": "unsupported-install",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout\\release\\bindings\\universal-setup\\package_fixture.py",
+      "install"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 2,
+    "exit_code": 2,
+    "status": "pass",
+    "elapsed_seconds": 0.168,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\unsupported-install.log"
+  },
+  {
+    "name": "setup-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/setup",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 5.342,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\setup-tests.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 141.556,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.042,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\check.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W060",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\context",
+      "--byte-budget",
+      "340000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.05,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 2.142,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.687,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\checkout",
+    "expected_exit": 0,
+    "exit_code": 0,
+    "status": "pass",
+    "elapsed_seconds": 0.202,
+    "log": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-clean-92d72bb\\logs\\final-source-status.log"
+  }
+]

@@ -48,7 +48,7 @@ release/storage authority remain separate. The programme record is
 
 - [ ] Resolve original-code licensing before redistribution; review third-party rights independently.
 - [ ] DE-W060/062: qualify deployment profiles, finite carriers and one servicing owner per installation.
-- [ ] DE-W060 local slice: pin Setup schemas, map exact portable payload and retain clean fixture equality, occupied-root and interrupted-write evidence before agent review.
+- [x] DE-W060 local fixture slice: exact Setup schema/source mapping, independent native payload equality, occupied-root retention and interrupted-write checks; clean evidence and agent review retained. Live SDK/lifecycle and full unit/owner qualification remain open.
 - [x] DE-W063 local checker implementation: separate nonempty staging inventory, bounded ZIP verification and owned regression fixtures. Owner acceptance, release-candidate qualification and publication remain open.
 - [ ] DE-W061: validate live AIDE import and worker boundaries in a separately authorized disposable environment.
 - [ ] Review AIDE roughly weekly; next review **2026-10-11**. Update exact pins and evidence until a stable release is reviewed and qualified. No automatic schedule is configured.

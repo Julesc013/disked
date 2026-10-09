@@ -65,6 +65,7 @@ class PackageFixtures(unittest.TestCase):
         self.assertEqual(package['preserved_paths'], [])
         self.assertEqual(package['authenticity_refs'], [])
         self.assertEqual(recipe['lifecycle_operations'], ['verify'])
+        self.assertEqual(recipe['installed_state_compatibility']['maximum_tested_reader'], 'not_run')
         output = pf.extract_fixture(self.root, 'extracted', root, self.expected, self.info)
         self.assertEqual(pf.ac.inventory(output, ['disked.exe']), self.expected)
         for row in self.expected['files']:
@@ -102,6 +103,10 @@ class PackageFixtures(unittest.TestCase):
             changed = copy.deepcopy(original); changed['target_topology']['scope'] = scope
             self.rewrite(root, 'setup-recipe.json', changed); self.resign_fixture(root)
             self.rejected(lambda: pf.verify(root, self.expected, self.info), 'package_recipe_binding')
+        changed = copy.deepcopy(original)
+        changed['installed_state_compatibility']['maximum_tested_reader'] = '1.0'
+        self.rewrite(root, 'setup-recipe.json', changed); self.resign_fixture(root)
+        self.rejected(lambda: pf.verify(root, self.expected, self.info), 'package_recipe_binding')
 
     def test_semantically_changed_package_refuses_even_with_recomputed_hashes(self):
         root = self.package(); original = pf.read_json(root / 'product-package.json')

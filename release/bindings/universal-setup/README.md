@@ -46,7 +46,9 @@ filesystem snapshot or isolation against hostile concurrent mutation.
 
 The upstream recipe describes requirements and remains fixture-qualified. Its
 `verify` selection is not the callable USK `package.verify` request. Schema
-reader strings are references, not measured installed-state compatibility.
+minimum reader is an authored requirement; `maximum_tested_reader` is explicitly
+`not_run`, which the pinned schema permits. This does not establish a real
+consumer's semantic acceptance or measured installed-state compatibility.
 Live Setup SDK/ABI use, all lifecycle modes, embedded H/D/S, installation,
 signatures, release licensing and other platforms need their own evidence.
 No supplied upstream script is executed.

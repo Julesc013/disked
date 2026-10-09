@@ -182,7 +182,7 @@ def definitions(expected, info, archive):
         'migrations': [], 'lifecycle_operations': ['verify'], 'rollback_disposition': 'refused',
         'recovery_disposition': 'refused', 'installed_state_compatibility': {
             'schema': 'usk.installed_state_compatibility.v1', 'state_schema': 'usk.installed_state.v1',
-            'minimum_reader': '1.0', 'maximum_tested_reader': '1.0', 'migration_required_from': []}}
+            'minimum_reader': '1.0', 'maximum_tested_reader': 'not_run', 'migration_required_from': []}}
     lock, schemas, registry = pinned_contracts()
     upstream_validate(package, 'product_package.v1.schema.json', schemas, registry)
     upstream_validate(recipe, 'product_setup_recipe.v1.schema.json', schemas, registry)
