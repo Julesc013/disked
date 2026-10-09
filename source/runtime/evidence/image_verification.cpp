@@ -108,6 +108,7 @@ VerificationOutcome verify_image(const VerificationDefinition& input,const Verif
                 if(hash(read.bytes.data(),read.bytes.size())!=text(get(pending,"sha256")))fail("verification_image_digest","mismatch");
                 out.matched_bytes+=n;out.covered_bytes+=n;
                 if(text(get(pending,"state"))=="substituted")out.substituted_bytes+=n;else out.source_bytes+=n;out.pending=false;
+                ports.progress(out);
             }else if(type=="read_failure") {
                 keys(payload,{"offset","length","read_bytes","retries","read_error"});const auto n=integer(get(payload,"length"));
                 if(out.pending || out.covered_bytes>=d.plan.bytes || integer(get(payload,"offset"))!=out.covered_bytes || n!=std::min<std::uint64_t>(d.plan.chunk_bytes,d.plan.bytes-out.covered_bytes) || integer(get(payload,"read_bytes"))>n || integer(get(payload,"retries"))>d.plan.retries)fail("verification_read_failure");token(get(payload,"read_error"));

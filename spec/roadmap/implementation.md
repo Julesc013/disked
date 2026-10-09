@@ -236,3 +236,12 @@ remain separate. Reproducible evidence and local review belong to
 `.aide/evidence/2026-10-08-image-commands/`. The full 0.1.0 programme and owner
 acceptance remain open. `.aide/programmes/worker-continuity.md` retains the service-
 independent build/test and handoff workflow.
+
+DE-W034 now includes a private same-file ordinary-image verification worker
+with exact case/image/map/code/store bindings, explicit private-metadata grants,
+checkpoint progress, independent cancellation observations and retained typed
+collections. The authored verification-worker profile fixes expectations before
+evaluation. Clean native reproduction and agent review govern local continuation.
+Public image.verify commands, negotiated events, bounded caller requests and
+actual frontend journeys are the next gate; all platform/storage and owner
+acceptance remain open.

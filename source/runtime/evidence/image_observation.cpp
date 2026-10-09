@@ -71,6 +71,17 @@ V claims() {return V::object().put("authenticity",V::string("not_established")).
     .put("worker_exit",V::string("not_observed")).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false));}
 }
 json::Limits image_observation_limits() {json::Limits l;l.bytes=262144;l.string_bytes=32768;l.values=32768;l.depth=32;return l;}
+V verification_image_resources(const V& v) {return image_resources(v);}
+void validate_verifier_code(const V& v) {code(v);}
+VerificationOutcome restore_verification_outcome(const VerificationDefinition& d,const V& v) {
+    VerificationOutcome o;
+    o.status=text(get(v,"status"));o.diagnostic=text(get(v,"diagnostic"));o.revalidation=text(get(v,"resource_revalidation"));o.before=get(v,"before");o.after=get(v,"after");
+    o.records=integer(get(v,"records"));o.consumed_map_bytes=integer(get(v,"consumed_map_bytes"));o.covered_bytes=integer(get(v,"covered_bytes"));o.read_bytes=integer(get(v,"read_bytes"));
+    o.matched_bytes=integer(get(v,"matched_bytes"));o.source_bytes=integer(get(v,"source_bytes"));o.substituted_bytes=integer(get(v,"substituted_bytes"));
+    for(const auto key:{"sealed","pending"})if(get(v,key).kind!=V::Kind::boolean)fail("image_observation_shape");
+    o.sealed=get(v,"sealed").boolean;o.pending=get(v,"pending").boolean;if(!same(o.view(),v))fail("image_observation_shape");
+    outcome(d,o);return o;
+}
 ImageVerificationObservation::ImageVerificationObservation(const AcquisitionCase& report,const std::string& raw,const VerificationDefinition& input,const VerificationOutcome& result,const V& context) {
     keys(context,{"verifier","clock","case_before","case_after","case_revalidation","image_before","image_after","image_binding_revalidation"});
     const auto definition=prepare_verification(input.plan,input.resources);
@@ -102,12 +113,7 @@ ImageVerificationObservation ImageVerificationObservation::restore(const Acquisi
     encode(retained);const auto& d=get(retained,"definition");
     auto definition=prepare_verification(acquisition::prepare(get(d,"plan")),get(d,"resources"));
     definition.value=d;definition.digest=text(get(retained,"definition_digest"));
-    const auto& v=get(retained,"outcome");VerificationOutcome o;
-    o.status=text(get(v,"status"));o.diagnostic=text(get(v,"diagnostic"));o.revalidation=text(get(v,"resource_revalidation"));o.before=get(v,"before");o.after=get(v,"after");
-    o.records=integer(get(v,"records"));o.consumed_map_bytes=integer(get(v,"consumed_map_bytes"));o.covered_bytes=integer(get(v,"covered_bytes"));o.read_bytes=integer(get(v,"read_bytes"));
-    o.matched_bytes=integer(get(v,"matched_bytes"));o.source_bytes=integer(get(v,"source_bytes"));o.substituted_bytes=integer(get(v,"substituted_bytes"));
-    for(const auto key:{"sealed","pending"})if(get(v,key).kind!=V::Kind::boolean)fail("image_observation_shape");
-    o.sealed=get(v,"sealed").boolean;o.pending=get(v,"pending").boolean;if(!same(o.view(),v))fail("image_observation_shape");
+    const auto o=restore_verification_outcome(definition,get(retained,"outcome"));
     const auto& stored_clock=get(retained,"clock");keys(stored_clock,{"domain","started","finished","elapsed_ms","wall_clock_regressed"});auto timing=V::object();
     for(const auto key:{"domain","started","finished","elapsed_ms"})timing.put(key,get(stored_clock,key));
     auto context=V::object().put("verifier",get(retained,"verifier")).put("clock",timing)

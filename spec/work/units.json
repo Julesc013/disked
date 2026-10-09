@@ -1569,7 +1569,9 @@
         "tests/frontend/acquisition_console_fixture.py",
         "source/providers/image/file_verification.h",
         "source/providers/image/file_verification.cpp",
-        "tests/images/test_acquisition_worker.py"
+        "tests/images/test_acquisition_worker.py",
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/verification_worker.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1609,7 +1611,8 @@
         "python tests/evidence/test_report_process.py",
         "python tests/evidence/test_image_verification.py --probe build/windows-bootstrap/Release/acquired_image_verification_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_image_observation.py --probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/evidence/test_image_collection.py --probe build/windows-bootstrap/Release/image_verification_collection_probe.exe --observation-probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_image_collection.py --probe build/windows-bootstrap/Release/image_verification_collection_probe.exe --observation-probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1725,7 +1728,14 @@
         "source/providers/report/file_image_collection.cpp",
         "tests/evidence/image_collection_probe.cpp",
         "tests/evidence/test_image_collection.py",
-        "spec/catalog/image-verification-collection-prototype.json"
+        "spec/catalog/image-verification-collection-prototype.json",
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/evidence/verification_operation.cpp",
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/verification_worker.cpp",
+        "spec/catalog/verification-worker-prototype.json",
+        "tests/evidence/verification_worker_probe.cpp",
+        "tests/evidence/test_verification_worker.py"
       ]
     },
     {

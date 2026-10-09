@@ -5713,6 +5713,107 @@
         "DE-111",
         "DE-044"
       ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_operation.h",
+      "path": "source/runtime/evidence/verification_operation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/image_collection.h",
+        "spec/catalog/verification-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/verification_operation.cpp",
+      "path": "source/runtime/evidence/verification_operation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/evidence/acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/verification_worker.h",
+      "path": "source/platform/windows/verification_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/verification_operation.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/verification_worker.cpp",
+      "path": "source/platform/windows/verification_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/providers/report/file_case.h",
+        "source/providers/image/file_verification.h",
+        "source/runtime/evidence/report_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/verification-worker-prototype.json",
+      "path": "spec/catalog/verification-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/image-verification-collection-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/verification_worker_probe.cpp",
+      "path": "tests/evidence/verification_worker_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/verification_worker.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_verification_worker.py",
+      "path": "tests/evidence/test_verification_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/verification_worker_probe.cpp",
+        "tests/evidence/test_report_worker.py",
+        "tests/evidence/image_collection_probe.cpp",
+        "tests/images/test_acquisition_worker.py",
+        "spec/catalog/verification-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
     }
   ]
 }

@@ -17,4 +17,5 @@ public:
     json::Value support(const json::Value& policy) const;
 };
 json::Limits acquisition_case_limits();
+void validate_acquisition_case_request(const json::Value&);
 }}}

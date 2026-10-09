@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.31 prototype selects 19 command identities, including recorded
+The current dev.32 prototype selects 19 command identities, including recorded
 acquisition support export. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
@@ -682,5 +682,24 @@ retention requires an extra private-metadata grant; policy-selected support
 omits original paths/hashes. Strict reload uses only an explicit selected file
 and expected artifact digest. Native save/reload, source changes and record
 contradictions need applicable qualification. This adds no image.verify command,
-authenticated custody, latest-image authority or stable persisted ABI; bounded
-reader/watch/cancel/frontend and platform/owner/physical gates remain open.
+authenticated custody, latest-image authority or stable persisted ABI; product
+reader/event/frontend and platform/owner/physical gates remain open.
+
+The private `verification_worker_probe` and separately instrumented
+`verification_worker_fault` execute a same-file ordinary-image reader with
+explicit case/image/map/store/host/private-metadata grants. The contract in
+`spec/catalog/verification-worker-prototype.json` fixes resource/code identities,
+finite progress/history bounds and cancellation/retention expectations before
+evaluation. Admission waits at most three seconds; unresolved workers retain
+their operation and dependencies. Provider quiescence and observed OS exit are
+separate. Collection or terminal-record failure preserves the actual verdict.
+
+```text
+python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .
+```
+
+The private finite history reader supports a digest-bound cursor. Public
+image.verify commands, negotiated events, bounded caller request containment
+and GUI/TUI/shell journeys still need implementation and qualification. The
+product continues to exclude the native image-verification adapter and exposes
+19 available commands. These fixtures use generated ordinary files only.

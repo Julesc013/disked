@@ -5,6 +5,7 @@ namespace disked { namespace evidence { namespace proposal {
 // and does not establish original-source preservation or acquisition consistency.
 struct VerificationDefinition {acquisition::Plan plan;json::Value resources,value;std::string digest;};
 struct VerificationGrant {std::string definition_digest;bool image_read=false,map_read=false;};
+struct VerificationOutcome;
 class VerificationPorts {
 public:
     virtual ~VerificationPorts()=default;
@@ -12,6 +13,7 @@ public:
     virtual acquisition::Record next_record()=0;
     virtual acquisition::Read read_image(std::uint64_t offset,std::uint32_t size)=0;
     virtual bool stop_requested()=0;
+    virtual void progress(const VerificationOutcome&) {}
 };
 struct VerificationOutcome {
     std::string status="refused",diagnostic,revalidation="not_attempted";

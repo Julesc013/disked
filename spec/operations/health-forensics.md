@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.11-proposed.1
+  version: 0.1.12-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -318,6 +318,29 @@ required before product availability. This private profile freezes no stable
 persisted ABI and grants no physical, owner, release or authentication claim.
 
 ## Normative requirements
+
+The private [verification worker profile](../catalog/verification-worker-prototype.json)
+owns the next bounded Windows ordinary-file execution slice. Its immutable
+definition binds the actual case metadata/raw request, selected image/map,
+verifier generation, host and owned execution store. An exact wrapper grant
+must include case/image/map reads and store, host and private-metadata effects
+before any supplied path is followed. Never borrow another image's recorded
+identity or open original source paths retained inside the case.
+
+Keep operation/attempt/worker/capture identities distinct from collection
+ordinals. Sample progress only after confirmed checkpoints. Persist cancellation
+requests independently of worker observations; a late request cannot rewrite
+the actual verdict. Admission timeout preserves the operation and its inputs,
+without restart, removal or assumed exit. Close provider handles before recording
+quiescence, and observe actual process identity/exit separately.
+
+Retain a typed historical collection under the fixed owned filename. Keep the
+verification outcome even when collection or terminal-record persistence fails.
+Verified retention requires bounded readback and pure full restore; historical
+inspection opens only the explicitly selected operation store. Private finite
+history/cursor inspection does not qualify public negotiated events, frontends,
+or the latency of every filesystem call. Product image.verify remains unavailable
+until those gates have actual command and frontend evidence.
 
 ### DE-REQ-111-01
 

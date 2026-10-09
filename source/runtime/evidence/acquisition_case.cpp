@@ -57,6 +57,7 @@ void header_valid(const V& h) {
 }
 }
 json::Limits acquisition_case_limits() {auto l=case_limits();l.bytes=2097152;l.values=262144;return l;}
+void validate_acquisition_case_request(const V& header) {header_valid(header);}
 AcquisitionCase::AcquisitionCase(const V& header,const std::string& raw):header_(header) {
     header_valid(header_);history_=acquisition_operation::read_history(raw,header_);
     const auto& first=field(history_.records.front(),"state");

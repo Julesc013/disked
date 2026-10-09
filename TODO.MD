@@ -39,6 +39,7 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W020 internal implementation: checked C90 values, bounded byte views, endian fields and named extents; clean reproduction and local review govern continuation.
 - [ ] DE-W021-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
+- [ ] Qualify the DE-W034 private same-file image-verification worker, finite history cursor, cancellation and retained collections against clean native builds; public commands/frontends and owner/physical gates remain separate.
 
 ## Delivery and maintenance
 

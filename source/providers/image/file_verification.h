@@ -1,6 +1,7 @@
 #pragma once
 #include "image_verification.h"
 #include <memory>
+#include <functional>
 namespace disked {
 struct FileVerificationError : std::runtime_error {
     std::uint32_t platform_code;
@@ -16,6 +17,7 @@ public:
     FileImageVerification(const FileImageVerification&)=delete;FileImageVerification& operator=(const FileImageVerification&)=delete;
     const evidence::proposal::VerificationDefinition& definition() const;
     json::Value binding() const;
-    evidence::proposal::VerificationOutcome execute(const evidence::proposal::VerificationGrant&);
+    evidence::proposal::VerificationOutcome execute(const evidence::proposal::VerificationGrant&,
+        const std::function<bool()>& stop={},const std::function<void(const evidence::proposal::VerificationOutcome&)>& progress={});
 };
 }

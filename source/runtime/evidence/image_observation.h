@@ -16,4 +16,8 @@ public:
     json::Value support(const json::Value& policy) const;
 };
 json::Limits image_observation_limits();
+// Shared strict relationships for durable verification records and restore.
+json::Value verification_image_resources(const json::Value& binding);
+void validate_verifier_code(const json::Value&);
+VerificationOutcome restore_verification_outcome(const VerificationDefinition&,const json::Value&);
 }}}

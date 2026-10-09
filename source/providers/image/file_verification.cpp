@@ -32,6 +32,7 @@ struct Input {
 class FileImageVerification::Impl final:public evidence::proposal::VerificationPorts {
     Input image_,map_;std::string buffer_;std::uint64_t cursor_=0;bool used_=false;
     evidence::proposal::VerificationDefinition definition_;
+    std::function<bool()> stop_;std::function<void(const evidence::proposal::VerificationOutcome&)> progress_;
 public:
     Impl(const acquisition::Plan& plan,const std::string& image,const std::string& map):image_(image),map_(map) {
         definition_=evidence::proposal::prepare_verification(plan,observe());
@@ -59,9 +60,11 @@ public:
         if(n && !ReadFile(image_.file.value,r.bytes.data(),n,&got,nullptr)) {r.bytes.clear();r.error="verification_image_read";}
         else r.bytes.resize(got);return r;
     }
-    bool stop_requested() override {return false;}
-    evidence::proposal::VerificationOutcome execute(const evidence::proposal::VerificationGrant& grant) {
+    bool stop_requested() override {return stop_ && stop_();}
+    void progress(const evidence::proposal::VerificationOutcome& value) override {if(progress_)progress_(value);}
+    evidence::proposal::VerificationOutcome execute(const evidence::proposal::VerificationGrant& grant,const std::function<bool()>& stop,const std::function<void(const evidence::proposal::VerificationOutcome&)>& progress) {
         if(used_)throw FileVerificationError("verification_session_consumed");used_=true;
+        stop_=stop;progress_=progress;
         return evidence::proposal::verify_image(definition_,grant,*this);
     }
 };
@@ -69,5 +72,5 @@ FileImageVerification::FileImageVerification(const acquisition::Plan& plan,const
 FileImageVerification::~FileImageVerification()=default;
 const evidence::proposal::VerificationDefinition& FileImageVerification::definition() const {return impl_->definition();}
 V FileImageVerification::binding() const {return impl_->binding();}
-evidence::proposal::VerificationOutcome FileImageVerification::execute(const evidence::proposal::VerificationGrant& grant) {return impl_->execute(grant);}
+evidence::proposal::VerificationOutcome FileImageVerification::execute(const evidence::proposal::VerificationGrant& grant,const std::function<bool()>& stop,const std::function<void(const evidence::proposal::VerificationOutcome&)>& progress) {return impl_->execute(grant,stop,progress);}
 }

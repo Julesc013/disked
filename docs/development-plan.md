@@ -203,3 +203,12 @@ resume and unchanged-store observation rather than replay. All 64 watch events
 fit a separate bounded profile; expanded test history is labelled synthetic.
 Owner acceptance, physical/failing-media qualification, other platforms and
 production writer/release decisions remain independent gates.
+
+DE-W034 now includes a private same-file ordinary-image verification worker
+with exact case/image/map/code/store bindings, explicit private-metadata grants,
+checkpoint progress, independent cancellation observations and retained typed
+collections. The authored verification-worker profile fixes expectations before
+evaluation. Clean native reproduction and agent review govern local continuation.
+Public image.verify commands, negotiated events, bounded caller requests and
+actual frontend journeys are the next gate; all platform/storage and owner
+acceptance remain open.
