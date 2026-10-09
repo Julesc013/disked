@@ -1,0 +1,40 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 2: health.command
+1/1 Test #2: health.command ...................***Failed    2.91 sec
+test_all_disclosure_combinations_are_independent_and_secrets_omitted (__main__.HealthCommand.test_all_disclosure_combinations_are_independent_and_secrets_omitted) ... ok
+test_control_text_and_independent_label_byte_limits (__main__.HealthCommand.test_control_text_and_independent_label_byte_limits) ... FAIL
+test_default_support_payload_has_no_content_or_identifiers (__main__.HealthCommand.test_default_support_payload_has_no_content_or_identifiers) ... ok
+test_denied_stale_alias_and_physical_path_refusals (__main__.HealthCommand.test_denied_stale_alias_and_physical_path_refusals) ... ok
+test_discovery_and_help_are_static_and_truthful (__main__.HealthCommand.test_discovery_and_help_are_static_and_truthful) ... ok
+test_gui_tui_shell_use_shared_results_and_revision_review (__main__.HealthCommand.test_gui_tui_shell_use_shared_results_and_revision_review) ... ok
+test_invalid_parameters_are_static_with_poisoned_provider (__main__.HealthCommand.test_invalid_parameters_are_static_with_poisoned_provider) ... ok
+test_known_fixture_content_and_cloned_serial_binding (__main__.HealthCommand.test_known_fixture_content_and_cloned_serial_binding) ... ok
+test_revision_and_target_removal_reject_before_collection (__main__.HealthCommand.test_revision_and_target_removal_reject_before_collection) ... ok
+test_unknown_and_unavailable_never_substitute_zero (__main__.HealthCommand.test_unknown_and_unavailable_never_substitute_zero) ... ok
+test_unknown_fixture_or_missing_port_is_unavailable (__main__.HealthCommand.test_unknown_fixture_or_missing_port_is_unavailable) ... ok
+
+======================================================================
+FAIL: test_control_text_and_independent_label_byte_limits (__main__.HealthCommand.test_control_text_and_independent_label_byte_limits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\health\test_command.py", line 113, in test_control_text_and_independent_label_byte_limits
+    ascii_value=self.probe(ARGS.service,[dict(op='display',value=value)])[0];self.assertTrue(ascii_value.isascii());self.assertNotIn('\x1b',ascii_value);self.assertEqual(value,json.loads(ascii_value))
+                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\health\test_command.py", line 43, in probe
+    for value in result:self.assertNotIn('error',value)
+                        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: 'error' unexpectedly found in '{"diagnostics":[],"evidence":[],"operation_id":null,"request_id":"probe","result":{"basis_revision":"sha256:80dd45fd63c652afa3527c0506f832b4ec2fde1478d8c1f7591576ffa57971f5","observation_kind":"compiled-fixture","observed_at":null,"schema":"org.disked.fake-health-result/1","scope":"fake-only","support_report":{"cancel_requested":false,"capture":"1","claims":{"mutation_authority":false,"physical_admission":false,"reliability":"not_established"},"policy":{"customer_data":true,"identifiers":true,"interpretations":true,"raw_values":true},"schema":"org.disked.health-support-prototype/1","sources":[{"diagnostic":"","fields":[{"id":"temperature","interpretation":{"availability":"available","rule_id":"fixture.celsius@1","text":"35 Celsius"},"interpretation_availability":"available","label":"observation1","raw":{"availability":"available","hex":"23"},"raw_availability":"available","received":true},{"id":"media_errors","interpretation":{"availability":"available","rule_id":"fixture.count@1","text":"0 media errors"},"interpretation_availability":"available","label":"observation2","raw":{"availability":"available","hex":"00"},"raw_availability":"available","received":true},{"id":"serial","interpretation":{"availability":"available","rule_id":"fixture.utf8@1","text":"CLONED"},"interpretation_availability":"available","label":"observation3","raw":{"availability":"available","hex":"434c4f4e4544"},"raw_availability":"available","received":true},{"id":"label","interpretation":{"availability":"available","rule_id":"fixture.utf8@1","text":"owned\\u001b[31m\\u000a\\u202e\\ud83d\\udcbe"},"interpretation_availability":"available","label":"observation4","raw":{"availability":"available","hex":"6f776e65641b5b33316d0ae280aef09f92be"},"raw_availability":"available","received":true},{"interpretation_availability":"available","label":"observation5","raw_availability":"available","received":true}],"id":"fake:health.fixture@1","label":"observer1","provider_digest":"sha256:0b90cdb10add27fe8e9278a3a669f0ce1e1b7776f7d782918e69da8ed9bc5024","request_open":false,"state":"complete","worker":"1","worker_outstanding":false}],"state":"complete","target":{"generation":"1","id":"fake:alpha@1","identity_digest":"sha256:306a0667531fe858bafba60e19e509dde7196c0ef0907b1807ca1112b90de59f"}},"target_id":"fake:alpha@1"},"schema":"org.disked.response/1","status":"completed"}'
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.743s
+
+FAILED (failures=1)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   2.92 sec
+
+The following tests FAILED:
+	  2 - health.command (Failed)
+Errors while running CTest

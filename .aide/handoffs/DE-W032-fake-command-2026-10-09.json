@@ -1,0 +1,597 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W032",
+  "base_revision": "6071f1d838026133428d7830807dfafd9bf97733",
+  "spec_manifest_digest": "sha256:f655b161bd2c7105399fdcf9a5f02cd4939b6b7f6454a64768c8aff15b42f004",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/bundle.json",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/operations/health-forensics.md",
+    "spec/catalog/commands.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/components.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/health-observation-prototype.json",
+    "spec/catalog/fake-health-command.json",
+    "spec/schemas/command-health-parameters.schema.json",
+    "source/runtime/evidence/health.h",
+    "source/runtime/evidence/health.cpp",
+    "source/runtime/presentation/session.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/graph/snapshot.h",
+    "source/runtime/command/protocol.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/json.h",
+    "source/providers/fake/graph.h",
+    "source/providers/fake/graph.cpp",
+    "source/providers/fake/health_observer.h",
+    "source/providers/fake/health_observer.cpp",
+    "source/apps/disked/cli.cpp",
+    "source/apps/disked/tui/model.cpp",
+    "source/apps/disked/gui/win32/gui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "tests/frontend/service_probe.cpp",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/tui_probe.cpp",
+    "tests/frontend/test_transport.py",
+    "tests/frontend/test_gui_model.py",
+    "tests/frontend/test_tui_model.py",
+    "tests/frontend/test_gui_windows.py",
+    "tests/frontend/test_tui_windows.py",
+    "tests/frontend/console_tui_fixture.py",
+    "tests/interaction/shell_probe.cpp",
+    "tests/interaction/test_shell_model.py",
+    "tests/resilience/capture_campaign.cpp",
+    "tests/health/test_health.py",
+    "tests/health/test_command.py",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json",
+    "CMakeLists.txt",
+    "docs/health-observation.md",
+    "docs/native-bootstrap.md",
+    "TODO.MD",
+    "spec/templates/bootstrap-map.json",
+    "spec/schemas/handoff.schema.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-fake-health-command/.gitattributes",
+    ".aide/evidence/2026-10-09-fake-health-command/README.md",
+    ".aide/evidence/2026-10-09-fake-health-command/REVIEW.md",
+    ".aide/evidence/2026-10-09-fake-health-command/WORKING-FINDINGS.md",
+    ".aide/evidence/2026-10-09-fake-health-command/inventory.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduce.py",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-build.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-check.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-clone.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-configure.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-context.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-discovery.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-dependents.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-headers.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-imports.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-focused-native.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-freshness.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-gui-observations.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-cases.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-command-cases.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-dependents.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-headers.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-imports.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-host.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-launch.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-manifest.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-python-environment.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-results.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-spec-tests.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-test-catalog.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-tui-observations.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-verify-context.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/commands.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/fake-health-result.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/gui-observations.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/health-cases.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/health-command-cases.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/inspector.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/inventory.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/minimum-window.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/native-artifacts.json",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/native-details.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/product-link-closure.log",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/request-result.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/request-review.png",
+    ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/tui-observations.json",
+    ".aide/evidence/2026-10-09-fake-health-command/working-build-2.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-build-3.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-build-campaign.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-build-ui.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-build.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-check-2.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-check-final.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-check.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-commands.json",
+    ".aide/evidence/2026-10-09-fake-health-command/working-configure.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-context.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-focused-native.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-health-command-1.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-index-2.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-index-final.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-index.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-manifest-final.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-manifest.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-native-ui.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-spec-tests.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-verify-context.log",
+    ".aide/evidence/2026-10-09-fake-health-command/working-verify-manifest.log",
+    ".aide/handoffs/DE-W032-fake-command-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/health-observation.md",
+    "docs/native-bootstrap.md",
+    "source/apps/disked/cli.cpp",
+    "source/providers/fake/graph.cpp",
+    "source/providers/fake/health_observer.cpp",
+    "source/providers/fake/health_observer.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/fake-health-command.json",
+    "spec/catalog/health-observation-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/operations/health-forensics.md",
+    "spec/schemas/command-health-parameters.schema.json",
+    "spec/schemas/index.md",
+    "spec/templates/docs-native-bootstrap.txt",
+    "spec/templates/root-todo.txt",
+    "spec/work/units.json",
+    "tests/frontend/console_tui_fixture.py",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/service_probe.cpp",
+    "tests/frontend/test_gui_windows.py",
+    "tests/frontend/test_tui_windows.py",
+    "tests/frontend/tui_probe.cpp",
+    "tests/health/test_command.py",
+    "tests/interaction/shell_probe.cpp",
+    "tests/resilience/capture_campaign.cpp",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Clean source 24051c3105d763cc155c90b1825ef195f74defdc: provisional fake health command and target/revision-bound shared frontend callback with unknown/unavailable preservation, opt-in support disclosure and exact escaped presentation. Twenty of 56 native groups, 95 model cases, 13 command tests and actual Win32/console observations pass. 939 structural checks; 175 spec tests, 173 passes/two skips. Product dev.22 exposes 18 command identities. Eight copied artifacts and all built executable hashes retained. Health library linked, five journal libraries unlinked. Real observers, physical/platform qualification, unit completion and owner acceptance remain open.",
+  "tests": [
+    {
+      "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-python-environment.log"
+    },
+    {
+      "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-clone.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked health_observation_probe provider_guard_probe disked_provider_guard disked_gui_unavailable disked_tui_fault disked_capture_campaign frontend_service_probe gui_model_probe tui_model_probe shell_model_probe invocation_policy_probe protocol_reader_probe command_parser_probe json_codec_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-build.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-test-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health\\.(observation_model|command)|disked\\.(invocation|acceptance)|disked_provider_guard\\.(invocation|acceptance)|frontend\\.(service|transport|gui_model|tui_model|gui_windows|tui_windows)|shell\\.(model|windows)|provider_guard.positive_control|command.syntax|invocation.policy|protocol\\.(compatible_reader|json_codec)|resilience.capture_campaign)$",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-focused-native.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/health/test_health.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\health-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-freshness.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W032 --output .aide-local/context/DE-W032-health --byte-budget 350000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W032-health",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-discovery.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/health/test_command.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --service D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\frontend_service_probe.exe --gui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\gui_model_probe.exe --tui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\tui_model_probe.exe --shell D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\shell_model_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\health-command-cases.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-command-cases.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --unavailable D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\gui-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-gui-observations.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_tui_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\tui-observations.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-tui-observations.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-spec-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe health_observation_probe provider_guard_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe health_observation_probe provider_guard_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-2.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R ^health.command$",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-health-command-1.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index-2.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check-2.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-verify-manifest.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-3.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W032 --output .aide-local/context/DE-W032-fake-health-working --byte-budget 350000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-context.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W032-fake-health-working",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-verify-context.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health\\.(observation_model|command)|disked\\.(invocation|acceptance|protocol)|frontend\\.(service|transport|gui_model|tui_model)|shell.model|provider_guard.positive_control)$",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-focused-native.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-spec-tests.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard disked_gui_unavailable disked_tui_fault frontend_service_probe gui_model_probe tui_model_probe shell_model_probe invocation_policy_probe protocol_reader_probe command_parser_probe json_codec_probe",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-ui.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-manifest-final.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --target disked_capture_campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-campaign.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health.command|frontend\\.(gui_windows|tui_windows)|shell.windows|invocation.policy|protocol\\.(compatible_reader|json_codec)|command.syntax|disked_provider_guard\\.(invocation|acceptance))$",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-native-ui.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/disked.exe",
+      "sha256": "sha256:82c2a466eb79b93f0a6686ebcbd1cf8e67e67d2d7bf0581ced27300e6ea8d3f1"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/health_observation_probe.exe",
+      "sha256": "sha256:e9fa4a1e46bab345d0eac21569f205880efae1f99e7393ac9accfab9f281ea37"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/disked_health_observation.lib",
+      "sha256": "sha256:ce75a857a1c38eafc182d2a504374668ef596a46a5bfac333cb74e73fd77ecc1"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/disked_json.lib",
+      "sha256": "sha256:331b58c8f0edb359905d221f32753e63d0db1ddb47fba6a8e305455fb67034aa"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/frontend_service_probe.exe",
+      "sha256": "sha256:48d8e31631f3323f8fad7c53a927e457e0c329fb9d94b9b194d33984a012e362"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/gui_model_probe.exe",
+      "sha256": "sha256:f5e922c69676b130450482e365dc0527bc974fd0bde3a756639bbd24a5acb56e"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/tui_model_probe.exe",
+      "sha256": "sha256:27b5c8c16dc9adeceeab48884eb3e05dcf2672b62d1665f01a32d8c75c2d403d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W032-command-24051c31/shell_model_probe.exe",
+      "sha256": "sha256:0b2d3a2ef7dcb1b14aa73b4ef34e3551832162840fd7f6ffb208bb677c9a8f91"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/command_parser_probe.exe",
+      "sha256": "sha256:1fd9f0222de8fde4706eb7dd904774f2f716883a1cbf4787f6942165c3beefb3"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/disked.exe",
+      "sha256": "sha256:82c2a466eb79b93f0a6686ebcbd1cf8e67e67d2d7bf0581ced27300e6ea8d3f1"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/disked_capture_campaign.exe",
+      "sha256": "sha256:513810860362f9c1ae8a34e66f48faef7cb4e24b42705c48bed74fb9ecbfc060"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/disked_gui_unavailable.exe",
+      "sha256": "sha256:f7e0aca4f08362b4139668a362b19a129f6f6756f1bdab0f50b125ed565b4e5b"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/disked_provider_guard.exe",
+      "sha256": "sha256:f2c85ce8cdaf738cfdcfd879e82f14f4e9121c79a25dc1b3035caea5d41656da"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/disked_tui_fault.exe",
+      "sha256": "sha256:0af7f7b3f62cdfddc48c608c3345eb34b4507e8d4fac75d4890945f049c99982"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/frontend_service_probe.exe",
+      "sha256": "sha256:48d8e31631f3323f8fad7c53a927e457e0c329fb9d94b9b194d33984a012e362"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/gui_model_probe.exe",
+      "sha256": "sha256:f5e922c69676b130450482e365dc0527bc974fd0bde3a756639bbd24a5acb56e"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/health_observation_probe.exe",
+      "sha256": "sha256:e9fa4a1e46bab345d0eac21569f205880efae1f99e7393ac9accfab9f281ea37"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/invocation_policy_probe.exe",
+      "sha256": "sha256:c10b7f72d65a997df37d73d8482e94a18be0c48240e763438b493d9fe854603a"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/json_codec_probe.exe",
+      "sha256": "sha256:2430b5b0d56848f64f67c314030ef292905ef21bbb01db4d47207c82bf8dd2ad"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/protocol_reader_probe.exe",
+      "sha256": "sha256:edfd16fc1f2f90074db953fe4043e549c835acf6330aefb6bae467b3feb8e1aa"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/provider_guard_probe.exe",
+      "sha256": "sha256:00198d3265d8eb8103f84a35aaa5de02222c7eddbede7e7bd26c223928835f12"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/shell_model_probe.exe",
+      "sha256": "sha256:0b2d3a2ef7dcb1b14aa73b4ef34e3551832162840fd7f6ffb208bb677c9a8f91"
+    },
+    {
+      "path": ".aide-local/goal-0.1.0/clean-fake-health-24051c31/build/windows-bootstrap/Release/tui_model_probe.exe",
+      "sha256": "sha256:27b5c8c16dc9adeceeab48884eb3e05dcf2672b62d1665f01a32d8c75c2d403d"
+    }
+  ],
+  "blockers": [
+    "Full DE-W032 depends on actual DE-W030 inventory/observer admission, native worker containment and identity/classification review, physical/platform environments and independent qualification. W033 real-media/other-platform obligations remain open. Owner acceptance and actual-device/elevation/install/signing/publication gates remain separate. These do not prevent the next bounded fake/disposable-image evidence implementation."
+  ],
+  "next_safe_step": "Start the bounded DE-W034 case-evidence slice using the verified fake health observations and ordinary disposable-image acquisition facts. Read its owning DE-111/073/044/036 inputs at the current revision, close the provisional before/after/custody/support-report contract before implementing observable behavior, and create its source-bound task input closure. Separate exact observed facts, fixture/inference provenance, unavailable data and policy-selected support payloads from the surrounding routing metadata. Bind records to exact input/code/provider/fixture identities; never infer physical forensic preservation from fixture tests or silently mutate source media. Implement and test against fake captures and disposable images under the existing local continuation grant. W032 real native observer/inventory/classification/containment and W033 physical/failing-media/other-platform qualification remain open; owner acceptance, actual devices, elevation, installation, signing and publication remain separate. Do not require or add a particular hosted model/access programme to the development contract.",
+  "performed_remote_writes": false
+}

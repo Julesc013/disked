@@ -1,0 +1,177 @@
+[
+  {
+    "command": "powershell -NoProfile -Command \"$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress\"",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-host.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-python-environment.log"
+  },
+  {
+    "command": "git clone --no-hardlinks --no-local D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-clone.log"
+  },
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked health_observation_probe provider_guard_probe disked_provider_guard disked_gui_unavailable disked_tui_fault disked_capture_campaign frontend_service_probe gui_model_probe tui_model_probe shell_model_probe invocation_policy_probe protocol_reader_probe command_parser_probe json_codec_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-build.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-test-catalog.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health\\.(observation_model|command)|disked\\.(invocation|acceptance)|disked_provider_guard\\.(invocation|acceptance)|frontend\\.(service|transport|gui_model|tui_model|gui_windows|tui_windows)|shell\\.(model|windows)|provider_guard.positive_control|command.syntax|invocation.policy|protocol\\.(compatible_reader|json_codec)|resilience.capture_campaign)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-focused-native.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/health/test_health.py --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\health-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-check.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-manifest.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-freshness.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W032 --output .aide-local/context/DE-W032-health --byte-budget 350000",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-context.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W032-health",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-verify-context.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-disked-dependents.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /HEADERS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-headers.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /IMPORTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-imports.log"
+  },
+  {
+    "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /DEPENDENTS D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\health_observation_probe.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health_observation_probe-dependents.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-launch.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe commands --json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-discovery.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/health/test_command.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --service D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\frontend_service_probe.exe --gui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\gui_model_probe.exe --tui D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\tui_model_probe.exe --shell D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\shell_model_probe.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\health-command-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-health-command-cases.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_gui_windows.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --unavailable D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_gui_unavailable.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\gui-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-gui-observations.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tests/frontend/test_tui_windows.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked.exe --guard D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_provider_guard.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31\\build\\windows-bootstrap\\Release\\disked_tui_fault.exe --root D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31 --evidence D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-09-fake-health-command\\reproduction-24051c31\\tui-observations.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-tui-observations.log"
+  },
+  {
+    "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-fake-health-24051c31",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/reproduction-24051c31/clean-spec-tests.log"
+  }
+]

@@ -1,0 +1,149 @@
+[
+  {
+    "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-configure.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe health_observation_probe provider_guard_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe health_observation_probe provider_guard_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^health.command$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 8,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-health-command-1.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-verify-manifest.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard frontend_service_probe gui_model_probe tui_model_probe shell_model_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-3.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py context --work DE-W032 --output .aide-local/context/DE-W032-fake-health-working --byte-budget 350000",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-context.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py verify-context .aide-local/context/DE-W032-fake-health-working",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-verify-context.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health\\.(observation_model|command)|disked\\.(invocation|acceptance|protocol)|frontend\\.(service|transport|gui_model|tui_model)|shell.model|provider_guard.positive_control)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-focused-native.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe -m unittest discover -s spec/tools/tests -v",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-spec-tests.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked disked_provider_guard disked_gui_unavailable disked_tui_fault frontend_service_probe gui_model_probe tui_model_probe shell_model_probe invocation_policy_probe protocol_reader_probe command_parser_probe json_codec_probe",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-ui.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-index-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-check-final.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-manifest-final.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked_capture_campaign",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-build-campaign.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(health.command|frontend\\.(gui_windows|tui_windows)|shell.windows|invocation.policy|protocol\\.(compatible_reader|json_codec)|command.syntax|disked_provider_guard\\.(invocation|acceptance))$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-fake-health-command/working-native-ui.log"
+  }
+]
