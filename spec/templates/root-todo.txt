@@ -112,8 +112,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W034: the private current acquired-image verifier is locally verified; retain verified immutable observation/support evidence; qualify bounded historical collections/private retention and product reader/watch/frontend integration. Preserve source-preservation/actor/physical and owner/platform gates separately.
 
-- [ ] Qualify shared provisional image.verify prepare/execute and negotiated watch
-  against actual owned workers, malformed grants/replies, public/private bounds
-  and independent producer contracts. Then qualify product request containment
-  and actual CLI/stdio/GUI/TUI/shell before availability. Full DE-W034, owner
-  acceptance, all platforms/storage and privilege/release gates remain open.
+- [x] Shared provisional image.verify command/event slice has clean private native
+  qualification: exact grants/replies, actual owned workers, public/private bounds
+  and independent producer contracts. Evidence: `.aide/evidence/2026-10-10-verification-commands/`.
+- [ ] Qualify product verification request containment and actual CLI/stdio/GUI/TUI/
+  shell before availability. Full DE-W034, owner acceptance, all platforms/storage
+  and privilege/release gates remain open.

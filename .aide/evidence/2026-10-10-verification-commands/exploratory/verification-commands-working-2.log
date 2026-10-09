@@ -1,0 +1,32 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-tlflm9ks
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 245, in semantic_validate
+    try:validate(kind,value,acquisition_record_bytes)
+        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\verification_contracts.py", line 113, in validate
+    elif kind=='verification-preparation-result':definition(v['definition'],encode);require(v['definition_digest']==digest(v['definition'],encode),'Verification preparation digest mismatch');limits(v['definition'],encode,65536,8192,32)
+                                                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\verification_contracts.py", line 47, in definition
+    require(source['ancestors'][-1]==source['store']['generation'] and source['failure_domain']=='observed-file-volume:'+source['store']['generation']['volume_id'],'Case store generation/failure domain disagrees')
+                                                                       ~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'failure_domain'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 174, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 97, in main
+    r=call('prepare-request',dict(mode='request',request=frame(p)))['result'];check('prepare-read-only-no-operation',inert(p) and not r['execution_admitted'] and r['definition_digest']==digest(canonical(r['definition'])))
+      ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 37, in call
+    bundle.validate('urn:disked:schema:'+kind+':1',r)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 577, in validate
+    semantic_validate(inferred, value)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 246, in semantic_validate
+    except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc
+                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+specctl.SpecError: 'failure_domain'

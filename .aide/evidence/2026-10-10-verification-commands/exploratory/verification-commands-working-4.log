@@ -1,0 +1,12 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-yef60o66
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 174, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 167, in main
+    check('retention-failure-keeps-actual-verdict',rf['status']=='unknown' and rf['result']['state']['outcome']['status']=='matched' and rf['result']['state']['retention']['state']=='uncertain');independent(fp,rf);call('uncertain-repeat-no-restart',dict(mode='request',request=frame(fq)),exits=(6,),exe=fault)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 27, in check
+    def check(name,ok,**details):assert ok,(name,details);checks.append(dict(name=name,passed=True,**details))
+                                        ^^
+AssertionError: ('retention-failure-keeps-actual-verdict', {})

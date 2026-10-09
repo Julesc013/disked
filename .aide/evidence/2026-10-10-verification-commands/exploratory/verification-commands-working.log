@@ -1,0 +1,15 @@
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-y__95zzm
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 174, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 97, in main
+    r=call('prepare-request',dict(mode='request',request=frame(p)))['result'];check('prepare-read-only-no-operation',inert(p) and not r['execution_admitted'] and r['definition_digest']==digest(canonical(r['definition'])))
+      ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_verification_commands.py", line 37, in call
+    bundle.validate('urn:disked:schema:'+kind+':1',r)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 571, in validate
+    if errors: raise SpecError('; '.join(e.json_path+': '+e.message for e in errors[:8]))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+specctl.SpecError: $.definition.verification: Additional properties are not allowed ('plan_digest' was unexpected)

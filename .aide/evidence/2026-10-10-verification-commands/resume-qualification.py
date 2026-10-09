@@ -1,17 +1,13 @@
-"""Clean native shared verification command/event qualification.
-Installed pinned tools, fresh local clone, serial native suites, owned images.
-No fetch/install/elevation/devices/customer data/signing/publication.
-"""
 import argparse,hashlib,json,shutil,subprocess,sys,xml.etree.ElementTree as ET
 from datetime import datetime,timezone
 from pathlib import Path
-R=Path.cwd();p=argparse.ArgumentParser();p.add_argument('--source',required=True);a=p.parse_args()
-revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip();assert revision==a.source and len(revision)==40
+R=Path.cwd();revision='178da19408530799d3add84f10f8c9d1447aac64'
+assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==revision
 C=R/('.aide-local/goal-0.1.0/clean-verification-commands-'+revision[:8])
 E=R/('.aide/evidence/2026-10-10-verification-commands/reproduction-'+revision[:8])
 A=R/('.aide-local/artifacts/DE-W034-verification-commands-'+revision[:8])
-assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'])
-assert not C.exists() and not E.exists() and not A.exists();E.mkdir(parents=True);A.mkdir(parents=True);commands=[]
+commands=json.loads((E/'commands.json').read_text());assert commands and all(c['exit_code']==0 for c in commands)
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=C,text=True).strip()==revision and not subprocess.check_output(['git','status','--porcelain'],cwd=C)
 def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n')
 def sha(path):return 'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
 def run(name,argv,cwd=C,limit=120):
@@ -21,20 +17,10 @@ def run(name,argv,cwd=C,limit=120):
     write(E/'commands.json',commands);print(name+' exit '+str(r.returncode),flush=True)
     if r.returncode:raise RuntimeError(name+' failed; actual logs/dependencies retained')
     return r
-host_command="$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
-host=json.loads(run('host',['powershell','-NoProfile','-Command',host_command],R).stdout);assert host['identity']=='BLACKGLASS-WIN1\\Jules' and not host['elevated']
-run('python-environment',[sys.executable,'-c','import sys,importlib.metadata as m;print(sys.version);print("PyYAML="+m.version("PyYAML"));print("jsonschema="+m.version("jsonschema"))'],R)
-run('clone',['git','clone','--no-hardlinks','--no-local',R,C],R)
-assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=C,text=True).strip()==revision and not subprocess.check_output(['git','status','--porcelain'],cwd=C)
-run('configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable])
-run('build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],limit=900);P=C/'build/windows-bootstrap/Release'
-catalog=json.loads(run('test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1']).stdout)
-selected=[x['name'] for x in catalog['tests']];assert len(selected)==74 and 'evidence.verification_worker' in selected and 'evidence.verification_commands' in selected
-native=run('native',['ctest','--preset','windows-bootstrap','--output-on-failure'],limit=1500);assert b'0 tests failed out of 74' in native.stdout
-(E/'native-details.log').write_bytes((C/'build/windows-bootstrap/Testing/Temporary/LastTest.log').read_bytes())
-run('verification-commands',[sys.executable,'tests/evidence/test_verification_commands.py','--probe',P/'verification_command_probe.exe','--fault',P/'verification_command_fault.exe','--product',P/'disked.exe','--root',C,'--evidence',E/'verification-commands.json'])
-f=json.loads((E/'verification-commands.json').read_bytes());assert f['checks']>=450 and len(f['samples'])==6 and all(x['passed'] for x in f['observations'])
-names=[x['name'] for x in f['observations']]
+host=json.loads((E/'clean-host.log').read_bytes());assert host['identity']=='BLACKGLASS-WIN1\\Jules' and not host['elevated']
+P=C/'build/windows-bootstrap/Release';catalog=json.loads((E/'clean-test-catalog.log').read_bytes());selected=[x['name'] for x in catalog['tests']]
+assert len(selected)==74 and b'0 tests failed out of 74' in (E/'clean-native.log').read_bytes()
+f=json.loads((E/'verification-commands.json').read_text());assert f['checks']>=450 and len(f['samples'])==6 and all(x['passed'] for x in f['observations']);names=[x['name'] for x in f['observations']]
 assert len([x for x in names if x.startswith('false-grants-') and len(x)==len('false-grants-')+6 and set(x[-6:])<=set('01')])==63
 for name in ('public-budget-before-execution','oversized-request-zero-ports','observer-retains-last-state-cursor','observer-failure-does-not-cancel','admission-timeout-retains-routing','cancel-before-provider-no-verdict','retention-failure-keeps-actual-verdict','actual-mismatch-confirmed-prefix','actual-cancelled-prefix','product-handler-remains-unavailable'):assert name in names
 for sample in f['samples']:
