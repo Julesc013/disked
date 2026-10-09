@@ -1,0 +1,69 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start  1: evidence.export_model
+1/7 Test  #1: evidence.export_model .............   Passed    1.98 sec
+    Start  2: evidence.file_export
+2/7 Test  #2: evidence.file_export ..............***Failed   10.30 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 126, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 112, in main
+    o,data=paused('ancestor-held','before-create',try_rename);assert o['outcome']['status']=='completed' and data is not None
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 92, in paused
+    action(v)
+    ~~~~~~^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 111, in try_rename
+    raise AssertionError('Pinned output ancestor was renamed')
+AssertionError: Pinned output ancestor was renamed
+
+    Start  3: evidence.case_model
+3/7 Test  #3: evidence.case_model ...............   Passed    3.56 sec
+    Start  4: health.observation_model
+4/7 Test  #4: health.observation_model ..........   Passed    0.27 sec
+    Start 54: disked.invocation
+5/7 Test #54: disked.invocation .................   Passed    1.33 sec
+    Start 55: disked.acceptance
+6/7 Test #55: disked.acceptance .................***Failed    2.92 sec
+test_broken_output_is_failure (__main__.NativeProtocol.test_broken_output_is_failure) ... ok
+test_build_identity_and_machine_aliases (__main__.NativeProtocol.test_build_identity_and_machine_aliases) ... ok
+test_discovery_has_exact_registry_and_real_handler_subset (__main__.NativeProtocol.test_discovery_has_exact_registry_and_real_handler_subset) ... ok
+test_errors_are_framed_after_complete_parse (__main__.NativeProtocol.test_errors_are_framed_after_complete_parse) ... ok
+test_help_every_spelling_and_operand_independence (__main__.NativeProtocol.test_help_every_spelling_and_operand_independence) ... ok
+test_malformed_json_and_encoding (__main__.NativeProtocol.test_malformed_json_and_encoding) ... ok
+test_mode_inspection_uses_actual_host_in_cli_and_transport (__main__.NativeProtocol.test_mode_inspection_uses_actual_host_in_cli_and_transport) ... ok
+test_ndjson_continues_refusals_and_preserves_order (__main__.NativeProtocol.test_ndjson_continues_refusals_and_preserves_order) ... ok
+test_ordinary_machine_command_does_not_read_pipeline_as_requests (__main__.NativeProtocol.test_ordinary_machine_command_does_not_read_pipeline_as_requests) ... ok
+test_resource_limits_end_stream (__main__.NativeProtocol.test_resource_limits_end_stream) ... ok
+test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports) ... FAIL
+test_stream_flushes_before_eof (__main__.NativeProtocol.test_stream_flushes_before_eof) ... ok
+test_strict_request_and_correlation (__main__.NativeProtocol.test_strict_request_and_correlation) ... ok
+test_unavailable_frontends_and_prompt_channels (__main__.NativeProtocol.test_unavailable_frontends_and_prompt_channels) ... ok
+test_wire_byte_and_request_count_limits (__main__.NativeProtocol.test_wire_byte_and_request_count_limits) ... ok
+
+======================================================================
+FAIL: test_source_input_closure_and_pe_imports (__main__.NativeProtocol.test_source_input_closure_and_pe_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\native\test_protocol.py", line 202, in test_source_input_closure_and_pe_imports
+    self.assertEqual(expected,self.identity['inputs'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'CMa[17 chars]a256:bb6a9465377503a735e8d45942502b536fd76c4b4[31876 chars]082'} != {'CMa[17 chars]a256:8ac95021b414d38aee700fbc1e3b5469dece7a61b[30728 chars]082'}
+Diff is 32984 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.775s
+
+FAILED (failures=1)
+
+    Start 58: provider_guard.positive_control
+7/7 Test #58: provider_guard.positive_control ...   Passed    0.09 sec
+
+71% tests passed, 2 tests failed out of 7
+
+Total Test time (real) =  20.46 sec
+
+The following tests FAILED:
+	  2 - evidence.file_export (Failed)
+	 55 - disked.acceptance (Failed)
+Errors while running CTest

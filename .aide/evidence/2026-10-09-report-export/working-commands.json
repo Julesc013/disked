@@ -1,0 +1,114 @@
+[
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-model-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-export-model.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target report_export_probe file_report_export_probe file_report_export_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-build.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-model-cases-2.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-export-model-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-file-cases.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-file-export.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py index",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-index.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py check",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-check.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-manifest.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-file-cases-2.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-file-export-2.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target report_export_probe file_report_export_probe file_report_export_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-build-2.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-file-cases-3.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 1,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-file-export-3.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(evidence.export_model|evidence.file_export|evidence.case_model|health.observation_model|disked.invocation|disked.acceptance|provider_guard.positive_control)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "fail",
+    "exit_code": 8,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-native-regression.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target report_export_probe file_report_export_probe file_report_export_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-build-3.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root . --evidence .aide/evidence/2026-10-09-report-export/working-file-cases-4.json",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-file-export-4.log"
+  },
+  {
+    "command": ".aide-local/venv/Scripts/python.exe spec/tools/specctl.py manifest",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-manifest-2.log"
+  },
+  {
+    "command": "cmake --build --preset windows-bootstrap --target disked provider_guard_probe case_evidence_probe health_observation_probe report_export_probe file_report_export_probe file_report_export_fault",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-build-product.log"
+  },
+  {
+    "command": "ctest --preset windows-bootstrap --output-on-failure -R ^(evidence.export_model|evidence.file_export|evidence.case_model|health.observation_model|disked.invocation|disked.acceptance|provider_guard.positive_control)$",
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "status": "pass",
+    "exit_code": 0,
+    "evidence_path": ".aide/evidence/2026-10-09-report-export/working-native-regression-2.log"
+  }
+]

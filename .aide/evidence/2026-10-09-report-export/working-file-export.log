@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 110, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 99, in main
+    o,data=paused('creation-race','before-create',lambda v:Path(v['destination']).write_bytes(b'concurrent-owned'))
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_file_export.py", line 94, in paused
+    proc.wait(timeout=20);out=proc.stdout.read();err=proc.stderr.read();assert not err
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1279, in wait
+    return self._wait(timeout=timeout)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1608, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['D:\\Projects\\DiskEd\\disked\\build\\windows-bootstrap\\Release\\file_report_export_fault.exe']' timed out after 20 seconds

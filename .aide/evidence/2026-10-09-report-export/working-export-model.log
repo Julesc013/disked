@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export.py", line 80, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export.py", line 38, in main
+    v=run('multichunk-exact-controls',dict(large=True,policy=policy((True,True,True,True))));assert int(v['writes'])>1 and int(v['reads'])>1 and len(inspect(v))>65536
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export.py", line 25, in run
+    assert r.returncode==(3 if refusal else 0) and not r.stderr,(name,r.returncode,r.stdout,r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('multichunk-exact-controls', 3, b'{"refusal":"export_fixture_invalid"}\r\n', b'')
