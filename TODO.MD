@@ -98,3 +98,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W034 recorded acquisition cases: qualify immutable native metadata snapshots, exact revisions, all disclosure gates and typed report export on real generated-file acquisitions; public admission/containment and current-image/authenticated custody remain open.
 
 - [ ] DE-W034: qualify joint acquisition-case/source/export admission, then bind the durable report worker/store and complete public service/frontend integration before availability.
+
+- [ ] Qualify private report-worker execution evidence, then close public export
+  prepare/execute contracts, bounded common service/watch and frontend journeys.
+  Preserve uncertain attempts, created output and independent exit observations.

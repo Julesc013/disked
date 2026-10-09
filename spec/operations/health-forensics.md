@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.6-proposed.1
+  version: 0.1.7-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T04:33:40.059411+00:00'
-  scope: DE-W034 joint source-case/export admission; public worker qualification pending
+  at: '2026-10-09T06:29:23.462435+00:00'
+  scope: DE-W034 private report worker and retained execution state; public service pending
 ---
 
 # Health assessment and forensic workflow
@@ -201,6 +201,29 @@ Public worker/store identity, reconnect, bounded service/cancellation/late resul
 descriptor syntax and all frontend journeys remain required before availability.
 Authenticated custody, current image verification and physical/platform gates
 remain separate. Schema/model passes do not admit the public command.
+
+## Private report execution state
+
+The [report worker profile](../catalog/report-worker-prototype.json) adds a
+separate immutable execution definition around the joint case/export definition.
+Bind exact producer/worker code, host and owned state-directory generations before
+dispatch. Explicit store-write authority covers request, claim, bounded history
+and cancellation metadata. Preparation creates no file; generated acquisition
+image paths remain declarations and are never followed by this report role.
+
+Persist operation/attempt/worker identities and actual process identity. Prepared,
+executing, effect certainty, worker-observed cancellation and finished receipts
+remain separate. Close provider handles before recording effect quiescence; this
+does not establish process exit. A delayed admission retains an unknown operation
+and must not cause restart. Repeating the same admission only observes its store.
+A failed terminal write retains the last valid state and actual created output,
+without inventing a completion receipt. Torn histories remain unknown.
+
+The ordinary same-file worker uses finite admission, process, memory and record
+budgets. Test-only delays and metadata-write failures qualify actual process/API
+behaviour, not power loss or physical storage. Public export descriptors,
+parameter/result contracts, bounded common service/watch and all frontend journeys
+remain admission gates. Retention grants no new writer permission.
 
 ## Normative requirements
 

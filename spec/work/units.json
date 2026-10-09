@@ -1518,7 +1518,8 @@
         "DE-111",
         "DE-073",
         "DE-044",
-        "DE-036"
+        "DE-036",
+        "DE-015"
       ],
       "allowed_paths": [
         "source/runtime/evidence/**",
@@ -1532,7 +1533,9 @@
         ".aide/evidence/**",
         ".aide/handoffs/**",
         ".aide/programmes/**",
-        "source/providers/report/**"
+        "source/providers/report/**",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/report_worker.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1564,7 +1567,8 @@
         "python tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root .",
         "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root .",
         "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .",
-        "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1610,7 +1614,16 @@
         "tests/evidence/test_acquisition_export.py",
         "spec/catalog/acquisition-case-export-prototype.json",
         "spec/schemas/acquisition-case-export-definition.schema.json",
-        "spec/schemas/acquisition-case-export-outcome.schema.json"
+        "spec/schemas/acquisition-case-export-outcome.schema.json",
+        "source/runtime/evidence/report_operation.h",
+        "source/runtime/evidence/report_operation.cpp",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/report_worker.cpp",
+        "tests/evidence/report_worker_probe.cpp",
+        "tests/evidence/test_report_worker.py",
+        "spec/catalog/report-worker-prototype.json",
+        "spec/schemas/report-worker-definition.schema.json",
+        "spec/schemas/report-worker-grant.schema.json"
       ]
     },
     {

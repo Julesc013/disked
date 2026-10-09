@@ -26,7 +26,7 @@ U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
-    'acquisition-case-export-definition','acquisition-case-export-outcome')})
+    'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -222,7 +222,31 @@ def acquisition_record_limits(value, byte_bound):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Acquisition record exceeds canonical byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'acquisition-case-export-definition':
+    if kind == 'report-worker-definition':
+        semantic_validate('acquisition-case-export-definition',value['export'])
+        store=value['store'];joint=value['export'];parents=store['ancestors']
+        if parents[-1]!=store['generation'] or store['failure_domain']!='observed-file-volume:'+store['generation']['volume_id']:
+            raise SpecError('Report worker store generation/failure domain disagrees')
+        for generation in parents+[store['generation']]:
+            for field in ('created','volume_id'):bounded_u64(generation[field],'report store '+field)
+        if store['generation']==joint['source']['store']['generation']:raise SpecError('Report execution and case stores alias')
+        if joint['effect']['resources']['producer']['digest']!='sha256:'+value['image_digest']:
+            raise SpecError('Report worker and producer code disagree')
+        count=0
+        def visit(node,depth=0):
+            nonlocal count
+            count+=1
+            if count>8192 or depth>=28:raise SpecError('Report definition exceeds value/depth bound')
+            if isinstance(node,str) and len(node.encode('utf-8'))>1024:raise SpecError('Report definition exceeds string byte bound')
+            if isinstance(node,dict):
+                for key,child in node.items():
+                    if len(key.encode('utf-8'))>1024:raise SpecError('Report definition key exceeds byte bound')
+                    visit(child,depth+1)
+            elif isinstance(node,list):
+                for child in node:visit(child,depth+1)
+        visit(value)
+        if len(acquisition_record_bytes(value))>65536:raise SpecError('Report definition exceeds byte bound')
+    elif kind == 'acquisition-case-export-definition':
         source=value['source'];store=source['store'];effect=value['effect']
         if source['case_revision']!=value['case']['revision'] or source['ancestors'][-1]!=store['generation']:
             raise SpecError('Case export source revision/generation disagrees')

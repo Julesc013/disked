@@ -54,3 +54,10 @@ outcomes: a late source change cannot erase an actual verified output or receipt
 These are synchronous observations, with native qualification retained separately.
 Durable worker/store identity, bounded service/cancellation/late results, public
 descriptor syntax and frontend integration remain required before availability.
+
+The private report worker binds an additional owned execution store and exact
+worker/producer/host generations. Its durable operation, attempt and worker
+identities support private reconnect and cancellation; failed terminal writes
+retain uncertain state and created output. This does not yet admit public
+`evidence.export`: common service/watch and actual frontend contracts/journeys
+remain pending. See the canonical report-worker prototype profile.

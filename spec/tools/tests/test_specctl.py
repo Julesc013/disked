@@ -20,7 +20,8 @@ import specctl as sc
 ROOT = Path(__file__).resolve().parents[2]
 # Integrity/determinism fixtures need room for the growing complete task pack.
 # The separate 100-byte case still verifies refusal without truncation.
-CONTEXT_FIXTURE_BUDGET = 260000
+# DE-W034 now includes execution-topology prerequisites (278 KiB complete pack).
+CONTEXT_FIXTURE_BUDGET = 320000
 
 class BundleTests(unittest.TestCase):
     @classmethod

@@ -617,3 +617,10 @@ actual creation; the product ignores those controls. See
 DE-W034 also implements a private typed recorded-acquisition case reader. It opens only selected worker metadata, binds exact request/history content and generations, and preserves recorded status separately from current-image verification or authenticity. Typed support projections and export remain private pending bounded public service/frontend admission; see [acquisition-cases.md](acquisition-cases.md).
 
 The provisional joint source/case/export definition and native checks are described in [acquisition-cases.md](acquisition-cases.md). Public worker/store and frontend admission remain pending.
+
+The private report worker binds an additional owned execution store and exact
+worker/producer/host generations. Its durable operation, attempt and worker
+identities support private reconnect and cancellation; failed terminal writes
+retain uncertain state and created output. This does not yet admit public
+`evidence.export`: common service/watch and actual frontend contracts/journeys
+remain pending. See the canonical report-worker prototype profile.

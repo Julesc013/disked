@@ -4900,6 +4900,150 @@
         "DE-044",
         "DE-036"
       ]
+    },
+    {
+      "id": "source/runtime/evidence/report_operation.h",
+      "path": "source/runtime/evidence/report_operation.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "source/runtime/evidence/report_operation.cpp",
+      "path": "source/runtime/evidence/report_operation.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_operation.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "source/platform/windows/report_worker.h",
+      "path": "source/platform/windows/report_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/evidence/report_operation.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "source/platform/windows/report_worker.cpp",
+      "path": "source/platform/windows/report_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/providers/report/file_acquisition_export.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/evidence/report_worker_probe.cpp",
+      "path": "tests/evidence/report_worker_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/report_worker.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "tests/evidence/test_report_worker.py",
+      "path": "tests/evidence/test_report_worker.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/evidence/report_worker_probe.cpp",
+        "tests/images/test_acquisition_worker.py",
+        "tests/evidence/test_case.py",
+        "spec/catalog/report-worker-prototype.json",
+        "spec/schemas/report-worker-definition.schema.json",
+        "spec/schemas/report-worker-grant.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/catalog/report-worker-prototype.json",
+      "path": "spec/catalog/report-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/acquisition-case-export-prototype.json",
+        "spec/schemas/report-worker-definition.schema.json",
+        "spec/schemas/report-worker-grant.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-definition.schema.json",
+      "path": "spec/schemas/report-worker-definition.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/acquisition-case-export-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-grant.schema.json",
+      "path": "spec/schemas/report-worker-grant.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-015",
+        "DE-044",
+        "DE-074"
+      ]
     }
   ]
 }

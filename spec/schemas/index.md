@@ -45,6 +45,8 @@
 - [input-registry.schema.json](input-registry.schema.json)
 - [plan.schema.json](plan.schema.json)
 - [provider.schema.json](provider.schema.json)
+- [report-worker-definition.schema.json](report-worker-definition.schema.json)
+- [report-worker-grant.schema.json](report-worker-grant.schema.json)
 - [request.schema.json](request.schema.json)
 - [required-input.schema.json](required-input.schema.json)
 - [requirement.schema.json](requirement.schema.json)
