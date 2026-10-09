@@ -1,5 +1,6 @@
 #include "session.h"
 #include "graph.h"
+#include "health_observer.h"
 #include "command_registry.h"
 #include <iostream>
 
@@ -17,8 +18,8 @@ disked::GraphInput graph(const Value& value) {
     for(const auto& e:value.find("edges")->items)out.edges.push_back({text(e,"from"),text(e,"to"),text(e,"kind")});
     out.omissions=strings(*value.find("omissions"));return out;
 }
-int main() {
-    disked::FrontendSession session(disked::command_registry(),disked::fake_graph());
+int main(int argc,char**) {
+    disked::FrontendSession session(disked::command_registry(),disked::fake_graph(),{},argc==2?disked::FrontendSession::HealthObservation{}:disked::fake_health_observation);
     std::vector<std::shared_ptr<const disked::GraphSnapshot>> retained;
     std::string line;
     while(std::getline(std::cin,line)) {

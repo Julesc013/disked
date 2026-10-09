@@ -1,4 +1,4 @@
-# Private health-observation development model
+# Fake health observations and private collection model
 
 DE-W032 currently provides a native C++14 collector tested against owned fixture
 values. It binds a result to the selected target generation/composite identity,
@@ -6,11 +6,33 @@ observer/provider declaration and capture/worker ticket. It preserves raw bytes,
 vendor interpretation and unavailable values separately. Its declared identities
 are not physical validation or authenticated authority.
 
-The collector has no device, query, file or self-test port and is not linked into
-`disked.exe`. `health.assess` remains planned/unavailable. Actual native adapters
+The collector has no device, query, file or self-test port. The provisional dev.22
+`health.assess` composition uses it for synchronous compiled fake fixtures through
+the same service as CLI, stdio, GUI, TUI and shell. Actual native adapters
 still require DE-W030 inventory, containment, identity/classification review and
 applicable platform evidence. This model is partial DE-W032 progress, not completed
 provider admission or forensic qualification.
+
+```powershell
+disked health assess fake:alpha@1 --json
+disked health assess fake:clone@1 --include-identifiers --include-raw --include-interpretations --json
+```
+
+Use exact graph target IDs. An optional stdio `expected_revision` (and GUI/TUI
+review) binds the graph before collection. Denied or stale nodes refuse; unknown
+nodes return partial observations and table/volume nodes explicitly have no
+observer. There is no real sampling timestamp, physical query, self-test or file
+export. The [proposed fake command contract](../spec/catalog/fake-health-command.json)
+defines outputs and diagnostics; it is not a frozen health API.
+
+The `support_report` defaults to labels/state/availability without values or
+identifiers. Four optional flags select identifiers, raw values, interpretations
+and customer data. Identifier/customer field content additionally needs its
+category flag; secret content is always omitted. The outer selected target and
+graph revision are routing metadata: the whole response is not a redacted support
+export. Human views escape arbitrary text; machine values retain exact bytes.
+An oversized label has explicit error/null values at the corresponding raw or
+interpretation limit. A complete response never proves healthy or safe media.
 
 With the [pinned native toolchain](native-bootstrap.md), run:
 

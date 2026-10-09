@@ -74,6 +74,7 @@ def run(exe,case,report):
     flags=['--tui']
     if case in ['linear','small']:flags+=['--terminal=linear' if case=='linear' else '--terminal=auto']
     if case=='form':flags+=['target','inspect','fake:alpha@1','--terminal=linear']
+    if case=='health-form':flags+=['health','assess','fake:clone@1','--include-identifiers','--include-raw','--include-interpretations','--terminal=linear']
     if case=='mode-linear':flags+=['mode','explain','--terminal=linear']
     if case=='forced-small':
         configure(out,40,8);before=snapshot();flags+=['--terminal=screen']
@@ -99,7 +100,7 @@ def run(exe,case,report):
         if case in ['fault','forced-small','wrong-input']:
             code=p.wait(timeout=8)
         else:
-            wait_for('TYPED FORM' if case in ['form','mode-linear'] else 'TARGET INVENTORY')
+            wait_for('TYPED FORM' if case in ['form','mode-linear','health-form'] else 'TARGET INVENTORY')
             if case=='screen':
                 key(13,'\r');wait_for('Request completed')
                 key(0x71);wait_for('COMMAND EXPLORER');key(13,'\r');wait_for('TYPED FORM')
@@ -109,11 +110,13 @@ def run(exe,case,report):
                 key(0x78,down=False);key(0x78);wait_for('Request completed')
                 key(0x75);wait_for('linear')
                 key(0x75);wait_for('screen')
-            elif case in ['form','mode-linear']:
+            elif case in ['form','mode-linear','health-form']:
                 key(13,'\r');key(13,'\r');time.sleep(.1)
                 if 'Request completed' in current_text():raise AssertionError('Pasted newline submitted form')
                 key(0x78);wait_for('REQUEST REVIEW');key(0x78);wait_for('Request completed')
                 if case=='mode-linear':wait_for('"prefer_linear": true');wait_for('"terminal_presentation": "linear"')
+                if case=='health-form':
+                    wait_for('42 Celsius');wait_for('compiled-fixture');wait_for('not_established')
             elif case=='resize':
                 h=active()
                 try:configure(h,40,8)
@@ -136,7 +139,7 @@ def run(exe,case,report):
             if before[field]!=after[field]:raise AssertionError('Caller changed: '+field)
         def extent(rect):return [rect[2]-rect[0]+1,rect[3]-rect[1]+1]
         if extent(before['viewport'])!=extent(after['viewport']):raise AssertionError('Caller viewport resized')
-        if case not in ['linear','small','form','mode-linear','screen'] and before['viewport']!=after['viewport']:raise AssertionError('Caller viewport moved')
+        if case not in ['linear','small','form','mode-linear','health-form','screen'] and before['viewport']!=after['viewport']:raise AssertionError('Caller viewport moved')
         expected=before['modes'][:]
         if case=='external-mode':expected[0]^=0x20
         if after['modes']!=expected:raise AssertionError('Input-mode restoration mismatch')

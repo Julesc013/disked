@@ -64,6 +64,17 @@ class WindowsGui(unittest.TestCase):
         p=subprocess.run([str(ARGS.exe),'protocol','serve','--json'],input=json.dumps(request).encode(),capture_output=True,timeout=10)
         self.assertEqual(actual,json.loads(p.stdout));g.click(110);self.assertEqual(actual,g.details())
         self.capture(g,'request-result')
+    def test_fake_health_form_matches_protocol_with_explicit_disclosure(self):
+        g=self.launch(['--gui','health','assess','fake:clone@1','--include-identifiers','--include-raw','--include-interpretations'])
+        self.assertFalse(U.IsWindowEnabled(g.child(110)));g.click(109)
+        reviewed=g.details();self.assertTrue(reviewed['reviewed']);self.assertEqual('health.assess',reviewed['command'])
+        g.click(110);actual=g.details();self.assertEqual('compiled-fixture',actual['result']['observation_kind'])
+        request=dict(schema='org.disked.request/1',request_id=actual['request_id'],command='health.assess',parameters=reviewed['parameters'],required_features=[],expected_revision=reviewed['expected_revision'])
+        p=subprocess.run([str(ARGS.exe),'protocol','serve','--json'],input=json.dumps(request).encode(),capture_output=True,timeout=10)
+        self.assertEqual(0,p.returncode);self.assertEqual(b'',p.stderr);self.assertEqual(actual,json.loads(p.stdout))
+        fields=actual['result']['support_report']['sources'][0]['fields'];self.assertEqual('42 Celsius',fields[0]['interpretation']['text'])
+        self.assertNotIn('raw',fields[3]);self.assertNotIn('interpretation',fields[3]);self.assertNotIn('raw',fields[4]);self.assertNotIn('interpretation',fields[4])
+        self.assertTrue(g.text(101).isascii());self.capture(g,'fake-health-result')
     def test_oversized_insert_and_control_text_cannot_authorize_old_value(self):
         g=self.launch(['--gui','target','inspect','fake:alpha@1']);g.click(109)
         buffer=C.create_unicode_buffer('x'*5000)

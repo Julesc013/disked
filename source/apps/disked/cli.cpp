@@ -89,7 +89,7 @@ Value command_description(const Value& command) {
     out.put("availability",Value::string(available?"available":"unavailable"));
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
-        id=="shell.close"?"shell_session_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
+        id=="shell.close"?"shell_session_only":id=="health.assess"?"compiled_fake_health_fixtures_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
         fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {

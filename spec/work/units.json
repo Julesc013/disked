@@ -1210,7 +1210,15 @@
         "TODO.MD",
         ".aide/evidence/**",
         ".aide/handoffs/**",
-        ".aide/programmes/**"
+        ".aide/programmes/**",
+        "source/providers/fake/**",
+        "source/runtime/presentation/**",
+        "source/runtime/command/protocol.cpp",
+        "source/apps/disked/cli.cpp",
+        "tests/frontend/**",
+        "tests/resilience/capture_campaign.cpp",
+        "tools/build-bootstrap.py",
+        "tests/interaction/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1238,7 +1246,8 @@
       "validation_commands": [
         "python spec/tools/specctl.py check",
         "python -m unittest discover -s spec/tools/tests -v",
-        "python tests/health/test_health.py --probe build/windows-bootstrap/Release/health_observation_probe.exe --root ."
+        "python tests/health/test_health.py --probe build/windows-bootstrap/Release/health_observation_probe.exe --root .",
+        "ctest --preset windows-bootstrap -R ^health.command$"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1249,7 +1258,26 @@
         "tests/health/health_probe.cpp",
         "tests/health/test_health.py",
         "CMakeLists.txt",
-        "tools/build-inputs.json"
+        "tools/build-inputs.json",
+        "source/providers/fake/health_observer.h",
+        "source/providers/fake/health_observer.cpp",
+        "tests/health/test_command.py",
+        "spec/schemas/command-health-parameters.schema.json",
+        "spec/catalog/fake-health-command.json",
+        "source/providers/fake/graph.cpp",
+        "source/runtime/presentation/session.h",
+        "source/runtime/presentation/session.cpp",
+        "source/runtime/command/protocol.cpp",
+        "source/apps/disked/cli.cpp",
+        "tools/build-bootstrap.py",
+        "tests/frontend/service_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/interaction/shell_probe.cpp",
+        "tests/resilience/capture_campaign.cpp",
+        "tests/frontend/test_gui_windows.py",
+        "tests/frontend/test_tui_windows.py",
+        "tests/frontend/console_tui_fixture.py"
       ]
     },
     {

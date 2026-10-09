@@ -18,6 +18,7 @@
 - [command-empty-parameters.schema.json](command-empty-parameters.schema.json)
 - [command-fake-operation-parameters.schema.json](command-fake-operation-parameters.schema.json)
 - [command-fake-simulation-parameters.schema.json](command-fake-simulation-parameters.schema.json)
+- [command-health-parameters.schema.json](command-health-parameters.schema.json)
 - [command-image-path-parameters.schema.json](command-image-path-parameters.schema.json)
 - [command-operation-parameters.schema.json](command-operation-parameters.schema.json)
 - [command-resize-proposal-parameters.schema.json](command-resize-proposal-parameters.schema.json)

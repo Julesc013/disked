@@ -2,6 +2,7 @@
 #include "bootstrap.h"
 #include "capture.h"
 #include "session.h"
+#include "health_observer.h"
 
 namespace disked {
 #ifdef DISKED_CAPTURE_CAMPAIGN
@@ -12,7 +13,7 @@ std::unique_ptr<FrontendSession> make_fake_session(const Registry& registry) {
 #ifdef DISKED_CAPTURE_CAMPAIGN
     return capture_campaign_session(registry);
 #else
-    return std::unique_ptr<FrontendSession>(new FrontendSession(registry,fake_graph()));
+    return std::unique_ptr<FrontendSession>(new FrontendSession(registry,fake_graph(),{},fake_health_observation));
 #endif
 }
 GraphInput fake_graph() {

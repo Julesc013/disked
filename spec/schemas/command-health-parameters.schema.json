@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-health-parameters:1",
+  "title": "command-health-parameters",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "include_identifiers": {
+      "type": "boolean"
+    },
+    "include_raw": {
+      "type": "boolean"
+    },
+    "include_interpretations": {
+      "type": "boolean"
+    },
+    "include_customer_data": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "target_id"
+  ],
+  "additionalProperties": false
+}

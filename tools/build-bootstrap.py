@@ -37,7 +37,7 @@ def generate(args):
     if profile["fake_provider_id"] != "provider.fake.bootstrap/1":
         raise ValueError("Private fake graph profile requires an explicit provider identity change")
     if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain", "target.list", "target.inspect", "topology.show", "capability.explain",
-                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire"}:
+                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire", "health.assess"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")

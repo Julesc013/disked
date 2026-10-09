@@ -70,7 +70,7 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
         if(value.find(field))return refused(id->text,"unexpected_mutation_field");
     const auto* revision=value.find("expected_revision");
     if(revision && command->text!="target.list" && command->text!="target.inspect" &&
-        command->text!="topology.show" && command->text!="capability.explain")return refused(id->text,"unexpected_revision");
+        command->text!="topology.show" && command->text!="capability.explain" && command->text!="health.assess")return refused(id->text,"unexpected_revision");
     const auto error=validate_parameters(registry,*descriptor,*value.find("parameters"));
     if(error=="syntax_unavailable")return refused(id->text,"command_unavailable",3);
     if(!error.empty())return refused(id->text,error);

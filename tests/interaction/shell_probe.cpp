@@ -2,11 +2,12 @@
 #include "command_registry.h"
 #include "bootstrap_registry.h"
 #include "graph.h"
+#include "health_observer.h"
 #include <iostream>
 #include <memory>
 using disked::json::Value;
 int main(int argc,char**) {
-    auto registry=disked::command_registry();auto graph=disked::fake_graph();disked::FrontendSession session(registry,graph);
+    auto registry=disked::command_registry();auto graph=disked::fake_graph();disked::FrontendSession session(registry,graph,{},disked::fake_health_observation);
     auto commands=registry.commands;for(auto& c:commands.items) {
         bool available=false;for(const auto& row:bootstrap::commands)if(c.find("id")->text==row.id)available=row.implemented;
         if(argc==2 && c.find("id")->text=="image.acquire")available=true;

@@ -28,6 +28,7 @@ class WindowsTui(unittest.TestCase):
     def test_explicit_linear_inventory(self):self.console_case('linear')
     def test_small_terminal_auto_linear(self):self.console_case('small')
     def test_typed_form_paste_is_inert_until_explicit_review(self):self.console_case('form')
+    def test_fake_health_typed_form_and_disclosure(self):self.console_case('health-form')
     def test_mode_explanation_retains_explicit_linear_preference(self):self.console_case('mode-linear')
     def test_ctrl_c_restores_caller(self):self.console_case('ctrl-c')
     def test_ctrl_c_key_event_restores_caller(self):self.console_case('ctrl-key')

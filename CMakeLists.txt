@@ -170,11 +170,11 @@ add_custom_target(bootstrap_registry ALL
 
 function(bootstrap_executable target)
   add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
-    source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp
+    source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp
     source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/memory_budget.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked)
-  target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell disked_image_actions disked_file_acquisition disked_acquisition_observation)
+  target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell disked_image_actions disked_file_acquisition disked_acquisition_observation disked_health_observation)
   target_sources(${target} PRIVATE source/platform/windows/acquisition_worker.cpp)
   if(target STREQUAL "disked_image_test")
     target_sources(${target} PRIVATE source/providers/image/file_capture.cpp)
@@ -200,6 +200,10 @@ if(BUILD_TESTING)
   add_test(NAME health.observation_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/health/test_health.py"
     --probe "$<TARGET_FILE:health_observation_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(health.observation_model PROPERTIES TIMEOUT 120)
+  add_test(NAME health.command COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/health/test_command.py"
+    --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --service "$<TARGET_FILE:frontend_service_probe>"
+    --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --shell "$<TARGET_FILE:shell_model_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(health.command PROPERTIES TIMEOUT 120)
   add_executable(journal_semantic_probe tests/journal/semantic_probe.cpp)
   target_link_libraries(journal_semantic_probe PRIVATE disked_journal_semantics)
   set_target_properties(journal_semantic_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
@@ -371,10 +375,10 @@ if(BUILD_TESTING)
     --probe "$<TARGET_FILE:request_channel_probe>")
   set_tests_properties(resilience.request_channel PROPERTIES TIMEOUT 30)
   add_executable(shell_model_probe tests/interaction/shell_probe.cpp source/apps/disked/command_registry.cpp
-    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+    source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(shell_model_probe bootstrap_registry)
   target_include_directories(shell_model_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
-  target_link_libraries(shell_model_probe PRIVATE disked_shell)
+  target_link_libraries(shell_model_probe PRIVATE disked_shell disked_health_observation)
   set_target_properties(shell_model_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(shell_model_probe PRIVATE /W4 /WX /permissive- /utf-8)
   add_test(NAME shell.model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/interaction/test_shell_model.py"
@@ -388,10 +392,10 @@ if(BUILD_TESTING)
     --probe "$<TARGET_FILE:operation_reducer_probe>")
   set_tests_properties(operation.reducer PROPERTIES TIMEOUT 60)
   add_executable(gui_model_probe tests/frontend/gui_probe.cpp source/apps/disked/command_registry.cpp
-    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+    source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(gui_model_probe bootstrap_registry)
   target_include_directories(gui_model_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
-  target_link_libraries(gui_model_probe PRIVATE disked_gui)
+  target_link_libraries(gui_model_probe PRIVATE disked_gui disked_health_observation)
   set_target_properties(gui_model_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(gui_model_probe PRIVATE /W4 /WX /permissive- /utf-8)
   add_test(NAME frontend.gui_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_gui_model.py"
@@ -403,10 +407,10 @@ if(BUILD_TESTING)
     --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --unavailable "$<TARGET_FILE:disked_gui_unavailable>")
   set_tests_properties(frontend.gui_windows PROPERTIES TIMEOUT 180)
   add_executable(tui_model_probe tests/frontend/tui_probe.cpp source/apps/disked/command_registry.cpp
-    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+    source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(tui_model_probe bootstrap_registry)
   target_include_directories(tui_model_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
-  target_link_libraries(tui_model_probe PRIVATE disked_tui)
+  target_link_libraries(tui_model_probe PRIVATE disked_tui disked_health_observation)
   set_target_properties(tui_model_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(tui_model_probe PRIVATE /W4 /WX /permissive- /utf-8)
   add_test(NAME frontend.tui_model COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_tui_model.py"
@@ -421,10 +425,10 @@ if(BUILD_TESTING)
     --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --fault "$<TARGET_FILE:disked_tui_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(shell.windows PROPERTIES TIMEOUT 180)
   add_executable(frontend_service_probe tests/frontend/service_probe.cpp source/apps/disked/command_registry.cpp
-    source/providers/fake/graph.cpp source/providers/fake/bootstrap.cpp)
+    source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp source/providers/fake/bootstrap.cpp)
   add_dependencies(frontend_service_probe bootstrap_registry)
   target_include_directories(frontend_service_probe PRIVATE "${generated}" source/apps/disked source/providers/fake)
-  target_link_libraries(frontend_service_probe PRIVATE disked_presentation)
+  target_link_libraries(frontend_service_probe PRIVATE disked_presentation disked_health_observation)
   set_target_properties(frontend_service_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(frontend_service_probe PRIVATE /W4 /WX /permissive- /utf-8)
   add_test(NAME frontend.service COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_service.py"

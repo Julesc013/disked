@@ -3,8 +3,8 @@
 
 namespace disked {
 using json::Value;
-FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial,ObservationPoll observations):
-    registry_(registry),observations_(std::move(observations)) {publish(initial);}
+FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial,ObservationPoll observations,HealthObservation health):
+    registry_(registry),observations_(std::move(observations)),health_(std::move(health)) {publish(initial);}
 bool FrontendSession::refresh_observations() {
     if(!observations_)return false;auto next=observations_();if(!next || next==observed_)return false;
     publish(*next);observed_=std::move(next);return true;
@@ -45,19 +45,22 @@ Outcome FrontendSession::act_cached(const FrontendAction& action) {
         .put("capture_id",*snapshot_->value().find("capture_id")).put("basis_revision",Value::string(snapshot_->revision())).put("target",*node));
 }
 bool FrontendSession::handles(const std::string& command) {
-    return command=="target.list" || command=="target.inspect" || command=="topology.show" || command=="capability.explain";
+    return command=="target.list" || command=="target.inspect" || command=="topology.show" || command=="capability.explain" || command=="health.assess";
 }
 Value FrontendSession::assessment(const std::string& target,const std::string& operation) const {
     const auto& state=snapshot_->node(target)->find("properties")->find("state")->text;
     Value checks=Value::object(),blockers=Value::array();
-    const bool cached_read=handles(operation);
+    const bool cached_read=handles(operation) && operation!="health.assess";
+    const bool health_read=operation=="health.assess" && static_cast<bool>(health_);
     for(const auto* check:{"implementation","provider","qualification","host_media","permission","policy","freshness","target_state","resources","recovery"}) {
         const std::string name=check;std::string status="satisfied";
         if(name=="qualification")status="unknown";
-        if((name=="implementation" || name=="provider") && !cached_read)status="unavailable";
+        if((name=="implementation" || name=="provider") && !cached_read && !health_read)status="unavailable";
+        // Selecting a port does not prove an observer for this exact node.
+        if(name=="provider" && health_read)status="unknown";
         if(name=="permission" && state=="denied")status="denied";
         if((name=="freshness" && state=="stale") || (name=="target_state" && state=="unknown"))status="unknown";
-        if((name=="policy" || name=="recovery") && !cached_read)status="unavailable";
+        if((name=="policy" || name=="recovery") && !cached_read && !health_read)status="unavailable";
         checks.put(name,Value::string(status));
         if(status!="satisfied")blockers.items.push_back(Value::string(name+":"+status));
     }
@@ -83,6 +86,17 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     const auto& target=parameters.find("target_id")->text;
     if(command=="target.inspect")return act_cached({ActionKind::Inspect,target,revision.empty()?snapshot_->revision():revision,request});
     if(!snapshot_->node(target))return refused(request,"target_not_found");
+    if(command=="health.assess") {
+        const auto& node=*snapshot_->node(target);const auto& state=node.find("properties")->find("state")->text;
+        if(state=="stale")return refused(request,"health_observation_stale");
+        if(state=="denied")return refused(request,"health_observation_denied",3);
+        if(!health_)return refused(request,"health_observer_unavailable",3);
+        Value policy=Value::object();
+        for(const auto& item:std::vector<std::pair<const char*,const char*>>{{"identifiers","include_identifiers"},{"raw_values","include_raw"},{"interpretations","include_interpretations"},{"customer_data","include_customer_data"}}) {
+            const auto* flag=parameters.find(item.second);policy.put(item.first,Value::boolean_value(flag && flag->boolean));
+        }
+        return health_(request,node,snapshot_->revision(),policy);
+    }
     const auto& operation=parameters.find("operation")->text;
     if(!registry_.command(operation))return refused(request,"operation_unavailable",3);
     return completed(request,Value::object().put("scope",Value::string("fake-only")).put("assessment",assessment(target,operation)));

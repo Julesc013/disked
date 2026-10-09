@@ -6,6 +6,7 @@
 #include "capture.h"
 #include "session.h"
 #include "graph.h"
+#include "health_observer.h"
 #include <chrono>
 #include <algorithm>
 #include <cstring>
@@ -164,7 +165,7 @@ std::unique_ptr<FrontendSession> capture_campaign_session(const Registry& regist
     auto campaign=std::make_shared<Campaign>();
     current_campaign=campaign;
     return std::unique_ptr<FrontendSession>(new FrontendSession(registry,campaign->capture.snapshot()->graph,
-        [campaign]() {return campaign->poll();}));
+        [campaign]() {return campaign->poll();},fake_health_observation));
 }
 Value capture_campaign_report() {
     const auto campaign=current_campaign.lock();if(!campaign)return Value{};

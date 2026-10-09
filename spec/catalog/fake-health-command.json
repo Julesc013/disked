@@ -1,0 +1,116 @@
+{
+  "schema": "org.disked.fake-health-command-profile/1",
+  "status": "proposed",
+  "scope": "Windows native prototype; synchronous compiled fake fixtures only; not a stable health API, physical observer, self-test or support-file export",
+  "parameters": {
+    "target_id": "Exact graph node ID; aliases, ordinals and physical paths are not targets",
+    "include_identifiers": "Optional boolean, default false",
+    "include_raw": "Optional boolean, default false",
+    "include_interpretations": "Optional boolean, default false",
+    "include_customer_data": "Optional boolean, default false"
+  },
+  "result_fields": [
+    "schema",
+    "scope",
+    "target_id",
+    "basis_revision",
+    "observation_kind",
+    "observed_at",
+    "support_report"
+  ],
+  "result_schema": "org.disked.fake-health-result/1",
+  "report_schema": "org.disked.health-support-prototype/1",
+  "provider_binding": "sha256 of UTF-8 provider.fake.health.fixture/1",
+  "identity_binding": "sha256 of compact JSON object with lexically sorted id, identity and generation keys; positive generation bound separately",
+  "revision": "Optional request expected_revision is checked before callback; all results retain the exact graph basis revision. GUI/TUI review binds that revision.",
+  "disclosure": "Only support_report is the policy-selected support payload; the surrounding envelope retains selected routing target ID and graph revision and must not be described as redacted. Default report omits identifiers and values. Content flags select raw/interpretations independently; identifier and customer fields additionally require their own category flag. Secret content always omitted. No file is written.",
+  "fields": [
+    {
+      "id": "temperature",
+      "sensitivity": "public",
+      "raw_encoding": "one unsigned Celsius byte",
+      "rule": "fixture.celsius@1"
+    },
+    {
+      "id": "media_errors",
+      "sensitivity": "public",
+      "raw_encoding": "one unsigned count byte",
+      "rule": "fixture.count@1"
+    },
+    {
+      "id": "serial",
+      "sensitivity": "identifier"
+    },
+    {
+      "id": "label",
+      "sensitivity": "customer"
+    },
+    {
+      "id": "debug",
+      "sensitivity": "secret"
+    }
+  ],
+  "fixtures": {
+    "fake:alpha@1": {
+      "identity": "fixture:controller-A:lun0",
+      "kind": "block-device",
+      "generation": "1",
+      "state": "current",
+      "temperature": 35,
+      "media_errors": 0
+    },
+    "fake:clone@1": {
+      "identity": "fixture:controller-B:lun0",
+      "kind": "block-device",
+      "generation": "1",
+      "state": "current",
+      "temperature": 42,
+      "media_errors": 3
+    },
+    "fake:denied@1": {
+      "identity": "fixture:controller-A:lun1",
+      "kind": "block-device",
+      "generation": "1",
+      "state": "denied"
+    },
+    "fake:stale@1": {
+      "identity": "fixture:controller-A:lun2",
+      "kind": "block-device",
+      "generation": "1",
+      "state": "stale"
+    },
+    "fake:unknown@1": {
+      "identity": "fixture:controller-A:lun3",
+      "kind": "block-device",
+      "generation": "1",
+      "state": "unknown"
+    },
+    "fake:table@1": {
+      "identity": "fixture:table-A",
+      "kind": "gpt",
+      "generation": "1",
+      "state": "current"
+    },
+    "fake:volume@1": {
+      "identity": "fixture:volume-A",
+      "kind": "volume",
+      "generation": "1",
+      "state": "current"
+    }
+  },
+  "outcomes": {
+    "current_block": "Complete compiled field set; raw and interpretation remain separate; no reliability/eligibility inference",
+    "unknown": "Completed request with partial report; all missing fields explicitly unknown/null, never zero",
+    "table_or_volume": "Completed request with unavailable source; no query ticket issued; unknown fields",
+    "denied": "health_observation_denied, refused exit 3",
+    "stale": "health_observation_stale, refused exit 2",
+    "unknown_target": "target_not_found, refused exit 2",
+    "revision": "revision_conflict, refused exit 2",
+    "unsupported_fixture": "health_observer_unavailable, refused exit 3",
+    "invalid_parameters": "Existing shared parameter diagnostics, refused exit 2; before fake provider initialization",
+    "collector_error": "health_observation_invalid, refused exit 4; static diagnostic"
+  },
+  "limits": "At most one source/five fields; label exact UTF-8 bytes up to 1024 raw and 256 interpreted, otherwise the corresponding value is explicit error/null. General collector bounds still apply.",
+  "time": "observed_at is null; no clock or real sampling claim. Capture/worker counters are scoped to a fresh per-call reducer, not durable operation IDs. The synchronous lookup retires its declaration after finishing; it does not model an OS worker.",
+  "gates": "Native inventory, actual observer containment/classification/identity admission, physical/platform evidence, owner acceptance and storage/release permissions remain open. Complete fields never qualify media."
+}

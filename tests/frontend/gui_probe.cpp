@@ -1,5 +1,6 @@
 #include "gui_model.h"
 #include "graph.h"
+#include "health_observer.h"
 #include "command_registry.h"
 #include "bootstrap_registry.h"
 #include <algorithm>
@@ -8,7 +9,7 @@
 using disked::json::Value;
 int main(int argc,char**) {
     const auto& registry=disked::command_registry();auto input=disked::fake_graph();
-    disked::FrontendSession session(registry,input);Value discovery=Value::object(),commands=registry.commands;
+    disked::FrontendSession session(registry,input,{},disked::fake_health_observation);Value discovery=Value::object(),commands=registry.commands;
     for(auto& c:commands.items) {
         bool available=false;for(const auto& row:bootstrap::commands)if(c.find("id")->text==row.id)available=row.implemented;
         if(argc==2 && c.find("id")->text=="image.acquire")available=true;

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.1-proposed.1
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,15 +26,15 @@ disked:
   - DE-REQ-111-01
 updated:
   by: codex
-  at: '2026-10-09T00:44:34.134398+00:00'
-  scope: DE-W032 private bounded observation and support redaction contract
+  at: '2026-10-09T01:19:44.761672+00:00'
+  scope: DE-W032 provisional fake command and bounded support disclosure contract
 ---
 
 # Health assessment and forensic workflow
 
 ## Identity and availability
 
-Semantic ID: `health.assess`. Operation specification: `DE-OP-011`. Earliest phase: **M3/M4**. Initial target scope: read-only observations with explicit acquisition policy. Status: specified, not implemented or qualified. No availability is implied by the presence of this document.
+Semantic ID: `health.assess`. Operation specification: `DE-OP-011`. Earliest phase: **M3/M4**. Initial target scope: read-only observations with explicit acquisition policy. Status: a provisional fake-only command is under local development; real observers and physical qualification remain planned. No availability is implied by the presence of this document.
 
 ## Required inputs and preconditions
 
@@ -80,9 +80,37 @@ actual containment, provider identity and target validation; declarations alone
 are not qualification.
 
 This private reducer does not issue queries or self-tests, access files/devices,
-or implement the public command. DE-W030 native inventory remains a prerequisite
+or itself implement the command service. DE-W030 native inventory remains a prerequisite
 for actual observer admission. Forensic custody, acquisition coverage, write-blocking
 and physical/platform qualification remain separate DE-W033/034 and later gates.
+
+## Provisional fake command execution contract
+
+The [fake command profile](../catalog/fake-health-command.json) and
+[parameters](../schemas/command-health-parameters.schema.json) define the initial
+`health assess <target_id>` observable contract before evaluation. Only exact
+fake graph IDs are accepted. Request `expected_revision` and frontend review
+must bind the graph revision before collection. Denied/stale targets refuse;
+unknown observations return partial data, and table/volume fixtures explicitly
+lack an observer. Selected composite identities and provider declarations are
+bound independently of cloned serials. New/unrecognized fixture identities
+remain unavailable. Lookup is synchronous and has no OS/device/file port.
+
+The result identifies compiled fixture provenance and has no sampling timestamp.
+Its `support_report` defaults to ordinal labels, states and availability only.
+Optional `include_identifiers`, `include_raw`, `include_interpretations` and
+`include_customer_data` booleans (corresponding CLI flags) select disclosure.
+Identifier/customer content also needs its category flag; secret content is
+never disclosed. The outer target/revision envelope is routing metadata, not a
+redacted support payload. No support file is created. Exact fixture label bytes
+are preserved within separate raw/interpreted limits; oversized values become
+explicit error/null. Human presentation escapes arbitrary control/Unicode text
+without altering machine values. Completed/partial reports cannot authorize
+mutation or establish physical identity, media reliability or observer admission.
+
+This bounded prototype may proceed under the recorded local continuation grant.
+DE-W032 remains partial; DE-W030 inventory and actual observers, classification,
+containment, forensic custody and platform qualification retain their own gates.
 
 ## Normative requirements
 

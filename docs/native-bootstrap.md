@@ -446,6 +446,15 @@ One initial execute-review screenshot was frame-only; the original and a separat
 verified redraw capture are retained. The shared screenshot heuristic remains a
 recorded harness limitation.
 
+The dev.22 composition adds `health.assess` for compiled fake fixtures and now
+reports 18 implemented command identities. It routes exact target/revision checks
+through the shared frontend service and collects bounded fake field sets using
+the private health reducer. Policy-selected `support_report` content is distinct
+from the outer routing envelope. See [fake health observations](health-observation.md)
+for explicit unknown/unavailable behavior and opt-in disclosure. No native SMART,
+self-test, device access, support-file export or reliability claim is admitted;
+DE-W032 remains partial.
+
 DE-W040 adds a private proposed binary journal codec and native probe. It is not
 linked to disked.exe and supplies no journal/file writer, recovery replay or
 production admission. Its independent vectors check exact little-endian fields,

@@ -302,7 +302,8 @@
         "spec/schemas/command-operation-parameters.schema.json",
         "spec/schemas/command.schema.json",
         "spec/schemas/request.schema.json",
-        "spec/schemas/response.schema.json"
+        "spec/schemas/response.schema.json",
+        "spec/schemas/command-health-parameters.schema.json"
       ],
       "spec_ids": [
         "DE-021"
@@ -1764,7 +1765,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/graph/capture.h",
-        "source/runtime/presentation/session.h"
+        "source/runtime/presentation/session.h",
+        "source/providers/fake/health_observer.h"
       ],
       "spec_ids": [
         "DE-023",
@@ -1789,7 +1791,9 @@
       "path": "tests/frontend/service_probe.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/providers/fake/health_observer.h"
+      ],
       "spec_ids": [
         "DE-023",
         "DE-030",
@@ -1930,7 +1934,9 @@
       "path": "tests/frontend/tui_probe.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/providers/fake/health_observer.h"
+      ],
       "spec_ids": [
         "DE-024",
         "DE-026"
@@ -2004,7 +2010,9 @@
       "path": "tests/frontend/gui_probe.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/providers/fake/health_observer.h"
+      ],
       "spec_ids": [
         "DE-023",
         "DE-024",
@@ -2205,7 +2213,9 @@
       "path": "tests/interaction/shell_probe.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/providers/fake/health_observer.h"
+      ],
       "spec_ids": [
         "DE-027"
       ]
@@ -2524,7 +2534,8 @@
       "depends_on": [
         "source/providers/fake/graph.h",
         "source/runtime/graph/capture.h",
-        "source/runtime/presentation/session.h"
+        "source/runtime/presentation/session.h",
+        "source/providers/fake/health_observer.h"
       ],
       "spec_ids": [
         "DE-023",
@@ -4296,6 +4307,77 @@
       "depends_on": [
         "tests/health/health_probe.cpp",
         "spec/catalog/health-observation-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-health-parameters.schema.json",
+      "path": "spec/schemas/command-health-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/fake-health-command.json",
+      "path": "spec/catalog/fake-health-command.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/health-observation-prototype.json",
+        "spec/schemas/command-health-parameters.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/fake/health_observer.h",
+      "path": "source/providers/fake/health_observer.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/protocol.h"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/fake/health_observer.cpp",
+      "path": "source/providers/fake/health_observer.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/fake/health_observer.h",
+        "source/runtime/evidence/health.h",
+        "spec/catalog/fake-health-command.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/health/test_command.py",
+      "path": "tests/health/test_command.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/fake-health-command.json",
+        "source/providers/fake/health_observer.cpp",
+        "tests/frontend/service_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/interaction/shell_probe.cpp"
       ],
       "spec_ids": [
         "DE-111",
