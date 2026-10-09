@@ -5,6 +5,10 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
+The current dev.31 prototype selects 19 command identities, including recorded
+acquisition support export. Earlier versioned development notes below describe
+their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
+
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
 
@@ -614,31 +618,12 @@ Separate native fake/acquisition fault probes cover validation failure after
 actual creation; the product ignores those controls. See
 `.aide/evidence/2026-10-09-worker-store/` for source-bound results and limits.
 
-DE-W034 also implements a private typed recorded-acquisition case reader. It opens only selected worker metadata, binds exact request/history content and generations, and preserves recorded status separately from current-image verification or authenticity. Typed support projections and export remain private pending bounded public service/frontend admission; see [acquisition-cases.md](acquisition-cases.md).
-
-The provisional joint source/case/export definition and native checks are described in [acquisition-cases.md](acquisition-cases.md). Public worker/store and frontend admission remain pending.
-
-The private report worker binds an additional owned execution store and exact
-worker/producer/host generations. Its durable operation, attempt and worker
-identities support private reconnect and cancellation; failed terminal writes
-retain uncertain state and created output. This does not yet admit public
-`evidence.export`: common service/watch and actual frontend contracts/journeys
-remain pending. See the canonical report-worker prototype profile.
-
-
-The provisional `evidence.export` prepare/execute syntax and common inward
-service contract are defined in the [export command profile](../spec/catalog/export-command-prototype.json)
-and closed parameter/result producer schemas. The actual command remains
-planned/unavailable in the product composition. Private request/parser/form
-checks do not qualify real frontends. Operation watch, bounded product admission
-and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
-Preserve exact native case/effect/store/code bindings and separate disclosure
-selection from the private review/receipt routing metadata.
-
-
-Report operation observation has its own [provisional watch profile](../spec/catalog/report-watch-prototype.json).
-It binds the retained request/attempt/worker, validates /2 rows and reconnect
-cursors, and separates completed observations from logical effect outcomes.
-Finite follow and queue closure do not own the worker lifetime. Product report
-IDs are explicitly unavailable in the existing composition; private protocol/
-parser/reader tests are prerequisites for actual bounded frontend admission.
+DE-W034 selects the native recorded-acquisition report composition in dev.31.
+The exact case/source/effect/store/code contract and actual frontend journey
+commands are described in [acquisition-cases.md](acquisition-cases.md). Preparation
+and review are inert; execution requires separate grants. Report metadata
+inspect/cancel/watch and bounded requests share the existing service, with no
+fake fallback or ownership transfer when a frontend closes. Authored public
+contracts remain proposed/planned while discovery reports this prototype's
+implemented subset. Full case custody/before-after coverage, physical storage,
+other platforms, owner acceptance and full DE-W034 remain separate.

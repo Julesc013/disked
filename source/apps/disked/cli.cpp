@@ -9,12 +9,13 @@
 #include "gui.h"
 #include "fake_worker.h"
 #include "acquisition_worker.h"
+#include "report_worker.h"
 #include "output.h"
 #include "memory_budget.h"
 #include "image_commands.h"
 #include "file_capture.h"
 #include <cstdio>
-#ifdef DISKED_IMAGE_COMMAND_TESTING
+#if defined(DISKED_IMAGE_COMMAND_TESTING) || defined(DISKED_REPORT_COMMAND_TESTING)
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
@@ -61,8 +62,34 @@ Outcome image_action(const std::string& request,const std::string& command,const
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
 }
+bool report_identity(const Value& parameters) {
+    const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0;
+}
+void report_test_wait() {
+#ifdef DISKED_REPORT_COMMAND_TESTING
+    wchar_t name[161];const auto count=GetEnvironmentVariableW(L"DISKED_REPORT_TEST_GATE",name,161);
+    if(!count)return;if(count>=161)throw std::runtime_error("report_test_gate_name");
+    struct Event {
+        HANDLE handle;
+        explicit Event(const std::wstring& value):handle(OpenEventW(SYNCHRONIZE|EVENT_MODIFY_STATE,FALSE,value.c_str())) {if(!handle)throw std::runtime_error("report_test_gate_open");}
+        ~Event() {CloseHandle(handle);}
+    };
+    Event entered(std::wstring(name)+L".entered"),release(std::wstring(name)+L".release");
+    if(!SetEvent(entered.handle))throw std::runtime_error("report_test_gate_signal");
+    if(WaitForSingleObject(release.handle,15000)!=WAIT_OBJECT_0)throw std::runtime_error("report_test_gate_wait");
+#endif
+}
+Outcome report_action(const std::string& request,const Value& parameters) {
+    report_test_wait();return dispatch_export(command_registry(),request,parameters,export_actions());
+}
+bool background_command(const std::string& command) {
+    return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export";
+}
+std::size_t request_bytes(const std::string& command,const Value& parameters) {
+    return command=="operation.watch" && (acquisition_identity(parameters) || report_identity(parameters))?1048575:65536;
+}
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
-    if(const auto id=parameters.find("operation_id"))if(id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0)return refused(request,"operation_unavailable",3);
+    if(report_identity(parameters)) {report_test_wait();return dispatch_report_operation(request,command,parameters);}
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
@@ -81,7 +108,8 @@ Value build_information() {
 #undef IDENTITY_FIELD
     return result.put("fake_provider",Value::string(fake_provider_identity()))
         .put("image_provider",Value::string(bootstrap::image_provider_id))
-        .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id));
+        .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id))
+        .put("report_provider",Value::string(bootstrap::report_provider_id));
 }
 Value command_description(const Value& command) {
     Value out=command;const bool available=implemented(command.find("id")->text);
@@ -91,7 +119,7 @@ Value command_description(const Value& command) {
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
         id=="shell.close"?"shell_session_only":id=="health.assess"?"compiled_fake_health_fixtures_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
-        fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
+        id=="evidence.export"?"recorded_acquisition_case_support_export":fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
     Value result=Value::object(),commands=Value::array();
@@ -110,6 +138,7 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     std::unique_ptr<FrontendSession>& session,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+    if(command=="evidence.export")return report_action(request,parameters);
     if(command=="build.inspect")return completed(request,build_information());
     if(command=="command.list")return completed(request,discovery());
     if(command=="mode.explain") {
@@ -132,39 +161,43 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
 Submission frontend_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     RequestChannel& channel,const std::string& revision) {
-    if(implemented(command) && (fake_worker_command(command) || image_command(command) || command=="image.acquire")) {
+    if(implemented(command) && background_command(command)) {
         // The background callback owns only immutable request data. It never
         // captures the frontend/session or performs UI work after disconnection.
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
         return channel.submit(request,[request,command,parameters]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+            if(command=="evidence.export")return report_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
-        },command=="operation.watch" && acquisition_identity(parameters)?1048575:65536);
+        },request_bytes(command,parameters));
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
 Outcome bounded_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
     std::unique_ptr<BoundedRequests>& calls,const std::string& revision="") {
-    if(implemented(command) && (fake_worker_command(command) || image_command(command) || command=="image.acquire")) {
+    if(implemented(command) && background_command(command)) {
         if(!calls)calls.reset(new BoundedRequests());
         auto unresolved=Value::object().put("request_state",Value::string("unresolved"));
         if(const auto* state=parameters.find("state_directory"))unresolved.put("state_directory",*state);
+        if(command=="evidence.export")if(const auto* definition=parameters.find("definition"))
+            if(const auto* store=definition->find("store"))if(const auto* path=store->find("path"))unresolved.put("state_directory",*path);
+        if(const auto* digest=parameters.find("definition_digest"))unresolved.put("definition_digest",*digest);
         auto expired=completed(request,std::move(unresolved));
         expired.exit_code=6;expired.response.put("status",Value::string("unknown"));
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
         return calls->run(request,[request,command,parameters]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+            if(command=="evidence.export")return report_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
         },
-            std::move(expired),std::chrono::milliseconds(4000),{},command=="operation.watch" && acquisition_identity(parameters)?1048575:65536);
+            std::move(expired),std::chrono::milliseconds(4000),{},request_bytes(command,parameters));
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
 Outcome stream_watch(const std::string& request,const Value& parameters,std::unique_ptr<BoundedRequests>& calls,const ResponseSink& output) {
-    if(const auto id=parameters.find("operation_id"))if(id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0)return refused(request,"operation_unavailable",3);
     if(!calls)calls.reset(new BoundedRequests());
     const auto queue=std::make_shared<WatchQueue>();
     struct Close {std::shared_ptr<WatchQueue> queue;~Close() {queue->close();}} close{queue};
@@ -172,13 +205,15 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
         .put("state_directory",*parameters.find("state_directory")));
     expired.exit_code=6;expired.response.put("status",Value::string("unknown")).put("operation_id",*parameters.find("operation_id"));
     expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
-    return calls->run(request,[request,parameters,queue]() {return acquisition_identity(parameters)?watch_acquisition_worker(request,parameters,queue):watch_fake_worker(request,parameters,queue);},std::move(expired),
-        std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;});
+    return calls->run(request,[request,parameters,queue]() {
+        if(report_identity(parameters)) {report_test_wait();return watch_report_worker(request,parameters,queue);}
+        return acquisition_identity(parameters)?watch_acquisition_worker(request,parameters,queue):watch_fake_worker(request,parameters,queue);
+    },std::move(expired),std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;},request_bytes("operation.watch",parameters));
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
-    if((fake_worker_command(parsed.command_id) || image_command(parsed.command_id) || parsed.command_id=="image.acquire") && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
+    if(background_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
-        json::Limits limits;if(parsed.command_id=="operation.watch" && acquisition_identity(parsed.parameters))limits.bytes=1048575;
+        json::Limits limits;if(parsed.command_id=="operation.watch" && (acquisition_identity(parsed.parameters) || report_identity(parsed.parameters)))limits=response_limits(outcome.response);
         return host.output_usable && output.write(presentation_json(outcome.response,limits)+"\n");
     }
     if(outcome.exit_code) {

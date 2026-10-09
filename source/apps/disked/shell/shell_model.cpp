@@ -46,7 +46,7 @@ bool ShellModel::available(const std::string& id) const {
 void ShellModel::record(const std::string& kind,const Value& value) {
     if(sequence_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("shell_sequence_exhausted");
     std::vector<std::string> lines;
-    bool acquisition=acquisition_watch_response(value);
+    bool acquisition=acquisition_watch_response(value) || report_watch_response(value);
     try {lines=observation_lines(value);}
     catch(const json::Error& error) {
         ++dropped_;lines={"presentation_unavailable: "+error.code+"; complete result was not displayed; no retry performed"};
@@ -111,7 +111,7 @@ void ShellModel::review() {
         diagnostic(parsed.command_id=="shell.open" || parsed.command_id=="protocol.serve"?"shell_nested_session":"command_unavailable",0);return;
     }
     if(parsed.help_requested)parsed.kind="help";
-    if(rejected_input_ && parsed.command_id=="image.acquire" && parsed.parameters.find("phase") && parsed.parameters.find("phase")->text=="execute") {
+    if(rejected_input_ && (parsed.command_id=="image.acquire" || parsed.command_id=="evidence.export") && parsed.parameters.find("phase") && parsed.parameters.find("phase")->text=="execute") {
         diagnostic("shell_rejected_definition_input",0);return;
     }
     reviewed_=std::move(parsed);review_revision_=snapshot_->revision();view_=View::Review;

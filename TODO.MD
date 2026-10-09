@@ -106,3 +106,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Admit the defined export service only after bounded inspect/cancel/watch and actual frontend journeys; retain private parser/request/form evidence separately.
 
 - [ ] Qualify report watch/reconnect evidence, then admit its exact service/composition through bounded product requests and actual frontend journeys.
+
+- [ ] Qualify candidate recorded acquisition export/report backend in actual bounded CLI/stdio/GUI/TUI/shell journeys; retain exact bytes/imports and separate full case/custody and platform gates.

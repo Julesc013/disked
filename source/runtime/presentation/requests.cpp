@@ -36,7 +36,7 @@ Submission RequestChannel::submit(const std::string& request,std::function<Outco
                 auto candidate=callback();
                 // The single result slot has the public frame bound and exact
                 // correlation. A malformed/oversized reply cannot imply no effect.
-                json::Limits limits;limits.bytes=response_bytes;json::dump(candidate.response,limits);
+                auto limits=response_limits(candidate.response);limits.bytes=response_bytes;json::dump(candidate.response,limits);
                 const auto* id=candidate.response.find("request_id");
                 if(!id || id->kind!=json::Value::Kind::string || id->text!=request || !validate_response(candidate.response).empty())
                     result=std::move(invalid);

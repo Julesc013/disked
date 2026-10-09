@@ -244,15 +244,15 @@ std::size_t form_field_limit(const Value& shape) {
     const auto type=text(shape,"type");
     if(type=="string" || type=="boolean")return 4096;
     const auto* budget=shape.find("x-disked-byte-budget");
-    if(type!="object" || !budget || budget->kind!=Value::Kind::number || budget->text!="16384")throw std::invalid_argument("form_unavailable");
-    return 16384;
+    if(type!="object" || !budget || budget->kind!=Value::Kind::number || (budget->text!="16384" && budget->text!="65536"))throw std::invalid_argument("form_unavailable");
+    return parameter_limits(shape).bytes;
 }
 std::string form_field_text(const Value& shape,const Value& supplied) {
     const auto type=text(shape,"type");
     if(type=="boolean" && supplied.kind==Value::Kind::boolean)return supplied.boolean?"true":"false";
     if(type=="string" && supplied.kind==Value::Kind::string)return supplied.text;
     if(type=="object" && supplied.kind==Value::Kind::object) {
-        json::Limits limits;limits.bytes=form_field_limit(shape);limits.depth=20;limits.values=2048;limits.string_bytes=1024;return json::dump(supplied,limits);
+        form_field_limit(shape);return json::dump(supplied,parameter_limits(shape));
     }
     throw std::invalid_argument("invalid_parameter");
 }

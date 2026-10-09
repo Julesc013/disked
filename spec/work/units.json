@@ -1544,7 +1544,20 @@
         "source/runtime/operation/watch.cpp",
         "source/runtime/acquisition/observation.cpp",
         "source/runtime/command/protocol.h",
-        "source/apps/disked/cli.cpp"
+        "source/apps/disked/cli.cpp",
+        "source/platform/windows/entry.cpp",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.cpp",
+        "source/apps/disked/gui/win32/gui_model.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "tests/native/test_protocol.py",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "tests/frontend/test_product_export.py",
+        "tests/frontend/report_console_fixture.py",
+        "source/platform/windows/ui/gui.cpp",
+        "tests/frontend/acquisition_console_fixture.py"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1579,7 +1592,8 @@
         "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
-        "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root ."
+        "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+        "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root ."
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1661,7 +1675,20 @@
         "source/runtime/acquisition/observation.cpp",
         "source/runtime/command/protocol.h",
         "source/apps/disked/cli.cpp",
-        "spec/tools/specctl.py"
+        "spec/tools/specctl.py",
+        "source/platform/windows/entry.cpp",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.cpp",
+        "source/apps/disked/gui/win32/gui_model.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "tests/native/test_protocol.py",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "tests/frontend/test_product_export.py",
+        "tests/frontend/report_console_fixture.py",
+        "source/platform/windows/ui/gui.cpp",
+        "tests/frontend/acquisition_console_fixture.py"
       ]
     },
     {

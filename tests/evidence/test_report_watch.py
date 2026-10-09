@@ -2,7 +2,7 @@
 
 Producer frames below come from actual retained report workers. Altered reader
 frames are explicitly synthetic contract probes. This is not product frontend
-admission, privileged/device qualification or an owner acceptance.
+qualification, privileged/device qualification or an owner acceptance.
 """
 import argparse,copy,json,os,subprocess,sys,time
 from pathlib import Path
@@ -150,11 +150,15 @@ def main():
         check('torn-keeps-validated-records',not torn['result']['history_complete'] and [e['payload']['record'] for e in torn['result']['events']]==records and torn['result']['state']==records[-1]['state'])
         (store/'report.records').write_bytes(raw+b'{}\n');bad=watch('invalid-complete-row',p,id,exits=(6,));check('bad-row-no-speculation',bad['result']['events']==[] and 'state' not in bad['result'])
         (store/'report.records').write_bytes(raw)
-        # Production composition refuses report IDs before metadata selection.
+        # Compatible historical observation uses this retained request without
+        # regranting the private producing executable writer authority.
         for command in (['operation','inspect'],['operation','cancel'],['operation','watch']):
-            out=prod([*command,id,'--state-dir',p['state_directory']],(3,));check('product-report-unavailable',out['status']=='refused' and any(d['code']=='operation_unavailable' for d in out['diagnostics']))
-        out=prod([], (3,),canonical(request('operation.watch',params,[FEATURE]))+b'\n');check('product-stream-report-unavailable',out['status']=='refused' and any(d['code']=='operation_unavailable' for d in out['diagnostics']))
-        check('production-refusal-before-effects',baseline=={f.name:f.read_bytes() for f in store.iterdir()} and body==Path(p['destination']).read_bytes())
+            out=prod([*command,id,'--state-dir',p['state_directory']],(0,));check('product-compatible-report-observation',out['status']=='completed' and out['result']['state']==records[-1]['state'])
+        frame=canonical(request('operation.watch',params,[FEATURE]))+b'\n'
+        process=subprocess.run([str(product),'protocol','serve','--format=ndjson'],input=frame,capture_output=True,cwd=root,env=env,timeout=15)
+        values=[json.loads(row) for row in process.stdout.splitlines()];check('product-compatible-streaming',process.returncode==0 and not process.stderr and values[-1]['status']=='completed' and [e['payload']['record'] for e in values[:-1]]==records)
+        out=prod([], (3,),canonical(request('evidence.export',q))+b'\n');check('historical-observation-not-writer-authority',out['status']=='refused')
+        check('compatible-observation-no-effects',baseline=={f.name:f.read_bytes() for f in store.iterdir()} and body==Path(p['destination']).read_bytes())
         samples.append(dict(name='actual-completed',definition=q['definition'],header=header,result=done['result'],rows=records,support=json.loads(body),events=all_events))
         # Parent admission timeout leaves the one actual worker running. A later
         # observer uses its retained operation/attempt/epoch without restarting.
@@ -193,7 +197,7 @@ def main():
         check('lost-terminal-no-new-attempt',before=={f.name:f.read_bytes() for f in Path(fp['state_directory']).iterdir()} and body==Path(fp['destination']).read_bytes())
         samples.append(dict(name='actual-unresolved',result=finish))
         check('original-case-bytes-unchanged',original=={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()})
-    report=dict(checks=len(checks),observations=checks,verified_outputs=outputs,samples=samples,scope='Private native report watch/request/parser and pure altered reader/queue contracts; production report backend unavailable',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
+    report=dict(checks=len(checks),observations=checks,verified_outputs=outputs,samples=samples,scope='Private native report watch/request/parser and pure altered reader/queue contracts; compatible product observation does not regrant private writer authority',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
     if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k not in ('observations','samples')}));return 0
 if __name__=='__main__':raise SystemExit(main())

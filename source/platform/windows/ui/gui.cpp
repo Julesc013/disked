@@ -171,7 +171,7 @@ public:
     }
     std::wstring get(int id) {
         const auto handle=controls.at(id);const int length=api.GetWindowTextLengthW(handle);
-        if(length>16385)throw Failure("gui_field_limit");
+        if(length>65537)throw Failure("gui_field_limit");
         std::wstring value(static_cast<std::size_t>(length)+1,L'\0');
         const auto copied=api.GetWindowTextW(handle,&value[0],length+1);value.resize(static_cast<std::size_t>(copied));return value;
     }

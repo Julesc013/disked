@@ -316,7 +316,9 @@
       "delivery": "artifact",
       "depends_on": [],
       "spec_ids": [
-        "DE-014"
+        "DE-014",
+        "DE-111",
+        "DE-023"
       ]
     },
     {
@@ -330,7 +332,9 @@
         "spec/schemas/composition.schema.json"
       ],
       "spec_ids": [
-        "DE-014"
+        "DE-014",
+        "DE-111",
+        "DE-023"
       ]
     },
     {
@@ -1580,7 +1584,9 @@
       "depends_on": [],
       "spec_ids": [
         "DE-021",
-        "DE-022"
+        "DE-022",
+        "DE-111",
+        "DE-023"
       ]
     },
     {
@@ -1615,7 +1621,9 @@
       ],
       "spec_ids": [
         "DE-020",
-        "DE-050"
+        "DE-050",
+        "DE-111",
+        "DE-023"
       ]
     },
     {
@@ -1743,7 +1751,8 @@
       "spec_ids": [
         "DE-023",
         "DE-030",
-        "DE-035"
+        "DE-035",
+        "DE-111"
       ]
     },
     {
@@ -1954,7 +1963,8 @@
       "spec_ids": [
         "DE-023",
         "DE-024",
-        "DE-050"
+        "DE-050",
+        "DE-111"
       ]
     },
     {
@@ -2205,7 +2215,9 @@
         "source/runtime/presentation/session.h"
       ],
       "spec_ids": [
-        "DE-027"
+        "DE-027",
+        "DE-111",
+        "DE-023"
       ]
     },
     {
@@ -2264,7 +2276,8 @@
       ],
       "spec_ids": [
         "DE-045",
-        "DE-023"
+        "DE-023",
+        "DE-111"
       ]
     },
     {
@@ -2277,7 +2290,8 @@
       ],
       "spec_ids": [
         "DE-045",
-        "DE-023"
+        "DE-023",
+        "DE-111"
       ]
     },
     {
@@ -5328,6 +5342,38 @@
         "DE-015",
         "DE-044",
         "DE-074"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_product_export.py",
+      "path": "tests/frontend/test_product_export.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/export-command-prototype.json",
+        "spec/catalog/report-watch-prototype.json",
+        "source/apps/disked/cli.cpp",
+        "source/platform/windows/report_worker.cpp"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/frontend/report_console_fixture.py",
+      "path": "tests/frontend/report_console_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/export-command-prototype.json",
+        "spec/catalog/report-watch-prototype.json",
+        "source/apps/disked/cli.cpp",
+        "source/platform/windows/report_worker.cpp"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-023"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 """Provisional inward export service, canonical parsing/forms and real files.
 
 This probe is not a product frontend. Generated acquisition metadata and exact
-output bytes are independently checked; product export remains unavailable.
+output bytes are independently checked; product journeys are separately qualified.
 """
 import argparse,copy,itertools,json,os,subprocess,sys,time
 from pathlib import Path
@@ -155,9 +155,10 @@ def main():
         before={f.name:f.read_bytes() for f in Path(fp['state_directory']).iterdir()};call('lost-terminal-repeat-is-unknown',dict(mode='request',request=frame(fq)),exits=(6,),exe=fault)
         check('lost-terminal-not-restarted',before=={f.name:f.read_bytes() for f in Path(fp['state_directory']).iterdir()} and body==Path(fp['destination']).read_bytes())
         outputs.append(dict(name='lost-terminal',bytes=str(len(body)),sha256=digest(body),operation_id=start['operation_id'],definition_digest=fq['definition_digest']));samples.append(dict(name='actual-unresolved',definition=fq['definition'],result=done['result']))
-        blocked=product_call(argv,(3,));check('product-remains-unavailable',blocked['status']=='refused' and any(d['code']=='command_unavailable' for d in blocked['diagnostics']))
+        pp=fixture('product-prepare-only');product_argv=['evidence','export','prepare',case_id,pp['destination'],'--case-state-dir',pp['case_directory'],'--state-dir',pp['state_directory']]
+        native_prepare=product_call(product_argv,(0,));check('product-prepare-inert-bound',native_prepare['status']=='completed' and no_effects(pp) and 'sha256:'+native_prepare['result']['definition']['image_digest']==digest(product.read_bytes()))
         check('original-case-bytes-unchanged',original=={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()})
-    report=dict(checks=len(checks),observations=checks,verified_outputs=outputs,samples=samples,scope='Private shared-service parser/request/form and ordinary native output; real product frontend export unavailable',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
+    report=dict(checks=len(checks),observations=checks,verified_outputs=outputs,samples=samples,scope='Private shared-service parser/request/form and ordinary native output; actual product frontend export journeys have separate tests',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
     if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k not in ('observations','samples')}));return 0
 if __name__=='__main__':raise SystemExit(main())

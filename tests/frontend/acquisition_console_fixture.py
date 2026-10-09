@@ -9,14 +9,14 @@ from image_console_fixture import current_text
 from console_tui_fixture import k,w,Callback,checked,configure,snapshot,key,active,info,Coord
 
 
-def run(exe,params,report,frontend='tui'):
+def run(exe,params,report,frontend='tui',command_override=None):
     watch='operation_id' in params
     configure(k.GetStdHandle(-11),240,25)
     if watch:checked(k.SetConsoleScreenBufferSize(k.GetStdHandle(-11),Coord(240,12000)))
     before=snapshot();process=None
     handler=Callback(lambda _:True);checked(k.SetConsoleCtrlHandler(handler,True))
-    command=['operation','watch',params['operation_id'],'--state-dir',params['state_directory']] if watch else ['image','acquire',params['phase']]
-    if watch:pass
+    command=command_override if command_override is not None else (['operation','watch',params['operation_id'],'--state-dir',params['state_directory']] if watch else ['image','acquire',params['phase']])
+    if command_override is not None or watch:pass
     elif params['phase']=='prepare':command += [params['source'],params['destination'],'--map',params['map'],'--state-dir',params['state_directory']]
     else:
         command += ['--definition-json',json.dumps(params['definition'],separators=(',',':'),ensure_ascii=False),

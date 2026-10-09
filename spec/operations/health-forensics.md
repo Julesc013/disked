@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-09T06:29:23.462435+00:00'
-  scope: DE-W034 private report worker and retained execution state; public service pending
+  scope: DE-W034 native recorded acquisition report composition; full custody and platform qualification pending
 ---
 
 # Health assessment and forensic workflow
@@ -150,11 +150,11 @@ retains any created output; there is no automatic deletion, retry or overwrite.
 Export completion concerns that output artifact. Per-file flush API confirmation
 does not establish power-loss persistence, media health, forensic custody,
 original-source preservation, worker exit or authenticated approval. Surrounding
-paths/producer/routing receipts are not redacted support content. This private
-synchronous adapter remains unlinked from the product; public evidence.export
-parameters, admitted case sources, bounded service behavior and frontend parity
-remain required before admission. Acquisition/custody and physical/platform
-qualification retain their separate gates.
+paths/producer/routing receipts are not redacted support content. The synchronous
+adapter was private before dev.31. The current native recorded-acquisition source,
+contract, bounded service and frontend qualifications are described below.
+Broader case sources, custody and physical/platform qualification retain their
+separate gates.
 
 ## Recorded acquisition cases
 
@@ -243,18 +243,19 @@ remain admission gates. Retention grants no new writer permission.
 - [DE-044](../safety/verification-and-performance.md)
 
 
-The provisional `evidence.export` prepare/execute syntax and common inward
-service contract are defined in the [export command profile](../catalog/export-command-prototype.json)
-and closed parameter/result producer schemas. The actual command remains
-planned/unavailable in the product composition. Private request/parser/form
-checks do not qualify real frontends. Operation watch, bounded product admission
-and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
-Preserve exact native case/effect/store/code bindings and separate disclosure
-selection from the private review/receipt routing metadata.
+The provisional `evidence.export` prepare/execute contract and strict producer
+schemas are owned by the [export command profile](../catalog/export-command-prototype.json).
+The dev.31 ordinary-file composition selects it through the shared asynchronous
+request channel. Exact metadata/resources/effects, explicit wrapper digest and
+all four grants remain necessary. Source applicability cannot erase output facts.
+The [report watch profile](../catalog/report-watch-prototype.json) owns retained
+request/row validation, independent operation/attempt/worker/observer identities,
+reconnect, cancellation observations and finite event/reply/rendering budgets.
+Historical compatible observation grants no new writer authority.
 
-
-The [report watch profile](../catalog/report-watch-prototype.json) defines exact
-report metadata selection, retained header/row validation, cursors, events,
-uncertain observations and resource bounds. It is a private implementation gate;
-the production composition still refuses report selectors. Real bounded product
-and CLI/stdio/GUI/TUI/shell admission remains required before availability.
+Actual CLI/stdio/GUI/TUI/shell and bounded request tests qualify only the native
+generated-case prototype at their exact source/host/artifact identities. Public
+contracts remain proposed; full before/after/custody coverage, authenticated actors,
+current acquired-image verification, other platforms, physical storage and owner
+acceptance remain unqualified. Neither structure checks nor a UI review grants
+storage authority or changes those gates.

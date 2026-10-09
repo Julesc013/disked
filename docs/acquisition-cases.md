@@ -1,6 +1,6 @@
 # Recorded acquisition cases
 
-The private native case reader captures an explicitly selected acquisition
+The native case reader captures an explicitly selected acquisition
 operation's `acquisition.request` and `acquisition.records`. It validates their
 contract and chain, holds ordinary read-only file and ancestor handles, and
 checks exact contents, paths and metadata generations. The
@@ -38,44 +38,52 @@ synthetic; the live writer uses a separate admission-delay fault seam. The
 private probe's surrounding case/source output contains original metadata and
 paths and is not a redacted support payload.
 
-These private case/export libraries remain unlinked from `disked.exe`.
-Public `evidence.export` admission still needs exact case/source-resource and
-prepare/execute contracts, bounded service effects and cancellation/late-result
-behavior, and actual CLI/stdio/GUI/TUI/shell parity. Authenticated custody, current
-acquired-image verification, other platforms and physical qualification remain
-open. DE-W034 and DiskEd 0.1.0 remain incomplete.
+The dev.31 ordinary-file composition selects `evidence.export` and exact report
+operation observation through the shared asynchronous request service. The
+authored public registry remains proposed/planned; product discovery separately
+reports the implemented prototype and its provider. This admits no stable ABI,
+authenticated custody, current acquired-image verification, other platform or
+physical-storage qualification. DE-W034 and DiskEd 0.1.0 remain incomplete.
 
 The [joint admission proposal](../spec/catalog/acquisition-case-export-prototype.json)
-now binds case revision, current metadata resources and exact selected output
-effects together. It requires explicit case-read, report-write and host-effect
-declarations, reconstructs the reviewed inputs, and checks the held source around
-each native effect step. Source applicability and output effects have separate
-outcomes: a late source change cannot erase an actual verified output or receipt.
-These are synchronous observations, with native qualification retained separately.
-Durable worker/store identity, bounded service/cancellation/late results, public
-descriptor syntax and frontend integration remain required before availability.
+binds immutable case revision, current metadata resources and exact selected
+output effects. The [export command profile](../spec/catalog/export-command-prototype.json)
+owns preparation/execution and disclosure semantics. Preparation creates no
+files. Execution requires the exact reviewed wrapper digest and four independent
+case-read, report-write, store-write and host-effect grants. Source applicability
+and observed output effects remain separate; a late source change cannot erase
+an actual output or receipt. The output is created without overwriting.
 
-The private report worker binds an additional owned execution store and exact
-worker/producer/host generations. Its durable operation, attempt and worker
-identities support private reconnect and cancellation; failed terminal writes
-retain uncertain state and created output. This does not yet admit public
-`evidence.export`: common service/watch and actual frontend contracts/journeys
-remain pending. See the canonical report-worker prototype profile.
+The same executable's report role receives four inherited capabilities, no
+standard handles, and the selected bounded worker job. Retained /2 history binds
+operation, attempt, worker, reviewed definition and producer/host/store identities.
+Cancellation request persistence is distinct from its later worker observation.
+An absent terminal record remains unknown alongside actual output; no timeout
+permits restart or automatic dependency deletion.
 
+The [watch profile](../spec/catalog/report-watch-prototype.json) owns report
+inspect/cancel/watch selection, row/progress validation, events and exact
+sequence/digest/epoch reconnect. Finite follow and queue closure do not own the
+worker lifetime. Historical compatible observation does not regrant old code
+writer authority. One occupied product request slot survives its four-second
+wait timeout; cached commands remain usable and late results are not reissued.
 
-The provisional `evidence.export` prepare/execute syntax and common inward
-service contract are defined in the [export command profile](../spec/catalog/export-command-prototype.json)
-and closed parameter/result producer schemas. The actual command remains
-planned/unavailable in the product composition. Private request/parser/form
-checks do not qualify real frontends. Operation watch, bounded product admission
-and actual CLI/stdio/GUI/TUI/shell journeys remain the next availability gate.
-Preserve exact native case/effect/store/code bindings and separate disclosure
-selection from the private review/receipt routing metadata.
+The same service is selected by CLI, stdio, Win32 GUI, native TUI and shell.
+GUI/TUI/shell review remains inert; a separate submission dispatches the request.
+Object editors bind the report definition's 64 KiB/depth/value/string budgets.
+Public input envelopes and Windows argv limits are independent, so a maximum
+private definition need not fit every transport. Report events and replies use
+their explicit finite quotas and escaped display budgets; rendering grants no
+storage authority. Four-second waits bound intentional waiting, not OS API latency.
 
+With installed pinned tools, the actual frontend journey test is:
 
-Report operation observation has its own [provisional watch profile](../spec/catalog/report-watch-prototype.json).
-It binds the retained request/attempt/worker, validates /2 rows and reconnect
-cursors, and separates completed observations from logical effect outcomes.
-Finite follow and queue closure do not own the worker lifetime. Product report
-IDs are explicitly unavailable in the existing composition; private protocol/
-parser/reader tests are prerequisites for actual bounded frontend admission.
+```text
+python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root .
+```
+
+It checks real generated acquisition/report bytes, all five frontend
+prepare/execute paths, reconnect/streaming, rejected grants and a private named
+observer gate across request timeout. Private fault controls are absent from the
+product. Retained build/source/host/import evidence is still required for each
+qualification; tests do not establish physical or power-loss durability.
