@@ -39,7 +39,7 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W020 internal implementation: checked C90 values, bounded byte views, endian fields and named extents; clean reproduction and local review govern continuation.
 - [ ] DE-W021-035: progress through image readers, explicit Windows observation/acquisition and optional native adapters using exact work prerequisites.
 - [ ] DE-W040-043: review recovery and image-only mutation/formatting gates before any executor work.
-- [ ] Qualify the DE-W034 private same-file image-verification worker, finite history cursor, cancellation and retained collections against clean native builds; public commands/frontends and owner/physical gates remain separate.
+- [x] DE-W034 private same-file verification worker, finite history cursor, cancellation and collections have clean native qualification; full work/owner/physical gates remain separate.
 
 ## Delivery and maintenance
 
@@ -115,6 +115,10 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Shared provisional image.verify command/event slice has clean private native
   qualification: exact grants/replies, actual owned workers, public/private bounds
   and independent producer contracts. Evidence: `.aide/evidence/2026-10-10-verification-commands/`.
-- [ ] Qualify product verification request containment and actual CLI/stdio/GUI/TUI/
-  shell before availability. Full DE-W034, owner acceptance, all platforms/storage
-  and privilege/release gates remain open.
+- [x] Product verification request containment and actual CLI/stdio/GUI/TUI/shell
+  prepare/execute/watch have clean native qualification at dev.34. Evidence:
+  `.aide/evidence/2026-10-10-product-verification/`.
+- [ ] Bind retained historical verification collections into acquisition-case/report
+  snapshots and explicit redacted support export. Keep full DE-W034, authenticated
+  custody/current-image authority, all platforms/storage and owner/privilege/release
+  gates open.

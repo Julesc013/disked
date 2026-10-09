@@ -750,3 +750,10 @@ not interpret those controls. Tests use generated ordinary files and owned hidde
 consoles/windows. Full DE-W034, authenticated custody/current-image authority,
 power-loss durability, all other platforms/storage and owner/privilege/release
 gates remain open.
+
+Clean dev.34 qualification at `ac34bb1b4221fba084e739aee79b42d6b7ed344a` retained 75 passed native groups,
+427 product checks, twelve product histories/collections and actual
+CLI/stdio/GUI/TUI/shell journeys, alongside separate private probe and full tooling
+evidence. See `.aide/evidence/2026-10-10-product-verification/`. Those results apply
+to the recorded generated-file source/host/artifacts and preserve the open gates
+above.

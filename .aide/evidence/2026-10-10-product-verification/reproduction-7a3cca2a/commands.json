@@ -1,0 +1,96 @@
+[
+  {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:24:16.903493+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-host.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:24:17.217721+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-python-environment.log"
+  },
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-local",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-7a3cca2a"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:24:17.324519+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-clone.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-7a3cca2a",
+    "started_at": "2026-10-09T17:24:36.069775+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-configure.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-7a3cca2a",
+    "started_at": "2026-10-09T17:24:43.122325+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-build.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-7a3cca2a",
+    "started_at": "2026-10-09T17:26:22.072915+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-test-catalog.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-7a3cca2a",
+    "started_at": "2026-10-09T17:26:22.195554+00:00",
+    "exit_code": 8,
+    "status": "fail",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-7a3cca2a/clean-native.log"
+  }
+]

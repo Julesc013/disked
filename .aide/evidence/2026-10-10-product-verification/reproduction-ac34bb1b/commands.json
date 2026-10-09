@@ -1,0 +1,389 @@
+[
+  {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$identity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$principal=[System.Security.Principal.WindowsPrincipal]::new($identity);$os=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$identity.Name;elevated=$principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$os.Caption;version=$os.Version;build=$os.BuildNumber;architecture=$os.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:45:20.785258+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-host.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:45:21.127871+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-python-environment.log"
+  },
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-local",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "started_at": "2026-10-09T17:45:21.231386+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-clone.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:45:37.040942+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-configure.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:45:45.841778+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-build.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:47:50.805567+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-test-catalog.log"
+  },
+  {
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:47:50.929645+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-native.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/evidence/test_verification_commands.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\verification_command_probe.exe",
+      "--fault",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\verification_command_fault.exe",
+      "--product",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-product-verification\\reproduction-ac34bb1b\\verification-commands.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:00.458103+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-verification-commands.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/frontend/test_product_verification.py",
+      "--product",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe",
+      "--fault",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked_verification_test.exe",
+      "--root",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-10-product-verification\\reproduction-ac34bb1b\\product-verification.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:23.148217+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-product-verification.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:54.358963+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-check.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:57.007637+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-manifest.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:57.782919+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-freshness.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W034",
+      "--output",
+      ".aide-local/context/DE-W034-image-observation",
+      "--byte-budget",
+      "500000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:58.639552+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-context.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      ".aide-local/context/DE-W034-image-observation"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:57:59.825657+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-verify-context.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.243799+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.279761+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.315317+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked_verification_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.350512+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked_verification_test-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked_verification_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.386948+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked_verification_test-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked_verification_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.422896+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-disked_verification_test-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\verification_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.457657+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-verification_command_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\verification_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.493237+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-verification_command_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\verification_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.528313+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-verification_command_probe-dependents.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/HEADERS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\request_channel_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.563523+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-request_channel_probe-headers.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/IMPORTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\request_channel_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.599494+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-request_channel_probe-imports.log"
+  },
+  {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/DEPENDENTS",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\request_channel_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.634762+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-request_channel_probe-dependents.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.669446+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-launch.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b\\build\\windows-bootstrap\\Release\\disked.exe",
+      "commands",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.690470+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-discovery.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\clean-product-verification-ac34bb1b",
+    "started_at": "2026-10-09T17:58:02.712102+00:00",
+    "exit_code": 0,
+    "status": "pass",
+    "evidence_path": ".aide/evidence/2026-10-10-product-verification/reproduction-ac34bb1b/clean-spec-tests.log"
+  }
+]

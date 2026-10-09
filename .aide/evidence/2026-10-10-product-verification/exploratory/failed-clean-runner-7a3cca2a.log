@@ -1,0 +1,14 @@
+host exit 0
+python-environment exit 0
+clone exit 0
+configure exit 0
+build exit 0
+test-catalog exit 0
+native exit 8
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-10-product-verification\reproduce.py", line 33, in <module>
+    native=run('native',['ctest','--preset','windows-bootstrap','--output-on-failure'],limit=1500);assert b'0 tests failed out of 75' in native.stdout
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-10-product-verification\reproduce.py", line 22, in run
+    if r.returncode:raise RuntimeError(name+' failed; actual logs/dependencies retained')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: native failed; actual logs/dependencies retained
