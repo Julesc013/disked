@@ -1,0 +1,61 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W015",
+  "base_revision": "5d8803220f9231073f94276e57145f8955a828c5",
+  "spec_manifest_digest": "sha256:f66050398b8509c5bca949138fca9ed69b93d16a6f3adaa7744af989d4a593a4",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "source/platform/windows/ui/gui.cpp",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/report_console_fixture.py",
+    ".aide/evidence/2026-10-09-product-export/reproduction-1f80711f/product-export.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-09-gui-repaint/README.md",
+    ".aide/evidence/2026-10-09-gui-repaint/after.png",
+    ".aide/evidence/2026-10-09-gui-repaint/before.png",
+    ".aide/evidence/2026-10-09-gui-repaint/commands.json",
+    ".aide/evidence/2026-10-09-gui-repaint/inventory.json",
+    ".aide/evidence/2026-10-09-gui-repaint/probe.py",
+    ".aide/evidence/2026-10-09-gui-repaint/result.json",
+    ".aide/handoffs/DE-W015-gui-repaint-diagnosis-2026-10-09.json",
+    ".aide/programmes/disked-0.1.0.json"
+  ],
+  "summary": "Observed exact native caption and inert review. The old shared helper accepted a frame-only capture; owned synchronous redraw produced the visible client/submit caption without changing request state. This is diagnosis, not a shared fixture/runtime repair or complete visual qualification.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe .aide-local/goal-0.1.0/probe_export_repaint.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-09-gui-repaint/result.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-09-gui-repaint/before.png",
+      "sha256": "sha256:dbad8dcaa0b0e838a9888fe0095689a42c2b91af2a467b9fe3f52e3c850f2671"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-gui-repaint/after.png",
+      "sha256": "sha256:b17b535e1c556ab116399e7ccb8b45102733e52607496d4ef9e34926d8a68ed1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-09-gui-repaint/result.json",
+      "sha256": "sha256:be848801c36a72c22a47b1885c88a21d4e97cdc952bbfe4505f32adbadc9f807"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W034-product-export-1f80711f/disked.exe",
+      "sha256": "sha256:ed8129d675d3187209120ed05bf3a0c2973b08534c9a1e75239b3123823ff315"
+    }
+  ],
+  "blockers": [
+    "Shared screenshot helper repair and its native validation remain implementation work."
+  ],
+  "next_safe_step": "Repair and qualify the shared GUI screenshot helper under DE-W015: synchronously redraw only its owned window and reject a blank-client/frame-only capture before retaining it. Preserve the actual before/after diagnosis and distinguish capture correctness from runtime control evidence. Then continue DE-W034 before/after/custody applicability for fake/ordinary-file cases. Full DE-W034 and all specified 0.1.0 platforms/storage remain incomplete; owner and physical/elevation/customer/install/signing/publication gates remain separate.",
+  "performed_remote_writes": false
+}
