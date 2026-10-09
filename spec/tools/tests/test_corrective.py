@@ -173,6 +173,40 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
         self.bundle.context(work,self.pack,self.context_budget)
 
 class ContextCorrections(TemporaryCorrectiveFixture):
+    def binary_input(self, delivery):
+        name='spec/fixtures/binary-context-fixture.bin'
+        data=b'\x89PNG\r\n\x1a\n\x00\xff\x80binary fixture'
+        (self.repo/name).write_bytes(data)
+        registry=sc.read_json(self.root/'catalog/input-dependencies.json')
+        registry['inputs'].append(dict(id=name,path=name,kind='fixture',
+            delivery=delivery,depends_on=[],spec_ids=[]))
+        registry['always'].append(name)
+        sc.write_json(self.root/'catalog/input-dependencies.json',registry)
+        return name,data
+
+    def test_binary_artifacts_bind_exact_bytes_and_detect_copy_and_source_changes(self):
+        name,data=self.binary_input('artifact')
+        self.pack_context()
+        entry=next(f for f in sc.read_json(self.pack/'manifest.json')['files'] if f['path']==name)
+        self.assertEqual(sc.digest_bytes(data),entry['sha256'])
+        self.assertEqual(len(data),entry['bytes'])
+        artifact=self.pack/'artifacts'/name
+        self.assertEqual(data,artifact.read_bytes())
+        self.assertEqual('PASS',self.bundle.verify_context(self.pack)['status'])
+        artifact.write_bytes(data+b'changed')
+        with self.assertRaisesRegex(sc.SpecError,'Context artifact changed'):
+            self.bundle.verify_context(self.pack)
+        artifact.write_bytes(data)
+        (self.repo/name).write_bytes(data+b'changed')
+        with self.assertRaisesRegex(sc.SpecError,'Context source changed'):
+            self.bundle.verify_context(self.pack)
+
+    def test_binary_required_content_is_rejected_without_partial_output(self):
+        self.binary_input('content')
+        with self.assertRaisesRegex(sc.SpecError,'Non UTF-8 text'):
+            self.pack_context()
+        self.assertFalse(self.pack.exists())
+
     def test_native_bootstrap_context_binds_build_source_and_acceptance_fixture(self):
         self.pack_context('DE-W010')
         paths={row['path'] for row in sc.read_json(self.pack/'manifest.json')['files']}

@@ -110,7 +110,7 @@ assert sum(c['availability']=='available' for c in discovery)==19
 export=next(c for c in discovery if c['id']=='evidence.export')
 assert export['availability']=='available' and export['implementation_status']=='implemented' and export['contract_status']=='planned'
 spec=run('spec-tests',[sys.executable,'-m','unittest','discover','-s','spec/tools/tests','-v'],limit=300)
-assert b'Ran 183 tests' in spec.stderr and b'skipped=2' in spec.stderr
+assert b'Ran 185 tests' in spec.stderr and b'skipped=2' in spec.stderr
 write(E/'native-artifacts.json',[dict(path=f.relative_to(C).as_posix(),bytes=f.stat().st_size,sha256=sha(f)) for f in sorted(P.glob('*.exe'))])
 artifacts=[]
 for name in ('disked.exe','disked_report_test.exe','export_command_probe.exe','export_command_fault.exe',
@@ -122,7 +122,7 @@ write(E/'clean-results.json',dict(passed=True,source=identity,base_revision='798
     host=host,observed_at=datetime.now(timezone.utc).isoformat(),native_ctest_groups_run=69,selected_native_groups=selected,
     report_process_identity_checks=process_checks['checks'],gui_capture_checks=capture['checks'],actual_gui_captures=6,product_export_checks=cases['checks'],actual_acquisition_copies=1,actual_report_outputs=6,actual_frontends=['cli','stdio','gui','tui','shell'],
     actual_occupied_callback_timeout=True,structural_checks=check['checks'],manifest=manifest,context_bytes=context['bytes'],
-    spec_tests=dict(run=183,passed=181,skipped=2),implemented_commands=19,public_evidence_available=True,
+    spec_tests=dict(run=185,passed=183,skipped=2),implemented_commands=19,public_evidence_available=True,
     product_links_case=True,product_links_export=True,product_links_export_commands=True,product_links_report_worker=True,
     product_links_report_observation=True,product_links_journals=False,artifacts=artifacts,
     limitations=['Owned client paint guard is not complete text/layout/accessibility/DPI or other-platform qualification. Full DE-W034 and all specified 0.1.0 platforms/storage remain incomplete. Export covers only retained generated acquisition case metadata and support JSON; no full case/custody/health-before-after workflow.',
