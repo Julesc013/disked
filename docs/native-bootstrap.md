@@ -793,6 +793,32 @@ admission, cancellation, observer departure and output/terminal-record faults.
 The full CTest preset includes those checks serially with acquisition-only
 regressions. Retained evidence records actual results at the exact source.
 
-Common command selection, public-envelope/render budgets and actual frontend
-admission are the next gate. Full DE-W034, all 0.1.0 platforms/storage and
-owner/privilege/release gates remain open.
+Dev.36 implements explicit joined selection through the provisional shared
+`evidence export` command. Prepare adds `--collection PATH --collection-digest
+sha256:...`; execute adds `--allow-collection-read` to the exact outer definition
+digest and the existing four grants. Omitting the collection pair retains
+acquisition-only meaning. Build information lists the separate joined provider.
+Joined producer result schemas use version 2; old result schemas retain their
+meaning. Neither the retained verification nor a successful output export
+authenticates custody or establishes current-image or power-loss claims.
+
+The shared service checks the complete request/reply bounds and refuses review
+that cannot fit a subsequent execute frame. All five frontends preserve the
+selected report budgets, including inert structured review and separately retained
+earlier results. A timeout preserves known review/store/operation facts without
+replacing the callback or replaying effects. Unclassified observations do not
+guess a source profile from an operation prefix.
+
+Run the actual joined frontend fixture with:
+
+```text
+python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root . --joined
+```
+
+It generates an acquisition and a real retained verification, moves the original
+image/map/source paths, and then exercises prepare/execute/watch through CLI,
+stdio, GUI, TUI and shell. It independently checks selected bytes, histories,
+worker exit, denied grants and occupied callback behavior. The new
+`frontend.joined_report` CTest group runs serially with other owned worker tests.
+Source-bound clean qualification is pending for this change. Full DE-W034, all
+0.1.0 platforms/storage and owner/privilege/release gates remain open.

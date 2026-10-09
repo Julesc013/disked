@@ -7,6 +7,16 @@ from pathlib import Path
 
 
 class Model(unittest.TestCase):
+    def test_large_inert_definition_editor_remains_lossless_without_dispatch(self):
+        self.call(op='stage',command='evidence.export',parameters=dict(phase='execute'))
+        # Fields are alphabetical after the phase; definition is the sixth field
+        # after the five explicit grant fields in this provisional typed form.
+        for _ in range(6):self.key('tab')
+        raw=json.dumps(dict(untrusted='x'*33000),separators=(',',':'))
+        shown=self.call(op='text',text=raw,linear=True)
+        self.assertEqual(raw,shown['state']['parameters']['definition'])
+        self.assertIn(json.dumps(raw), '\n'.join(shown['lines']))
+        reviewed=self.key('f9')['state'];self.assertEqual('0',reviewed['requests']);self.assertNotEqual('review',reviewed['view'])
     def setUp(self):self.p=subprocess.Popen([str(ARGS.probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     def tearDown(self):
         self.p.stdin.close()

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-044
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -161,3 +161,15 @@ reconstruction, retained record validity and actual process exit require separat
 evidence. A timed-out observer, departed client or missing terminal record cannot
 prove quiescence or justify restarting effects. Public command/frontend admission
 and caller/render budgets remain a separate gate after private qualification.
+
+The [public joined profile](../catalog/joined-report-public-prototype.json)
+requires explicit collection path/digest selection and version-2 execution
+authority. Strict result producers MUST dispatch semantic validation by schema
+identity: the exact definition digest, code/store binding, outcome profile,
+artifact counters, effect/producer/output receipt and event/state relationships
+must agree. Hashes prove representation equality, not authenticated custody.
+Public preparation MUST fit the complete future execute request, and every
+intermediate callback/renderer MUST honor the selected finite response contract.
+An uncertain callback retains separately known operation/routing facts; no lost
+reply, output disconnect or missing terminal record authorizes replay. Native
+frontend effects and synthetic envelope/budget fixtures require distinct evidence.

@@ -136,8 +136,12 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
     if(bytes>display_bytes)return {text};return lines;
 }
 std::vector<std::string> observation_lines(const Value& value) {
-    json::Limits limits;const bool expanded=acquisition_watch_response(value) || report_watch_response(value) || verification_response(value);
+    json::Limits limits;const bool expanded=acquisition_watch_response(value) || report_response(value) || verification_response(value);
     if(expanded)limits=response_limits(value);
+    // A private inert review wraps one independently bounded parameter object.
+    // It is not classified as a completed report or given report wire limits.
+    const auto* command=value.find("command");
+    if(command && (command->text=="evidence.export" || command->text=="image.verify") && value.find("parameters")) {limits.bytes=65536+4096;limits.depth=33;}
     return presentation_lines(value,limits,expanded?4194304:1048576);
 }
 

@@ -23,6 +23,7 @@
 - [image-verification-collection-prototype.json](image-verification-collection-prototype.json)
 - [image-verification-observation-prototype.json](image-verification-observation-prototype.json)
 - [input-dependencies.json](input-dependencies.json)
+- [joined-report-public-prototype.json](joined-report-public-prototype.json)
 - [joined-report-worker-prototype.json](joined-report-worker-prototype.json)
 - [journal-model.json](journal-model.json)
 - [journal-producer-prototype.json](journal-producer-prototype.json)

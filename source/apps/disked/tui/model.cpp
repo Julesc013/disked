@@ -5,7 +5,7 @@
 namespace disked {
 using json::Value;
 namespace {
-std::string quote(const std::string& value) {return presentation_json(Value::string(value));}
+std::string quote(const std::string& value) {json::Limits l;l.bytes=6*65536+2;l.string_bytes=65536;return presentation_json(Value::string(value),l);}
 std::vector<std::string> wrapped(const std::vector<std::string>& lines,unsigned columns) {
     std::vector<std::string> result;columns=(std::max)(columns,1u);
     for(const auto& line:lines) {
@@ -172,7 +172,8 @@ std::vector<std::string> TuiModel::body() const {
         for(std::size_t i=0;i<fields_.size();++i)lines.push_back((view_==View::Form && field_==i?"> ":"  ")+fields_[i]+" = "+quote(parameters_.find(fields_[i])->text));
         if(view_==View::Review) {
             lines.push_back("Typed parameters (empty optional fields omitted):");
-            const auto typed=tui_json_lines(typed_);lines.insert(lines.end(),typed.begin(),typed.end());
+            json::Limits limits;limits.bytes=65536+4096;limits.depth=33;
+            const auto typed=presentation_lines(typed_,limits);lines.insert(lines.end(),typed.begin(),typed.end());
         }
         if(FrontendSession::handles(command_))lines.push_back("Expected graph revision: "+review_revision_);
         if(command_=="image.acquire")lines.push_back("Execution binds the exact acquisition definition and digest, with separate effect grants.");

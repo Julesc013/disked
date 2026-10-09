@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-111
   profile: disked-spec/1
-  version: 0.1.16-proposed.1
+  version: 0.1.17-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -422,5 +422,39 @@ caller departure or a lost terminal record cannot authorize a replacement or
 invent completion. Applicable native reconstruction and exact artifact counters
 remain necessary beyond standalone producer-schema checks. Common command,
 bounded public-envelope/rendering and CLI/stdio/GUI/TUI/shell admission remain
-the next gate. The product links the private adapter in dev.35 without selecting
-a new public command variant.
+the gate after private qualification. The product links the private adapter in
+dev.35 without selecting a new public command variant.
+
+## Provisional joined report public admission
+
+The [public joined profile](../catalog/joined-report-public-prototype.json)
+extends the existing provisional `evidence.export` command. Both
+`collection_path` and its exact `collection_digest` MUST select the joined
+prepare variant; either alone MUST refuse. Absent both retains acquisition-only
+meaning. Execute MUST bind explicit worker definition version 2 and its exact
+outer digest, with separate case-read, collection-read, report-write, store-write
+and host-effects grants. Source/disclosure selection cannot be changed at execute.
+Version 1 retains its four grants and forbids collection authority.
+
+Joined preparation/result producer schemas use version 2. They MUST preserve
+distinct acquisition and historical verification facts and declare authenticity,
+custody authentication, current-image state and power-loss persistence
+`not_established`. A known operation prefix without a validated definition MUST
+NOT establish a source profile. An unresolved execution MUST retain separately
+known review digest, state routing and allocated operation identity. An unresolved
+observation without a known definition remains unclassified.
+
+Preparation MUST fit a complete future execution envelope with a maximal escaped
+request identity, including framing, before presenting executable review. Common
+callbacks, output frames and all frontend review/current/earlier-result displays
+MUST preserve valid bounded content. Private editor/composite display bounds are
+separate from the unchanged 64-KiB input and one-MiB output frame. Oversized or
+malformed replies do not establish absent effects or authorize retry.
+
+Qualification requires actual native CLI, stdio, GUI, TUI and shell preparation,
+execution, retained watch/reconnect, independent exact support bytes and actual
+worker exit on generated acquisitions and retained verification collections.
+The old source-image paths must be unavailable during joined report tests.
+Synthetic port/budget tests supplement those journeys and MUST be labelled
+separately. Full DE-W034, stable ABI, owner, physical/platform and release gates
+remain separate from this bounded prototype admission.

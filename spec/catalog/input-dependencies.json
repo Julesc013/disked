@@ -819,7 +819,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/tools/verification_contracts.py",
-        "spec/tools/joined_report_contracts.py"
+        "spec/tools/joined_report_contracts.py",
+        "spec/tools/export_contracts.py"
       ],
       "spec_ids": [
         "DE-076"
@@ -1458,7 +1459,9 @@
       "path": "source/runtime/command/protocol.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "spec/catalog/joined-report-public-prototype.json"
+      ],
       "spec_ids": [
         "DE-021",
         "DE-022"
@@ -5103,7 +5106,8 @@
       "depends_on": [
         "source/runtime/evidence/export_commands.h",
         "source/runtime/evidence/report_operation.h",
-        "spec/catalog/export-command-prototype.json"
+        "spec/catalog/export-command-prototype.json",
+        "spec/catalog/joined-report-public-prototype.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -5154,7 +5158,8 @@
       "kind": "schema",
       "delivery": "artifact",
       "depends_on": [
-        "spec/schemas/report-worker-definition.schema.json"
+        "spec/schemas/report-worker-definition.schema.json",
+        "spec/schemas/report-worker-definition-parameter.schema.json"
       ],
       "spec_ids": [
         "DE-111",
@@ -5373,7 +5378,9 @@
         "spec/catalog/export-command-prototype.json",
         "spec/catalog/report-watch-prototype.json",
         "source/apps/disked/cli.cpp",
-        "source/platform/windows/report_worker.cpp"
+        "source/platform/windows/report_worker.cpp",
+        "spec/catalog/joined-report-public-prototype.json",
+        "tests/evidence/test_verification_case.py"
       ],
       "spec_ids": [
         "DE-111",
@@ -6392,6 +6399,103 @@
         "spec/catalog/joined-report-worker-prototype.json",
         "spec/schemas/report-worker-definition-v2.schema.json",
         "spec/schemas/acquisition-verification-export-outcome.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/catalog/joined-report-public-prototype.json",
+      "path": "spec/catalog/joined-report-public-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/joined-report-worker-prototype.json",
+        "spec/schemas/export-command-parameters.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-definition-parameter.schema.json",
+      "path": "spec/schemas/report-worker-definition-parameter.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition.schema.json",
+        "spec/schemas/report-worker-definition-v2.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/report-worker-grant-v2.schema.json",
+      "path": "spec/schemas/report-worker-grant-v2.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition-v2.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/export-preparation-result-v2.schema.json",
+      "path": "spec/schemas/export-preparation-result-v2.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition-v2.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/schemas/export-operation-result-v2.schema.json",
+      "path": "spec/schemas/export-operation-result-v2.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/report-worker-definition-v2.schema.json",
+        "spec/schemas/report-worker-state.schema.json",
+        "spec/schemas/report-operation-event.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/tools/export_contracts.py",
+      "path": "spec/tools/export_contracts.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/export-command-parameters.schema.json",
+        "spec/schemas/export-operation-result-v2.schema.json"
+      ],
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_export_semantics.py",
+      "path": "spec/tools/tests/test_export_semantics.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/tools/export_contracts.py",
+        "spec/tools/specctl.py"
       ],
       "spec_ids": [
         "DE-111",

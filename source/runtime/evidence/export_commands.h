@@ -12,4 +12,7 @@ struct ExportActions {
 Outcome dispatch_export(const Registry&,const std::string& request,const json::Value& parameters,const ExportActions&);
 // Observation completion is a completed read, independent of logical effects.
 Outcome export_observation(const std::string& request,const json::Value& worker_reply);
+// Claims follow a validated explicit definition, never an operation prefix.
+json::Value export_claims(json::Value value,const json::Value& definition);
+Outcome export_unresolved_request(const std::string& request,const json::Value& parameters);
 }

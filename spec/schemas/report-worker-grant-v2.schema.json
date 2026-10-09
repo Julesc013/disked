@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-grant:2",
+  "title": "Provisional exact joined-report execution declarations",
+  "description": "Binds the outer version-2 definition and both selected-source reads, report/store writes and host effects. Does not authenticate an actor or admit physical/elevated authority.",
+  "type": "object", "additionalProperties": false,
+  "required": ["definition_digest", "case_read", "collection_read", "report_write", "store_write", "host_effects"],
+  "properties": {
+    "definition_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "case_read": {"const": true}, "collection_read": {"const": true},
+    "report_write": {"const": true}, "store_write": {"const": true}, "host_effects": {"const": true}
+  }
+}

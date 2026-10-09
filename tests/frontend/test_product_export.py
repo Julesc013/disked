@@ -4,7 +4,7 @@ Only generated acquisition metadata/reports are selected. Private fault gates
 control owned observer processes; producer records and exact bytes are checked
 independently. No physical media, elevation, installation or custody claim.
 """
-import argparse,copy,ctypes as C,json,os,queue,subprocess,sys,threading,time,uuid
+import argparse,copy,ctypes as C,itertools,json,os,queue,subprocess,sys,threading,time,uuid
 from pathlib import Path
 from gui_fixture import Gui,wait
 from report_console_fixture import command
@@ -12,21 +12,25 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'evidence'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
 from test_report_worker import report_process,history_check
+from test_verification_case import combined_support
+from test_image_observation import POLICIES
 from ctypes import wintypes as W
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--product',type=Path,required=True);ap.add_argument('--fault',type=Path,required=True)
-    ap.add_argument('--root',type=Path,default=Path('.'));ap.add_argument('--evidence',type=Path);a=ap.parse_args()
+    ap.add_argument('--root',type=Path,default=Path('.'));ap.add_argument('--evidence',type=Path);ap.add_argument('--joined',action='store_true');ap.add_argument('--probe',type=Path);a=ap.parse_args()
     root=a.root.resolve();product=a.product.resolve();fault=a.fault.resolve();checks=[];journeys=[];outputs=[];samples=[]
     env={k:v for k,v in os.environ.items() if not k.startswith(('DISKED_REPORT_','DISKED_ACQ_','DISKED_TEST_'))}
-    sys.path.insert(0,str(root/'spec/tools'));from specctl import Bundle
+    sys.path.insert(0,str(root/'spec/tools'));from specctl import Bundle,SpecError
     bundle=Bundle(root/'spec')
+    probe=(a.probe or product.with_name('export_command_probe.exe')).resolve()
     def check(name,value,**extra):assert value,(name,extra);checks.append(dict(name=name,passed=True,**extra))
     def validate(value):
         bundle.validate('urn:disked:schema:response:1',value)
         result=value.get('result')
-        if result is not None and result.get('scope')=='recorded-acquisition-case-support-export':
-            bundle.validate('urn:disked:schema:'+('export-preparation-result:1' if result.get('phase')=='prepare' else 'export-operation-result:1'),result)
+        if result is not None and result.get('scope') in ('recorded-acquisition-case-support-export','recorded-acquisition-verification-support-export'):
+            version='2' if result['scope']=='recorded-acquisition-verification-support-export' else '1'
+            bundle.validate('urn:disked:schema:'+('export-preparation-result:' if result.get('phase')=='prepare' else 'export-operation-result:')+version,result)
     def cli(argv,exits=(0,),exe=product,extra=None):
         p=subprocess.run([str(exe),'--json',*argv],capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=15)
         assert p.returncode in exits and not p.stderr,(argv,p.returncode,p.stdout,p.stderr)
@@ -39,7 +43,16 @@ def main():
         for event in frames[:-1]:bundle.validate('urn:disked:schema:report-operation-event:1',event)
         check('native-stdio',True,exit_code=p.returncode,input_sha256=digest(data),output_sha256=digest(p.stdout));return value,frames[:-1]
     def no_effects(p):return not Path(p['destination']).exists() and not list(Path(p['state_directory']).iterdir())
-    def grants(value):return dict(phase='execute',definition=value['definition'],definition_digest=value['definition_digest'],allow_case_read=True,allow_report_write=True,allow_store_write=True,allow_host_effects=True)
+    def audit(p,reply=None,expected_grant=None,exits=(2,3)):
+        v=dict(mode='audit',request=dict(schema='org.disked.request/1',request_id='synthetic-joined-port',command='evidence.export',parameters=p,required_features=[]),reply=reply or {})
+        if expected_grant is not None:v['expected_grant']=expected_grant
+        data=canonical(v);run=subprocess.run([str(probe)],input=data,capture_output=True,cwd=root,env=env,timeout=10)
+        assert run.returncode in exits and not run.stderr,(run.returncode,run.stdout,run.stderr)
+        out=json.loads(run.stdout);validate(out['response']);check('synthetic-joined-port-counts',True,prepare_calls=out['prepare_calls'],execute_calls=out['execute_calls'],input_sha256=digest(data),output_sha256=digest(run.stdout));return out
+    def grants(value):
+        p=dict(phase='execute',definition=value['definition'],definition_digest=value['definition_digest'],allow_case_read=True,allow_report_write=True,allow_store_write=True,allow_host_effects=True)
+        if value['definition']['schema']=='org.disked.report-worker-definition-prototype/2':p['allow_collection_read']=True
+        return p
     def gui(p):
         ui=Gui(product,['--gui',*command(p)],render=True)
         try:
@@ -82,11 +95,32 @@ def main():
             finally:K.CloseHandle(h)
         check('independent-acquisition-bytes',src.read_bytes()==dst.read_bytes()==expected and state['outcome']['status']=='completed');map_check(mapping,expected)
         case_id=start['operation_id'];original={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()}
+        collection=None;collection_bytes=None;selected_support=None
+        if a.joined:
+            verification=owned/'verification';verification.mkdir()
+            v=cli(['image','verify','prepare',case_id,str(dst),'--case-state-dir',str(case),'--map',str(mapping),'--state-dir',str(verification)])['result']
+            argv=['image','verify','execute','--definition-json',canonical(v['definition']).decode(),'--definition-digest',v['definition_digest']]
+            argv+=['--allow-'+flag for flag in ('case-read','image-read','map-read','store-write','host-effects','private-metadata')]
+            launched=cli(argv,(0,5,6));deadline=time.monotonic()+20
+            while True:
+                verified=cli(['operation','inspect',launched['operation_id'],'--state-dir',str(verification)],(0,6))['result'];s=verified['state']
+                if s['phase']=='finished':exit_worker(s,product);break
+                assert time.monotonic()<deadline,('retain joined verification',verified);time.sleep(.03)
+            collection=verification/'verification.collection';collection_bytes=collection.read_bytes();coll=json.loads(collection_bytes)
+            check('actual-retained-matching-verification',s['outcome']['status']=='matched' and s['retention']['state']=='verified' and digest(collection_bytes)==s['retention']['digest'] and len(collection_bytes)==int(s['retention']['bytes']) and digest(canonical(coll))==s['retention']['collection_revision'])
+            acq=coll['original_case'];selected_support=canonical(combined_support(acq,coll,POLICIES[0]))+b'\n'
+            samples.append(dict(kind='actual-joined-source',acquisition=acq,verification=coll,verification_result=verified,collection_sha256=digest(collection_bytes),collection_hex=collection_bytes.hex(),verification_header=json.loads((verification/'verification.request').read_bytes()),verification_records_hex=(verification/'verification.records').read_bytes().hex()))
+            # The admitted report selects retained metadata, not live image paths.
+            for path in (src,dst,mapping):path.rename(path.with_name(path.name+'.retained'))
+            check('original-image-paths-unavailable',all(not p.exists() for p in (src,dst,mapping)))
         def fixture(name):
-            folder=owned/name;folder.mkdir();store=folder/'state';store.mkdir();return folder,dict(phase='prepare',case_operation_id=case_id,case_directory=str(case),destination=str(folder/'support.json'),state_directory=str(store))
+            folder=owned/name;folder.mkdir();store=folder/'state';store.mkdir();p=dict(phase='prepare',case_operation_id=case_id,case_directory=str(case),destination=str(folder/'support.json'),state_directory=str(store))
+            if a.joined:p.update(collection_path=str(collection),collection_digest=digest(collection_bytes))
+            return folder,p
         discovery=cli(['commands'])['result']['commands'];descriptor=next(c for c in discovery if c['id']=='evidence.export')
         check('explicit-static-report-discovery',descriptor['availability']=='available' and descriptor['implementation_status']=='implemented' and descriptor['contract_status']=='planned' and descriptor['reason']=='recorded_acquisition_case_support_export')
         build=cli(['build','inspect'])['result'];check('explicit-report-composition',build['report_provider']=='provider.report.acquisition-case.prototype/1')
+        check('explicit-joined-report-composition',build['joined_report_provider']=='provider.report.acquisition-verification.prototype/1')
         for kind in ('cli','stdio','gui','tui','shell'):
             folder,selection=fixture(kind)
             if kind=='cli':prepared=cli(command(selection));execute=lambda p:cli(command(p),(0,5,6))
@@ -97,6 +131,24 @@ def main():
             q=grants(prepared['result']);first=execute(q);check(kind+'-actual-operation-id',first['status'] in ('completed','accepted_running','unknown') and first['operation_id'].startswith('report-op:'))
             done=finished(selection,first);body=Path(selection['destination']).read_bytes();artifact=q['definition']['export']['effect']['artifact']
             check(kind+'-independent-complete-effect',done['result']['state']['outcome']['status']=='completed' and digest(body)==artifact['digest'] and len(body)==int(artifact['bytes']))
+            if a.joined:check(kind+'-independent-selected-joined-content',body==selected_support and all(done['result'][key]=='not_established' for key in ('authenticity','custody_authentication','current_image_state','power_loss_persistence')))
+            if a.joined and kind=='cli':
+                # Independently mutate actual producer data; no file or worker
+                # changes, and no native qualification inferred from validation.
+                for name,change in (
+                    ('outer-digest',lambda v:v.update(definition_digest='sha256:'+'0'*64)),
+                    ('code-binding',lambda v:v['state']['binding'].update(image_digest='0'*64)),
+                    ('host-binding',lambda v:v['state']['binding'].update(host_id='0'*64)),
+                    ('store-binding',lambda v:v.update(state_directory=v['state_directory']+'.other')),
+                    ('joint-receipt',lambda v:v['state']['receipt'].update(definition_digest='sha256:'+'0'*64)),
+                    ('effect-receipt',lambda v:v['state']['receipt']['output_receipt'].update(definition_digest='sha256:'+'0'*64)),
+                    ('artifact-receipt',lambda v:v['state']['receipt']['output_receipt'].update(artifact_digest='sha256:'+'0'*64)),
+                    ('producer-receipt',lambda v:v['state']['receipt']['output_receipt']['producer'].update(identity='synthetic-other-producer')),
+                    ('output-receipt',lambda v:v['state']['receipt']['output_receipt'].update(output_path=v['state_directory']+'\\other'))):
+                    changed=copy.deepcopy(done['result']);change(changed)
+                    try:bundle.validate('urn:disked:schema:export-operation-result:2',changed)
+                    except SpecError:check('synthetic-public-producer-contradiction-refused',True,case=name)
+                    else:raise AssertionError(('producer contradiction accepted',name))
             outputs.append(dict(frontend=kind,operation_id=first['operation_id'],bytes=str(len(body)),sha256=digest(body),definition_digest=q['definition_digest']))
             header=json.loads((Path(selection['state_directory'])/'report.request').read_bytes());raw,rows=history_check(Path(selection['state_directory'])/'report.records',header)
             params=dict(operation_id=first['operation_id'],state_directory=selection['state_directory'])
@@ -115,11 +167,27 @@ def main():
                 finally:ui.close();assert ui.code==0 and not ui.error
             elif kind in ('tui','shell'):
                 watch=console(kind,params,folder);check(kind+'-watch-actual-render',[e['payload']['record'] for e in watch['result']['events']]==rows)
-            if kind=='cli':samples.append(dict(definition=q['definition'],header=header,rows=rows,result=done['result'],support=json.loads(body)))
+            samples.append(dict(kind='actual-frontend-report',frontend=kind,definition=q['definition'],header=header,rows=rows,result=done['result'],support=json.loads(body),support_hex=body.hex()))
         # Invalid scope/grants are rejected before the real provider creates files.
         folder,p=fixture('invalid');prepared=cli(command(p))['result'];q=grants(prepared)
         for bad in [dict(q,allow_host_effects=False),dict(q,definition_digest='sha256:'+'0'*64)]:
             value,_=wire('invalid-grant','evidence.export',bad,exits=(2,3));check('invalid-grant-before-effects',value['status']=='refused' and no_effects(p))
+        if a.joined:
+            flags=('case_read','collection_read','report_write','store_write','host_effects')
+            for bits in itertools.product((False,True),repeat=5):
+                if all(bits):continue
+                bad=dict(q,**{'allow_'+key:bit for key,bit in zip(flags,bits)});value,_=wire('missing-grants','evidence.export',bad,exits=(2,));check('joined-missing-grant-before-effects',value['status']=='refused' and no_effects(p))
+                counted=audit(bad,exits=(2,));check('synthetic-joined-false-grants-zero-ports',counted['prepare_calls']==counted['execute_calls']==0)
+            for key in ('collection_path','collection_digest'):
+                bad=dict(p);bad.pop(key);value,_=wire('incomplete-selection','evidence.export',bad,exits=(2,));check('joined-incomplete-selection-before-effects',value['status']=='refused' and no_effects(p))
+                counted=audit(bad,exits=(2,));check('synthetic-joined-incomplete-selection-zero-ports',counted['prepare_calls']==counted['execute_calls']==0)
+            inner=q['definition']['export']['effect']['artifact']['digest'];value,_=wire('inner-digest','evidence.export',dict(q,definition_digest=inner),exits=(3,));check('joined-inner-digest-no-authority',value['status']=='refused' and no_effects(p))
+            counted=audit(dict(q,definition_digest=inner),exits=(3,));check('synthetic-joined-inner-digest-zero-ports',counted['prepare_calls']==counted['execute_calls']==0)
+            granted={key.removeprefix('allow_'):q[key] for key in q if key.startswith('allow_')};granted['definition_digest']=q['definition_digest']
+            unknown=dict(schema='org.disked.report-admission-prototype/1',status='unknown',operation_id='report-op:'+'a'*32,value={},diagnostic='synthetic_no_native_effect',platform_code='0')
+            counted=audit(q,unknown,granted,exits=(6,));check('synthetic-exact-joined-grant-one-port',counted['prepare_calls']==0 and counted['execute_calls']==1 and counted['response']['result']['state_directory']==p['state_directory'] and counted['response']['operation_id']==unknown['operation_id'] and no_effects(p))
+            changed=copy.deepcopy(prepared);changed['definition']['export']['sources']['collection']['digest']='sha256:'+'0'*64;changed['definition_digest']=digest(canonical(changed['definition']))
+            counted=audit(p,{key:changed[key] for key in ('definition','definition_digest')},exits=(3,));check('synthetic-preparation-source-mismatch-no-effect-port',counted['prepare_calls']==1 and counted['execute_calls']==0 and counted['response']['status']=='refused' and no_effects(p))
         value,_=wire('bad-policy','evidence.export',dict(p,force=True),exits=(2,));check('closed-request-before-effects',value['status']=='refused' and no_effects(p))
         # Exact named gates give the observer a real occupied channel across
         # timeout; release its actual callback, never replace it or invent exit.
@@ -167,7 +235,8 @@ def main():
         started=time.monotonic();normal=cli(command(p2),(0,),extra=dict(DISKED_REPORT_TEST_GATE='missing-event',DISKED_REPORT_WORKER_TEST_ADMISSION_DELAY='1'))
         check('production-does-not-read-test-gates',normal['status']=='completed' and time.monotonic()-started<2 and no_effects(p2))
         check('original-case-metadata-unchanged',original=={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()})
-    report=dict(passed=True,checks=len(checks),observations=checks,native_journeys=journeys,verified_outputs=outputs,samples=samples,scope='Actual native ordinary-file product CLI/stdio/GUI/TUI/shell prepare/execute/watch plus private occupied callback gate; no broader storage/custody qualification',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
+        if a.joined:check('selected-collection-unchanged',collection.read_bytes()==collection_bytes)
+    report=dict(passed=True,joined=a.joined,checks=len(checks),observations=checks,native_journeys=journeys,verified_outputs=outputs,samples=samples,scope='Actual native ordinary-file product CLI/stdio/GUI/TUI/shell prepare/execute/watch plus private occupied callback gate; no broader storage/custody qualification',source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)))
     if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps({k:v for k,v in report.items() if k not in ('observations','native_journeys','samples')}))
 if __name__=='__main__':main()

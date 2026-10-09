@@ -1575,7 +1575,12 @@
         "tests/frontend/test_product_verification.py",
         "tests/frontend/verification_console_fixture.py",
         "tests/resilience/request_channel_probe.cpp",
-        "tests/resilience/test_request_channel.py"
+        "tests/resilience/test_request_channel.py",
+        "source/apps/disked/tui/model.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/test_gui_model.py",
+        "tests/frontend/test_tui_model.py"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1619,7 +1624,8 @@
         "python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .",
         "python tests/evidence/test_verification_commands.py --probe build/windows-bootstrap/Release/verification_command_probe.exe --fault build/windows-bootstrap/Release/verification_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
         "python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root .",
-        "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --worker build/windows-bootstrap/Release/report_worker_probe.exe --worker-fault build/windows-bootstrap/Release/report_worker_fault.exe"
+        "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --worker build/windows-bootstrap/Release/report_worker_probe.exe --worker-fault build/windows-bootstrap/Release/report_worker_fault.exe",
+        "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root . --joined"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1783,7 +1789,19 @@
         "spec/schemas/report-worker-definition-v2.schema.json",
         "spec/tools/joined_report_contracts.py",
         "spec/tools/tests/test_joined_report_semantics.py",
-        "tests/evidence/test_joined_report_worker.py"
+        "tests/evidence/test_joined_report_worker.py",
+        "spec/catalog/joined-report-public-prototype.json",
+        "spec/schemas/report-worker-definition-parameter.schema.json",
+        "spec/schemas/report-worker-grant-v2.schema.json",
+        "spec/schemas/export-preparation-result-v2.schema.json",
+        "spec/schemas/export-operation-result-v2.schema.json",
+        "spec/tools/export_contracts.py",
+        "spec/tools/tests/test_export_semantics.py",
+        "source/apps/disked/tui/model.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/test_gui_model.py",
+        "tests/frontend/test_tui_model.py"
       ]
     },
     {

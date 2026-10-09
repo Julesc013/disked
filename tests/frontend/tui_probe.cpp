@@ -27,7 +27,8 @@ int main(int argc,char**) {
         {"f4",disked::TuiKey::F4},{"f5",disked::TuiKey::F5},{"f6",disked::TuiKey::F6},{"f9",disked::TuiKey::F9},{"f10",disked::TuiKey::F10}};
     std::string line;
     while(std::getline(std::cin,line))try {
-        auto message=disked::json::parse(line);const auto* op=message.find("op");
+        disked::json::Limits input_limits;input_limits.string_bytes=65536;
+        auto message=disked::json::parse(line,input_limits);const auto* op=message.find("op");
         if(op && op->text=="key")model.input({keys.at(message.find("key")->text),"",message.find("repeat") && message.find("repeat")->boolean});
         if(op && op->text=="text")model.input({disked::TuiKey::Text,message.find("text")->text,false});
         if(op && op->text=="stage")model.stage(message.find("command")->text,*message.find("parameters"));
@@ -44,6 +45,6 @@ int main(int argc,char**) {
         if(const auto* v=message.find("linear"))linear=v->boolean;
         Value lines=Value::array();for(const auto& row:model.render(columns,rows,linear))lines.items.push_back(Value::string(row));
         Value result=Value::object().put("state",model.state()).put("lines",lines).put("graph",session.snapshot()->value());
-        disked::json::Limits limits;limits.bytes=1048576;std::cout<<disked::json::dump(result,limits)<<std::endl;
+        disked::json::Limits limits;limits.bytes=1048576;limits.string_bytes=6*65536+2;std::cout<<disked::json::dump(result,limits)<<std::endl;
     } catch(const std::exception& e) {std::cout<<disked::json::dump(Value::object().put("error",Value::string(e.what())))<<std::endl;}
 }

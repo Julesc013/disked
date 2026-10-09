@@ -100,7 +100,8 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
     for action in ('inspect','watch','cancel'):
         public=subprocess.run([str(product),'--json','operation',action,r['operation_id'],'--state-dir',str(store)],capture_output=True,cwd=root,env=env,timeout=12)
         envelope=json.loads(public.stdout)
-        check('joined-public-profile-gate-refuses',public.returncode==3 and not public.stderr and envelope['status']=='refused' and any(x['code']=='report_worker_profile_unavailable' for x in envelope['diagnostics']) and (store/'report.records').read_bytes()==raw and (store/'report.cancel').read_bytes()==b'0',action=action,diagnostics=envelope['diagnostics'],exit_code=public.returncode,response_sha256=digest(public.stdout))
+        check('joined-public-compatible-observation',public.returncode==0 and not public.stderr and envelope['status']=='completed' and envelope['result']['definition']==d['definition'] and envelope['result']['state']==rows[-1]['state'] and envelope['result']['scope']=='recorded-acquisition-verification-support-export' and (store/'report.records').read_bytes()==raw and (store/'report.cancel').read_bytes()==b'0',action=action,diagnostics=envelope['diagnostics'],exit_code=public.returncode,response_sha256=digest(public.stdout))
+        bundle.validate('urn:disked:schema:export-operation-result:2',envelope['result'])
     again=start(d);check('joined-repeat-does-not-restart',again['operation_id']==r['operation_id'] and (store/'report.records').read_bytes()==raw)
     reader=inspect(r['operation_id'],store,fault);check('joined-compatible-read-not-writer-grant',reader['value']['state']==rows[-1]['state'] and reader['value']['definition']==d['definition'])
     late=inspect(r['operation_id'],store,cancel=True);check('joined-late-cancel-is-too-late',late['value']['cancellation_request']=='too_late' and (store/'report.cancel').read_bytes()==b'0')

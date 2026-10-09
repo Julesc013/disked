@@ -31,6 +31,10 @@ SEMANTICS.update({SCHEMA_PREFIX+'report-worker-state:2':'report-worker-state',SC
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('verification-worker-definition','acquired-image-verification-outcome','verification-worker-state','verification-worker-record','verification-operation-event','verification-command-parameters','verification-preparation-result','verification-operation-result')})
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-verification-export-definition','acquisition-verification-export-outcome')})
 SEMANTICS[SCHEMA_PREFIX+'report-worker-definition:2']='joined-report-worker-definition'
+SEMANTICS[SCHEMA_PREFIX+'export-command-parameters:1']='export-command-parameters'
+for _version in ('1','2'):
+    for _name in ('export-preparation-result','export-operation-result'):
+        SEMANTICS[SCHEMA_PREFIX+_name+':'+_version]=_name
 
 class SpecError(Exception):
     """An explicit validation or safety refusal."""
@@ -242,7 +246,11 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind in ('acquisition-verification-export-definition','acquisition-verification-export-outcome','joined-report-worker-definition'):
+    if kind in ('export-command-parameters','export-preparation-result','export-operation-result'):
+        from export_contracts import validate
+        try:validate(kind,value,acquisition_record_bytes,semantic_validate)
+        except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc
+    elif kind in ('acquisition-verification-export-definition','acquisition-verification-export-outcome','joined-report-worker-definition'):
         from joined_report_contracts import validate
         try:validate(kind,value,acquisition_record_bytes)
         except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc

@@ -18,6 +18,7 @@ std::string response_frame(const json::Value& response);
 // Private presentation profile selection; never authorizes an operation.
 bool acquisition_watch_response(const json::Value& response);
 bool report_watch_response(const json::Value& response);
+bool report_response(const json::Value& response);
 bool verification_response(const json::Value& response);
 json::Limits response_limits(const json::Value& response);
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events={});

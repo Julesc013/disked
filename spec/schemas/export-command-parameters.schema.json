@@ -32,6 +32,12 @@
       "maxLength": 960,
       "x-disked-scalar": "local-state-directory"
     },
+    "collection_path": {
+      "type": "string", "minLength": 1, "maxLength": 960
+    },
+    "collection_digest": {
+      "type": "string", "pattern": "^sha256:[0-9a-f]{64}$", "x-disked-scalar": "sha256-digest"
+    },
     "include_identifiers": {
       "type": "boolean"
     },
@@ -46,7 +52,7 @@
     },
     "definition": {
       "type": "object",
-      "$ref": "urn:disked:schema:report-worker-definition:1",
+      "$ref": "urn:disked:schema:report-worker-definition-parameter:1",
       "x-disked-byte-budget": 65536,
       "x-disked-depth-budget": 28,
       "x-disked-value-budget": 8192,
@@ -62,6 +68,7 @@
     "allow_case_read": {
       "type": "boolean"
     },
+    "allow_collection_read": {"type": "boolean"},
     "allow_report_write": {
       "type": "boolean"
     },
@@ -96,6 +103,7 @@
           "definition": false,
           "definition_digest": false,
           "allow_case_read": false,
+          "allow_collection_read": false,
           "allow_report_write": false,
           "allow_store_write": false,
           "allow_host_effects": false
@@ -124,6 +132,8 @@
           "case_directory": false,
           "destination": false,
           "state_directory": false,
+          "collection_path": false,
+          "collection_digest": false,
           "include_identifiers": false,
           "include_raw_values": false,
           "include_interpretations": false,
@@ -142,11 +152,24 @@
           }
         }
       }
+    },
+    {"if": {"required": ["collection_path"]}, "then": {"required": ["collection_digest"]}},
+    {"if": {"required": ["collection_digest"]}, "then": {"required": ["collection_path"]}},
+    {
+      "if": {
+        "required": ["phase", "definition"],
+        "properties": {
+          "phase": {"const": "execute"},
+          "definition": {"properties": {"schema": {"const": "org.disked.report-worker-definition-prototype/2"}}}
+        }
+      },
+      "then": {"required": ["allow_collection_read"], "properties": {"allow_collection_read": {"const": true}}},
+      "else": {"properties": {"allow_collection_read": false}}
     }
   ],
   "x-disked-form-discriminator": "phase",
   "x-disked-form-default": "prepare",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:disked:schema:export-command-parameters:1",
-  "title": "Provisional recorded-acquisition case support export prepare/execute parameters"
+  "title": "Provisional acquisition-only or explicitly selected acquisition/verification support export parameters"
 }

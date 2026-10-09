@@ -80,6 +80,24 @@ class Model(unittest.TestCase):
         self.assertGreater(len(result['rendered']),65536)
         self.assertLessEqual(len(result['rendered']),1048576)
 
+    def test_synthetic_joined_current_and_earlier_views_keep_all_values(self):
+        # Envelope/render fixture, deliberately not strict producer admission.
+        self.call('synthetic',deferred=True,joined=True)
+        self.stage('target.list');self.execute()
+        self.stage('target.list');self.execute()
+        display=json.loads(self.call('resolve')['rendered'])
+        self.assertEqual('gui:2',display['request_id']);self.assertEqual('gui:1',display['earlier_request']['request_id'])
+        for value in (display,display['earlier_request']):
+            self.assertEqual(12000,len(value['result']['synthetic_values']))
+            self.assertEqual('z'*30000,value['result']['last'])
+
+    def test_large_inert_definition_editor_is_rendered_without_dispatch(self):
+        self.stage('evidence.export',phase='execute')
+        raw=json.dumps(dict(untrusted='x'*33000),separators=(',',':'))
+        edited=self.call('edit',field='definition',value=raw)
+        self.assertEqual(raw,json.loads(edited['rendered'])['parameters']['definition'])
+        reviewed=self.call('review')['state'];self.assertFalse(reviewed['reviewed']);self.assertEqual('0',reviewed['requests'])
+
     def test_gui_cli_tui_outcomes_match(self):
         cases=[('target.list',{}),('topology.show',{}),('target.inspect',dict(target_id='fake:volume@1')),
                ('target.inspect',dict(target_id='missing')),('capability.explain',dict(target_id='fake:denied@1',operation='partition.resize.plan'))]

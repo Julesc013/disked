@@ -197,10 +197,9 @@ V start_report_worker(const V& d,const V& g) {
      catch(const FileReportExportError& error) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),error.what(),error.platform_code);}
      catch(const std::exception& error) {return reply(claimed||existing?"unknown":"refused",claimed||existing?id:"",V::object(),error.what());}
 }
-V observe_report_worker(const std::string& id,const std::string& directory,bool cancel_request,bool common_profile) {
+V observe_report_worker(const std::string& id,const std::string& directory,bool cancel_request) {
     try {
         identifier(id);Directory dir(directory);const auto h=header_read(dir);
-        if(common_profile && r::joined_definition(field(h,"definition")))return reply("refused","",V::object(),"report_worker_profile_unavailable");
         auto observed=inspect(id,dir,h);
         if(cancel_request && text(observed,"status")=="completed") {
             auto& value=observed.fields["value"];if(text(field(value,"state"),"phase")=="finished")value.put("cancellation_request",V::string("too_late"));
@@ -225,8 +224,7 @@ bool operation_parameters(const V& p,bool watch) {
     try {identifier(id->text);}catch(const std::exception&) {return false;}return true;
 }
 Outcome unknown_watch(const std::string& request,const std::string& id,V last,const std::string& code,DWORD platform=0) {
-    last.put("scope",V::string("recorded-acquisition-case-support-export")).put("request_kind",V::string("operation-observation"))
-        .put("authenticity",V::string("not_established")).put("current_image_verification",V::string("not_performed"));
+    last.put("request_kind",V::string("operation-observation"));
     if(!last.find("events"))last.put("events",V::array());
     auto out=completed(request,last);out.exit_code=6;out.response.put("status",V::string("unknown")).put("operation_id",id.empty()?V{}:V::string(id));
     auto d=diagnostic(code);if(platform)d.put("platform_code",V::string(std::to_string(platform)));out.response.fields["diagnostics"].items.push_back(d);return out;
@@ -239,7 +237,7 @@ Outcome watch_report_worker(const std::string& request,const V& parameters,const
     try {
         Directory dir(text(parameters,"state_directory"));const auto header=header_read(dir);Security security;
         if(text(header,"operation_id")!=id)reject("report_worker_identity");
-        if(r::joined_definition(field(header,"definition")))return refused(request,"report_worker_profile_unavailable",3);
+        last=export_claims(std::move(last),field(header,"definition"));
         const auto observer=security.identity("watch:");WatchCursor cursor(id,request,observer,parameters,report_watch_profile(header));
         auto collected=V::array();V validated_state;std::size_t bytes=0,delivered=0;
         const auto follow=parameters.find("follow_ms");const auto end=GetTickCount64()+(follow?std::stoull(follow->text):0);
@@ -286,6 +284,8 @@ ExportActions export_actions() {
         auto policy=V::object();for(const auto n:{"identifiers","raw_values","interpretations","customer_data"}) {
             const auto selected=p.find(std::string("include_")+n);policy.put(n,V::boolean_value(selected && selected->kind==V::Kind::boolean && selected->boolean));
         }
+        if(p.find("collection_path"))return prepare_joined_report_worker(text(p,"case_operation_id"),text(p,"case_directory"),
+            text(p,"collection_path"),text(p,"collection_digest"),policy,text(p,"destination"),text(p,"state_directory"));
         return prepare_report_worker(text(p,"case_operation_id"),text(p,"case_directory"),policy,text(p,"destination"),text(p,"state_directory"));
     };ports.execute=start_report_worker;return ports;
 }
@@ -293,7 +293,7 @@ Outcome dispatch_report_operation(const std::string& request,const std::string& 
     if(command=="operation.watch")return watch_report_worker(request,parameters);
     if(command!="operation.inspect" && command!="operation.cancel.request")return refused(request,"command_unavailable",3);
     if(!operation_parameters(parameters,false))return refused(request,"invalid_parameter");
-    return export_observation(request,observe_report_worker(text(parameters,"operation_id"),text(parameters,"state_directory"),command=="operation.cancel.request",true));
+    return export_observation(request,observe_report_worker(text(parameters,"operation_id"),text(parameters,"state_directory"),command=="operation.cancel.request"));
 }
 int run_report_worker(int argc,wchar_t** argv) {
     try {

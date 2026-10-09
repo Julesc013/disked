@@ -5,9 +5,15 @@ from acquisition_console_fixture import run
 
 def command(p):
     if 'operation_id' in p:return ['operation','watch',p['operation_id'],'--state-dir',p['state_directory']]
-    if p['phase']=='prepare':return ['evidence','export','prepare',p['case_operation_id'],p['destination'],'--case-state-dir',p['case_directory'],'--state-dir',p['state_directory']]
+    if p['phase']=='prepare':
+        result=['evidence','export','prepare',p['case_operation_id'],p['destination'],'--case-state-dir',p['case_directory'],'--state-dir',p['state_directory']]
+        if 'collection_path' in p:result+=['--collection',p['collection_path'],'--collection-digest',p['collection_digest']]
+        for flag in ('identifiers','raw_values','interpretations','customer_data'):
+            if p.get('include_'+flag):result.append('--include-'+flag.replace('_','-'))
+        return result
     result=['evidence','export','execute','--definition-json',json.dumps(p['definition'],sort_keys=True,separators=(',',':'),ensure_ascii=False),'--definition-digest',p['definition_digest']]
     for flag in ('case-read','report-write','store-write','host-effects'):result.append('--allow-'+flag)
+    if p.get('allow_collection_read'):result.append('--allow-collection-read')
     return result
 
 if __name__=='__main__':

@@ -1,4 +1,5 @@
 #include "requests.h"
+#include "session.h"
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
@@ -97,6 +98,29 @@ int main()try {
     auto no=channel.submit("declared-request",[&unsafe_calls] {++unsafe_calls;return completed("declared-request",Value{});},65536,wrong);
     require(!no.pending && no.outcome.exit_code==3 && !unsafe_calls,"invalid_fallback_dispatched");
     report.put("unknown_preserves_routing_and_observed_id",Value::boolean_value(true));
+    // Synthetic envelope payloads exercise transport/presentation closure only;
+    // this does not admit them as strict report producer records or create I/O.
+    for(const auto stage:{"prepare","export-execution","operation-observation"}) {
+        const auto id=std::string("joined-budget:")+stage;
+        auto payload=Value::object().put("scope",Value::string("recorded-acquisition-verification-support-export"));
+        if(std::string(stage)=="prepare")payload.put("phase",Value::string(stage));else payload.put("request_kind",Value::string(stage));
+        auto values=Value::array();for(unsigned i=0;i<12000;++i)values.items.push_back(Value{});
+        for(unsigned i=0;i<4;++i)values.items.push_back(Value::string(std::string(20000,'x')));
+        values.items.push_back(Value::string("last synthetic value"));payload.put("synthetic_values",values);
+        require(channel.submit(id,[id,payload] {return completed(id,payload);},1048575).pending,"joined_budget_submission");
+        result=await(channel);require(result.exit_code==0,"joined_valid_envelope_lost_to_default_budget");
+        const auto frame=response_frame(result.response);require(frame.size()<=1048576 && frame.back()=='\n',"joined_whole_frame_bound");
+        const auto lines=observation_lines(result.response);std::string rendered;for(const auto& line:lines)rendered+=line;
+        require(rendered.find("last synthetic value")!=rendered.npos,"joined_render_lost_bounded_content");
+    }
+    auto joined_route=routing("joined-overflow");joined_route.response.fields["result"].put("scope",Value::string("recorded-acquisition-verification-support-export")).put("request_kind",Value::string("export-execution"));
+    require(channel.submit("joined-overflow",[] {
+        auto values=Value::array();for(unsigned i=0;i<60;++i)values.items.push_back(Value::string(std::string(20000,'x')));
+        auto value=Value::object().put("scope",Value::string("recorded-acquisition-verification-support-export")).put("request_kind",Value::string("export-execution")).put("synthetic_values",values);
+        auto out=completed("joined-overflow",value);out.response.put("operation_id",Value::string("report-op:"+std::string(32,'c')));return out;
+    },1048575,joined_route).pending,"joined_overflow_submission");
+    result=await(channel);require(result.exit_code==6 && result.response.find("operation_id")->text=="report-op:"+std::string(32,'c') && result.response.find("result")->find("state_directory")->text=="owned-explicit-store","joined_overflow_lost_effect_routing");
+    report.put("synthetic_joined_envelope_channel_frame_render_closure",Value::boolean_value(true)).put("synthetic_joined_overflow_keeps_routing",Value::boolean_value(true));
     auto retained=std::make_shared<Gate>();auto finished=std::make_shared<std::atomic<bool>>(false);
     const auto before=Clock::now();
     {

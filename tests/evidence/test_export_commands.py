@@ -26,9 +26,10 @@ def main():
         check(name,response['schema']=='org.disked.response/1' and response['status']=={0:'completed',2:'refused',3:'refused',4:'failed',5:'accepted_running',6:'unknown'}[p.returncode],exit_code=p.returncode,input_sha256=digest(canonical(value)),output_sha256=digest(p.stdout))
         bundle.validate('urn:disked:schema:response:1',response)
         result=response.get('result')
-        if result is not None:
+        if result is not None and result.get('scope')=='recorded-acquisition-case-support-export':
             id='export-preparation-result:1' if result.get('phase')=='prepare' else 'export-operation-result:1'
             bundle.validate('urn:disked:schema:'+id,result)
+        elif result is not None:assert response['status']=='unknown' and result.get('request_state')=='unresolved' and 'scope' not in result
         return out
     def product_call(args,exits=(0,5)):
         p=subprocess.run([str(product),'--json',*args],capture_output=True,cwd=root,env=env,timeout=15)

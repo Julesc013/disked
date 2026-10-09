@@ -94,7 +94,13 @@ bool report_watch_response(const Value& response) {
     const auto id=response.find("operation_id"),result=response.find("result");
     if(!string(id) || id->text.size()!=42 || id->text.compare(0,10,"report-op:")!=0 || id->text.find_first_not_of("0123456789abcdef",10)!=std::string::npos || !kind(result,Value::Kind::object))return false;
     const auto scope=result->find("scope"),request=result->find("request_kind"),events=result->find("events");
-    return string(scope) && scope->text=="recorded-acquisition-case-support-export" && string(request) && request->text=="operation-observation" && kind(events,Value::Kind::array);
+    return report_response(response) && string(scope) && string(request) && request->text=="operation-observation" && kind(events,Value::Kind::array);
+}
+bool report_response(const Value& response) {
+    const auto result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto scope=result->find("scope");if(!string(scope) || (scope->text!="recorded-acquisition-case-support-export" && scope->text!="recorded-acquisition-verification-support-export"))return false;
+    const auto phase=result->find("phase"),request=result->find("request_kind");
+    return (string(phase) && phase->text=="prepare") || (string(request) && (request->text=="export-execution" || request->text=="operation-observation"));
 }
 bool verification_response(const Value& response) {
     const auto result=response.find("result");if(!kind(result,Value::Kind::object))return false;
@@ -104,7 +110,7 @@ bool verification_response(const Value& response) {
 }
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
-    if(report_watch_response(response) || verification_response(response))limits.values=131072;return limits;
+    if(report_response(response) || verification_response(response))limits.values=131072;return limits;
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;

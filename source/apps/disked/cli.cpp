@@ -111,7 +111,7 @@ bool background_command(const std::string& command) {
     return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export" || command=="image.verify";
 }
 std::size_t request_bytes(const std::string& command,const Value& parameters) {
-    return command=="image.verify" || verification_identity(parameters) || (command=="operation.watch" && (acquisition_identity(parameters) || report_identity(parameters)))?1048575:65536;
+    return command=="evidence.export" || command=="image.verify" || verification_identity(parameters) || report_identity(parameters) || (command=="operation.watch" && acquisition_identity(parameters))?1048575:65536;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
     if(verification_identity(parameters)) {verification_test_wait();return dispatch_verification_operation(request,command,parameters);}
@@ -136,6 +136,7 @@ Value build_information() {
         .put("image_provider",Value::string(bootstrap::image_provider_id))
         .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id))
         .put("report_provider",Value::string(bootstrap::report_provider_id))
+        .put("joined_report_provider",Value::string(bootstrap::joined_report_provider_id))
         .put("verification_provider",Value::string(bootstrap::verification_provider_id));
 }
 Value command_description(const Value& command) {
@@ -199,7 +200,8 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
-        },request_bytes(command,parameters),command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):Outcome{});
+        },request_bytes(command,parameters),command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):
+            command=="evidence.export" || report_identity(parameters)?export_unresolved_request(request,parameters):Outcome{});
     }
     return dispatch(request,command,parameters,host,inputs,session,revision);
 }
@@ -218,6 +220,7 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
         if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
+        else if(command=="evidence.export" || report_identity(parameters))expired=export_unresolved_request(request,parameters);
         return calls->run(request,[request,command,parameters]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
             if(command=="evidence.export")return report_action(request,parameters);
@@ -237,6 +240,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
     expired.exit_code=6;expired.response.put("status",Value::string("unknown")).put("operation_id",*parameters.find("operation_id"));
     expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
     if(verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
+    else if(report_identity(parameters))expired=export_unresolved_request(request,parameters);
     return calls->run(request,[request,parameters,queue]() {
         if(verification_identity(parameters)) {verification_test_wait();return watch_verification_operation(request,parameters,queue);}
         if(report_identity(parameters)) {report_test_wait();return watch_report_worker(request,parameters,queue);}
@@ -246,7 +250,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
     if(background_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
-        json::Limits limits;if(verification_response(outcome.response) || (parsed.command_id=="operation.watch" && (acquisition_identity(parsed.parameters) || report_identity(parsed.parameters))))limits=response_limits(outcome.response);
+        json::Limits limits;if(report_response(outcome.response) || verification_response(outcome.response) || (parsed.command_id=="operation.watch" && acquisition_identity(parsed.parameters)))limits=response_limits(outcome.response);
         return host.output_usable && output.write(presentation_json(outcome.response,limits)+"\n");
     }
     if(outcome.exit_code) {

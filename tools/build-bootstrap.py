@@ -97,13 +97,15 @@ def generate(args):
         raise ValueError("Acquisition profile requires an explicit provider identity change")
     if profile.get("report_provider_id") != "provider.report.acquisition-case.prototype/1":
         raise ValueError("Report profile requires an explicit provider identity change")
+    if profile.get("joined_report_provider_id") != "provider.report.acquisition-verification.prototype/1":
+        raise ValueError("Joined report profile requires an explicit provider identity change")
     if profile.get("verification_provider_id") != "provider.image.verify.recorded.prototype/1":
         raise ValueError("Verification profile requires an explicit provider identity change")
     if composition["scope"] != "image-only" or composition["target_id"] != profile["target_id"]:
         raise ValueError("Wrong bootstrap composition")
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
-    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype"}:
+    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
         raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file observations/acquisition and recorded case report export/verification")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
@@ -157,6 +159,7 @@ def generate(args):
     header += ["static const char* const image_provider_id = " + cpp(profile["image_provider_id"]) + ";"]
     header += ["static const char* const acquisition_provider_id = " + cpp(profile["acquisition_provider_id"]) + ";"]
     header += ["static const char* const report_provider_id = " + cpp(profile["report_provider_id"]) + ";"]
+    header += ["static const char* const joined_report_provider_id = " + cpp(profile["joined_report_provider_id"]) + ";"]
     header += ["static const char* const verification_provider_id = " + cpp(profile["verification_provider_id"]) + ";"]
     for key, value in identity.items():
         header.append("static const char* const " + key + " = " + cpp(value) + ";")

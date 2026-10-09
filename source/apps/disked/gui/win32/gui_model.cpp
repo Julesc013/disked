@@ -165,9 +165,16 @@ std::string GuiModel::detail_text() const {
     // Two independently bounded replies plus private correlation fields. These
     // presentation limits do not enlarge the public protocol frame contract.
     json::Limits limits;limits.bytes=2*65536+1024;limits.values=2*8192+16;limits.depth=33;
-    const bool expanded=acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_) || report_watch_response(outcome_.response) || report_watch_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_);
+    const bool structured_form=form_ && (command_=="evidence.export" || command_=="image.verify");
+    const bool expanded=structured_form || acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_) || report_response(outcome_.response) || report_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_);
     if(expanded)limits.bytes=2*1048575+1024;
-    if(report_watch_response(outcome_.response) || report_watch_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_))limits.values=2*131072+16;
+    if(report_response(outcome_.response) || report_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_))limits.values=2*131072+16;
+    if(structured_form) {
+        // Owned raw editor text may contain the whole 64-KiB definition. Its
+        // escaping and typed review share a view with a separately bounded
+        // earlier reply; these are private display, not wire, limits.
+        limits.bytes+=6*65536+4096;limits.values+=2*8192+256;limits.string_bytes=65536;
+    }
     std::string text;
     for(const auto& line:presentation_lines(details(),limits,expanded?8388608:1048576)) {text+=line;text+="\r\n";}
     return text;

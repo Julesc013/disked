@@ -266,6 +266,9 @@ if(BUILD_TESTING)
   add_test(NAME frontend.product_export COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_product_export.py"
     --product "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_report_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.product_export PROPERTIES TIMEOUT 200 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME frontend.joined_report COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_product_export.py"
+    --product "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_report_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}" --joined)
+  set_tests_properties(frontend.joined_report PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME frontend.gui_capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_gui_capture.py"
     --product "$<TARGET_FILE:disked>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.gui_capture PROPERTIES TIMEOUT 60 RESOURCE_LOCK disked_fake_workers)

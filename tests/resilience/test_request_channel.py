@@ -11,5 +11,7 @@ class Channel(unittest.TestCase):
         self.assertTrue(v['explicit_finite_response_bound'])
         self.assertTrue(v['unknown_preserves_routing_and_observed_id'])
         self.assertTrue(v['timed_slot_retained_until_completion'])
+        self.assertTrue(v['synthetic_joined_envelope_channel_frame_render_closure'])
+        self.assertTrue(v['synthetic_joined_overflow_keeps_routing'])
         print(json.dumps(v))
 if __name__=='__main__':unittest.main(argv=[__file__]+REST)
