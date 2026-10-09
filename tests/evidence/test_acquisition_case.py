@@ -183,6 +183,9 @@ def main():
         final=call(dict(operation_id=running['operation_id'],state_directory=str(busy_state),policy=policy()))
         check('same-writer-closed-case',final['case']['collection_state']=='closed' and final['case']['claims']['worker_exit']=='not_observed_by_this_case')
     result=dict(passed=True,checks=len(observations),observations=observations,actual_acquisition_copies=copies,
+        sample=dict(case=view,case_revision=revision,source_binding=out['source_binding'],artifact=out['artifact'],
+            artifact_bytes=out['artifact_bytes'],export_outcome=exported['export_outcome'],export_receipt=exported['export_receipt'],
+            scope='generated-owned-fixture-private-envelope; artifact_bytes alone is selected support content'),
         limits=['Owned ordinary files only; no physical, actor authentication, current-image verification by case or power-loss qualification.',
             'Pure-model alterations are synthetic. The actual live-writer delay is a separate controlled fault seam.',
             'Public evidence.export admission and bounded shared-service/frontend parity remain pending.'])
