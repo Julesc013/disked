@@ -1,0 +1,27 @@
+{
+  "schema":"org.disked.servicing-preview-profile/1",
+  "status":"private-review-model",
+  "view_schema":"org.disked.servicing-view-prototype/1",
+  "request_schema":"org.disked.servicing-request-prototype/1",
+  "outcome_schema":"org.disked.servicing-preview-prototype/1",
+  "owners":["unmanaged","universal-setup","windows-installer","windows-package-deployment","os-servicing","external"],
+  "resource_roles":["payload","provider","integration","configuration","case","evidence","recovery","external-tool"],
+  "actions":["repair","update","remove","withdraw"],
+  "logical_states":["active","completed","unresolved"],
+  "worker_states":["running","exited","unreachable"],
+  "effect_states":["certain","uncertain"],
+  "cancellation_states":["not_requested","requested","acknowledged"],
+  "release_states":["held","released","unknown"],
+  "statuses":["eligible","deferred","refused"],
+  "rules":[
+    "All shapes are exact; decimal epochs are nonzero u64 strings, generation/digest references must resolve and all arrays have finite limits. Every represented operation binds at least one execution dependency.",
+    "Ownership/capture epochs in a request match the observed view. Unknown fields, duplicate resources or unresolved dependency references refuse as malformed input.",
+    "A resource has one owner; overlapping case-insensitive relative resource roots refuse. Fixture path spelling is not physical alias or ownership proof.",
+    "Only payload/provider/integration resources owned by the requesting recognized servicing owner enter review. Unmanaged/external ownership requires separate enrollment or transfer; no implicit takeover.",
+    "Every dependency uses the current capture epoch. Incomplete capture, a stale operation capture or an unreachable worker defers all requested retirement because its complete current scope is unknown. Active/unresolved/running/uncertain/held/unknown/recovery-required dependencies defer affected retirement.",
+    "Cancellation is observational and cannot override any dependency. Terminal worker exit does not imply successful effects or discharged recovery.",
+    "Repair selections and exclusions are copied from the accepted fixture view; requested selection/policy changes are outside this profile and refuse.",
+    "A withdrawal preview proposes deny_new_work only for exact provider generations while preserving required bytes; it does not apply capability policy, grant storage authority or delete files.",
+    "Eligible means this review-model constraint passed. authorizes_lifecycle remains false, requires_atomic_recheck remains true; there is no executor or installed-state truth."
+  ]
+}

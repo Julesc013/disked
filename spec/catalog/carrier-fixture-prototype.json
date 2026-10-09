@@ -1,0 +1,36 @@
+{
+  "schema": "org.disked.carrier-fixture-profile/1",
+  "status": "proposed-private-fixture",
+  "work_id": "DE-W062",
+  "product_id": "org.disked",
+  "target": "windows.nt10.x64.win32",
+  "scope": "Finite external read-only H/D/offline ZIP fixture construction, independent payload equality and servicing previews. No native installer carrier, installed-state authority or release qualification.",
+  "roles": {
+    "H": "Product-bound payload-free native read-only source-consumer fixture; contains neither D nor S and embeds no final D/S digest.",
+    "D": "The exact separately qualified dev.36 DiskEd executable; this fixture does not embed H or alter D.",
+    "S": "Stored offline ZIP fixture containing H, D and a metadata manifest. This is not a qualified native Setup carrier."
+  },
+  "layout": {"H":"host/disked-setup-host-fixture.exe","D":"payload/disked.exe","manifest":"carrier-manifest.json","S":"carrier.zip"},
+  "construction_order": ["finalize H independently", "select finalized D independently", "construct inner H/D-only binding", "construct S", "bind final S externally"],
+  "containment": {"H":[],"D":[],"S":["H","D"]},
+  "unsupported": ["embedded H", "native self-extracting S", "generic live package verification", "install/repair/update/remove", "per-user/machine/native-package integration", "signing/publication"],
+  "limits": {"host_bytes":4194304,"payload_bytes":16777216,"metadata_bytes":262144,"resources":64,"operations":32,"dependency_entries":256,"request_resources":64},
+  "host_observation": {
+    "schema":"org.disked.setup-host-fixture/1","product_id":"org.disked","role":"H-read-only-fixture",
+    "abi":65536,"contained_payloads":[],"embedded_final_payload_hash":false,
+    "generic_package_verification":false,"live_lifecycle":false,"context_created":false
+  },
+  "required_checks": [
+    "Compile and launch the product-bound H using exact original CoreStatic inputs under DiskEd-owned CMake; preserve clean source identity and raw native evidence.",
+    "Build S only into a new owned fixture root from separate original D inventory/build-info and H artifact receipt; never execute or extract carrier content in the builder.",
+    "Verify the exact independent expected entry set and decoded bytes; reject missing/extra/replaced H or D even when internal and outer metadata are consistently rewritten.",
+    "Reject cycles, H containing D/S, D containing S, recursive own/ancestor hashes and an embedded-H claim for this external fixture.",
+    "Existing roots and partial failures retain foreign/case/evidence/recovery data; no cleanup or replay claim.",
+    "An independently retained H can launch and inspect source structure when a disposable copy of D is corrupt; this establishes an inspection route, not repair or recovery success.",
+    "Servicing previews require one matching owner, exact generations and a complete current dependency capture. Active, unresolved, unreachable, stale, uncertain or recovery-required dependencies defer retirement.",
+    "Cancellation requests are not release proof. A terminal/exited observation still requires current complete closure, released resources and no recovery dependency.",
+    "Repair preserves accepted selections/exclusions and policy; external tools and case/configuration/evidence/recovery data never acquire payload ownership.",
+    "Provider withdrawal denies proposed new admission while retaining dependency-required generations. Eligible preview never grants execution authority and always requires an atomic live recheck."
+  ],
+  "unqualified": ["live servicing interlock", "filesystem ownership/alias proof", "installed SDK/CoreShared", "owner transfer", "other hosts/platforms", "full DE-W062", "owner acceptance", "full 0.1.0 release"]
+}

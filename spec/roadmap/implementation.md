@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-10T00:00:00Z'
-  scope: DE-W060 read-only native source consumer progress; proposed, no installed SDK, live Setup or owner acceptance claim
+  scope: DE-W062 finite carrier and servicing fixture progress; proposed, no live lifecycle, carrier release or owner acceptance claim
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -38,6 +38,13 @@ sources:
 ---
 
 # Implementation sequence and first usable release
+
+DE-W062 adds a private product-bound read-only H, exact finalized D and finite
+offline ZIP fixture with nonrecursive bindings. Generated servicing previews
+exercise one-owner and exact active/uncertain/recovery generation retention.
+This is not embedded/native Setup delivery or a live retirement authority.
+Clean source/native evidence and implementing-agent review govern local
+continuation; full 0.1.0, owner, channel and storage gates remain open.
 
 DE-W060's private native source consumer complements package fixtures. The
 exact CoreStatic ABI is tested on owned Windows x64 fixtures under a separate

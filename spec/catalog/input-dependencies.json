@@ -6802,6 +6802,113 @@
       "spec_ids": [
         "DE-061"
       ]
+    },
+    {
+      "id": "spec/catalog/carrier-fixture-prototype.json",
+      "path": "spec/catalog/carrier-fixture-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "external/universal-setup/native-source-lock.json",
+        "spec/catalog/setup-fixture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": "spec/catalog/servicing-preview-prototype.json",
+      "path": "spec/catalog/servicing-preview-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/carrier-fixture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": "release/carriers/fixture.py",
+      "path": "release/carriers/fixture.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/carrier-fixture-prototype.json",
+        "release/bindings/universal-setup/package_fixture.py",
+        "tests/setup/native/CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": "release/carriers/servicing_preview.py",
+      "path": "release/carriers/servicing_preview.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/servicing-preview-prototype.json",
+        "release/carriers/fixture.py"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": "release/carriers/README.md",
+      "path": "release/carriers/README.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/carrier-fixture-prototype.json",
+        "spec/catalog/servicing-preview-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": "tests/composition/test_carriers.py",
+      "path": "tests/composition/test_carriers.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "release/carriers/fixture.py",
+        "release/carriers/servicing_preview.py"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-carrier-fixtures/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-carrier-fixtures/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "release/carriers/fixture.py",
+        "release/carriers/servicing_preview.py",
+        "tests/composition/test_carriers.py",
+        ".aide/evidence/2026-10-10-setup-source-consumer/reproduce.py"
+      ],
+      "spec_ids": [
+        "DE-060",
+        "DE-063",
+        "DE-065"
+      ]
     }
   ]
 }

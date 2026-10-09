@@ -121,6 +121,18 @@ int main(int argc, char** argv)
     Counts counts = {0, 0, 0}; char* owned; size_t response_bytes = 0;
     if (_setmode(_fileno(stdin), _O_BINARY) == -1 ||
         _setmode(_fileno(stdout), _O_BINARY) == -1) return 7;
+#ifdef DISKED_SETUP_HOST_FIXTURE
+    if (argc == 2 && strcmp(argv[1], "host.inspect") == 0) {
+        printf("{\"schema\":\"org.disked.setup-host-fixture/1\",\"product_id\":\"org.disked\","
+               "\"role\":\"H-read-only-fixture\",\"abi\":%u,\"contained_payloads\":[],"
+               "\"embedded_final_payload_hash\":false,\"generic_package_verification\":false,"
+               "\"live_lifecycle\":false,\"context_created\":false,"
+               "\"source_revision\":\"%s\",\"source_state\":\"%s\",\"setup_revision\":\"%s\"}\n",
+               (unsigned)usk_abi_version_v1(), DISKED_HOST_REVISION,
+               DISKED_HOST_SOURCE_STATE, DISKED_HOST_SETUP_REVISION);
+        return ferror(stdout) ? 6 : 0;
+    }
+#endif
     if (argc == 2 && strcmp(argv[1], "selftest") == 0) return selftest();
     if (argc == 2) for (i = 0; i < sizeof(commands)/sizeof(commands[0]); ++i)
         if (strcmp(argv[1], commands[i]) == 0) known = 1;

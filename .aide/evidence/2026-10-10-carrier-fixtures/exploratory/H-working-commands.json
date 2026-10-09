@@ -1,0 +1,43 @@
+[
+  {
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\tests\\setup\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-H-working-c07044b",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DUSK_SOURCE_DIR=D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\setup-sdk-source-working-aaec12c",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+      "-DDISKED_BUILD_HOST_FIXTURE=ON"
+    ],
+    "exit_code": 0,
+    "log": "H-working-0.log"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-H-working-c07044b",
+      "--config",
+      "Release",
+      "--target",
+      "disked_setup_host_fixture"
+    ],
+    "exit_code": 0,
+    "log": "H-working-1.log"
+  },
+  {
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\carrier-H-working-c07044b\\Release\\disked_setup_host_fixture.exe",
+      "host.inspect"
+    ],
+    "exit_code": 0,
+    "log": "H-working-2.log"
+  }
+]

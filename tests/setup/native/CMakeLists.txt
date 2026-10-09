@@ -49,5 +49,28 @@ target_compile_options(disked_setup_source_candidate PRIVATE /W4 /WX)
 add_executable(setup_source_probe "${CMAKE_CURRENT_LIST_DIR}/source_probe.c")
 target_compile_options(setup_source_probe PRIVATE /W4 /WX)
 target_link_libraries(setup_source_probe PRIVATE disked_setup_source_candidate)
+option(DISKED_BUILD_HOST_FIXTURE "Build product-bound read-only H fixture" OFF)
+if(DISKED_BUILD_HOST_FIXTURE)
+  find_package(Git REQUIRED)
+  execute_process(COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD WORKING_DIRECTORY "${DISKED_ROOT}"
+    OUTPUT_VARIABLE HOST_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
+  string(LENGTH "${HOST_REVISION}" REVISION_BYTES)
+  if(NOT HOST_REVISION MATCHES "^[0-9a-f]+$" OR NOT REVISION_BYTES EQUAL 40)
+    message(FATAL_ERROR "Exact host source revision required")
+  endif()
+  execute_process(COMMAND "${GIT_EXECUTABLE}" status --porcelain WORKING_DIRECTORY "${DISKED_ROOT}"
+    OUTPUT_VARIABLE HOST_CHANGES OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
+  set(HOST_SOURCE_STATE clean)
+  if(HOST_CHANGES)
+    set(HOST_SOURCE_STATE modified)
+  endif()
+  string(JSON HOST_SETUP_REVISION GET "${LOCK}" revision)
+  add_executable(disked_setup_host_fixture "${CMAKE_CURRENT_LIST_DIR}/source_probe.c")
+  target_compile_options(disked_setup_host_fixture PRIVATE /W4 /WX)
+  target_compile_definitions(disked_setup_host_fixture PRIVATE DISKED_SETUP_HOST_FIXTURE
+    DISKED_HOST_REVISION="${HOST_REVISION}" DISKED_HOST_SOURCE_STATE="${HOST_SOURCE_STATE}"
+    DISKED_HOST_SETUP_REVISION="${HOST_SETUP_REVISION}")
+  target_link_libraries(disked_setup_host_fixture PRIVATE disked_setup_source_candidate)
+endif()
 # No add_subdirectory of upstream, script execution, install or SDK export.
 # Keep this build separate from the shipped native DiskEd composition.

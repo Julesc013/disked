@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-065
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-065-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-09T22:23:24.522988+00:00'
+  scope: DE-W062 private fixture carrier and one-owner preview; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -54,6 +54,21 @@ One product definition supplies selected component closure, signed payload, pres
 Every channel qualifies its own host floor, features, signing, silent/offline behavior and update contract against dated primary documentation. Current [Store EXE/MSI requirements](https://learn.microsoft.com/en-us/windows/apps/publish/publish-your-app/msi/app-package-requirements) include a fixed versioned HTTPS installer, signing, silent installation and a complete offline installer. That route is separate from MSIX eligibility. [MSIX tooling limitations](https://learn.microsoft.com/en-us/windows/msix/packaging-tool/tool-known-issues) include unsupported driver installation; a driver-dependent selection needs another qualified carrier. Refresh policy before submission rather than freezing a future policy date from supplied commentary.
 
 Publish only built and qualified assets: portable payload/archive, optional Setup wrapper, symbols, notices, source, provider/integration/SDK/recovery packs where present. Derive filenames, checksums and download metadata from final staging. The public basename stays `disked` (Windows display casing may be `DiskEd.exe`; legacy `DISKED.EXE`); never ship case-only variants together. Native package eligibility does not change a legacy application's runtime floor.
+
+## Initial ownership fixture
+
+The [carrier profile](../catalog/carrier-fixture-prototype.json) preserves
+unmanaged portable ownership: carrier construction does not enroll or create
+installed state. The [servicing preview](../catalog/servicing-preview-prototype.json)
+rejects Universal Setup requests against Windows Installer, Windows package
+deployment or OS-owned resources. Unmanaged/external resources require separate
+enrollment or ownership transfer; no implicit takeover is modeled.
+
+These generated views test one-owner and retention constraints without making
+any channel available. `eligible` is a private review result, with no effect
+port, storage authority or lifecycle grant. H/D/ZIP equality and an independent
+inspection route do not qualify Store/MSI/MSIX, a native Setup carrier, live
+ownership or publication. Preserve the exact broader channel gates.
 
 ## Normative requirements
 

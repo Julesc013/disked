@@ -57,3 +57,11 @@ package/export tests and the 215-test tooling suite (two skipped). The
 [source-consumer review](../.aide/evidence/2026-10-10-setup-source-consumer/REVIEW.md)
 retains actual build, launch, source/hash and import observations. The probe is
 private fixture tooling and does not replace the shipped product executable.
+
+DE-W062 adds a [finite carrier and servicing fixture](../release/carriers/README.md).
+A separately built product-bound read-only H and exact finalized dev.36 D form
+an offline stored ZIP with inner descendant bindings and an external S hash.
+This does not embed H or qualify a native Setup carrier. Servicing previews
+preserve exact active/uncertain/recovery generations, reject competing owners
+and keep external data outside payload ownership. Their generated views and
+`eligible` results grant no live servicing or storage authority.

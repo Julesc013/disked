@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-063
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-063-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-09T22:23:24.522988+00:00'
+  scope: DE-W062 private servicing dependency preview; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -52,6 +52,30 @@ Resolve target-native folders instead of hardcoding a drive. Separate immutable 
 PATH, associations, services, drivers, scheduled tasks and background updates are independent opt-in selections. Preserve foreign files and subsequent unrelated PATH/registration edits. A service account must not guess the interactive user. Installation scope neither grants nor removes storage authorization.
 
 Modify changes selections; repair restores the recorded accepted set; update resolves an explicitly new compatible set while preserving exclusions and policy; recover reconciles interrupted software maintenance. Resetting personalization does not reset enforced policy. Active jobs and recovery-required generations interlock with every owner before retirement; unreachable is not permission to delete.
+
+## Private servicing preview
+
+The [servicing profile](../catalog/servicing-preview-prototype.json) describes
+a generated ownership/capture review model, not installed-state discovery or
+execution authority. Resource roots are disjoint relative fixture footprints;
+each binds one owner, exact generation and digest. This spelling rule does not
+establish real filesystem ownership or physical alias independence.
+
+Requests bind observed ownership/capture epochs and exact affected resources.
+Incomplete capture, stale operation observations or unreachable workers defer
+all requested retirement because complete current scope is unknown. Active,
+unresolved, uncertain, held or recovery-required dependencies retain their
+exact generations. A cancellation request/acknowledgement is not release;
+worker exit alone does not prove certain effects or discharged recovery.
+
+Repair preserves accepted selections/exclusions and policy without adding GUI,
+drivers or new integrations. Configuration, case, evidence, recovery and external
+tools never acquire payload ownership. A withdrawal preview can propose new-use
+denial for exact provider generations while retaining their required bytes; it
+does not apply storage admission policy. Every outcome keeps lifecycle/storage
+authority false and requires a live atomic recheck. Captured views, owner
+transfer, authenticity, live generation leases and an actual servicing adapter
+need separate implementation/qualification before endpoint use.
 
 ## Normative requirements
 

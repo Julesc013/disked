@@ -38,6 +38,12 @@ records the completed local slice and actual refusals. Continue finite
 carrier/ownership fixture work under the programme grant while the generic
 callable verifier, installed SDK and live lifecycle remain unqualified.
 
+DE-W062 now develops the finite external H/D/offline ZIP fixture and read-only
+servicing preview. It retains direct portable use, independently selected native
+payload identities, one-owner constraints and active/unknown dependency refusal.
+Embedded/native carriers, live interlocks and owner/platform/channel admission
+remain at their original gates; the fixture is not an alternate installer.
+
 The [current validation report](../spec/reports/validation.json) records local specification tests and passive AIDE schema checks. The repository's DE-W000 handoff under `.aide/handoffs/` retains the exact base, changed files, actual results and outstanding review boundary. DE-W010 native build/launch results are retained separately under `.aide/evidence/2026-10-06-native-bootstrap/`; they do not qualify the full product or replace historical tooling results.
 
 ## Decisions that remain open

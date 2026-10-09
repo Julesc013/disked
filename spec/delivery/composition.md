@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-060
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -28,8 +28,8 @@ disked:
   - DE-REQ-060-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-09T22:23:24.522988+00:00'
+  scope: DE-W062 external read-only H/D/offline ZIP fixture contract; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -62,6 +62,29 @@ Let H be a payload-free, product-bound Setup host; D the finalized DiskEd execut
 Ordinary D startup does not extract or execute H. Explicit maintenance validates H and the source/package binding through a qualified upstream adapter and protected staging where needed. Exporting H does not recreate publisher-signed S. Corrupt D requires an independent verified host/carrier and source. A linked minimal SDK adapter or external wrapper is a separately identified alternative; it cannot inherit qualification from the embedded-host design.
 
 One entrypoint is independent of process count and installed adapter/driver footprint. The first fake build needs only a small manifest/registry from [DE-014](../architecture/component-model.md); complete H/D/S implementation and channel generators are later delivery work, not prerequisites for image parsing.
+
+## Initial finite carrier fixture
+
+The [carrier profile](../catalog/carrier-fixture-prototype.json) selects a
+product-bound native read-only H fixture, exact separately finalized dev.36 D,
+and an offline stored ZIP fixture S. This does not implement embedded H or a
+native installer carrier. H is compiled from the original pinned CoreStatic
+closure under DiskEd-owned CMake; its product/source inspection creates no
+provider context and reports generic verification/lifecycle unavailable.
+
+Build H without D/S inputs, select D independently, bind H/D descendants in
+inner metadata, construct S, then bind S externally. This topology has no
+containment cycle or final-image hash recursion. The builder copies only the
+independently verified fixed D entry into new owned staging and never launches
+or extracts carrier contents. Original D inventory/build-info and H observation
+remain separately selected expectations; hashes/observations do not authenticate
+a publisher or supply native qualification by themselves.
+
+Retain independent decoded-byte inventory checks for exact H/D/metadata entries.
+Every existing output root refuses; incomplete fixture output remains for
+inspection without cleanup or replay. A verified independently selected H may
+inspect source structure when a generated copy of D is damaged. That is an
+inspection route, not successful repair, recovery or generic lifecycle admission.
 
 ## Normative requirements
 

@@ -2817,7 +2817,7 @@
       "id": "DE-W062",
       "title": "Qualify finite carriers and servicing-owner contracts",
       "phase": "delivery",
-      "status": "planned",
+      "status": "active",
       "risk": "R2",
       "dependencies": [
         "DE-W060"
@@ -2834,7 +2834,12 @@
         "release/**",
         "tests/setup/**",
         "tests/composition/**",
-        "external/**"
+        "external/**",
+        "spec/**",
+        "docs/setup-fixtures.md",
+        "docs/development-plan.md",
+        "TODO.MD",
+        ".aide/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2853,20 +2858,35 @@
         "claiming unrun tests passed"
       ],
       "deliverables": [
-        "Pin consumer source and test H/D/S, offline payload equality and ownership on fixture directories."
+        "Pin consumer source and test H/D/S, offline payload equality and ownership on fixture directories.",
+        "Private native product-bound read-only H and exact finalized D in a deterministic offline ZIP fixture, independent inventory/bindings and preserved damage-inspection route; no embedded or native installer-carrier admission.",
+        "Finite read-only servicing review over generated exact ownership/capture/dependency views, with one-owner, current-capture, recovery retention and policy/selection preservation constraints; no live effect port."
       ],
       "acceptance": [
         "No recursive package/hash construction, silent provider acquisition or competing native owner.",
         "Active/unknown storage dependencies retain exact generations; damaged D has an independent recovery route.",
-        "Shipping carrier/channel claims require separate decision acceptance and actual qualification."
+        "Shipping carrier/channel claims require separate decision acceptance and actual qualification.",
+        "Compound internally consistent replacement cannot redefine separately selected D/H expectations; incomplete carrier output retains bytes without replay.",
+        "Incomplete/stale/unreachable operation scope defers retirement; cancellation or worker exit alone never frees required generations. Eligible/withdrawal previews grant neither software lifecycle nor storage authority."
       ],
       "validation_commands": [
         "python spec/tools/specctl.py check",
-        "python -m unittest discover -s spec/tools/tests -v"
+        "python -m unittest discover -s spec/tools/tests -v",
+        "python -m unittest discover -s tests/composition -v"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/carrier-fixture-prototype.json",
+        "spec/catalog/servicing-preview-prototype.json",
+        "release/carriers/fixture.py",
+        "release/carriers/servicing_preview.py",
+        "release/carriers/README.md",
+        "tests/composition/test_carriers.py",
+        ".aide/evidence/2026-10-10-carrier-fixtures/reproduce.py",
+        "tests/setup/native/CMakeLists.txt",
+        "tests/setup/native/source_probe.c"
+      ]
     },
     {
       "id": "DE-W063",
