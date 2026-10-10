@@ -1,3 +1,4 @@
+#include "app.h"
 #include "cli.h"
 #include "command_registry.h"
 #include "bootstrap_registry.h"
@@ -248,53 +249,13 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
     },std::move(expired),std::chrono::milliseconds(4000),[&]() {Value event;while(queue->pop(event))if(!output(event))return false;return true;},request_bytes("operation.watch",parameters));
 }
 bool human(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,WindowsOutput& output,WindowsOutput& errors) {
-    if(background_command(parsed.command_id) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
-    {
-        json::Limits limits;if(report_response(outcome.response) || verification_response(outcome.response) || (parsed.command_id=="operation.watch" && acquisition_identity(parsed.parameters)))limits=response_limits(outcome.response);
-        return host.output_usable && output.write(presentation_json(outcome.response,limits)+"\n");
-    }
-    if(outcome.exit_code) {
-        if(!host.error_usable)return false;
-        std::string text;for(const auto& d:outcome.response.find("diagnostics")->items)text+="disked: "+d.find("code")->text+"\n";
-        return errors.write(std::move(text));
-    }
-    if(!host.output_usable)return false;
-    const auto& value=*outcome.response.find("result");std::string text;
-    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")text=presentation_json(value)+"\n";
-    else if(parsed.command_id=="mode.explain" && parsed.kind!="help")text=json::dump(value)+"\n";
-    else if(parsed.command_id=="build.inspect" && parsed.kind!="help") {
-        for(const auto& pair:value.fields)text+=pair.first+"="+pair.second.text+"\n";
-    } else {
-        if(parsed.kind=="help")text+="DiskEd (ordinary-file image and fake native composition)\nUsage: disked <command-form> [operands] [options]\n";
-        text+="id\tcontract_status\timplementation_status\tavailability\treason\tcommand\taliases\n";
-        for(const auto& c:value.find("commands")->items) {
-            for(const auto* key:{"id","contract_status","implementation_status","availability","reason"})text+=c.find(key)->text+"\t";
-            bool first=true;
-            for(const auto& word:c.find("words")->items) {text+=(first?"":" ")+word.text;first=false;}
-            text+='\t';first=true;
-            for(const auto& alias:c.find("aliases")->items) {text+=(first?"":", ")+alias.text;first=false;}
-            text+='\n';
-            if(parsed.kind=="help") {
-                text+="  "+c.find("summary")->text+"\n";
-                for(const auto& binding:c.find("argument_bindings")->items) {
-                    const auto* option=binding.find("option");
-                    text+="  "+(option?option->text+" ":"operand: ")+binding.find("parameter")->text+"\n";
-                }
-            }
-        }
-        if(parsed.kind=="help") {
-            text+="Global options (may precede, separate or follow command words before --):\n";
-            for(const auto& option:command_registry().syntax.find("global_options")->items) {
-                for(const auto& spelling:option.find("spellings")->items)text+="  "+spelling.text;
-                if(const auto* choices=option.find("choices"))for(const auto& choice:choices->items)text+=" "+choice.text;
-                text+='\n';
-            }
-        }
-    }
-    return output.write(std::move(text));
+    auto text=cli_text(outcome,parsed,host,command_registry(),background_command(parsed.command_id),
+        parsed.command_id=="operation.watch" && acquisition_identity(parsed.parameters));
+    if(!text.available)return false;
+    return text.diagnostic?errors.write(std::move(text.bytes)):output.write(std::move(text.bytes));
 }
 }
-int run_cli(const std::vector<std::string>& arguments,const InvocationHost& host) {
+int run_disked(const std::vector<std::string>& arguments,const InvocationHost& host) {
     bool machine=false;WindowsOutput output(stdout),errors(stderr);
     auto emit=[&](const Value& value) {return output.write(response_frame(value));};
     try {

@@ -2,7 +2,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "invocation.h"
-#include "cli.h"
+#include "app.h"
 #include "fake_worker.h"
 #include "acquisition_worker.h"
 #include "report_worker.h"
@@ -36,7 +36,7 @@ int windows_entry(int argc,wchar_t** argv) {
                 arguments.emplace_back(1,static_cast<char>(0xff));
             else {word.pop_back();arguments.push_back(std::move(word));}
         }
-        return run_cli(arguments,host);
+        return run_disked(arguments,host);
     } catch(const std::exception&) {
         if(host.error_usable)WindowsOutput(stderr).write("disked: internal_error\n");
         return 4;

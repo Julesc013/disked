@@ -38,3 +38,5 @@ The repository's `spec/` tree owns normative requirements, schema files, catalog
 ## Read further
 
 [System boundaries](../spec/architecture/system.md), [resource identity](../spec/storage/identity-and-graph.md), [planning](../spec/safety/planning.md), [recovery](../spec/safety/journal-and-recovery.md), and [target compositions](../spec/delivery/composition.md) define the detailed contracts. See also [components](../spec/architecture/component-model.md), [execution roles](../spec/architecture/execution-topology.md), [degraded operation](../spec/safety/degraded-operation.md), [native integration](../spec/interaction/native-integration.md), and the [development plan](development-plan.md).
+
+The [source file map](source-map.md) explains each current file, CLI/frontend/terminal ownership, naming and future extension locations. Its planned locations are not implementation or platform-admission claims.

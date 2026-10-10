@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-027
   profile: disked-spec/1
-  version: 0.1.10-proposed.1
+  version: 0.1.11-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,9 @@ disked:
   - DE-REQ-027-02
 updated:
   by: codex
-  at: '2026-10-08T19:14:13.655056+00:00'
-  scope: DE-W033 structured acquisition input and bounded observation presentation; owner acceptance pending
+  at: '2026-10-10T03:33:05.006855+00:00'
+  scope: DE-W030 compiled private cached-observation frontend contract; live/provider/public
+    protocol, window/terminal/platform and owner admission remain open
 sources:
 - id: review-08a8246-2026-10-04
   resource: ../references/sources.json#review-08a8246-2026-10-04
@@ -153,3 +154,16 @@ The persistent shell MUST be explicitly selected, use canonical typed dispatch a
 Shell history, prompts and transcripts MUST have explicit ownership, bounds and redaction without substituting for operation evidence.
 
 **Verification:** Exercise disabled and session-only history, read-only payload roots, secret-bearing inputs and transient prompts; closing the shell must not fabricate operation completion.
+
+## Private cached-observation extension
+
+The compiled DE-W030 `CachedObservations` composition extends these same shell
+actions and bounds without adding another shell. It offers at most 320 cached
+descriptor/evidence candidates, within DE-030's graph node bound; the ordinary
+fake composition keeps its 64-candidate cap. Evidence IDs are offered only for
+cached inspection and capability explanation, never for health or other target
+parameters. Evidence focus appears separately in the prompt and never fills
+`target_id`. The provisional cached-view result uses DE-023's private display
+limits and the existing 8-MiB/64-record transcript budget. Completion performs
+no provider query, reader restart or storage effect. Public protocol and actual
+terminal/platform admission remain separate qualification gates.

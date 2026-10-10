@@ -145,3 +145,27 @@ target_include_directories(nt_storage_worker_probe PRIVATE
 target_compile_definitions(nt_storage_worker_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_OBSERVATION_WORKER_TESTING=1)
 target_compile_options(nt_storage_worker_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_storage_worker_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+add_executable(nt_observation_frontend_probe
+  "${CMAKE_CURRENT_LIST_DIR}/observation_frontend_probe.cpp"
+  "${DISKED_ROOT}/source/platform/windows/memory_budget.cpp"
+  "${DISKED_ROOT}/source/runtime/presentation/session.cpp"
+  "${DISKED_ROOT}/source/runtime/presentation/requests.cpp"
+  "${DISKED_ROOT}/source/runtime/command/command.cpp"
+  "${DISKED_ROOT}/source/runtime/command/protocol.cpp"
+  "${DISKED_ROOT}/source/runtime/command/shell_lexer.cpp"
+  "${DISKED_ROOT}/source/apps/disked/tui/tui_model.cpp"
+  "${DISKED_ROOT}/source/apps/disked/gui/gui_model.cpp"
+  "${DISKED_ROOT}/source/apps/disked/shell/shell_model.cpp")
+get_target_property(observation_shared_sources nt_storage_worker_probe SOURCES)
+list(FILTER observation_shared_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
+target_sources(nt_observation_frontend_probe PRIVATE ${observation_shared_sources})
+get_target_property(observation_shared_includes nt_storage_worker_probe INCLUDE_DIRECTORIES)
+target_include_directories(nt_observation_frontend_probe PRIVATE ${observation_shared_includes}
+  "${DISKED_ROOT}/source/runtime/presentation"
+  "${DISKED_ROOT}/source/apps/disked/tui"
+  "${DISKED_ROOT}/source/apps/disked/gui"
+  "${DISKED_ROOT}/source/apps/disked/shell")
+target_compile_definitions(nt_observation_frontend_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_OBSERVATION_WORKER_TESTING=1)
+target_compile_options(nt_observation_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_observation_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)

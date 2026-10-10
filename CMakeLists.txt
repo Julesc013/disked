@@ -201,14 +201,14 @@ target_link_libraries(disked_image_actions PUBLIC disked_map_observation)
 set_target_properties(disked_image_actions PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_image_actions PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_tui STATIC source/apps/disked/tui/model.cpp)
+add_library(disked_tui STATIC source/apps/disked/tui/tui_model.cpp)
 target_include_directories(disked_tui PUBLIC source/apps/disked/tui)
 target_link_libraries(disked_tui PUBLIC disked_presentation)
 set_target_properties(disked_tui PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_tui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
-add_library(disked_gui STATIC source/apps/disked/gui/win32/gui_model.cpp)
-target_include_directories(disked_gui PUBLIC source/apps/disked/gui/win32)
+add_library(disked_gui STATIC source/apps/disked/gui/gui_model.cpp)
+target_include_directories(disked_gui PUBLIC source/apps/disked/gui)
 target_link_libraries(disked_gui PUBLIC disked_presentation)
 set_target_properties(disked_gui PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_gui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -233,11 +233,11 @@ add_custom_target(bootstrap_registry ALL
   COMMENT "Bind current Git revision and native input bytes" VERBATIM)
 
 function(bootstrap_executable target)
-  add_executable(${target} source/apps/disked/main.cpp source/apps/disked/cli.cpp source/apps/disked/command_registry.cpp
+  add_executable(${target} source/apps/disked/main.cpp source/apps/disked/app.cpp source/apps/disked/cli/cli.cpp source/apps/disked/command_registry.cpp
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp
     source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/memory_budget.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
-  target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked)
+  target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked source/apps/disked/cli)
   target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell disked_image_actions disked_file_acquisition disked_acquisition_observation disked_health_observation disked_file_acquisition_export disked_file_verification_case_export disked_report_observation disked_file_image_verification disked_verification_observation)
   target_sources(${target} PRIVATE source/platform/windows/acquisition_worker.cpp source/platform/windows/report_worker.cpp source/platform/windows/verification_worker.cpp)
   if(target STREQUAL "disked_image_test")

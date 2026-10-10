@@ -138,8 +138,11 @@ Value GuiModel::rows() const {
         const auto id=c.find("id")->text;
         result.items.push_back(Value::object().put("id",Value::string(id))
             .put("state",Value::string(id=="protocol.serve"?"transport-only":available(id)?"available":"unavailable")));
-    } else for(const auto& n:snapshot_->value().find("nodes")->items)
-        result.items.push_back(Value::object().put("id",*n.find("id")).put("state",*n.find("properties")->find("state")));
+    } else for(const auto& n:snapshot_->value().find("nodes")->items) {
+        auto row=Value::object().put("id",*n.find("id")).put("state",*n.find("properties")->find("state"));
+        if(session_.cached_observations())row.put("scope",*n.find("properties")->find("scope"));
+        result.items.push_back(std::move(row));
+    }
     return result;
 }
 Value GuiModel::details() const {
@@ -175,8 +178,12 @@ std::string GuiModel::detail_text() const {
         // earlier reply; these are private display, not wire, limits.
         limits.bytes+=6*65536+4096;limits.values+=2*8192+256;limits.string_bytes=65536;
     }
+    if(session_.cached_observations()) {
+        const auto cached=cached_observation_view_limits();limits.bytes=(std::max)(limits.bytes,2*cached.bytes+4096);
+        limits.values=(std::max)(limits.values,2*cached.values+64);limits.depth=(std::max)(limits.depth,std::size_t(35));
+    }
     std::string text;
-    for(const auto& line:presentation_lines(details(),limits,expanded?8388608:1048576)) {text+=line;text+="\r\n";}
+    for(const auto& line:presentation_lines(details(),limits,expanded || session_.cached_observations()?8388608:1048576)) {text+=line;text+="\r\n";}
     return text;
 }
 }

@@ -1480,13 +1480,14 @@
     },
     {
       "id": "source/apps/disked/cli.cpp",
-      "path": "source/apps/disked/cli.cpp",
+      "path": "source/apps/disked/app.cpp",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
         "source/platform/windows/acquisition_worker.h",
         "source/providers/image/file_capture.h",
-        "source/runtime/capture/image_commands.h"
+        "source/runtime/capture/image_commands.h",
+        "source/apps/disked/cli/cli.cpp"
       ],
       "spec_ids": [
         "DE-021",
@@ -1495,7 +1496,7 @@
     },
     {
       "id": "source/apps/disked/cli.h",
-      "path": "source/apps/disked/cli.h",
+      "path": "source/apps/disked/app.h",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [],
@@ -1762,7 +1763,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/command/protocol.h"
+        "source/runtime/command/protocol.h",
+        "source/runtime/presentation/session.h",
+        "spec/catalog/observation-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -1776,7 +1779,9 @@
       "path": "source/runtime/presentation/session.h",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "spec/catalog/observation-frontend-prototype.json"
+      ],
       "spec_ids": [
         "DE-023",
         "DE-030",
@@ -1876,21 +1881,24 @@
     },
     {
       "id": "source/apps/disked/tui/model.cpp",
-      "path": "source/apps/disked/tui/model.cpp",
+      "path": "source/apps/disked/tui/tui_model.cpp",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/command/command.h",
-        "spec/schemas/acquisition-command-parameters.schema.json"
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "source/runtime/presentation/session.h",
+        "spec/catalog/observation-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-024",
-        "DE-026"
+        "DE-026",
+        "DE-023"
       ]
     },
     {
       "id": "source/apps/disked/tui/model.h",
-      "path": "source/apps/disked/tui/model.h",
+      "path": "source/apps/disked/tui/tui_model.h",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [],
@@ -1969,12 +1977,14 @@
     },
     {
       "id": "source/apps/disked/gui/win32/gui_model.cpp",
-      "path": "source/apps/disked/gui/win32/gui_model.cpp",
+      "path": "source/apps/disked/gui/gui_model.cpp",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/command/command.h",
-        "spec/schemas/acquisition-command-parameters.schema.json"
+        "spec/schemas/acquisition-command-parameters.schema.json",
+        "source/runtime/presentation/session.h",
+        "spec/catalog/observation-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -1985,7 +1995,7 @@
     },
     {
       "id": "source/apps/disked/gui/win32/gui_model.h",
-      "path": "source/apps/disked/gui/win32/gui_model.h",
+      "path": "source/apps/disked/gui/gui_model.h",
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [],
@@ -2228,7 +2238,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/runtime/command/shell_lexer.h",
-        "source/runtime/presentation/session.h"
+        "source/runtime/presentation/session.h",
+        "spec/catalog/observation-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-027",
@@ -7005,7 +7016,8 @@
         "source/providers/windows/storage_graph.cpp",
         "tests/windows/native/storage_fixture.h",
         "tests/windows/native/storage_fixture.cpp",
-        "tests/windows/native/storage_worker_probe.cpp"
+        "tests/windows/native/storage_worker_probe.cpp",
+        "tests/windows/native/observation_frontend_probe.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7636,6 +7648,126 @@
         "DE-030",
         "DE-034",
         "DE-101"
+      ]
+    },
+    {
+      "id": "source/apps/disked/cli/cli.h",
+      "path": "source/apps/disked/cli/cli.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/command.h",
+        "source/runtime/invocation/policy.h",
+        "source/runtime/command/protocol.h"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-028"
+      ]
+    },
+    {
+      "id": "source/apps/disked/cli/cli.cpp",
+      "path": "source/apps/disked/cli/cli.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/command.h",
+        "source/runtime/invocation/policy.h",
+        "source/runtime/command/protocol.h",
+        "source/apps/disked/cli/cli.h",
+        "source/runtime/presentation/session.h"
+      ],
+      "spec_ids": [
+        "DE-021",
+        "DE-028"
+      ]
+    },
+    {
+      "id": "spec/catalog/observation-frontend-prototype.json",
+      "path": "spec/catalog/observation-frontend-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-030"
+      ]
+    },
+    {
+      "id": "tests/windows/native/observation_frontend_probe.cpp",
+      "path": "tests/windows/native/observation_frontend_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/presentation/session.cpp",
+        "source/runtime/presentation/requests.cpp",
+        "source/providers/windows/storage_graph.cpp",
+        "source/providers/windows/namespace_graph.cpp",
+        "source/platform/windows/memory_budget.cpp",
+        "tests/windows/native/volume_fixture.cpp",
+        "tests/windows/native/storage_fixture.cpp",
+        "source/apps/disked/tui/model.cpp",
+        "source/apps/disked/gui/win32/gui_model.cpp",
+        "source/apps/disked/shell/shell_model.cpp"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_observation_frontend.py",
+      "path": "tests/windows/test_observation_frontend.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_volume_namespace.py",
+        "tools/build-bootstrap.py",
+        "spec/catalog/observation-frontend-prototype.json",
+        "spec/catalog/commands.json",
+        "spec/catalog/cli-syntax.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-observation-frontend/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-observation-frontend/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/native/observation_frontend_probe.cpp",
+        "tests/windows/native/CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "docs/source-map.md",
+      "path": "docs/source-map.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/check-source-map.py"
+      ],
+      "spec_ids": [
+        "DE-011"
+      ]
+    },
+    {
+      "id": "tools/check-source-map.py",
+      "path": "tools/check-source-map.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-011"
       ]
     }
   ]

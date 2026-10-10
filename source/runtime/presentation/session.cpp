@@ -3,21 +3,25 @@
 
 namespace disked {
 using json::Value;
-FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial,ObservationPoll observations,HealthObservation health):
-    registry_(registry),observations_(std::move(observations)),health_(std::move(health)) {publish(initial);}
+FrontendSession::FrontendSession(const Registry& registry,const GraphInput& initial,ObservationPoll observations,HealthObservation health,FrontendProfile profile):
+    registry_(registry),profile_(profile),observations_(std::move(observations)),health_(std::move(health)) {
+    if(profile!=FrontendProfile::Fake && profile!=FrontendProfile::CachedObservations)throw std::invalid_argument("frontend_profile_invalid");
+    publish(initial);
+}
 bool FrontendSession::refresh_observations() {
     if(!observations_)return false;auto next=observations_();if(!next || next==observed_)return false;
     publish(*next);observed_=std::move(next);return true;
 }
 void FrontendSession::publish(const GraphInput& input) {
-    // Native observation frontend semantics and budgets require their own
-    // admission. Never label an unadmitted profile as a fake storage target.
-    if(input.profile!=GraphProfile::Fake)throw std::invalid_argument("graph_profile_not_admitted");
+    if(input.profile!=(cached_observations()?GraphProfile::Observations:GraphProfile::Fake))throw std::invalid_argument("graph_profile_not_admitted");
     if(epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::invalid_argument("epoch_limit");
     auto next=GraphSnapshot::create(input,epoch_+1);
     auto identities=identities_;
     for(const auto& node:next->value().find("nodes")->items) {
         const auto& id=node.find("id")->text;const auto& p=*node.find("properties");
+        // Evidence IDs do not become media identity tombstones. GraphSnapshot
+        // already checks their exact hash binding and absence of media claims.
+        if(p.find("scope")->text=="observation-only")continue;
         const auto identity=json::dump(Value::object().put("identity",*p.find("identity")).put("generation",*p.find("media_generation")));
         auto prior=identities.find(id);
         if(prior!=identities.end() && prior->second!=identity)throw std::invalid_argument("identity_reuse");
@@ -28,8 +32,21 @@ void FrontendSession::publish(const GraphInput& input) {
     identities_.swap(identities);snapshot_.swap(next);++epoch_;
 }
 Value FrontendSession::selection() const {
-    return Value::object().put("target_id",selected_.empty()?Value{}:Value::string(selected_))
-        .put("state",Value::string(selected_.empty()?"none":snapshot_->node(selected_)?"present":"missing"));
+    return selection_value(selected_,selected_observation_);
+}
+Value FrontendSession::selection_value(const std::string& id,bool observation) const {
+    auto result=Value::object().put("target_id",id.empty() || observation?Value{}:Value::string(id))
+        .put("state",Value::string(id.empty()?"none":snapshot_->node(id)?"present":"missing"));
+    if(cached_observations())result.put("observation_id",id.empty() || !observation?Value{}:Value::string(id))
+        .put("scope",Value::string(id.empty()?"none":observation?"observation-only":"fake-only"));
+    return result;
+}
+Value FrontendSession::cached_view(Value content) const {
+    content.put("schema",Value::string("org.disked.cached-observation-view/1")).put("scope",Value::string("cached-observations"))
+        .put("capture_id",*snapshot_->value().find("capture_id")).put("basis_revision",Value::string(snapshot_->revision()))
+        .put("physical_admission",Value::boolean_value(false)).put("mutation_authority",Value::boolean_value(false))
+        .put("provider_admitted",Value::boolean_value(false));
+    json::dump(content,cached_observation_view_limits());return content;
 }
 Outcome FrontendSession::act(const FrontendAction& action) {
     refresh_observations();return act_cached(action);
@@ -38,12 +55,18 @@ Outcome FrontendSession::act_cached(const FrontendAction& action) {
     if(action.expected_revision!=snapshot_->revision())return refused(action.request_id,"revision_conflict");
     if(action.kind==ActionKind::ClearSelection) {
         if(!action.target_id.empty())return refused(action.request_id,"invalid_action");
-        selected_.clear();return completed(action.request_id,selection());
+        auto result=completed(action.request_id,selection_value("",false));selected_.clear();selected_observation_=false;return result;
     }
     if(action.kind!=ActionKind::Select && action.kind!=ActionKind::Inspect)return refused(action.request_id,"invalid_action");
     const auto* node=snapshot_->node(action.target_id);
     if(!node)return refused(action.request_id,"target_not_found");
-    if(action.kind==ActionKind::Select) {selected_=action.target_id;return completed(action.request_id,selection());}
+    if(action.kind==ActionKind::Select) {
+        const bool observation=node->find("properties")->find("scope")->text=="observation-only";
+        auto next=action.target_id;auto result=completed(action.request_id,selection_value(next,observation));
+        selected_.swap(next);selected_observation_=observation;return result;
+    }
+    if(cached_observations())return completed(action.request_id,cached_view(Value::object().put("node",*node)
+        .put("node_scope",*node->find("properties")->find("scope"))));
     return completed(action.request_id,Value::object().put("scope",Value::string("fake-only"))
         .put("capture_id",*snapshot_->value().find("capture_id")).put("basis_revision",Value::string(snapshot_->revision())).put("target",*node));
 }
@@ -51,7 +74,8 @@ bool FrontendSession::handles(const std::string& command) {
     return command=="target.list" || command=="target.inspect" || command=="topology.show" || command=="capability.explain" || command=="health.assess";
 }
 Value FrontendSession::assessment(const std::string& target,const std::string& operation) const {
-    const auto& state=snapshot_->node(target)->find("properties")->find("state")->text;
+    const auto& properties=*snapshot_->node(target)->find("properties");const auto& state=properties.find("state")->text;
+    const bool observation=properties.find("scope")->text=="observation-only";
     Value checks=Value::object(),blockers=Value::array();
     const bool cached_read=handles(operation) && operation!="health.assess";
     const bool health_read=operation=="health.assess" && static_cast<bool>(health_);
@@ -64,15 +88,21 @@ Value FrontendSession::assessment(const std::string& target,const std::string& o
         if(name=="permission" && state=="denied")status="denied";
         if((name=="freshness" && state=="stale") || (name=="target_state" && state=="unknown"))status="unknown";
         if((name=="policy" || name=="recovery") && !cached_read && !health_read)status="unavailable";
+        if(observation) {
+            if(name=="provider" || name=="recovery")status="unavailable";
+            if(name=="host_media" || name=="permission" || name=="freshness" || name=="target_state")status="unknown";
+            if((name=="implementation" || name=="policy" || name=="resources") && !cached_read)status="unavailable";
+        }
         checks.put(name,Value::string(status));
         if(status!="satisfied")blockers.items.push_back(Value::string(name+":"+status));
     }
     Value alternatives=Value::array();alternatives.items.push_back(Value::string("inspect_cached_observations"));
-    return Value::object().put("schema",Value::string("org.disked.capability-assessment/1"))
-        .put("operation",Value::string(operation)).put("target_id",Value::string(target))
-        .put("basis_revision",Value::string(snapshot_->revision())).put("provider_reference",Value::string("provider.fake.bootstrap/1"))
+    auto result=Value::object().put("schema",Value::string("org.disked.capability-assessment/1"))
+        .put("operation",Value::string(operation)).put("target_id",observation?Value{}:Value::string(target))
+        .put("basis_revision",Value::string(snapshot_->revision())).put("provider_reference",observation?Value{}:Value::string("provider.fake.bootstrap/1"))
         .put("checks",std::move(checks)).put("execution_eligible",Value::boolean_value(false)).put("blockers",std::move(blockers))
         .put("alternatives",std::move(alternatives)).put("authorizes_execution",Value::boolean_value(false));
+    if(observation)result.put("observation_id",Value::string(target));return result;
 }
 Outcome FrontendSession::dispatch(const std::string& request,const std::string& command,const Value& parameters,const std::string& revision) {
     const auto* descriptor=registry_.command(command);
@@ -81,9 +111,12 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     if(!error.empty())return refused(request,error);
     refresh_observations();
     if(!revision.empty() && revision!=snapshot_->revision())return refused(request,"revision_conflict");
-    if(command=="topology.show")return completed(request,snapshot_->value());
+    if(command=="topology.show")return completed(request,cached_observations()?cached_view(Value::object().put("graph",snapshot_->value())):snapshot_->value());
     if(command=="target.list") {
-        Value ids=Value::array();for(const auto& node:snapshot_->value().find("nodes")->items)ids.items.push_back(*node.find("id"));
+        Value ids=Value::array(),observations=Value::array();for(const auto& node:snapshot_->value().find("nodes")->items) {
+            auto& list=node.find("properties")->find("scope")->text=="observation-only"?observations:ids;list.items.push_back(*node.find("id"));
+        }
+        if(cached_observations())return completed(request,cached_view(Value::object().put("graph",snapshot_->value()).put("target_ids",std::move(ids)).put("observation_ids",std::move(observations))));
         return completed(request,Value::object().put("scope",Value::string("fake-only")).put("graph",snapshot_->value()).put("target_ids",std::move(ids)));
     }
     const auto& target=parameters.find("target_id")->text;
@@ -91,6 +124,7 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     if(!snapshot_->node(target))return refused(request,"target_not_found");
     if(command=="health.assess") {
         const auto& node=*snapshot_->node(target);const auto& state=node.find("properties")->find("state")->text;
+        if(node.find("properties")->find("scope")->text=="observation-only")return refused(request,"observation_not_storage_target",3);
         if(state=="stale")return refused(request,"health_observation_stale");
         if(state=="denied")return refused(request,"health_observation_denied",3);
         if(!health_)return refused(request,"health_observer_unavailable",3);
@@ -102,7 +136,8 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     }
     const auto& operation=parameters.find("operation")->text;
     if(!registry_.command(operation))return refused(request,"operation_unavailable",3);
-    return completed(request,Value::object().put("scope",Value::string("fake-only")).put("assessment",assessment(target,operation)));
+    auto result=Value::object().put("scope",Value::string("fake-only")).put("assessment",assessment(target,operation));
+    return completed(request,cached_observations()?cached_view(std::move(result)):std::move(result));
 }
 std::string presentation_json(const Value& value,json::Limits limits) {
     const auto utf8=json::dump(value,limits);std::string ascii;ascii.reserve(utf8.size());
@@ -139,13 +174,23 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
     if(bytes>display_bytes)return {text};return lines;
 }
 std::vector<std::string> observation_lines(const Value& value) {
-    json::Limits limits;const bool expanded=acquisition_watch_response(value) || report_response(value) || verification_response(value);
-    if(expanded)limits=response_limits(value);
+    json::Limits limits;const bool cached=cached_observation_response(value);
+    const bool expanded=cached || acquisition_watch_response(value) || report_response(value) || verification_response(value);
+    if(expanded)limits=cached?cached_observation_view_limits():response_limits(value);
     // A private inert review wraps one independently bounded parameter object.
     // It is not classified as a completed report or given report wire limits.
     const auto* command=value.find("command");
     if(command && (command->text=="evidence.export" || command->text=="image.verify") && value.find("parameters")) {limits.bytes=65536+4096;limits.depth=33;}
     return presentation_lines(value,limits,expanded?4194304:1048576);
+}
+bool cached_observation_response(const Value& value) {
+    const auto* result=value.find("result");if(!result || result->kind!=Value::Kind::object)return false;
+    const auto* schema=result->find("schema"),*scope=result->find("scope");
+    return schema && schema->kind==Value::Kind::string && schema->text=="org.disked.cached-observation-view/1" &&
+        scope && scope->kind==Value::Kind::string && scope->text=="cached-observations";
+}
+json::Limits cached_observation_view_limits() {
+    json::Limits limits;limits.bytes=851968;limits.values=33792;limits.depth=34;return limits;
 }
 
 }

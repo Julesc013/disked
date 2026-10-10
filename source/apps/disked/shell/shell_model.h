@@ -1,5 +1,5 @@
 #pragma once
-#include "model.h"
+#include "tui_model.h"
 #include "shell_lexer.h"
 #include <deque>
 

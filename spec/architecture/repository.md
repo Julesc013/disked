@@ -1,7 +1,8 @@
 ---
 type: DiskEd Specification
 title: Repository architecture and ownership
-description: Root spec authority, deliberate source modules and no duplicated canonical trees.
+description: Root spec authority, deliberate source modules and no duplicated canonical
+  trees.
 resource: disked://spec/de-011
 tags:
 - disked
@@ -13,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +26,9 @@ disked:
   - DE-REQ-011-02
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-10T03:31:20.362308+00:00'
+  scope: Owner-requested source naming/ownership clarification; private path migration,
+    public semantics unchanged; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -58,6 +60,37 @@ external/       exact dependency provenance and approved patches
 ```
 
 The indentation above is descriptive, not literal directory names. Do not generate an empty directory for every future platform. Use only the declared `source/` ownership tree; avoid `src/`, parallel modern/legacy source copies and OS-specific long-lived branches. Differences belong to target profiles and adapter modules. Keep raw images, builds and old distributions outside Git; retain recipes and content hashes.
+
+## Source naming and frontend placement
+
+Use short lower-case portable paths and descriptive `snake_case` basenames.
+Directories express ownership; basenames express responsibility. Qualify a
+cross-module name when it would otherwise be ambiguous (`tui_model`,
+`shell_model`, `gui_model`), without repeating every ancestor or prefixing every
+private file with the product name. A clear module concept such as `extent` or
+`snapshot` may use a shorter basename. Do not create generic `misc`, `utils` or
+`common` owners to avoid deciding where a responsibility belongs.
+
+`source/apps/disked/app.*` owns product composition and frontend selection.
+CLI presentation has its own `cli/` owner alongside `tui/`, `shell/` and `gui/`.
+The shared command grammar, descriptors and handlers remain under runtime and
+canonical spec owners. GUI models without toolkit calls belong directly in
+`gui/`; real window/console/terminal API hosts belong under platform. Add a
+toolkit child only when implemented toolkit-specific behavior requires one.
+
+Concrete platform entry/UI hosts may consume product frontend factories/models;
+they are not a platform-neutral public library. Portable/runtime modules do not
+import concrete product hosts/providers. Backend-specific adapters may contain
+host calls behind runtime ports; extracting a generic host service requires an
+actual responsibility boundary and consumer, not a speculative empty folder.
+
+The contributor `docs/source-map.md` explains every current
+source file and routes the currently planned capability families to owners.
+`python tools/check-source-map.py` checks current-file coverage. Future filenames
+and empty trees are not frozen ahead of their contracts. A source move updates
+build inputs, includes, work allowlists, registry paths and affected tests;
+stable input/module IDs may retain identity independently of their current path.
+Historical evidence keeps the exact reviewed source paths/hashes/revision.
 
 ## Spec substructure
 

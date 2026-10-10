@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.15-proposed.1
+  version: 0.1.16-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,8 +32,9 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-06T17:17:44.526751+00:00'
-  scope: DE-W017 private capture epochs and native provider-failure campaign; owner acceptance pending
+  at: '2026-10-10T03:33:05.006855+00:00'
+  scope: DE-W030 compiled private cached-observation frontend contract; live/provider/public
+    protocol, window/terminal/platform and owner admission remain open
 ---
 
 # FrontendSession and semantic parity
@@ -182,3 +183,41 @@ Every visual storage map MUST have a keyboard- and assistive-technology-usable s
 
 - [DE-021](commands.md)
 - [DE-022](protocol.md)
+
+## Private cached-observation composition
+
+DE-W030's [selected frontend profile](../catalog/observation-frontend-prototype.json)
+extends this same service and frontend models through a compiled, explicit
+`CachedObservations` choice. The ordinary product keeps `Fake` and rejects an
+observation graph. Inputs, invocation controls and environment data cannot
+select the private composition. This is no public ABI or native provider admission.
+
+Observation focus preserves the exact evidence ID in `observation_id` and keeps
+`target_id` null. Its `scope` is `observation-only`; disappearance remains `missing`
+at that ID. Refresh, repeated names and later provider epochs never rebind it.
+Explicit fake peers retain their media identity checks and ordinary target IDs.
+Only fake media consume the 1,024-entry identity history. The larger private
+graph retains DE-030's bounds; validation/allocation precede atomic publication.
+Failed publication never acknowledges the retained source pointer or changes
+the old view/selection. Polling delivers retained immutable data without provider
+calls; the application coordinator separately owns reader lifecycle.
+
+Cached list/topology/inspect/capability results use the provisional
+`org.disked.cached-observation-view/1` result with `scope: cached-observations`.
+List separates ordered fake `target_ids` from evidence `observation_ids`.
+Inspection preserves the exact node, names, receipts and source/context bindings.
+Capability explanation keeps physical identity/freshness/permission/qualification
+unknown and storage provider/recovery unavailable; execution and authority stay
+false. `health.assess` on evidence returns `observation_not_storage_target`
+(exit 3), without calling the health port. Unsupported commands remain unavailable.
+Stale revisions conflict before lookup. GUI/TUI target-form defaults and shell
+health/mutation completion never substitute evidence focus for a media target.
+
+One private display value permits 851,968 bytes, 33,792 values and depth 34;
+inert ASCII display is bounded to 4 MiB. GUI/TUI current/earlier views and the shell
+transcript use at most 8 MiB, with the shell's existing 64-record eviction bound.
+The selected native controller runs under the existing actual 256-MiB frontend
+process memory job. These display limits do not change transport or producer
+schemas, prove provider provenance, or confer authority. Actual-window/terminal,
+accessibility, live/product/provider, public protocol and other-host/platform
+qualification remain separate work.

@@ -29,7 +29,7 @@ std::string words(const Value& descriptor) {
 }
 ShellModel::ShellModel(FrontendSession& session,const Registry& registry,Value discovery,FrontendHandler dispatch,bool history,CompletionPoll poll):
     session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()),history_enabled_(history) {
-    record("session",Value::object().put("host",Value::string("local fake composition"))
+    record("session",Value::object().put("host",Value::string(session_.cached_observations()?"local cached observations":"local fake composition"))
         .put("history",Value::string(history?"session-only; 32 entries/64 KiB":"off"))
         .put("controls",Value::string("F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+C closes")));
 }
@@ -46,7 +46,7 @@ bool ShellModel::available(const std::string& id) const {
 void ShellModel::record(const std::string& kind,const Value& value) {
     if(sequence_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("shell_sequence_exhausted");
     std::vector<std::string> lines;
-    bool acquisition=acquisition_watch_response(value) || report_response(value) || verification_response(value);
+    bool acquisition=cached_observation_response(value) || acquisition_watch_response(value) || report_response(value) || verification_response(value);
     try {lines=observation_lines(value);}
     catch(const json::Error& error) {
         ++dropped_;lines={"presentation_unavailable: "+error.code+"; complete result was not displayed; no retry performed"};
@@ -192,12 +192,16 @@ void ShellModel::complete() {
         const auto* schema=registry_.parameter_schemas.find(text(*command,"parameter_schema"));
         const auto* shape=schema?schema->find("properties")->find(parameter):nullptr;
         if(shape && shape->find("enum"))for(const auto& candidate:shape->find("enum")->items)choices.insert(candidate.text);
-        if(parameter=="target_id")for(const auto& node:snapshot_->value().find("nodes")->items)choices.insert(text(node,"id"));
+        if(parameter=="target_id")for(const auto& node:snapshot_->value().find("nodes")->items) {
+            const auto& id=text(*command,"id");
+            if(text(*node.find("properties"),"scope")!="observation-only" || id=="target.inspect" || id=="capability.explain")choices.insert(text(node,"id"));
+        }
         if(parameter=="operation" && text(*command,"id")=="capability.explain")for(const auto& c:registry_.commands.items)choices.insert(text(c,"id"));
         else if(parameter=="operation_id" && last_.response.find("operation_id") && last_.response.find("operation_id")->kind==Value::Kind::string)
             choices.insert(text(last_.response,"operation_id"));
     }
-    candidates_.clear();for(const auto& candidate:choices)if(candidate.compare(0,fragment.size(),fragment)==0 && candidates_.size()<64)candidates_.push_back(candidate);
+    const std::size_t candidate_limit=session_.cached_observations()?320:64;
+    candidates_.clear();for(const auto& candidate:choices)if(candidate.compare(0,fragment.size(),fragment)==0 && candidates_.size()<candidate_limit)candidates_.push_back(candidate);
     view_=View::Complete;choice_=0;review_revision_.clear();reviewed_=ParseResult{};notice_="Completion is inert; fresh Tab inserts";
     auto list=Value::array();for(const auto& c:candidates_)list.items.push_back(Value::string(c));record("completion (inert)",list);
 }
@@ -280,8 +284,10 @@ ShellPrompt ShellModel::prompt(unsigned columns) const {
         return {label,static_cast<unsigned>(label.empty()?0:label.size()-1)};
     }
     const auto encoded=display(editor_);const auto prefix=display(editor_.substr(0,cursor_));
-    const auto selection=session_.selection();const auto* target=selection.find("target_id");
-    const auto context="disked> [local|"+(target && target->kind==Value::Kind::string?display(target->text):std::string("none"))+"] ";
+    const auto selection=session_.selection();const auto* target=selection.find("target_id"),*observation=selection.find("observation_id");
+    const auto focus=target && target->kind==Value::Kind::string?display(target->text):
+        observation && observation->kind==Value::Kind::string?"evidence:"+display(observation->text):std::string("none");
+    const auto context="disked> [local|"+focus+"] ";
     const auto complete=context+encoded;const std::size_t caret=context.size()+prefix.size()-1;
     const auto start=caret>=columns?caret-columns+1:0;
     auto visible=complete.substr(start,columns);if(start && !visible.empty())visible[0]='<';
@@ -300,7 +306,7 @@ std::vector<std::string> ShellModel::content() const {
 }
 std::vector<std::string> ShellModel::render(unsigned columns,unsigned rows,bool linear) {
     columns=(std::max)(1u,(std::min)(columns,240u));rows=(std::max)(1u,(std::min)(rows,80u));
-    auto header=wrap({"DiskEd shell | IMAGE / FAKE PROTOTYPE | "+std::string(linear?"linear":"screen"),"Host: local | Selection: "+presentation_json(session_.selection()),
+    auto header=wrap({"DiskEd shell | "+std::string(session_.cached_observations()?"CACHED OBSERVATIONS":"IMAGE / FAKE PROTOTYPE")+" | "+std::string(linear?"linear":"screen"),"Host: local | Selection: "+presentation_json(session_.selection()),
         "History: "+std::string(history_enabled_?"session":"off")+" | Evicted transcript records: "+std::to_string(dropped_),"Notice: "+notice_},columns);
     auto footer=wrap({prompt(columns).text,"F9 review/submit | Tab completion | Arrows edit/history | Enter inert", "F2 commands F3 targets F4 clear F5 refresh F6 layout | F10/Ctrl+C quit"},columns);
     auto body=wrap(content(),columns);page_size_=rows>header.size()+footer.size()+1?rows-header.size()-footer.size()-1:1;

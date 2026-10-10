@@ -1,4 +1,4 @@
-#include "model.h"
+#include "tui_model.h"
 #include "graph.h"
 #include "health_observer.h"
 #include "command_registry.h"

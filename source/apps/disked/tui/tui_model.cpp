@@ -1,4 +1,4 @@
-#include "model.h"
+#include "tui_model.h"
 #include <algorithm>
 #include <limits>
 
@@ -154,7 +154,7 @@ void TuiModel::input(const TuiInput& e) {
 std::vector<std::string> TuiModel::body() const {
     std::vector<std::string> lines;
     if(view_==View::Inventory) {
-        lines.push_back("TARGET INVENTORY (cached fake observations)");
+        lines.push_back(session_.cached_observations()?"OBSERVATION INVENTORY (cached evidence and fake peers)":"TARGET INVENTORY (cached fake observations)");
         for(const auto& n:snapshot_->value().find("nodes")->items) {
             const auto& p=*n.find("properties");const auto* cap=p.find("capacity_bytes");
             lines.push_back((n.find("id")->text==focus_?"> ":"  ")+quote(n.find("id")->text)+" ["+p.find("state")->text+"]");
@@ -188,7 +188,7 @@ std::vector<std::string> TuiModel::body() const {
 }
 std::vector<std::string> TuiModel::render(unsigned columns,unsigned rows,bool linear) {
     columns=(std::max)(1u,(std::min)(240u,columns));rows=(std::max)(1u,(std::min)(80u,rows));
-    auto header=std::vector<std::string>{"DiskEd | IMAGE / FAKE PROTOTYPE | "+std::string(linear?"linear":"screen"),"Selection: "+presentation_json(session_.selection()),"Notice: "+notice_};
+    auto header=std::vector<std::string>{"DiskEd | "+std::string(session_.cached_observations()?"CACHED OBSERVATIONS":"IMAGE / FAKE PROTOTYPE")+" | "+std::string(linear?"linear":"screen"),"Selection: "+presentation_json(session_.selection()),"Notice: "+notice_};
     auto footer=std::vector<std::string>{"Arrows focus | Enter inspect/open | F2 commands | F3 inventory", "F4 clear | F5 refresh view | F6 layout | F9 review/submit", "Tab field | PgUp/PgDn page | Esc back | F10/Ctrl+C quit"};
     auto content=body();std::vector<std::string> lines;
     if(linear) {

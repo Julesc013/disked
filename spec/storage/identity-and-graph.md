@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.3-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,8 +27,9 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: DE-W030 private namespace observation graph; live/product/provider/platform and owner qualification remain open
+  at: '2026-10-10T03:33:05.006855+00:00'
+  scope: DE-W030 compiled private cached-observation frontend contract; live/provider/public
+    protocol, window/terminal/platform and owner admission remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -144,8 +145,9 @@ cannot publish into a later capture. Validation and allocating work precede
 atomic publication; failed preparation cannot change an existing view.
 
 The private producer and native fixture executable are separate from the product
-composition. Existing `FrontendSession` rejects this profile pending explicit
-observation selection, responsiveness and resource qualification. Native physical
-identity/topology, live dispatch, frontend/product/provider admission and other
-host/platform qualification remain required work; pure projection validates data
-but does not authenticate a producer or prove process exit.
+composition. The ordinary `FrontendSession` still rejects this profile. A compiled,
+private `CachedObservations` composition follows DE-023's separate evidence-focus,
+display and resource contract; input cannot select it. Native physical identity/
+topology, live dispatch, actual product/provider/window/terminal and other-host/
+platform admission remain required work. Pure projection validates data but does
+not authenticate a producer or prove process exit.
