@@ -167,7 +167,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Ordinary product stays Fake; physical/live/provider/protocol/platform/owner/full-unit gates stay open.
 - [x] Source ownership clarification: CLI presentation under `cli/`, all-mode
   composition under `app.*`, explicit `tui_model.*` and toolkit-free GUI model
-  under `gui/`. `docs/source-map.md` covers all 171 current files and future owners;
+  under `gui/`. `docs/source-map.md` covers all 172 current files and future owners;
   no speculative empty tree or public identifier change.
 
 - [x] DE-W030 private device ID/alignment/OS-layout query fixtures at `b853621b`:
@@ -181,3 +181,10 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   private regressions, pure replay/refusal and maximum bounded cache checks.
   `.aide/evidence/2026-10-10-identity-frame/`. Product inputs unchanged;
   /2 interfaces, raw comparison, physical identity and all admission gates remain.
+
+- [x] Shared text-input ownership and detailed source guide at `67f3cfb0`:
+  `TextKey`/`TextInput` under runtime presentation; shell no longer imports TUI.
+  Clean dev.40 product/77 groups at `3f648127`; x64/x86 cached
+  frontend campaigns at `67f3cfb0`, with all 404 product inputs unchanged.
+  Evidence: `.aide/evidence/2026-10-10-source-layout/`; future owners documented,
+  without freezing speculative filenames or claiming zero later refactoring.

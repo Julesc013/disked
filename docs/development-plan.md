@@ -343,3 +343,16 @@ limits and separate nodes bound current/last-complete graphs without expanding
 public output or granting effects. Product inputs are unchanged. New /2 cached
 interfaces, independent raw comparison, composite identity and live/product/
 provider/protocol/platform/owner/full-unit/all-platform/storage gates remain open.
+
+
+The source/input ownership follow-up at `67f3cfb0`
+([review](../.aide/evidence/2026-10-10-source-layout/REVIEW.md)) qualifies both
+existing cached-frontend campaigns (82 processes/2600 assertions).
+The dev.40 product and 77 selected native groups passed at `3f648127`;
+all 404 product inputs are unchanged by the private probe fix, so those results
+were retained without a second product build/full-suite run. Shell and TUI consume one private
+`runtime/presentation/text_input.h` contract; shell no longer includes the TUI
+model. [The file map](source-map.md) explains all 172 current source files,
+CLI/command/terminal boundaries and future ownership families. This is a bounded
+private ownership change; /2 interfaces/raw comparison, physical identity,
+live/provider/public/platform/owner/full-unit and broader 0.1.0 gates remain.
