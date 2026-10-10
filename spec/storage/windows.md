@@ -1,7 +1,8 @@
 ---
 type: DiskEd Specification
 title: Windows NT provider strategy
-description: Windows-native depth without treating storage restrictions as bypass targets.
+description: Windows-native depth without treating storage restrictions as bypass
+  targets.
 resource: disked://spec/de-034
 tags:
 - disked
@@ -13,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.4-proposed.2
+  version: 0.1.5-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -36,8 +37,9 @@ sources:
   resource: ../references/sources.json#review-inputs-2026-10-04
 updated:
   by: codex
-  at: '2026-10-10T01:42:57.790567+00:00'
-  scope: DE-W030 private injected storage metadata/extent queries; live/worker/product/provider/platform and owner admission remain open
+  at: '2026-10-10T02:33:32.351711+00:00'
+  scope: DE-W030 shared owned observation host, storage receipt reader and startup
+    reconciliation; live/product/provider/platform and owner admission remain open
 ---
 
 # Windows NT provider strategy
@@ -160,3 +162,14 @@ it supplies no exit, retry, cleanup or writer authority. Byte and call limits do
 not establish bounded kernel latency. Owned reader containment, reconciliation,
 native source authentication, complete identity/topology, frontend/product/provider
 admission and actual historical/other-host support remain subsequent gates.
+
+The [private owned metadata reader](../catalog/nt-storage-worker-prototype.json)
+reuses the namespace observation host rather than adding another process launcher.
+Preparation creates no child; the adapter retains its session before registering
+and launching the capture. Successful native process ownership is stored before
+later identity lookup/allocation. Known no-launch failure is separate from an
+unresolved launched reader, and only exact owned exit permits later replacement.
+The parent reconstructs canonical metadata from bounded returned-byte receipts
+and original subjects/policy without calling the original provider. This verifies
+producer conformance, with provenance supplied separately by the owned code/
+request/process binding. It does not qualify live dispatch or a public ABI.

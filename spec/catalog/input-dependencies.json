@@ -6994,7 +6994,18 @@
         "tests/windows/native/namespace_graph_probe.cpp",
         "source/platform/windows/storage/storage_queries.cpp",
         "source/providers/windows/storage_inventory.cpp",
-        "tests/windows/native/storage_query_probe.cpp"
+        "tests/windows/native/storage_query_probe.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/providers/windows/storage_frame_reader.h",
+        "source/providers/windows/storage_frame_reader.cpp",
+        "source/platform/windows/storage/storage_worker.h",
+        "source/platform/windows/storage/storage_worker.cpp",
+        "source/providers/windows/storage_graph.h",
+        "source/providers/windows/storage_graph.cpp",
+        "tests/windows/native/storage_fixture.h",
+        "tests/windows/native/storage_fixture.cpp",
+        "tests/windows/native/storage_worker_probe.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7084,7 +7095,8 @@
         "source/platform/windows/storage/namespace_worker.h",
         "source/platform/windows/worker_files.h",
         "source/providers/image/local_file.cpp",
-        "source/portable/hash/sha256.cpp"
+        "source/portable/hash/sha256.cpp",
+        "source/platform/windows/storage/observation_worker.h"
       ],
       "spec_ids": [
         "DE-034",
@@ -7376,7 +7388,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/windows/storage_inventory.h"
+        "source/providers/windows/storage_inventory.h",
+        "tests/windows/native/storage_fixture.h"
       ],
       "spec_ids": [
         "DE-030",
@@ -7407,6 +7420,216 @@
       "depends_on": [
         "tests/windows/test_storage_queries.py",
         "tests/windows/native/CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-storage-worker-prototype.json",
+      "path": "spec/catalog/nt-storage-worker-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/observation_worker.h",
+      "path": "source/platform/windows/storage/observation_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/observation_worker.cpp",
+      "path": "source/platform/windows/storage/observation_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/worker_files.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_frame_reader.h",
+      "path": "source/providers/windows/storage_frame_reader.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_frame_reader.cpp",
+      "path": "source/providers/windows/storage_frame_reader.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_frame_reader.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/storage_worker.h",
+      "path": "source/platform/windows/storage/storage_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/observation_worker.h",
+        "source/providers/windows/storage_frame_reader.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/storage_worker.cpp",
+      "path": "source/platform/windows/storage/storage_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/storage_worker.h",
+        "spec/catalog/nt-storage-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_graph.h",
+      "path": "source/providers/windows/storage_graph.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/storage_worker.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_graph.cpp",
+      "path": "source/providers/windows/storage_graph.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_graph.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/storage_fixture.h",
+      "path": "tests/windows/native/storage_fixture.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/storage_queries.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/storage_fixture.cpp",
+      "path": "tests/windows/native/storage_fixture.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/storage_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/storage_worker_probe.cpp",
+      "path": "tests/windows/native/storage_worker_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_graph.h",
+        "source/providers/windows/namespace_graph.h",
+        "tests/windows/native/storage_fixture.h",
+        "tests/windows/native/volume_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_storage_worker.py",
+      "path": "tests/windows/test_storage_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/storage_worker_probe.cpp",
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_volume_namespace.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-storage-worker/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-storage-worker/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_storage_worker.py",
+        "tests/windows/test_namespace_worker.py",
+        "tests/windows/test_namespace_graph.py",
+        "tests/windows/test_capture_lifecycle.py",
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_volume_namespace.py",
         "tools/build-inputs.json"
       ],
       "spec_ids": [

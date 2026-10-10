@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-101
   profile: disked-spec/1
-  version: 0.1.4-proposed.2
+  version: 0.1.5-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,9 @@ disked:
   - DE-REQ-101-01
 updated:
   by: codex
-  at: '2026-10-10T01:42:57.835202+00:00'
-  scope: DE-W030 private injected storage metadata/extent queries; live/worker/product/provider/platform and owner admission remain open
+  at: '2026-10-10T02:33:32.351711+00:00'
+  scope: DE-W030 shared owned observation host, storage receipt reader and startup
+    reconciliation; live/product/provider/platform and owner admission remain open
 ---
 
 # Bounded native inventory
@@ -129,6 +130,14 @@ The selected [borrowed-handle metadata query profile](../catalog/nt-storage-obse
 additionally captures descriptor strings, transient device numbers, independent
 geometry/length and volume extents under injected ports. It retains conflicting
 components and candidate topology without physical-media admission. Its immutable
-private frame is locally constructed, not an external protocol reader. A complete
+private frame has a bounded producer-conformance reader for the owned fixture
+host; it is not a public protocol or proof of provenance. A complete
 selected-query set does not establish complete inventory, atomic freshness or
 worker exit. Actual owned-reader/public-service integration remains required.
+
+Owned injected metadata publication must keep the capture outstanding until
+actual owned reader exit. Prepare the session before capture registration/launch,
+retain post-spawn failures and reconcile that exact process before replacement.
+Never-launched failure is explicitly distinct from exit. Pure receipt decoding
+must not repeat provider queries or reinterpret a completed metadata frame as
+complete physical identity. Public/live/provider/platform admission is separate.

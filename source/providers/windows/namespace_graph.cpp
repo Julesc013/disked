@@ -1,9 +1,11 @@
 #include "namespace_graph.h"
 #include <set>
+#include <type_traits>
 
 namespace disked { namespace nt_inventory {
 namespace {
 using V=json::Value;
+static_assert(std::is_nothrow_move_assignable<CaptureKey>::value,"capture-key binding must not allocate after registration");
 const V& field(const V& v,const char* name) {const auto p=v.find(name);if(!p)throw std::invalid_argument("namespace_graph_shape");return *p;}
 std::string text(const V& v,const char* name) {const auto& p=field(v,name);if(p.kind!=V::Kind::string)throw std::invalid_argument("namespace_graph_shape");return p.text;}
 bool hex(const std::string& s,std::size_t length) {return s.size()==length && s.find_first_not_of("0123456789abcdef")==std::string::npos;}
@@ -53,19 +55,36 @@ NamespaceGraphAdapter::NamespaceGraphAdapter(ObservationCapture& capture,std::st
 }
 void NamespaceGraphAdapter::start(const InventoryPolicy& policy,const V& fixture) {
     NamespaceInput input;input.capture_epoch=capture_.snapshot()->capture;input.policy=policy;input.provider_input=fixture;validate_namespace_input(input);
-    if(session_ && text(field(session_->observe(),"worker"),"observation")!="exited")throw std::invalid_argument("namespace_graph_reader_outstanding");
-    const auto key=capture_.start(source_);key_=key;policy_=policy;input.capture_epoch=key.capture;
-    // start() may fail before a process is bound, or with uncertain host state.
-    // Never infer retirement here. The outstanding attempt remains explicit.
-    try {session_=NamespaceWorker::start(input);context_=namespace_graph_context(session_->observe());}
-    catch(...) {capture_.update_failure(key_,SourceState::Unavailable,"namespace_start_unresolved");throw;}
+    if(session_ && text(field(session_->observe(),"worker"),"observation")!="exited" && !session_->never_launched())throw std::invalid_argument("namespace_graph_reader_outstanding");
+    std::uint64_t previous_worker=0;bool found=false;
+    for(const auto& s:capture_.snapshot()->sources)if(s.id==source_) {found=true;previous_worker=s.attempt.worker;if(s.outstanding)throw std::invalid_argument("namespace_graph_reader_outstanding");}
+    if(!found)throw std::invalid_argument("namespace_graph_source");
+    auto prepared=NamespaceWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0};
+    session_.swap(prepared);key_=std::move(registered);policy_=policy;context_=V{};
+    // Ownership is retained before launch; a post-spawn exception cannot lose
+    // the exact process handle. No-launch and unresolved launch are distinct.
+    try {auto key=capture_.start(source_);key_=std::move(key);session_->launch();context_=namespace_graph_context(session_->observe());}
+    catch(...) {
+        // If returning the registered key threw, recover its scalar epochs
+        // without allocating; the retained prepared session proves no launch.
+        if(!key_.worker)for(const auto& s:capture_.snapshot()->sources)if(s.id==source_ && s.outstanding && s.attempt.worker>previous_worker) {key_.capture=s.attempt.capture;key_.worker=s.attempt.worker;}
+        if(key_.worker) {if(session_->never_launched())capture_.fail(key_,SourceState::Unavailable,"namespace_start_never_launched");else capture_.update_failure(key_,SourceState::Unavailable,"namespace_start_unresolved");}throw;
+    }
 }
 void NamespaceGraphAdapter::release() {if(!session_)throw std::invalid_argument("namespace_graph_not_started");session_->release();}
 void NamespaceGraphAdapter::cancel() {if(!session_)throw std::invalid_argument("namespace_graph_not_started");session_->cancel();}
 bool NamespaceGraphAdapter::timeout() {return capture_.timeout(key_);}
 bool NamespaceGraphAdapter::wait_entered(DWORD ms) {if(!session_)throw std::invalid_argument("namespace_graph_not_started");return session_->wait_entered(ms);}
 void NamespaceGraphAdapter::consume(const V& observed) {
-    if(json::dump(namespace_graph_context(observed))!=json::dump(context_) || text(observed,"capture_epoch")!=std::to_string(key_.capture))throw std::invalid_argument("namespace_graph_binding");
+    const auto worker_state=text(field(observed,"worker"),"observation");
+    if(worker_state=="not_started") {capture_.fail(key_,SourceState::Unavailable,"namespace_start_never_launched");return;}
+    try {
+        if(context_.kind==V::Kind::null)context_=namespace_graph_context(observed);
+        if(json::dump(namespace_graph_context(observed))!=json::dump(context_) || text(observed,"capture_epoch")!=std::to_string(key_.capture))throw std::invalid_argument("namespace_graph_binding");
+    }catch(const std::invalid_argument&) {
+        capture_.update_failure(key_,SourceState::Unavailable,"namespace_context_unavailable");
+        if(worker_state=="exited")capture_.retired(key_);return;
+    }
     const auto& result=field(observed,"result");
     if(capture_.snapshot()->capture==key_.capture) {
       try {

@@ -86,7 +86,7 @@ std::shared_ptr<const StorageFrame> collect_storage_frame(const StorageQueryApi&
         .put("resources",rows).put("claims",claims());json::dump(value,storage_observation_limits());
     return std::shared_ptr<const StorageFrame>(new StorageFrame(std::move(value)));
 }
-GraphInput project_storage_frame(const StorageFrame& frame,const CaptureKey& key,const std::string& fixture_context_digest) {
+GraphInput project_storage_frame(const StorageFrame& frame,const CaptureKey& key,const std::string& context_digest,const V& worker_context) {
     const auto& v=frame.value();if(text(v,"capture_epoch")!=std::to_string(key.capture) || !key.worker)throw std::invalid_argument("nt_storage_capture_binding");
     GraphInput graph;graph.profile=GraphProfile::Observations;const auto frame_digest=digest_sha256(json::dump(v,storage_observation_limits()));
     for(const auto& row:get(v,"resources").items) {
@@ -99,12 +99,14 @@ GraphInput project_storage_frame(const StorageFrame& frame,const CaptureKey& key
         }
         auto payload=V::object().put("subject_key",get(row,"key")).put("name",get(row,"label")).put("components",components).put("conflicts",get(row,"conflicts"))
             .put("binding_scope",V::string("fixture-context-only")).put("capture_consistency",V::string("sequential-not-atomic"));
-        auto n=node(key,fixture_context_digest,frame_digest,text(row,"kind")=="disk"?"storage-device-observation":"storage-volume-observation",text(get(row,"label"),"display"),payload);
+        if(worker_context.kind!=V::Kind::null)payload.put("binding_scope",V::string("owned-reader-context")).put("worker_context",worker_context);
+        auto n=node(key,context_digest,frame_digest,text(row,"kind")=="disk"?"storage-device-observation":"storage-volume-observation",text(get(row,"label"),"display"),payload);
         const auto parent=n.id;graph.nodes.push_back(std::move(n));const auto extents=data(row,"extents");
         if(extents)for(const auto& e:extents->items) {
             auto p=V::object().put("subject_key",get(row,"key")).put("parent_observation",V::string(parent)).put("extent",e)
                 .put("binding_scope",V::string("fixture-context-only")).put("capture_consistency",V::string("sequential-not-atomic"));
-            auto child=node(key,fixture_context_digest,frame_digest,"storage-extent-observation","extent "+text(e,"ordinal"),p);
+            if(worker_context.kind!=V::Kind::null)p.put("binding_scope",V::string("owned-reader-context")).put("worker_context",worker_context);
+            auto child=node(key,context_digest,frame_digest,"storage-extent-observation","extent "+text(e,"ordinal"),p);
             graph.edges.push_back({parent,child.id,"contains"});graph.nodes.push_back(std::move(child));
         }
     }

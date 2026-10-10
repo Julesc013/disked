@@ -7,7 +7,8 @@ struct StorageSubject {std::string key;std::wstring label;HANDLE handle=INVALID_
 class StorageFrame;
 std::shared_ptr<const StorageFrame> collect_storage_frame(const StorageQueryApi&,const std::vector<StorageSubject>&,std::uint64_t,
     const StorageQueryPolicy&,const std::function<bool()>& stop={});
-// Immutable locally produced value, with no deserialization or public ABI.
+// Immutable private value. Collection (also used for receipt reconstruction)
+// owns construction; there is no public storage ABI.
 class StorageFrame final {
     const json::Value value_;
     explicit StorageFrame(json::Value v):value_(std::move(v)) {}
@@ -15,6 +16,7 @@ class StorageFrame final {
 public:
     const json::Value& value() const {return value_;}
 };
-// The digest binds fixture context, not an authenticated worker or media owner.
-GraphInput project_storage_frame(const StorageFrame&,const CaptureKey&,const std::string& fixture_context_digest);
+// Pure projection authenticates no producer/process/media owner. The caller
+// supplies fixture context or separately validated owned-session context.
+GraphInput project_storage_frame(const StorageFrame&,const CaptureKey&,const std::string& context_digest,const json::Value& worker_context={});
 }}

@@ -13,6 +13,8 @@ public:
     NamespaceWorker(const NamespaceWorker&)=delete;
     NamespaceWorker& operator=(const NamespaceWorker&)=delete;
     static std::unique_ptr<NamespaceWorker> start(const NamespaceInput&);
+    static std::unique_ptr<NamespaceWorker> prepare(const NamespaceInput&);
+    void launch();bool never_launched() const;
     json::Value observe(DWORD wait_ms=0);
     void release();
     void cancel();
