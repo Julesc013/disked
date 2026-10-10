@@ -64,4 +64,15 @@ The [retained implementing-agent review](../.aide/evidence/2026-10-10-nt-contain
 records clean x64/x86 evidence at `d3798a7`: each architecture ran 49 adapter
 processes with 258 assertions, and 24 controller invocations with 18 actual
 reader launches and 116 assertions. Both full and mixed native tables are
-refused before admission. The shipped dev.36 product composition is unchanged.
+refused before admission. The selected dev.36 composition remained unchanged
+at that revision.
+
+The common capture publication/retirement boundary now has exact-source local
+qualification at `2d753bae` ([review](../.aide/evidence/2026-10-10-capture-publication/REVIEW.md)).
+Complete/partial publications retain outstanding workers until bound actual
+exit; stale old-capture replies cannot authorize replacement. Proposed dev.37
+passes all 77 selected native regression groups. Both x86/x64 owned-reader
+lifecycle and existing worker campaigns pass, with 16 independent reducer tests.
+The lifecycle adapter uses empty graph fragments: namespace-to-node projection,
+native physical identity/topology and live/product/provider/platform admission
+remain next work. Owner and full-unit/all-platform/storage claims remain open.

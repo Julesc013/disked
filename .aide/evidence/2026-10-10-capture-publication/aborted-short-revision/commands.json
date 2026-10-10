@@ -1,0 +1,92 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.815,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "2d753ba"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 13.243,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.188,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;build=$diskedOS.BuildNumber;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.409,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.113,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "product-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.568,
+    "log": "logs/product-configure.log"
+  }
+]

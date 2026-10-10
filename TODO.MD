@@ -138,3 +138,8 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W030: bind capture/epoch-safe graph observations, then qualify native
   identity/topology and live/provider/service/platform admission. Full unit,
   physical/owner/release authority and the full 0.1.0 scope remain open.
+
+- [x] DE-W030 private common capture publication/retirement boundary: clean dev.37
+  product regression, 16 reducer tests and x64/x86 owned-reader lifecycle/worker
+  campaigns at `2d753bae`. Evidence: `.aide/evidence/2026-10-10-capture-publication/`.
+  Empty lifecycle graphs do not qualify namespace node projection or admission.

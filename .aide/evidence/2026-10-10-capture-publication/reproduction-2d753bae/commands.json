@@ -1,0 +1,615 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.823,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "2d753baec32c443e121c462ac9b19fa002edb114"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.51,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.529,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;build=$diskedOS.BuildNumber;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.442,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.106,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "product-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.127,
+    "log": "logs/product-configure.log"
+  },
+  {
+    "name": "product-build",
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 109.733,
+    "log": "logs/product-build.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.156,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "product-native",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 625.81,
+    "log": "logs/product-native.log"
+  },
+  {
+    "name": "capture-reducer",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\resilience\\test_capture.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\capture-reducer.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.623,
+    "log": "logs/capture-reducer.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.026,
+    "log": "logs/product-launch.log"
+  },
+  {
+    "name": "private-configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.865,
+    "log": "logs/private-configure-x64.log"
+  },
+  {
+    "name": "private-build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.437,
+    "log": "logs/private-build-x64.log"
+  },
+  {
+    "name": "lifecycle-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\lifecycle-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.616,
+    "log": "logs/lifecycle-x64.log"
+  },
+  {
+    "name": "worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.227,
+    "log": "logs/worker-x64.log"
+  },
+  {
+    "name": "private-configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.802,
+    "log": "logs/private-configure-Win32.log"
+  },
+  {
+    "name": "private-build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.624,
+    "log": "logs/private-build-Win32.log"
+  },
+  {
+    "name": "lifecycle-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\lifecycle-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.72,
+    "log": "logs/lifecycle-Win32.log"
+  },
+  {
+    "name": "worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.35,
+    "log": "logs/worker-Win32.log"
+  },
+  {
+    "name": "product-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/product-x64-headers.log"
+  },
+  {
+    "name": "product-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/product-x64-imports.log"
+  },
+  {
+    "name": "product-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/product-x64-dependents.log"
+  },
+  {
+    "name": "capture-reducer-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/capture-reducer-x64-headers.log"
+  },
+  {
+    "name": "capture-reducer-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/capture-reducer-x64-imports.log"
+  },
+  {
+    "name": "capture-reducer-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/capture-reducer-x64-dependents.log"
+  },
+  {
+    "name": "lifecycle-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/lifecycle-x64-headers.log"
+  },
+  {
+    "name": "lifecycle-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/lifecycle-x64-imports.log"
+  },
+  {
+    "name": "lifecycle-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/lifecycle-x64-dependents.log"
+  },
+  {
+    "name": "worker-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/worker-x64-headers.log"
+  },
+  {
+    "name": "worker-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.043,
+    "log": "logs/worker-x64-imports.log"
+  },
+  {
+    "name": "worker-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/worker-x64-dependents.log"
+  },
+  {
+    "name": "lifecycle-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/lifecycle-Win32-headers.log"
+  },
+  {
+    "name": "lifecycle-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/lifecycle-Win32-imports.log"
+  },
+  {
+    "name": "lifecycle-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/lifecycle-Win32-dependents.log"
+  },
+  {
+    "name": "worker-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/worker-Win32-headers.log"
+  },
+  {
+    "name": "worker-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/worker-Win32-imports.log"
+  },
+  {
+    "name": "worker-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/worker-Win32-dependents.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 146.143,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.088,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.885,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\context",
+      "--byte-budget",
+      "530000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.263,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.081,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.693,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\cp37-2d\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/final-source-status.log"
+  }
+]

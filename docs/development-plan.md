@@ -261,3 +261,13 @@ retirement, client disconnect and strict reply binding remain separate. The
 next local slice is conservative capture/epoch-safe graph binding from generated
 namespace observations. Native physical identity/topology, live/public/provider
 admission and the full platform/owner/release gates remain open.
+
+The common capture publication/retirement boundary now has exact-source local
+qualification at `2d753bae` ([review](../.aide/evidence/2026-10-10-capture-publication/REVIEW.md)).
+Complete/partial publications retain outstanding workers until bound actual
+exit; stale old-capture replies cannot authorize replacement. Proposed dev.37
+passes all 77 selected native regression groups. Both x86/x64 owned-reader
+lifecycle and existing worker campaigns pass, with 16 independent reducer tests.
+The lifecycle adapter uses empty graph fragments: namespace-to-node projection,
+native physical identity/topology and live/product/provider/platform admission
+remain next work. Owner and full-unit/all-platform/storage claims remain open.

@@ -1,0 +1,133 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 5.903,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "2d753baec32c443e121c462ac9b19fa002edb114"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 24.453,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.234,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;build=$diskedOS.BuildNumber;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.483,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.462,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.065,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "product-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 21.644,
+    "log": "logs/product-configure.log"
+  },
+  {
+    "name": "product-build",
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 138.581,
+    "log": "logs/product-build.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.173,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "product-native",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\goal-0.1.0\\capture-publication-clean-2d753ba-full\\checkout",
+    "exit_code": 8,
+    "elapsed_seconds": 620.482,
+    "log": "logs/product-native.log"
+  }
+]
