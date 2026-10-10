@@ -296,3 +296,14 @@ slice does not claim a new product build or a repeated full product suite.
 Actual owned-reader integration, startup/retry reconciliation, observation
 frontend, native identity/raw layout, live/provider/platform and owner/full-unit
 qualification remain next work. Both full and mixed native tables are refused.
+
+The shared owned namespace/metadata host is now locally qualified at `16259b7a`
+([review](../.aide/evidence/2026-10-10-storage-worker/REVIEW.md)). Each x64/x86
+metadata campaign passes 43 controllers, 35 actual reader launches and 671
+assertions; five existing campaigns also pass (614 processes/8,480 assertions
+combined). Preparation creates no child, post-spawn errors retain ownership,
+and exact exit is observed before replacement. Parent receipt reconstruction
+does not call the provider; owned process/code/request context binds graph IDs.
+The dev.38 product's 401 inputs remain unchanged, with no new product/full-suite
+claim. Observation frontend semantics, native identity/raw layout and actual
+live/product/provider/platform/owner/full-unit admission remain next work.

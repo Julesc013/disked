@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_storage_worker.py", line 99, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_storage_worker.py", line 77, in main
+    for label,fixture in [('empty-subjects',f(subjects=[])),('duplicate-key',f(disk(),disk())),('invalid-kind',f(dict(disk(),kind='writer')))]:
+                                            ~^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_storage_worker.py", line 32, in f
+    def f(*subjects,**kw):return dict(subjects=list(subjects or (disk(),volume())),**kw)
+                                 ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'subjects'

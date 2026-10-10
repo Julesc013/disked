@@ -1,0 +1,25 @@
+{
+  "status": "failed_compile",
+  "base_revision": "2392a8f811beaf609bbd8a0680ccf4356ec9c1b9",
+  "command": [
+    "cmake",
+    "--build",
+    ".aide-local/sw40-x64",
+    "--config",
+    "Release",
+    "--target",
+    "nt_namespace_graph_probe",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 1,
+  "source_inputs": {
+    "source/platform/windows/storage/observation_worker.cpp": "sha256:227dc22eade6276444735a72cd79c736e4ccb85fa54ca055103e374f34cfafb8",
+    "source/platform/windows/storage/observation_worker.h": "sha256:e8e4c7250310e5c0d1e728ee39197c87c299394cf3e49b44cf2074771dc53d7f",
+    "source/platform/windows/storage/namespace_worker.cpp": "sha256:2263b71071356aa755a45af55adfebf2709611c30804607b5857ba12da2e3802",
+    "source/platform/windows/storage/namespace_worker.h": "sha256:dbdd2876737ee19b30953a27874bce5b59af2e8a3090b6c4c222e1bf67197bbb",
+    "source/providers/windows/namespace_graph.cpp": "sha256:14d0e46ed63c40aa2990e416253f960763a8898f76f4f415401f29d9463409eb",
+    "tests/windows/native/CMakeLists.txt": "sha256:85a4e57970aa63c460253ae41a9fa6ff5ec029a3baef6084c370c109ed26f1c3"
+  },
+  "reason": "The adapter used the wrong JSON null enumerator; no graph campaign was run from this failed build."
+}

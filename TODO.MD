@@ -135,9 +135,8 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W030 contained injected namespace observer: clean x64/x86 late/cancel/
   hang/crash/retirement/disconnect and bound producer-refusal campaigns at `d3798a7`.
   Evidence: `.aide/evidence/2026-10-10-nt-contained/`. No live/product/provider admission.
-- [ ] DE-W030: integrate injected storage metadata into the owned reader and
-  qualify startup/retry reconciliation; then native identity/raw layout,
-  observation frontend and live/provider/service/platform admission. Full unit,
+- [ ] DE-W030: qualify observation frontend semantics; then native identity/
+  raw layout and live/provider/service/platform admission. Full unit,
   physical/owner/release authority and the full 0.1.0 scope remain open.
 
 - [x] DE-W030 private common capture publication/retirement boundary: clean dev.37
@@ -155,3 +154,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Evidence: `.aide/evidence/2026-10-10-storage-queries/`. The dev.38 product's
   401 inputs remain unchanged. Reader containment, real storage identity and
   live/frontend/provider/platform/owner/full-unit admission remain open.
+
+- [x] DE-W030 shared owned namespace/metadata host and startup/retry reconciliation:
+  clean x64/x86 new 43/35/671 campaigns plus all existing private regressions at
+  `16259b7a`. Evidence: `.aide/evidence/2026-10-10-storage-worker/`.
+  Product inputs remain unchanged; live/frontend/provider/platform/owner/full-unit
+  and every broader 0.1.0 platform/storage qualification remain open.
