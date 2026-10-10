@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.3-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,7 +26,7 @@ disked:
   - DE-REQ-011-02
 updated:
   by: codex
-  at: '2026-10-10T03:31:20.362308+00:00'
+  at: '2026-10-10T05:14:06.314038+00:00'
   scope: Owner-requested source naming/ownership clarification; private path migration,
     public semantics unchanged; owner review pending
 sources:
@@ -76,7 +76,9 @@ CLI presentation has its own `cli/` owner alongside `tui/`, `shell/` and `gui/`.
 The shared command grammar, descriptors and handlers remain under runtime and
 canonical spec owners. GUI models without toolkit calls belong directly in
 `gui/`; real window/console/terminal API hosts belong under platform. Add a
-toolkit child only when implemented toolkit-specific behavior requires one.
+toolkit child only when implemented toolkit-specific behavior requires one. Shared host-neutral text-input events belong in
+`runtime/presentation/text_input.h`; the shell does not depend on the TUI model
+merely to receive keys. Native key decoding remains in the platform host.
 
 Concrete platform entry/UI hosts may consume product frontend factories/models;
 they are not a platform-neutral public library. Portable/runtime modules do not

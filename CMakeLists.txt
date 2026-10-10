@@ -214,7 +214,7 @@ set_target_properties(disked_gui PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRE
 target_compile_options(disked_gui PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_shell STATIC source/apps/disked/shell/shell_model.cpp)
-target_include_directories(disked_shell PUBLIC source/apps/disked/shell source/apps/disked/tui)
+target_include_directories(disked_shell PUBLIC source/apps/disked/shell)
 target_link_libraries(disked_shell PUBLIC disked_presentation)
 set_target_properties(disked_shell PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_shell PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)

@@ -6,6 +6,8 @@ CLI has its own `source/apps/disked/cli/` folder. CLI formats a single invocatio
 
 The GUI and TUI models use the short, explicit `gui_model.*` and `tui_model.*` names, matching `shell_model.*`. The GUI model sits directly in `gui/` because it contains no Win32 calls. Actual Win32 window code belongs in `platform/windows/ui/`. Console input, terminal modes, handle ownership and restoration belong in `platform/windows/console/`; they serve TUI and shell without owning either interface's semantic state.
 
+The shared keyboard-event contract is `runtime/presentation/text_input.h`. Both TUI and shell consume `TextKey`/`TextInput`; neither has to include the other's model. The Windows terminal translates native keyboard events into this contract. There is no corresponding `.cpp` because this file only declares value types.
+
 ```text
 source/
   portable/       bounded algorithms over supplied bytes; no host I/O
@@ -29,6 +31,25 @@ Use lower-case portable paths and short descriptive `snake_case` basenames. A fo
 For each paired row below, `.h` declares the private types/ports/functions and `.c` or `.cpp` implements them. Both files are listed and linked in the map. Standalone files have their specific role stated. C versus C++ follows the selected build/target profile; a `.h` is not automatically a public SDK header. Public admitted C headers belong in root `include/`, with SDK consumers in `sdk/`.
 
 Current file names describe implemented responsibility; they do not reserve every future class or helper. `tools/check-source-map.py` checks that every current source file is listed exactly once. Add/change the explanation when a source file is added or moved.
+
+## CLI, shell, TUI and terminal: different responsibilities
+
+| Responsibility | Current owner | Why this placement |
+|---|---|---|
+| Interpret command arguments, validate parameters and select a typed action | `runtime/command/` | CLI, shell, TUI and GUI share the command contract. Putting it in CLI would make the other interfaces depend on CLI behavior. |
+| Decide whether an invocation uses CLI, shell, TUI or GUI | `runtime/invocation/policy.*`, composed by `apps/disked/app.*` | The policy consumes host facts; the application supplies concrete implementations. A frontend does not select its siblings. |
+| Format human output for one command invocation | `apps/disked/cli/cli.*` | This is CLI presentation. It does not own parsing, device enumeration or Windows output handles. |
+| Edit commands and retain history/transcript across an interactive session | `apps/disked/shell/shell_model.*` | Persistent editing is shell behavior. This is DiskEd's command shell, not a wrapper for executing arbitrary OS shell commands. |
+| Navigate text screens, focus rows and edit forms | `apps/disked/tui/tui_model.*` | These are text-interface choices. The model works independently of a Windows console handle. |
+| Represent text/key input shared by the text interfaces | `runtime/presentation/text_input.h` | This is a small common value contract, not a TUI-owned model or a host API. |
+| Read native input, observe console capabilities, run text-interface loops and restore console modes | `platform/windows/console/terminal.*` | Windows owns these APIs and handle lifetimes; both shell and TUI use this host. A future host supplies its own adapter to the same interface contracts. |
+| Maintain graphical interaction state / create actual Windows controls | `apps/disked/gui/gui_model.*` / `platform/windows/ui/gui.*` | The model owns interaction; the host owns Win32 controls and window lifetime. Shared model files do not need a `win32/` parent. |
+
+CLI is part of the same executable and command system. Its separate folder identifies presentation ownership; it does not imply a separate product, process or duplicated parser. A terminal is the host mechanism used by text interfaces, so moving it into `tui/` or `shell/` would give a shared host to one of its consumers.
+
+For a concrete storage example, `providers/image/file_capture.*` reads bounded metadata from an ordinary image file; `portable/gpt/gpt.*` decodes GPT bytes; `runtime/capture/map_observation.*` turns decoder results into the shared partition-map observation; frontend models present that observation. Each filename names one part of that path. The parser cannot open a file, and the GUI cannot acquire its own competing partition-table interpretation.
+
+Provider-specific host calls can stay inside a concrete provider. For example, `providers/image/local_file.*` currently implements the Windows file identity, path-pinning and generation rules needed by image/report backends. Its backend owner does not make it host-neutral. A future non-Windows implementation must satisfy those ports and its own host tests; a genuinely shared filesystem service can be extracted when a defined consumer and contract require it.
 
 ## apps files
 
@@ -105,6 +126,7 @@ Shared semantic contracts and state. Domain behavior here stays independent of t
 | [runtime/operation/watch.cpp](../source/runtime/operation/watch.cpp), [runtime/operation/watch.h](../source/runtime/operation/watch.h) | Shared bounded replay/live event watching and queue/profile mechanics reused by acquisition, report and verification operations. |
 | [runtime/presentation/requests.cpp](../source/runtime/presentation/requests.cpp), [runtime/presentation/requests.h](../source/runtime/presentation/requests.h) | Bounded deferred-request channels, completion polling, timeout/disconnection and unresolved-result handling; models consume it without owning worker threads. |
 | [runtime/presentation/session.cpp](../source/runtime/presentation/session.cpp), [runtime/presentation/session.h](../source/runtime/presentation/session.h) | Common frontend semantic session, immutable view/focus, capability explanations and dispatch; keeps GUI/TUI/shell behavior tied to one source of truth. |
+| [runtime/presentation/text_input.h](../source/runtime/presentation/text_input.h) | Shared private text/key event values consumed by TUI and shell and produced by terminal hosts. The name describes the event domain; the header has no host calls, model state or implementation requiring a `.cpp`. |
 
 ## providers files
 
@@ -191,3 +213,5 @@ Command identities/spellings, admitted schemas/protocols, requirements, target p
 This change maps `tui/model.*` to `tui/tui_model.*`, `gui/win32/gui_model.*` to `gui/gui_model.*`, and the former all-mode `cli.*` host to `app.*`; human CLI formatting now lives in `cli/cli.*`. Historical artifact input IDs retain their lookup identity in `spec/catalog/input-dependencies.json`, whose `path` points to the current file. Old checkout-bound evidence and scripts keep their original paths and hashes; they continue to describe the revision actually tested. There are no forwarding duplicate implementation/header files.
 
 The architecture can fix ownership, allowed dependency direction and naming rules now. It cannot truthfully name every future file or guarantee no later decomposition. A new format, host ABI or safety result can expose a necessary split. Make those changes small, traced and tested; preserving a misleading name merely to avoid any refactor would work against stable ownership.
+
+Treat the five existing source owners, their dependency boundaries, the frontend distinction and canonical IDs as the planning foundation. The table above assigns the currently specified future capability families to those owners. Choose each new file's exact name and split from its actual responsibility before implementing it, then update this map and affected build/context inputs. Future implementation detail does not require a new root for every feature, format, platform or toolkit.

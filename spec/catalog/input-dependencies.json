@@ -1901,7 +1901,9 @@
       "path": "source/apps/disked/tui/tui_model.h",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/presentation/text_input.h"
+      ],
       "spec_ids": [
         "DE-024",
         "DE-026"
@@ -1912,7 +1914,9 @@
       "path": "source/platform/windows/console/terminal.cpp",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/presentation/text_input.h"
+      ],
       "spec_ids": [
         "DE-024",
         "DE-026"
@@ -2226,7 +2230,9 @@
       "path": "source/apps/disked/shell/shell_model.h",
       "kind": "build",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "source/runtime/presentation/text_input.h"
+      ],
       "spec_ids": [
         "DE-027"
       ]
@@ -7890,6 +7896,38 @@
       "delivery": "artifact",
       "depends_on": [],
       "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/runtime/presentation/text_input.h",
+      "path": "source/runtime/presentation/text_input.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-011",
+        "DE-023",
+        "DE-024",
+        "DE-028"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-source-layout/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-source-layout/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tools/build-inputs.json",
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_observation_frontend.py",
+        "source/runtime/presentation/text_input.h"
+      ],
+      "spec_ids": [
+        "DE-011",
+        "DE-023",
+        "DE-024",
+        "DE-028",
         "DE-034"
       ]
     }

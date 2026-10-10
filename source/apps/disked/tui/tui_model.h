@@ -1,16 +1,15 @@
 #pragma once
 #include "session.h"
+#include "text_input.h"
 #include <functional>
 #include <set>
 
 namespace disked {
-enum class TuiKey {Text,Up,Down,PageUp,PageDown,Enter,Tab,BackTab,Backspace,Escape,F2,F3,F4,F5,F6,F9,F10,Left,Right,Home,End,Delete};
-struct TuiInput {TuiKey key;std::string text;bool repeat=false;};
 class TuiModel final {
 public:
     TuiModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,CompletionPoll poll={});
     bool tick();
-    void input(const TuiInput& event);
+    void input(const TextInput& event);
     void stage(const std::string& command,const json::Value& parameters);
     std::vector<std::string> render(unsigned columns,unsigned rows,bool linear);
     bool done() const {return done_;}

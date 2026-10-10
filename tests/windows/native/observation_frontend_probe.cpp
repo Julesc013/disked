@@ -32,9 +32,9 @@ void print(const V& v) {disked::json::Limits l;l.bytes=33554432;l.values=1048576
 V lines(const std::vector<std::string>& rows) {auto v=V::array();for(const auto& s:rows)v.items.push_back(V::string(s));return v;}
 std::string joined(const std::vector<std::string>& rows) {std::string v;for(const auto& s:rows){v+=s;v+='\n';}return v;}
 V compact_state(V v) {v.fields.erase("last_outcome");v.fields.erase("transcript");v.fields.erase("earlier_request");return v;}
-void key(disked::TuiModel& m,disked::TuiKey k) {m.input({k,"",false});}
-void key(disked::ShellModel& m,disked::TuiKey k) {m.input({k,"",false});}
-void submit(disked::ShellModel& m,const std::string& s) {m.input({disked::TuiKey::Text,s,false});key(m,disked::TuiKey::F9);key(m,disked::TuiKey::F9);}
+void key(disked::TuiModel& m,disked::TextKey k) {m.input({k,"",false});}
+void key(disked::ShellModel& m,disked::TextKey k) {m.input({k,"",false});}
+void submit(disked::ShellModel& m,const std::string& s) {m.input({disked::TextKey::Text,s,false});key(m,disked::TextKey::F9);key(m,disked::TextKey::F9);}
 disked::GraphInput synthetic(const V& input) {
     disked::GraphInput g;g.profile=disked::GraphProfile::Observations;
     const auto size=count(input,"count",321),fill=count(input,"fill",4096),extra=count(input,"extra",319);
@@ -109,17 +109,17 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     const auto selected=session.act({disked::ActionKind::Select,id,snapshot->revision(),"direct:select"});
     auto direct=session.act({disked::ActionKind::Inspect,id,snapshot->revision(),"direct:inspect"});
     disked::GuiModel gui(session,registry,discovery,dispatch);gui.focus(id);gui.open();const auto gui_inspect=get(gui.state(),"last_outcome");
-    disked::TuiModel tui(session,registry,discovery,dispatch);for(std::size_t i=0;i<ordinal;++i)key(tui,disked::TuiKey::Down);key(tui,disked::TuiKey::Enter);const auto tui_inspect=get(tui.state(),"last_outcome");
+    disked::TuiModel tui(session,registry,discovery,dispatch);for(std::size_t i=0;i<ordinal;++i)key(tui,disked::TextKey::Down);key(tui,disked::TextKey::Enter);const auto tui_inspect=get(tui.state(),"last_outcome");
     disked::ShellModel shell(session,registry,discovery,dispatch,false);submit(shell,"target inspect "+id);const auto shell_inspect=get(shell.state(),"last_outcome");
     auto observations=V::object().put("selected",selected.response).put("direct",direct.response).put("gui",gui_inspect).put("tui",tui_inspect).put("shell",shell_inspect);
     auto health=session.dispatch("health","health.assess",V::object().put("target_id",V::string(id)));
     auto capability=session.dispatch("capability","capability.explain",V::object().put("target_id",V::string(id)).put("operation",V::string("health.assess")));
     gui.stage("health.assess",V::object());tui.stage("health.assess",V::object());
     auto forms=V::object().put("gui",compact_state(gui.state())).put("tui",compact_state(tui.state()));
-    auto completion=[&](const char* command) {disked::ShellModel s(session,registry,discovery,dispatch,false);s.input({disked::TuiKey::Text,command,false});key(s,disked::TuiKey::Tab);return compact_state(s.state());};
+    auto completion=[&](const char* command) {disked::ShellModel s(session,registry,discovery,dispatch,false);s.input({disked::TextKey::Text,command,false});key(s,disked::TextKey::Tab);return compact_state(s.state());};
     auto completions=V::object().put("inspect",completion("target inspect ")).put("health",completion("health assess "));
     const auto list=session.dispatch("list","target.list",V::object());const auto topology=session.dispatch("topology","topology.show",V::object());
-    gui.stage("topology.show",V::object());gui.review();gui.submit();tui.stage("topology.show",V::object());key(tui,disked::TuiKey::F9);key(tui,disked::TuiKey::F9);
+    gui.stage("topology.show",V::object());gui.review();gui.submit();tui.stage("topology.show",V::object());key(tui,disked::TextKey::F9);key(tui,disked::TextKey::F9);
     disked::ShellModel large_shell(session,registry,discovery,dispatch,false);submit(large_shell,"topology show");std::uint64_t after=0;
     auto rendered=V::object().put("gui",V::string(gui.detail_text())).put("tui",lines(tui.render(80,25,true))).put("shell",lines(large_shell.linear_records(after)))
         .put("shell_state",compact_state(large_shell.state()));
@@ -129,13 +129,13 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     if(mode=="owned") {
         // Stage all three frontends against the old snapshot before explicit
         // capture. They do not poll workers, launch replacements or rebase.
-        gui.focus(id);gui.navigate(false);tui.input({disked::TuiKey::F3,"",false});
-        disked::ShellModel staged(session,registry,discovery,dispatch,false);staged.input({disked::TuiKey::Text,"target inspect "+id,false});key(staged,disked::TuiKey::F9);
+        gui.focus(id);gui.navigate(false);tui.input({disked::TextKey::F3,"",false});
+        disked::ShellModel staged(session,registry,discovery,dispatch,false);staged.input({disked::TextKey::Text,"target inspect "+id,false});key(staged,disked::TextKey::F9);
         capture.next_capture();workers.items.push_back(owned(ns,n::InventoryPolicy{},get(input,"namespace")));workers.items.push_back(owned(storage,n::StorageQueryPolicy{},get(input,"storage")));
         pending=std::make_shared<const disked::GraphInput>(capture.snapshot()->graph);
-        gui.open();key(tui,disked::TuiKey::Enter);key(staged,disked::TuiKey::F9);
+        gui.open();key(tui,disked::TextKey::Enter);key(staged,disked::TextKey::F9);
         retry.put("stale",V::object().put("gui",get(gui.state(),"last_outcome")).put("tui",get(tui.state(),"last_outcome")).put("shell",get(staged.state(),"last_outcome")));
-        gui.refresh();key(tui,disked::TuiKey::F5);key(staged,disked::TuiKey::F5);
+        gui.refresh();key(tui,disked::TextKey::F5);key(staged,disked::TextKey::F5);
         retry.put("refreshed",V::object().put("gui",compact_state(gui.state())).put("tui",compact_state(tui.state())).put("shell",compact_state(staged.state())));
         retry.put("current_graph",session.snapshot()->value()).put("selection",session.selection()).put("old_graph",snapshot->value());
         require(!capture.snapshot()->sources[0].outstanding && !capture.snapshot()->sources[1].outstanding,"fixture_capture_outstanding");
@@ -160,8 +160,8 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     auto poll=[&](disked::Outcome& value){if(!ready)return false;ready=false;value=std::move(queued);return true;};
     disked::GuiModel paired_gui(session,registry,discovery,handler,poll);paired_gui.stage("topology.show",V::object());paired_gui.review();paired_gui.submit();paired_gui.navigate(false);ready=true;require(paired_gui.tick(),"fixture_gui_completion_missing");
     defer=false;paired_gui.stage("topology.show",V::object());paired_gui.review();paired_gui.submit();
-    defer=true;disked::TuiModel paired_tui(session,registry,discovery,handler,poll);paired_tui.stage("topology.show",V::object());key(paired_tui,disked::TuiKey::F9);key(paired_tui,disked::TuiKey::F9);key(paired_tui,disked::TuiKey::F3);ready=true;require(paired_tui.tick(),"fixture_tui_completion_missing");
-    defer=false;paired_tui.stage("topology.show",V::object());key(paired_tui,disked::TuiKey::F9);key(paired_tui,disked::TuiKey::F9);
+    defer=true;disked::TuiModel paired_tui(session,registry,discovery,handler,poll);paired_tui.stage("topology.show",V::object());key(paired_tui,disked::TextKey::F9);key(paired_tui,disked::TextKey::F9);key(paired_tui,disked::TextKey::F3);ready=true;require(paired_tui.tick(),"fixture_tui_completion_missing");
+    defer=false;paired_tui.stage("topology.show",V::object());key(paired_tui,disked::TextKey::F9);key(paired_tui,disked::TextKey::F9);
     auto paired=V::object().put("basis",pair_result).put("gui",V::string(paired_gui.detail_text())).put("tui",lines(paired_tui.render(80,25,true)));
     std::string wire;try{disked::response_frame(topology.response);wire="within_existing_limit";}catch(const disked::json::Error& e){wire=e.code;}
     if(mode=="pending") {

@@ -26,12 +26,12 @@ int main(int argc,char**) {
         return disked::completed(id,result);
     };
     std::unique_ptr<disked::ShellModel> model(new disked::ShellModel(session,registry,discovery,handler,false));
-    const std::map<std::string,disked::TuiKey> keys={
-        {"text",disked::TuiKey::Text},{"up",disked::TuiKey::Up},{"down",disked::TuiKey::Down},{"left",disked::TuiKey::Left},{"right",disked::TuiKey::Right},
-        {"home",disked::TuiKey::Home},{"end",disked::TuiKey::End},{"delete",disked::TuiKey::Delete},{"backspace",disked::TuiKey::Backspace},
-        {"enter",disked::TuiKey::Enter},{"tab",disked::TuiKey::Tab},{"escape",disked::TuiKey::Escape},{"f9",disked::TuiKey::F9},
-        {"f2",disked::TuiKey::F2},{"f3",disked::TuiKey::F3},{"f4",disked::TuiKey::F4},{"f5",disked::TuiKey::F5},{"f6",disked::TuiKey::F6},{"f10",disked::TuiKey::F10},
-        {"pageup",disked::TuiKey::PageUp},{"pagedown",disked::TuiKey::PageDown}};
+    const std::map<std::string,disked::TextKey> keys={
+        {"text",disked::TextKey::Text},{"up",disked::TextKey::Up},{"down",disked::TextKey::Down},{"left",disked::TextKey::Left},{"right",disked::TextKey::Right},
+        {"home",disked::TextKey::Home},{"end",disked::TextKey::End},{"delete",disked::TextKey::Delete},{"backspace",disked::TextKey::Backspace},
+        {"enter",disked::TextKey::Enter},{"tab",disked::TextKey::Tab},{"escape",disked::TextKey::Escape},{"f9",disked::TextKey::F9},
+        {"f2",disked::TextKey::F2},{"f3",disked::TextKey::F3},{"f4",disked::TextKey::F4},{"f5",disked::TextKey::F5},{"f6",disked::TextKey::F6},{"f10",disked::TextKey::F10},
+        {"pageup",disked::TextKey::PageUp},{"pagedown",disked::TextKey::PageDown}};
     std::string line;std::uint64_t linear=0;
     while(std::getline(std::cin,line))try {
         disked::json::Limits input_limits;input_limits.bytes=262144;input_limits.string_bytes=65537;

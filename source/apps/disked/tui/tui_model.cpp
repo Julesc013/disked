@@ -83,30 +83,30 @@ void TuiModel::stage(const std::string& command,const Value& supplied) {
     review_revision_=snapshot_->revision();view_=View::Form;notice_="Edit fields, then F9. Empty optional fields are omitted; booleans use true/false.";
 }
 bool TuiModel::take_toggle() {const bool value=toggle_;toggle_=false;return value;}
-void TuiModel::input(const TuiInput& e) {
+void TuiModel::input(const TextInput& e) {
     if(done_)return;
-    const bool activation=e.key==TuiKey::Enter || e.key==TuiKey::F2 || e.key==TuiKey::F3 || e.key==TuiKey::F4 ||
-        e.key==TuiKey::F5 || e.key==TuiKey::F6 || e.key==TuiKey::F9 || e.key==TuiKey::F10 || e.key==TuiKey::Escape;
+    const bool activation=e.key==TextKey::Enter || e.key==TextKey::F2 || e.key==TextKey::F3 || e.key==TextKey::F4 ||
+        e.key==TextKey::F5 || e.key==TextKey::F6 || e.key==TextKey::F9 || e.key==TextKey::F10 || e.key==TextKey::Escape;
     if(e.repeat && activation)return;
     if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
-    if(e.key==TuiKey::F10) {done_=true;return;}
-    if(e.key==TuiKey::F6) {toggle_=true;return;}
-    if(e.key==TuiKey::PageUp) {scroll_=scroll_>page_size_?scroll_-page_size_:0;follow_focus_=false;return;}
-    if(e.key==TuiKey::PageDown) {scroll_=(std::min)(std::size_t(1048576),scroll_+page_size_);follow_focus_=false;return;}
-    if(e.key==TuiKey::Escape) {
+    if(e.key==TextKey::F10) {done_=true;return;}
+    if(e.key==TextKey::F6) {toggle_=true;return;}
+    if(e.key==TextKey::PageUp) {scroll_=scroll_>page_size_?scroll_-page_size_:0;follow_focus_=false;return;}
+    if(e.key==TextKey::PageDown) {scroll_=(std::min)(std::size_t(1048576),scroll_+page_size_);follow_focus_=false;return;}
+    if(e.key==TextKey::Escape) {
         if(view_==View::Inventory)done_=true;
         else {view_=view_==View::Review?View::Form:View::Inventory;if(view_==View::Inventory)focus_=inventory_focus_;scroll_=0;follow_focus_=true;}return;
     }
     if(view_==View::Form) {
-        if(e.key==TuiKey::Tab || e.key==TuiKey::BackTab) {if(!fields_.empty())field_=(field_+(e.key==TuiKey::Tab?1:fields_.size()-1))%fields_.size();follow_focus_=true;return;}
-        if(e.key==TuiKey::Backspace && !fields_.empty()) {
+        if(e.key==TextKey::Tab || e.key==TextKey::BackTab) {if(!fields_.empty())field_=(field_+(e.key==TextKey::Tab?1:fields_.size()-1))%fields_.size();follow_focus_=true;return;}
+        if(e.key==TextKey::Backspace && !fields_.empty()) {
             const auto name=fields_[field_];auto value=parameters_.fields[name].text;
             invalid_object_fields_.erase(name);
             if(!value.empty()) {std::size_t end=value.size()-1;while(end && (static_cast<unsigned char>(value[end])&0xc0)==0x80)--end;value.resize(end);}
             if(name==discriminator_)stage(command_,Value::object().put(name,Value::string(value)));
             else parameters_.put(name,Value::string(value));return;
         }
-        if(e.key==TuiKey::Text && !fields_.empty()) {
+        if(e.key==TextKey::Text && !fields_.empty()) {
             if(e.text.empty())return;
             auto& value=parameters_.fields[fields_[field_]].text;
             const auto name=fields_[field_];const bool structured=shapes_.find(name)->find("type")->text=="object";
@@ -116,7 +116,7 @@ void TuiModel::input(const TuiInput& e) {
             else if(name==discriminator_)stage(command_,Value::object().put(discriminator_,Value::string(value+e.text)));
             else {invalid_object_fields_.erase(name);value+=e.text;}return;
         }
-        if(e.key==TuiKey::F9) {
+        if(e.key==TextKey::F9) {
             if(!invalid_object_fields_.empty()) {notice_="invalid_parameter; correct the structured field";return;}
             const auto error=form_parameters(registry_,*registry_.command(command_),parameters_,typed_);
             if(!error.empty())notice_=error+"; correct the fields";
@@ -125,7 +125,7 @@ void TuiModel::input(const TuiInput& e) {
         return; // Newlines, shortcuts and unrelated keys never submit a form.
     }
     if(view_==View::Review) {
-        if(e.key==TuiKey::F9) {
+        if(e.key==TextKey::F9) {
             if(requests_==(std::numeric_limits<std::uint64_t>::max)()) {result(refused("tui","request_limit"));return;}
             const auto id="tui:"+std::to_string(++requests_);view_=View::Result; // Consume review before callback.
             auto reply=dispatch_(id,command_,typed_,FrontendSession::handles(command_)?review_revision_:"");
@@ -136,13 +136,13 @@ void TuiModel::input(const TuiInput& e) {
             } else result(std::move(reply.outcome));
         }return;
     }
-    if(e.key==TuiKey::F2) {view_=View::Commands;focus_=registry_.commands.items.front().find("id")->text;scroll_=0;follow_focus_=true;return;}
-    if(e.key==TuiKey::F3) {view_=View::Inventory;focus_=inventory_focus_;scroll_=0;follow_focus_=true;return;}
-    if(e.key==TuiKey::F4) {result(session_.act({ActionKind::ClearSelection,"",snapshot_->revision(),"tui:selection"}));return;}
-    if(e.key==TuiKey::F5) {snapshot_=session_.snapshot();notice_="View refreshed; selected identity is unchanged";scroll_=0;return;}
+    if(e.key==TextKey::F2) {view_=View::Commands;focus_=registry_.commands.items.front().find("id")->text;scroll_=0;follow_focus_=true;return;}
+    if(e.key==TextKey::F3) {view_=View::Inventory;focus_=inventory_focus_;scroll_=0;follow_focus_=true;return;}
+    if(e.key==TextKey::F4) {result(session_.act({ActionKind::ClearSelection,"",snapshot_->revision(),"tui:selection"}));return;}
+    if(e.key==TextKey::F5) {snapshot_=session_.snapshot();notice_="View refreshed; selected identity is unchanged";scroll_=0;return;}
     if(view_==View::Result)return;
-    if(e.key==TuiKey::Up || e.key==TuiKey::Down) {move(e.key==TuiKey::Up?-1:1);return;}
-    if(e.key==TuiKey::Enter) {
+    if(e.key==TextKey::Up || e.key==TextKey::Down) {move(e.key==TextKey::Up?-1:1);return;}
+    if(e.key==TextKey::Enter) {
         if(view_==View::Commands)stage(focus_,Value::object());
         else {
             const auto selected=session_.act({ActionKind::Select,focus_,snapshot_->revision(),"tui:selection"});

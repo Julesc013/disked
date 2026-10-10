@@ -1,5 +1,6 @@
 #pragma once
-#include "tui_model.h"
+#include "session.h"
+#include "text_input.h"
 #include "shell_lexer.h"
 #include <deque>
 
@@ -9,7 +10,7 @@ class ShellModel final {
 public:
     ShellModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,bool history,CompletionPoll poll={});
     bool tick();
-    void input(const TuiInput& event);
+    void input(const TextInput& event);
     std::vector<std::string> render(unsigned columns,unsigned rows,bool linear);
     std::vector<std::string> linear_records(std::uint64_t& after) const;
     ShellPrompt prompt(unsigned columns) const;

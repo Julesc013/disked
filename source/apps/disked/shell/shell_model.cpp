@@ -205,17 +205,17 @@ void ShellModel::complete() {
     view_=View::Complete;choice_=0;review_revision_.clear();reviewed_=ParseResult{};notice_="Completion is inert; fresh Tab inserts";
     auto list=Value::array();for(const auto& c:candidates_)list.items.push_back(Value::string(c));record("completion (inert)",list);
 }
-void ShellModel::input(const TuiInput& event) {
+void ShellModel::input(const TextInput& event) {
     if(done_)return;
-    if(event.key==TuiKey::F10) {done_=true;return;}
-    if(event.repeat && event.key!=TuiKey::Text && event.key!=TuiKey::Backspace && event.key!=TuiKey::Delete && event.key!=TuiKey::Left && event.key!=TuiKey::Right)return;
-    if(event.key==TuiKey::F6) {toggle_=true;return;}
-    if(event.key==TuiKey::PageUp) {follow_=false;scroll_=scroll_>page_size_?scroll_-page_size_:0;return;}
-    if(event.key==TuiKey::PageDown) {follow_=false;scroll_+=page_size_;return;}
-    if(event.key==TuiKey::F9) {if(view_==View::Review)submit();else {invalidate();review();}return;}
-    if(event.key==TuiKey::Escape) {invalidate();return;}
-    if(event.key==TuiKey::F2 || event.key==TuiKey::F3) {
-        invalidate();view_=event.key==TuiKey::F2?View::Commands:View::Targets;
+    if(event.key==TextKey::F10) {done_=true;return;}
+    if(event.repeat && event.key!=TextKey::Text && event.key!=TextKey::Backspace && event.key!=TextKey::Delete && event.key!=TextKey::Left && event.key!=TextKey::Right)return;
+    if(event.key==TextKey::F6) {toggle_=true;return;}
+    if(event.key==TextKey::PageUp) {follow_=false;scroll_=scroll_>page_size_?scroll_-page_size_:0;return;}
+    if(event.key==TextKey::PageDown) {follow_=false;scroll_+=page_size_;return;}
+    if(event.key==TextKey::F9) {if(view_==View::Review)submit();else {invalidate();review();}return;}
+    if(event.key==TextKey::Escape) {invalidate();return;}
+    if(event.key==TextKey::F2 || event.key==TextKey::F3) {
+        invalidate();view_=event.key==TextKey::F2?View::Commands:View::Targets;
         auto choices=Value::array();
         if(view_==View::Commands)for(const auto& command:registry_.commands.items)
             choices.items.push_back(Value::object().put("command",Value::string(words(command))).put("id",*command.find("id"))
@@ -224,23 +224,23 @@ void ShellModel::input(const TuiInput& event) {
             choices.items.push_back(Value::object().put("id",*node.find("id")).put("state",*node.find("properties")->find("state")));
         record(view_==View::Commands?"commands (inert)":"targets (cached)",choices);return;
     }
-    if(event.key==TuiKey::F4) {
+    if(event.key==TextKey::F4) {
         invalidate();const auto result=session_.act({ActionKind::ClearSelection,"",snapshot_->revision(),"shell:clear"});
         record("selection",result.response);return;
     }
-    if(event.key==TuiKey::F5) {invalidate();snapshot_=session_.snapshot();record("view refreshed",Value::object().put("revision",Value::string(snapshot_->revision())));return;}
-    if(view_==View::Complete && event.key==TuiKey::Tab) {
+    if(event.key==TextKey::F5) {invalidate();snapshot_=session_.snapshot();record("view refreshed",Value::object().put("revision",Value::string(snapshot_->revision())));return;}
+    if(view_==View::Complete && event.key==TextKey::Tab) {
         if(candidates_.empty()) {invalidate();return;}
         const auto insertion=quote_shell(candidates_[choice_]);const auto proposed=editor_.substr(0,replace_begin_)+insertion+editor_.substr(replace_end_);
         if(proposed.size()>max_line) {diagnostic("shell_line_limit",cursor_);return;}
         editor_=proposed;cursor_=replace_begin_+insertion.size();rejected_input_=false;invalidate();return;
     }
-    if((view_==View::Complete || view_==View::Commands || view_==View::Targets) && (event.key==TuiKey::Up || event.key==TuiKey::Down)) {
+    if((view_==View::Complete || view_==View::Commands || view_==View::Targets) && (event.key==TextKey::Up || event.key==TextKey::Down)) {
         follow_=true;
         const auto count=view_==View::Complete?candidates_.size():view_==View::Commands?registry_.commands.items.size():snapshot_->value().find("nodes")->items.size();
-        if(event.key==TuiKey::Up) {if(choice_)--choice_;}else if(choice_+1<count)++choice_;return;
+        if(event.key==TextKey::Up) {if(choice_)--choice_;}else if(choice_+1<count)++choice_;return;
     }
-    if(event.key==TuiKey::Enter) {
+    if(event.key==TextKey::Enter) {
         if(view_==View::Targets && choice_<snapshot_->value().find("nodes")->items.size()) {
             const auto id=text(snapshot_->value().find("nodes")->items[choice_],"id");
             const auto selected=session_.act({ActionKind::Select,id,snapshot_->revision(),"shell:select"});
@@ -252,20 +252,20 @@ void ShellModel::input(const TuiInput& event) {
         // Do not retain raw editable data in a transcript before schema validation.
         notice_="Input remains inert; use F9 to review";return;
     }
-    if(event.key==TuiKey::Tab) {complete();return;}
-    if(event.key==TuiKey::Up || event.key==TuiKey::Down) {recall(event.key==TuiKey::Up?-1:1);return;}
-    if(event.key==TuiKey::Text) {
+    if(event.key==TextKey::Tab) {complete();return;}
+    if(event.key==TextKey::Up || event.key==TextKey::Down) {recall(event.key==TextKey::Up?-1:1);return;}
+    if(event.key==TextKey::Text) {
         if(event.text.empty())return;
         if(!json::valid_utf8(event.text) || event.text.size()>max_line-editor_.size()) {rejected_input_=true;diagnostic("shell_line_limit",cursor_);return;}
         for(const auto c:event.text)if(static_cast<unsigned char>(c)<32 || c==127) {rejected_input_=true;diagnostic("shell_control_input",cursor_);return;}
         invalidate();editor_.insert(cursor_,event.text);cursor_+=event.text.size();history_at_=history_.size();rejected_input_=false;return;
     }
-    if(event.key==TuiKey::Left) {invalidate();cursor_=previous(editor_,cursor_);}
-    else if(event.key==TuiKey::Right) {invalidate();cursor_=next(editor_,cursor_);}
-    else if(event.key==TuiKey::Home) {invalidate();cursor_=0;}
-    else if(event.key==TuiKey::End) {invalidate();cursor_=editor_.size();}
-    else if(event.key==TuiKey::Backspace) {invalidate();const auto before=previous(editor_,cursor_);if(before!=cursor_)rejected_input_=false;editor_.erase(before,cursor_-before);cursor_=before;}
-    else if(event.key==TuiKey::Delete) {invalidate();const auto count=next(editor_,cursor_)-cursor_;if(count)rejected_input_=false;editor_.erase(cursor_,count);}
+    if(event.key==TextKey::Left) {invalidate();cursor_=previous(editor_,cursor_);}
+    else if(event.key==TextKey::Right) {invalidate();cursor_=next(editor_,cursor_);}
+    else if(event.key==TextKey::Home) {invalidate();cursor_=0;}
+    else if(event.key==TextKey::End) {invalidate();cursor_=editor_.size();}
+    else if(event.key==TextKey::Backspace) {invalidate();const auto before=previous(editor_,cursor_);if(before!=cursor_)rejected_input_=false;editor_.erase(before,cursor_-before);cursor_=before;}
+    else if(event.key==TextKey::Delete) {invalidate();const auto count=next(editor_,cursor_)-cursor_;if(count)rejected_input_=false;editor_.erase(cursor_,count);}
 }
 std::vector<std::string> ShellModel::linear_records(std::uint64_t& after) const {
     std::vector<std::string> lines;

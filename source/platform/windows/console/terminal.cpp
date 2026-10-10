@@ -165,7 +165,7 @@ public:
         const COORD cursor={static_cast<SHORT>(prompt_origin.X+prompt.cursor),prompt_origin.Y};
         if(!SetConsoleCursorPosition(target,cursor))throw Failure("terminal_output_error");
     }
-    bool next(TuiInput& event,bool& resize) {
+    bool next(TextInput& event,bool& resize) {
         resize=false;const DWORD ready=WaitForSingleObject(input,100);
         if(ready==WAIT_TIMEOUT)return false;
         if(ready!=WAIT_OBJECT_0)throw Failure("terminal_input_error");
@@ -177,23 +177,23 @@ public:
         if(vk>=pressed.size())return false;
         if(!key.bKeyDown) {pressed[vk]=false;return false;}
         const bool repeated=pressed[vk] || key.wRepeatCount>1;pressed[vk]=true;
-        event={TuiKey::Text,"",repeated};
+        event={TextKey::Text,"",repeated};
         const bool ctrl=(key.dwControlKeyState&(LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED))!=0;
         const bool alt=(key.dwControlKeyState&(LEFT_ALT_PRESSED|RIGHT_ALT_PRESSED))!=0;
-        if(ctrl && vk=='C') {event.key=TuiKey::F10;return true;}
+        if(ctrl && vk=='C') {event.key=TextKey::F10;return true;}
         if(ctrl || alt) {high=0;return false;}
         switch(vk) {
-        case VK_UP:event.key=TuiKey::Up;break;case VK_DOWN:event.key=TuiKey::Down;break;
-        case VK_LEFT:event.key=TuiKey::Left;break;case VK_RIGHT:event.key=TuiKey::Right;break;
-        case VK_HOME:event.key=TuiKey::Home;break;case VK_END:event.key=TuiKey::End;break;case VK_DELETE:event.key=TuiKey::Delete;break;
-        case VK_PRIOR:event.key=TuiKey::PageUp;break;case VK_NEXT:event.key=TuiKey::PageDown;break;
-        case VK_RETURN:event.key=TuiKey::Enter;break;
-        case VK_TAB:event.key=key.dwControlKeyState&SHIFT_PRESSED?TuiKey::BackTab:TuiKey::Tab;break;
-        case VK_BACK:event.key=TuiKey::Backspace;break;case VK_ESCAPE:event.key=TuiKey::Escape;break;
-        case VK_F2:event.key=TuiKey::F2;break;case VK_F3:event.key=TuiKey::F3;break;
-        case VK_F4:event.key=TuiKey::F4;break;case VK_F5:event.key=TuiKey::F5;break;
-        case VK_F6:event.key=TuiKey::F6;break;case VK_F9:event.key=TuiKey::F9;break;
-        case VK_F10:event.key=TuiKey::F10;break;
+        case VK_UP:event.key=TextKey::Up;break;case VK_DOWN:event.key=TextKey::Down;break;
+        case VK_LEFT:event.key=TextKey::Left;break;case VK_RIGHT:event.key=TextKey::Right;break;
+        case VK_HOME:event.key=TextKey::Home;break;case VK_END:event.key=TextKey::End;break;case VK_DELETE:event.key=TextKey::Delete;break;
+        case VK_PRIOR:event.key=TextKey::PageUp;break;case VK_NEXT:event.key=TextKey::PageDown;break;
+        case VK_RETURN:event.key=TextKey::Enter;break;
+        case VK_TAB:event.key=key.dwControlKeyState&SHIFT_PRESSED?TextKey::BackTab:TextKey::Tab;break;
+        case VK_BACK:event.key=TextKey::Backspace;break;case VK_ESCAPE:event.key=TextKey::Escape;break;
+        case VK_F2:event.key=TextKey::F2;break;case VK_F3:event.key=TextKey::F3;break;
+        case VK_F4:event.key=TextKey::F4;break;case VK_F5:event.key=TextKey::F5;break;
+        case VK_F6:event.key=TextKey::F6;break;case VK_F9:event.key=TextKey::F9;break;
+        case VK_F10:event.key=TextKey::F10;break;
         default: {
             const wchar_t ch=key.uChar.UnicodeChar;
             if(ch>=0xd800 && ch<=0xdbff) {high=ch;return false;}
@@ -207,7 +207,7 @@ public:
             break;
         }
         }
-        if(event.key!=TuiKey::Text)high=0;
+        if(event.key!=TextKey::Text)high=0;
         return true;
     }
 };
@@ -221,7 +221,7 @@ int run_windows_tui(const std::string& style,const std::function<std::unique_ptr
 #endif
         while(!model->done() && !interrupted.load()) {
             if(model->tick())terminal.draw(*model);
-            TuiInput event{TuiKey::Text,"",false};bool resize=false;
+            TextInput event{TextKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
                 if(!model->done())terminal.draw(*model);
@@ -238,7 +238,7 @@ int run_windows_shell(const std::string& style,const std::function<std::unique_p
 #endif
         while(!model->done() && !interrupted.load()) {
             if(model->tick())terminal.draw(*model);
-            TuiInput event{TuiKey::Text,"",false};bool resize=false;
+            TextInput event{TextKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
                 if(!model->done())terminal.draw(*model);

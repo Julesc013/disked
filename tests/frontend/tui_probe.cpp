@@ -21,16 +21,16 @@ int main(int argc,char**) {
         auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire")result.put("test_parameters",parameters);
         return disked::completed(id,result);
     });
-    const std::map<std::string,disked::TuiKey> keys={{"up",disked::TuiKey::Up},{"down",disked::TuiKey::Down},{"enter",disked::TuiKey::Enter},
-        {"pageup",disked::TuiKey::PageUp},{"pagedown",disked::TuiKey::PageDown},{"tab",disked::TuiKey::Tab},{"backtab",disked::TuiKey::BackTab},
-        {"backspace",disked::TuiKey::Backspace},{"escape",disked::TuiKey::Escape},{"f2",disked::TuiKey::F2},{"f3",disked::TuiKey::F3},
-        {"f4",disked::TuiKey::F4},{"f5",disked::TuiKey::F5},{"f6",disked::TuiKey::F6},{"f9",disked::TuiKey::F9},{"f10",disked::TuiKey::F10}};
+    const std::map<std::string,disked::TextKey> keys={{"up",disked::TextKey::Up},{"down",disked::TextKey::Down},{"enter",disked::TextKey::Enter},
+        {"pageup",disked::TextKey::PageUp},{"pagedown",disked::TextKey::PageDown},{"tab",disked::TextKey::Tab},{"backtab",disked::TextKey::BackTab},
+        {"backspace",disked::TextKey::Backspace},{"escape",disked::TextKey::Escape},{"f2",disked::TextKey::F2},{"f3",disked::TextKey::F3},
+        {"f4",disked::TextKey::F4},{"f5",disked::TextKey::F5},{"f6",disked::TextKey::F6},{"f9",disked::TextKey::F9},{"f10",disked::TextKey::F10}};
     std::string line;
     while(std::getline(std::cin,line))try {
         disked::json::Limits input_limits;input_limits.string_bytes=65536;
         auto message=disked::json::parse(line,input_limits);const auto* op=message.find("op");
         if(op && op->text=="key")model.input({keys.at(message.find("key")->text),"",message.find("repeat") && message.find("repeat")->boolean});
-        if(op && op->text=="text")model.input({disked::TuiKey::Text,message.find("text")->text,false});
+        if(op && op->text=="text")model.input({disked::TextKey::Text,message.find("text")->text,false});
         if(op && op->text=="stage")model.stage(message.find("command")->text,*message.find("parameters"));
         if(op && op->text=="publish") {
             if(const auto* removed=message.find("remove")) {
