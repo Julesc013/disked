@@ -6,7 +6,7 @@ def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
 def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--repository',type=Path,default=Path.cwd())
-    p.add_argument('--source-revision',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p.add_argument('--source-revision',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--reuse-product-evidence',type=Path);a=p.parse_args()
     assert re.fullmatch('[0-9a-f]{40}',a.source_revision);root=a.repository.absolute();out=a.output.absolute();out.mkdir();logs=out/'logs';logs.mkdir();commands=[]
     def run(name,args,cwd,limit=180):
         args=list(map(str,args));start=time.monotonic();r=subprocess.run(args,cwd=cwd,capture_output=True,timeout=limit)
@@ -38,21 +38,39 @@ def main():
     assert cursor==len(blobs)
     assert sha(Path(__file__).absolute())==inputs['.aide/evidence/2026-10-10-source-layout/reproduce.py'];save(out/'source-inputs.json',inputs)
     run('cmake-version',['cmake','--version'],checkout);run('python-environment',[sys.executable,'-c','import sys,importlib.metadata as m;print(sys.version);print("PyYAML="+m.version("PyYAML"));print("jsonschema="+m.version("jsonschema"))'],checkout)
-    run('product-configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable],checkout)
-    run('product-build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],checkout,1200)
-    catalog=json.loads(run('product-test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1'],checkout));assert len(catalog['tests'])==77
-    tests=run('product-native',['ctest','--preset','windows-bootstrap','--output-on-failure'],checkout,2400)
-    assert b'0 tests failed out of 77' in tests
-    shutil.copyfile(checkout/'build/windows-bootstrap/Testing/Temporary/LastTest.log',out/'native-details.log')
-    identity=json.loads((checkout/'build/windows-bootstrap/generated/build-identity.json').read_bytes());save(out/'product-build-identity.json',identity)
-    assert identity['identity']['source_revision']==a.source_revision and identity['identity']['source_state']=='clean'
+    if a.reuse_product_evidence:
+        prior=a.reuse_product_evidence.absolute();record=json.loads((prior/'commands.json').read_bytes())
+        for name in ('product-build','product-test-catalog','product-native','product-launch'):
+            assert next(c for c in record if c['name']==name)['exit_code']==0,name
+        catalog=json.loads((prior/'logs/product-test-catalog.log').read_bytes());assert len(catalog['tests'])==77
+        assert b'0 tests failed out of 77' in (prior/'logs/product-native.log').read_bytes()
+        identity=json.loads((prior/'product-build-identity.json').read_bytes())
+        assert set(identity['inputs'])==set(json.loads((checkout/'tools/build-inputs.json').read_bytes())['files'])
+        proof=out/'product-prior';proof.mkdir()
+        for name in ('commands.json','source-inputs.json','native-details.log','product-build-identity.json'):
+            shutil.copyfile(prior/name,proof/name)
+        shutil.copytree(prior/'logs',proof/'logs')
+        product_build=prior/'checkout/build/windows-bootstrap'
+        shutil.copyfile(prior/'native-details.log',out/'native-details.log')
+        save(out/'product-reuse.json',dict(product_source_revision=identity['identity']['source_revision'],current_source_revision=a.source_revision,scope='Reuse after exact equality of every product input; private probe and routing metadata changes do not rebuild or rerun the product.',product_inputs=len(identity['inputs'])))
+    else:
+        run('product-configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable],checkout)
+        run('product-build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],checkout,1200)
+        catalog=json.loads(run('product-test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1'],checkout));assert len(catalog['tests'])==77
+        tests=run('product-native',['ctest','--preset','windows-bootstrap','--output-on-failure'],checkout,2400)
+        assert b'0 tests failed out of 77' in tests
+        shutil.copyfile(checkout/'build/windows-bootstrap/Testing/Temporary/LastTest.log',out/'native-details.log')
+        product_build=checkout/'build/windows-bootstrap'
+        identity=json.loads((product_build/'generated/build-identity.json').read_bytes())
+        assert identity['identity']['source_revision']==a.source_revision
+    save(out/'product-build-identity.json',identity)
+    assert identity['identity']['source_state']=='clean'
     assert all(sha(checkout/n)==d for n,d in identity['inputs'].items())
-    product=checkout/'build/windows-bootstrap/Release/disked.exe'
+    product=product_build/'Release/disked.exe'
     launch=json.loads(run('product-launch',[product,'build','inspect','--json'],checkout))['result']
-    assert launch['version']=='0.1.0-dev.40' and launch['source_revision']==a.source_revision
+    assert launch['version']=='0.1.0-dev.40' and launch['source_revision']==identity['identity']['source_revision']
     artifacts=[dict(kind='product',architecture='x64',path=str(product),bytes=product.stat().st_size,sha256=sha(product))]
     product_config=out/'product-build-configuration';product_config.mkdir()
-    product_build=checkout/'build/windows-bootstrap'
     for n in ('CMakeCache.txt','disked.vcxproj'):shutil.copyfile(product_build/n,product_config/n)
     for f in (product_build/'CMakeFiles').rglob('CMake*Compiler.cmake'):shutil.copyfile(f,product_config/f.name)
     campaigns=[];dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe')
@@ -83,7 +101,7 @@ def main():
     run('verify-context',[sys.executable,'spec/tools/specctl.py','verify-context',out/'context'],checkout);run('verify-manifest',[sys.executable,'spec/tools/specctl.py','verify-manifest'],checkout)
     assert not run('final-source-status',['git','status','--porcelain'],checkout).strip();assert all(sha(checkout/n)==d for n,d in inputs.items())
     summary=dict(status='pass',source_revision=a.source_revision,host=host,source_inputs=len(inputs),campaigns=campaigns,artifacts=artifacts,tooling_tests=dict(run=count,passed=count-skip,skipped=skip),structural_checks=check['checks'],
-        product_inputs=len(identity['inputs']),product_version=launch['version'],native_ctest_groups=77,product_rebuilt=True,product_suite_rerun=True,live_storage_qualified=False,physical_access=False,owned_injected_reader_qualified=True,cached_frontend_model_qualified=True,actual_window_terminal_qualified=False,live_worker_qualified=False,provider_admitted=False,historical_windows_qualified=False,unit_complete=False,owner_accepted=False,remote_writes=False)
+        product_inputs=len(identity['inputs']),product_version=launch['version'],product_source_revision=identity['identity']['source_revision'],product_build_directory=str(product_build),native_ctest_groups=77,product_rebuilt=not bool(a.reuse_product_evidence),product_suite_rerun=not bool(a.reuse_product_evidence),live_storage_qualified=False,physical_access=False,owned_injected_reader_qualified=True,cached_frontend_model_qualified=True,actual_window_terminal_qualified=False,live_worker_qualified=False,provider_admitted=False,historical_windows_qualified=False,unit_complete=False,owner_accepted=False,remote_writes=False)
     save(out/'results.json',summary);print(json.dumps(summary),flush=True)
 
 if __name__=='__main__':main()

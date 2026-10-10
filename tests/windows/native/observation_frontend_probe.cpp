@@ -5,6 +5,7 @@
 #include "session.h"
 #include "gui_model.h"
 #include "shell_model.h"
+#include "tui_model.h"
 #include "memory_budget.h"
 #include <cstdio>
 #include <cstdlib>
