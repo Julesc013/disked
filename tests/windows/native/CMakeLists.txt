@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(DiskEdNtVolumeNamespace LANGUAGES CXX)
+project(DiskEdNtVolumeNamespace LANGUAGES C CXX)
 if(NOT WIN32 OR NOT MSVC)
   message(FATAL_ERROR "Selected Windows MSVC adapter fixture only")
 endif()
@@ -125,6 +125,36 @@ target_include_directories(nt_identity_query_probe PRIVATE ${identity_query_incl
 target_compile_definitions(nt_identity_query_probe PRIVATE _WIN32_WINNT=0x0501 WINVER=0x0501)
 target_compile_options(nt_identity_query_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_identity_query_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+# Independent image-byte parsing and separately injected OS layout comparison.
+# No product link, physical handle, owned-worker or provider admission.
+add_executable(nt_raw_layout_probe ${identity_query_sources}
+  "${CMAKE_CURRENT_LIST_DIR}/raw_layout_probe.cpp"
+  "${DISKED_ROOT}/source/providers/windows/storage_frame_reader.cpp"
+  "${DISKED_ROOT}/source/providers/windows/storage_layout.cpp"
+  "${DISKED_ROOT}/source/runtime/capture/raw_layout.cpp"
+  "${DISKED_ROOT}/source/providers/image/local_file.cpp"
+  "${DISKED_ROOT}/source/platform/windows/memory_budget.cpp"
+  "${DISKED_ROOT}/source/portable/primitives/checked.c"
+  "${DISKED_ROOT}/source/portable/primitives/view.c"
+  "${DISKED_ROOT}/source/portable/primitives/extent.c"
+  "${DISKED_ROOT}/source/portable/mbr/mbr.c"
+  "${DISKED_ROOT}/source/portable/ebr/ebr.c"
+  "${DISKED_ROOT}/source/portable/gpt/gpt.c"
+  "${DISKED_ROOT}/source/portable/gpt/encoding.c")
+target_include_directories(nt_raw_layout_probe PRIVATE ${identity_query_includes}
+  "${DISKED_ROOT}/source/runtime/capture"
+  "${DISKED_ROOT}/source/providers/image"
+  "${DISKED_ROOT}/source/platform/windows"
+  "${DISKED_ROOT}/source/portable/primitives"
+  "${DISKED_ROOT}/source/portable/mbr"
+  "${DISKED_ROOT}/source/portable/ebr"
+  "${DISKED_ROOT}/source/portable/gpt")
+set_target_properties(nt_raw_layout_probe PROPERTIES C_STANDARD 90 C_STANDARD_REQUIRED ON)
+target_compile_definitions(nt_raw_layout_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00)
+target_compile_options(nt_raw_layout_probe PRIVATE /W4 /WX /utf-8 /GS /sdl /guard:cf
+  $<$<COMPILE_LANGUAGE:CXX>:/permissive->)
+target_link_options(nt_raw_layout_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
 
 add_executable(nt_storage_worker_probe
   "${DISKED_ROOT}/source/platform/windows/storage/identity_queries.cpp"

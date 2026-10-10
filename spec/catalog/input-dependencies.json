@@ -7026,7 +7026,14 @@
         "tests/windows/native/storage_worker_probe.cpp",
         "tests/windows/native/observation_frontend_probe.cpp",
         "tests/windows/native/identity_query_probe.cpp",
-        "tests/windows/test_identity_frame.py"
+        "tests/windows/test_identity_frame.py",
+        "spec/catalog/nt-raw-layout-prototype.json",
+        "source/runtime/capture/raw_layout.h",
+        "source/runtime/capture/raw_layout.cpp",
+        "source/providers/windows/storage_layout.h",
+        "source/providers/windows/storage_layout.cpp",
+        "tests/windows/native/raw_layout_probe.cpp",
+        "tests/windows/test_raw_layout.py"
       ],
       "spec_ids": [
         "DE-034",
@@ -7931,6 +7938,120 @@
         "DE-023",
         "DE-024",
         "DE-028",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-raw-layout-prototype.json",
+      "path": "spec/catalog/nt-raw-layout-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-034",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/raw_layout.h",
+      "path": "source/runtime/capture/raw_layout.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h",
+        "source/portable/primitives/extent.h",
+        "spec/catalog/nt-raw-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-032",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/raw_layout.cpp",
+      "path": "source/runtime/capture/raw_layout.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/raw_layout.h",
+        "source/portable/mbr/mbr.h",
+        "source/portable/ebr/ebr.h",
+        "source/portable/gpt/gpt.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-032",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_layout.h",
+      "path": "source/providers/windows/storage_layout.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/raw_layout.h",
+        "source/providers/windows/storage_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_layout.cpp",
+      "path": "source/providers/windows/storage_layout.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_layout.h",
+        "spec/catalog/nt-raw-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/native/raw_layout_probe.cpp",
+      "path": "tests/windows/native/raw_layout_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_layout.h",
+        "source/providers/windows/storage_frame_reader.h",
+        "tests/windows/native/storage_fixture.h",
+        "source/providers/image/local_file.h",
+        "source/platform/windows/memory_budget.h"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_raw_layout.py",
+      "path": "tests/windows/test_raw_layout.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/raw_layout_probe.cpp",
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_identity_queries.py",
+        "tests/corpus/partition_images.py",
+        "spec/catalog/nt-raw-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-raw-layout/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-raw-layout/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_raw_layout.py",
+        "tests/windows/native/CMakeLists.txt"
+      ],
+      "spec_ids": [
         "DE-034"
       ]
     }

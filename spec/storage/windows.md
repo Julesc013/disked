@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.7-proposed.2
+  version: 0.1.8-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -243,3 +243,32 @@ Generated x64/x86 fixtures, pure replay mutations, maximum current/cached graphs
 owned reader failure/retirement and /1 regression evidence must qualify this
 bounded profile before further admission. Live devices, public/product/provider,
 composite identity, raw comparison, platforms and owner/full-unit gates remain.
+
+## Private independent raw-layout comparison
+
+The [generated-image comparison profile](../catalog/nt-raw-layout-prototype.json)
+selects a bounded immutable raw value separately from the IdentityLayout /2
+Windows observation. Runtime capture reuses portable MBR/EBR/GPT parsers over
+supplied bytes; the Windows provider performs a pure comparison. The eight-row
+image review report remains a display, not a complete comparison input.
+
+Both GPT copies and an unambiguous protective MBR must be complete, consistent
+and agreeing before a canonical GPT layout exists. MBR/EBR walks retain topology
+and explicit faults. Selected limits cannot truncate into an agreement. Metadata
+coverage, supplied-prefix completeness, unknown source consistency and unknown
+CHS correspondence remain separate properties.
+
+Compare available format, capacity, logical units, disk fields and uniquely
+correlated active partition byte extents and common metadata. Retain missing,
+extra, ambiguous and differing records. EBR links have separate structural roles;
+transient numbers, ordering and host recognition/policy fields are not identity.
+Missing capacity, logical-unit or layout evidence prevents overall agreement.
+
+The receipt binds exact raw/frame content, the selected subject and caller's
+fixture source/capture/worker tuple. Frame capture must match; the caller declares
+the worker tuple, which does not authenticate an owned reader. Content agreement
+within that scope proves neither common physical source nor live acquisition
+consistency, media identity or storage authority. Original observations and their
+claims remain immutable. Generated x64/x86 ordinary-image fixtures must qualify
+this private selection; live, owned-reader, provider/product/public, historical
+platform, owner acceptance and full-unit admission remain separate gates.
