@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:required-input:1",
+  "title": "required-input:1",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "catalog",
+        "schema",
+        "fixture",
+        "generator",
+        "build",
+        "instructions",
+        "evidence",
+        "metadata"
+      ]
+    },
+    "delivery": {
+      "enum": [
+        "content",
+        "artifact"
+      ]
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "spec_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "id",
+    "path",
+    "kind",
+    "delivery",
+    "depends_on",
+    "spec_ids"
+  ],
+  "additionalProperties": false
+}

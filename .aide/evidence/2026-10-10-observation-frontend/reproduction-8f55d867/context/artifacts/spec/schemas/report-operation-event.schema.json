@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-operation-event:1",
+  "title": "Provisional report watch event producer conformance",
+  "allOf": [
+    {
+      "$ref": "urn:disked:schema:event:1"
+    },
+    {
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^report-op:[0-9a-f]{32}$"
+        },
+        "type": {
+          "enum": [
+            "report.operation.record",
+            "report.operation.snapshot"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schema": {
+              "const": "org.disked.report-operation-event/1"
+            },
+            "request_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "observer_epoch": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^watch:[0-9a-f]{32}$"
+            },
+            "record": {
+              "$ref": "urn:disked:schema:report-worker-record:2"
+            }
+          },
+          "required": [
+            "schema",
+            "request_id",
+            "observer_epoch",
+            "record"
+          ]
+        }
+      }
+    }
+  ]
+}

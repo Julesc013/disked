@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-image-path-parameters:1",
+  "title": "command-image-path-parameters",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "logical_block_bytes": {
+      "type": "string",
+      "enum": [
+        "512",
+        "4096"
+      ]
+    }
+  },
+  "required": [
+    "path"
+  ],
+  "additionalProperties": false
+}

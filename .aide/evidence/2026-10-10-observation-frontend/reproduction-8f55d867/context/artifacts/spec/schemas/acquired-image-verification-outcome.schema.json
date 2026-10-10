@@ -1,0 +1,365 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.acquired-image-verification-outcome-prototype/1"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "matched",
+        "mismatch",
+        "incomplete",
+        "cancelled",
+        "refused",
+        "unknown"
+      ]
+    },
+    "diagnostic": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_]*$"
+    },
+    "resource_revalidation": {
+      "type": "string",
+      "enum": [
+        "not_attempted",
+        "passed",
+        "changed",
+        "unavailable"
+      ]
+    },
+    "before": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 76,
+                  "pattern": "^file:sha256:[0-9a-f]{64}$"
+                },
+                "epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "recorded_epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "access": {
+                  "type": "string",
+                  "const": "read"
+                },
+                "bytes": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "x-disked-scalar": "decimal-u64"
+                }
+              },
+              "required": [
+                "identity",
+                "epoch",
+                "recorded_epoch",
+                "access",
+                "bytes"
+              ],
+              "additionalProperties": false
+            },
+            "map": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 76,
+                  "pattern": "^file:sha256:[0-9a-f]{64}$"
+                },
+                "epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "recorded_epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "access": {
+                  "type": "string",
+                  "const": "read"
+                },
+                "bytes": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "x-disked-scalar": "decimal-u64"
+                }
+              },
+              "required": [
+                "identity",
+                "epoch",
+                "recorded_epoch",
+                "access",
+                "bytes"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "image",
+            "map"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "after": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 76,
+                  "pattern": "^file:sha256:[0-9a-f]{64}$"
+                },
+                "epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "recorded_epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "access": {
+                  "type": "string",
+                  "const": "read"
+                },
+                "bytes": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "x-disked-scalar": "decimal-u64"
+                }
+              },
+              "required": [
+                "identity",
+                "epoch",
+                "recorded_epoch",
+                "access",
+                "bytes"
+              ],
+              "additionalProperties": false
+            },
+            "map": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 76,
+                  "pattern": "^file:sha256:[0-9a-f]{64}$"
+                },
+                "epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "recorded_epoch": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "access": {
+                  "type": "string",
+                  "const": "read"
+                },
+                "bytes": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "x-disked-scalar": "decimal-u64"
+                }
+              },
+              "required": [
+                "identity",
+                "epoch",
+                "recorded_epoch",
+                "access",
+                "bytes"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "image",
+            "map"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "records": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "consumed_map_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "covered_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "read_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "matched_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "source_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "substituted_bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "sealed": {
+      "type": "boolean"
+    },
+    "pending": {
+      "type": "boolean"
+    },
+    "scope": {
+      "type": "string",
+      "const": "current-ordinary-image-matching-recorded-map"
+    },
+    "claims": {
+      "type": "object",
+      "properties": {
+        "authenticity": {
+          "type": "string",
+          "const": "not_established"
+        },
+        "mutation_authority": {
+          "type": "boolean",
+          "const": false
+        },
+        "physical_admission": {
+          "type": "boolean",
+          "const": false
+        },
+        "point_in_time_acquisition": {
+          "type": "string",
+          "const": "not_established"
+        },
+        "source_preservation": {
+          "type": "string",
+          "const": "not_established"
+        },
+        "worker_exit": {
+          "type": "string",
+          "const": "not_observed"
+        }
+      },
+      "required": [
+        "authenticity",
+        "mutation_authority",
+        "physical_admission",
+        "point_in_time_acquisition",
+        "source_preservation",
+        "worker_exit"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "diagnostic",
+    "resource_revalidation",
+    "before",
+    "after",
+    "records",
+    "consumed_map_bytes",
+    "covered_bytes",
+    "read_bytes",
+    "matched_bytes",
+    "source_bytes",
+    "substituted_bytes",
+    "sealed",
+    "pending",
+    "scope",
+    "claims"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquired-image-verification-outcome:1",
+  "title": "Provisional historical image-byte verification outcome; no current-source certificate"
+}

@@ -135,7 +135,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W030 contained injected namespace observer: clean x64/x86 late/cancel/
   hang/crash/retirement/disconnect and bound producer-refusal campaigns at `d3798a7`.
   Evidence: `.aide/evidence/2026-10-10-nt-contained/`. No live/product/provider admission.
-- [ ] DE-W030: qualify observation frontend semantics; then native identity/
+- [ ] DE-W030: qualify actual new-profile interfaces/admission; continue native identity/
   raw layout and live/provider/service/platform admission. Full unit,
   physical/owner/release authority and the full 0.1.0 scope remain open.
 
@@ -160,3 +160,12 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   `16259b7a`. Evidence: `.aide/evidence/2026-10-10-storage-worker/`.
   Product inputs remain unchanged; live/frontend/provider/platform/owner/full-unit
   and every broader 0.1.0 platform/storage qualification remain open.
+
+- [x] DE-W030 compiled private cached frontend: clean dev.39 at `8f55d867`,
+  77 product groups and x64/x86 15/26/1300 frontend campaigns,
+  with all private regressions retained. Evidence: `.aide/evidence/2026-10-10-observation-frontend/`.
+  Ordinary product stays Fake; physical/live/provider/protocol/platform/owner/full-unit gates stay open.
+- [x] Source ownership clarification: CLI presentation under `cli/`, all-mode
+  composition under `app.*`, explicit `tui_model.*` and toolkit-free GUI model
+  under `gui/`. `docs/source-map.md` covers all 170 current files and future owners;
+  no speculative empty tree or public identifier change.

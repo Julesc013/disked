@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.verification-worker-record-prototype/1"
+    },
+    "state": {
+      "$ref": "urn:disked:schema:verification-worker-state:1"
+    },
+    "previous": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "state",
+    "previous",
+    "digest"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-worker-record:1",
+  "title": "Provisional exact canonical record and digest domain"
+}

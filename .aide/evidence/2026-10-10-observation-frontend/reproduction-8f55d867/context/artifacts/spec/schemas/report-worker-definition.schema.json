@@ -1,0 +1,156 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.report-worker-definition-prototype/1"
+    },
+    "export": {
+      "$ref": "urn:disked:schema:acquisition-case-export-definition:1"
+    },
+    "store": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "generation": {
+          "type": "object",
+          "properties": {
+            "created": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "file_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "pattern": "^[0-9a-f]{32}$"
+            },
+            "volume_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            }
+          },
+          "required": [
+            "created",
+            "file_id",
+            "volume_id"
+          ],
+          "additionalProperties": false
+        },
+        "ancestors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 120,
+          "items": {
+            "type": "object",
+            "properties": {
+              "created": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "pattern": "^(0|[1-9][0-9]{0,19})$"
+              },
+              "file_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32,
+                "pattern": "^[0-9a-f]{32}$"
+              },
+              "volume_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "pattern": "^(0|[1-9][0-9]{0,19})$"
+              }
+            },
+            "required": [
+              "created",
+              "file_id",
+              "volume_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "access": {
+          "type": "string",
+          "const": "create-owned-metadata"
+        },
+        "children": {
+          "type": "array",
+          "const": [
+            "report.request",
+            "report.records",
+            "report.cancel",
+            "report.admission"
+          ]
+        },
+        "failure_domain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960
+        }
+      },
+      "required": [
+        "path",
+        "generation",
+        "ancestors",
+        "access",
+        "children",
+        "failure_domain"
+      ],
+      "additionalProperties": false
+    },
+    "host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "image_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "input_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "target_profile": {
+      "type": "string",
+      "const": "windows.nt10.x64.win32"
+    }
+  },
+  "required": [
+    "schema",
+    "export",
+    "store",
+    "host_id",
+    "image_digest",
+    "source_revision",
+    "input_digest",
+    "target_profile"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-definition:1",
+  "title": "Private native report execution definition",
+  "description": "Provisional producer/review conformance. Semantic validation binds nested joint inputs, worker/producer identity, bounded integers and store ancestry; fresh native reconstruction is still required. No authenticated approval, stable public API or production journal ABI."
+}

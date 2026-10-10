@@ -1,0 +1,60 @@
+{
+  "schema": "org.disked.native-bootstrap/1",
+  "work_id": "DE-W010",
+  "product": "DiskEd",
+  "version": "0.1.0-dev.39",
+  "target_id": "windows.nt10.x64.win32",
+  "composition_id": "windows.native.image.prototype",
+  "compiler_id": "MSVC",
+  "compiler_version": "19.44.35228.0",
+  "toolset": "14.44.35207",
+  "sdk": "10.0.19041.0",
+  "language": "C++14",
+  "crt": "static-release-MT",
+  "implemented_commands": [
+    "build.inspect",
+    "command.list",
+    "protocol.serve",
+    "mode.explain",
+    "target.list",
+    "target.inspect",
+    "topology.show",
+    "capability.explain",
+    "plan.simulate",
+    "operation.inspect",
+    "operation.cancel.request",
+    "shell.open",
+    "shell.close",
+    "operation.watch",
+    "image.inspect",
+    "table.verify",
+    "image.acquire",
+    "health.assess",
+    "evidence.export",
+    "image.verify"
+  ],
+  "fake_provider_id": "provider.fake.bootstrap/1",
+  "diagnostics": {
+    "invalid_arguments": {
+      "exit": 2,
+      "message": "invalid bootstrap arguments"
+    },
+    "command_unavailable": {
+      "exit": 3,
+      "message": "command is unavailable in this composition"
+    },
+    "feature_unavailable": {
+      "exit": 3,
+      "message": "control is unavailable in this composition"
+    },
+    "output_error": {
+      "exit": 4,
+      "message": "unable to write output"
+    }
+  },
+  "image_provider_id": "provider.image.raw.prototype/1",
+  "acquisition_provider_id": "provider.image.acquire.raw.prototype/1",
+  "report_provider_id": "provider.report.acquisition-case.prototype/1",
+  "verification_provider_id": "provider.image.verify.recorded.prototype/1",
+  "joined_report_provider_id": "provider.report.acquisition-verification.prototype/1"
+}

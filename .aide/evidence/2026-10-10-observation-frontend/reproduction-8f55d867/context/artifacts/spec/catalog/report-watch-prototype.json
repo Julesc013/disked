@@ -1,0 +1,33 @@
+{
+  "schema": "org.disked.report-watch-profile/1",
+  "status": "proposed",
+  "scope": "Exact native report metadata observation and common operation dispatch in candidate ordinary-file composition; real product frontend and bounded waiting qualification required.",
+  "command_ids": [
+    "operation.inspect",
+    "operation.cancel.request",
+    "operation.watch"
+  ],
+  "required_feature": "org.disked.report-operation-events/1",
+  "payload_schema": "org.disked.report-operation-event/1",
+  "selection": "Only report-op:<32 lowercase hex> and the explicit owned state directory. Inspect/cancel read report.request/records under strong ancestor/store/host and exact file identity checks. Never follow old case/copy/map/output paths or restart an operation. Compatible retained code can be observed without regranting that code writer authority.",
+  "watch": "Use the retained exact request/header to validate every /2 row digest/state/definition/attempt/worker binding and progress. Emit org.disked.event/1 with report.operation.record or explicitly requested snapshot. Sequence belongs to the one retained attempt; observer_epoch belongs to this request only. Resume requires worker_epoch, after_sequence and after_digest matching the retained chain. A snapshot skips earlier delivery only; it does not establish unobserved execution or grant authority.",
+  "replies": "A finished valid watch completes the observation even for failed/cancelled/unknown logical outcomes. A valid active finite watch returns accepted_running/5 and exact report ID. Torn history or an active worker whose actual identity is unavailable/exited/reused remains unknown/6, retaining validated rows, cursor and last accepted state where available. Invalid cursors are refused/2. Invalid complete rows never emit speculative events. Cancellation request persistence is separate from worker cancellation_observation; no rollback/cleanup or process ownership transfer.",
+  "containment": "follow_ms is 0..2000, poll interval 25 ms. This bounds intentional following, not blocked Windows API latency. Private follow/queue closure does not kill the worker. Bounded product waiting still requires its common RequestChannel/BoundedRequests gate. Preflight the whole proposed reply and event batch before advancing its cursor or delivering its events, reserving 2048 bytes and 128 JSON values for a later bounded unknown diagnostic. A later failure preserves previously validated collected events/cursor/state; streamed frames already delivered remain valid. Cumulative private collected/queued delivery budget 768 KiB, at most 64 events. Shared queue retains existing 64-event/1 MiB cap.",
+  "reader": "WatchReader rejects gaps, conflicting duplicates, wrong operations, observer changes, old worker epochs, binding changes, post-terminal/progress regression and unrequested snapshots without advancing the accepted cursor. Exact duplicates are idempotent. Additive observational outer fields may be retained within limits; producer schemas remain strict. Unknown required features are rejected.",
+  "limits": {
+    "record_bytes": 65536,
+    "record_values": 8192,
+    "event_bytes": 67584,
+    "event_values": 8256,
+    "reply_bytes": 1048575,
+    "reply_values": 131072,
+    "reply_reserve_bytes": 2048,
+    "reply_reserve_values": 128,
+    "delivery_bytes": 786432,
+    "events": 64,
+    "follow_ms": 2000,
+    "poll_ms": 25
+  },
+  "availability": "Candidate product composition selects the report backend; exact report IDs route to it without fake fallback. Admission claims require retained actual CLI/stdio/GUI/TUI/shell tests. No stable public/persisted ABI or broader storage authority.",
+  "next_gate": "Qualify actual bounded product waiting, report event/reply/rendering limits, frontend journeys and exact artifacts. Full DE-W034 and all-platform/storage scope and owner/privilege/release gates remain separate."
+}

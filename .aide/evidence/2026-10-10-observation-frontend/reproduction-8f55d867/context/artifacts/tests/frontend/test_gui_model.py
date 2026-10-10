@@ -1,0 +1,118 @@
+"""Native GUI-model behavior and three-frontend service parity."""
+import argparse
+import json
+import subprocess
+import unittest
+from pathlib import Path
+
+
+class Model(unittest.TestCase):
+    def setUp(self):self.p=subprocess.Popen([str(ARGS.probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    def tearDown(self):
+        self.p.stdin.close()
+        try:self.assertEqual(0,self.p.wait(timeout=5));self.assertEqual(b'',self.p.stderr.read())
+        finally:
+            if self.p.poll() is None:self.p.kill();self.p.wait()
+            self.p.stdout.close();self.p.stderr.close()
+    def call(self,op='',**fields):
+        self.p.stdin.write(json.dumps(dict(op=op,**fields),ensure_ascii=False).encode()+b'\n');self.p.stdin.flush()
+        result=json.loads(self.p.stdout.readline());self.assertNotIn('error',result);return result
+    def stage(self,command,**parameters):return self.call('stage',command=command,parameters=parameters)
+    def execute(self):self.call('review');return self.call('submit')['state']['last_outcome']
+
+    def test_identity_selection_and_missing_focus_survive_refresh(self):
+        self.call('open');self.call('publish',remove='fake:alpha@1')
+        self.assertEqual('revision_conflict',self.call('open')['state']['last_outcome']['diagnostics'][0]['code'])
+        state=self.call('refresh')['state'];self.assertEqual('missing',state['selection']['state']);self.assertEqual('fake:alpha@1',state['focus'])
+        self.assertEqual('target_not_found',self.call('open')['state']['last_outcome']['diagnostics'][0]['code'])
+        self.call('navigate',commands=True);state=self.call('navigate',commands=False)['state'];self.assertEqual('fake:alpha@1',state['focus'])
+        self.assertEqual('none',self.call('clear')['state']['selection']['state'])
+
+    def test_review_is_consumed_by_edit_submit_and_new_request(self):
+        self.stage('target.inspect',target_id='fake:alpha@1');self.call('submit')
+        self.assertEqual('0',self.call()['state']['requests'])
+        self.call('review');state=self.call('edit',field='target_id',value='fake:denied@1')['state'];self.assertFalse(state['reviewed'])
+        self.call('submit');self.assertEqual('0',self.call()['state']['requests'])
+        self.execute();self.call('submit');self.assertEqual('1',self.call()['state']['requests'])
+        self.call('review');self.stage('target.list');self.call('submit');self.assertEqual('1',self.call()['state']['requests'])
+
+    def test_stale_review_is_not_rebased_by_refresh(self):
+        self.stage('target.inspect',target_id='fake:alpha@1');self.call('review');old=self.call()['details']['expected_revision']
+        self.call('publish');self.call('refresh');self.assertEqual(old,self.call()['details']['expected_revision'])
+        self.assertEqual('revision_conflict',self.call('submit')['state']['last_outcome']['diagnostics'][0]['code'])
+
+    def test_invalid_edit_cannot_authorize_old_value(self):
+        self.stage('target.inspect',target_id='fake:alpha@1')
+        for value in ['x'*4097,'x\ny','x\0y','x\x1by']:
+            self.call('review');self.call('edit',field='target_id',value=value)
+            self.assertFalse(self.call('review')['state']['reviewed']);self.call('submit')
+            self.assertEqual('0',self.call()['state']['requests'])
+            self.assertEqual(value,self.call()['state']['parameters']['target_id'])
+        self.call('edit',field='target_id',value='磁盘💾');self.assertTrue(self.call('review')['state']['reviewed'])
+        self.assertEqual('target_not_found',self.call('submit')['state']['last_outcome']['diagnostics'][0]['code'])
+
+    def test_command_availability_and_no_invented_plan(self):
+        self.assertIsNone(self.call()['details']['proposed'])
+        rows=self.call('navigate',commands=True)['rows']
+        catalog=json.loads((Path(__file__).resolve().parents[2]/'spec/catalog/commands.json').read_text(encoding='utf-8'))
+        self.assertEqual([c['id'] for c in catalog['commands']],[r['id'] for r in rows])
+        self.assertEqual('transport-only',next(r for r in rows if r['id']=='protocol.serve')['state'])
+        for command in ['protocol.serve','shell.open','shell.close','partition.resize.plan']:
+            result=self.stage(command);self.assertEqual('command_unavailable',result['details']['diagnostics'][0]['code']);self.assertFalse(result['state']['form'])
+
+    def test_watch_optional_fields_and_boolean_review_are_typed(self):
+        self.stage('operation.watch',operation_id='fake-op:'+'a'*32,state_directory='C:\\Fixture',snapshot=True)
+        result=self.call('review');self.assertTrue(result['state']['reviewed'])
+        self.assertEqual({'operation_id':'fake-op:'+'a'*32,'state_directory':'C:\\Fixture','snapshot':True},result['details']['parameters'])
+        self.call('edit',field='snapshot',value='yes');self.assertFalse(self.call('review')['state']['reviewed'])
+        self.call('edit',field='snapshot',value='false');self.assertFalse(self.call('review')['details']['parameters']['snapshot'])
+        self.call('edit',field='snapshot',value='');self.assertNotIn('snapshot',self.call('review')['details']['parameters'])
+
+    def test_two_bounded_responses_remain_renderable_without_losing_current_view(self):
+        self.call('synthetic',deferred=True)
+        self.stage('target.list');self.call('review');self.call('submit')
+        self.stage('target.list');self.execute()
+        result=self.call('resolve');display=json.loads(result['rendered'])
+        self.assertEqual('gui:2',display['request_id'])
+        self.assertEqual('gui:1',display['earlier_request']['request_id'])
+        for value in (display,display['earlier_request']):
+            self.assertEqual({'first':'a'*30000,'last':'z'*30000},value['result'])
+        self.assertGreater(len(result['rendered']),65536)
+        self.assertLessEqual(len(result['rendered']),1048576)
+
+    def test_synthetic_joined_current_and_earlier_views_keep_all_values(self):
+        # Envelope/render fixture, deliberately not strict producer admission.
+        self.call('synthetic',deferred=True,joined=True)
+        self.stage('target.list');self.execute()
+        self.stage('target.list');self.execute()
+        display=json.loads(self.call('resolve')['rendered'])
+        self.assertEqual('gui:2',display['request_id']);self.assertEqual('gui:1',display['earlier_request']['request_id'])
+        for value in (display,display['earlier_request']):
+            self.assertEqual(12000,len(value['result']['synthetic_values']))
+            self.assertEqual('z'*30000,value['result']['last'])
+
+    def test_large_inert_definition_editor_is_rendered_without_dispatch(self):
+        self.stage('evidence.export',phase='execute')
+        raw=json.dumps(dict(untrusted='x'*33000),separators=(',',':'))
+        edited=self.call('edit',field='definition',value=raw)
+        self.assertEqual(raw,json.loads(edited['rendered'])['parameters']['definition'])
+        reviewed=self.call('review')['state'];self.assertFalse(reviewed['reviewed']);self.assertEqual('0',reviewed['requests'])
+
+    def test_gui_cli_tui_outcomes_match(self):
+        cases=[('target.list',{}),('topology.show',{}),('target.inspect',dict(target_id='fake:volume@1')),
+               ('target.inspect',dict(target_id='missing')),('capability.explain',dict(target_id='fake:denied@1',operation='partition.resize.plan'))]
+        for command,parameters in cases:
+            self.stage(command,**parameters);actual=self.execute()
+            request=dict(schema='org.disked.request/1',request_id=actual['request_id'],command=command,parameters=parameters,required_features=[])
+            p=subprocess.run([str(ARGS.exe),'protocol','serve','--json'],input=json.dumps(request).encode(),capture_output=True,timeout=10)
+            self.assertEqual(actual,json.loads(p.stdout))
+            messages=[dict(op='stage',command=command,parameters=parameters),dict(op='key',key='f9'),dict(op='key',key='f9')]
+            p=subprocess.run([str(ARGS.tui)],input=b''.join(json.dumps(m).encode()+b'\n' for m in messages),capture_output=True,timeout=10)
+            self.assertEqual(0,p.returncode);tui=json.loads(p.stdout.splitlines()[-1])['state']['last_outcome']
+            tui['request_id']=actual['request_id'];self.assertEqual(actual,tui)
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser()
+    for name in ['probe','exe','tui']:p.add_argument('--'+name,type=Path,required=True)
+    ARGS=p.parse_args();unittest.main(argv=[__file__],verbosity=2)

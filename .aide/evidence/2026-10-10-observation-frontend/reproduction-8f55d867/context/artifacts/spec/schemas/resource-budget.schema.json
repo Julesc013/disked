@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:resource-budget:1",
+  "title": "resource-budget",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.resource-budget/1"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workload": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "measured"
+      ]
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "startup_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "input_latency_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "probe_wait_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_workers": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_replacement_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "queued_events": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "outstanding_io": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scratch_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "startup_ms",
+        "input_latency_ms",
+        "probe_wait_ms",
+        "max_workers",
+        "max_replacement_attempts",
+        "memory_bytes",
+        "frame_bytes",
+        "queued_events",
+        "outstanding_io",
+        "scratch_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "measurement_notes": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema",
+    "target_id",
+    "workload",
+    "status",
+    "limits",
+    "evidence",
+    "measurement_notes"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "measured"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

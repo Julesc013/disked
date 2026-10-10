@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.event/1"
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 42,
+      "pattern": "^verify-op:[0-9a-f]{32}$"
+    },
+    "sequence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "x-disked-scalar": "decimal-u64"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "verify.operation.record",
+        "verify.operation.snapshot"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "org.disked.verification-operation-event/1"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "observer_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 38,
+          "pattern": "^watch:[0-9a-f]{32}$"
+        },
+        "record": {
+          "$ref": "urn:disked:schema:verification-worker-record:1"
+        }
+      },
+      "required": [
+        "schema",
+        "request_id",
+        "observer_epoch",
+        "record"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "operation_id",
+    "sequence",
+    "type",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-operation-event:1",
+  "title": "Strict verification event producer; compatible readers preserve additive outer fields"
+}

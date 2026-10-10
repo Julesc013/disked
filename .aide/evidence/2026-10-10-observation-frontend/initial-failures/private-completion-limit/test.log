@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 117, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 105, in main
+    v=run('maximum-private-graph',dict(mode='synthetic',count='320',fill=str(fill),extra=str(extra)));check('exact maximum independently constructed graph',v['graph']==expected and len(canonical(v['graph']))==786432)
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 66, in run
+    check(label+' inspector completion includes evidence',set(v['completions']['inspect']['candidates'])==set(ids))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 28, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: maximum-private-graph inspector completion includes evidence

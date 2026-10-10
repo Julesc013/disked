@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-worker-state:1",
+  "title": "Provisional acquisition worker observation producer",
+  "description": "Native consumers also bind an independently obtained full definition, verify footprint coverage and record replay. Not a production journal or storage authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "org.disked.acquisition-worker-state/1"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^image-op:[0-9a-f]{32}$"
+        },
+        "worker_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^attempt:[0-9a-f]{32}$"
+        },
+        "definition_digest": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "image_digest": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "host_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "capture_epoch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "process_id": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "process_created": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        }
+      },
+      "required": [
+        "operation_id",
+        "worker_epoch",
+        "attempt_id",
+        "definition_digest",
+        "image_digest",
+        "host_id",
+        "capture_epoch",
+        "process_id",
+        "process_created"
+      ]
+    },
+    "sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "phase": {
+      "enum": [
+        "active",
+        "finished"
+      ]
+    },
+    "checkpoint_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "source_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "substituted_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "observed_filetime": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "quiescent": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:disked:schema:acquisition-outcome-prototype:1"
+        }
+      ]
+    },
+    "receipt": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "active"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quiescent": {
+            "const": false
+          },
+          "outcome": {
+            "type": "null"
+          },
+          "receipt": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "quiescent": {
+            "const": true
+          },
+          "outcome": {
+            "$ref": "urn:disked:schema:acquisition-outcome-prototype:1"
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "schema",
+    "binding",
+    "sequence",
+    "phase",
+    "checkpoint_bytes",
+    "source_bytes",
+    "substituted_bytes",
+    "observed_filetime",
+    "quiescent",
+    "outcome",
+    "receipt"
+  ]
+}

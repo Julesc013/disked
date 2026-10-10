@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:aide-workunit-projection:1",
+  "title": "aide-workunit-projection",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "const": "WorkUnit"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourcePath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "producer": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "name",
+            "version"
+          ],
+          "additionalProperties": true
+        },
+        "compatibility": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "protocolVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minReaderVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minWriterVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "featureFlags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "protocolVersion",
+            "minReaderVersion",
+            "minWriterVersion",
+            "featureFlags"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "sourcePath",
+        "producer",
+        "compatibility"
+      ],
+      "additionalProperties": true
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "build",
+            "check",
+            "harden",
+            "accept",
+            "repair",
+            "unblock",
+            "complete",
+            "unknown"
+          ]
+        },
+        "authorizes_implementation": {
+          "const": false
+        },
+        "check_only": {
+          "type": "boolean"
+        },
+        "acceptance_review": {
+          "type": "boolean"
+        },
+        "implementation_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stop_state": {
+          "const": "needs_review"
+        },
+        "predecessors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "allowed_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "forbidden_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "forbidden_operations": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "read_only_review_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "allowed_paths",
+            "forbidden_paths",
+            "forbidden_operations",
+            "read_only_review_paths"
+          ],
+          "additionalProperties": true
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "commands": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "command": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "const": "NOT_RUN"
+                  }
+                },
+                "required": [
+                  "command",
+                  "status"
+                ],
+                "additionalProperties": true
+              }
+            }
+          },
+          "required": [
+            "commands"
+          ],
+          "additionalProperties": true
+        },
+        "evidence_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "explicit_non_capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "task_id",
+        "title",
+        "work_type",
+        "authorizes_implementation",
+        "check_only",
+        "acceptance_review",
+        "implementation_scope",
+        "stop_state",
+        "predecessors",
+        "dependencies",
+        "scope",
+        "validation",
+        "evidence_requirements",
+        "explicit_non_capabilities"
+      ],
+      "additionalProperties": true
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "const": "planned"
+        },
+        "result": {
+          "const": "NOT_RUN"
+        },
+        "validated": {
+          "const": false
+        },
+        "validation_errors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "validation_warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "phase",
+        "result",
+        "validated",
+        "validation_errors",
+        "validation_warnings"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec",
+    "status"
+  ],
+  "additionalProperties": true,
+  "description": "DiskEd-local conservative projection of required AIDE WorkUnit Queue V1 fields inspected at 5be37bd6510977e6cb2e960859c45b33b048dade; not the upstream schema or live runtime interoperability certificate."
+}

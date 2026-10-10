@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:grant:1",
+  "title": "grant",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.work-grant/1"
+    },
+    "work_id": {
+      "type": "string",
+      "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "base_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spec_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "grantor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_operations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "physical_devices": {
+      "const": false
+    },
+    "elevation": {
+      "const": false
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "none",
+        "read-only-approved-sources"
+      ]
+    },
+    "release_signing": {
+      "const": false
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "max_input_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_worker_attempts": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "max_input_bytes",
+        "max_worker_attempts"
+      ],
+      "additionalProperties": false
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema",
+    "work_id",
+    "base_revision",
+    "spec_digest",
+    "grantor",
+    "issued_at",
+    "allowed_paths",
+    "allowed_actions",
+    "forbidden_operations",
+    "physical_devices",
+    "elevation",
+    "network",
+    "release_signing",
+    "budget",
+    "expires_at"
+  ],
+  "additionalProperties": false
+}

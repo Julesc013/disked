@@ -1,0 +1,124 @@
+{
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "const": "recorded-acquisition-verification-support-export"
+    },
+    "authenticity": {
+      "type": "string",
+      "const": "not_established"
+    },
+    "request_kind": {
+      "type": "string",
+      "enum": [
+        "operation-observation",
+        "export-execution"
+      ]
+    },
+    "definition": {
+      "$ref": "urn:disked:schema:report-worker-definition:2"
+    },
+    "definition_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 71,
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "state": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:disked:schema:report-worker-state:2"
+        }
+      ]
+    },
+    "last_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "history_complete": {
+      "type": "boolean"
+    },
+    "worker_observation": {
+      "type": "string",
+      "enum": [
+        "running",
+        "exited",
+        "unavailable",
+        "reused_identity",
+        "changed_image_path"
+      ]
+    },
+    "cancellation_request": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "too_late"
+      ]
+    },
+    "admission": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "request_state": {
+      "type": "string",
+      "const": "unresolved"
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 960
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "urn:disked:schema:report-operation-event:1"
+      }
+    },
+    "observer_epoch": {
+      "type": "string",
+      "pattern": "^watch:[0-9a-f]{32}$"
+    },
+    "last_sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "worker_epoch": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "pattern": "^worker:[0-9a-f]{32}$"
+    },
+    "last_validated_state": {
+      "$ref": "urn:disked:schema:report-worker-state:2"
+    },
+    "custody_authentication": {
+      "const": "not_established"
+    },
+    "current_image_state": {
+      "const": "not_established"
+    },
+    "power_loss_persistence": {
+      "const": "not_established"
+    }
+  },
+  "required": [
+    "scope",
+    "authenticity",
+    "request_kind",
+    "custody_authentication",
+    "current_image_state",
+    "power_loss_persistence"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:export-operation-result:2",
+  "title": "Provisional joined report execution/observation result; exact definition, state and receipt relationships are enforced automatically"
+}

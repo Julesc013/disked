@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-verification-export-definition:1",
+  "title": "Provisional exact joined acquisition and verification export definition",
+  "$comment": "Strict producer shape; automatic semantics enforce integer, serialized bounds and source/resource relationships. Native reconstruction proves applicability, not authenticated authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "report", "sources", "effect"],
+  "properties": {
+    "schema": {"const": "org.disked.acquisition-verification-export-definition-prototype/1"},
+    "report": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision", "case_revision", "collection_revision", "case_operation_id", "collection_id"],
+      "properties": {
+        "revision": {"$ref": "#/$defs/digest"},
+        "case_revision": {"$ref": "#/$defs/digest"},
+        "collection_revision": {"$ref": "#/$defs/digest"},
+        "case_operation_id": {"type": "string", "pattern": "^image-op:[0-9a-f]{32}$"},
+        "collection_id": {"type": "string", "pattern": "^collection:[0-9a-f]{32}$"}
+      }
+    },
+    "sources": {
+      "type": "object", "additionalProperties": false, "required": ["case", "collection"],
+      "properties": {
+        "case": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/source"},
+        "collection": {
+          "type": "object", "additionalProperties": false,
+          "required": ["schema", "path", "metadata", "ancestors", "digest", "collection_revision", "access", "scope"],
+          "properties": {
+            "schema": {"const": "org.disked.file-image-verification-collection-source-prototype/1"},
+            "path": {"type": "string", "minLength": 1, "maxLength": 960, "pattern": "^[^\\u0000-\\u001f\\u007f]+$"},
+            "metadata": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/metadata"},
+            "ancestors": {"type": "array", "minItems": 1, "maxItems": 120, "items": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/generation"}},
+            "digest": {"$ref": "#/$defs/digest"},
+            "collection_revision": {"$ref": "#/$defs/digest"},
+            "access": {"const": "read"},
+            "scope": {"const": "historical-record-retention-only"}
+          }
+        }
+      }
+    },
+    "effect": {
+      "type": "object", "additionalProperties": false, "required": ["schema", "artifact", "resources"],
+      "properties": {
+        "schema": {"const": "org.disked.report-export-definition-prototype/1"},
+        "artifact": {
+          "type": "object", "additionalProperties": false, "required": ["bytes", "digest", "policy", "encoding", "scope"],
+          "properties": {
+            "bytes": {"$ref": "#/$defs/u64"}, "digest": {"$ref": "#/$defs/digest"},
+            "policy": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/policy"},
+            "encoding": {"const": "private-case-json-utf8-lf/1"},
+            "scope": {"const": "recorded-acquisition-verification-support"}
+          }
+        },
+        "resources": {
+          "type": "object", "additionalProperties": false, "required": ["destination", "producer"],
+          "properties": {
+            "destination": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/destination"},
+            "producer": {"$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/producer"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "u64": {"type": "string", "pattern": "^(0|[1-9][0-9]{0,19})$"}
+  }
+}

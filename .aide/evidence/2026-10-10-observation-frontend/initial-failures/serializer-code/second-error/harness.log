@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 117, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 108, in main
+    fill2,extra2=divmod(remaining+1,320);v=run('over-byte-limit',dict(mode='synthetic',count='320',fill=str(fill2),extra=str(extra2)),3);check('byte limit typed refusal',v['reason']=='frame_limit_exceeded')
+                                                                                                                                         ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 28, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: byte limit typed refusal

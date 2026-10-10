@@ -1,0 +1,72 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.acquisition-outcome-prototype/1"
+    },
+    "status": {
+      "enum": [
+        "refused",
+        "failed",
+        "paused",
+        "completed",
+        "completed_with_substitution"
+      ]
+    },
+    "diagnostic": {
+      "type": "string"
+    },
+    "consistency": {
+      "const": "live-uncoordinated"
+    },
+    "checkpoint_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "source_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "substituted_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "attempt_read_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "attempt_written_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "attempt_verified_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "records": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "uncertain_effect": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema",
+    "status",
+    "diagnostic",
+    "consistency",
+    "checkpoint_bytes",
+    "source_bytes",
+    "substituted_bytes",
+    "attempt_read_bytes",
+    "attempt_written_bytes",
+    "attempt_verified_bytes",
+    "records",
+    "uncertain_effect"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-outcome-prototype:1",
+  "title": "Private acquisition outcome, not a restore certificate"
+}

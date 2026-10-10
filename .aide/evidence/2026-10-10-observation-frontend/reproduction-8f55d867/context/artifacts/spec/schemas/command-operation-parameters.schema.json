@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-operation-parameters:1",
+  "title": "Provisional ordinary-file and fake operation selector",
+  "description": "Typed fake/acquisition/report/verification selectors with exact kind prefixes. A composition without the selected backend refuses operation_unavailable; never infer another metadata kind or start an operation. Observation grants no resource access or restart authority.",
+  "type": "object",
+  "properties": {
+    "operation_id": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 42,
+      "pattern": "^(fake-op:|image-op:|report-op:|verify-op:)[0-9a-f]{32}$",
+      "x-disked-scalar": "operation-id"
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 960,
+      "x-disked-scalar": "local-state-directory"
+    }
+  },
+  "required": [
+    "operation_id",
+    "state_directory"
+  ],
+  "additionalProperties": false
+}

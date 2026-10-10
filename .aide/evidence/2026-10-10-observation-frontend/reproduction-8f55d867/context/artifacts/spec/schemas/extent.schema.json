@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:extent:1",
+  "title": "extent",
+  "type": "object",
+  "properties": {
+    "address_space": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start_lba": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Decimal string; semantic validation additionally enforces <= 18446744073709551615."
+    },
+    "length_lba": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "description": "Decimal string; semantic validation additionally enforces <= 18446744073709551615."
+    },
+    "logical_block_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1048576
+    }
+  },
+  "required": [
+    "address_space",
+    "start_lba",
+    "length_lba",
+    "logical_block_bytes"
+  ],
+  "additionalProperties": false
+}

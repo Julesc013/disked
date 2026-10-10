@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:acquisition-worker-record:1",
+  "title": "Provisional acquisition worker record producer",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "org.disked.acquisition-worker-record/1"
+    },
+    "state": {
+      "$ref": "urn:disked:schema:acquisition-worker-state:1"
+    },
+    "previous": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema",
+    "state",
+    "previous",
+    "digest"
+  ]
+}

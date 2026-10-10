@@ -1,0 +1,239 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "org.disked.report-worker-state-prototype/2"
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 42,
+          "pattern": "^report-op:[0-9a-f]{32}$"
+        },
+        "worker_epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^worker:[0-9a-f]{32}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^attempt:[0-9a-f]{32}$"
+        },
+        "definition_digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "image_digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "host_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "process_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "process_created": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        }
+      },
+      "required": [
+        "operation_id",
+        "worker_epoch",
+        "attempt_id",
+        "definition_digest",
+        "image_digest",
+        "host_id",
+        "process_id",
+        "process_created"
+      ],
+      "additionalProperties": false
+    },
+    "sequence": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "prepared",
+        "executing",
+        "finished"
+      ]
+    },
+    "cancellation_observation": {
+      "type": "string",
+      "enum": [
+        "not_observed",
+        "observed"
+      ]
+    },
+    "effect_certainty": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_flight",
+        "observed",
+        "uncertain"
+      ]
+    },
+    "observed_filetime": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "quiescent": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:disked:schema:acquisition-case-export-outcome:1"
+        },
+        {
+          "$ref": "urn:disked:schema:acquisition-verification-export-outcome:1"
+        }
+      ]
+    },
+    "receipt": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "definition_digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "output_receipt": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "definition_digest": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "artifact_digest": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "routing_metadata_is_support_export": {
+                      "const": false
+                    },
+                    "output_path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 960
+                    },
+                    "output_created_observed": {
+                      "type": "boolean"
+                    },
+                    "output_metadata": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/metadata"
+                        }
+                      ]
+                    },
+                    "producer": {
+                      "$ref": "urn:disked:schema:acquisition-case-export-definition:1#/$defs/producer"
+                    },
+                    "platform_code": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 20,
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "flush_scope": {
+                      "type": "string",
+                      "const": "per-file-FlushFileBuffers-API-only"
+                    }
+                  },
+                  "required": [
+                    "definition_digest",
+                    "artifact_digest",
+                    "routing_metadata_is_support_export",
+                    "output_path",
+                    "output_created_observed",
+                    "output_metadata",
+                    "producer",
+                    "platform_code",
+                    "flush_scope"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "routing_metadata_is_support_export": {
+              "const": false
+            }
+          },
+          "required": [
+            "definition_digest",
+            "output_receipt",
+            "routing_metadata_is_support_export"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "binding",
+    "sequence",
+    "phase",
+    "cancellation_observation",
+    "effect_certainty",
+    "observed_filetime",
+    "quiescent",
+    "outcome",
+    "receipt"
+  ],
+  "additionalProperties": false,
+  "description": "Private producer observation shape. u64 bounds, exact definition/process/epoch identities, phase/quiet/outcome/receipt relationships and history ordering are additionally checked by report_operation; this schema alone grants no authority or chain validity.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:report-worker-state:2",
+  "title": "Private report state producer conformance; not a stable journal ABI"
+}

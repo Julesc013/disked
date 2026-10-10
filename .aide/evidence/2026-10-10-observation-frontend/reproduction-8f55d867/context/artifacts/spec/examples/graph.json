@@ -1,0 +1,30 @@
+{
+  "schema": "org.disked.graph/1",
+  "capture_id": "fixture-capture",
+  "revision": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "nodes": [
+    {
+      "id": "fake:disk-1",
+      "kind": "block-device",
+      "properties": {
+        "total_lba": "2097152",
+        "logical_block_bytes": 512
+      },
+      "observation_refs": []
+    },
+    {
+      "id": "fake:table-1",
+      "kind": "gpt",
+      "properties": {},
+      "observation_refs": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "fake:disk-1",
+      "to": "fake:table-1",
+      "kind": "contains"
+    }
+  ],
+  "omissions": []
+}

@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command:1",
+  "title": "command",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "words": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "effect": {
+      "type": "string",
+      "enum": [
+        "none",
+        "observe",
+        "output-write",
+        "plan",
+        "mutate",
+        "cancel-request"
+      ]
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "fake-only",
+        "implemented"
+      ]
+    },
+    "requires_plan": {
+      "type": "boolean"
+    },
+    "privilege": {
+      "type": "string",
+      "enum": [
+        "none",
+        "read-elevation-optional",
+        "broker"
+      ]
+    },
+    "request_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spec_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DE-[A-Z0-9][A-Z0-9-]*$"
+      }
+    },
+    "handler": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "syntax_status": {
+      "enum": [
+        "unresolved",
+        "defined"
+      ]
+    },
+    "parameter_schema": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "argument_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "type": "string",
+            "minLength": 1
+          },
+          "option": {
+            "type": "string",
+            "pattern": "^--[a-z][a-z0-9-]*$"
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "completion": {
+            "enum": [
+              "none",
+              "schema-enum",
+              "observed-id"
+            ]
+          },
+          "option_aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(--[a-z][a-z0-9-]*|-[a-z])$"
+            },
+            "uniqueItems": true
+          },
+          "value_arity": {
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "repeatable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "parameter",
+          "completion"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "option"
+            ]
+          },
+          {
+            "required": [
+              "position"
+            ]
+          }
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "option"
+              ]
+            },
+            "then": {
+              "required": [
+                "option_aliases",
+                "value_arity",
+                "repeatable"
+              ]
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "option_aliases"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "value_arity"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "repeatable"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "completion_policy": {
+      "enum": [
+        "static-only",
+        "bounded-observations"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "words",
+    "aliases",
+    "effect",
+    "availability",
+    "requires_plan",
+    "privilege",
+    "request_schema",
+    "result_schema",
+    "spec_ids",
+    "handler",
+    "summary",
+    "syntax_status",
+    "parameter_schema",
+    "argument_bindings",
+    "completion_policy"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "syntax_status": {
+            "const": "defined"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parameter_schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "parameter_schema": {
+            "type": "null"
+          },
+          "argument_bindings": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "availability": {
+            "enum": [
+              "fake-only",
+              "implemented"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "syntax_status": {
+            "const": "defined"
+          }
+        }
+      }
+    }
+  ]
+}

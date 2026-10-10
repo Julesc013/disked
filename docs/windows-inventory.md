@@ -112,3 +112,16 @@ does not call the provider; owned process/code/request context binds graph IDs.
 The dev.38 product's 401 inputs remain unchanged, with no new product/full-suite
 claim. Observation frontend semantics, native identity/raw layout and actual
 live/product/provider/platform/owner/full-unit admission remain next work.
+
+The compiled private cached-observation frontend slice is locally qualified at
+`8f55d867` ([review](../.aide/evidence/2026-10-10-observation-frontend/REVIEW.md)).
+Dev.39 passes all 77 selected product regression groups. Each x64/x86 private
+frontend campaign passes 15 controllers/26 actual
+reader launches/1300 assertions; all private campaigns combine
+696 processes/11080 assertions. Exact evidence focus, owned
+context, missing/stale state, atomic publication, conservative target boundaries
+and maximum inert display under the actual memory job are checked in existing
+models. The ordinary product stays Fake. Actual new-profile visible interfaces,
+native identity/raw layout, live/product/provider/protocol/platform and owner/
+full-unit/all-platform/storage admission remain open. The source map now explains
+all 170 files and planned ownership; private path changes preserve public IDs.

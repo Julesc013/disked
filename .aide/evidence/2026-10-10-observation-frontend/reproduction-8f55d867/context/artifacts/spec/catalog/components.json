@@ -1,0 +1,230 @@
+{
+  "schema": "org.disked.components/1",
+  "components": [
+    {
+      "id": "portable",
+      "role": "core",
+      "depends_on": [],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "runtime",
+      "role": "core",
+      "depends_on": [
+        "portable"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "cli",
+      "role": "frontend",
+      "depends_on": [
+        "runtime"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "machine",
+      "role": "frontend",
+      "depends_on": [
+        "runtime"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "tui",
+      "role": "frontend",
+      "depends_on": [
+        "runtime"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "gui.win32",
+      "role": "gui",
+      "depends_on": [
+        "runtime"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "provider.fake",
+      "role": "provider",
+      "depends_on": [
+        "runtime"
+      ],
+      "storage_authority": "fake",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "entry.disked",
+      "role": "entry",
+      "depends_on": [
+        "cli",
+        "machine",
+        "tui",
+        "gui.win32",
+        "provider.fake"
+      ],
+      "storage_authority": "none",
+      "status": "planned",
+      "spec_ids": [
+        "DE-014",
+        "DE-015"
+      ]
+    },
+    {
+      "id": "provider.fake.bootstrap",
+      "role": "provider",
+      "depends_on": [],
+      "storage_authority": "fake",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-079",
+        "DE-023",
+        "DE-030",
+        "DE-035",
+        "DE-111"
+      ]
+    },
+    {
+      "id": "entry.disked.bootstrap",
+      "role": "entry",
+      "depends_on": [
+        "provider.fake.bootstrap"
+      ],
+      "storage_authority": "none",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-079",
+        "DE-020",
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-030",
+        "DE-035",
+        "DE-024",
+        "DE-026",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "provider.image.raw.prototype",
+      "role": "provider",
+      "depends_on": [],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-102",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "entry.disked.image.prototype",
+      "role": "entry",
+      "depends_on": [
+        "provider.fake.bootstrap",
+        "provider.image.raw.prototype",
+        "provider.image.acquire.raw.prototype",
+        "provider.report.acquisition-case.prototype",
+        "provider.image.verify.recorded.prototype"
+      ],
+      "storage_authority": "none",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-102",
+        "DE-103",
+        "DE-111"
+      ]
+    },
+    {
+      "id": "provider.image.acquire.raw.prototype",
+      "role": "provider",
+      "depends_on": [],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-103"
+      ]
+    },
+    {
+      "id": "provider.report.acquisition-case.prototype",
+      "role": "provider",
+      "depends_on": [
+        "provider.image.acquire.raw.prototype"
+      ],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-111",
+        "DE-103"
+      ]
+    },
+    {
+      "id": "provider.image.verify.recorded.prototype",
+      "role": "provider",
+      "depends_on": [
+        "provider.image.acquire.raw.prototype",
+        "provider.report.acquisition-case.prototype"
+      ],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-044",
+        "DE-111",
+        "DE-103"
+      ]
+    },
+    {
+      "id": "provider.report.acquisition-verification.prototype",
+      "role": "provider",
+      "depends_on": [
+        "provider.report.acquisition-case.prototype",
+        "provider.image.verify.recorded.prototype"
+      ],
+      "storage_authority": "image",
+      "status": "prototype",
+      "spec_ids": [
+        "DE-111",
+        "DE-044"
+      ]
+    }
+  ]
+}

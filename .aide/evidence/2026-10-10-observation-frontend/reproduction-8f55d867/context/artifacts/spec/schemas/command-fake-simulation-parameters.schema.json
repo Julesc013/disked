@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-fake-simulation-parameters:1",
+  "title": "command-fake-simulation-parameters",
+  "description": "Provisional DE-W016 fake-only native profile; not a general planning or storage ABI.",
+  "type": "object",
+  "properties": {
+    "fixture_id": {
+      "type": "string",
+      "enum": [
+        "fake:complete",
+        "fake:verification-failure",
+        "fake:cancel-checkpoint",
+        "fake:unknown"
+      ]
+    },
+    "state_directory": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 960,
+      "x-disked-scalar": "local-state-directory"
+    }
+  },
+  "required": [
+    "fixture_id",
+    "state_directory"
+  ],
+  "additionalProperties": false
+}
