@@ -88,3 +88,16 @@ as stale background; publication and owned reader exit remain separate.
 The adapter is private, and the existing frontend rejects its unadmitted profile.
 Native identity/topology, observation frontend, live/product/provider/platform
 and owner/full-unit qualification remain next work.
+
+The private injected storage metadata/extent layer is locally qualified at
+`e469d70f` ([review](../.aide/evidence/2026-10-10-storage-queries/REVIEW.md)).
+Each x64/x86 campaign passes 70 native fixture executions and 1,987 independent
+assertions. Descriptor bytes, capacity disagreements, cloned serials, duplicate
+numbers and candidate extent topology remain explicit observations. Pending
+queries stop the batch, including invalid returned counts. Immutable frames
+project into the common graph without physical identity or mutation authority.
+The selected dev.38 product's 401 input bytes remain unchanged; this private
+slice does not claim a new product build or a repeated full product suite.
+Actual owned-reader integration, startup/retry reconciliation, observation
+frontend, native identity/raw layout, live/provider/platform and owner/full-unit
+qualification remain next work. Both full and mixed native tables are refused.

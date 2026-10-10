@@ -1,0 +1,359 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.689,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "e469d70f8845ae4659b335d61a6527b70b695dff"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 18.097,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.271,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.331,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.105,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.249,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_storage_query_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.31,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "cases-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\campaign-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.512,
+    "log": "logs/cases-x64.log"
+  },
+  {
+    "name": "headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/headers-x64.log"
+  },
+  {
+    "name": "imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/imports-x64.log"
+  },
+  {
+    "name": "dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/dependents-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.819,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32",
+      "--config",
+      "Release",
+      "--target",
+      "nt_storage_query_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.384,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "cases-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\campaign-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.755,
+    "log": "logs/cases-Win32.log"
+  },
+  {
+    "name": "headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/headers-Win32.log"
+  },
+  {
+    "name": "imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/imports-Win32.log"
+  },
+  {
+    "name": "dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/dependents-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 151.993,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.116,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.892,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\context",
+      "--byte-budget",
+      "530000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.275,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.096,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.696,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\sq39-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/final-source-status.log"
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "status": "failed_compile",
+  "base_revision": "6463084c893c129c48cd53704219e431123f2cca",
+  "command": [
+    "cmake",
+    "--build",
+    ".aide-local/sq39-x64",
+    "--config",
+    "Release",
+    "--target",
+    "nt_storage_query_probe",
+    "--parallel",
+    "4"
+  ],
+  "exit_code": 1,
+  "source_inputs": {
+    "source/platform/windows/storage/storage_queries.h": "sha256:0a3c85d5fc296401db8b7a6016929bb9f8d5997347b2aa201beb3e16f751697f",
+    "source/platform/windows/storage/storage_queries.cpp": "sha256:4c726e8ce34e206d0ff58e287f92d981e6fcfdf5a651f34924c596d35a9e333d",
+    "source/providers/windows/storage_inventory.h": "sha256:f9d94be5bbb4671981b25497ba4f28a8dfedf27c6fd0cb182b4ee2c3cab661c2",
+    "source/providers/windows/storage_inventory.cpp": "sha256:80802f49fb1528bb84e0a33a9c82c5d89c61b937c3d756fefa7e87a9ed6f0171",
+    "tests/windows/native/storage_query_probe.cpp": "sha256:670d9a81a2e3abc409465c917ec0b26a69461aaf63463aa647a3ccccbf6e53d6",
+    "tests/windows/native/CMakeLists.txt": "sha256:d960d46e83b38f515bc0358223a00b2f45d0e743a068c6a3cef7d7f0828f2183"
+  },
+  "reason": "Fixture lookup passed std::string to const-char-key accessor. No native campaign was run from this failed build."
+}
