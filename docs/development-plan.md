@@ -352,7 +352,19 @@ The dev.40 product and 77 selected native groups passed at `3f648127`;
 all 404 product inputs are unchanged by the private probe fix, so those results
 were retained without a second product build/full-suite run. Shell and TUI consume one private
 `runtime/presentation/text_input.h` contract; shell no longer includes the TUI
-model. [The file map](source-map.md) explains all 172 current source files,
+model. [The file map](source-map.md) explained all 172 source files at that revision,
 CLI/command/terminal boundaries and future ownership families. This is a bounded
 private ownership change; /2 interfaces/raw comparison, physical identity,
 live/provider/public/platform/owner/full-unit and broader 0.1.0 gates remain.
+
+The private generated-image raw-layout slice at `4400cb71`
+([review](../.aide/evidence/2026-10-10-raw-layout/REVIEW.md)) passes 218
+raw-comparison processes/2684 assertions across x64/x86; existing query
+regressions bring this run to 472 processes/7052 assertions. Tooling runs
+215 tests with two skipped; 1057 structural checks and exact 461-input
+closure pass. All 404 product inputs remain unchanged, retaining dev.40
+evidence at its original source without another product build/full-suite
+run. The file map covers all 176 current files. Comparison is a declared
+fixture pairing, without owned-reader/physical association or provider
+admission. /2 cached interfaces, owned raw-reader provenance, composite
+identity and live/product/public/platform/owner/full-unit gates remain.

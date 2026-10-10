@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_raw_layout.py", line 156, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_raw_layout.py", line 101, in main
+    data,facts=gpt_image(unit,count);req=request('gpt-'+str(unit)+'-'+str(count),data,facts,unit);v=run('gpt-'+str(unit)+'-'+str(count),req)
+                                                                                                    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_raw_layout.py", line 64, in run
+    raw=v['raw'];c=v['comparison'];check(name+' raw state',raw['state']==raw_state);check(name+' comparison state',c['state']==state)
+                                   ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_raw_layout.py", line 51, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: gpt-512-1 raw state

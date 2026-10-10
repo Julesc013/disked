@@ -1,0 +1,586 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 89.021,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "4400cb7119f36a9159b647e809e1fa76f766167f"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 75.949,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.421,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.097,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.43,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.115,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.624,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_raw_layout_probe",
+      "nt_identity_query_probe",
+      "nt_storage_query_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 34.798,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "raw-layout-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_raw_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_raw_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\raw-layout-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.967,
+    "log": "logs/raw-layout-x64.log"
+  },
+  {
+    "name": "raw-layout-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "logs/raw-layout-headers-x64.log"
+  },
+  {
+    "name": "raw-layout-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "logs/raw-layout-imports-x64.log"
+  },
+  {
+    "name": "raw-layout-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/raw-layout-dependents-x64.log"
+  },
+  {
+    "name": "identity-query-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_identity_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_identity_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\identity-query-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.338,
+    "log": "logs/identity-query-x64.log"
+  },
+  {
+    "name": "identity-query-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/identity-query-headers-x64.log"
+  },
+  {
+    "name": "identity-query-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/identity-query-imports-x64.log"
+  },
+  {
+    "name": "identity-query-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/identity-query-dependents-x64.log"
+  },
+  {
+    "name": "storage-query-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\storage-query-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.69,
+    "log": "logs/storage-query-x64.log"
+  },
+  {
+    "name": "storage-query-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/storage-query-headers-x64.log"
+  },
+  {
+    "name": "storage-query-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/storage-query-imports-x64.log"
+  },
+  {
+    "name": "storage-query-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/storage-query-dependents-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.948,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32",
+      "--config",
+      "Release",
+      "--target",
+      "nt_raw_layout_probe",
+      "nt_identity_query_probe",
+      "nt_storage_query_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 24.664,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "raw-layout-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_raw_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_raw_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\raw-layout-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.719,
+    "log": "logs/raw-layout-Win32.log"
+  },
+  {
+    "name": "raw-layout-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/raw-layout-headers-Win32.log"
+  },
+  {
+    "name": "raw-layout-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/raw-layout-imports-Win32.log"
+  },
+  {
+    "name": "raw-layout-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/raw-layout-dependents-Win32.log"
+  },
+  {
+    "name": "identity-query-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_identity_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_identity_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\identity-query-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.266,
+    "log": "logs/identity-query-Win32.log"
+  },
+  {
+    "name": "identity-query-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/identity-query-headers-Win32.log"
+  },
+  {
+    "name": "identity-query-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/identity-query-imports-Win32.log"
+  },
+  {
+    "name": "identity-query-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/identity-query-dependents-Win32.log"
+  },
+  {
+    "name": "storage-query-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\storage-query-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.151,
+    "log": "logs/storage-query-Win32.log"
+  },
+  {
+    "name": "storage-query-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/storage-query-headers-Win32.log"
+  },
+  {
+    "name": "storage-query-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/storage-query-imports-Win32.log"
+  },
+  {
+    "name": "storage-query-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/storage-query-dependents-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 173.338,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.162,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.877,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\context",
+      "--byte-budget",
+      "680000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.408,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.482,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.7,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-clean-4400cb71\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "logs/final-source-status.log"
+  }
+]

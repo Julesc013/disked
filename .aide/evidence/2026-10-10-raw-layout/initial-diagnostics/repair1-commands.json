@@ -1,0 +1,52 @@
+[
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "tests/windows/native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-repair1\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 8.246142799966037
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-repair1\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_raw_layout_probe",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 12.341229200013913
+  },
+  {
+    "name": "campaign-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/windows/test_raw_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-repair1\\build-x64\\Release\\nt_raw_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\raw-layout-repair1\\campaign-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 0.906278399983421
+  }
+]

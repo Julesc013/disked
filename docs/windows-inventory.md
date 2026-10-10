@@ -148,3 +148,15 @@ limits and separate nodes bound current/last-complete graphs without expanding
 public output or granting effects. Product inputs are unchanged. New /2 cached
 interfaces, independent raw comparison, composite identity and live/product/
 provider/protocol/platform/owner/full-unit/all-platform/storage gates remain open.
+
+The private independent raw-layout comparison at `4400cb71`
+([review](../.aide/evidence/2026-10-10-raw-layout/REVIEW.md)) qualifies
+ordinary generated images and separately injected /2 OS-layout frames.
+218 processes/2684 assertions exercise both x64/x86 binaries; existing
+query regressions also pass. Source capture/Windows comparison have distinct
+owners, and the eight-row image report remains a display. Both GPT copies,
+complete EBR topology, explicit budgets and common-field scope prevent
+truncated or contradictory agreement. Pairing remains caller-declared,
+with physical association, source consistency and owned-reader provenance
+unproven. No shipped product feature, physical device, provider/public/
+platform/owner/full-unit acceptance is implied.
