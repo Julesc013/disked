@@ -1,2 +1,5 @@
 # Retain exact observed bytes, including CRLF JSON and LF native stdout.
-* -text
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Opaque, unedited CMake compiler/cache exports; their exact bytes are hashed.
+*.cmake -diff
+CMakeCache.txt -diff
