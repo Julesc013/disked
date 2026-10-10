@@ -82,17 +82,27 @@ int main() {
                 else if(op=="start")result=key_value(capture->start(text(input,"source")));
                 else if(op=="timeout")result=Value::boolean_value(capture->timeout(key(*input.find("key"))));
                 else if(op=="next") {capture->next_capture();result=view(capture->snapshot());}
-                else if(op=="finish") {
+                else if(op=="finish" || op=="update") {
                     const auto binding=key(*input.find("key"));const auto content=graph(*input.find("graph"));
+                    const auto state=input.find("state")?text(input,"state"):"complete";
+                    const auto selected=state=="complete"?SourceState::Complete:state=="partial"?SourceState::Partial:SourceState::Pending;
+                    const auto reason=input.find("reason")?text(input,"reason"):"";
+                    const auto platform=input.find("platform")?text(input,"platform"):"";
                     if(input.find("allocation_failure"))allocations_until_failure=static_cast<long long>(number(input,"allocation_failure"));
                     bool changed=false;
-                    try {changed=capture->finish(binding,content);allocations_until_failure=-1;}
+                    try {changed=op=="finish"?capture->finish(binding,content):capture->update(binding,content,selected,reason,platform);allocations_until_failure=-1;}
                     catch(...) {allocations_until_failure=-1;throw;}
                     result=Value::boolean_value(changed);
-                } else if(op=="fail") {
+                } else if(op=="retired") {
+                    const auto binding=key(*input.find("key"));
+                    if(input.find("allocation_failure"))allocations_until_failure=static_cast<long long>(number(input,"allocation_failure"));
+                    result=Value::boolean_value(capture->retired(binding));allocations_until_failure=-1;
+                } else if(op=="fail" || op=="update_failure") {
                     const auto state=text(input,"state");const auto selected=state=="denied"?SourceState::Denied:
                         state=="malformed"?SourceState::Malformed:state=="unavailable"?SourceState::Unavailable:SourceState::Pending;
-                    result=Value::boolean_value(capture->fail(key(*input.find("key")),selected,text(input,"reason"),text(input,"platform")));
+                    const auto binding=key(*input.find("key"));const auto reason=text(input,"reason"),platform=text(input,"platform");
+                    if(input.find("allocation_failure"))allocations_until_failure=static_cast<long long>(number(input,"allocation_failure"));
+                    result=Value::boolean_value(op=="fail"?capture->fail(binding,selected,reason,platform):capture->update_failure(binding,selected,reason,platform));allocations_until_failure=-1;
                 } else if(op=="changes") {
                     const auto update=capture->changes(number(input,"capture"),number(input,"after"));auto notices=Value::array();
                     for(const auto& item:update.notices)notices.items.push_back(Value::object().put("sequence",wide(item.sequence))
@@ -101,7 +111,7 @@ int main() {
                 } else throw std::invalid_argument("probe_operation");
             }
             json::Limits limits;limits.bytes=1048576;std::cout<<json::dump(result,limits)<<std::endl;
-        } catch(const std::bad_alloc&) {std::cout<<"{\"error\":\"allocation_failed\"}"<<std::endl;}
-        catch(const std::exception& error) {std::cout<<json::dump(Value::object().put("error",Value::string(error.what())))<<std::endl;}
+        } catch(const std::bad_alloc&) {allocations_until_failure=-1;std::cout<<"{\"error\":\"allocation_failed\"}"<<std::endl;}
+        catch(const std::exception& error) {allocations_until_failure=-1;std::cout<<json::dump(Value::object().put("error",Value::string(error.what())))<<std::endl;}
     }
 }

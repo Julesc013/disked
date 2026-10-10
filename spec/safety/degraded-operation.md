@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.17-proposed.1
+  version: 0.1.18-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -25,8 +25,8 @@ disked:
   - DE-REQ-045-02
 updated:
   by: codex
-  at: '2026-10-08T20:32:56.945945+00:00'
-  scope: DE-W017 private image callback gate; product and owner acceptance unchanged
+  at: '2026-10-10T00:02:00+00:00'
+  scope: DE-W030 private capture publication/retirement boundary; owner and provider acceptance unchanged
 ---
 
 # Bounded responsiveness and failure containment
@@ -184,11 +184,13 @@ epoch. At most one outstanding attempt exists per source, and at most one new
 attempt per source per capture. Timeout changes observation availability only;
 it does not retire a worker, free its slot, or permit a replacement. Beginning a
 new capture can invalidate old observations while old workers remain outstanding.
-A completion for that exact old attempt may retire its slot, but cannot publish
-its data into the new capture. Duplicate or unrelated completions change nothing.
+A confirmed retirement of that exact old attempt may retire its slot, but cannot
+publish its data into the new capture. A published reply alone cannot retire it.
+Duplicate or unrelated observations change nothing.
 A valid late result for the still-current capture may publish after timeout.
 
-Each source contributes a complete bounded graph fragment. Validate the fragment
+Each source contributes a structurally complete bounded graph fragment; its
+inventory coverage may be partial and must be explicit. Validate the fragment
 and the proposed aggregate before publication. Duplicate IDs, foreign-source ID
 reuse, changed identity/generation under an existing ID, dangling cross-fragment
 edges, malformed quantities and exhausted bounds reject only that contribution.
@@ -205,11 +207,42 @@ Existing denied/unknown labels remain explicit. A source omission identifies
 pending, not-started, denied, malformed, unavailable or timed-out state and the
 bounded reason/platform code. A missing source is never a successful empty
 inventory. Successful unrelated fragments remain usable. Only a fully validated
-current completion makes that source fresh. An explicit valid empty result may
+current publication makes its observed rows fresh. Partial coverage retains an
+explicit omission; any carried-forward rows must be marked stale by the adapter.
+An explicit valid complete empty result may
 remove its own prior observations. Publication and identity tracking are atomic;
 allocation failure leaves the prior capture unchanged. Invalid content publishes
 only the source's malformed state, retaining its prior content as stale and its
 previous identity bindings; rejected content never contributes new identities.
+
+### Publication independent of observer retirement
+
+The private common capture reducer provides `update` and `update_failure` for a
+still-outstanding exact current attempt. A complete or partial observation, a
+denial or invalid content never clears its outstanding worker flag. Repeated
+identical publications do not advance the sequence. Content from an older
+capture is ignored while that attempt remains outstanding. `retired` requires
+the owning adapter's observation that the exact attempt retired; it cannot infer
+exit from a reply, cancellation request or timeout. Retirement without a result
+is unavailable, not a successful empty inventory. A timed-out retired attempt
+retains its timed-out availability, and complete/partial publications retain
+their coverage independently of retirement. The legacy `finish`/`fail` helpers
+combine publication with retirement and may only be called after that evidence.
+All three new transitions retain the same allocation-atomic publication,
+identity, graph, omission and eight-notice budgets above.
+
+The DE-W030 private lifecycle test joins this reducer to the existing same-file
+injected namespace worker on the selected modern Windows host. Expectations
+precede evaluation: publication while the worker runs blocks replacement;
+current late publication after timeout is usable; an old-capture publication
+cannot enter a new capture; only the exact process-handle exit retires its slot;
+checkpoint cancellation and crash/reader retirement retain their own outcomes.
+The test uses an empty graph deliberately. It qualifies the lifetime boundary,
+not namespace-to-node projection, physical identity, live enumeration, product
+provider admission, historical Windows support or storage quiescence. The
+reducer's independent generated graph tests also exercise partial rows, cached
+rows, bad publications, duplicate polls and allocation failures at publication,
+failure and retirement. This remains a private execution contract.
 
 Keep at most eight small observation-change notices, ordered by an exact u64
 sequence for the coordinator lifetime. Notices bind capture/source/attempt and

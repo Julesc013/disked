@@ -20,6 +20,7 @@ const char* source_state_name(SourceState state) {
     case SourceState::NotStarted:return "not_started";
     case SourceState::Pending:return "pending";
     case SourceState::Complete:return "complete";
+    case SourceState::Partial:return "partial";
     case SourceState::Denied:return "denied";
     case SourceState::Malformed:return "malformed";
     case SourceState::Unavailable:return "unavailable";
@@ -49,7 +50,7 @@ GraphInput ObservationCapture::aggregate(const State& state) const {
     for(const auto& item:state.slots) {
         if(item.has_retained) {
             for(auto node:item.retained.nodes) {
-                if(item.visible.state!=SourceState::Complete && node.state=="current")node.state="stale";
+                if(item.visible.state!=SourceState::Complete && item.visible.state!=SourceState::Partial && node.state=="current")node.state="stale";
                 graph.nodes.push_back(std::move(node));
             }
             graph.edges.insert(graph.edges.end(),item.retained.edges.begin(),item.retained.edges.end());
@@ -109,26 +110,62 @@ bool ObservationCapture::fail(const CaptureKey& key,SourceState failure,const st
     }
     publish(std::move(next),at);return true;
 }
+void ObservationCapture::stage(State& next,std::size_t at,const CaptureKey& key,const GraphInput& graph,
+    SourceState state,const std::string& reason,const std::string& platform,bool retire) {
+    const auto snapshot=GraphSnapshot::create(graph,next.capture);
+    for(const auto& node:graph.nodes) {
+        const auto found=next.identities.find(node.id);
+        if(found!=next.identities.end())require(found->second.owner==key.source && found->second.identity==node.identity &&
+            found->second.generation==node.media_generation,"capture_identity_reuse");
+        next.identities[node.id]={key.source,node.identity,node.media_generation};
+    }
+    require(next.identities.size()<=1024,"capture_identity_limit");
+    auto& item=next.slots[at];item.retained=graph;item.retained_revision=snapshot->revision();item.has_retained=true;
+    item.visible.state=state;item.visible.outstanding=!retire;item.visible.reason=reason;item.visible.platform=platform;
+    std::size_t omissions=0;for(const auto& source:next.slots)omissions+=source.retained.omissions.size();
+    require(omissions<=48,"capture_omission_limit");
+    const auto validated=GraphSnapshot::create(aggregate(next),next.capture);
+    require(json::dump(validated->value()).size()<=56*1024,"capture_graph_limit");
+}
+bool ObservationCapture::update(const CaptureKey& key,const GraphInput& graph,SourceState state,
+    const std::string& reason,const std::string& platform) {
+    require(state==SourceState::Complete || state==SourceState::Partial,"capture_invalid_update");
+    require((state==SourceState::Complete?reason.empty():identifier(reason)) &&
+        (platform.empty() || json::decimal_u64(platform)),"capture_invalid_reason");
+    const auto at=slot(key.source);if(!matches(at,key) || key.capture!=state_.capture)return false;
+    State next=state_;
+    try {stage(next,at,key,graph,state,reason,platform,false);}
+    catch(const std::invalid_argument&) {return update_failure(key,SourceState::Malformed,"provider_result_invalid");}
+    catch(const json::Error&) {return update_failure(key,SourceState::Malformed,"provider_result_invalid");}
+    const auto& before=state_.slots[at];const auto& after=next.slots[at];
+    if(before.has_retained && before.retained_revision==after.retained_revision && before.visible.state==state &&
+        before.visible.reason==reason && before.visible.platform==platform)return false;
+    publish(std::move(next),at);return true;
+}
+bool ObservationCapture::update_failure(const CaptureKey& key,SourceState failure,const std::string& reason,const std::string& platform) {
+    require(failure==SourceState::Denied || failure==SourceState::Malformed || failure==SourceState::Unavailable,"capture_invalid_failure");
+    require(identifier(reason) && (platform.empty() || json::decimal_u64(platform)),"capture_invalid_reason");
+    const auto at=slot(key.source);if(!matches(at,key) || key.capture!=state_.capture)return false;
+    const auto& before=state_.slots[at].visible;
+    if(before.state==failure && before.reason==reason && before.platform==platform)return false;
+    State next=state_;auto& visible=next.slots[at].visible;visible.state=failure;visible.reason=reason;visible.platform=platform;
+    publish(std::move(next),at);return true;
+}
+bool ObservationCapture::retired(const CaptureKey& key) {
+    const auto at=slot(key.source);if(!matches(at,key))return false;State next=state_;
+    if(!retire_old(next,at,key)) {
+        auto& visible=next.slots[at].visible;visible.outstanding=false;
+        if(visible.state==SourceState::Pending) {visible.state=SourceState::Unavailable;visible.reason="reader_exited_without_result";visible.platform.clear();}
+    }
+    publish(std::move(next),at);return true;
+}
 bool ObservationCapture::finish(const CaptureKey& key,const GraphInput& graph) {
     const auto at=slot(key.source);if(!matches(at,key))return false;State next=state_;
     if(retire_old(next,at,key)) {publish(std::move(next),at);return true;}
     // Invalid provider content is a source failure. Allocation failure is not
     // caught here: it leaves the outstanding attempt/prior snapshot unchanged.
     try {
-        GraphSnapshot::create(graph,next.capture);
-        for(const auto& node:graph.nodes) {
-            const auto found=next.identities.find(node.id);
-            if(found!=next.identities.end())require(found->second.owner==key.source && found->second.identity==node.identity &&
-                found->second.generation==node.media_generation,"capture_identity_reuse");
-            next.identities[node.id]={key.source,node.identity,node.media_generation};
-        }
-        require(next.identities.size()<=1024,"capture_identity_limit");
-        auto& item=next.slots[at];item.retained=graph;item.has_retained=true;
-        item.visible.state=SourceState::Complete;item.visible.outstanding=false;item.visible.reason.clear();item.visible.platform.clear();
-        std::size_t omissions=0;for(const auto& source:next.slots)omissions+=source.retained.omissions.size();
-        require(omissions<=48,"capture_omission_limit");
-        const auto validated=GraphSnapshot::create(aggregate(next),next.capture);
-        require(json::dump(validated->value()).size()<=56*1024,"capture_graph_limit");
+        stage(next,at,key,graph,SourceState::Complete,"","",true);
     } catch(const std::invalid_argument&) {return fail(key,SourceState::Malformed,"provider_result_invalid");}
       catch(const json::Error&) {return fail(key,SourceState::Malformed,"provider_result_invalid");}
     publish(std::move(next),at);return true;

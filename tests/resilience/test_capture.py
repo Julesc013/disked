@@ -27,6 +27,98 @@ class Probe:
         finally:
             if self.p.poll() is None:self.p.kill();self.p.wait(timeout=3)
 class Capture(unittest.TestCase):
+    def test_publication_never_retires_and_duplicate_polls_do_not_churn(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);key=p.call('start',source='one');p.call('retain')
+            self.assertTrue(p.call('update',key=key,graph=fragment()))
+            published=p.call('view');self.assertEqual(('complete',True),(published['sources'][0]['state'],published['sources'][0]['outstanding']))
+            self.assertEqual('current',published['graph']['nodes'][0]['properties']['state'])
+            self.assertFalse(p.call('update',key=key,graph=fragment()));self.assertEqual(published,p.call('view'))
+            self.assertEqual({'error':'capture_worker_outstanding'},p.call('start',source='one'))
+            self.assertTrue(p.call('retired',key=key));retired=p.call('view')
+            self.assertFalse(retired['sources'][0]['outstanding']);self.assertEqual(published['graph'],retired['graph'])
+            self.assertFalse(p.call('retired',key=key));self.assertFalse(p.call('update',key=key,graph=fragment('late')))
+            self.assertEqual(retired,p.call('view'));self.assertEqual([],p.call('retained',index='0')['graph']['nodes'])
+            self.assertEqual({'error':'capture_attempt_already_started'},p.call('start',source='one'))
+            OBSERVATIONS.append(dict(test='publication separate from adapter retirement; immutable retained view',published=published,retired=retired))
+
+    def test_partial_publication_preserves_known_rows_and_explicit_unknown_remainder(self):
+        with Probe() as p:
+            p.call('init',sources=['one','peer']);key=p.call('start',source='one')
+            peer=p.call('start',source='peer');p.call('finish',key=peer,graph=fragment('peer'))
+            data=fragment();data['nodes']+=fragment('cached',state='stale')['nodes']
+            self.assertTrue(p.call('update',key=key,graph=data,state='partial',reason='provider_partial',platform='5'))
+            partial=p.call('view');self.assertEqual(['current','stale','current'],[n['properties']['state'] for n in partial['graph']['nodes']])
+            self.assertIn('one:partial:provider_partial:5',partial['graph']['omissions']);self.assertTrue(partial['sources'][0]['outstanding'])
+            self.assertTrue(p.call('retired',key=key));self.assertEqual(partial['graph'],p.call('view')['graph'])
+            OBSERVATIONS.append(dict(test='partial current rows, explicit stale rows and unaffected peer',partial=partial))
+
+    def test_bad_publication_and_failure_keep_worker_and_prior_content(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);key=p.call('start',source='one');p.call('update',key=key,graph=fragment())
+            self.assertTrue(p.call('update',key=key,graph=fragment(identity='different')))
+            bad=p.call('view');self.assertEqual(('malformed',True),(bad['sources'][0]['state'],bad['sources'][0]['outstanding']))
+            self.assertEqual('fixture:a',bad['graph']['nodes'][0]['properties']['identity'])
+            self.assertEqual('stale',bad['graph']['nodes'][0]['properties']['state'])
+            self.assertEqual({'error':'capture_worker_outstanding'},p.call('start',source='one'))
+            self.assertTrue(p.call('update_failure',key=key,state='denied',reason='access_denied',platform='5'))
+            denied=p.call('view');self.assertTrue(denied['sources'][0]['outstanding'])
+            self.assertFalse(p.call('update_failure',key=key,state='denied',reason='access_denied',platform='5'));self.assertEqual(denied,p.call('view'))
+            self.assertTrue(p.call('update',key=key,graph=fragment(label='recovered')))
+            self.assertEqual('current',p.call('view')['graph']['nodes'][0]['properties']['state'])
+            p.call('retired',key=key);OBSERVATIONS.append(dict(test='invalid publication cannot retire or replace prior content',bad=bad,denied=denied))
+
+    def test_late_old_publication_is_ignored_until_actual_retirement(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);key=p.call('start',source='one');p.call('update',key=key,graph=fragment())
+            p.call('next');before=p.call('view')
+            self.assertFalse(p.call('update',key=key,graph=fragment('late')))
+            self.assertFalse(p.call('update_failure',key=key,state='unavailable',reason='exited',platform='23'))
+            self.assertEqual(before,p.call('view'));self.assertTrue(before['sources'][0]['outstanding'])
+            self.assertEqual({'error':'capture_worker_outstanding'},p.call('start',source='one'))
+            self.assertTrue(p.call('retired',key=key));retired=p.call('view')
+            self.assertFalse(retired['sources'][0]['outstanding']);self.assertEqual('fake:a',retired['graph']['nodes'][0]['id'])
+            self.assertEqual('stale',retired['graph']['nodes'][0]['properties']['state'])
+            new=p.call('start',source='one');self.assertEqual(('2','2'),(new['capture'],new['worker']))
+            before=p.call('view');self.assertFalse(p.call('retired',key=key));self.assertEqual(before,p.call('view'))
+            OBSERVATIONS.append(dict(test='superseded update never retires; exact old retirement required',retired=retired))
+
+    def test_timeout_cancel_equivalents_do_not_prove_worker_exit(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);key=p.call('start',source='one');p.call('timeout',key=key)
+            self.assertTrue(p.call('view')['sources'][0]['outstanding'])
+            self.assertTrue(p.call('update',key=key,graph=fragment(),state='partial',reason='cancelled_at_checkpoint'))
+            self.assertTrue(p.call('view')['sources'][0]['outstanding'])
+            p.call('retired',key=key);self.assertEqual('partial',p.call('view')['sources'][0]['state'])
+            p.call('next');key=p.call('start',source='one');p.call('timeout',key=key);p.call('retired',key=key)
+            timed=p.call('view');self.assertEqual(('timed_out',False),(timed['sources'][0]['state'],timed['sources'][0]['outstanding']))
+            p.call('next');key=p.call('start',source='one');p.call('retired',key=key)
+            self.assertEqual('reader_exited_without_result',p.call('view')['sources'][0]['reason'])
+            OBSERVATIONS.append(dict(test='timeout/cancel publication and worker lifetime independent',retired_timeout=timed))
+
+    def test_invalid_update_policy_and_wrong_attempt_are_inert(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);key=p.call('start',source='one');before=p.call('view')
+            for fields in [dict(state='pending'),dict(state='partial'),dict(state='complete',reason='unexpected'),dict(state='partial',reason='control\x1b'),dict(platform='18446744073709551616')]:
+                self.assertIn('error',p.call('update',key=key,graph=fragment(),**fields));self.assertEqual(before,p.call('view'))
+            wrong=dict(key,worker='18446744073709551615')
+            self.assertFalse(p.call('update',key=wrong,graph=fragment()));self.assertFalse(p.call('retired',key=wrong));self.assertEqual(before,p.call('view'))
+
+    def test_allocation_failures_during_update_failure_and_retirement_are_atomic(self):
+        counts={}
+        with Probe() as p:
+            for op in ('update','update_failure','retired'):
+                checked=0
+                for index in range(0,1000,7):
+                    p.call('init',sources=['one','peer']);key=p.call('start',source='one');before=p.call('view')
+                    fields=dict(graph=fragment()) if op=='update' else dict(state='denied',reason='access_denied',platform='5') if op=='update_failure' else {}
+                    result=p.call(op,key=key,allocation_failure=str(index),**fields)
+                    if result=={'error':'allocation_failed'}:
+                        self.assertEqual(before,p.call('view'));self.assertTrue(p.call(op,key=key,**fields));checked+=1
+                    else:self.assertTrue(result);break
+                self.assertGreater(checked,5);counts[op]=checked
+        OBSERVATIONS.append(dict(test='atomic update/failure/retirement allocation sweeps',injected_failures=counts))
+
     def test_combined_source_outcomes_preserve_healthy_observations(self):
         with Probe() as p:
             p.call('init',sources=['healthy','denied','malformed','slow','exited'])

@@ -6986,7 +6986,10 @@
         "source/runtime/command/json.cpp",
         "source/platform/windows/storage/namespace_worker.cpp",
         "tests/windows/native/volume_fixture.cpp",
-        "tests/windows/native/namespace_worker_probe.cpp"
+        "tests/windows/native/namespace_worker_probe.cpp",
+        "tests/windows/native/capture_lifecycle_probe.cpp",
+        "source/runtime/graph/capture.cpp",
+        "source/runtime/graph/snapshot.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7150,6 +7153,56 @@
         "tests/windows/test_volume_namespace.py"
       ],
       "spec_ids": [
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/capture_lifecycle_probe.cpp",
+      "path": "tests/windows/native/capture_lifecycle_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/capture.h",
+        "source/platform/windows/storage/namespace_worker.h",
+        "tests/windows/native/volume_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-045",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_capture_lifecycle.py",
+      "path": "tests/windows/test_capture_lifecycle.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/capture_lifecycle_probe.cpp",
+        "tests/windows/test_volume_namespace.py"
+      ],
+      "spec_ids": [
+        "DE-045",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-capture-publication/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-capture-publication/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "tests/resilience/test_capture.py",
+        "tests/windows/test_capture_lifecycle.py",
+        "tests/windows/test_namespace_worker.py"
+      ],
+      "spec_ids": [
+        "DE-045",
         "DE-034",
         "DE-101"
       ]
