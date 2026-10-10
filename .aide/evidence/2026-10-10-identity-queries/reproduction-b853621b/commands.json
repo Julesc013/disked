@@ -1,0 +1,694 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 1.275,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "b853621bc3d8ed789356782cb759c6d4f2a9a2ae"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 33.132,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.137,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.109,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.561,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.128,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.14,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.432,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_identity_query_probe",
+      "nt_storage_query_probe",
+      "nt_storage_worker_probe",
+      "nt_observation_frontend_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 51.778,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "identity-queries-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_identity_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_identity_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\identity-queries-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.265,
+    "log": "logs/identity-queries-x64.log"
+  },
+  {
+    "name": "identity-queries-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/identity-queries-headers-x64.log"
+  },
+  {
+    "name": "identity-queries-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/identity-queries-imports-x64.log"
+  },
+  {
+    "name": "identity-queries-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/identity-queries-dependents-x64.log"
+  },
+  {
+    "name": "storage-queries-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\storage-queries-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.647,
+    "log": "logs/storage-queries-x64.log"
+  },
+  {
+    "name": "storage-queries-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.069,
+    "log": "logs/storage-queries-headers-x64.log"
+  },
+  {
+    "name": "storage-queries-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.06,
+    "log": "logs/storage-queries-imports-x64.log"
+  },
+  {
+    "name": "storage-queries-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/storage-queries-dependents-x64.log"
+  },
+  {
+    "name": "storage-worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\storage-worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.096,
+    "log": "logs/storage-worker-x64.log"
+  },
+  {
+    "name": "storage-worker-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/storage-worker-headers-x64.log"
+  },
+  {
+    "name": "storage-worker-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/storage-worker-imports-x64.log"
+  },
+  {
+    "name": "storage-worker-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/storage-worker-dependents-x64.log"
+  },
+  {
+    "name": "observation-frontend-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\observation-frontend-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.924,
+    "log": "logs/observation-frontend-x64.log"
+  },
+  {
+    "name": "observation-frontend-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/observation-frontend-headers-x64.log"
+  },
+  {
+    "name": "observation-frontend-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/observation-frontend-imports-x64.log"
+  },
+  {
+    "name": "observation-frontend-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/observation-frontend-dependents-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.192,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32",
+      "--config",
+      "Release",
+      "--target",
+      "nt_identity_query_probe",
+      "nt_storage_query_probe",
+      "nt_storage_worker_probe",
+      "nt_observation_frontend_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 43.464,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "identity-queries-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_identity_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_identity_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\identity-queries-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.519,
+    "log": "logs/identity-queries-Win32.log"
+  },
+  {
+    "name": "identity-queries-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-queries-headers-Win32.log"
+  },
+  {
+    "name": "identity-queries-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/identity-queries-imports-Win32.log"
+  },
+  {
+    "name": "identity-queries-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_identity_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/identity-queries-dependents-Win32.log"
+  },
+  {
+    "name": "storage-queries-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_storage_queries.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_query_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\storage-queries-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.966,
+    "log": "logs/storage-queries-Win32.log"
+  },
+  {
+    "name": "storage-queries-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/storage-queries-headers-Win32.log"
+  },
+  {
+    "name": "storage-queries-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/storage-queries-imports-Win32.log"
+  },
+  {
+    "name": "storage-queries-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_query_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/storage-queries-dependents-Win32.log"
+  },
+  {
+    "name": "storage-worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\storage-worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.044,
+    "log": "logs/storage-worker-Win32.log"
+  },
+  {
+    "name": "storage-worker-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/storage-worker-headers-Win32.log"
+  },
+  {
+    "name": "storage-worker-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.068,
+    "log": "logs/storage-worker-imports-Win32.log"
+  },
+  {
+    "name": "storage-worker-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/storage-worker-dependents-Win32.log"
+  },
+  {
+    "name": "observation-frontend-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\observation-frontend-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.221,
+    "log": "logs/observation-frontend-Win32.log"
+  },
+  {
+    "name": "observation-frontend-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/observation-frontend-headers-Win32.log"
+  },
+  {
+    "name": "observation-frontend-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/observation-frontend-imports-Win32.log"
+  },
+  {
+    "name": "observation-frontend-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/observation-frontend-dependents-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 166.858,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.212,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.899,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\context",
+      "--byte-budget",
+      "680000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.405,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.424,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.696,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\iq42-clean\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/final-source-status.log"
+  }
+]

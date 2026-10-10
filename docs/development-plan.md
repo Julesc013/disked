@@ -320,3 +320,14 @@ models. The ordinary product stays Fake. Actual new-profile visible interfaces,
 native identity/raw layout, live/product/provider/protocol/platform and owner/
 full-unit/all-platform/storage admission remain open. The source map now explains
 all 170 files and planned ownership; private path changes preserve public IDs.
+
+The private identifier/alignment/OS-layout query profile is locally qualified at
+`b853621b` ([review](../.aide/evidence/2026-10-10-identity-queries/REVIEW.md)).
+Each x64/x86 binary passes 57 generated cases and 197 assertions; affected
+metadata/frame/owned-worker/cached-frontend regressions also pass (492
+processes/8310 assertions combined). Exact identifier bytes, SDK layout,
+GPT name units and conflicting reports stay evidence without physical identity
+or effects. The dev.39 product's 403 inputs remain unchanged; no new product or
+full-suite run is claimed. Integrate the new receipts into owned frames/graph
+context next; raw-media comparison, composite identity, live/product/provider/
+protocol/platform and owner/full-unit/all-platform/storage admission remain open.

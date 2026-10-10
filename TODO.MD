@@ -167,5 +167,11 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Ordinary product stays Fake; physical/live/provider/protocol/platform/owner/full-unit gates stay open.
 - [x] Source ownership clarification: CLI presentation under `cli/`, all-mode
   composition under `app.*`, explicit `tui_model.*` and toolkit-free GUI model
-  under `gui/`. `docs/source-map.md` covers all 170 current files and future owners;
+  under `gui/`. `docs/source-map.md` covers all 171 current files and future owners;
   no speculative empty tree or public identifier change.
+
+- [x] DE-W030 private device ID/alignment/OS-layout query fixtures at `b853621b`:
+  both x64/x86 57 cases/197 assertions, affected private regressions and exact
+  source/build/import evidence. `.aide/evidence/2026-10-10-identity-queries/`.
+  Product inputs unchanged; owned-frame integration, independent raw comparison,
+  composite identity and live/provider/platform/owner/full-unit gates stay open.
