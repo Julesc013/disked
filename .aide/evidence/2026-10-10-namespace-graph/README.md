@@ -46,3 +46,10 @@ python .aide/evidence/2026-10-10-namespace-graph/reproduce.py --source-revision 
 
 Use a short owned output root: the existing ordinary-file profile is 240 UTF-16
 units and the long Unicode acquisition fixtures retain their original names.
+
+The first committed-evidence audit detected Git newline normalization in captured
+CMake configuration. Original execution files/hashes remained intact. The actual
+failed check is retained in `retention-audit/`. Per-evidence attributes preserve
+raw bytes, and the index is rebuilt from the original files before the final
+source/evidence/artifact audit. This is a retention correction, not a native
+test failure or a change to expected product outputs.

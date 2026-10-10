@@ -440,6 +440,7 @@
     "tools/release/artifact_check.py"
   ],
   "files_changed": [
+    ".aide/evidence/2026-10-10-namespace-graph/.gitattributes",
     ".aide/evidence/2026-10-10-namespace-graph/README.md",
     ".aide/evidence/2026-10-10-namespace-graph/REVIEW.md",
     ".aide/evidence/2026-10-10-namespace-graph/inventory.json",
@@ -1179,6 +1180,8 @@
     ".aide/evidence/2026-10-10-namespace-graph/reproduction-3463fb23/worker-x64/zero-volumes.request.json",
     ".aide/evidence/2026-10-10-namespace-graph/reproduction-3463fb23/worker-x64/zero-volumes.stderr",
     ".aide/evidence/2026-10-10-namespace-graph/reproduction-3463fb23/worker-x64/zero-volumes.stdout",
+    ".aide/evidence/2026-10-10-namespace-graph/retention-audit/initial-head-audit.log",
+    ".aide/evidence/2026-10-10-namespace-graph/retention-audit/outcome.json",
     ".aide/evidence/2026-10-10-namespace-graph/validation-summary.json",
     ".aide/programmes/disked-0.1.0.json",
     "TODO.MD",
@@ -1637,16 +1640,27 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-10-namespace-graph/reproduction-3463fb23/logs/final-source-status.log"
+    },
+    {
+      "command": "python .aide-local/goal-0.1.0/verify_namespace_graph_closure.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-10-namespace-graph/retention-audit/initial-head-audit.log"
     }
   ],
   "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-10-namespace-graph/.gitattributes",
+      "sha256": "sha256:82defbc29e7b657253354351f34611e52060e9c5af115cc6024a96aaaf0c1e91"
+    },
     {
       "path": ".aide/evidence/2026-10-10-namespace-graph/inventory.json",
       "sha256": "sha256:a5b69de408b79702ebc932de59501e16c9406b9cea724ec89671ab3c7ac1ada6"
     },
     {
       "path": ".aide/evidence/2026-10-10-namespace-graph/README.md",
-      "sha256": "sha256:03c8214de602f289acdcbcd85e61c758d37423c60db161f41dc63778b71bab16"
+      "sha256": "sha256:7c72410d88c4f5ae151f4d6c7bf3f00f6e0a3bdf931dd95a02c06f75a9bf28ee"
     },
     {
       "path": ".aide/evidence/2026-10-10-namespace-graph/reproduce.py",
@@ -4591,6 +4605,14 @@
     {
       "path": ".aide/evidence/2026-10-10-namespace-graph/reproduction-3463fb23/worker-x64/zero-volumes.stdout",
       "sha256": "sha256:7f3614a7e3d3957e6bfc540ac65ca8b20d021f027401f4805ee4f5cf843c05ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-namespace-graph/retention-audit/initial-head-audit.log",
+      "sha256": "sha256:5f7af3415196e595daa8c7132b152bc5186129786345b54698299c2b8344d229"
+    },
+    {
+      "path": ".aide/evidence/2026-10-10-namespace-graph/retention-audit/outcome.json",
+      "sha256": "sha256:4e7a79dad23330ae1fc9b08c6721953e32461f5ba16987032b5a8403550a4f50"
     },
     {
       "path": ".aide/evidence/2026-10-10-namespace-graph/REVIEW.md",
