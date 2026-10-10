@@ -34,9 +34,9 @@ StorageQueryPort::StorageQueryPort(const StorageQueryApi& api,HANDLE handle,cons
     const auto native=native_storage_query_api();if(api.ioctl==native.ioctl || api.error==native.error)throw std::invalid_argument("nt_storage_native_port_not_admitted");
 }
 void StorageQueryPort::begin(unsigned i) {if(used_[i])throw std::invalid_argument("nt_storage_query_reused");used_[i]=true;}
-StorageQueryPort::Packet StorageQueryPort::call(DWORD code,DWORD bytes,bool property) {
-    Packet p;p.code=code;if(unresolved_) {p.state="unresolved";return p;}if(stop_ && stop_()) {p.state="cancelled";return p;}
-    p.bytes.assign(bytes,0xcc);STORAGE_PROPERTY_QUERY query{};query.PropertyId=StorageDeviceProperty;query.QueryType=PropertyStandardQuery;
+StorageQueryPort::Packet StorageQueryPort::call(DWORD code,DWORD bytes,bool property,STORAGE_PROPERTY_ID id) {
+    Packet p;p.code=code;p.property=property;p.property_id=id;if(unresolved_) {p.state="unresolved";return p;}if(stop_ && stop_()) {p.state="cancelled";return p;}
+    p.bytes.assign(bytes,0xcc);STORAGE_PROPERTY_QUERY query{};query.PropertyId=id;query.QueryType=PropertyStandardQuery;
     try {
         p.ok=api_.ioctl(handle_,code,property?&query:nullptr,property?sizeof(query):0,p.bytes.data(),bytes,&p.returned,nullptr)!=FALSE;
         if(!p.ok)p.error=api_.error(); // immediate transport error, before allocation/formatting
@@ -54,6 +54,7 @@ V StorageQueryPort::result(const char* component,const std::string& state,const 
         error=p.error;const bool known=p.returned<=p.bytes.size() && (p.ok || (growth_error(p.error) && p.returned));
         auto receipt=V::object().put("control",num(p.code)).put("buffer_bytes",num(p.bytes.size())).put("returned_bytes",num(p.returned))
             .put("ok",V::boolean_value(p.ok)).put("platform_code",num(p.error)).put("state",V::string(p.state));
+        if(p.property && p.property_id!=StorageDeviceProperty)receipt.put("property_id",num(p.property_id));
         receipt.put("returned_hex",known?V::string(hex(p.bytes,0,p.returned)):V{});
         receipt.put("returned_sha256",known?V::string(digest_sha256(std::string(p.bytes.begin(),p.bytes.begin()+p.returned))):V{});receipts.items.push_back(std::move(receipt));
     }

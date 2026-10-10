@@ -31,6 +31,7 @@
 - [journal-prototype.json](journal-prototype.json)
 - [journal-semantics-prototype.json](journal-semantics-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
+- [nt-identity-layout-prototype.json](nt-identity-layout-prototype.json)
 - [nt-namespace-worker-prototype.json](nt-namespace-worker-prototype.json)
 - [nt-storage-observation-prototype.json](nt-storage-observation-prototype.json)
 - [nt-storage-worker-prototype.json](nt-storage-worker-prototype.json)

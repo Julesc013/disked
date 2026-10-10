@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.5-proposed.2
+  version: 0.1.6-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -35,11 +35,23 @@ sources:
   resource: ../references/sources.json#windows-shrink
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: windows-identity-device-identifiers
+  resource: ../references/sources.json#windows-identity-device-identifiers
+- id: windows-identity-storage-identifier
+  resource: ../references/sources.json#windows-identity-storage-identifier
+- id: windows-identity-access-alignment
+  resource: ../references/sources.json#windows-identity-access-alignment
+- id: windows-identity-drive-layout
+  resource: ../references/sources.json#windows-identity-drive-layout
+- id: windows-identity-partition-info
+  resource: ../references/sources.json#windows-identity-partition-info
+- id: windows-identity-layout-query
+  resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-10T02:33:32.351711+00:00'
-  scope: DE-W030 shared owned observation host, storage receipt reader and startup
-    reconciliation; live/product/provider/platform and owner admission remain open
+  at: '2026-10-10T04:12:34.693618+00:00'
+  scope: DE-W030 private device-ID/alignment/OS-layout query contract; integration/live/identity/owner
+    admission remains open
 ---
 
 # Windows NT provider strategy
@@ -173,3 +185,25 @@ The parent reconstructs canonical metadata from bounded returned-byte receipts
 and original subjects/policy without calling the original provider. This verifies
 producer conformance, with provenance supplied separately by the owned code/
 request/process binding. It does not qualify live dispatch or a public ABI.
+
+## Private identity, alignment and layout queries
+
+The [selected private profile](../catalog/nt-identity-layout-prototype.json)
+extends the same borrowed query transport with device identifiers, reported
+sector/cache alignment and Windows-reported MBR/GPT/RAW layouts. Separate
+entrypoints and fixture admission retain finite buffers, raw receipts, cancellation
+and unresolved activity. Native pointers remain unadmitted. No storage handle is
+opened and no media byte read or write is performed by this fixture slice.
+
+Identifier bytes, association, duplicate/cloned identifiers, original GPT name
+code units and contradictory partition facts stay separate from physical media
+identity. Signed ranges/counts/offsets are checked; uncertain or inconsistent
+reports cannot grant mutation. OS layout is not independent raw metadata parsing.
+The pinned SDK ABI determines field interpretation; newly documented fields not
+in that selected declaration remain uninterpreted receipt bytes.
+
+The existing storage frame/receipt reader, owned observation role, graph/frontend
+and product do not dispatch this profile yet. Integration, composite identity,
+independent raw layout, actual live/provider/platform/public admission and owner/
+full-unit qualification remain work. Native generated fixtures must qualify the
+exact control calls, ABI, returned bytes, refusal/quarantine and resource limits.
