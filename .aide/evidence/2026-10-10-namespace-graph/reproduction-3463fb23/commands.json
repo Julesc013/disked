@@ -1,0 +1,827 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.677,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "3463fb238c38f4dbe085061c7980aaf7eaab53d2"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 10.2,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.637,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;build=$diskedOS.BuildNumber;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.346,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.114,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "product-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.42,
+    "log": "logs/product-configure.log"
+  },
+  {
+    "name": "product-build",
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 118.192,
+    "log": "logs/product-build.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.166,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "product-native",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 634.764,
+    "log": "logs/product-native.log"
+  },
+  {
+    "name": "capture-reducer",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\resilience\\test_capture.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe",
+      "--evidence",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\capture-reducer.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 24.862,
+    "log": "logs/capture-reducer.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.022,
+    "log": "logs/product-launch.log"
+  },
+  {
+    "name": "private-configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.909,
+    "log": "logs/private-configure-x64.log"
+  },
+  {
+    "name": "private-build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 9.731,
+    "log": "logs/private-build-x64.log"
+  },
+  {
+    "name": "graph-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_namespace_graph.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_graph_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\graph-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.59,
+    "log": "logs/graph-x64.log"
+  },
+  {
+    "name": "lifecycle-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\lifecycle-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.626,
+    "log": "logs/lifecycle-x64.log"
+  },
+  {
+    "name": "worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.247,
+    "log": "logs/worker-x64.log"
+  },
+  {
+    "name": "adapter-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\adapter-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.979,
+    "log": "logs/adapter-x64.log"
+  },
+  {
+    "name": "private-configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.975,
+    "log": "logs/private-configure-Win32.log"
+  },
+  {
+    "name": "private-build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 8.067,
+    "log": "logs/private-build-Win32.log"
+  },
+  {
+    "name": "graph-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_namespace_graph.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_graph_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\graph-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.841,
+    "log": "logs/graph-Win32.log"
+  },
+  {
+    "name": "lifecycle-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\lifecycle-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.652,
+    "log": "logs/lifecycle-Win32.log"
+  },
+  {
+    "name": "worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.444,
+    "log": "logs/worker-Win32.log"
+  },
+  {
+    "name": "adapter-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\tests\\windows\\test_volume_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_volume_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\adapter-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.213,
+    "log": "logs/adapter-Win32.log"
+  },
+  {
+    "name": "product-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/product-x64-headers.log"
+  },
+  {
+    "name": "product-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/product-x64-imports.log"
+  },
+  {
+    "name": "product-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/product-x64-dependents.log"
+  },
+  {
+    "name": "capture-reducer-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/capture-reducer-x64-headers.log"
+  },
+  {
+    "name": "capture-reducer-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/capture-reducer-x64-imports.log"
+  },
+  {
+    "name": "capture-reducer-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout\\build\\windows-bootstrap\\Release\\capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/capture-reducer-x64-dependents.log"
+  },
+  {
+    "name": "graph-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.102,
+    "log": "logs/graph-x64-headers.log"
+  },
+  {
+    "name": "graph-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/graph-x64-imports.log"
+  },
+  {
+    "name": "graph-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/graph-x64-dependents.log"
+  },
+  {
+    "name": "lifecycle-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/lifecycle-x64-headers.log"
+  },
+  {
+    "name": "lifecycle-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/lifecycle-x64-imports.log"
+  },
+  {
+    "name": "lifecycle-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/lifecycle-x64-dependents.log"
+  },
+  {
+    "name": "worker-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/worker-x64-headers.log"
+  },
+  {
+    "name": "worker-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/worker-x64-imports.log"
+  },
+  {
+    "name": "worker-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/worker-x64-dependents.log"
+  },
+  {
+    "name": "adapter-x64-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/adapter-x64-headers.log"
+  },
+  {
+    "name": "adapter-x64-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/adapter-x64-imports.log"
+  },
+  {
+    "name": "adapter-x64-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-x64\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/adapter-x64-dependents.log"
+  },
+  {
+    "name": "graph-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/graph-Win32-headers.log"
+  },
+  {
+    "name": "graph-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/graph-Win32-imports.log"
+  },
+  {
+    "name": "graph-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/graph-Win32-dependents.log"
+  },
+  {
+    "name": "lifecycle-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/lifecycle-Win32-headers.log"
+  },
+  {
+    "name": "lifecycle-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/lifecycle-Win32-imports.log"
+  },
+  {
+    "name": "lifecycle-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/lifecycle-Win32-dependents.log"
+  },
+  {
+    "name": "worker-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/worker-Win32-headers.log"
+  },
+  {
+    "name": "worker-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/worker-Win32-imports.log"
+  },
+  {
+    "name": "worker-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/worker-Win32-dependents.log"
+  },
+  {
+    "name": "adapter-Win32-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/adapter-Win32-headers.log"
+  },
+  {
+    "name": "adapter-Win32-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.036,
+    "log": "logs/adapter-Win32-imports.log"
+  },
+  {
+    "name": "adapter-Win32-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\build-Win32\\Release\\nt_volume_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.035,
+    "log": "logs/adapter-Win32-dependents.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 150.291,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.143,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.885,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\context",
+      "--byte-budget",
+      "530000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.274,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.109,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.705,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ng38-r1\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/final-source-status.log"
+  }
+]

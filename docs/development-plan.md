@@ -258,7 +258,7 @@ qualification at `d3798a7` ([review](../.aide/evidence/2026-10-10-nt-contained/R
 Each x64/x86 campaign verifies 49 adapter processes plus 24 controller invocations
 and 18 actual child launches; late observation, checkpoint cancellation, reader
 retirement, client disconnect and strict reply binding remain separate. The
-next local slice is conservative capture/epoch-safe graph binding from generated
+graph slice below supplies subsequent capture/epoch-safe evidence from generated
 namespace observations. Native physical identity/topology, live/public/provider
 admission and the full platform/owner/release gates remain open.
 
@@ -268,6 +268,18 @@ Complete/partial publications retain outstanding workers until bound actual
 exit; stale old-capture replies cannot authorize replacement. Proposed dev.37
 passes all 77 selected native regression groups. Both x86/x64 owned-reader
 lifecycle and existing worker campaigns pass, with 16 independent reducer tests.
-The lifecycle adapter uses empty graph fragments: namespace-to-node projection,
-native physical identity/topology and live/product/provider/platform admission
-remain next work. Owner and full-unit/all-platform/storage claims remain open.
+At that revision the lifecycle adapter used empty graph fragments; namespace
+node projection was still pending, alongside native physical identity/topology
+and live/product/provider/platform admission. Owner and full-unit/all-platform/storage claims remain open.
+
+The private namespace observation graph is now locally qualified at `3463fb23`
+([review](../.aide/evidence/2026-10-10-namespace-graph/REVIEW.md)). Proposed dev.38
+passes 77 product groups and 23 reducer tests. Both x64/x86 graph campaigns pass
+30 controller invocations, 26 actual injected reader launches and 1,103 assertions
+per architecture; existing adapter/worker/lifecycle regressions also pass.
+Volume/mount observations retain exact names, distinct context-bound IDs and
+unknown physical identity. Partial frames retain only the last complete frame
+as stale background; publication and owned reader exit remain separate.
+The adapter is private, and the existing frontend rejects its unadmitted profile.
+Native identity/topology, observation frontend, live/product/provider/platform
+and owner/full-unit qualification remain next work.

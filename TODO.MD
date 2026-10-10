@@ -135,11 +135,16 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W030 contained injected namespace observer: clean x64/x86 late/cancel/
   hang/crash/retirement/disconnect and bound producer-refusal campaigns at `d3798a7`.
   Evidence: `.aide/evidence/2026-10-10-nt-contained/`. No live/product/provider admission.
-- [ ] DE-W030: bind capture/epoch-safe graph observations, then qualify native
-  identity/topology and live/provider/service/platform admission. Full unit,
+- [ ] DE-W030: qualify native identity/topology, observation frontend and
+  live/provider/service/platform admission. Full unit,
   physical/owner/release authority and the full 0.1.0 scope remain open.
 
 - [x] DE-W030 private common capture publication/retirement boundary: clean dev.37
   product regression, 16 reducer tests and x64/x86 owned-reader lifecycle/worker
   campaigns at `2d753bae`. Evidence: `.aide/evidence/2026-10-10-capture-publication/`.
   Empty lifecycle graphs do not qualify namespace node projection or admission.
+
+- [x] DE-W030 private namespace observation graph: clean dev.38 at `3463fb23`,
+  77 product groups, 23 reducer tests and x64/x86 owned-reader graph campaigns.
+  Evidence: `.aide/evidence/2026-10-10-namespace-graph/`. Observation IDs do not
+  establish physical identity or live/frontend/product/provider admission.
