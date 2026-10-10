@@ -6,6 +6,7 @@
 #include "gui_model.h"
 #include "shell_model.h"
 #include "tui_model.h"
+#include "cli.h"
 #include "memory_budget.h"
 #include <cstdio>
 #include <cstdlib>
@@ -25,6 +26,11 @@ void operator delete[](void* p,std::size_t) noexcept {std::free(p);}
 
 namespace {
 using V=disked::json::Value;namespace n=disked::nt_inventory;
+#if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
+const auto storage_profile=n::StorageFrameProfile::IdentityLayout;
+#else
+const auto storage_profile=n::StorageFrameProfile::Metadata;
+#endif
 const V& get(const V& v,const char* k) {auto p=v.find(k);if(!p)throw std::invalid_argument("fixture_shape");return *p;}
 std::string text(const V& v,const char* k) {const auto& x=get(v,k);if(x.kind!=V::Kind::string)throw std::invalid_argument("fixture_shape");return x.text;}
 std::uint32_t count(const V& v,const char* k,std::uint32_t max) {const auto s=text(v,k);if(!disked::json::decimal_u64(s))throw std::invalid_argument("fixture_count");auto x=std::stoull(s);if(x>max)throw std::invalid_argument("fixture_count");return static_cast<std::uint32_t>(x);}
@@ -36,6 +42,56 @@ V compact_state(V v) {v.fields.erase("last_outcome");v.fields.erase("transcript"
 void key(disked::TuiModel& m,disked::TextKey k) {m.input({k,"",false});}
 void key(disked::ShellModel& m,disked::TextKey k) {m.input({k,"",false});}
 void submit(disked::ShellModel& m,const std::string& s) {m.input({disked::TextKey::Text,s,false});key(m,disked::TextKey::F9);key(m,disked::TextKey::F9);}
+V cli_view(const disked::Outcome& outcome,const std::string& command,const disked::Registry& registry) {
+    disked::ParseResult parsed;parsed.command_id=command;disked::InvocationHost host;host.output_usable=host.error_usable=true;
+    const auto normal=disked::cli_text(outcome,parsed,host,registry,false,false),background=disked::cli_text(outcome,parsed,host,registry,true,false);
+    host.output_usable=false;const auto unavailable=disked::cli_text(outcome,parsed,host,registry,false,false);
+    return V::object().put("available",V::boolean_value(normal.available)).put("diagnostic",V::boolean_value(normal.diagnostic))
+        .put("human",V::string(normal.bytes)).put("background",V::string(background.bytes)).put("unavailable",V::boolean_value(unavailable.available));
+}
+#if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
+V inspect_storage(const disked::GraphInput& graph,const disked::Registry& registry,const V& discovery) {
+    unsigned calls=0;disked::FrontendSession session(registry,graph,{},[&](const std::string& id,const V&,const std::string&,const V&){++calls;return disked::completed(id,V::object());},disked::FrontendProfile::CachedObservations);
+    const auto snapshot=session.snapshot();auto out=V::array();const auto& nodes=get(snapshot->value(),"nodes").items;
+    for(std::size_t i=0;i<nodes.size();++i) {
+        const auto& properties=get(nodes[i],"properties");if(text(properties,"scope")!="observation-only" || text(get(properties,"observation_binding"),"source")!="storage")continue;
+        const auto id=text(nodes[i],"id");auto dispatch=[&](const std::string& r,const std::string& c,const V& p,const std::string& revision){return session.dispatch(r,c,p,revision);};
+        const auto direct=session.dispatch("all:direct","target.inspect",V::object().put("target_id",V::string(id)));
+        disked::GuiModel gui(session,registry,discovery,dispatch);gui.focus(id);gui.open();
+        disked::TuiModel tui(session,registry,discovery,dispatch);for(std::size_t j=0;j<i;++j)key(tui,disked::TextKey::Down);key(tui,disked::TextKey::Enter);
+        disked::ShellModel shell(session,registry,discovery,dispatch,false);submit(shell,"target inspect "+id);
+        auto digest=[](const V& v) {return V::string(disked::digest_sha256(disked::json::dump(v,disked::cached_observation_view_limits())));};
+        auto display_limits=disked::cached_observation_view_limits();display_limits.bytes=8388608;display_limits.depth=35;
+        const auto cli=cli_view(direct,"target.inspect",registry);const auto gr=get(gui.state(),"last_outcome"),tr=get(tui.state(),"last_outcome"),sr=get(shell.state(),"last_outcome");
+        const auto gd=disked::json::parse(gui.detail_text(),display_limits);const auto rendered=tui.render(80,25,true);std::string body;
+        require(rendered.size()>=6,"fixture_tui_display");for(std::size_t j=3;j+3<rendered.size();++j){body+=rendered[j];body+='\n';}
+        const auto td=disked::json::parse(body,display_limits);
+        const auto health=session.dispatch("all:health","health.assess",V::object().put("target_id",V::string(id)));
+        const auto cap=session.dispatch("all:capability","capability.explain",V::object().put("target_id",V::string(id)).put("operation",V::string("health.assess")));
+        const auto& assessment=get(get(cap.response,"result"),"assessment");
+        auto row=V::object().put("id",V::string(id)).put("direct",direct.response)
+            .put("gui",digest(get(gr,"result"))).put("tui",digest(get(tr,"result"))).put("shell",digest(get(sr,"result")))
+            .put("cli_human",digest(disked::json::parse(text(cli,"human"),display_limits))).put("cli_background",digest(disked::json::parse(text(cli,"background"),display_limits)))
+            .put("gui_display",digest(get(gd,"result"))).put("tui_display",digest(get(td,"result")))
+            .put("health_refused",V::boolean_value(text(health.response,"status")=="refused" && text(get(health.response,"diagnostics").items.at(0),"code")=="observation_not_storage_target"))
+            .put("capability_unqualified",V::boolean_value(!get(assessment,"execution_eligible").boolean && !get(assessment,"authorizes_execution").boolean && get(assessment,"target_id").kind==V::Kind::null && text(assessment,"observation_id")==id));
+        out.items.push_back(std::move(row));
+    }
+    require(!calls,"fixture_storage_health_called");return out;
+}
+V storage_focus(const disked::GraphInput& original,const disked::GraphInput& current,const disked::Registry& registry) {
+    std::string id;for(const auto& node:original.nodes)if(node.scope==disked::GraphNodeScope::Observation && node.observation.source=="storage") {
+        if(id.empty() || node.kind=="storage-partition-observation")id=node.id;if(node.kind=="storage-partition-observation")break;
+    }
+    if(id.empty())return V{};
+    disked::FrontendSession session(registry,original,{},{},disked::FrontendProfile::CachedObservations);const auto before=session.snapshot();
+    session.act({disked::ActionKind::Select,id,before->revision(),"focus:select"});session.publish(current);
+    const auto after=session.snapshot();const auto stale=session.dispatch("focus:stale","target.inspect",V::object().put("target_id",V::string(id)),before->revision());
+    const auto inspected=session.dispatch("focus:current","target.inspect",V::object().put("target_id",V::string(id)),after->revision());
+    return V::object().put("old_id",V::string(id)).put("selection",session.selection()).put("stale",stale.response).put("inspection",inspected.response)
+        .put("present",V::boolean_value(after->node(id)!=nullptr));
+}
+#endif
 disked::GraphInput synthetic(const V& input) {
     disked::GraphInput g;g.profile=disked::GraphProfile::Observations;
     const auto size=count(input,"count",321),fill=count(input,"fill",4096),extra=count(input,"extra",319);
@@ -61,6 +117,20 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     disked::Registry registry{get(reg,"commands"),get(reg,"syntax"),get(reg,"schemas")};
     auto commands=registry.commands;for(auto& c:commands.items)c.put("availability",V::string(disked::FrontendSession::handles(text(c,"id"))?"available":"unavailable"));
     auto discovery=V::object().put("commands",commands);
+    if(mode=="cli-limit") {
+        auto graph=synthetic(input);require(graph.nodes.size()==80,"fixture_cli_shape");
+        for(auto& node:graph.nodes) {node.label="D";node.observation.payload.put("text",V::string(std::string(8800,127)));node.id=disked::observation_node_id(node);}
+        disked::FrontendSession session(registry,graph,{},{},disked::FrontendProfile::CachedObservations);const auto before=session.snapshot();
+        const auto outcome=session.dispatch("cli:limit","topology.show",V::object());disked::ParseResult parsed;parsed.command_id="topology.show";
+        disked::InvocationHost host;const auto unavailable=disked::cli_text(outcome,parsed,host,registry,false,false);require(!unavailable.available,"fixture_cli_unusable_channel");
+        host.output_usable=true;auto errors=V::array();
+        for(bool background:{false,true}) {std::string reason;try{disked::cli_text(outcome,parsed,host,registry,background,false);}catch(const std::length_error& e){reason=e.what();}
+            require(reason=="presentation_limit","fixture_cli_display_limit");errors.items.push_back(V::string(reason));}
+        require(session.snapshot()==before,"fixture_cli_changed_graph");
+        return V::object().put("limits",errors).put("raw_view_bytes",V::string(std::to_string(disked::json::dump(outcome.response,disked::cached_observation_view_limits()).size())))
+            .put("chunks",V::string("80")).put("chunk_bytes",V::string("8800")).put("glyph",V::string("127")).put("unavailable",V::boolean_value(unavailable.available))
+            .put("unchanged",V::boolean_value(true)).put("frontend_budget_ready",V::boolean_value(budget.ready())).put("child_launches",V::string("0"));
+    }
     disked::ObservationCapture capture({"namespace","storage","peer"},disked::GraphProfile::Observations);
     const auto pk=capture.start("peer");disked::GraphInput pg;pg.nodes.push_back({"fake:peer","block-device","fixture:peer","1","peer","current","4096",{}});capture.finish(pk,pg);
     auto initial=mode=="synthetic"?synthetic(input):capture.snapshot()->graph;
@@ -90,7 +160,7 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     std::shared_ptr<const disked::GraphInput> pending;bool offer=true;unsigned polls=0,health_calls=0;
     disked::FrontendSession session(registry,initial,[&]{++polls;return offer?pending:nullptr;},
         [&](const std::string& id,const V&,const std::string&,const V&){++health_calls;return disked::completed(id,V::object().put("fake_health",V::boolean_value(true)));},disked::FrontendProfile::CachedObservations);
-    auto workers=V::array();n::NamespaceGraphAdapter ns(capture,"namespace");n::StorageGraphAdapter storage(capture,"storage");
+    auto workers=V::array();n::NamespaceGraphAdapter ns(capture,"namespace");n::StorageGraphAdapter storage(capture,"storage",storage_profile);
     auto pending_lifecycle=V::object();
     if(mode=="owned" || mode=="pending") {
         workers.items.push_back(owned(ns,n::InventoryPolicy{},get(input,"namespace")));
@@ -103,6 +173,9 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     }
     const auto views_started=GetTickCount64();
     auto snapshot=session.snapshot();std::string id;std::size_t ordinal=0;
+#if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
+    const auto retained_graph=mode=="synthetic"?initial:capture.snapshot()->graph;
+#endif
     const auto& nodes=get(snapshot->value(),"nodes").items;
     for(;ordinal<nodes.size();++ordinal)if(text(get(nodes[ordinal],"properties"),"scope")=="observation-only"){id=text(nodes[ordinal],"id");break;}
     require(!id.empty(),"fixture_no_observations");
@@ -132,7 +205,8 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
         // capture. They do not poll workers, launch replacements or rebase.
         gui.focus(id);gui.navigate(false);tui.input({disked::TextKey::F3,"",false});
         disked::ShellModel staged(session,registry,discovery,dispatch,false);staged.input({disked::TextKey::Text,"target inspect "+id,false});key(staged,disked::TextKey::F9);
-        capture.next_capture();workers.items.push_back(owned(ns,n::InventoryPolicy{},get(input,"namespace")));workers.items.push_back(owned(storage,n::StorageQueryPolicy{},get(input,"storage")));
+        capture.next_capture();workers.items.push_back(owned(ns,n::InventoryPolicy{},get(input,"namespace")));
+        const auto* next=input.find("storage_next");workers.items.push_back(owned(storage,n::StorageQueryPolicy{},next?*next:get(input,"storage")));
         pending=std::make_shared<const disked::GraphInput>(capture.snapshot()->graph);
         gui.open();key(tui,disked::TextKey::Enter);key(staged,disked::TextKey::F9);
         retry.put("stale",V::object().put("gui",get(gui.state(),"last_outcome")).put("tui",get(tui.state(),"last_outcome")).put("shell",get(staged.state(),"last_outcome")));
@@ -172,13 +246,23 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
         pending_lifecycle.put("replacement_refused",V::boolean_value(replacement)).put("after",storage.retire());
         require(!capture.snapshot()->sources[1].outstanding,"fixture_reader_retirement_unobserved");
     }
-    return V::object().put("pointer_bytes",V::string(std::to_string(sizeof(void*)))).put("mode",V::string(mode)).put("graph",snapshot->value()).put("workers",workers)
+    auto output=V::object().put("pointer_bytes",V::string(std::to_string(sizeof(void*)))).put("mode",V::string(mode)).put("graph",snapshot->value()).put("workers",workers)
         .put("inspections",observations).put("list",list.response).put("topology",topology.response).put("rows",rows).put("health",health.response).put("health_calls",V::string(std::to_string(health_calls)))
         .put("capability",capability.response).put("forms",forms).put("completions",completions).put("rendered",rendered).put("screen",screen).put("retry",retry).put("paired",paired)
         .put("wire_result",V::string(wire)).put("polls",V::string(std::to_string(polls))).put("pending_lifecycle",pending_lifecycle).put("frontend_budget_ready",V::boolean_value(budget.ready())).put("frontend_memory_bytes",V::string(std::to_string(disked::WindowsMemoryBudget::limit_bytes())));
+    output.put("cli_topology",cli_view(topology,"topology.show",registry));
+#if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
+    output.put("storage_profile",V::string("identity-layout")).put("storage_inspections",inspect_storage(retained_graph,registry,discovery))
+        .put("storage_current_inspections",inspect_storage(capture.snapshot()->graph,registry,discovery));
+    if(mode=="owned")output.put("storage_focus",storage_focus(retained_graph,capture.snapshot()->graph,registry));
+#endif
+    return output;
 }
 }
 int wmain(int argc,wchar_t** argv) {
+#if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
+    if(argc>1 && std::wstring(argv[1])==L"__disked_nt_identity_fixture_worker")return n::storage_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_storage_fixture::api(v,notify);},n::StorageFrameProfile::IdentityLayout);
+#endif
     if(argc>1 && std::wstring(argv[1])==L"__disked_nt_storage_fixture_worker")return n::storage_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_storage_fixture::api(v,notify);});
     if(argc>1 && std::wstring(argv[1])==L"__disked_nt_namespace_fixture_worker")return n::namespace_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_fixture::api(v,notify);});
     if(argc!=1)return 2;disked::WindowsMemoryBudget budget;if(!budget.ready())return 7;
@@ -186,6 +270,6 @@ int wmain(int argc,wchar_t** argv) {
     try {
         std::string data;char block[8192];for(;;){const auto bytes=std::fread(block,1,sizeof(block),stdin);if(data.size()+bytes>1048576)return 2;data.append(block,bytes);if(bytes<sizeof(block)){if(std::ferror(stdin))return 2;break;}}
         disked::json::Limits l;l.bytes=1048576;l.values=131072;l.depth=35;const auto input=disked::json::parse(data,l);const auto mode=text(input,"mode");
-        if(mode!="owned" && mode!="pending" && mode!="synthetic" && mode!="default" && mode!="history")throw std::invalid_argument("fixture_mode");print(exercise(input,budget));return 0;
+        if(mode!="owned" && mode!="pending" && mode!="synthetic" && mode!="default" && mode!="history" && mode!="cli-limit")throw std::invalid_argument("fixture_mode");print(exercise(input,budget));return 0;
     }catch(const std::exception& e){fail_next_allocation=false;print(V::object().put("status",V::string("refused")).put("reason",V::string(e.what())));return 3;}
 }

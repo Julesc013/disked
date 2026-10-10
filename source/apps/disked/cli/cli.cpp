@@ -4,11 +4,17 @@
 namespace disked {
 using json::Value;
 CliText cli_text(const Outcome& outcome,const ParseResult& parsed,const InvocationHost& host,const Registry& registry,bool background,bool acquisition_watch) {
+    const bool cached=cached_observation_response(outcome.response);
+    auto present=[&](const Value& value,json::Limits limits) {
+        auto text=presentation_json(value,limits);
+        if(cached && text.size()+1>4194304)throw std::length_error("presentation_limit");
+        return text+"\n";
+    };
     if(background && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
-        json::Limits limits;if(report_response(outcome.response) || verification_response(outcome.response) || acquisition_watch)limits=response_limits(outcome.response);
+        json::Limits limits;if(cached)limits=cached_observation_view_limits();else if(report_response(outcome.response) || verification_response(outcome.response) || acquisition_watch)limits=response_limits(outcome.response);
         if(!host.output_usable)return {};
-        return {true,false,presentation_json(outcome.response,limits)+"\n"};
+        return {true,false,present(outcome.response,limits)};
     }
     if(outcome.exit_code) {
         if(!host.error_usable)return {};
@@ -17,7 +23,7 @@ CliText cli_text(const Outcome& outcome,const ParseResult& parsed,const Invocati
     }
     if(!host.output_usable)return {};
     const auto& value=*outcome.response.find("result");std::string text;
-    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")text=presentation_json(value)+"\n";
+    if(FrontendSession::handles(parsed.command_id) && parsed.kind!="help")text=present(value,cached?cached_observation_view_limits():json::Limits{});
     else if(parsed.command_id=="mode.explain" && parsed.kind!="help")text=json::dump(value)+"\n";
     else if(parsed.command_id=="build.inspect" && parsed.kind!="help") {
         for(const auto& pair:value.fields)text+=pair.first+"="+pair.second.text+"\n";

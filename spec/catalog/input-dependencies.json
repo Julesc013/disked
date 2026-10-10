@@ -7033,7 +7033,9 @@
         "source/providers/windows/storage_layout.h",
         "source/providers/windows/storage_layout.cpp",
         "tests/windows/native/raw_layout_probe.cpp",
-        "tests/windows/test_raw_layout.py"
+        "tests/windows/test_raw_layout.py",
+        "source/apps/disked/cli/cli.cpp",
+        "spec/catalog/nt-identity-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-034",
@@ -7696,11 +7698,14 @@
         "source/runtime/invocation/policy.h",
         "source/runtime/command/protocol.h",
         "source/apps/disked/cli/cli.h",
-        "source/runtime/presentation/session.h"
+        "source/runtime/presentation/session.h",
+        "spec/catalog/nt-identity-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-021",
-        "DE-028"
+        "DE-028",
+        "DE-023",
+        "DE-034"
       ]
     },
     {
@@ -7729,7 +7734,9 @@
         "tests/windows/native/storage_fixture.cpp",
         "source/apps/disked/tui/model.cpp",
         "source/apps/disked/gui/win32/gui_model.cpp",
-        "source/apps/disked/shell/shell_model.cpp"
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/apps/disked/cli/cli.cpp",
+        "spec/catalog/nt-identity-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -7747,7 +7754,10 @@
         "tools/build-bootstrap.py",
         "spec/catalog/observation-frontend-prototype.json",
         "spec/catalog/commands.json",
-        "spec/catalog/cli-syntax.json"
+        "spec/catalog/cli-syntax.json",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_identity_queries.py",
+        "spec/catalog/nt-identity-frontend-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -8052,6 +8062,37 @@
         "tests/windows/native/CMakeLists.txt"
       ],
       "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-identity-frontend-prototype.json",
+      "path": "spec/catalog/nt-identity-frontend-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/nt-identity-frame-prototype.json",
+        "spec/catalog/observation-frontend-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-identity-frontend/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-identity-frontend/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_storage_worker.py",
+        "spec/catalog/nt-identity-frontend-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
         "DE-034"
       ]
     }

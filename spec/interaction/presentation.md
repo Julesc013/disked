@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.16-proposed.2
+  version: 0.1.17-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -221,3 +221,14 @@ process memory job. These display limits do not change transport or producer
 schemas, prove provider provenance, or confer authority. Actual-window/terminal,
 accessibility, live/product/provider, public protocol and other-host/platform
 qualification remain separate work.
+
+The [private identity/layout frontend profile](../catalog/nt-identity-frontend-prototype.json)
+qualifies the selected /2 owned observations through the same CLI/shell/TUI/GUI
+models. Human CLI rendering and its separate background-envelope formatter use
+the declared private single-view/display budgets, preserve complete inert text
+and produce no output when the channel is unavailable. This does not enlarge
+wire limits or select the product composition. Every current/stale observation
+kind must preserve exact original data and bindings and remain excluded from
+health/media-target authority. Maximum current and cached detail graphs include
+namespace/fake peers under the unchanged shared budgets. Native model/process
+evidence does not qualify actual windows, terminals, live media or public APIs.

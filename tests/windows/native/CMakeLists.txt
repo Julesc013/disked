@@ -207,6 +207,7 @@ add_executable(nt_observation_frontend_probe
   "${DISKED_ROOT}/source/apps/disked/tui/tui_model.cpp"
   "${DISKED_ROOT}/source/apps/disked/gui/gui_model.cpp"
   "${DISKED_ROOT}/source/apps/disked/shell/shell_model.cpp")
+target_sources(nt_observation_frontend_probe PRIVATE "${DISKED_ROOT}/source/apps/disked/cli/cli.cpp")
 get_target_property(observation_shared_sources nt_storage_worker_probe SOURCES)
 list(FILTER observation_shared_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
 target_sources(nt_observation_frontend_probe PRIVATE ${observation_shared_sources})
@@ -216,6 +217,17 @@ target_include_directories(nt_observation_frontend_probe PRIVATE ${observation_s
   "${DISKED_ROOT}/source/apps/disked/tui"
   "${DISKED_ROOT}/source/apps/disked/gui"
   "${DISKED_ROOT}/source/apps/disked/shell")
+target_include_directories(nt_observation_frontend_probe PRIVATE
+  "${DISKED_ROOT}/source/apps/disked/cli" "${DISKED_ROOT}/source/runtime/invocation")
 target_compile_definitions(nt_observation_frontend_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_OBSERVATION_WORKER_TESTING=1)
 target_compile_options(nt_observation_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_observation_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+get_target_property(identity_frontend_sources nt_observation_frontend_probe SOURCES)
+get_target_property(identity_frontend_includes nt_observation_frontend_probe INCLUDE_DIRECTORIES)
+add_executable(nt_identity_frontend_probe ${identity_frontend_sources})
+target_include_directories(nt_identity_frontend_probe PRIVATE ${identity_frontend_includes})
+target_compile_definitions(nt_identity_frontend_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00
+  DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_NT_IDENTITY_FRONTEND_TESTING=1)
+target_compile_options(nt_identity_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_identity_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
