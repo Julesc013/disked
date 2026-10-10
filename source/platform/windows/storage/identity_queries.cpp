@@ -33,7 +33,7 @@ V StorageQueryPort::identifiers(){
         packets.push_back(call(IOCTL_STORAGE_QUERY_PROPERTY,static_cast<DWORD>(size),true,StorageDeviceIdProperty));const auto& b=packets.back();
         if(b.state!="observed")return result("identifiers",growth(b.error)?"changed":b.state,packets);
         require(b.returned>=16);if(load(b.bytes,0,4)!=version || load(b.bytes,4,4)!=size)return result("identifiers","changed",packets);require(b.returned>=size);
-        const auto count=load(b.bytes,8,4);if(count>32)return result("identifiers","budget_exhausted",packets);
+        const auto count=load(b.bytes,8,4);if(count>policy_.identifiers)return result("identifiers","budget_exhausted",packets);
         auto rows=V::array();std::size_t at=12;std::map<std::string,unsigned> duplicates;
         for(std::uint64_t i=0;i<count;++i){
             require(at<=size && size-at>=16);const auto code=load(b.bytes,at,4),type=load(b.bytes,at+4,4),length=load(b.bytes,at+8,2),next=load(b.bytes,at+10,2),association=load(b.bytes,at+12,4);
@@ -68,7 +68,7 @@ V StorageQueryPort::layout(){
             if(bytes==12288)return result("layout","budget_exhausted",packets);bytes*=2;
         }
         const auto& b=packets.back();require(b.returned>=48);const auto style=load(b.bytes,0,4),count=load(b.bytes,4,4);
-        if(style>2)return result("layout","unsupported_style",packets);if(count>64)return result("layout","budget_exhausted",packets);require(48+144*count<=b.returned);
+        if(style>2)return result("layout","unsupported_style",packets);if(count>policy_.partitions)return result("layout","budget_exhausted",packets);require(48+144*count<=b.returned);
         require(style==0?count%4==0:style==2?count==0:true);
         auto data=claims(),rows=V::array(),issues=V::array();data.put("partition_style",num(style)).put("partition_count",num(count)).put("raw_metadata_independently_verified",V::boolean_value(false));
         std::uint64_t usable_start=0,usable_end=0;std::map<std::string,unsigned> ids;std::map<std::uint64_t,unsigned> numbers;

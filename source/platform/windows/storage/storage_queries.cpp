@@ -30,7 +30,7 @@ json::Limits storage_observation_limits() {json::Limits l;l.bytes=524288;l.value
 StorageQueryApi native_storage_query_api() {StorageQueryApi a;a.ioctl=&DeviceIoControl;a.error=&GetLastError;return a;}
 StorageQueryPort::StorageQueryPort(const StorageQueryApi& api,HANDLE handle,const StorageQueryPolicy& p,std::function<bool()> stop):
     api_(api),handle_(handle),policy_(p),stop_(std::move(stop)) {
-    if(!api.ioctl || !api.error || handle==nullptr || handle==INVALID_HANDLE_VALUE || p.descriptor_bytes<40 || p.descriptor_bytes>4096 || !p.string_bytes || p.string_bytes>256 || !p.extents || p.extents>64)throw std::invalid_argument("nt_storage_request");
+    if(!api.ioctl || !api.error || handle==nullptr || handle==INVALID_HANDLE_VALUE || p.descriptor_bytes<40 || p.descriptor_bytes>4096 || !p.string_bytes || p.string_bytes>256 || !p.extents || p.extents>64 || !p.identifiers || p.identifiers>32 || !p.partitions || p.partitions>64)throw std::invalid_argument("nt_storage_request");
     const auto native=native_storage_query_api();if(api.ioctl==native.ioctl || api.error==native.error)throw std::invalid_argument("nt_storage_native_port_not_admitted");
 }
 void StorageQueryPort::begin(unsigned i) {if(used_[i])throw std::invalid_argument("nt_storage_query_reused");used_[i]=true;}

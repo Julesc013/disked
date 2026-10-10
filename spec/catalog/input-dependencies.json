@@ -7018,7 +7018,8 @@
         "tests/windows/native/storage_fixture.cpp",
         "tests/windows/native/storage_worker_probe.cpp",
         "tests/windows/native/observation_frontend_probe.cpp",
-        "tests/windows/native/identity_query_probe.cpp"
+        "tests/windows/native/identity_query_probe.cpp",
+        "tests/windows/test_identity_frame.py"
       ],
       "spec_ids": [
         "DE-034",
@@ -7372,7 +7373,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/platform/windows/storage/storage_queries.h",
-        "source/runtime/graph/capture.h"
+        "source/runtime/graph/capture.h",
+        "spec/catalog/nt-identity-frame-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -7387,7 +7389,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/providers/windows/storage_inventory.h",
-        "source/providers/windows/volume_inventory.h"
+        "source/providers/windows/volume_inventory.h",
+        "spec/catalog/nt-identity-frame-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -7503,7 +7506,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/providers/windows/storage_frame_reader.h",
-        "source/portable/hash/sha256.h"
+        "source/portable/hash/sha256.h",
+        "spec/catalog/nt-identity-frame-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -7533,7 +7537,8 @@
       "delivery": "artifact",
       "depends_on": [
         "source/platform/windows/storage/storage_worker.h",
-        "spec/catalog/nt-storage-worker-prototype.json"
+        "spec/catalog/nt-storage-worker-prototype.json",
+        "spec/catalog/nt-identity-frame-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -7561,7 +7566,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/windows/storage_graph.h"
+        "source/providers/windows/storage_graph.h",
+        "spec/catalog/nt-identity-frame-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -7836,6 +7842,54 @@
       ],
       "spec_ids": [
         "DE-023",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-identity-frame-prototype.json",
+      "path": "spec/catalog/nt-identity-frame-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_identity_frame.py",
+      "path": "tests/windows/test_identity_frame.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/storage_worker_probe.cpp",
+        "tests/windows/test_identity_queries.py",
+        "spec/catalog/nt-identity-frame-prototype.json",
+        ".aide/evidence/2026-10-10-identity-queries/reproduction-b853621b/storage-worker-x64/healthy.stdout"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-identity-frame/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-identity-frame/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/native/CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-identity-queries/reproduction-b853621b/storage-worker-x64/healthy.stdout",
+      "path": ".aide/evidence/2026-10-10-identity-queries/reproduction-b853621b/storage-worker-x64/healthy.stdout",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
         "DE-034"
       ]
     }

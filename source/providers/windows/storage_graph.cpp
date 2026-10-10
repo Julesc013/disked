@@ -9,23 +9,27 @@ std::string text(const V& v,const char* k){const auto& x=get(v,k);if(x.kind!=V::
 bool hex(const std::string& s,std::size_t n){return s.size()==n && s.find_first_not_of("0123456789abcdef")==std::string::npos;}
 bool identity(const std::string& s,const char* prefix){const std::string p=prefix;return s.compare(0,p.size(),p)==0 && hex(s.substr(p.size()),32);}
 }
-V storage_graph_context(const V& observed){
-    if(text(observed,"schema")!="org.disked.nt-storage-worker-observation/1")throw std::invalid_argument("storage_graph_context");auto out=V::object();
+V storage_graph_context(const V& observed,StorageFrameProfile profile){
+    if(profile!=StorageFrameProfile::Metadata && profile!=StorageFrameProfile::IdentityLayout)throw std::invalid_argument("storage_graph_profile");
+    const bool identity_profile=profile==StorageFrameProfile::IdentityLayout;
+    if(text(observed,"schema")!=(identity_profile?"org.disked.nt-storage-worker-observation/2":"org.disked.nt-storage-worker-observation/1"))throw std::invalid_argument("storage_graph_context");auto out=V::object();
     for(const auto k:{"attempt_id","observer_epoch","worker_epoch","request_digest","code_sha256"})out.put(k,get(observed,k));
     const auto& worker=get(observed,"worker");out.put("pid",get(worker,"pid")).put("created",get(worker,"created"));
-    if(!identity(text(out,"attempt_id"),"storage-attempt:") || !identity(text(out,"observer_epoch"),"observer:") || !identity(text(out,"worker_epoch"),"worker:") || !hex(text(out,"request_digest"),64) || !hex(text(out,"code_sha256"),64) || !json::decimal_u64(text(out,"pid")) || text(out,"pid")=="0" || !json::decimal_u64(text(out,"created")) || text(out,"created")=="0")throw std::invalid_argument("storage_graph_context");return out;
+    if(!identity(text(out,"attempt_id"),identity_profile?"identity-attempt:":"storage-attempt:") || !identity(text(out,"observer_epoch"),"observer:") || !identity(text(out,"worker_epoch"),"worker:") || !hex(text(out,"request_digest"),64) || !hex(text(out,"code_sha256"),64) || !json::decimal_u64(text(out,"pid")) || text(out,"pid")=="0" || !json::decimal_u64(text(out,"created")) || text(out,"created")=="0")throw std::invalid_argument("storage_graph_context");
+    if(identity_profile)out.put("storage_profile",V::string("identity-layout"));return out;
 }
-StorageGraphAdapter::StorageGraphAdapter(ObservationCapture& c,std::string s):capture_(c),source_(std::move(s)){
+StorageGraphAdapter::StorageGraphAdapter(ObservationCapture& c,std::string s,StorageFrameProfile profile):capture_(c),source_(std::move(s)),profile_(profile){
     if(capture_.snapshot()->graph.profile!=GraphProfile::Observations)throw std::invalid_argument("storage_graph_profile");
+    if(profile!=StorageFrameProfile::Metadata && profile!=StorageFrameProfile::IdentityLayout)throw std::invalid_argument("storage_graph_profile");
 }
 void StorageGraphAdapter::start(const StorageQueryPolicy& policy,const V& fixture){
-    StorageInput input;input.capture_epoch=capture_.snapshot()->capture;input.policy=policy;input.provider_input=fixture;validate_storage_input(input);
+    StorageInput input;input.capture_epoch=capture_.snapshot()->capture;input.policy=policy;input.provider_input=fixture;input.profile=profile_;validate_storage_input(input);
     if(session_ && text(get(session_->observe(),"worker"),"observation")!="exited" && !session_->never_launched())throw std::invalid_argument("storage_graph_reader_outstanding");
     std::uint64_t previous_worker=0;bool found=false;
     for(const auto& s:capture_.snapshot()->sources)if(s.id==source_){found=true;previous_worker=s.attempt.worker;if(s.outstanding)throw std::invalid_argument("storage_graph_reader_outstanding");}
     if(!found)throw std::invalid_argument("storage_graph_source");
     auto prepared=StorageWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0};session_.swap(prepared);key_=std::move(registered);input_=std::move(input);context_=V{};
-    try{auto key=capture_.start(source_);key_=std::move(key);session_->launch();context_=storage_graph_context(session_->observe());}
+    try{auto key=capture_.start(source_);key_=std::move(key);session_->launch();context_=storage_graph_context(session_->observe(),profile_);}
     catch(...){
         if(!key_.worker)for(const auto& s:capture_.snapshot()->sources)if(s.id==source_ && s.outstanding && s.attempt.worker>previous_worker){key_.capture=s.attempt.capture;key_.worker=s.attempt.worker;}
         if(key_.worker){if(session_->never_launched())capture_.fail(key_,SourceState::Unavailable,"storage_start_never_launched");else capture_.update_failure(key_,SourceState::Unavailable,"storage_start_unresolved");}throw;
@@ -38,12 +42,12 @@ bool StorageGraphAdapter::wait_entered(DWORD ms){if(!session_)throw std::invalid
 void StorageGraphAdapter::consume(const V& observed){
     const auto state=text(get(observed,"worker"),"observation");if(state=="not_started"){capture_.fail(key_,SourceState::Unavailable,"storage_start_never_launched");return;}
     try{
-        if(context_.kind==V::Kind::null)context_=storage_graph_context(observed);
-        if(json::dump(storage_graph_context(observed))!=json::dump(context_) || text(observed,"capture_epoch")!=std::to_string(key_.capture))throw std::invalid_argument("storage_graph_binding");
+        if(context_.kind==V::Kind::null)context_=storage_graph_context(observed,profile_);
+        if(json::dump(storage_graph_context(observed,profile_))!=json::dump(context_) || text(observed,"capture_epoch")!=std::to_string(key_.capture))throw std::invalid_argument("storage_graph_binding");
         if(capture_.snapshot()->capture==key_.capture){
             const auto& result=get(observed,"result");
             if(result.kind==V::Kind::object){
-                const auto frame=read_storage_frame(result,input_.provider_input,key_.capture,input_.policy);const auto status=text(result,"status");
+                const auto frame=read_storage_frame(result,input_.provider_input,key_.capture,input_.policy,profile_);const auto status=text(result,"status");
                 auto graph=project_storage_frame(*frame,key_,digest_sha256(json::dump(context_)),context_);
                 if(status!="selected_queries_complete" && have_previous_complete_){for(auto node:previous_complete_.nodes){node.state="stale";graph.nodes.push_back(std::move(node));}graph.edges.insert(graph.edges.end(),previous_complete_.edges.begin(),previous_complete_.edges.end());}
                 GraphInput prepared_complete;if(status=="selected_queries_complete")prepared_complete=graph;

@@ -11,7 +11,7 @@
 namespace disked { namespace nt_inventory {
 struct StorageQueryApi {decltype(&::DeviceIoControl) ioctl=nullptr;decltype(&::GetLastError) error=nullptr;};
 StorageQueryApi native_storage_query_api();
-struct StorageQueryPolicy {DWORD descriptor_bytes=4096,string_bytes=256,extents=64;};
+struct StorageQueryPolicy {DWORD descriptor_bytes=4096,string_bytes=256,extents=64,identifiers=32,partitions=64;};
 // Borrowed synchronous handle, never opened, closed, selected by disk number or
 // granted authority here. The selected fixture port rejects any native pointer.
 class StorageQueryPort final {

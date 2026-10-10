@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.6-proposed.2
+  version: 0.1.7-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -202,8 +202,44 @@ reports cannot grant mutation. OS layout is not independent raw metadata parsing
 The pinned SDK ABI determines field interpretation; newly documented fields not
 in that selected declaration remain uninterpreted receipt bytes.
 
-The existing storage frame/receipt reader, owned observation role, graph/frontend
-and product do not dispatch this profile yet. Integration, composite identity,
-independent raw layout, actual live/provider/platform/public admission and owner/
-full-unit qualification remain work. Native generated fixtures must qualify the
-exact control calls, ABI, returned bytes, refusal/quarantine and resource limits.
+The original metadata frame/receipt reader, graph and product do not dispatch
+these additions. The separately selected private owned profile below integrates
+the new observations without changing the original /1 interpretation. Composite
+identity, independent raw layout, actual live/provider/platform/public admission
+and owner/full-unit qualification remain work. Native generated fixtures must
+qualify the exact control calls, ABI, returned bytes and resource bounds.
+
+
+## Private owned identity/layout frames
+
+The [private owned identity/layout profile](../catalog/nt-identity-frame-prototype.json)
+is an explicit compiled selection. Separate /2 input/reply/observation/frame
+identities use the existing owned observation host and a distinct fixture role.
+The default metadata /1 profile keeps its field interpretation and shapes.
+Neither fixture data nor a received schema selects the parent's profile.
+
+The frame collects disk identifiers, reported alignment and OS partition slots
+alongside existing metadata/extents. A shared 128-detail budget covers identifier,
+partition (including unused) and extent rows; remaining per-component limits
+apply before decoding. Zero remaining detail skips dispatch. Cancellation and
+unresolved callbacks stop the batch. Existing byte/value/graph/job and public
+protocol limits stay fixed; budget refusal is explicit rather than truncation.
+
+Parent reconstruction binds exact controls, typed property IDs, known returned
+bytes, strict receipts and the original selected policy. It invokes no original
+provider callback. Equality proves producer conformance; owned code/request/
+process/epoch binding supplies separate provenance. It does not prove physical
+identity, completeness of omitted queries, independent raw media or effects.
+
+Separate identifier and partition observation nodes keep device summaries within
+the existing node bounds. All parent/source/frame/context bindings stay exact.
+Cloned reported IDs/layout identifiers and alignment/capacity/range/layout
+disagreements are explicit candidates, without subject merge or backing inference.
+Original identifier bytes, partition entries and GPT name units remain lossless
+and distinct from inert presentation. Partial capture retains only the last
+complete frame as stale data; actual owned exit remains the replacement gate.
+
+Generated x64/x86 fixtures, pure replay mutations, maximum current/cached graphs,
+owned reader failure/retirement and /1 regression evidence must qualify this
+bounded profile before further admission. Live devices, public/product/provider,
+composite identity, raw comparison, platforms and owner/full-unit gates remain.

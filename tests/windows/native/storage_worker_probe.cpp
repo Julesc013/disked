@@ -8,6 +8,13 @@
 #include <set>
 namespace {
 using V=disked::json::Value;namespace n=disked::nt_inventory;
+#if defined(DISKED_NT_IDENTITY_FRAME_TESTING)
+const auto selected_profile=n::StorageFrameProfile::IdentityLayout;
+#else
+const auto selected_profile=n::StorageFrameProfile::Metadata;
+#endif
+std::unique_ptr<n::StorageGraphAdapter> adapter_for(disked::ObservationCapture& c,const char* source,const n::StorageQueryPolicy&){return std::unique_ptr<n::StorageGraphAdapter>(new n::StorageGraphAdapter(c,source,selected_profile));}
+std::unique_ptr<n::NamespaceGraphAdapter> adapter_for(disked::ObservationCapture& c,const char* source,const n::InventoryPolicy&){return std::unique_ptr<n::NamespaceGraphAdapter>(new n::NamespaceGraphAdapter(c,source));}
 const V& get(const V& v,const char* k){const auto p=v.find(k);if(!p)throw std::invalid_argument("fixture_shape");return *p;}
 std::string text(const V& v,const char* k){const auto& x=get(v,k);if(x.kind!=V::Kind::string)throw std::invalid_argument("fixture_shape");return x.text;}
 V view(const disked::ObservationCapture& capture){
@@ -19,7 +26,7 @@ void print(V v){v.put("pointer_bytes",V::string(std::to_string(sizeof(void*))));
 template<class Adapter,class Policy>V exercise(const V& input,const char* source,const Policy& policy){
     const auto mode=text(input,"mode");disked::ObservationCapture capture({source,"peer"},disked::GraphProfile::Observations);
     const auto peer=capture.start("peer");disked::GraphInput peer_graph;peer_graph.nodes.push_back({"fake:peer","block-device","fixture:peer","1","peer","current","4096",{}});capture.finish(peer,peer_graph);
-    Adapter adapter(capture,source);auto samples=V::array();auto errors=V::array();std::vector<std::shared_ptr<const disked::CaptureView>> retained;
+    auto owner=adapter_for(capture,source,policy);Adapter& adapter=*owner;auto samples=V::array();auto errors=V::array();std::vector<std::shared_ptr<const disked::CaptureView>> retained;
     auto sample=[&](V worker){samples.items.push_back(V::object().put("worker",std::move(worker)).put("capture",view(capture)));};
     const auto& stages=get(input,"stages");if(stages.kind!=V::Kind::array || stages.items.empty() || stages.items.size()>8)throw std::invalid_argument("fixture_stages");
     for(auto stage:stages.items){
@@ -54,15 +61,26 @@ template<class Adapter,class Policy>V exercise(const V& input,const char* source
 }
 }
 int wmain(int argc,wchar_t** argv){
+#if defined(DISKED_NT_IDENTITY_FRAME_TESTING)
+    if(argc>1 && std::wstring(argv[1])==L"__disked_nt_identity_fixture_worker")return n::storage_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_storage_fixture::api(v,notify);},n::StorageFrameProfile::IdentityLayout);
+#endif
     if(argc>1 && std::wstring(argv[1])==L"__disked_nt_storage_fixture_worker")return n::storage_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_storage_fixture::api(v,notify);});
     if(argc>1 && std::wstring(argv[1])==L"__disked_nt_namespace_fixture_worker")return n::namespace_worker_role(argc,argv,[](const V& v,const std::function<void()>& notify){return disked::nt_fixture::api(v,notify);});
     if(argc!=1)return 2;if(_setmode(_fileno(stdin),_O_BINARY)<0 || _setmode(_fileno(stdout),_O_BINARY)<0)return 7;
     try{
         char b[524289];const auto size=std::fread(b,1,sizeof(b),stdin);if(!size || size==sizeof(b) || std::ferror(stdin))return 2;
         auto l=n::storage_worker_limits();l.bytes=524288;const auto input=disked::json::parse(std::string(b,size),l);n::StorageQueryPolicy policy;
-        const auto mode=text(input,"mode");if(!std::set<std::string>{"sequence","startup","namespace-startup","read","late","superseded","retire","cancel-before","cancel-during","held","disconnect"}.count(mode))throw std::invalid_argument("fixture_mode");
-        if(mode=="read"){
-            const auto frame=n::read_storage_frame(get(input,"snapshot"),get(input,"fixture"),1,policy);print(V::object().put("snapshot",frame->value()));return 0;
+        const auto mode=text(input,"mode");std::set<std::string> modes={"sequence","startup","namespace-startup","read","late","superseded","retire","cancel-before","cancel-during","held","disconnect"};
+#if defined(DISKED_NT_IDENTITY_FRAME_TESTING)
+        modes.insert("read-legacy");
+        if(const auto p=input.find("detail_policy")){
+            const auto ids=text(*p,"identifiers"),parts=text(*p,"partitions");if(!disked::json::decimal_u64(ids) || !disked::json::decimal_u64(parts) || std::stoull(ids)>32 || std::stoull(parts)>64)throw std::invalid_argument("fixture_policy");
+            policy.identifiers=static_cast<DWORD>(std::stoull(ids));policy.partitions=static_cast<DWORD>(std::stoull(parts));
+        }
+#endif
+        if(!modes.count(mode))throw std::invalid_argument("fixture_mode");
+        if(mode=="read" || mode=="read-legacy"){
+            const auto frame=n::read_storage_frame(get(input,"snapshot"),get(input,"fixture"),1,policy,mode=="read-legacy"?n::StorageFrameProfile::Metadata:selected_profile);print(V::object().put("snapshot",frame->value()));return 0;
         }
         if(text(input,"mode")=="namespace-startup")print(exercise<n::NamespaceGraphAdapter>(input,"namespace",n::InventoryPolicy{}));
         else print(exercise<n::StorageGraphAdapter>(input,"storage",policy));return 0;
