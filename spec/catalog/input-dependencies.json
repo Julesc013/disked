@@ -6991,7 +6991,10 @@
         "source/runtime/graph/capture.cpp",
         "source/runtime/graph/snapshot.cpp",
         "source/providers/windows/namespace_graph.cpp",
-        "tests/windows/native/namespace_graph_probe.cpp"
+        "tests/windows/native/namespace_graph_probe.cpp",
+        "source/platform/windows/storage/storage_queries.cpp",
+        "source/providers/windows/storage_inventory.cpp",
+        "tests/windows/native/storage_query_probe.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7292,6 +7295,123 @@
         "DE-030",
         "DE-034",
         "DE-045",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-storage-observation-prototype.json",
+      "path": "spec/catalog/nt-storage-observation-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/storage_queries.h",
+      "path": "source/platform/windows/storage/storage_queries.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/storage_queries.cpp",
+      "path": "source/platform/windows/storage/storage_queries.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/storage_queries.h",
+        "source/runtime/graph/snapshot.h",
+        "spec/catalog/nt-storage-observation-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_inventory.h",
+      "path": "source/providers/windows/storage_inventory.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/storage_queries.h",
+        "source/runtime/graph/capture.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_inventory.cpp",
+      "path": "source/providers/windows/storage_inventory.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_inventory.h",
+        "source/providers/windows/volume_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/storage_query_probe.cpp",
+      "path": "tests/windows/native/storage_query_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_storage_queries.py",
+      "path": "tests/windows/test_storage_queries.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/storage_query_probe.cpp",
+        "spec/catalog/nt-storage-observation-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-storage-queries/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-storage-queries/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/native/CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
         "DE-101"
       ]
     }

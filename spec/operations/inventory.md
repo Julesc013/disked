@@ -8,12 +8,12 @@ tags:
 - operations
 generated:
   by: chatgpt/gpt-6-astra-pro
-  at: '2026-10-10T00:55:32.207562+00:00'
+  at: '2026-09-17T12:00:00Z'
 status: draft
 disked:
   id: DE-101
   profile: disked-spec/1
-  version: 0.1.3-proposed.2
+  version: 0.1.4-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-101-01
 updated:
   by: codex
-  at: '2026-10-09T23:22:54.311228+00:00'
-  scope: DE-W030 private namespace observation graph; live/product/provider/platform and owner qualification remain open
+  at: '2026-10-10T01:42:57.835202+00:00'
+  scope: DE-W030 private injected storage metadata/extent queries; live/worker/product/provider/platform and owner admission remain open
 ---
 
 # Bounded native inventory
@@ -124,3 +124,11 @@ exit evidence. Partial rows, cached complete rows, denial and complete-empty
 inventory remain distinct. Generated native fixtures qualify that boundary;
 product `target.inventory`, live namespace and physical topology admission remain
 separate deliverables of DE-W030.
+
+The selected [borrowed-handle metadata query profile](../catalog/nt-storage-observation-prototype.json)
+additionally captures descriptor strings, transient device numbers, independent
+geometry/length and volume extents under injected ports. It retains conflicting
+components and candidate topology without physical-media admission. Its immutable
+private frame is locally constructed, not an external protocol reader. A complete
+selected-query set does not establish complete inventory, atomic freshness or
+worker exit. Actual owned-reader/public-service integration remains required.

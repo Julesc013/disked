@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.3-proposed.2
+  version: 0.1.4-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,14 +24,20 @@ disked:
   - DE-REQ-034-01
   - DE-REQ-034-02
 sources:
+- id: windows-ns-winioctl-storage_device_descriptor
+  resource: ../references/sources.json#windows-ns-winioctl-storage_device_descriptor
+- id: windows-ni-winioctl-ioctl_storage_get_device_number
+  resource: ../references/sources.json#windows-ni-winioctl-ioctl_storage_get_device_number
+- id: windows-ns-winioctl-volume_disk_extents
+  resource: ../references/sources.json#windows-ns-winioctl-volume_disk_extents
 - id: windows-shrink
   resource: ../references/sources.json#windows-shrink
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
 updated:
   by: codex
-  at: '2026-10-09T23:22:54.311003+00:00'
-  scope: DE-W030 contained injected namespace observer; live/provider/physical/platform and owner qualification remain open
+  at: '2026-10-10T01:42:57.790567+00:00'
+  scope: DE-W030 private injected storage metadata/extent queries; live/worker/product/provider/platform and owner admission remain open
 ---
 
 # Windows NT provider strategy
@@ -122,3 +128,35 @@ valid reply the capture remains unknown. This rule cannot authorize writer
 termination, cleanup or replay. A temporary session does not claim durable
 reconnect. Actual live namespace, physical identity/topology, graph/provider/
 product admission and historical/other-platform qualification remain open.
+
+## Private borrowed-handle metadata queries
+
+DE-W030's [selected storage observation profile](../catalog/nt-storage-observation-prototype.json)
+uses documented descriptor, device-number, geometry, length and volume-extent
+queries through an exact injected `DeviceIoControl`/`GetLastError` seam. Only
+already-borrowed synchronous fixture handles are supplied; this layer opens or
+closes none. The selected factory has no live dispatch admission. Validate every
+subject, handle and policy before querying; preserve transport denial, unsupported
+API/version, changed/truncated data, cancellation and unresolved activity.
+
+Descriptor sizes, offsets, terminated strings and opaque byte spans are checked
+against returned bytes. Header/body disagreement and repeated growth are not
+stable metadata. Extent count growth is bounded once, and signed ranges use
+checked ends. Raw query receipts retain exact known bytes and digests; original
+descriptor strings and UTF-16 labels remain distinct from inert display text.
+Reported physical sector size is unknown; translated geometry never substitutes
+for independently queried length. Capacity disagreement, serial clones and
+duplicate number hints remain visible rather than merged into a target.
+
+Microsoft documents device-number lifetime only until removal/restart; such a
+number is a lookup hint, never physical identity. A sequential volume-to-number
+match yields only explicit candidate subject keys, including ambiguity, absence
+and observed range disagreement. It creates no physical backing or authority
+edge. These observations are captured through the existing private graph with
+null media identity/generation/capacity and false mutation/admission flags.
+
+An unexpected pending I/O or callback exception stops the port and later subjects;
+it supplies no exit, retry, cleanup or writer authority. Byte and call limits do
+not establish bounded kernel latency. Owned reader containment, reconciliation,
+native source authentication, complete identity/topology, frontend/product/provider
+admission and actual historical/other-host support remain subsequent gates.

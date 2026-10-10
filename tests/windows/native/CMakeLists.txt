@@ -91,3 +91,22 @@ target_include_directories(nt_namespace_graph_probe PRIVATE
 target_compile_definitions(nt_namespace_graph_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_NAMESPACE_WORKER_TESTING=1)
 target_compile_options(nt_namespace_graph_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_namespace_graph_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+add_executable(nt_storage_query_probe
+  "${DISKED_ROOT}/source/platform/windows/storage/storage_queries.cpp"
+  "${DISKED_ROOT}/source/providers/windows/storage_inventory.cpp"
+  "${DISKED_ROOT}/source/providers/windows/volume_inventory.cpp"
+  "${DISKED_ROOT}/source/platform/windows/storage/volume_namespace.cpp"
+  "${DISKED_ROOT}/source/runtime/command/json.cpp"
+  "${DISKED_ROOT}/source/runtime/graph/snapshot.cpp"
+  "${DISKED_ROOT}/source/portable/hash/sha256.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/storage_query_probe.cpp")
+target_include_directories(nt_storage_query_probe PRIVATE
+  "${DISKED_ROOT}/source/platform/windows/storage"
+  "${DISKED_ROOT}/source/providers/windows"
+  "${DISKED_ROOT}/source/runtime/command"
+  "${DISKED_ROOT}/source/runtime/graph"
+  "${DISKED_ROOT}/source/portable/hash")
+target_compile_definitions(nt_storage_query_probe PRIVATE _WIN32_WINNT=0x0501 WINVER=0x0501)
+target_compile_options(nt_storage_query_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_storage_query_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
