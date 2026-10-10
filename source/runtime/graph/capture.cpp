@@ -28,7 +28,8 @@ const char* source_state_name(SourceState state) {
     }
     throw std::invalid_argument("capture_invalid_state");
 }
-ObservationCapture::ObservationCapture(const std::vector<std::string>& sources) {
+ObservationCapture::ObservationCapture(const std::vector<std::string>& sources,GraphProfile profile) {
+    graph_limits(profile);state_.profile=profile;
     require(!sources.empty() && sources.size()<=8,"capture_source_limit");std::set<std::string> unique;
     for(const auto& id:sources) {
         require(identifier(id) && unique.insert(id).second,"capture_source_invalid");
@@ -46,11 +47,12 @@ bool ObservationCapture::matches(std::size_t index,const CaptureKey& key) const 
     const auto& current=state_.slots[index].visible;return current.outstanding && current.attempt==key;
 }
 GraphInput ObservationCapture::aggregate(const State& state) const {
-    GraphInput graph;
+    GraphInput graph;graph.profile=state.profile;
     for(const auto& item:state.slots) {
         if(item.has_retained) {
             for(auto node:item.retained.nodes) {
-                if(item.visible.state!=SourceState::Complete && item.visible.state!=SourceState::Partial && node.state=="current")node.state="stale";
+                if(item.visible.state!=SourceState::Complete && item.visible.state!=SourceState::Partial &&
+                    (node.state=="current" || (node.scope==GraphNodeScope::Observation && node.state=="unknown")))node.state="stale";
                 graph.nodes.push_back(std::move(node));
             }
             graph.edges.insert(graph.edges.end(),item.retained.edges.begin(),item.retained.edges.end());
@@ -112,8 +114,17 @@ bool ObservationCapture::fail(const CaptureKey& key,SourceState failure,const st
 }
 void ObservationCapture::stage(State& next,std::size_t at,const CaptureKey& key,const GraphInput& graph,
     SourceState state,const std::string& reason,const std::string& platform,bool retire) {
+    require(next.profile==GraphProfile::Observations || graph.profile==GraphProfile::Fake,"capture_profile_invalid");
     const auto snapshot=GraphSnapshot::create(graph,next.capture);
     for(const auto& node:graph.nodes) {
+        if(node.scope==GraphNodeScope::Observation) {
+            const auto& o=node.observation;
+            require(o.source==key.source && o.capture<=key.capture && o.worker<=key.worker &&
+                (o.capture==key.capture?(o.worker==key.worker):(node.state=="stale" && o.worker<key.worker)),"capture_observation_binding");
+            // Content-bound observation IDs carry source/attempt ownership.
+            // They are not lifetime media-identity tombstones.
+            continue;
+        }
         const auto found=next.identities.find(node.id);
         if(found!=next.identities.end())require(found->second.owner==key.source && found->second.identity==node.identity &&
             found->second.generation==node.media_generation,"capture_identity_reuse");
@@ -125,7 +136,8 @@ void ObservationCapture::stage(State& next,std::size_t at,const CaptureKey& key,
     std::size_t omissions=0;for(const auto& source:next.slots)omissions+=source.retained.omissions.size();
     require(omissions<=48,"capture_omission_limit");
     const auto validated=GraphSnapshot::create(aggregate(next),next.capture);
-    require(json::dump(validated->value()).size()<=56*1024,"capture_graph_limit");
+    const auto limits=graph_limits(next.profile);
+    require(json::dump(validated->value(),limits).size()<=limits.bytes-8192,"capture_graph_limit");
 }
 bool ObservationCapture::update(const CaptureKey& key,const GraphInput& graph,SourceState state,
     const std::string& reason,const std::string& platform) {

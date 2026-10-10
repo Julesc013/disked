@@ -40,8 +40,18 @@ Value view(const std::shared_ptr<const CaptureView>& current) {
 }
 GraphInput graph(const Value& value) {
     GraphInput result;
+    if(const auto* profile=value.find("profile"))if(profile->text=="observations")result.profile=GraphProfile::Observations;
     for(const auto& item:value.find("nodes")->items) {
-        GraphNode node{text(item,"id"),"block-device",text(item,"identity"),text(item,"generation"),text(item,"label"),text(item,"state"),text(item,"capacity"),{}};
+        GraphNode node;
+        if(const auto* observation=item.find("observation")) {
+            node.scope=GraphNodeScope::Observation;node.kind=text(item,"kind");node.label=text(item,"label");node.state=text(item,"state");
+            node.observation.source=text(*observation,"source");node.observation.capture=number(*observation,"capture");node.observation.worker=number(*observation,"worker");
+            node.observation.context_digest=text(*observation,"context_digest");node.observation.frame_digest=text(*observation,"frame_digest");node.observation.payload=*observation->find("payload");
+            node.id=item.find("id")?text(item,"id"):observation_node_id(node);
+            if(item.find("identity"))node.identity=text(item,"identity");
+            if(item.find("generation"))node.media_generation=text(item,"generation");
+            if(item.find("capacity"))node.capacity_bytes=text(item,"capacity");
+        } else node={text(item,"id"),"block-device",text(item,"identity"),text(item,"generation"),text(item,"label"),text(item,"state"),text(item,"capacity"),{}};
         if(const auto* aliases=item.find("aliases"))for(const auto& alias:aliases->items)node.aliases.push_back(alias.text);
         result.nodes.push_back(std::move(node));
     }
@@ -54,8 +64,11 @@ int main() {
     std::string line;
     while(std::getline(std::cin,line)) {
         try {
-            const auto input=json::parse(line);const auto op=text(input,"op");Value result;
-            if(op=="session_atomic") {
+            json::Limits parse_limits;parse_limits.bytes=1048576;parse_limits.values=65536;
+            const auto input=json::parse(line,parse_limits);const auto op=text(input,"op");Value result;
+            if(op=="session_profile") {
+                Registry registry;FrontendSession session(registry,graph(*input.find("graph")));result=session.snapshot()->value();
+            } else if(op=="session_atomic") {
                 Registry registry;const auto initial=graph(*input.find("initial"));
                 std::shared_ptr<const GraphInput> incoming;std::size_t polls=0;
                 FrontendSession session(registry,initial,[&]() {++polls;return incoming;});
@@ -73,7 +86,8 @@ int main() {
                     .put("action_polls",wide(polls-prior_polls)).put("action_exit",wide(outcome.exit_code));
             } else if(op=="init") {
                 std::vector<std::string> sources;for(const auto& item:input.find("sources")->items)sources.push_back(item.text);
-                capture.reset(new ObservationCapture(sources));retained.clear();result=view(capture->snapshot());
+                const auto profile=input.find("profile") && text(input,"profile")=="observations"?GraphProfile::Observations:GraphProfile::Fake;
+                capture.reset(new ObservationCapture(sources,profile));retained.clear();result=view(capture->snapshot());
             } else {
                 if(!capture)throw std::invalid_argument("probe_uninitialized");
                 if(op=="view")result=view(capture->snapshot());
@@ -110,7 +124,7 @@ int main() {
                     result=Value::object().put("resnapshot",Value::boolean_value(update.resnapshot)).put("notices",notices).put("current",view(update.current));
                 } else throw std::invalid_argument("probe_operation");
             }
-            json::Limits limits;limits.bytes=1048576;std::cout<<json::dump(result,limits)<<std::endl;
+            json::Limits limits;limits.bytes=1048576;limits.values=65536;std::cout<<json::dump(result,limits)<<std::endl;
         } catch(const std::bad_alloc&) {allocations_until_failure=-1;std::cout<<"{\"error\":\"allocation_failed\"}"<<std::endl;}
         catch(const std::exception& error) {allocations_until_failure=-1;std::cout<<json::dump(Value::object().put("error",Value::string(error.what())))<<std::endl;}
     }

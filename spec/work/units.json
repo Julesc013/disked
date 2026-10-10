@@ -1116,7 +1116,8 @@
         ".aide/handoffs/**",
         ".aide/programmes/**",
         "source/runtime/graph/**",
-        "tests/resilience/**"
+        "tests/resilience/**",
+        "source/runtime/presentation/session.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1138,7 +1139,8 @@
         "Read-only disk/volume/mount identity observations with explicit denial/unknown state.",
         "Native volume-namespace/mount adapter with bounded exact API buffers, lossless UTF-16 representation, explicit unknown physical identity, no implicit startup dispatch and fixture-injected API qualification before live/provider/service admission.",
         "Private same-file injected volume observer with exact code/request/epoch/process binding, finite waits/cancellation, one bounded publication and explicit reader-only retirement; no live/provider/public/durable service admission.",
-        "Common capture publication separated from actual owned reader retirement, including explicit partial coverage, epoch-safe late results and allocation-atomic updates; namespace graph projection remains a later bounded slice."
+        "Common capture publication separated from actual owned reader retirement, including explicit partial coverage, epoch-safe late results and allocation-atomic updates; namespace graph projection remains a later bounded slice.",
+        "Private source/capture/worker/context/frame-bound namespace observation graph profile, unknown physical identity, exact name representation, partial observations plus last complete cached frame, and owned exit-only retirement. Frontend/product/provider/live/platform admission remains separate."
       ],
       "acceptance": [
         "XP and modern import floors audited.",
@@ -1150,7 +1152,8 @@
         "python -m unittest discover -s spec/tools/tests -v",
         "python tests/windows/test_volume_namespace.py --probe PRIVATE_BUILD/nt_volume_namespace_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
         "python tests/windows/test_namespace_worker.py --probe PRIVATE_BUILD/nt_namespace_worker_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
-        "python tests/windows/test_capture_lifecycle.py --probe PRIVATE_BUILD/nt_capture_lifecycle_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
+        "python tests/windows/test_capture_lifecycle.py --probe PRIVATE_BUILD/nt_capture_lifecycle_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+        "python tests/windows/test_namespace_graph.py --probe PRIVATE_BUILD/nt_namespace_graph_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1178,7 +1181,15 @@
         "tests/resilience/test_capture.py",
         "tests/windows/native/capture_lifecycle_probe.cpp",
         "tests/windows/test_capture_lifecycle.py",
-        ".aide/evidence/2026-10-10-capture-publication/reproduce.py"
+        ".aide/evidence/2026-10-10-capture-publication/reproduce.py",
+        "source/providers/windows/namespace_graph.h",
+        "source/providers/windows/namespace_graph.cpp",
+        "tests/windows/native/namespace_graph_probe.cpp",
+        "tests/windows/test_namespace_graph.py",
+        ".aide/evidence/2026-10-10-namespace-graph/reproduce.py",
+        "source/runtime/graph/snapshot.h",
+        "source/runtime/graph/snapshot.cpp",
+        "source/runtime/presentation/session.cpp"
       ]
     },
     {

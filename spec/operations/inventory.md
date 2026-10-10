@@ -8,12 +8,12 @@ tags:
 - operations
 generated:
   by: chatgpt/gpt-6-astra-pro
-  at: '2026-09-17T12:00:00Z'
+  at: '2026-10-10T00:55:32.207562+00:00'
 status: draft
 disked:
   id: DE-101
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.3-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-09T23:22:54.311228+00:00'
-  scope: DE-W030 contained injected namespace observer; live/provider/physical/platform and owner qualification remain open
+  scope: DE-W030 private namespace observation graph; live/product/provider/platform and owner qualification remain open
 ---
 
 # Bounded native inventory
@@ -110,3 +110,17 @@ valid reply the capture remains unknown. This rule cannot authorize writer
 termination, cleanup or replay. A temporary session does not claim durable
 reconnect. Actual live namespace, physical identity/topology, graph/provider/
 product admission and historical/other-platform qualification remain open.
+
+## Private namespace graph projection
+
+The [DE-030 observation profile](../storage/identity-and-graph.md#private-namespace-observation-profile)
+projects conforming injected namespace frames into the existing graph with
+source/epoch/context/frame-bound observation identities and explicit unknown
+physical identity. The shared snapshot validator enforces exact selected policy,
+lossless name/display agreement, count/status/claim relationships, and the
+minimum MULTI_SZ units represented by observed paths. A pure projection is data
+validation; only the owned adapter supplies verified worker binding and actual
+exit evidence. Partial rows, cached complete rows, denial and complete-empty
+inventory remain distinct. Generated native fixtures qualify that boundary;
+product `target.inventory`, live namespace and physical topology admission remain
+separate deliverables of DE-W030.

@@ -8,12 +8,12 @@ tags:
 - safety
 generated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
+  at: '2026-10-10T00:55:32.207816+00:00'
 status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.18-proposed.1
+  version: 0.1.19-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,7 +26,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-10T00:02:00+00:00'
-  scope: DE-W030 private capture publication/retirement boundary; owner and provider acceptance unchanged
+  scope: DE-W030 private namespace observation graph; live/product/provider/platform and owner qualification remain open
 ---
 
 # Bounded responsiveness and failure containment
@@ -291,6 +291,15 @@ with real native delayed/exited/malformed fixture producers and all frontends;
 isolated reducer tests alone do not close that campaign or DE-W017.
 
 ## Normative requirements
+
+The private DE-W030 namespace adapter additionally selects the bounded
+[observation graph profile](../storage/identity-and-graph.md#private-namespace-observation-profile).
+Its larger finite serialization/node budgets do not change the fake profile.
+Content-derived observation IDs carry source/attempt ownership and unknown media
+identity. Partial frames retain only the last complete frame as stale background;
+invalid frames cannot replace prior content or retire a worker. Projection/cache
+preparation precedes publication; only exact owned reader exit retires an attempt.
+The existing frontend rejects this profile until its own admission is qualified.
 
 ### DE-REQ-045-01
 

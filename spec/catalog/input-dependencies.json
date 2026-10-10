@@ -6989,7 +6989,9 @@
         "tests/windows/native/namespace_worker_probe.cpp",
         "tests/windows/native/capture_lifecycle_probe.cpp",
         "source/runtime/graph/capture.cpp",
-        "source/runtime/graph/snapshot.cpp"
+        "source/runtime/graph/snapshot.cpp",
+        "source/providers/windows/namespace_graph.cpp",
+        "tests/windows/native/namespace_graph_probe.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7204,6 +7206,92 @@
       "spec_ids": [
         "DE-045",
         "DE-034",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/namespace_graph.h",
+      "path": "source/providers/windows/namespace_graph.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/graph/capture.h",
+        "source/platform/windows/storage/namespace_worker.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-045",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "source/providers/windows/namespace_graph.cpp",
+      "path": "source/providers/windows/namespace_graph.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/namespace_graph.h",
+        "source/providers/windows/volume_inventory.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-045",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/native/namespace_graph_probe.cpp",
+      "path": "tests/windows/native/namespace_graph_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/namespace_graph.h",
+        "tests/windows/native/volume_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-045",
+        "DE-101"
+      ]
+    },
+    {
+      "id": "tests/windows/test_namespace_graph.py",
+      "path": "tests/windows/test_namespace_graph.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/namespace_graph_probe.cpp",
+        "tests/windows/test_volume_namespace.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-045",
+        "DE-101"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-10-namespace-graph/reproduce.py",
+      "path": ".aide/evidence/2026-10-10-namespace-graph/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "tests/resilience/test_capture.py",
+        "tests/windows/test_namespace_graph.py",
+        "tests/windows/test_capture_lifecycle.py",
+        "tests/windows/test_namespace_worker.py",
+        "tests/windows/test_volume_namespace.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-045",
         "DE-101"
       ]
     }

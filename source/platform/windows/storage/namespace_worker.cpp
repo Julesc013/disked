@@ -77,6 +77,26 @@ void signal(HANDLE h) {if(!SetEvent(h))fail("namespace_event_signal");}
 V permissions() {return V::object().put("live_namespace",V::boolean_value(false)).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false)).put("durable_reconnect",V::boolean_value(false));}
 }
 json::Limits namespace_worker_limits() {json::Limits l;l.bytes=reply_bytes;l.values=20000;l.depth=24;return l;}
+void validate_namespace_input(const NamespaceInput& input) {valid(input);}
+void validate_namespace_snapshot(const V& snapshot,std::uint64_t capture,const InventoryPolicy& policy) {
+    NamespaceInput input;input.capture_epoch=capture;input.policy=policy;input.provider_input=V::object();valid(input);
+    if(text(snapshot,"schema")!="org.disked.nt-volume-namespace-prototype/1" || text(snapshot,"capture_epoch")!=std::to_string(capture) ||
+        text(snapshot,"api_binding")!="injected-win32-table" || text(snapshot,"scope")!="volume-namespace-only" ||
+        json::dump(field(snapshot,"policy"))!=json::dump(policy_value(policy)))throw std::invalid_argument("namespace_snapshot_binding");
+    const auto binding=V::object().put("capture_epoch",number(capture)).put("policy",policy_value(policy));snapshot_shape(snapshot,binding);
+    const auto& claims=field(snapshot,"claims");
+    if(text(claims,"physical_identity")!="unknown" || text(claims,"full_topology")!="not_observed" || text(claims,"media_preservation")!="not_established")throw std::invalid_argument("namespace_snapshot_claims");
+    for(const auto key:{"physical_admission","mutation_authority","complete_alias_proof"})if(field(claims,key).kind!=V::Kind::boolean || field(claims,key).boolean)throw std::invalid_argument("namespace_snapshot_claims");
+    std::size_t units=0;
+    for(const auto& row:field(snapshot,"records").items) {
+        const auto& mounts=field(row,"mounts");
+        if(text(mounts,"state")=="observed") {
+            ++units;for(const auto& name:field(mounts,"paths").items)units+=text(name,"original_hex").size()/4+1;
+        }
+    }
+    if(units>policy.mount_units)throw std::invalid_argument("namespace_snapshot_units");
+    json::dump(snapshot,volume_inventory_limits());
+}
 struct NamespaceWorker::Impl {
     Security security;Image image;Directory code_parent;WorkerBudget aggregate;
     Handle input,output,cancellation,admission,gate,job,process;std::unique_ptr<View> view;
@@ -137,11 +157,9 @@ V NamespaceWorker::observe(DWORD ms) {
         const auto reply=json::parse(bytes,namespace_worker_limits());exact(reply,{"schema","scope","host_id","code_sha256","capture_epoch","observer_epoch","worker_epoch","attempt_id","request_digest","pid","created","snapshot"});
         if(text(reply,"schema")!="org.disked.nt-namespace-worker-reply/1" || text(reply,"scope")!="injected-volume-namespace" || text(reply,"request_digest")!=p.input_digest || integer(field(reply,"pid"))!=p.pid || text(reply,"created")!=p.created)throw std::invalid_argument("namespace_reply_binding");
         for(const auto key:{"host_id","code_sha256","capture_epoch","observer_epoch","worker_epoch","attempt_id"})if(text(reply,key)!=text(p.binding,key))throw std::invalid_argument("namespace_reply_binding");
-        const auto& snapshot=field(reply,"snapshot");if(text(snapshot,"schema")!="org.disked.nt-volume-namespace-prototype/1" || text(snapshot,"capture_epoch")!=text(p.binding,"capture_epoch") || text(snapshot,"api_binding")!="injected-win32-table" || text(snapshot,"scope")!="volume-namespace-only" || json::dump(field(snapshot,"policy"))!=json::dump(field(p.binding,"policy")))throw std::invalid_argument("namespace_snapshot_binding");
-        snapshot_shape(snapshot,p.binding);
-        const auto& claims=field(snapshot,"claims");if(text(claims,"physical_identity")!="unknown" || text(claims,"full_topology")!="not_observed" || text(claims,"media_preservation")!="not_established")throw std::invalid_argument("namespace_snapshot_claims");
-        for(const auto key:{"physical_admission","mutation_authority","complete_alias_proof"})if(field(claims,key).kind!=V::Kind::boolean || field(claims,key).boolean)throw std::invalid_argument("namespace_snapshot_claims");
-        json::dump(snapshot,volume_inventory_limits());p.last_bytes=bytes;out.put("status",V::string("completed")).put("result",snapshot);
+        const auto& snapshot=field(reply,"snapshot");const auto selected=request(p.binding);
+        validate_namespace_snapshot(snapshot,selected.capture_epoch,selected.policy);
+        p.last_bytes=bytes;out.put("status",V::string("completed")).put("result",snapshot);
     }catch(const std::exception& error) {out.put("status",V::string("unknown")).put("diagnostic",V::string(error.what()));if(!p.last_bytes.empty())out.put("last_validated_result",field(json::parse(p.last_bytes,namespace_worker_limits()),"snapshot"));}
     return out;
 }

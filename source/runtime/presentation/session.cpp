@@ -10,6 +10,9 @@ bool FrontendSession::refresh_observations() {
     publish(*next);observed_=std::move(next);return true;
 }
 void FrontendSession::publish(const GraphInput& input) {
+    // Native observation frontend semantics and budgets require their own
+    // admission. Never label an unadmitted profile as a fake storage target.
+    if(input.profile!=GraphProfile::Fake)throw std::invalid_argument("graph_profile_not_admitted");
     if(epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::invalid_argument("epoch_limit");
     auto next=GraphSnapshot::create(input,epoch_+1);
     auto identities=identities_;

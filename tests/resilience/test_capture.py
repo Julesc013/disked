@@ -255,6 +255,92 @@ class Capture(unittest.TestCase):
             self.assertEqual('complete',p.call('view')['sources'][0]['state'])
             OBSERVATIONS.append(dict(test='1024 retained identity bindings; valid known identity remains admissible',limit=1024))
 
+def observation(source='one',capture='1',worker='1',payload=None,**changes):
+    node=dict(kind='namespace-volume-observation',label='escaped\\u001b',state='unknown',observation=dict(source=source,capture=capture,worker=worker,
+        context_digest='sha256:'+'1'*64,frame_digest='sha256:'+'2'*64,payload={} if payload is None else payload))
+    node.update(changes);return dict(profile='observations',nodes=[node],edges=[],omissions=[])
+
+class ObservationProfile(unittest.TestCase):
+    def test_profiles_are_explicit_and_frontend_admission_is_separate(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);k=p.call('start',source='one');p.call('update',key=k,graph=observation())
+            self.assertEqual('malformed',p.call('view')['sources'][0]['state']);self.assertEqual([],p.call('view')['graph']['nodes'])
+            self.assertEqual({'error':'graph_profile_not_admitted'},p.call('session_profile',graph=observation()))
+            p.call('init',sources=['one'],profile='observations');k=p.call('start',source='one');p.call('update',key=k,graph=observation())
+            g=p.call('view')['graph'];q=g['nodes'][0]['properties']
+            self.assertEqual('capture:1',g['capture_id']);self.assertIsNone(q['identity']);self.assertIsNone(q['media_generation']);self.assertIsNone(q['capacity_bytes'])
+            self.assertEqual([],q['aliases']);self.assertFalse(q['physical_admission']);self.assertFalse(q['mutation_authority'])
+            bound=dict(binding=q['observation_binding'],kind=g['nodes'][0]['kind'],label=q['label'],payload=q['observation'])
+            expected='observation:'+hashlib.sha256(json.dumps(bound,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+            self.assertEqual(expected,g['nodes'][0]['id'])
+
+    def test_source_capture_and_worker_binding_and_physical_claims_are_enforced(self):
+        invalid=[observation(source='peer'),observation(capture='2'),observation(worker='2'),observation(identity='physical:claimed'),
+            observation(generation='1'),observation(capacity='4096'),observation(aliases=['C:\\']),observation(state='current'),
+            observation(id='observation:'+'0'*64),observation(label='raw\x1b')]
+        for graph in invalid:
+            with Probe() as p:
+                p.call('init',sources=['one'],profile='observations');k=p.call('start',source='one');p.call('update',key=k,graph=observation())
+                before=p.call('view')['graph']['nodes'];p.call('update',key=k,graph=graph);after=p.call('view')
+                self.assertEqual(('malformed',True),(after['sources'][0]['state'],after['sources'][0]['outstanding']))
+                self.assertEqual(before[0]['id'],after['graph']['nodes'][0]['id']);self.assertEqual('stale',after['graph']['nodes'][0]['properties']['state'])
+
+    def test_old_observations_are_only_explicit_cached_content(self):
+        with Probe() as p:
+            p.call('init',sources=['one'],profile='observations');k=p.call('start',source='one');p.call('finish',key=k,graph=observation());old=p.call('view')['graph']['nodes'][0]
+            p.call('next');k=p.call('start',source='one');p.call('update',key=k,graph=observation())
+            self.assertEqual('malformed',p.call('view')['sources'][0]['state'])
+            p.call('update',key=k,graph=observation(state='stale'),state='partial',reason='cached')
+            current=p.call('view');self.assertEqual('partial',current['sources'][0]['state']);self.assertEqual(old['id'],current['graph']['nodes'][0]['id'])
+            self.assertEqual('cached',current['graph']['nodes'][0]['properties']['freshness'])
+            p.call('update',key=k,graph=observation(capture='1',worker='2',state='stale'))
+            self.assertEqual('malformed',p.call('view')['sources'][0]['state'])
+
+    def test_content_and_attempt_identity_change_without_unbounded_media_tombstones(self):
+        with Probe() as p:
+            p.call('init',sources=['one'],profile='observations');ids=set()
+            for i in range(1030):
+                k=p.call('start',source='one');p.call('finish',key=k,graph=observation(capture=str(i+1),worker=str(i+1)))
+                v=p.call('view');self.assertEqual('complete',v['sources'][0]['state']);n=v['graph']['nodes'][0]['id'];self.assertNotIn(n,ids);ids.add(n);p.call('next')
+            OBSERVATIONS.append(dict(test='1030 distinct observation attempts do not consume lifetime media tombstones',captures=len(ids)))
+
+    def test_explicit_node_and_value_budgets_preserve_prior_graph(self):
+        with Probe() as p:
+            p.call('init',sources=['one'],profile='observations');k=p.call('start',source='one')
+            g=dict(profile='observations',nodes=[observation(payload=dict(ordinal=str(i)))['nodes'][0] for i in range(320)],edges=[],omissions=[])
+            p.call('update',key=k,graph=g);self.assertEqual('complete',p.call('view')['sources'][0]['state']);self.assertEqual(320,len(p.call('view')['graph']['nodes']))
+            g['nodes'].append(observation(payload=dict(ordinal='overflow'))['nodes'][0]);p.call('update',key=k,graph=g)
+            v=p.call('view');self.assertEqual('malformed',v['sources'][0]['state']);self.assertEqual(320,len(v['graph']['nodes']))
+            self.assertTrue(all(n['properties']['state']=='stale' for n in v['graph']['nodes']))
+            g['nodes'].pop();p.call('update',key=k,graph=g);view=p.call('view');first=view['graph']['nodes'][0]['id']
+            g['edges']=[dict(from_=first,to=first,kind='observed-as') for _ in range(512)]
+            for e in g['edges']:e['from']=e.pop('from_')
+            p.call('update',key=k,graph=g);self.assertEqual('complete',p.call('view')['sources'][0]['state'])
+            g['edges'].append(g['edges'][0]);p.call('update',key=k,graph=g);self.assertEqual('malformed',p.call('view')['sources'][0]['state'])
+            huge=dict(profile='observations',nodes=[observation(payload=dict(ordinal=str(i),data='x'*8000))['nodes'][0] for i in range(100)],edges=[],omissions=[])
+            p.call('update',key=k,graph=huge);self.assertEqual('malformed',p.call('view')['sources'][0]['state']);self.assertEqual(320,len(p.call('view')['graph']['nodes']))
+            many=dict(profile='observations',nodes=[observation(payload=dict(ordinal=str(i),data=['x']*100))['nodes'][0] for i in range(320)],edges=[],omissions=[])
+            p.call('update',key=k,graph=many);self.assertEqual('malformed',p.call('view')['sources'][0]['state']);self.assertEqual(320,len(p.call('view')['graph']['nodes']))
+
+    def test_aggregate_observations_preserve_an_unrelated_fake_source(self):
+        with Probe() as p:
+            p.call('init',sources=['one','peer'],profile='observations');peer=p.call('start',source='peer');p.call('finish',key=peer,graph=fragment('peer'))
+            k=p.call('start',source='one');p.call('update',key=k,graph=observation());g=p.call('view')['graph'];self.assertEqual(2,len(g['nodes']))
+            p.call('update_failure',key=k,state='denied',reason='access_denied',platform='5');g=p.call('view')['graph']
+            self.assertEqual(['stale','current'],[n['properties']['state'] for n in g['nodes']]);self.assertEqual('fixture:peer',g['nodes'][1]['properties']['identity'])
+
+    def test_observation_publication_allocation_failure_is_atomic(self):
+        checked=0
+        for allocation in range(3000):
+            with Probe() as p:
+                p.call('init',sources=['one'],profile='observations');k=p.call('start',source='one');p.call('update',key=k,graph=observation())
+                before=p.call('view');result=p.call('update',key=k,graph=observation(payload=dict(changed=True)),allocation_failure=str(allocation))
+                if result=={'error':'allocation_failed'}:
+                    checked+=1;self.assertEqual(before,p.call('view'));self.assertTrue(p.call('update',key=k,graph=observation(payload=dict(changed=True))))
+                else:self.assertTrue(result);break
+        self.assertGreater(checked,10);self.assertLess(checked,3000)
+        OBSERVATIONS.append(dict(test='observation update allocation sweep retains exact prior graph and outstanding attempt',injected_failures=checked))
+
 if __name__=='__main__':
     result=unittest.main(argv=[__file__]+REST,verbosity=2,exit=False)
     if ARGS.evidence:ARGS.evidence.write_text(json.dumps(dict(tests=result.result.testsRun,passed=result.result.wasSuccessful(),

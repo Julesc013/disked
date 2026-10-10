@@ -22,4 +22,7 @@ public:
 using VolumeFactory=std::function<VolumeApi(const json::Value&,const std::function<void()>&)>;
 int namespace_worker_role(int argc,wchar_t** argv,const VolumeFactory&);
 json::Limits namespace_worker_limits();
+// Producer conformance only, not provenance, process exit or provider admission.
+void validate_namespace_snapshot(const json::Value&,std::uint64_t,const InventoryPolicy&);
+void validate_namespace_input(const NamespaceInput&);
 }}

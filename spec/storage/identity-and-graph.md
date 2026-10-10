@@ -8,12 +8,12 @@ tags:
 - storage
 generated:
   by: chatgpt/gpt-6-astra-pro
-  at: '2026-09-17T12:00:00Z'
+  at: '2026-10-10T00:55:32.207261+00:00'
 status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -28,7 +28,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  scope: DE-W030 private namespace observation graph; live/product/provider/platform and owner qualification remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -98,3 +98,54 @@ private [DE-023 execution contract](../interaction/presentation.md). Revision
 digests bind capture identity and exact observations. This is an in-memory
 fake provider, not physical identity validation, leases, fencing or media
 qualification. Real providers must earn their own identity/freshness claims.
+
+## Private namespace observation profile
+
+DE-W030 uses the same immutable graph and capture coordinator with an explicitly
+selected private `Observations` profile. A namespace volume record and each mount
+path are separate observation nodes; only observed volume-to-mount edges are
+produced. Equal GUIDs, paths or case-folded lookup keys never merge nodes or imply
+physical backing, capacity, exclusive ownership or complete topology.
+
+Each observation ID is the SHA-256 of the exact canonical private JSON containing
+its source, numeric capture/worker epochs, owned worker-context digest, complete
+frame digest, node kind, escaped label and payload. The payload retains exact
+UTF-16LE code-unit bytes and separate ASCII display escapes, record ordinals,
+provider observation ID, conflict/status fields and owned worker context. That
+context binds attempt/observer/native worker identities, request and executable
+digests, process ID and creation identity. These IDs name evidence, not media.
+Staleness is a view property and does not rename the original observation.
+
+Observation properties have null media identity/generation/capacity, empty media
+aliases, unknown physical identity, and false physical admission and mutation
+authority. Current observations have `state: unknown` and
+`freshness: current_observation`; cached observations have `state: stale` and
+`freshness: cached`. Display freshness does not establish a physical identity.
+The coordinator requires current nodes to belong to the exact source/capture/
+worker key. Earlier epochs are allowed only as explicitly stale cached content
+from an earlier worker. Observation IDs do not consume lifetime media-identity
+tombstones. Existing fake media identity checks remain in force.
+
+This private aggregate is limited to 320 nodes, 512 edges, 64 omissions,
+786,432 serialized bytes and 32,768 JSON values; its capture coordinator reserves
+8,192 bytes for source notices, allowing at most 778,240 graph bytes and 48
+source-supplied omissions. Per-observation hash input is limited to 16,384 bytes,
+1,024 values and depth 16. At most eight sources and eight retained notices remain
+unchanged. The fake profile retains its existing smaller limits and exact output.
+These are selected fixture limits, not a universal target profile or public ABI.
+
+The native adapter retains at most the last complete namespace frame. A partial
+or cancelled frame publishes its observed rows plus that complete frame marked
+stale; repeated partial frames do not recursively grow the cache. Denial,
+unavailability or invalid input retains prior visible content as stale. A complete
+empty frame removes only this source's observations. Publication never retires
+the worker: the owned reader's exact observed exit is required. Superseded frames
+cannot publish into a later capture. Validation and allocating work precede
+atomic publication; failed preparation cannot change an existing view.
+
+The private producer and native fixture executable are separate from the product
+composition. Existing `FrontendSession` rejects this profile pending explicit
+observation selection, responsiveness and resource qualification. Native physical
+identity/topology, live dispatch, frontend/product/provider admission and other
+host/platform qualification remain required work; pure projection validates data
+but does not authenticate a producer or prove process exit.

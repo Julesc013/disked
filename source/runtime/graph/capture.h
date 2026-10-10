@@ -38,7 +38,7 @@ struct CaptureChanges {
 };
 class ObservationCapture final {
 public:
-    explicit ObservationCapture(const std::vector<std::string>& sources);
+    explicit ObservationCapture(const std::vector<std::string>& sources,GraphProfile profile=GraphProfile::Fake);
     std::shared_ptr<const CaptureView> snapshot() const {return view_;}
     CaptureKey start(const std::string& source);
     bool timeout(const CaptureKey& key);
@@ -72,6 +72,7 @@ private:
     };
     struct Identity {std::string owner,identity,generation;};
     struct State {
+        GraphProfile profile=GraphProfile::Fake;
         std::uint64_t capture=1,sequence=0,capture_start=0;
         std::vector<Slot> slots;
         std::map<std::string,Identity> identities;
