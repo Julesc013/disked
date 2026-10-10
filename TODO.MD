@@ -175,3 +175,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   source/build/import evidence. `.aide/evidence/2026-10-10-identity-queries/`.
   Product inputs unchanged; owned-frame integration, independent raw comparison,
   composite identity and live/provider/platform/owner/full-unit gates stay open.
+
+- [x] DE-W030 private /2 owned identity/layout frame and graph at `6b883c01`:
+  both x64/x86 54 controllers/41 reader launches/6980 assertions, all existing
+  private regressions, pure replay/refusal and maximum bounded cache checks.
+  `.aide/evidence/2026-10-10-identity-frame/`. Product inputs unchanged;
+  /2 interfaces, raw comparison, physical identity and all admission gates remain.

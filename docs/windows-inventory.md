@@ -136,3 +136,15 @@ or effects. The dev.39 product's 403 inputs remain unchanged; no new product or
 full-suite run is claimed. Integrate the new receipts into owned frames/graph
 context next; raw-media comparison, composite identity, live/product/provider/
 protocol/platform and owner/full-unit/all-platform/storage admission remain open.
+
+The private /2 owned identifier/alignment/OS-layout frame and graph profile is
+locally qualified at `6b883c01`
+([review](../.aide/evidence/2026-10-10-identity-frame/REVIEW.md)). Each x64/x86
+campaign passes 54 controllers/41 actual readers/6980 assertions; every existing
+private Windows campaign also passes (1000 processes/25434 assertions
+combined). Explicit profile and typed receipt reconstruction preserve /1
+readability, exact context and unknown physical identity. Shared 128-detail
+limits and separate nodes bound current/last-complete graphs without expanding
+public output or granting effects. Product inputs are unchanged. New /2 cached
+interfaces, independent raw comparison, composite identity and live/product/
+provider/protocol/platform/owner/full-unit/all-platform/storage gates remain open.
