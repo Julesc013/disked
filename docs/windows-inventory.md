@@ -183,3 +183,16 @@ The 404 unchanged product inputs reuse dev41's earlier build/77 groups; no new
 product execution is claimed. Physical association/current freshness/atomic
 consistency, live/provider/public/other-host/owner and full-unit gates remain.
 Continue composite identifier/freshness observations under the existing grant.
+
+The owned composite reported identity/epoch comparison slice at `8ca6053d`
+([review](../.aide/evidence/2026-10-12-composite-identity/REVIEW.md)) passes
+1754 controller/reader processes and 46926 assertions across 20
+x64/x86 campaigns, plus 213 tooling passes/2 skips
+and 1063 structural checks. Exact /2 process/frame/context/capture bindings
+precede immutable derivation; weak identifiers, collisions, conflicts and
+original name bytes remain explicit. Caller-declared lookup continuity and
+advancing epochs do not prove physical identity or current freshness.
+A bound specification changed, so dev.41 was freshly rebuilt/launched and all
+77 product groups rerun. Complete evidence and implementing-agent review are
+retained. Full-unit/live/provider/public/other-host/owner gates remain open.
+Continue cached interface integration under the existing grant.

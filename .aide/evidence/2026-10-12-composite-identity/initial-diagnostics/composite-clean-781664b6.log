@@ -1,0 +1,15 @@
+existing-clone-origin exit 0
+existing-clone-status exit 0
+existing-clone-fetch exit 0
+checkout exit 0
+source-status exit 0
+source-map exit 0
+host exit 0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-composite-identity\reproduce.py", line 73, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-composite-identity\reproduce.py", line 32, in main
+    product_binding={n:sha(checkout/n) for n in product['inputs']};assert product_binding==product['inputs'];save(out/'product-input-reuse.json',dict(source_revision=a.source_revision,evidence_source_revision='829de03cd8652323d7ab8b6f6828a5e410a0b594',exact_inputs=product_binding,product_rebuilt=False,product_suite_rerun=False,native_ctest_groups_reused=77))
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

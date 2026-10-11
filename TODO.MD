@@ -213,6 +213,13 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   build/import/hash evidence and implementing-agent review retained at
   `.aide/evidence/2026-10-12-owned-layout/`. Product dev41 evidence is reused
   through 404 unchanged inputs, not freshly rerun. Full DE-W030 remains partial.
-- [ ] Continue composite identifier/freshness observations; preserve separate
-  physical/live/provider/public/platform/owner/storage/release gates and the
-  complete all-platform/storage 0.1.0 scope.
+- [x] DE-W030 private composite reported identity/epoch slice `8ca6053d`:
+  1754 processes/46926 assertions across x64/x86, a fresh dev.41
+  build/launch and all 77 product groups; 213 tooling passes/
+  2 skips and 1063 structural checks. Exact-source/build/
+  import/hash evidence and implementing-agent review are retained under
+  `.aide/evidence/2026-10-12-composite-identity/`. Physical identity/freshness
+  remain unknown; full DE-W030 remains partial.
+- [ ] Integrate composite observations/comparisons into cached interfaces;
+  preserve separate live/physical/provider/public/platform/owner/storage/release
+  gates and the complete all-platform/storage 0.1.0 scope.
