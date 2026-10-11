@@ -7,14 +7,22 @@
   "scope_source": "User selected: All currently specified platforms and storage operations.",
   "review_policy": "Continue local implementation across units after recorded tests and agent review; keep owner acceptance and release/storage privilege gates separate.",
   "review_policy_source": "Explicit user answer in the 2026-10-06 goal conversation.",
-  "development_branch": "goal/disked-0.1.0",
+  "development_branch": "dev",
+  "repository_workflow": {
+    "source": "User instruction, 2026-10-12 Australia/Sydney: continue; work on dev and merge to main to keep the remote up to date.",
+    "development": "Commit and push development checkpoints to origin/dev; retain tested source identities and incomplete work accurately.",
+    "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
+    "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate."
+  },
   "permitted": [
     "Local implementation",
     "Builds and tests",
     "Repairs",
     "Fake providers",
     "Ordinary disposable image fixtures",
-    "Local commits and resumable handoffs"
+    "Local commits and resumable handoffs",
+    "Push development checkpoints to origin/dev",
+    "Merge tested and agent-reviewed checkpoints to main and push origin/main"
   ],
   "separate_authority": [
     "Physical-device access",
@@ -22,7 +30,7 @@
     "Customer data",
     "Software installation",
     "Release signing",
-    "Publication",
+    "Release artifact publication",
     "Owner acceptance",
     "Independent safety qualification"
   ],

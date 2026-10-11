@@ -19,6 +19,12 @@ The amended baseline is **proposed and awaiting review**. The specification tool
 
 These are work groups, not new IDs or a second dependency graph. Run `python spec/tools/specctl.py next` for current dependency readiness. A dependency-ready result is not an execution grant. The explicit 0.1.0 programme grant selects every platform/storage operation specified at base 40ac8ec and permits local continuation across units after tests and agent review. Owner acceptance and release/storage privileges remain separate; see `.aide/programmes/disked-0.1.0.json`. The retained baseline review records that grant separately from the still-pending acceptance ledger; `next` therefore continues to show the unaccepted W000 dependency.
 
+The owner authorized the repository workflow on 12 October 2026: develop and
+push checkpoints on `dev`, then merge tested, agent-reviewed checkpoints to
+`main` and push them. Retain the earlier goal branch as history. This grants
+source-repository synchronization, with owner acceptance and release artifact
+publication, installation, signing and storage privileges still separate.
+
 DE-W060 begins with an [offline package fixture binding](setup-fixtures.md):
 exact local upstream schema/source identities, independent native payload
 inventory, package/recipe agreement and owned-directory equality/retention
