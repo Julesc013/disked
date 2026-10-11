@@ -1,0 +1,801 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 100.002,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "829de03cd8652323d7ab8b6f6828a5e410a0b594"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 69.356,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.046,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.726,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.254,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.869,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "product-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 14.182,
+    "log": "logs/product-configure.log"
+  },
+  {
+    "name": "product-build",
+    "command": [
+      "cmake",
+      "--build",
+      "--preset",
+      "windows-bootstrap",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 145.832,
+    "log": "logs/product-build.log"
+  },
+  {
+    "name": "product-test-catalog",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.23,
+    "log": "logs/product-test-catalog.log"
+  },
+  {
+    "name": "product-native",
+    "command": [
+      "ctest",
+      "--preset",
+      "windows-bootstrap",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 876.9,
+    "log": "logs/product-native.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.024,
+    "log": "logs/product-launch.log"
+  },
+  {
+    "name": "product-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/product-headers.log"
+  },
+  {
+    "name": "product-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/product-imports.log"
+  },
+  {
+    "name": "product-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "logs/product-dependents.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.811,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_observation_frontend_probe",
+      "nt_identity_frontend_probe",
+      "nt_identity_frame_probe",
+      "nt_storage_worker_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 92.743,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "observation-frontend-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\observation-frontend-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.992,
+    "log": "logs/observation-frontend-x64.log"
+  },
+  {
+    "name": "observation-frontend-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/observation-frontend-headers-x64.log"
+  },
+  {
+    "name": "observation-frontend-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/observation-frontend-imports-x64.log"
+  },
+  {
+    "name": "observation-frontend-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/observation-frontend-dependents-x64.log"
+  },
+  {
+    "name": "identity-frontend-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\identity-frontend-x64",
+      "--pointer-bytes",
+      "8",
+      "--storage-profile",
+      "identity-layout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 9.717,
+    "log": "logs/identity-frontend-x64.log"
+  },
+  {
+    "name": "identity-frontend-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/identity-frontend-headers-x64.log"
+  },
+  {
+    "name": "identity-frontend-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-frontend-imports-x64.log"
+  },
+  {
+    "name": "identity-frontend-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/identity-frontend-dependents-x64.log"
+  },
+  {
+    "name": "identity-frame-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_identity_frame.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frame_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\identity-frame-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.382,
+    "log": "logs/identity-frame-x64.log"
+  },
+  {
+    "name": "identity-frame-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "logs/identity-frame-headers-x64.log"
+  },
+  {
+    "name": "identity-frame-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/identity-frame-imports-x64.log"
+  },
+  {
+    "name": "identity-frame-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/identity-frame-dependents-x64.log"
+  },
+  {
+    "name": "storage-worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\storage-worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.081,
+    "log": "logs/storage-worker-x64.log"
+  },
+  {
+    "name": "storage-worker-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/storage-worker-headers-x64.log"
+  },
+  {
+    "name": "storage-worker-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/storage-worker-imports-x64.log"
+  },
+  {
+    "name": "storage-worker-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.043,
+    "log": "logs/storage-worker-dependents-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.769,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32",
+      "--config",
+      "Release",
+      "--target",
+      "nt_observation_frontend_probe",
+      "nt_identity_frontend_probe",
+      "nt_identity_frame_probe",
+      "nt_storage_worker_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 72.758,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "observation-frontend-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\observation-frontend-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.806,
+    "log": "logs/observation-frontend-Win32.log"
+  },
+  {
+    "name": "observation-frontend-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.069,
+    "log": "logs/observation-frontend-headers-Win32.log"
+  },
+  {
+    "name": "observation-frontend-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/observation-frontend-imports-Win32.log"
+  },
+  {
+    "name": "observation-frontend-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/observation-frontend-dependents-Win32.log"
+  },
+  {
+    "name": "identity-frontend-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\identity-frontend-Win32",
+      "--pointer-bytes",
+      "4",
+      "--storage-profile",
+      "identity-layout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 8.897,
+    "log": "logs/identity-frontend-Win32.log"
+  },
+  {
+    "name": "identity-frontend-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/identity-frontend-headers-Win32.log"
+  },
+  {
+    "name": "identity-frontend-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/identity-frontend-imports-Win32.log"
+  },
+  {
+    "name": "identity-frontend-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "logs/identity-frontend-dependents-Win32.log"
+  },
+  {
+    "name": "identity-frame-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_identity_frame.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frame_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\identity-frame-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.088,
+    "log": "logs/identity-frame-Win32.log"
+  },
+  {
+    "name": "identity-frame-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.075,
+    "log": "logs/identity-frame-headers-Win32.log"
+  },
+  {
+    "name": "identity-frame-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "logs/identity-frame-imports-Win32.log"
+  },
+  {
+    "name": "identity-frame-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/identity-frame-dependents-Win32.log"
+  },
+  {
+    "name": "storage-worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\storage-worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.247,
+    "log": "logs/storage-worker-Win32.log"
+  },
+  {
+    "name": "storage-worker-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/storage-worker-headers-Win32.log"
+  },
+  {
+    "name": "storage-worker-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/storage-worker-imports-Win32.log"
+  },
+  {
+    "name": "storage-worker-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/storage-worker-dependents-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 250.798,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.31,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.994,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\context",
+      "--byte-budget",
+      "680000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.7,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.203,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.811,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-clean-829de03c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.126,
+    "log": "logs/final-source-status.log"
+  }
+]

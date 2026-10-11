@@ -1,0 +1,72 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "-S",
+      "tests/windows/native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.7550277000991628
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_observation_frontend_probe",
+      "nt_identity_frontend_probe",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 44.301372499903664
+  },
+  {
+    "name": "metadata",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/windows/test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\build-x64\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\metadata",
+      "--pointer-bytes",
+      "8",
+      "--storage-profile",
+      "metadata"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0494480999186635
+  },
+  {
+    "name": "identity-layout",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tests/windows/test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\build-x64\\Release\\nt_identity_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\identity-frontend-repair3\\identity-layout",
+      "--pointer-bytes",
+      "8",
+      "--storage-profile",
+      "identity-layout"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 5.944355200044811
+  }
+]

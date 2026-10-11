@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 162, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 145, in main
+    v=run('identity-maximum-current-and-cache',dict(normal,storage=complete,storage_next=partial))
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 99, in run
+    current=retry['current_graph'];check(label+' later identical names distinct evidence',set(listing['observation_ids']).isdisjoint(n['id'] for n in current['nodes'] if n['properties']['scope']=='observation-only'))
+                                   ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 31, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: identity-maximum-current-and-cache later identical names distinct evidence

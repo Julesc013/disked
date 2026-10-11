@@ -197,3 +197,12 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   `.aide/evidence/2026-10-10-raw-layout/`. /2 cached interfaces, owned raw
   provenance, physical identity and live/provider/public/platform/owner/
   full-unit/all-platform-storage gates remain separate.
+
+- [x] Private /2 cached frontend/actual CLI slice at `829de03c`:
+  564 processes/32350 assertions across x64/x86 plus a new dev.41
+  product build/launch and all 77 native groups. 215 tooling tests,
+  2 skipped; 1059 structural checks; exact 467-input closure.
+  Evidence: `.aide/evidence/2026-10-10-identity-frontend/`. Owned raw
+  provenance, composite identity and live/provider/public/platform/owner/
+  full-unit/all-platform-storage gates remain separate. Development uses
+  owner-authorized `dev` pushes and tested integration into `main`.

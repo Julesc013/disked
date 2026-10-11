@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 162, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 145, in main
+    v=run('identity-maximum-current-and-cache',dict(normal,storage=complete,storage_next=partial))
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 36, in run
+    check(label+' actual exit',r.returncode==expected and not r.stderr)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_observation_frontend.py", line 31, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: identity-maximum-current-and-cache actual exit
