@@ -1,4 +1,5 @@
 #include "capture.h"
+#include <atomic>
 #include <limits>
 #include <set>
 
@@ -13,6 +14,19 @@ bool identifier(const std::string& value) {
 }
 void increment(std::uint64_t& value) {
     require(value!=(std::numeric_limits<std::uint64_t>::max)(),"capture_counter_limit");++value;
+}
+std::uint64_t next_domain_ordinal() {
+#ifdef DISKED_CAPTURE_DOMAIN_EXHAUSTION_TESTING
+    // Separately compiled boundary probe only; never selected by runtime input.
+    static std::atomic<std::uint64_t> ordinal{(std::numeric_limits<std::uint64_t>::max)()};
+#else
+    static std::atomic<std::uint64_t> ordinal{0};
+#endif
+    auto prior=ordinal.load(std::memory_order_relaxed);
+    for(;;) {
+        require(prior!=(std::numeric_limits<std::uint64_t>::max)(),"capture_domain_limit");
+        if(ordinal.compare_exchange_weak(prior,prior+1,std::memory_order_relaxed))return prior+1;
+    }
 }
 }
 const char* source_state_name(SourceState state) {
@@ -35,6 +49,8 @@ ObservationCapture::ObservationCapture(const std::vector<std::string>& sources,G
         require(identifier(id) && unique.insert(id).second,"capture_source_invalid");
         Slot value;value.visible.id=id;value.visible.attempt.source=id;state_.slots.push_back(value);
     }
+    domain_=std::shared_ptr<const CaptureEpochDomain>(new CaptureEpochDomain(next_domain_ordinal()));
+    for(auto& item:state_.slots)item.visible.attempt.domain=domain_;
     // Sequence zero is the initial snapshot, before any attempted observation.
     auto view=std::make_shared<CaptureView>();view->capture=state_.capture;view->graph=aggregate(state_);
     for(const auto& item:state_.slots)view->sources.push_back(item.visible);view_=view;
@@ -89,7 +105,7 @@ CaptureKey ObservationCapture::start(const std::string& source) {
     require(before.started_capture!=state_.capture,"capture_attempt_already_started");
     State next=state_;auto& item=next.slots[at];increment(item.last_worker);item.started_capture=next.capture;
     item.visible.state=SourceState::Pending;item.visible.outstanding=true;item.visible.reason.clear();item.visible.platform.clear();
-    item.visible.attempt={source,next.capture,item.last_worker};const auto key=item.visible.attempt;
+    item.visible.attempt={source,next.capture,item.last_worker,domain_};const auto key=item.visible.attempt;
     publish(std::move(next),at);return key;
 }
 bool ObservationCapture::timeout(const CaptureKey& key) {
@@ -119,6 +135,7 @@ void ObservationCapture::stage(State& next,std::size_t at,const CaptureKey& key,
     for(const auto& node:graph.nodes) {
         if(node.scope==GraphNodeScope::Observation) {
             const auto& o=node.observation;
+            require(!o.domain || o.domain==key.domain,"capture_observation_domain");
             require(o.source==key.source && o.capture<=key.capture && o.worker<=key.worker &&
                 (o.capture==key.capture?(o.worker==key.worker):(node.state=="stale" && o.worker<key.worker)),"capture_observation_binding");
             // Content-bound observation IDs carry source/attempt ownership.

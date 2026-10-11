@@ -20,18 +20,24 @@ std::uint64_t number(const V& v,const char* k){const auto s=text(v,k);if(!disked
 bool on(const V& v,const char* k){const auto* p=v.find(k);if(p && p->kind!=V::Kind::boolean)throw std::invalid_argument("fixture_shape");return p && p->boolean;}
 void allowed(const V& v,const std::set<std::string>& keys){if(v.kind!=V::Kind::object)throw std::invalid_argument("fixture_shape");for(const auto& x:v.fields)if(!keys.count(x.first))throw std::invalid_argument("fixture_shape");}
 void print(V value){auto limits=n::storage_identity_limits();limits.bytes=4194304;limits.values=200000;limits.depth=30;value.put("pointer_bytes",V::string(std::to_string(sizeof(void*))));std::puts(disked::json::dump(value,limits).c_str());}
-V view(const disked::ObservationCapture& capture){const auto s=capture.snapshot();auto sources=V::array();for(const auto& source:s->sources)sources.items.push_back(V::object().put("state",V::string(disked::source_state_name(source.state))).put("outstanding",V::boolean_value(source.outstanding)));
-    return V::object().put("capture",V::string(std::to_string(s->capture))).put("sources",sources);}
+V view(const disked::ObservationCapture& capture){const auto s=capture.snapshot();auto sources=V::array();for(const auto& source:s->sources)sources.items.push_back(V::object().put("state",V::string(disked::source_state_name(source.state))).put("outstanding",V::boolean_value(source.outstanding)).put("worker",V::string(std::to_string(source.attempt.worker))));
+    return V::object().put("domain",V::string("capture-domain-local:"+std::to_string(capture.epoch_domain()->local_ordinal()))).put("capture",V::string(std::to_string(s->capture))).put("sources",sources);}
 V exercise(const V& input){
     allowed(input,{"stages","comparison","reverse","same_capture","previous_subject","current_subject"});const auto& stages=get(input,"stages");if(stages.kind!=V::Kind::array || stages.items.empty() || stages.items.size()>8)throw std::invalid_argument("fixture_stages");
     on(input,"reverse");on(input,"same_capture");for(const auto k:{"previous_subject","current_subject"})if(input.find(k))text(input,k);
     if(const auto* p=input.find("comparison")){allowed(*p,{"previous_digest","current_digest","previous_subject","current_subject"});for(const auto& x:p->fields)text(*p,x.first.c_str());}
-    for(const auto& stage:stages.items){allowed(stage,{"fixture","cancel","supersede","timeout","retire","pending","binding","live"});for(const auto k:{"cancel","supersede","timeout","retire","pending","live"})on(stage,k);
-        if(const auto* p=stage.find("binding")){allowed(*p,{"source","capture","worker","frame_digest","context_digest"});for(const auto& x:p->fields)if(x.first=="capture" || x.first=="worker")number(*p,x.first.c_str());else text(*p,x.first.c_str());}
+    for(const auto& stage:stages.items){allowed(stage,{"fixture","cancel","supersede","timeout","retire","pending","binding","live","new_domain"});for(const auto k:{"cancel","supersede","timeout","retire","pending","live","new_domain"})on(stage,k);
+        if(const auto* p=stage.find("binding")){allowed(*p,{"source","capture","worker","frame_digest","context_digest","domain"});for(const auto& x:p->fields)if(x.first=="capture" || x.first=="worker")number(*p,x.first.c_str());else text(*p,x.first.c_str());if(p->find("domain") && text(*p,"domain")!="missing" && text(*p,"domain")!="foreign")throw std::invalid_argument("fixture_domain");}
         n::StorageInput r;r.capture_epoch=1;r.profile=profile;r.provider_input=get(stage,"fixture");n::validate_storage_input(r);}
-    disked::ObservationCapture capture({"storage"},disked::GraphProfile::Observations);n::StorageGraphAdapter adapter(capture,"storage",profile);
+    auto capture_owner=std::unique_ptr<disked::ObservationCapture>(new disked::ObservationCapture({"storage"},disked::GraphProfile::Observations));auto adapter_owner=std::unique_ptr<n::StorageGraphAdapter>(new n::StorageGraphAdapter(*capture_owner,"storage",profile));
     auto observed=V::array();std::vector<std::shared_ptr<const n::StorageIdentityObservation>> retained;bool refused=false;
     for(const auto& stage:stages.items){
+        if(on(stage,"new_domain")){
+            for(const auto& source:capture_owner->snapshot()->sources)if(source.outstanding)throw std::runtime_error("fixture_domain_outstanding");
+            auto next_capture=std::unique_ptr<disked::ObservationCapture>(new disked::ObservationCapture({"storage"},disked::GraphProfile::Observations));auto next_adapter=std::unique_ptr<n::StorageGraphAdapter>(new n::StorageGraphAdapter(*next_capture,"storage",profile));
+            adapter_owner.reset();capture_owner=std::move(next_capture);adapter_owner=std::move(next_adapter);
+        }
+        auto& capture=*capture_owner;auto& adapter=*adapter_owner;
         if(!observed.items.empty() && !on(input,"same_capture"))capture.next_capture();auto row=V::object();
         try{adapter.start(n::StorageQueryPolicy{},get(stage,"fixture"));}catch(const std::exception& e){row.put("startup_error",V::string(e.what()));auto sample=adapter.poll();row.put("worker",sample);if(text(get(sample,"worker"),"observation")!="not_started")row.put("retirement",adapter.retire());row.put("capture",view(capture)).put("identity_available",V::boolean_value(false));observed.items.push_back(std::move(row));retained.push_back({});continue;}
         auto samples=V::array();samples.items.push_back(adapter.poll());if(on(stage,"cancel"))adapter.cancel();adapter.release();
@@ -50,9 +56,10 @@ V exercise(const V& input){
         }
         row.put("samples",samples).put("capture",view(capture));const auto frame=adapter.frame();row.put("identity_available",V::boolean_value(bool(frame)));
         if(!frame){observed.items.push_back(std::move(row));retained.push_back({});continue;}
+        bool graph_domains=true;for(const auto& node:capture.snapshot()->graph.nodes)graph_domains=graph_domains && node.observation.domain==frame->key().domain;row.put("graph_domains_retained",V::boolean_value(graph_domains));if(!graph_domains)throw std::runtime_error("fixture_graph_domain_missing");
         const auto original_frame_digest=disked::digest_sha256(disked::json::dump(frame->frame().value(),n::storage_observation_limits()));
         row.put("frame",frame->frame().value()).put("context",frame->context());n::IdentityBinding binding{frame->key(),original_frame_digest,disked::digest_sha256(disked::json::dump(frame->context()))};
-        if(const auto* p=stage.find("binding")){allowed(*p,{"source","capture","worker","frame_digest","context_digest"});if(p->find("source"))binding.capture.source=text(*p,"source");if(p->find("capture"))binding.capture.capture=number(*p,"capture");if(p->find("worker"))binding.capture.worker=number(*p,"worker");if(p->find("frame_digest"))binding.frame_digest=text(*p,"frame_digest");if(p->find("context_digest"))binding.context_digest=text(*p,"context_digest");}
+        if(const auto* p=stage.find("binding")){allowed(*p,{"source","capture","worker","frame_digest","context_digest","domain"});if(p->find("source"))binding.capture.source=text(*p,"source");if(p->find("capture"))binding.capture.capture=number(*p,"capture");if(p->find("worker"))binding.capture.worker=number(*p,"worker");if(p->find("frame_digest"))binding.frame_digest=text(*p,"frame_digest");if(p->find("context_digest"))binding.context_digest=text(*p,"context_digest");if(p->find("domain")){if(text(*p,"domain")=="missing")binding.capture.domain.reset();else{disked::ObservationCapture foreign({"storage"},disked::GraphProfile::Observations);binding.capture.domain=foreign.epoch_domain();}}}
         try{const auto identity=n::observe_storage_identity(*frame,binding);row.put("identity",identity->value()).put("identity_digest",V::string(n::storage_identity_digest(*identity)));retained.push_back(identity);}
         catch(const std::invalid_argument& e){row.put("construction_error",V::string(e.what())).put("identity_available",V::boolean_value(false));refused=true;retained.push_back({});}
         if(original_frame_digest!=disked::digest_sha256(disked::json::dump(frame->frame().value(),n::storage_observation_limits())))throw std::runtime_error("fixture_changed_frame");

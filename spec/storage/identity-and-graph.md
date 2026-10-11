@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.4-proposed.2
+  version: 0.1.5-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,8 +27,8 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-11T15:51:43.216699+00:00'
-  scope: DE-W030 owned composite reported identity and explicit epoch comparison; physical/provider/public/owner admission remains open
+  at: '2026-10-11T16:45:02.441242+00:00'
+  scope: DE-W030 sealed coordinator-local capture domains; physical/provider/public/reconnect/owner admission remains open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -179,3 +179,19 @@ Historical observations remain evidence; they cannot supply present freshness,
 leases, reservations, atomic acquisition or mutation authority. Pure derivation
 does not retire a live reader. Physical/provider/public/host/owner and full-unit
 admission retain their existing gates.
+
+The [capture-domain profile](../catalog/nt-capture-domain-prototype.json) binds
+each actual capture key to one sealed coordinator-local token. Numeric source,
+capture and worker values from separate coordinators cannot authorize a
+publication, failure, timeout or retirement. Coordinators cannot be copied or
+moved to fork their counter streams. Tokens remain attached to native owned
+graph projections and retained immutable frames/identity values after the
+coordinator retires; foreign typed graph content follows the existing malformed
+result path without retiring the current reader or replacing retained content.
+
+Composite comparison and the owned raw-layout join require the actual retained
+token, independently of serialized labels or numeric ordering. A local ordinal
+is explanatory metadata with bounded overflow, not a durable or globally unique
+source identity. Serialized observation data and pure fixture projections cannot
+create the native token or restore an execution grant. Cross-session reconnect,
+physical association, freshness and mutation retain their separate gates.

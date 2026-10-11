@@ -26,11 +26,12 @@ def main():
                 check(name+' independent observation digest',row['identity_digest']==digest(identity))
                 check(name+' exact frame/context digest',binding['frame_digest']==digest(frame) and binding['context_digest']==digest(context))
                 check(name+' actual owned context',identity['worker_context']==context and context['pid']==last['worker']['pid'] and context['created']==last['worker']['created'] and context['code_sha256']==codes[selected])
-                check(name+' exact epochs',binding['source']=='storage' and binding['capture']==frame['capture_epoch'] and int(binding['worker'])==index+1)
+                check(name+' exact epochs',binding['source']=='storage' and binding['capture']==frame['capture_epoch'] and binding['worker']==row['capture']['sources'][0]['worker'] and binding['domain']==row['capture']['domain'])
                 check(name+' selected schema',identity['schema']=='org.disked.nt-composite-identity-prototype/1' and context['storage_profile']=='identity-layout')
                 check(name+' conservative claims',identity['claims']==dict(owned_process_binding_verified=True,physical_identity='unknown',physical_association='unproven',current_resource_freshness='unknown',capture_consistency='sequential-not-atomic',complete_alias_proof=False,mutation_authority=False,atomic_snapshot=False))
                 check(name+' original frame claim',not frame['claims']['raw_metadata_independently_verified'] and not frame['claims']['mutation_authority'])
                 check(name+' pure derivation',row['derivation_api_calls']=='0')
+                check(name+' actual owned graph retains typed domain',row['graph_domains_retained'])
                 check(name+' every original subject',{x['subject'] for x in identity['resources']}=={x['key'] for x in frame['resources']})
                 for item in identity['resources']:
                     original=next(x for x in frame['resources'] if x['key']==item['subject']);facts=item['facts']
@@ -130,6 +131,15 @@ def main():
             v=run('construction-'+key,[phase(binding={key:value})],expected=3);check(key+' refusal retains frame',bool(v['observations'][0]['frame']) and v['observations'][0]['construction_error']=='storage_identity_binding')
         for key,value in [('previous_digest','sha256:'+'0'*64),('current_digest','sha256:'+'0'*64),('previous_subject','other'),('current_subject','other')]:
             v=pair('comparison-'+key,expected=3,comparison={key:value});check(key+' retains both originals',all(x['identity_available'] for x in v['observations']))
+        for kind in ('missing','foreign'):
+            v=run('construction-domain-'+kind,[phase(binding=dict(domain=kind))],expected=3);check(kind+' typed domain cannot be manufactured',v['observations'][0]['construction_error']=='storage_identity_binding')
+        v=run('foreign-coordinator',[phase(),phase(new_domain=True),phase()],expected=3)
+        previous=v['observations'][0]['identity']['binding'];current=v['observations'][-1]['identity']['binding']
+        check('otherwise admissible counters remain foreign',previous['source']==current['source'] and int(current['capture'])>int(previous['capture']) and int(current['worker'])>int(previous['worker']) and previous['domain']!=current['domain'])
+        check('actual foreign token refuses comparison',v['comparison_error']=='storage_identity_comparison_domain' and all(x['identity_available'] for x in v['observations']))
+        v=run('equal-counters-foreign-coordinator',[phase(),phase(new_domain=True)],expected=3)
+        check('foreign token checked before numeric ordering',v['comparison_error']=='storage_identity_comparison_domain')
+        v=run('serialized-domain-not-a-token',[phase(binding=dict(domain='capture-domain-local:1'))],expected=3);check('serialized token label refused before launch','observations' not in v)
         v=pair('reversed-epochs',expected=3,reverse=True);check('reverse cannot appear current',v['comparison_error']=='storage_identity_comparison_epoch')
         v=pair('same-capture-no-replacement',same_capture=True);check('same capture cannot start replacement',v['observations'][1]['startup_error']=='capture_attempt_already_started' and not v['observations'][1]['identity_available'])
         v=run('reject-owned-metadata-profile',[dict(fixture=dict(subjects=[disk()]))],selected=metadata,expected=3);check('actual metadata profile refused',v['observations'][0]['construction_error']=='storage_identity_profile')

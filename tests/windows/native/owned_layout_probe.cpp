@@ -34,6 +34,7 @@ template<class T> V finish(T& worker){
     samples.items.push_back(last);if(text(get(last,"worker"),"observation")!="exited")samples.items.push_back(worker.retire());return samples;
 }
 V exercise(const V& input){
+    if(const auto* p=input.find("binding"))if(p->find("domain") && text(*p,"domain")!="missing" && text(*p,"domain")!="foreign")throw std::invalid_argument("fixture_domain");
     const auto mode=text(input,"mode");if(mode!="compare" && mode!="image" && mode!="pending" && mode!="construction")throw std::invalid_argument("fixture_mode");
     disked::FileLayoutInput r;r.path=text(input,"image");const auto unit=integer(input,"unit");if(unit>0xffffffffULL)throw std::invalid_argument("fixture_unit");r.unit=static_cast<std::uint32_t>(unit);
     r.capture_epoch=input.find("file_capture")?integer(input,"file_capture"):1;r.expected_source=metadata(r.path);
@@ -70,6 +71,7 @@ V exercise(const V& input){
     binding.file_capture_digest=n::file_layout_capture_digest(*file);binding.file_context_digest=disked::digest_sha256(disked::json::dump(file->context()));binding.storage_context_digest=disked::digest_sha256(disked::json::dump(frame->context()));
     if(const auto* p=input.find("binding")){
         if(p->find("source"))binding.comparison.capture.source=text(*p,"source");if(p->find("capture"))binding.comparison.capture.capture=integer(*p,"capture");if(p->find("worker"))binding.comparison.capture.worker=integer(*p,"worker");
+        if(p->find("domain")){if(text(*p,"domain")=="missing")binding.comparison.capture.domain.reset();else{disked::ObservationCapture foreign({"storage"},disked::GraphProfile::Observations);binding.comparison.capture.domain=foreign.epoch_domain();}}
         if(p->find("subject"))binding.comparison.subject=text(*p,"subject");if(p->find("frame_digest"))binding.comparison.frame_digest=text(*p,"frame_digest");if(p->find("raw_digest"))binding.comparison.raw_digest=text(*p,"raw_digest");
         for(const auto k:{"file_capture_digest","file_context_digest","storage_context_digest"})if(p->find(k)){if(std::string(k)=="file_capture_digest")binding.file_capture_digest=text(*p,k);else if(std::string(k)=="file_context_digest")binding.file_context_digest=text(*p,k);else binding.storage_context_digest=text(*p,k);}
     }

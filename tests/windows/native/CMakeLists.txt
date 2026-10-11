@@ -276,3 +276,16 @@ target_compile_definitions(nt_identity_profile_probe PRIVATE _WIN32_WINNT=0x0A00
   DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_NT_COMPOSITE_METADATA_PROBE=1)
 target_compile_options(nt_identity_profile_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_identity_profile_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+# Actual domain-constructor overflow, compiled separately from normal counters.
+add_executable(nt_capture_domain_limit_probe
+  "${DISKED_ROOT}/source/runtime/graph/capture.cpp"
+  "${DISKED_ROOT}/source/runtime/graph/snapshot.cpp"
+  "${DISKED_ROOT}/source/runtime/command/json.cpp"
+  "${DISKED_ROOT}/source/portable/hash/sha256.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/capture_domain_limit_probe.cpp")
+target_include_directories(nt_capture_domain_limit_probe PRIVATE
+  "${DISKED_ROOT}/source/runtime/graph" "${DISKED_ROOT}/source/runtime/command" "${DISKED_ROOT}/source/portable/hash")
+target_compile_definitions(nt_capture_domain_limit_probe PRIVATE DISKED_CAPTURE_DOMAIN_EXHAUSTION_TESTING=1)
+target_compile_options(nt_capture_domain_limit_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_capture_domain_limit_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)

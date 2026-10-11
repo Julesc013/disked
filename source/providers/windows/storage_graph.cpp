@@ -28,7 +28,7 @@ void StorageGraphAdapter::start(const StorageQueryPolicy& policy,const V& fixtur
     std::uint64_t previous_worker=0;bool found=false;
     for(const auto& s:capture_.snapshot()->sources)if(s.id==source_){found=true;previous_worker=s.attempt.worker;if(s.outstanding)throw std::invalid_argument("storage_graph_reader_outstanding");}
     if(!found)throw std::invalid_argument("storage_graph_source");
-    auto prepared=StorageWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0};session_.swap(prepared);key_=std::move(registered);input_=std::move(input);context_=V{};
+    auto prepared=StorageWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0,capture_.epoch_domain()};session_.swap(prepared);key_=std::move(registered);input_=std::move(input);context_=V{};
     try{auto key=capture_.start(source_);key_=std::move(key);session_->launch();context_=storage_graph_context(session_->observe(),profile_);}
     catch(...){
         if(!key_.worker)for(const auto& s:capture_.snapshot()->sources)if(s.id==source_ && s.outstanding && s.attempt.worker>previous_worker){key_.capture=s.attempt.capture;key_.worker=s.attempt.worker;}
@@ -66,7 +66,7 @@ V StorageGraphAdapter::poll(DWORD ms){if(!session_)throw std::invalid_argument("
 V StorageGraphAdapter::retire(DWORD ms){if(!session_)throw std::invalid_argument("storage_graph_not_started");auto v=session_->retire(ms);consume(v);return v;}
 std::shared_ptr<const StorageFrameSnapshot> StorageGraphAdapter::frame(){
     const auto observed=poll();const auto current=capture_.snapshot();if(current->capture!=key_.capture || text(observed,"status")!="completed")return {};
-    bool accepted=false;for(const auto& source:current->sources)if(source.id==source_ && source.attempt.capture==key_.capture && source.attempt.worker==key_.worker &&
+    bool accepted=false;for(const auto& source:current->sources)if(source.id==source_ && source.attempt==key_ &&
         (source.state==SourceState::Complete || source.state==SourceState::Partial))accepted=true;
     if(!accepted)return {};const auto context=storage_graph_context(observed,profile_);if(json::dump(context)!=json::dump(context_))throw std::invalid_argument("storage_graph_binding");
     const auto result=read_storage_frame(get(observed,"result"),input_.provider_input,key_.capture,input_.policy,profile_);

@@ -623,7 +623,7 @@ if(BUILD_TESTING)
   set_target_properties(capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(capture_probe PRIVATE /W4 /WX /permissive- /utf-8)
   add_test(NAME resilience.capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_capture.py"
-    --probe "$<TARGET_FILE:capture_probe>")
+    --probe "$<TARGET_FILE:capture_probe>" --evidence "${CMAKE_CURRENT_BINARY_DIR}/Testing/capture-domain-results.json")
   set_tests_properties(resilience.capture PROPERTIES TIMEOUT 60)
   add_executable(request_channel_probe tests/resilience/request_channel_probe.cpp)
   target_link_libraries(request_channel_probe PRIVATE disked_presentation)

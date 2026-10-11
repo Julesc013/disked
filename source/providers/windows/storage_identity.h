@@ -5,10 +5,12 @@ namespace disked { namespace nt_inventory {
 struct IdentityBinding {CaptureKey capture;std::string frame_digest,context_digest;};
 class StorageIdentityObservation final {
     const json::Value value_;
-    explicit StorageIdentityObservation(json::Value value):value_(std::move(value)){}
+    const std::shared_ptr<const CaptureEpochDomain> domain_;
+    explicit StorageIdentityObservation(json::Value value,std::shared_ptr<const CaptureEpochDomain> domain):value_(std::move(value)),domain_(std::move(domain)){}
     friend std::shared_ptr<const StorageIdentityObservation> observe_storage_identity(const StorageFrameSnapshot&,const IdentityBinding&);
 public:
     const json::Value& value()const{return value_;}
+    std::shared_ptr<const CaptureEpochDomain> epoch_domain()const{return domain_;}
 };
 json::Limits storage_identity_limits();
 std::string storage_identity_digest(const StorageIdentityObservation&);

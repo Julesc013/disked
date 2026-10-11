@@ -31,6 +31,7 @@
 - [journal-prototype.json](journal-prototype.json)
 - [journal-semantics-prototype.json](journal-semantics-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
+- [nt-capture-domain-prototype.json](nt-capture-domain-prototype.json)
 - [nt-composite-identity-prototype.json](nt-composite-identity-prototype.json)
 - [nt-identity-frame-prototype.json](nt-identity-frame-prototype.json)
 - [nt-identity-frontend-prototype.json](nt-identity-frontend-prototype.json)

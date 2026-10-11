@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.10-proposed.2
+  version: 0.1.11-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,8 +49,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T15:51:43.216699+00:00'
-  scope: DE-W030 owned /2 identity derivation and /1 rejection; live/product/physical/owner admission remains open
+  at: '2026-10-11T16:45:02.441242+00:00'
+  scope: DE-W030 domain-bound native adapter startup and owned evidence; live/physical/provider/public/owner gates remain open
 ---
 
 # Windows NT provider strategy
@@ -307,3 +307,15 @@ owned /1 frame is insufficient to construct this selected /2 observation.
 Its fingerprints and complete-selected-report quality never establish physical
 association, current freshness or a storage grant. No new host channel or
 shipped composition is selected by this private producer.
+
+The [coordinator-domain guard](../catalog/nt-capture-domain-prototype.json) also
+applies to namespace/storage adapters. Prepare their actual domain before
+launch so scalar startup reconciliation cannot lose ownership. Native graph
+projection retains the typed token outside serialized observation payloads;
+actual owned snapshots require the full current key. Composite evidence and
+owned ordinary-image/layout joins preserve and compare that same storage-domain
+token. JSON labels, another coordinator's numeric epochs and pure receipt
+reconstruction cannot manufacture this native binding. No host role/channel,
+wire schema, physical source association, provider or shipped composition is
+added by this private guard. Historical receipts remain evidence at their exact
+source revision, without admitting reconnect or fresh-media authority.

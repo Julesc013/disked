@@ -21,6 +21,7 @@ void validate_context(const V& context) {
 GraphNode node(const V& snapshot,const NamespaceGraphBinding& b,const V& payload,const char* kind,const V& name) {
     GraphNode n;n.kind=kind;n.scope=GraphNodeScope::Observation;n.state="unknown";n.label=text(name,"display");
     n.observation.source=b.key.source;n.observation.capture=b.key.capture;n.observation.worker=b.key.worker;
+    n.observation.domain=b.key.domain;
     n.observation.context_digest=digest_sha256(json::dump(b.worker_context));n.observation.frame_digest=digest_sha256(json::dump(snapshot,volume_inventory_limits()));
     n.observation.payload=payload;n.id=observation_node_id(n);return n;
 }
@@ -59,7 +60,7 @@ void NamespaceGraphAdapter::start(const InventoryPolicy& policy,const V& fixture
     std::uint64_t previous_worker=0;bool found=false;
     for(const auto& s:capture_.snapshot()->sources)if(s.id==source_) {found=true;previous_worker=s.attempt.worker;if(s.outstanding)throw std::invalid_argument("namespace_graph_reader_outstanding");}
     if(!found)throw std::invalid_argument("namespace_graph_source");
-    auto prepared=NamespaceWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0};
+    auto prepared=NamespaceWorker::prepare(input);CaptureKey registered{source_,input.capture_epoch,0,capture_.epoch_domain()};
     session_.swap(prepared);key_=std::move(registered);policy_=policy;context_=V{};
     // Ownership is retained before launch; a post-spawn exception cannot lose
     // the exact process handle. No-launch and unresolved launch are distinct.

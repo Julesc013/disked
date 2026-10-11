@@ -27,6 +27,26 @@ class Probe:
         finally:
             if self.p.poll() is None:self.p.kill();self.p.wait(timeout=3)
 class Capture(unittest.TestCase):
+    def test_foreign_and_unissued_domains_cannot_publish_or_retire(self):
+        with Probe() as p:
+            p.call('init',sources=['one']);old=p.call('start',source='one');p.call('retain')
+            p.call('init',sources=['one']);current=p.call('start',source='one');before=p.call('view')
+            self.assertEqual([old[k] for k in ('source','capture','worker')],[current[k] for k in ('source','capture','worker')])
+            self.assertNotEqual(old['domain'],current['domain'])
+            missing={k:v for k,v in current.items() if k!='domain'}
+            for foreign in (old,missing,dict(current,domain='capture-domain-local:999999')):
+                calls=[('timeout',{}),('update',dict(graph=fragment())),('finish',dict(graph=fragment())),
+                    ('update_failure',dict(state='denied',reason='access_denied',platform='5')),
+                    ('fail',dict(state='denied',reason='access_denied',platform='5')),('retired',{})]
+                for op,fields in calls:
+                    self.assertFalse(p.call(op,key=foreign,**fields));self.assertEqual(before,p.call('view'))
+            self.assertTrue(p.call('update',key=current,graph=fragment()));published=p.call('view')
+            self.assertTrue(published['sources'][0]['outstanding'])
+            self.assertFalse(p.call('retired',key=old));self.assertEqual(published,p.call('view'))
+            p.call('next');advanced=p.call('view');self.assertFalse(p.call('retired',key=old));self.assertEqual(advanced,p.call('view'))
+            self.assertTrue(p.call('retired',key=current));self.assertFalse(p.call('view')['sources'][0]['outstanding'])
+            OBSERVATIONS.append(dict(test='foreign, missing and forged local domain cannot publish/fail/timeout/finish/retire; exact matching old key can retire after advance',old=old,current=current,published=published))
+
     def test_publication_never_retires_and_duplicate_polls_do_not_churn(self):
         with Probe() as p:
             p.call('init',sources=['one']);key=p.call('start',source='one');p.call('retain')
@@ -261,6 +281,23 @@ def observation(source='one',capture='1',worker='1',payload=None,**changes):
     node.update(changes);return dict(profile='observations',nodes=[node],edges=[],omissions=[])
 
 class ObservationProfile(unittest.TestCase):
+    def test_foreign_native_graph_domain_fails_without_retiring_local_reader(self):
+        with Probe() as p:
+            p.call('init',sources=['one'],profile='observations');old=p.call('start',source='one')
+            p.call('init',sources=['one'],profile='observations');current=p.call('start',source='one')
+            local=observation();local['nodes'][0]['observation']['epoch_domain_key']=current
+            self.assertTrue(p.call('update',key=current,graph=local));before=p.call('view')
+            foreign=observation(payload=dict(wrong_coordinator=True));foreign['nodes'][0]['observation']['epoch_domain_key']=old
+            self.assertTrue(p.call('update',key=current,graph=foreign));after=p.call('view')
+            self.assertEqual(('malformed',True),(after['sources'][0]['state'],after['sources'][0]['outstanding']))
+            self.assertEqual(before['graph']['nodes'][0]['id'],after['graph']['nodes'][0]['id'])
+            self.assertEqual(before['graph']['nodes'][0]['properties']['observation'],after['graph']['nodes'][0]['properties']['observation'])
+            self.assertEqual('stale',after['graph']['nodes'][0]['properties']['state'])
+            self.assertFalse(p.call('retired',key=old));self.assertEqual(after,p.call('view'))
+            self.assertTrue(p.call('update',key=current,graph=local));self.assertTrue(p.call('retired',key=current))
+            self.assertFalse(p.call('view')['sources'][0]['outstanding'])
+            OBSERVATIONS.append(dict(test='foreign typed native graph becomes malformed without replacing old content or retiring current reader',before=before,after=after))
+
     def test_profiles_are_explicit_and_frontend_admission_is_separate(self):
         with Probe() as p:
             p.call('init',sources=['one']);k=p.call('start',source='one');p.call('update',key=k,graph=observation())

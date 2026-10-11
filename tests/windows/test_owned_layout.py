@@ -123,6 +123,8 @@ def main():
             runs.append(dict(label=name,command=args,exit_code=r.returncode,expected_exit=2));check(name+' rejects before handles',r.returncode==2 and not r.stdout and not r.stderr)
         for field,value in [('capture','2'),('worker','0'),('source','other'),('subject','other'),('frame_digest','sha256:'+'0'*64),('raw_digest','sha256:'+'0'*64),('file_capture_digest','sha256:'+'0'*64),('file_context_digest','sha256:'+'0'*64),('storage_context_digest','sha256:'+'0'*64)]:
             req=copy.deepcopy(base);req['binding']={field:value};v=run('binding-'+field,req,expected=3);check(field+' retains both exact readers',v['has_file_snapshot'] and v['has_storage_snapshot'] and bool(v['join_error']))
+        for kind in ('missing','foreign'):
+            req=copy.deepcopy(base);req['binding']=dict(domain=kind);v=run('binding-domain-'+kind,req,expected=3);check(kind+' actual key domain refused',v['has_file_snapshot'] and v['has_storage_snapshot'] and v['join_error']=='layout_provenance_binding')
         req=copy.deepcopy(base);req['file_capture']='2';v=run('file-capture-mismatch',req,expected=3);check('capture mismatch retains readers',v['has_file_snapshot'] and v['has_storage_snapshot'])
         for field,value in [('unit','520'),('file_capture','0'),('expected_content_digest','bad'),('fixture',dict(unrecognized='yes')),('policy',dict(partitions='0',ebr_nodes='128'))]:
             req=copy.deepcopy(base);req[field]=value;v=run('request-'+field,req,expected=3);check(field+' before launch','image_samples' not in v)

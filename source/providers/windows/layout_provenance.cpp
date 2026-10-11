@@ -14,7 +14,7 @@ std::string file_layout_capture_digest(const FileLayoutSnapshot& file){
 V compare_owned_layout(const StorageFrameSnapshot& storage,const FileLayoutSnapshot& file,const OwnedLayoutBinding& binding){
     const auto& key=storage.key();const auto& expected=binding.comparison.capture;
     if(storage.frame().profile()!=StorageFrameProfile::IdentityLayout || text(storage.context(),"storage_profile")!="identity-layout" || text(file.context(),"image_profile")!="ordinary-image-layout")throw std::invalid_argument("layout_provenance_profile");
-    if(key.source!=expected.source || key.capture!=expected.capture || key.worker!=expected.worker || text(file.receipt(),"capture_epoch")!=std::to_string(key.capture) ||
+    if(!key.domain || !(key==expected) || text(file.receipt(),"capture_epoch")!=std::to_string(key.capture) ||
         text(file.context(),"capture_epoch")!=std::to_string(key.capture) || binding.file_context_digest!=context_digest(file.context()) ||
         binding.storage_context_digest!=context_digest(storage.context()) || binding.file_capture_digest!=file_layout_capture_digest(file))throw std::invalid_argument("layout_provenance_binding");
     if(text(file.context(),"pid")==text(storage.context(),"pid") && text(file.context(),"created")==text(storage.context(),"created"))throw std::invalid_argument("layout_provenance_same_process");

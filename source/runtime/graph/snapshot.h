@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace disked {
+class CaptureEpochDomain;
 // Private profiles. Observation identifiers name evidence, never physical media.
 enum class GraphProfile {Fake,Observations};
 enum class GraphNodeScope {Fake,Observation};
@@ -12,6 +13,8 @@ struct GraphObservation {
     std::string source,context_digest,frame_digest;
     std::uint64_t capture=0,worker=0;
     json::Value payload;
+    // Retained only by native owned projections; JSON is not this token.
+    std::shared_ptr<const CaptureEpochDomain> domain;
 };
 struct GraphNode {
     std::string id,kind,identity,media_generation,label,state,capacity_bytes;

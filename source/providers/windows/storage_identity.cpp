@@ -57,8 +57,9 @@ std::string storage_identity_digest(const StorageIdentityObservation& v){return 
 std::shared_ptr<const StorageIdentityObservation> observe_storage_identity(const StorageFrameSnapshot& owned,const IdentityBinding& expected){
     const auto& frame=owned.frame();const auto& key=owned.key();const auto frame_digest=digest_sha256(json::dump(frame.value(),storage_observation_limits())),context_digest=digest_sha256(json::dump(owned.context()));
     if(frame.profile()!=StorageFrameProfile::IdentityLayout || text(owned.context(),"storage_profile")!="identity-layout")throw std::invalid_argument("storage_identity_profile");
+    if(!key.domain)throw std::invalid_argument("storage_identity_domain");
     if(!(key==expected.capture) || expected.frame_digest!=frame_digest || expected.context_digest!=context_digest)throw std::invalid_argument("storage_identity_binding");
-    auto binding=V::object().put("source",V::string(key.source)).put("capture",V::string(std::to_string(key.capture))).put("worker",V::string(std::to_string(key.worker))).put("frame_digest",V::string(frame_digest)).put("context_digest",V::string(context_digest));
+    auto binding=V::object().put("domain",V::string("capture-domain-local:"+std::to_string(key.domain->local_ordinal()))).put("source",V::string(key.source)).put("capture",V::string(std::to_string(key.capture))).put("worker",V::string(std::to_string(key.worker))).put("frame_digest",V::string(frame_digest)).put("context_digest",V::string(context_digest));
     auto rows=V::array();std::map<std::string,Group> groups;std::map<std::string,bool> critical,missing;
     for(const auto& resource:get(frame.value(),"resources").items){
         const auto& components=get(resource,"components");const auto& conflicts=get(resource,"conflicts");const auto key_text=text(resource,"key");auto states=V::object(),facts=V::object(),hints=V::object().put("label",get(resource,"label"));bool usable_id=false,conformant=true;
@@ -102,10 +103,11 @@ std::shared_ptr<const StorageIdentityObservation> observe_storage_identity(const
     std::sort(rows.items.begin(),rows.items.end(),[](const V& a,const V& b){return text(a,"subject")<text(b,"subject");});
     auto out=V::object().put("schema",V::string("org.disked.nt-composite-identity-prototype/1")).put("binding",binding).put("worker_context",owned.context()).put("frame_status",get(frame.value(),"status"))
         .put("resources",std::move(rows)).put("collisions",collisions).put("claims",claims());json::dump(out,storage_identity_limits());
-    return std::shared_ptr<const StorageIdentityObservation>(new StorageIdentityObservation(std::move(out)));
+    return std::shared_ptr<const StorageIdentityObservation>(new StorageIdentityObservation(std::move(out),key.domain));
 }
 V compare_storage_identity(const StorageIdentityObservation& previous,const StorageIdentityObservation& current,const IdentityComparisonBinding& expected){
     if(expected.previous_digest!=storage_identity_digest(previous) || expected.current_digest!=storage_identity_digest(current))throw std::invalid_argument("storage_identity_comparison_binding");
+    if(!previous.epoch_domain() || previous.epoch_domain()!=current.epoch_domain())throw std::invalid_argument("storage_identity_comparison_domain");
     const auto& a=previous.value();const auto& b=current.value();const auto& ka=get(a,"binding");const auto& kb=get(b,"binding");
     if(text(ka,"source")!=text(kb,"source") || number(kb,"capture")<number(ka,"capture") || number(kb,"worker")<=number(ka,"worker"))throw std::invalid_argument("storage_identity_comparison_epoch");
     const auto& ra=subject(a,expected.previous_subject);const auto& rb=subject(b,expected.current_subject);

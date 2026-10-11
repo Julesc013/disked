@@ -23,7 +23,7 @@ V claims() {return V::object().put("physical_identity",V::string("unknown")).put
     .put("complete_alias_proof",V::boolean_value(false)).put("media_preservation",V::string("not_established"));}
 GraphNode node(const CaptureKey& key,const std::string& context,const std::string& frame,const char* kind,const std::string& label,V payload) {
     GraphNode n;n.kind=kind;n.label=label;n.state="unknown";n.scope=GraphNodeScope::Observation;
-    n.observation.source=key.source;n.observation.capture=key.capture;n.observation.worker=key.worker;n.observation.context_digest=context;n.observation.frame_digest=frame;n.observation.payload=std::move(payload);
+    n.observation.source=key.source;n.observation.capture=key.capture;n.observation.worker=key.worker;n.observation.context_digest=context;n.observation.frame_digest=frame;n.observation.payload=std::move(payload);n.observation.domain=key.domain;
     n.id=observation_node_id(n);return n;
 }
 }

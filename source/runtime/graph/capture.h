@@ -4,13 +4,27 @@
 #include <map>
 
 namespace disked {
+class ObservationCapture;
+// A local counter domain, never a serialized credential or media identity.
+class CaptureEpochDomain final {
+    const std::uint64_t ordinal_;
+    explicit CaptureEpochDomain(std::uint64_t ordinal):ordinal_(ordinal){}
+    friend class ObservationCapture;
+public:
+    CaptureEpochDomain(const CaptureEpochDomain&)=delete;
+    CaptureEpochDomain& operator=(const CaptureEpochDomain&)=delete;
+    CaptureEpochDomain(CaptureEpochDomain&&)=delete;
+    CaptureEpochDomain& operator=(CaptureEpochDomain&&)=delete;
+    std::uint64_t local_ordinal()const{return ordinal_;}
+};
 // Private serialized observation contract. Adapters own processes/threads and
 // supply retirement evidence; this reducer has no effect or worker authority.
 struct CaptureKey {
     std::string source;
     std::uint64_t capture=0,worker=0;
+    std::shared_ptr<const CaptureEpochDomain> domain;
     bool operator==(const CaptureKey& other) const {
-        return source==other.source && capture==other.capture && worker==other.worker;
+        return domain==other.domain && source==other.source && capture==other.capture && worker==other.worker;
     }
 };
 enum class SourceState {NotStarted,Pending,Complete,Partial,Denied,Malformed,Unavailable,TimedOut};
@@ -39,6 +53,11 @@ struct CaptureChanges {
 class ObservationCapture final {
 public:
     explicit ObservationCapture(const std::vector<std::string>& sources,GraphProfile profile=GraphProfile::Fake);
+    ObservationCapture(const ObservationCapture&)=delete;
+    ObservationCapture& operator=(const ObservationCapture&)=delete;
+    ObservationCapture(ObservationCapture&&)=delete;
+    ObservationCapture& operator=(ObservationCapture&&)=delete;
+    std::shared_ptr<const CaptureEpochDomain> epoch_domain()const{return domain_;}
     std::shared_ptr<const CaptureView> snapshot() const {return view_;}
     CaptureKey start(const std::string& source);
     bool timeout(const CaptureKey& key);
@@ -63,6 +82,7 @@ public:
     void next_capture();
     CaptureChanges changes(std::uint64_t capture,std::uint64_t after) const;
 private:
+    std::shared_ptr<const CaptureEpochDomain> domain_;
     struct Slot {
         CaptureSource visible;
         GraphInput retained;
