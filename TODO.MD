@@ -242,8 +242,16 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   213 tooling passes/2 skips, 1069 structural checks.
   Full DE-W030 partial; implementing-agent review in
   `.aide/evidence/2026-10-12-identity-adapter/`.
-- [ ] Connect accepted owned inventory/evidence to the serialized frontend
-  observation port; mixed namespace/storage captures and consumer publication
-  refusal/retry must preserve matching references and native domains without
-  polling during presentation. Keep budgets and all-platform/storage0.1.0 scope,
-  with separate live/physical/provider/public/product/platform/owner/release gates.
+- [x] DE-W030 private mixed native inventory port `2e2f1fb8`: sealed
+  current/last-complete publications, pure cached aliased graph delivery, exact
+  frame/reference ownership through retained snapshots and teardown, selected
+  allocation retry and actual separate reader retirement. 2390 processes/
+  85412 assertions across 28 x64/x86 campaigns; fresh dev.41 build/launch and
+  77 product groups; 213 tooling passes/2 skips,
+  1071 structural checks. DE-W030 remains partial; implementing-worker review
+  in `.aide/evidence/2026-10-12-inventory-port/`.
+- [ ] Exercise actual cached native inventory frontend integration with retained
+  full evidence, source coverage, refresh/focus/failure and renderer lifetimes.
+  Keep fake-only product defaults and all original native/graph/display/process
+  limits; continue the full 0.1.0 scope with separate live/physical/provider/
+  public/product/platform/owner/storage/release gates.

@@ -163,8 +163,8 @@ def main():
                     observation=nodes[binding['node']]['properties']['observation_binding'];frame=row['artifacts'][binding['artifact']]
                     assert observation['frame_digest']==digest(frame) and observation['context_digest']==digest(binding['context'])
                 for ref in row['resolved']:assert ref['reference']['digest']==digest(row['artifacts'][ref['artifact']])
-                for source in ('namespace','storage'):
-                    inspections=row[source+'_inspections'];owned=[x for x in nodes.values() if x['properties']['observation_binding']['source']==source]
+                for provider_source in ('namespace','storage'):
+                    inspections=row[provider_source+'_inspections'];owned=[x for x in nodes.values() if x['properties']['observation_binding']['source']==provider_source]
                     assert [x['id'] for x in inspections]==[x['id'] for x in owned]
                     for inspection,node in zip(inspections,owned):
                         basis=inspection['direct']['result'];assert basis['node']==node and inspection['health_refused'] and inspection['capability_unqualified']

@@ -1,0 +1,42 @@
+MSBuild version 17.14.51+25f168cee for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule D:/Projects/DiskEd/disked/tests/windows/native/CMakeLists.txt
+  observation_frontend_probe.cpp
+  memory_budget.cpp
+  session.cpp
+  requests.cpp
+  command.cpp
+  protocol.cpp
+  shell_lexer.cpp
+  tui_model.cpp
+  gui_model.cpp
+  shell_model.cpp
+  cli.cpp
+  identity_queries.cpp
+  observation_worker.cpp
+  namespace_worker.cpp
+  storage_worker.cpp
+  storage_queries.cpp
+  volume_namespace.cpp
+  storage_inventory.cpp
+  storage_frame_reader.cpp
+  storage_graph.cpp
+  Generating Code...
+  Compiling...
+  storage_identity.cpp
+  volume_inventory.cpp
+  namespace_graph.cpp
+  local_file.cpp
+  json.cpp
+  snapshot.cpp
+  capture.cpp
+  sha256.cpp
+  storage_fixture.cpp
+  volume_fixture.cpp
+  inventory_session.cpp
+  Generating Code...
+inventory_session.obj : error LNK2019: unresolved external symbol "void __cdecl inventory_publication_checkpoint(void)" (?inventory_publication_checkpoint@@YAXXZ) referenced in function "public: bool __cdecl disked::nt_inventory::InventorySession::publish(void)" (?publish@InventorySession@nt_inventory@disked@@QEAA_NXZ) [D:\Projects\DiskEd\disked\.aide-local\inventory-port-initial-x64\nt_inventory_port_probe.vcxproj]
+    Hint on symbols that are defined and could potentially match:
+      "void __cdecl disked::nt_inventory::inventory_publication_checkpoint(void)" (?inventory_publication_checkpoint@nt_inventory@disked@@YAXXZ)
+D:\Projects\DiskEd\disked\.aide-local\inventory-port-initial-x64\Release\nt_inventory_port_probe.exe : fatal error LNK1120: 1 unresolved externals [D:\Projects\DiskEd\disked\.aide-local\inventory-port-initial-x64\nt_inventory_port_probe.vcxproj]

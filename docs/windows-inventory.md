@@ -236,3 +236,18 @@ and 77 product groups, 213 tooling passes/2 skips and
 unchanged. This qualifies private owned adapter/model fixtures; the serialized
 frontend observation port integration and full live/provider/public/product/
 historical-host/owner/full-unit/storage/release admission remain open.
+
+The mixed native inventory port at `2e2f1fb8`
+([review](../.aide/evidence/2026-10-12-inventory-port/REVIEW.md)) owns exact
+immutable CaptureView/frame/identity publications. Cached callbacks return
+aliased pointers without reader advancement or allocating rebuilds; generic
+frontend snapshots retain matching native backing through newer delivery and
+provider teardown. Provider/frontend allocation failures preserve originals
+and the same input remains eligible for retry. Source retirement stays explicit.
+New 23/88/7503 controllers/readers/assertions per architecture and 28 clean x64/x86
+campaigns (2390 processes/85412 assertions), fresh dev.41 build/launch
+and 77 product groups, 213 tooling passes/2 skips and
+1071 structural checks pass. Existing defaults and budgets remain. This is
+private model/provider composition evidence; actual cached frontend integration,
+live/physical/provider/public/product/platform/owner/full-unit/storage/release
+admission and the full 0.1.0 programme remain open.

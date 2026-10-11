@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_port.py", line 210, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_port.py", line 184, in main
+    run('mixed-max-and-comparisons', [stage(maximum_ns, maximum_storage),
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stage(maximum_ns, maximum_storage, comparisons=declarations)], states=[good, good])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_port.py", line 66, in run
+    check(label + ' exact independent source coverage',
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          [s['state'] for s in row['state']['sources']] == list(states[i]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_port.py", line 24, in check
+    assert ok, label
+           ^^
+AssertionError: mixed-max-and-comparisons:0 exact independent source coverage
