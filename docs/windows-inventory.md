@@ -196,3 +196,17 @@ A bound specification changed, so dev.41 was freshly rebuilt/launched and all
 77 product groups rerun. Complete evidence and implementing-agent review are
 retained. Full-unit/live/provider/public/other-host/owner gates remain open.
 Continue cached interface integration under the existing grant.
+
+The coordinator-domain slice at `f1edd134`
+([review](../.aide/evidence/2026-10-12-capture-domain/REVIEW.md)) passes
+1794 controller/reader processes and 47550 assertions across 22
+x64/x86 campaigns, plus 213 tooling passes/2 skips
+and 1065 structural checks. Sealed native tokens reject foreign capture
+keys, native graph projections and owned identity/raw joins even when counters
+match or advance. Tokens survive as evidence without creating a new stream;
+serialized labels and process-local ordinals do not admit reconnect or media
+identity. Actual u64-boundary refusal uses a separate compiled probe, with the
+testing define absent from normal builds. Fresh dev.41 build/launch and all 77
+product groups pass; the 25 reducer tests are retained from that same run.
+Full-unit/live/provider/public/other-host/owner gates remain open. Continue
+bounded composite summary/reference integration into cached interfaces.
