@@ -29,7 +29,7 @@ def main():
     assert host['identity']=='BLACKGLASS-WIN1\\Jules' and not host['elevated']
     prior=checkout/'.aide/evidence/2026-10-10-identity-frontend/reproduction-829de03c';product=json.loads((prior/'product-build-identity.json').read_bytes())
     assert set(product['inputs'])==set(json.loads((checkout/'tools/build-inputs.json').read_bytes())['files'])
-    product_binding={n:sha(checkout/n) for n in product['inputs']};assert product_binding==product['inputs'];save(out/'product-input-reuse.json',dict(source_revision=a.source_revision,evidence_source_revision='829de03cd8652323d7ab8b6f6828a5e410a0b594',exact_inputs=product_binding,product_rebuilt=False,product_suite_rerun=False,native_ctest_groups_reused=77))
+    product_binding={n:sha(checkout/n) for n in product['inputs']};changed=[n for n in product_binding if product_binding[n]!=product['inputs'][n]];save(out/'prior-product-input-comparison.json',dict(source_revision=a.source_revision,prior_source_revision='829de03cd8652323d7ab8b6f6828a5e410a0b594',inputs=len(product_binding),changed_inputs=changed,evidence_reused=False))
     inputs=dict(product_binding)
     for folder in ('source/platform/windows/storage','source/providers/windows','source/providers/image','source/runtime/graph','source/runtime/capture','tests/windows','source/portable/hash','source/portable/primitives','source/portable/mbr','source/portable/ebr','source/portable/gpt'):
         for f in (checkout/folder).rglob('*'):
@@ -44,7 +44,19 @@ def main():
             blob=header.split()[2].decode();data=(checkout/name).read_bytes();assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==blob,name;blobs[name]=blob
     assert set(blobs)==set(inputs);save(out/'source-blob-bindings.json',blobs)
     cases=[('identity-observation','nt_identity_observation_probe','test_identity_observation.py',81,115,3257),('owned-layout','nt_owned_layout_probe','test_owned_layout.py',78,102,1365),('namespace-worker','nt_namespace_worker_probe','test_namespace_worker.py',None,None,None),('namespace-graph','nt_namespace_graph_probe','test_namespace_graph.py',None,None,None),('capture-lifecycle','nt_capture_lifecycle_probe','test_capture_lifecycle.py',None,None,None),('storage-worker','nt_storage_worker_probe','test_storage_worker.py',43,35,671),('identity-frame','nt_identity_frame_probe','test_identity_frame.py',54,41,6980),('observation-frontend','nt_observation_frontend_probe','test_observation_frontend.py',16,26,1339),('identity-frontend','nt_identity_frontend_probe','test_observation_frontend.py',21,46,7185),('raw-layout','nt_raw_layout_probe','test_raw_layout.py',109,0,1342)]
-    artifacts=[];campaigns=[];dumpbin=Path(product['compiler_path']).with_name('dumpbin.exe')
+    run('cmake-version',['cmake','--version'],checkout);run('python-environment',[sys.executable,'-c','import sys,importlib.metadata as m;print(sys.version);print("PyYAML="+m.version("PyYAML"));print("jsonschema="+m.version("jsonschema"))'],checkout)
+    run('product-configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable],checkout)
+    run('product-build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],checkout,1200)
+    catalog=json.loads(run('product-test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1'],checkout));assert len(catalog['tests'])==77
+    tests=run('product-native',['ctest','--preset','windows-bootstrap','--output-on-failure'],checkout,2400);assert b'0 tests failed out of 77' in tests
+    product_build=checkout/'build/windows-bootstrap';shutil.copyfile(product_build/'Testing/Temporary/LastTest.log',out/'native-details.log')
+    identity=json.loads((product_build/'generated/build-identity.json').read_bytes());assert identity['identity']['source_revision']==a.source_revision and identity['identity']['source_state']=='clean' and identity['inputs']==product_binding;save(out/'product-build-identity.json',identity)
+    executable=product_build/'Release/disked.exe';launch=json.loads(run('product-launch',[executable,'build','inspect','--json'],checkout))['result'];assert launch['version']=='0.1.0-dev.41' and launch['source_revision']==a.source_revision
+    artifacts=[dict(kind='product',architecture='x64',path=str(executable),bytes=executable.stat().st_size,sha256=sha(executable))];campaigns=[];dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe')
+    product_config=out/'product-build-configuration';product_config.mkdir()
+    for n in ('CMakeCache.txt','disked.vcxproj'):shutil.copyfile(product_build/n,product_config/n)
+    for f in (product_build/'CMakeFiles').rglob('CMake*Compiler.cmake'):shutil.copyfile(f,product_config/f.name)
+    for mode in ('headers','imports','dependents'):run('product-'+mode,[dumpbin,'/'+mode,executable],checkout)
     for arch,pointer in [('x64',8),('Win32',4)]:
         build=out/('build-'+arch);run('configure-'+arch,['cmake','-S',checkout/'tests/windows/native','-B',build,'-G','Visual Studio 17 2022','-A',arch+',version=10.0.19041.0','-T','v143,version=14.44.35207,host=x64','-DCMAKE_SYSTEM_VERSION=10.0.19041.0'],checkout)
         run('build-'+arch,['cmake','--build',build,'--config','Release','--target',*[x[1] for x in cases],'nt_identity_profile_probe','--parallel','4'],checkout,600)
@@ -67,7 +79,7 @@ def main():
     check=json.loads(run('check',[sys.executable,'spec/tools/specctl.py','check'],checkout));run('index-freshness',[sys.executable,'spec/tools/specctl.py','index','--check'],checkout)
     run('context',[sys.executable,'spec/tools/specctl.py','context','--work','DE-W030','--output',out/'context','--byte-budget','680000'],checkout);run('verify-context',[sys.executable,'spec/tools/specctl.py','verify-context',out/'context'],checkout);run('verify-manifest',[sys.executable,'spec/tools/specctl.py','verify-manifest'],checkout)
     assert not run('final-source-status',['git','status','--porcelain'],checkout).strip();assert all(sha(checkout/n)==d for n,d in inputs.items())
-    summary=dict(status='pass',source_revision=a.source_revision,host=host,source_inputs=len(inputs),campaigns=campaigns,artifacts=artifacts,tooling_tests=dict(run=count,passed=count-skip,skipped=skip),structural_checks=check['checks'],product_inputs_reused=len(product_binding),product_evidence_source_revision='829de03cd8652323d7ab8b6f6828a5e410a0b594',product_rebuilt=False,product_suite_rerun=False,live_storage_qualified=False,physical_association='unproven',source_consistency='live-uncoordinated',provider_admitted=False,public_protocol_admitted=False,private_composite_observation_qualified=True,current_resource_freshness='unknown',historical_windows_qualified=False,owner_accepted=False,unit_complete=False)
+    summary=dict(status='pass',source_revision=a.source_revision,host=host,source_inputs=len(inputs),campaigns=campaigns,artifacts=artifacts,tooling_tests=dict(run=count,passed=count-skip,skipped=skip),structural_checks=check['checks'],product_inputs=len(product_binding),product_version=launch['version'],product_source_revision=a.source_revision,product_build_directory=str(product_build),native_ctest_groups=77,product_rebuilt=True,product_suite_rerun=True,live_storage_qualified=False,physical_association='unproven',source_consistency='live-uncoordinated',provider_admitted=False,public_protocol_admitted=False,private_composite_observation_qualified=True,current_resource_freshness='unknown',historical_windows_qualified=False,owner_accepted=False,unit_complete=False)
     save(out/'results.json',summary);print(json.dumps(dict(status='pass',campaigns=len(campaigns),source_inputs=len(inputs))),flush=True)
 
 if __name__=='__main__':main()
