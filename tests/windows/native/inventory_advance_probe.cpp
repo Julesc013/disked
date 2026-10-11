@@ -115,6 +115,10 @@ public:
 int render(const V& input,const std::wstring& mode,const wchar_t* output,const disked::WindowsMemoryBudget& budget){
     const auto& reg=field(input,"registry");disked::Registry registry{field(reg,"commands"),field(reg,"syntax"),field(reg,"schemas")};
     const auto composition=text(input,"composition");if(composition!="metadata" && composition!="identity-frame" && composition!="identity")throw std::invalid_argument("fixture_composition");
+    const auto style=input.find("terminal_style")?text(input,"terminal_style"):"linear";
+    const auto fault=input.find("callback_fault")?text(input,"callback_fault"):"none";
+    if(style!="linear" && style!="screen")throw std::invalid_argument("fixture_terminal_style");
+    if(fault!="none" && fault!="pending")throw std::invalid_argument("fixture_callback_fault");
     const auto& stages=field(input,"stages");if(stages.kind!=V::Kind::array || stages.items.empty() || stages.items.size()>3)throw std::invalid_argument("fixture_stages");
     if(registry.commands.kind!=V::Kind::array || registry.syntax.kind!=V::Kind::object || registry.parameter_schemas.kind!=V::Kind::object)throw std::invalid_argument("fixture_registry");
     for(const auto& stage:stages.items)if(field(stage,"namespace").kind!=V::Kind::object || field(stage,"storage").kind!=V::Kind::object)throw std::invalid_argument("fixture_stages");
@@ -132,15 +136,27 @@ int render(const V& input,const std::wstring& mode,const wchar_t* output,const d
         auto value=frontend.dispatch(id,command,parameters,revision);if(dispatches.items.size()==32)throw std::length_error("fixture_dispatch_limit");
         dispatches.items.push_back(V::object().put("request_id",V::string(id)).put("command",V::string(command)).put("parameters",parameters)
             .put("expected_revision",V::string(revision)).put("outcome",value.response));return value;};
-    const auto advance=[&](){driver.pulse(frontend,state);};const auto before_release=[&](){final_model=state();};int exit=0;
+    bool callback_threw=false;V callback_sources=V::array();
+    const auto advance=[&](){
+        driver.pulse(frontend,state);
+        if(fault=="pending") {
+            const auto capture=service->capture();
+            if(std::any_of(capture->sources.begin(),capture->sources.end(),[](const disked::CaptureSource& source){return source.outstanding;})) {
+                for(const auto& source:capture->sources)callback_sources.items.push_back(V::boolean_value(source.outstanding));
+                callback_threw=true;throw std::runtime_error("fixture_application_callback");
+            }
+        }
+    };const auto before_release=[&](){final_model=state();};int exit=0;
     if(mode==L"gui")exit=disked::run_windows_gui([&](const V&){auto model=std::unique_ptr<disked::GuiModel>(new disked::GuiModel(frontend,registry,discovery,dispatch));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
-    else if(mode==L"tui")exit=disked::run_windows_tui("linear",[&](){auto model=std::unique_ptr<disked::TuiModel>(new disked::TuiModel(frontend,registry,discovery,dispatch));
+    else if(mode==L"tui")exit=disked::run_windows_tui(style,[&](){auto model=std::unique_ptr<disked::TuiModel>(new disked::TuiModel(frontend,registry,discovery,dispatch));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
-    else exit=disked::run_windows_shell("linear",[&](){auto model=std::unique_ptr<disked::ShellModel>(new disked::ShellModel(frontend,registry,discovery,dispatch,false));
+    else exit=disked::run_windows_shell(style,[&](){auto model=std::unique_ptr<disked::ShellModel>(new disked::ShellModel(frontend,registry,discovery,dispatch,false));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
     state={};const auto retirement=driver.cleanup(frontend);service.reset();
     receipt.write(V::object().put("renderer_exit",V::string(std::to_string(exit))).put("composition",V::string(composition))
+        .put("terminal_style",V::string(style)).put("callback_fault",V::string(fault)).put("callback_threw",V::boolean_value(callback_threw))
+        .put("callback_sources_before_throw",callback_sources)
         .put("trace",driver.trace).put("workers",driver.workers).put("events",driver.events).put("errors",driver.errors).put("model_samples",driver.model_samples)
         .put("final_model_state",final_model).put("dispatches",dispatches).put("retirement",retirement).put("selection",frontend.selection())
         .put("retained_after_session_and_renderer",driver.retained()).put("callbacks",V::string(std::to_string(callbacks)))

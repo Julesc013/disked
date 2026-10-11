@@ -21,8 +21,8 @@ def main():
         checks.append(dict(label=label,passed=bool(value)));assert value,label
     def save(path,value):path.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n')
     def stage(ns=None,storage=None):return dict(namespace=namespace() if ns is None else ns,storage=identity() if storage is None else storage)
-    def verify(name,v):
-        check(name+' actual host/architecture/budget',v['renderer_exit']=='0' and v['pointer_bytes']==str(a.pointer_bytes)
+    def verify(name,v,failed=False):
+        check(name+' actual host/architecture/budget',v['renderer_exit']==('4' if failed else '0') and v['pointer_bytes']==str(a.pointer_bytes)
               and v['frontend_budget_ready'] and int(v['advance_calls'])>0 and int(v['callbacks'])>0)
         check(name+' no controller storage/namespace/health dispatch',v['namespace_api_calls']==v['storage_api_calls']==v['health_calls']=='0')
         check(name+' bounded retained native and model history',1<len(v['trace'])<=32 and len(v['workers'])<=64 and len(v['model_samples'])<=32)
@@ -59,7 +59,13 @@ def main():
             for ref in sample['resolved']:
                 check(name+' exact complete reference retrieval',ref['reference']['digest']==digest(sample['artifacts'][ref['artifact']])
                       and by_id[ref['node']]['properties']['observation']['references'][ref['name']]==ref['reference'])
-        check(name+' model keeps last publication it actually observed',v['final_model_state']['view_revision'] in {s['graph']['revision'] for s in v['trace']})
+        if failed:
+            check(name+' callback escaped with both readers outstanding',v['callback_threw'] and v['callback_fault']=='pending'
+                  and v['callback_sources_before_throw']==[True,True] and v['retirement']['before']==[True,True])
+            check(name+' no destroyed model accessed or successful request manufactured',v['final_model_state'] is None and not v['dispatches'] and not v['errors'])
+        else:
+            check(name+' no callback failure manufactured',not v['callback_threw'] and not v['callback_sources_before_throw'])
+            check(name+' model keeps last publication it actually observed',v['final_model_state']['view_revision'] in {s['graph']['revision'] for s in v['trace']})
     def gui(name,composition,stages,action='review',states=('complete','complete')):
         request=out/(name+'.request.json');receipt=out/(name+'.receipt.json');start=time.monotonic();g=None
         with InventoryEvents() as events:
@@ -115,20 +121,43 @@ def main():
                 runs.append(dict(label=name,frontend='gui',exit_code=g.code,elapsed_seconds=round(time.monotonic()-start,3)))
             finally:
                 if g is not None and g.desktop is not None:g.close()
-    def console(name,mode,composition,stages,journey='review'):
+    def console(name,mode,composition,stages,journey='review',style='linear'):
         request=out/(name+'.request.json');receipt=out/(name+'.receipt.json');report=out/(name+'.host.json')
-        save(request,dict(registry=registry,composition=composition,stages=stages,journey=journey))
+        save(request,dict(registry=registry,composition=composition,stages=stages,journey=journey,terminal_style=style,callback_fault='pending' if journey=='fault' else 'none'))
         startup=subprocess.STARTUPINFO();startup.dwFlags=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0;start=time.monotonic()
         r=subprocess.run([sys.executable,str(root/'tests/windows/inventory_advance_console.py'),str(probe),mode,str(request),str(receipt),str(report)],startupinfo=startup,creationflags=subprocess.CREATE_NEW_CONSOLE,timeout=40)
         host=json.loads(report.read_bytes());check(name+' actual owned hidden-console journey',r.returncode==0 and host['status']=='pass')
-        v=json.loads(receipt.read_bytes());verify(name,v)
+        v=json.loads(receipt.read_bytes());verify(name,v,journey=='fault')
         check(name+' exact native restoration',all(host['before'][k]==host['after'][k] for k in ('modes','codepages','cursor_style','attributes')))
         check(name+' inert actual console text',all('\x1b' not in f['text'] for f in host['frames']))
+        check(name+' exact diagnostic and private host selection',v['terminal_style']==style and host['exit']==(4 if journey=='fault' else 0)
+              and host['stderr']==('disked: frontend_event_error\r\n' if journey=='fault' else ''))
+        if style=='screen':
+            check(name+' actual screen presentation',any('CACHED OBSERVATIONS | screen' in f['text'] for f in host['frames']))
+            check(name+' original active buffer content cursor and geometry restored',host['active_after']==host['before']['content']
+                  and all(host['before'][k]==host['after'][k] for k in ('handles','buffer','viewport','cursor','content')))
         if journey=='review':
             check(name+' exact old review conflicts',v['dispatches'][-1]['expected_revision']==v['trace'][0]['graph']['revision']
                   and v['dispatches'][-1]['parameters']['target_id']==host['reviewed_id'] and v['selection']['state']=='missing')
         else:check(name+' no implicit dispatch from chooser/completion',not v['dispatches'])
         runs.append(dict(label=name,frontend=mode,exit_code=r.returncode,elapsed_seconds=round(time.monotonic()-start,3)))
+    def gui_fault():
+        name='gui-callback-fault';request=out/(name+'.request.json');receipt=out/(name+'.receipt.json');g=None;start=time.monotonic()
+        with InventoryEvents() as events:
+            save(request,dict(registry=registry,composition='identity',stages=[stage(),stage()],controls=events.names,callback_fault='pending'))
+            try:
+                g=Gui(probe,[prefix,'gui',str(request),str(receipt)],render=True)
+                check(name+' initial cached window exists',caption(g.window)=='DiskEd - Cached observation prototype')
+                g.choose(0);g.click(108);old=g.details()['result']['node']['id']
+                host=g.observation();capture=g.screenshot(out/(name+'.png'));events.signal('advance')
+                wait(lambda:g.process.poll() is not None);g.close()
+                check(name+' internal-error exit and inert diagnostic',g.code==4 and not g.output and g.error==b'disked: gui_event_error\r\n' and not g.created_files)
+                v=json.loads(receipt.read_bytes());verify(name,v,True)
+                check(name+' selected observation not rebound by failed host',v['selection']['observation_id']==old and v['selection']['target_id'] is None)
+                save(out/(name+'.host.json'),dict(host=host,capture=capture,exit=g.code,stderr=g.error.decode('ascii')))
+                runs.append(dict(label=name,frontend='gui',exit_code=g.code,elapsed_seconds=round(time.monotonic()-start,3)))
+            finally:
+                if g is not None and g.desktop is not None:g.close()
     def reject(name,args,reason=None,exit_code=3):
         before={f.name:hashlib.sha256(f.read_bytes()).hexdigest() for f in out.iterdir() if f.is_file()}
         r=subprocess.run([probe,*map(str,args)],cwd=out,capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW,timeout=10)
@@ -149,6 +178,8 @@ def main():
             for name,bad in [('relative','input.json'),('namespace','\\\\?\\C:\\input.json'),('unc','\\\\invalid-host\\share\\input.json'),('stream',str(request)+':extra.json'),('device',str(out/'CON.json')),('parent',str(out)+'\\..\\input.json'),('wildcard',str(out/'*.json')),('extension',str(out/'input.txt'))]:
                 reject('input-'+name,[prefix,'gui',bad,receipt],'fixture_path');reject('receipt-'+name,[prefix,'gui',request,bad],'fixture_path')
             existing=out/'existing.json';existing.write_bytes(b'original\r\n');reject('existing-receipt',[prefix,'gui',request,existing],'fixture_receipt_unavailable');reject('input-alias',[prefix,'gui',request,request],'fixture_receipt_unavailable')
+            for name,field,value,reason in [('style-value','terminal_style','auto','fixture_terminal_style'),('style-type','terminal_style',False,'fixture_shape'),('fault-value','callback_fault','arbitrary','fixture_callback_fault'),('fault-type','callback_fault',False,'fixture_shape')]:
+                invalid=out/(name+'.request.json');selection_input=copy.deepcopy(base);selection_input[field]=value;save(invalid,selection_input);reject(name,[prefix,'tui',invalid,receipt],reason)
         good=('complete','complete');metadata=dict(subjects=[disk(),volume()])
         for composition,storage in [('metadata',metadata),('identity-frame',identity()),('identity',identity())]:
             stages=[stage(storage=storage),stage(storage=storage)]
@@ -169,6 +200,11 @@ def main():
         gui('gui-close-pending','identity',[stage(),stage()],action='close-pending',states=None)
         gui('gui-startup-recover','identity',[stage(),stage(namespace(startup_fault='after_spawn')),stage()],action='startup-recover')
         for journey in ('chooser','completion'):console('shell-'+journey,'shell','identity',[stage(),stage()],journey)
+        for composition,storage in [('metadata',metadata),('identity-frame',identity()),('identity',identity())]:
+            console('tui-screen-'+composition,'tui',composition,[stage(storage=storage),stage(storage=storage)],style='screen')
+        gui_fault()
+        for mode in ('tui','shell'):
+            for style in ('linear','screen'):console(mode+'-'+style+'-callback-fault',mode,'identity',[stage(),stage()],'fault',style)
         result=dict(status='pass',pointer_bytes=a.pointer_bytes,controller_executions=len(runs),actual_child_launches=len(children),assertions=len(checks),checks=checks,executions=runs,private_native_advance_qualified=True,live_qualified=False,product_admitted=False,owner_accepted=False,unit_complete=False)
         save(out/'results.json',result);print(json.dumps({k:result[k] for k in ('status','controller_executions','actual_child_launches','assertions')}))
     except BaseException as error:
