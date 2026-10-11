@@ -1889,7 +1889,8 @@
         "source/runtime/command/command.h",
         "spec/schemas/acquisition-command-parameters.schema.json",
         "source/runtime/presentation/session.h",
-        "spec/catalog/observation-frontend-prototype.json"
+        "spec/catalog/observation-frontend-prototype.json",
+        "spec/catalog/nt-inventory-advance-prototype.json"
       ],
       "spec_ids": [
         "DE-024",
@@ -1989,7 +1990,8 @@
         "source/runtime/command/command.h",
         "spec/schemas/acquisition-command-parameters.schema.json",
         "source/runtime/presentation/session.h",
-        "spec/catalog/observation-frontend-prototype.json"
+        "spec/catalog/observation-frontend-prototype.json",
+        "spec/catalog/nt-inventory-advance-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -2246,7 +2248,8 @@
       "depends_on": [
         "source/runtime/command/shell_lexer.h",
         "source/runtime/presentation/session.h",
-        "spec/catalog/observation-frontend-prototype.json"
+        "spec/catalog/observation-frontend-prototype.json",
+        "spec/catalog/nt-inventory-advance-prototype.json"
       ],
       "spec_ids": [
         "DE-027",
@@ -7045,7 +7048,10 @@
         "source/providers/windows/inventory_session.cpp",
         "spec/catalog/nt-inventory-port-prototype.json",
         "tests/windows/native/inventory_frontend_probe.cpp",
-        "spec/catalog/nt-inventory-frontend-prototype.json"
+        "spec/catalog/nt-inventory-frontend-prototype.json",
+        "tests/windows/native/inventory_advance_probe.cpp",
+        "tests/windows/native/inventory_fixture.h",
+        "spec/catalog/nt-inventory-advance-prototype.json"
       ],
       "spec_ids": [
         "DE-034",
@@ -8613,7 +8619,8 @@
         "source/platform/windows/memory_budget.cpp",
         "tests/windows/native/volume_fixture.cpp",
         "tests/windows/native/storage_fixture.cpp",
-        "spec/catalog/nt-inventory-frontend-prototype.json"
+        "spec/catalog/nt-inventory-frontend-prototype.json",
+        "tests/windows/native/inventory_fixture.h"
       ],
       "spec_ids": [
         "DE-030",
@@ -8628,7 +8635,8 @@
       "delivery": "artifact",
       "depends_on": [
         "tests/frontend/console_tui_fixture.py",
-        "spec/catalog/nt-inventory-frontend-prototype.json"
+        "spec/catalog/nt-inventory-frontend-prototype.json",
+        "tests/windows/inventory_console.py"
       ],
       "spec_ids": [
         "DE-030",
@@ -8668,6 +8676,149 @@
         "tests/windows/test_observation_frontend.py",
         "tests/windows/native/CMakeLists.txt",
         "spec/catalog/nt-inventory-frontend-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-inventory-advance-prototype.json",
+      "path": "spec/catalog/nt-inventory-advance-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/nt-inventory-frontend-prototype.json",
+        "spec/catalog/nt-inventory-port-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/native/inventory_fixture.h",
+      "path": "tests/windows/native/inventory_fixture.h",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/volume_fixture.h",
+        "tests/windows/native/storage_fixture.h",
+        "source/providers/windows/inventory_session.h",
+        "source/runtime/graph/snapshot.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/native/inventory_advance_probe.cpp",
+      "path": "tests/windows/native/inventory_advance_probe.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/inventory_fixture.h",
+        "spec/catalog/nt-inventory-advance-prototype.json",
+        "source/apps/disked/gui/win32/gui_model.h",
+        "source/apps/disked/gui/win32/gui_model.cpp",
+        "source/apps/disked/tui/model.h",
+        "source/apps/disked/tui/model.cpp",
+        "source/apps/disked/shell/shell_model.h",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/console/terminal.cpp"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/inventory_console.py",
+      "path": "tests/windows/inventory_console.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/console_tui_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/inventory_events.py",
+      "path": "tests/windows/inventory_events.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/nt-inventory-advance-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/inventory_advance_console.py",
+      "path": "tests/windows/inventory_advance_console.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/inventory_console.py",
+        "tests/windows/inventory_events.py",
+        "spec/catalog/nt-inventory-advance-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/test_inventory_advance.py",
+      "path": "tests/windows/test_inventory_advance.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/inventory_advance_probe.cpp",
+        "tests/windows/inventory_advance_console.py",
+        "tests/frontend/gui_fixture.py",
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_volume_namespace.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-inventory-advance/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-inventory-advance/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_inventory_advance.py",
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_inventory_frontend.py",
+        "tests/windows/test_inventory_port.py",
+        "tests/windows/test_observation_frontend.py",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/test_gui_model.py",
+        "tests/frontend/test_tui_model.py"
       ],
       "spec_ids": [
         "DE-030",

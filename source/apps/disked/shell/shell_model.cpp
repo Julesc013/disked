@@ -33,6 +33,15 @@ ShellModel::ShellModel(FrontendSession& session,const Registry& registry,Value d
         .put("history",Value::string(history?"session-only; 32 entries/64 KiB":"off"))
         .put("controls",Value::string("F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+C closes")));
 }
+bool ShellModel::observe() {
+    auto next=session_.snapshot();if(next==snapshot_)return false;
+    // A row index is not an identity: close this chooser before a changed list
+    // can replace the row at its old index. Editors/reviews keep their contents.
+    if(view_==View::Targets) {view_=View::Editor;choice_=0;}
+    snapshot_=std::move(next);
+    record("observations updated",Value::object().put("revision",Value::string(snapshot_->revision())).put("selection",session_.selection()));
+    return true;
+}
 bool ShellModel::tick() {
     Outcome value;if(!poll_ || !poll_(value))return false;
     const auto* id=value.response.find("request_id");
@@ -334,6 +343,6 @@ Value ShellModel::state() const {
         .put("cursor",Value::string(std::to_string(cursor_))).put("notice",Value::string(notice_)).put("history",history).put("candidates",candidates)
         .put("transcript",records).put("transcript_bytes",Value::string(std::to_string(transcript_bytes_))).put("dropped",Value::string(std::to_string(dropped_)))
         .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",last_.response).put("selection",session_.selection()).put("done",Value::boolean_value(done_))
-        .put("pending_request",Value::string(pending_));
+        .put("pending_request",Value::string(pending_)).put("view_revision",Value::string(snapshot_->revision()));
 }
 }

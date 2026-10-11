@@ -3,13 +3,8 @@ import json,re,subprocess,sys,time
 from pathlib import Path
 root=Path(__file__).resolve().parents[2];sys.path.insert(0,str(root/'tests/frontend'))
 from console_tui_fixture import k,w,c,checked,configure,key,snapshot,active,info,Coord
-def current_text():
- handle=active()
- try:
-  value=info(handle);count=min(value.size.X*max(value.cursor.Y+1,value.window.Bottom+1),262144)
-  buffer=c.create_unicode_buffer(count+1);got=w.DWORD();checked(k.ReadConsoleOutputCharacterW(handle,buffer,count,Coord(0,0),c.byref(got)))
-  return '\n'.join(buffer[i:min(i+value.size.X,got.value)].rstrip() for i in range(0,got.value,value.size.X))
- finally:k.CloseHandle(handle)
+from inventory_console import current_text
+
 probe,mode,request,receipt,report_path=sys.argv[1:]
 report={};p=None
 try:

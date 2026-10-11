@@ -46,6 +46,7 @@ int main(int argc,char**) {
             }
         }
         if(kind=="resolve") {ready=true;model.tick();}
+        if(kind=="observe")model.observe();
         if(kind=="publish") {
             if(const auto* removed=message.find("remove")) {
                 input.nodes.erase(std::remove_if(input.nodes.begin(),input.nodes.end(),[&](const disked::GraphNode& n){return n.id==removed->text;}),input.nodes.end());

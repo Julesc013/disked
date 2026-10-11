@@ -20,6 +20,12 @@ TuiModel::TuiModel(FrontendSession& session,const Registry& registry,Value disco
     session_(session),registry_(registry),discovery_(std::move(discovery)),dispatch_(std::move(dispatch)),poll_(std::move(poll)),snapshot_(session.snapshot()) {
     const auto options=choices();if(!options.empty())focus_=inventory_focus_=options.front();
 }
+bool TuiModel::observe() {
+    auto next=session_.snapshot();if(next==snapshot_)return false;
+    std::string notice="Observations updated; selected identity and staged revision are unchanged";
+    if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");
+    ++view_epoch_;snapshot_=std::move(next);notice_.swap(notice);return true;
+}
 bool TuiModel::tick() {
     Outcome value;if(!poll_ || !poll_(value))return false;
     const auto* id=value.response.find("request_id");

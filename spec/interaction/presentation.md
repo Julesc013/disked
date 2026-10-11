@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.19-proposed.2
+  version: 0.1.20-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,9 +32,9 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-11T21:09:03.961443+00:00'
-  scope: DE-W030 private actual cached native renderer contract; owner/provider/public/product
-    admission remains separate
+  at: '2026-10-11T22:06:54.560107+00:00'
+  scope: DE-W030 private serialized source advancement and cached model delivery;
+    all admission gates remain separate
 ---
 
 # FrontendSession and semantic parity
@@ -261,3 +261,20 @@ Manual refresh consumes cached data; CompletionPoll/tick does not advance
 sources. Actual host tests use owned inactive desktops and hidden consoles.
 This private composition admits no live/product/provider/public API, concurrent
 callback, other-host/platform, accessibility or owner qualification.
+
+The separate [private native observation-advance profile](../catalog/nt-inventory-advance-prototype.json)
+keeps the serialized source session alive while actual GUI/TUI/linear shell
+hosts run. An optional application callback advances injected readers before
+cached model `observe()` delivery. It remains separate from getters and
+operation `CompletionPoll`/`tick`. Product Fake composition supplies no such
+callback. Delivery preserves exact evidence focus, editors, typed parameters,
+request IDs, existing results and the originally staged/reviewed revision.
+GUI/TUI advance the view epoch; a completion belonging to the prior view is
+retained separately. Shell closes a target chooser before row replacement,
+keeps completion candidates and reviews, and records one bounded update entry.
+A stale reviewed request retains the existing `revision_conflict` outcome.
+The optional normal-return sample callback runs before model destruction; it
+proves neither host restoration nor reader exit. Owned native controller tests
+bind delivered and retained graph/frame/context/reference identities through
+source/session/renderer teardown. No public flags or product/live/provider,
+concurrent, historical-host, accessibility or owner admission follows.

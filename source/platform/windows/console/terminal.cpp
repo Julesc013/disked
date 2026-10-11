@@ -212,7 +212,7 @@ public:
     }
 };
 }
-int run_windows_tui(const std::string& style,const std::function<std::unique_ptr<TuiModel>()>& create) {
+int run_windows_tui(const std::string& style,const std::function<std::unique_ptr<TuiModel>()>& create,const std::function<void()>& advance,const std::function<void()>& before_release) {
     try {
         Terminal terminal;terminal.begin(style);auto model=create();terminal.draw(*model);
 #ifdef DISKED_TUI_TEST_FAULT
@@ -220,31 +220,35 @@ int run_windows_tui(const std::string& style,const std::function<std::unique_ptr
         throw std::runtime_error("injected_tui_failure");
 #endif
         while(!model->done() && !interrupted.load()) {
-            if(model->tick())terminal.draw(*model);
+            bool changed=false;if(advance) {advance();changed=model->observe();}
+            changed=model->tick() || changed;if(changed)terminal.draw(*model);
             TextInput event{TextKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
                 if(!model->done())terminal.draw(*model);
             } else if(resize && !terminal.linear)terminal.draw(*model);
         }
-        if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
+        if(before_release)before_release();if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
     } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
+    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 3;}
 }
-int run_windows_shell(const std::string& style,const std::function<std::unique_ptr<ShellModel>()>& create) {
+int run_windows_shell(const std::string& style,const std::function<std::unique_ptr<ShellModel>()>& create,const std::function<void()>& advance,const std::function<void()>& before_release) {
     try {
         Terminal terminal;terminal.begin(style);auto model=create();terminal.draw(*model);
 #ifdef DISKED_TUI_TEST_FAULT
         throw std::runtime_error("injected_shell_failure");
 #endif
         while(!model->done() && !interrupted.load()) {
-            if(model->tick())terminal.draw(*model);
+            bool changed=false;if(advance) {advance();changed=model->observe();}
+            changed=model->tick() || changed;if(changed)terminal.draw(*model);
             TextInput event{TextKey::Text,"",false};bool resize=false;
             if(terminal.next(event,resize)) {
                 model->input(event);if(model->take_toggle())terminal.toggle();
                 if(!model->done())terminal.draw(*model);
             } else if(resize)terminal.draw(*model);
         }
-        if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
+        if(before_release)before_release();if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
     } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
+    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 3;}
 }
 }

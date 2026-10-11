@@ -80,6 +80,21 @@ class Model(unittest.TestCase):
         self.assertGreater(len(result['rendered']),65536)
         self.assertLessEqual(len(result['rendered']),1048576)
 
+    def test_delivery_preserves_pending_identity_and_separates_late_result(self):
+        self.call('synthetic',deferred=True);self.stage('target.list');self.call('review')
+        pending=self.call('submit')['state'];self.assertEqual('gui:1',pending['pending_request'])
+        old=pending['view_revision'];self.call('publish',remove='fake:alpha@1')
+        delivered=self.call('observe')['state']
+        self.assertNotEqual(old,delivered['view_revision']);self.assertEqual('gui:1',delivered['pending_request'])
+        self.assertEqual(pending['parameters'],delivered['parameters']);self.assertEqual(pending['requests'],delivered['requests'])
+        final=self.call('resolve')['state'];self.assertEqual('',final['pending_request'])
+        self.assertEqual('gui:1',final['earlier_request']['request_id']);self.assertEqual(delivered['last_outcome'],final['last_outcome'])
+
+    def test_unchanged_delivery_does_not_displace_pending_result(self):
+        self.call('synthetic',deferred=True);self.stage('target.list');self.call('review');self.call('submit')
+        before=self.call()['state'];self.assertEqual(before,self.call('observe')['state'])
+        final=self.call('resolve')['state'];self.assertEqual('gui:1',final['last_outcome']['request_id']);self.assertIsNone(final['earlier_request'])
+
     def test_synthetic_joined_current_and_earlier_views_keep_all_values(self):
         # Envelope/render fixture, deliberately not strict producer admission.
         self.call('synthetic',deferred=True,joined=True)

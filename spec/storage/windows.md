@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.15-proposed.2
+  version: 0.1.16-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,9 +49,9 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T21:09:03.961443+00:00'
-  scope: DE-W030 private actual cached native renderer contract; owner/provider/public/product
-    admission remains separate
+  at: '2026-10-11T22:06:54.560107+00:00'
+  scope: DE-W030 private serialized source advancement and cached model delivery;
+    all admission gates remain separate
 ---
 
 # Windows NT provider strategy
@@ -376,3 +376,22 @@ test launcher; they add no public flags, live paths or shipped composition.
 Owned desktop/console and import/launch evidence remains limited to its tested
 host and selected x64/Win32 processes; provider, live/physical, historical-host,
 public/product, accessibility, owner and full-unit admission remain separate.
+
+The separate [private serialized native advancement composition](../catalog/nt-inventory-advance-prototype.json)
+wires an application-owned pulse into existing Windows hosts. The injected
+source session explicitly starts/releases/polls/cancels/times out readers and
+prepares immutable publications; model getters and operation completion polls
+do none of those things. Four bounded controller-owned event names request
+private workloads, without adding a public endpoint or storage authority.
+At most three authored captures and finite zero-wait pulses preserve existing
+worker, graph, display and 256-MiB frontend budgets. A 5000-ms outer attempt
+deadline does not extend the native 1000-ms startup-release barrier. Neither
+a result, timeout, cancellation nor closing the host establishes actual exit;
+retirement is separately observed before another source attempt is eligible.
+On host closure, a cancellation result can arrive before explicit owned-job
+retirement; otherwise the source is unavailable. Retain the actual outcome,
+not a fabricated successful result. Initial/intermediate/final publications,
+source outstanding state and held old native owners remain separate evidence.
+This private injected profile admits no live/physical association, current
+resource freshness, provider/public/product API, other-host, owner or release
+claim.

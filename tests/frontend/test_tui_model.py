@@ -105,6 +105,20 @@ class Model(unittest.TestCase):
         self.key('f10');self.key('enter');value=self.call()['state']
         self.assertTrue(value['done']);self.assertEqual('0',value['requests']);self.assertIsNone(value['selection']['target_id'])
 
+    def test_delivery_keeps_pending_identity_and_prior_view_result(self):
+        self.call(op='defer');self.stage('target.list');pending=self.execute()['state']
+        self.assertEqual('tui:1',pending['pending_request']);self.call(op='publish',remove='fake:alpha@1')
+        delivered=self.call(op='observe')['state']
+        self.assertNotEqual(pending['view_revision'],delivered['view_revision']);self.assertEqual('tui:1',delivered['pending_request'])
+        self.assertEqual(pending['parameters'],delivered['parameters']);self.assertEqual(pending['requests'],delivered['requests'])
+        final=self.call(op='resolve')['state'];self.assertEqual('tui:1',final['earlier_request']['request_id'])
+        self.assertEqual('',final['pending_request']);self.assertEqual(delivered['last_outcome'],final['last_outcome'])
+
+    def test_unchanged_delivery_keeps_pending_completion_current(self):
+        self.call(op='defer');self.stage('target.list');self.execute();before=self.call()['state']
+        self.assertEqual(before,self.call(op='observe')['state'])
+        final=self.call(op='resolve')['state'];self.assertEqual('tui:1',final['last_outcome']['request_id']);self.assertIsNone(final['earlier_request'])
+
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--probe',type=Path,required=True);p.add_argument('--exe',type=Path,required=True);ARGS=p.parse_args()

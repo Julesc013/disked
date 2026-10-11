@@ -77,7 +77,7 @@ class Window;
 thread_local Window* current=nullptr;
 class Window final {
 public:
-    Api& api;std::unique_ptr<GuiModel> model;
+    Api& api;std::unique_ptr<GuiModel> model;std::function<void()> advance_observations;
     HWND window=nullptr;HFONT font=nullptr;DPI_AWARENESS_CONTEXT prior_dpi=nullptr;
     std::map<int,HWND> controls;
     bool registered=false,updating=false,failed=false;
@@ -85,7 +85,7 @@ public:
     UINT dpi=96;std::vector<std::string> ids,fields;
     std::size_t field_page=0;
     const wchar_t* class_name=L"DiskEd.Native.Fake.1";
-    Window(Api& a):api(a) {}
+    Window(Api& a,const std::function<void()>& advance):api(a),advance_observations(advance) {}
     ~Window() {
         if(window && api.IsWindow(window))api.DestroyWindow(window);
         if(font)api.DeleteObject(font);
@@ -266,7 +266,12 @@ public:
                 auto* limits=reinterpret_cast<MINMAXINFO*>(lp);limits->ptMinTrackSize={self.scale(800),self.scale(570)};return 0;
             }
             case WM_COMMAND:self.command(LOWORD(wp),HIWORD(wp));return 0;
-            case WM_TIMER:if(wp==1 && self.model->tick())self.draw(false);return 0;
+            case WM_TIMER:
+                if(wp==1) {
+                    bool changed=false;
+                    if(self.advance_observations) {self.advance_observations();changed=self.model->observe();}
+                    changed=self.model->tick() || changed;if(changed)self.draw(false);
+                }return 0;
             case WM_SETTINGCHANGE:self.read_contrast();self.set_font();self.draw(false);return 0;
             case WM_SYSCOLORCHANGE:self.api.InvalidateRect(hwnd,nullptr,TRUE);return 0;
             case WM_CTLCOLORSTATIC:case WM_CTLCOLOREDIT:case WM_CTLCOLORLISTBOX: {
@@ -310,8 +315,10 @@ public:
     }
 };
 }
-int run_windows_gui(const std::function<std::unique_ptr<GuiModel>(const Value&)>& create) {
-    try {Api api;Window window(api);const auto observations=window.observe();window.model=create(observations);return window.run();}
+int run_windows_gui(const std::function<std::unique_ptr<GuiModel>(const Value&)>& create,const std::function<void()>& advance,const std::function<void()>& before_release) {
+    try {Api api;Window window(api,advance);const auto observations=window.observe();window.model=create(observations);
+        const auto result=window.run();if(before_release)before_release();return result;}
     catch(const Failure& failure) {if(_fileno(stderr)<0)return 4;std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
+    catch(const std::exception&) {if(_fileno(stderr)<0)return 4;std::fputs("disked: frontend_event_error\n",stderr);return 3;}
 }
 }

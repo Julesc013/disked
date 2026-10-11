@@ -12,6 +12,11 @@ GuiModel::GuiModel(FrontendSession& session,const Registry& registry,Value disco
 void GuiModel::view_changed() {
     if(view_epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("frontend_epoch_limit");++view_epoch_;
 }
+bool GuiModel::observe() {
+    auto next=session_.snapshot();if(next==snapshot_)return false;
+    std::string notice="Observations updated; selected identity and staged revision are unchanged";
+    view_changed();snapshot_=std::move(next);notice_.swap(notice);return true;
+}
 bool GuiModel::tick() {
     Outcome value;if(!poll_ || !poll_(value))return false;
     const auto* id=value.response.find("request_id");

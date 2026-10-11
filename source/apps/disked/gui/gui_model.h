@@ -7,6 +7,7 @@ class GuiModel final {
 public:
     GuiModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,CompletionPoll poll={});
     bool cached_observations()const{return session_.cached_observations();}
+    bool observe();
     bool tick();
     void navigate(bool commands);
     void focus(const std::string& id);

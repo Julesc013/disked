@@ -269,6 +269,17 @@ target_compile_definitions(nt_inventory_frontend_probe PRIVATE _WIN32_WINNT=0x0A
 target_compile_options(nt_inventory_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_inventory_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
 
+add_executable(nt_inventory_advance_probe ${inventory_frontend_sources}
+  "${CMAKE_CURRENT_LIST_DIR}/inventory_advance_probe.cpp"
+  "${DISKED_ROOT}/source/providers/windows/inventory_session.cpp"
+  "${DISKED_ROOT}/source/platform/windows/ui/gui.cpp"
+  "${DISKED_ROOT}/source/platform/windows/console/terminal.cpp")
+target_include_directories(nt_inventory_advance_probe PRIVATE ${identity_frontend_includes}
+  "${DISKED_ROOT}/source/platform/windows/ui" "${DISKED_ROOT}/source/platform/windows/console")
+target_compile_definitions(nt_inventory_advance_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_OBSERVATION_WORKER_TESTING=1)
+target_compile_options(nt_inventory_advance_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_inventory_advance_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
 get_target_property(owned_layout_sources nt_storage_worker_probe SOURCES)
 list(FILTER owned_layout_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
 add_executable(nt_owned_layout_probe ${owned_layout_sources}

@@ -8,6 +8,7 @@ namespace disked {
 class TuiModel final {
 public:
     TuiModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,CompletionPoll poll={});
+    bool observe();
     bool tick();
     void input(const TextInput& event);
     void stage(const std::string& command,const json::Value& parameters);
