@@ -48,7 +48,7 @@ def main():
     run('product-configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable],checkout)
     run('product-build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],checkout,1200)
     catalog=json.loads(run('product-test-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1'],checkout));assert len(catalog['tests'])==77
-    tests=run('product-native',['ctest','--preset','windows-bootstrap','--output-on-failure'],checkout,2400);assert b'0 tests failed out of 77' in tests
+    tests=run('product-native',['ctest','--preset','windows-bootstrap','--parallel','4','--output-on-failure'],checkout,2400);assert b'0 tests failed out of 77' in tests
     product_build=checkout/'build/windows-bootstrap';shutil.copyfile(product_build/'Testing/Temporary/LastTest.log',out/'native-details.log')
     shutil.copyfile(product_build/'Testing/capture-domain-results.json',out/'capture-domain-reducer-results.json');reducer=json.loads((out/'capture-domain-reducer-results.json').read_bytes());assert reducer['tests']==25 and reducer['passed']
     identity=json.loads((product_build/'generated/build-identity.json').read_bytes());assert identity['identity']['source_revision']==a.source_revision and identity['identity']['source_state']=='clean' and identity['inputs']==product_binding;save(out/'product-build-identity.json',identity)
