@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 108, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 103, in main
+    run('live-presentation',[stage(fixture(identity_disk(),reply_fault='hold'),live=True)])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 76, in run
+    if 'live_worker' in row:check(name+' presentation preserves live reader',row['live_worker']['worker']['observation']=='running' and row['live_outstanding'] and row['retirement']['worker']['observation']=='exited')
+                            ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 14, in check
+    def check(name,ok):checks.append(dict(label=name,passed=bool(ok)));assert ok,name
+                                                                              ^^
+AssertionError: live-presentation presentation preserves live reader

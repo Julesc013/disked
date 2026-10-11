@@ -227,7 +227,15 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   213 tooling passes/2 skips, 1065 structural
   checks, exact source/build/import/hash evidence and implementing-agent review
   under `.aide/evidence/2026-10-12-capture-domain/`. Full DE-W030 remains partial.
-- [ ] Integrate bounded composite observation/comparison summaries and complete
-  references into cached interfaces; preserve native domains, focus and budgets,
-  separate live/physical/provider/public/platform/owner/storage/release gates and
-  the complete all-platform/storage 0.1.0 scope.
+- [x] DE-W030 private compact identity projection `d3c23fc0`: original
+  detail IDs, quality/collision/comparison summaries, complete native reference
+  resolution, bounded current/last-complete cached model coverage; 1980
+  processes/61730 assertions across 24 x64/x86 campaigns, fresh dev.41
+  build/launch and 77 product groups. 213 tooling passes/
+  2 skips and 1067 structural checks. Full DE-W030 partial;
+  implementing-agent review in `.aide/evidence/2026-10-12-identity-projection/`.
+- [ ] Integrate composite projection into actual owned adapter/coordinator
+  retention/publication with exact complete evidence ownership across partial,
+  late, retry and outstanding-reader cases. Preserve native domains/budgets and
+  separate live/physical/provider/public/platform/owner/storage/release gates
+  under the complete all-platform/storage 0.1.0 scope.

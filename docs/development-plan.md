@@ -424,3 +424,16 @@ testing define absent from normal builds. Fresh dev.41 build/launch and all 77
 product groups pass; the 25 reducer tests are retained from that same run.
 Full-unit/live/provider/public/other-host/owner gates remain open. Continue
 bounded composite summary/reference integration into cached interfaces.
+
+The compact identity projection at `d3c23fc0`
+([review](../.aide/evidence/2026-10-12-identity-projection/REVIEW.md)) preserves
+original detail IDs and adds bounded quality/collision/comparison rows. Exact
+complete frame/identity/comparison references resolve through retained native
+objects; serialized hashes provide no grant or persistence guarantee. Current
+and last complete evidence remain separate through repeated partial captures.
+1980 controller/readers and 61730 assertions across 24 x64/x86
+campaigns pass, including 34/59/7090 per architecture for the new projection.
+Fresh dev.41 launch and 77 product groups, 213 tooling passes/
+2 skips and 1067 structural checks pass. This qualifies
+private projection/model fixtures; actual owned adapter/coordinator integration
+and live/provider/public/historical-host/owner/full-unit gates remain open.

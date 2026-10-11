@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 104, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 89, in main
+    facts=v['stages'][0]['identity']['resources'][0]['facts'];check('all original ID bytes retained',len(facts['identifiers'])==32 and all(len(x['original_hex'])==512 for x in facts['identifiers']))
+                                                                                                         ~~~~~^^^^^^^^^^^^^^^
+KeyError: 'identifiers'

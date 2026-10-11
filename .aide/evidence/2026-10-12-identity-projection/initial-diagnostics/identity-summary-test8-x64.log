@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 117, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 103, in main
+    v=run('maximum-comparisons',[stage(fixture(*subjects)),stage(fixture(*subjects),comparisons=declarations)]);check('all16 explicit disk comparisons retained',len(v['stages'][1]['comparisons'])==16)
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 38, in run
+    check(name+' original detail nodes and edges preserved',[n for n in graph['nodes'] if n['kind']!='storage-identity-observation']==row['base_graph']['nodes'] and [x for x in graph['edges'] if x['kind']!='reports-identity']==row['base_graph']['edges'])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_projection.py", line 14, in check
+    def check(name,ok):checks.append(dict(label=name,passed=bool(ok)));assert ok,name
+                                                                              ^^
+AssertionError: maximum-comparisons original detail nodes and edges preserved
