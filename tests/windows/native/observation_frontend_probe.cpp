@@ -362,11 +362,14 @@ V inventory_port(const V& input,const disked::WindowsMemoryBudget& budget){
         require(service->publish(),"fixture_pending_publication");frontend.refresh_observations();
         row.put("pending",state()).put("pending_graph",frontend.snapshot()->value());
         auto pending_pub=port.publication();auto pending_capture=service->capture();const auto pending_graph=port.graph();
-        inspect_session(frontend,registry,discovery,"namespace");inspect_session(frontend,registry,discovery,"storage");
-        row.put("pending_cached_pure",V::boolean_value(service->capture()==pending_capture && port.publication()==pending_pub && port.graph()==pending_graph));
         const auto na=stage.find("namespace_action")?text(stage,"namespace_action"):"complete",sa=stage.find("storage_action")?text(stage,"storage_action"):"complete";
         if(na=="cancel-before")service->cancel(n::InventorySource::Namespace);if(sa=="cancel-before")service->cancel(n::InventorySource::Storage);
+        // The reader's release barrier is finite. Full cached parity over a
+        // large previous frame is independent of whether a child has finished:
+        // source state must stay pending until explicit controller polling.
         service->release(n::InventorySource::Namespace);service->release(n::InventorySource::Storage);
+        inspect_session(frontend,registry,discovery,"namespace");inspect_session(frontend,registry,discovery,"storage");
+        row.put("pending_cached_pure",V::boolean_value(service->capture()==pending_capture && port.publication()==pending_pub && port.graph()==pending_graph));
         if(na=="superseded" || sa=="superseded"){require(service->wait_entered(n::InventorySource::Namespace,1000) && service->wait_entered(n::InventorySource::Storage,1000),"fixture_wait_entered");service->next_capture();}
         for(const auto source:{n::InventorySource::Namespace,n::InventorySource::Storage}){
             const auto action=source==n::InventorySource::Namespace?na:sa;
