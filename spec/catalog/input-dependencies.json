@@ -8238,6 +8238,91 @@
       "spec_ids": [
         "DE-034"
       ]
+    },
+    {
+      "id": "spec/catalog/nt-composite-identity-prototype.json",
+      "path": "spec/catalog/nt-composite-identity-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_identity.h",
+      "path": "source/providers/windows/storage_identity.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_frame_reader.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/storage_identity.cpp",
+      "path": "source/providers/windows/storage_identity.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_identity.h",
+        "spec/catalog/nt-composite-identity-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/native/identity_observation_probe.cpp",
+      "path": "tests/windows/native/identity_observation_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_identity.h",
+        "source/providers/windows/storage_graph.h",
+        "tests/windows/native/storage_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_identity_observation.py",
+      "path": "tests/windows/test_identity_observation.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/identity_observation_probe.cpp",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_identity_queries.py",
+        "tests/windows/test_storage_queries.py",
+        "spec/catalog/nt-composite-identity-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-composite-identity/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-composite-identity/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_identity_observation.py",
+        "tests/windows/native/CMakeLists.txt",
+        ".aide/evidence/2026-10-12-owned-layout/reproduce.py"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
     }
   ]
 }

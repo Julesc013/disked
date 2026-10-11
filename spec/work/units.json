@@ -1194,7 +1194,8 @@
         "python tests/windows/test_storage_worker.py --probe PRIVATE_BUILD/nt_storage_worker_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
         "python tests/windows/test_observation_frontend.py --probe PRIVATE_BUILD/nt_observation_frontend_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
         "python tests/windows/test_identity_queries.py --probe PRIVATE_BUILD/nt_identity_query_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
-        "python tests/windows/test_identity_frame.py --probe PRIVATE_BUILD/nt_identity_frame_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
+        "python tests/windows/test_identity_frame.py --probe PRIVATE_BUILD/nt_identity_frame_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+        "python tests/windows/test_identity_observation.py --probe PRIVATE_BUILD/nt_identity_observation_probe.exe --metadata-probe PRIVATE_BUILD/nt_identity_profile_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1292,7 +1293,13 @@
         "source/providers/windows/layout_provenance.cpp",
         "tests/windows/native/owned_layout_probe.cpp",
         "tests/windows/test_owned_layout.py",
-        ".aide/evidence/2026-10-12-owned-layout/reproduce.py"
+        ".aide/evidence/2026-10-12-owned-layout/reproduce.py",
+        "spec/catalog/nt-composite-identity-prototype.json",
+        "source/providers/windows/storage_identity.h",
+        "source/providers/windows/storage_identity.cpp",
+        "tests/windows/native/identity_observation_probe.cpp",
+        "tests/windows/test_identity_observation.py",
+        ".aide/evidence/2026-10-12-composite-identity/reproduce.py"
       ]
     },
     {

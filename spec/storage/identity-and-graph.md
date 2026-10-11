@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.3-proposed.2
+  version: 0.1.4-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,9 +27,8 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-10T03:33:05.006855+00:00'
-  scope: DE-W030 compiled private cached-observation frontend contract; live/provider/public
-    protocol, window/terminal/platform and owner admission remain open
+  at: '2026-10-11T15:51:43.216699+00:00'
+  scope: DE-W030 owned composite reported identity and explicit epoch comparison; physical/provider/public/owner admission remains open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -151,3 +150,32 @@ display and resource contract; input cannot select it. Native physical identity/
 topology, live dispatch, actual product/provider/window/terminal and other-host/
 platform admission remain required work. Pure projection validates data but does
 not authenticate a producer or prove process exit.
+
+## Private composite reported identity
+
+The [composite evidence profile](../catalog/nt-composite-identity-prototype.json)
+derives immutable observations from actual owned IdentityLayout /2 frames.
+Expected capture/source/worker, complete frame and context digests must match.
+Original component states/conflicts and lossless lookup hints remain separate
+from a selected reported fingerprint. Sorting identifiers and active partitions
+preserves duplicates; original frame digests still bind packaging, ordinals,
+inactive entries and excluded host hints. A fingerprint names selected reported
+facts, not physical media or a public target identity.
+
+Repeated serials, device-associated identifiers, map GUIDs/signatures, active
+partition GUIDs and number hints form bounded occurrence groups. Groups indicate
+possible aliases/clones or duplicate lookup hints. They do not coalesce graph
+nodes or prove that paths refer to the same or different physical object.
+Missing controller/path/LUN/namespace, ownership and media-generation facts stay
+explicit. Complete selected reports require the profile's recorded ingredients;
+their completeness does not establish credible or sufficient physical identity.
+
+Compare exact immutable observation digests and explicitly selected subjects
+under declared lookup continuity and advancing worker/capture epochs. Retain
+per-component differences and selected-field equality independently of
+applicability. Conflicting, ambiguous or insufficient observations remain
+incomparable for the selected relation, even when their reported fields repeat.
+Historical observations remain evidence; they cannot supply present freshness,
+leases, reservations, atomic acquisition or mutation authority. Pure derivation
+does not retire a live reader. Physical/provider/public/host/owner and full-unit
+admission retain their existing gates.

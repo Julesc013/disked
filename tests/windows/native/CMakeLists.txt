@@ -257,3 +257,22 @@ target_compile_definitions(nt_owned_layout_probe PRIVATE _WIN32_WINNT=0x0A00 WIN
   DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_FILE_LAYOUT_TESTING=1)
 target_compile_options(nt_owned_layout_probe PRIVATE /W4 /WX /utf-8 /GS /sdl /guard:cf $<$<COMPILE_LANGUAGE:CXX>:/permissive->)
 target_link_options(nt_owned_layout_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+get_target_property(identity_observation_sources nt_storage_worker_probe SOURCES)
+list(FILTER identity_observation_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
+add_executable(nt_identity_observation_probe ${identity_observation_sources}
+  "${CMAKE_CURRENT_LIST_DIR}/identity_observation_probe.cpp"
+  "${DISKED_ROOT}/source/providers/windows/storage_identity.cpp"
+  "${DISKED_ROOT}/source/platform/windows/memory_budget.cpp")
+target_include_directories(nt_identity_observation_probe PRIVATE ${identity_frame_includes})
+target_compile_definitions(nt_identity_observation_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00 DISKED_NT_OBSERVATION_WORKER_TESTING=1)
+target_compile_options(nt_identity_observation_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_identity_observation_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+get_target_property(identity_profile_sources nt_identity_observation_probe SOURCES)
+add_executable(nt_identity_profile_probe ${identity_profile_sources})
+target_include_directories(nt_identity_profile_probe PRIVATE ${identity_frame_includes})
+target_compile_definitions(nt_identity_profile_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00
+  DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_NT_COMPOSITE_METADATA_PROBE=1)
+target_compile_options(nt_identity_profile_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_identity_profile_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)

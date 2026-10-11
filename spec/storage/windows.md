@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.9-proposed.2
+  version: 0.1.10-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,9 +49,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-10T04:12:34.693618+00:00'
-  scope: DE-W030 private device-ID/alignment/OS-layout query contract; integration/live/identity/owner
-    admission remains open
+  at: '2026-10-11T15:51:43.216699+00:00'
+  scope: DE-W030 owned /2 identity derivation and /1 rejection; live/product/physical/owner admission remains open
 ---
 
 # Windows NT provider strategy
@@ -299,3 +298,12 @@ and metadata remain live-uncoordinated observations, not an atomic snapshot.
 The original pure comparison retains its separate no-authentication scope.
 Product composition, public protocol, provider admission, real storage, other
 hosts, owner acceptance and full-unit completion require their existing gates.
+
+The separate [composite evidence profile](../catalog/nt-composite-identity-prototype.json)
+uses those actual owned /2 frames to preserve selected reported identity facts,
+duplicate occurrence groups and successive-capture changes under DE-030.
+The original /1, /2 frame and graph interpretations remain unchanged. A genuine
+owned /1 frame is insufficient to construct this selected /2 observation.
+Its fingerprints and complete-selected-report quality never establish physical
+association, current freshness or a storage grant. No new host channel or
+shipped composition is selected by this private producer.
