@@ -77,11 +77,12 @@ void StorageGraphAdapter::consume(const V& observed){
                 const auto frame=read_storage_frame(result,input_.provider_input,key_.capture,input_.policy,profile_);const auto status=text(result,"status");
                 const bool complete=status=="selected_queries_complete";const auto context_digest=digest_sha256(json::dump(context_));
                 GraphInput graph,prepared_complete;std::shared_ptr<const StorageGraphEvidence> prepared_evidence;
-                if(projection_==StorageGraphProjection::Identity){
 #if defined(DISKED_NT_IDENTITY_ADAPTER_TESTING)
-                    storage_graph_publication_checkpoint(1);
+                if(projection_==StorageGraphProjection::Identity)storage_graph_publication_checkpoint(1);
 #endif
-                    const auto owned=std::shared_ptr<const StorageFrameSnapshot>(new StorageFrameSnapshot(frame,key_,context_));
+                const auto owned=std::shared_ptr<const StorageFrameSnapshot>(new StorageFrameSnapshot(frame,key_,context_));
+                auto prepared_frames=std::shared_ptr<const StorageFrameEvidence>(new StorageFrameEvidence(owned,complete?owned:(frames_?frames_->last_complete():nullptr)));
+                if(projection_==StorageGraphProjection::Identity){
                     const IdentityBinding binding{key_,digest_sha256(json::dump(frame->value(),storage_observation_limits())),context_digest};
                     const auto identity=observe_storage_identity(*owned,binding);std::vector<IdentityComparisonBinding> selections;
                     for(const auto& s:comparisons_)selections.push_back({s.previous_digest,storage_identity_digest(*identity),s.previous_subject,s.current_subject});
@@ -101,6 +102,7 @@ void StorageGraphAdapter::consume(const V& observed){
 #endif
                 const bool changed=capture_.update(key_,graph,expected,complete?"":"storage_"+status);
                 if(changed)for(const auto& source:capture_.snapshot()->sources)if(source.id==source_ && source.attempt==key_ && source.state==expected){
+                    frames_.swap(prepared_frames);
                     if(projection_==StorageGraphProjection::Identity)evidence_.swap(prepared_evidence);
                     else if(complete){previous_complete_.nodes.swap(prepared_complete.nodes);previous_complete_.edges.swap(prepared_complete.edges);previous_complete_.omissions.swap(prepared_complete.omissions);previous_complete_.profile=GraphProfile::Observations;have_previous_complete_=true;}
                 }
@@ -123,10 +125,6 @@ std::shared_ptr<const StorageFrameSnapshot> StorageGraphAdapter::frame(){
     bool accepted=false;for(const auto& source:current->sources)if(source.id==source_ && source.attempt==key_ &&
         (source.state==SourceState::Complete || source.state==SourceState::Partial))accepted=true;
     if(!accepted)return {};const auto context=storage_graph_context(observed,profile_);if(json::dump(context)!=json::dump(context_))throw std::invalid_argument("storage_graph_binding");
-    if(projection_==StorageGraphProjection::Identity){
-        if(!evidence_ || !(evidence_->current()->frame().key()==key_))return {};return evidence_->current()->frame_snapshot();
-    }
-    const auto result=read_storage_frame(get(observed,"result"),input_.provider_input,key_.capture,input_.policy,profile_);
-    return std::shared_ptr<const StorageFrameSnapshot>(new StorageFrameSnapshot(result,key_,context));
+    if(!frames_ || !(frames_->current()->key()==key_))return {};return frames_->current();
 }
 }}

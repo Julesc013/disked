@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.7-proposed.2
+  version: 0.1.8-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,8 +27,8 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-11T18:49:03.898590+00:00'
-  scope: DE-W030 private compact identity projection and retained complete evidence; physical/provider/public/reconnect/owner admission remains open
+  at: '2026-10-11T19:55:42.820105+00:00'
+  scope: DE-W030 private mixed native publication, cached aliased port and snapshot ownership; live/physical/provider/public/owner gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -232,3 +232,20 @@ or reader retirement. A cached consumer may retain its native evidence view
 after adapter destruction; serialized hashes still provide no independent
 resolver, durable reconnect, media freshness or storage grant. The adapter and
 coordinator remain serialized private owners, not an admitted concurrent API.
+
+A [native inventory publication](../catalog/nt-inventory-port-prototype.json)
+retains its actual capture view and exact matching sealed native frame/evidence
+owners. Complete frames and advertised identity references resolve only for
+present rows with the exact native binding. A copied JSON graph, serialized
+hash or generic graph pointer cannot manufacture this publication or a storage
+grant. Publication history is retained only through explicit consumer ownership,
+not a recursive chain. Current/last-complete frame caches and bounded comparison
+inputs remain distinct from caller-retained historical snapshots.
+
+Generic graph snapshots accepted from the cached observation port retain that
+input's owner. Held older frontend snapshots therefore preserve their matching
+native publication through newer delivery and provider teardown. This adds no
+Windows type dependency to the runtime graph/presentation layers and no durable
+cross-process resolver, automatic comparison, media freshness or mutation right.
+Aggregate graph limits still apply across sources and stale/current rows;
+refusal must preserve the previously accepted matching evidence.

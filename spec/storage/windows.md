@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.13-proposed.2
+  version: 0.1.14-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,8 +49,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T18:49:03.898590+00:00'
-  scope: DE-W030 private compact owned identity projection and complete local references; live/physical/provider/public/owner gates remain open
+  at: '2026-10-11T19:55:42.820105+00:00'
+  scope: DE-W030 private mixed native publication, cached aliased port and snapshot ownership; live/physical/provider/public/owner gates remain open
 ---
 
 # Windows NT provider strategy
@@ -346,3 +346,19 @@ Allocation refusal preserves originals, while failure during reader retirement
 can leave accepted content published and the actual attempt still outstanding.
 No timed-out, cancelled or published result proves retirement. This remains a
 private serialized adapter, without live/provider/public/product/owner admission.
+
+The [private mixed inventory session](../catalog/nt-inventory-port-prototype.json)
+owns the namespace/storage adapters and serialized capture coordinator. Explicit
+reader advancement prepares immutable publications with the exact retained
+current/last-complete frames and identity evidence. Every displayed node binds
+its native domain, source, capture, worker, frame and context. Preparation failure
+preserves the old publication and leaves the newer capture eligible for retry.
+
+Its read-only port returns a prepared aliased generic graph without polling,
+launching, waiting, retiring, native API dispatch or an allocating rebuild.
+A retained port may outlive the session; it retains frozen data rather than
+reader handles or fresh-media authority. Default /1 and /2 frame compositions
+remain unchanged; compact identity projection remains an explicit private /2
+selection. Complete frame and advertised-reference retrieval performs no I/O.
+This is a serialized provider composition, without product/provider/public,
+physical, other-host or owner admission.

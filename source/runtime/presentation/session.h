@@ -40,6 +40,7 @@ private:
     ObservationPoll observations_;
     HealthObservation health_;
     std::shared_ptr<const GraphInput> observed_;
+    void publish_graph(const GraphInput&,std::shared_ptr<const GraphInput>);
     Outcome act_cached(const FrontendAction& action);
     json::Value selection_value(const std::string& id,bool observation) const;
     json::Value cached_view(json::Value content) const;

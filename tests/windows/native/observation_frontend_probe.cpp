@@ -8,6 +8,9 @@
 #include "tui_model.h"
 #include "cli.h"
 #include "memory_budget.h"
+#if defined(DISKED_NT_INVENTORY_PORT_TESTING)
+#include "inventory_session.h"
+#endif
 #include <algorithm>
 #if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
 #include "storage_identity.h"
@@ -21,6 +24,12 @@
 // Selected controller-only publication allocation failure, not an allocator
 // replacement, exhaustiveness claim or a worker/storage failure.
 namespace {bool fail_next_allocation=false;}
+#if defined(DISKED_NT_INVENTORY_PORT_TESTING)
+namespace {bool fail_inventory_publication=false;unsigned inventory_allocation_hits=0;}
+namespace disked {namespace nt_inventory {
+void inventory_publication_checkpoint(){if(fail_inventory_publication){fail_inventory_publication=false;++inventory_allocation_hits;fail_next_allocation=true;}}
+}}
+#endif
 #if defined(DISKED_NT_IDENTITY_ADAPTER_TESTING)
 namespace {unsigned allocation_checkpoint=0,allocation_checkpoint_hits=0;}
 namespace disked {namespace nt_inventory {
@@ -62,11 +71,10 @@ V cli_view(const disked::Outcome& outcome,const std::string& command,const diske
         .put("human",V::string(normal.bytes)).put("background",V::string(background.bytes)).put("unavailable",V::boolean_value(unavailable.available));
 }
 #if defined(DISKED_NT_IDENTITY_FRONTEND_TESTING)
-V inspect_storage(const disked::GraphInput& graph,const disked::Registry& registry,const V& discovery) {
-    unsigned calls=0;disked::FrontendSession session(registry,graph,{},[&](const std::string& id,const V&,const std::string&,const V&){++calls;return disked::completed(id,V::object());},disked::FrontendProfile::CachedObservations);
+V inspect_session(disked::FrontendSession& session,const disked::Registry& registry,const V& discovery,const char* source) {
     const auto snapshot=session.snapshot();auto out=V::array();const auto& nodes=get(snapshot->value(),"nodes").items;
     for(std::size_t i=0;i<nodes.size();++i) {
-        const auto& properties=get(nodes[i],"properties");if(text(properties,"scope")!="observation-only" || text(get(properties,"observation_binding"),"source")!="storage")continue;
+        const auto& properties=get(nodes[i],"properties");if(text(properties,"scope")!="observation-only" || text(get(properties,"observation_binding"),"source")!=source)continue;
         const auto id=text(nodes[i],"id");auto dispatch=[&](const std::string& r,const std::string& c,const V& p,const std::string& revision){return session.dispatch(r,c,p,revision);};
         const auto direct=session.dispatch("all:direct","target.inspect",V::object().put("target_id",V::string(id)));
         disked::GuiModel gui(session,registry,discovery,dispatch);gui.focus(id);gui.open();
@@ -89,10 +97,14 @@ V inspect_storage(const disked::GraphInput& graph,const disked::Registry& regist
             .put("capability_unqualified",V::boolean_value(!get(assessment,"execution_eligible").boolean && !get(assessment,"authorizes_execution").boolean && get(assessment,"target_id").kind==V::Kind::null && text(assessment,"observation_id")==id));
         out.items.push_back(std::move(row));
     }
-    require(!calls,"fixture_storage_health_called");return out;
+    return out;
 }
-V storage_focus(const disked::GraphInput& original,const disked::GraphInput& current,const disked::Registry& registry,const char* preferred="storage-partition-observation") {
-    std::string id;for(const auto& node:original.nodes)if(node.scope==disked::GraphNodeScope::Observation && node.observation.source=="storage") {
+V inspect_storage(const disked::GraphInput& graph,const disked::Registry& registry,const V& discovery) {
+    unsigned calls=0;disked::FrontendSession session(registry,graph,{},[&](const std::string& id,const V&,const std::string&,const V&){++calls;return disked::completed(id,V::object());},disked::FrontendProfile::CachedObservations);
+    const auto result=inspect_session(session,registry,discovery,"storage");require(!calls,"fixture_storage_health_called");return result;
+}
+V storage_focus(const disked::GraphInput& original,const disked::GraphInput& current,const disked::Registry& registry,const char* preferred="storage-partition-observation",const char* source="storage") {
+    std::string id;for(const auto& node:original.nodes)if(node.scope==disked::GraphNodeScope::Observation && node.observation.source==source) {
         if(id.empty() || node.kind==preferred)id=node.id;if(node.kind==preferred)break;
     }
     if(id.empty())return V{};
@@ -313,6 +325,123 @@ V identity_adapter(const V& input,const disked::WindowsMemoryBudget& budget){
         .put("frontend_budget_ready",V::boolean_value(budget.ready())).put("api_calls",V::string(std::to_string(disked::nt_storage_fixture::call_count())));
 }
 #endif
+
+#if defined(DISKED_NT_INVENTORY_PORT_TESTING)
+V inventory_port(const V& input,const disked::WindowsMemoryBudget& budget){
+    const auto& reg=get(input,"registry");disked::Registry registry{get(reg,"commands"),get(reg,"syntax"),get(reg,"schemas")};
+    auto commands=registry.commands;for(auto& c:commands.items)c.put("availability",V::string(disked::FrontendSession::handles(text(c,"id"))?"available":"unavailable"));
+    const auto discovery=V::object().put("commands",commands);const auto composition=text(input,"composition");
+    require(composition=="metadata" || composition=="identity-frame" || composition=="identity","fixture_composition");
+    auto service=composition=="metadata"?std::unique_ptr<n::InventorySession>(new n::InventorySession()):
+        std::unique_ptr<n::InventorySession>(new n::InventorySession(n::StorageFrameProfile::IdentityLayout,
+            composition=="identity"?n::StorageGraphProjection::Identity:n::StorageGraphProjection::Frame));
+    const auto port=service->port();bool defer=false;unsigned callbacks=0,health_calls=0;
+    disked::FrontendSession frontend(registry,*port.graph(),[port,&defer,&callbacks](){++callbacks;return defer?std::shared_ptr<const disked::GraphInput>{}:port.graph();},
+        [&](const std::string& id,const V&,const std::string&,const V&){++health_calls;return disked::completed(id,V::object());},disked::FrontendProfile::CachedObservations);
+    auto by_value=frontend.snapshot();require(bool(by_value->observation_owner()),"fixture_initial_owner");by_value.reset();
+    auto initial=disked::GraphSnapshot::create(*port.graph(),1);require(!initial->observation_owner(),"fixture_value_owner");initial.reset();
+    bool null_refused=false;try{disked::GraphSnapshot::create_owned({},1);}catch(const std::invalid_argument& e){null_refused=std::string(e.what())=="graph_owner_missing";}
+    const auto& stages=get(input,"stages");require(stages.kind==V::Kind::array && !stages.items.empty() && stages.items.size()<=4,"fixture_stages");
+    auto state=[&](){const auto view=service->capture();auto rows=V::array();for(const auto& source:view->sources)rows.items.push_back(V::object()
+        .put("id",V::string(source.id)).put("state",V::string(disked::source_state_name(source.state))).put("outstanding",V::boolean_value(source.outstanding))
+        .put("worker",V::string(std::to_string(source.attempt.worker))).put("attempt_capture",V::string(std::to_string(source.attempt.capture))));
+        return V::object().put("capture",V::string(std::to_string(view->capture))).put("sequence",V::string(std::to_string(view->sequence))).put("sources",rows);};
+    auto rows=V::array();disked::GraphInput previous_graph;std::weak_ptr<const n::InventoryPublication> previous;
+    for(std::size_t index=0;index<stages.items.size();++index){
+        const auto& stage=stages.items[index];const auto& ns=get(stage,"namespace");const auto& storage=get(stage,"storage");
+        auto held=frontend.snapshot();previous=port.publication();bool held_bindings=true;
+        if(index)service->next_capture();
+        std::vector<n::StorageComparisonSelection> selections;
+        if(const auto* declarations=stage.find("comparisons"))for(const auto& d:declarations->items){
+            std::string prior;for(const auto& node:port.graph()->nodes)if(node.kind=="storage-identity-observation" && node.observation.payload.find("subject_key") && text(node.observation.payload,"subject_key")==text(d,"previous_subject")){
+                prior=text(get(get(node.observation.payload,"references"),"identity"),"digest");break;}
+            selections.push_back({d.find("previous_digest")?text(d,"previous_digest"):prior,text(d,"previous_subject"),text(d,"current_subject")});
+        }
+        service->start_namespace(n::InventoryPolicy{},ns);service->start_storage(n::StorageQueryPolicy{},storage,selections);
+        auto row=V::object(),workers=V::array();workers.items.push_back(service->poll(n::InventorySource::Namespace));workers.items.push_back(service->poll(n::InventorySource::Storage));
+        require(service->publish(),"fixture_pending_publication");frontend.refresh_observations();
+        row.put("pending",state()).put("pending_graph",frontend.snapshot()->value());
+        auto pending_pub=port.publication();auto pending_capture=service->capture();const auto pending_graph=port.graph();
+        inspect_session(frontend,registry,discovery,"namespace");inspect_session(frontend,registry,discovery,"storage");
+        row.put("pending_cached_pure",V::boolean_value(service->capture()==pending_capture && port.publication()==pending_pub && port.graph()==pending_graph));
+        const auto na=stage.find("namespace_action")?text(stage,"namespace_action"):"complete",sa=stage.find("storage_action")?text(stage,"storage_action"):"complete";
+        if(na=="cancel-before")service->cancel(n::InventorySource::Namespace);if(sa=="cancel-before")service->cancel(n::InventorySource::Storage);
+        service->release(n::InventorySource::Namespace);service->release(n::InventorySource::Storage);
+        if(na=="superseded" || sa=="superseded"){require(service->wait_entered(n::InventorySource::Namespace,1000) && service->wait_entered(n::InventorySource::Storage,1000),"fixture_wait_entered");service->next_capture();}
+        for(const auto source:{n::InventorySource::Namespace,n::InventorySource::Storage}){
+            const auto action=source==n::InventorySource::Namespace?na:sa;
+            if(action=="timeout" || action=="cancel-during" || action=="retire"){
+                require(service->wait_entered(source,1000),"fixture_wait_entered");service->timeout(source);if(action=="cancel-during")service->cancel(source);
+                row.put(source==n::InventorySource::Namespace?"namespace_waiting":"storage_waiting",state());
+            }
+        }
+        for(const auto source:{n::InventorySource::Namespace,n::InventorySource::Storage}){
+            const auto action=source==n::InventorySource::Namespace?na:sa;
+            V observed;const auto until=GetTickCount64()+5000;
+            do{observed=action=="retire"?service->retire(source):service->poll(source,1000);if(text(observed,"status")!="accepted_running")break;}while(GetTickCount64()<until);
+            require(text(observed,"status")!="accepted_running","fixture_reader_result");workers.items.push_back(observed);
+        }
+        const auto prepared_capture=service->capture();const auto before_pub=port.publication();bool provider_failed=false;
+        if(stage.find("provider_allocation"))fail_inventory_publication=true;
+        try{service->publish();}catch(const std::bad_alloc&){provider_failed=true;}
+        fail_next_allocation=false;fail_inventory_publication=false;
+        row.put("provider_allocation_failed",V::boolean_value(provider_failed));
+        if(provider_failed){row.put("provider_failure_preserved",V::boolean_value(port.publication()==before_pub && service->capture()==prepared_capture && service->needs_publication()));require(service->publish(),"fixture_provider_retry");}
+        auto accepted=port.graph();auto accepted_publication=port.publication();
+        fail_next_allocation=true;const auto cached=port.graph();const bool getter_no_allocation=fail_next_allocation && cached==accepted;fail_next_allocation=false;
+        row.put("getter_no_allocation",V::boolean_value(getter_no_allocation));
+        defer=true;const auto before_front=frontend.snapshot();
+        if(!before_front->value().find("nodes")->items.empty())frontend.act({disked::ActionKind::Select,text(before_front->value().find("nodes")->items.front(),"id"),before_front->revision(),"allocation:select"});
+        const auto selection=frontend.selection();defer=false;bool frontend_failed=false;
+        if(stage.find("frontend_allocation"))fail_next_allocation=true;
+        try{frontend.refresh_observations();}catch(const std::bad_alloc&){frontend_failed=true;}
+        fail_next_allocation=false;row.put("frontend_allocation_failed",V::boolean_value(frontend_failed));
+        if(frontend_failed){defer=true;row.put("frontend_failure_preserved",V::boolean_value(frontend.snapshot()==before_front && disked::json::dump(frontend.selection())==disked::json::dump(selection) && port.graph()==accepted));defer=false;require(frontend.refresh_observations(),"fixture_frontend_retry");}
+        auto snap=frontend.snapshot();row.put("delivered_owner",V::boolean_value(snap->observation_owner()==accepted));
+        const auto current_view=service->capture();auto bindings=V::array(),artifacts=V::object(),resolved=V::array();bool domain=true;
+        for(const auto& node:accepted->nodes){const auto& frame=accepted_publication->frame(node.id);const auto fd=disked::digest_sha256(disked::json::dump(frame,node.observation.source=="storage"?n::storage_observation_limits():n::volume_inventory_limits()));
+            const auto artifact="frame:"+fd;if(!artifacts.find(artifact))artifacts.put(artifact,frame);
+            bindings.items.push_back(V::object().put("node",V::string(node.id)).put("artifact",V::string(artifact)).put("context",get(node.observation.payload,"worker_context")));
+            domain=domain && node.observation.domain==current_view->sources[0].attempt.domain;
+            if(node.kind=="storage-identity-observation")for(const auto& ref:get(node.observation.payload,"references").fields){const auto name=text(ref.second,"kind")+":"+text(ref.second,"digest");
+                if(!artifacts.find(name))artifacts.put(name,accepted_publication->resolve(node.id,ref.first));resolved.items.push_back(V::object().put("node",V::string(node.id)).put("name",V::string(ref.first)).put("reference",ref.second).put("artifact",V::string(name)));}
+        }
+        bool missing=false,reference=false;try{accepted_publication->frame("missing:node");}catch(const std::invalid_argument& e){missing=std::string(e.what())=="inventory_node";}
+        if(!accepted->nodes.empty())try{accepted_publication->resolve(accepted->nodes.front().id,"missing-reference");}catch(const std::invalid_argument& e){reference=std::string(e.what())=="inventory_reference";}
+        row.put("state",state()).put("graph",snap->value()).put("bindings",bindings).put("artifacts",artifacts).put("resolved",resolved)
+            .put("namespace_inspections",inspect_session(frontend,registry,discovery,"namespace")).put("storage_inspections",inspect_session(frontend,registry,discovery,"storage"))
+            .put("domains_retained",V::boolean_value(domain)).put("missing_node_refused",V::boolean_value(missing)).put("missing_reference_refused",V::boolean_value(accepted->nodes.empty() || reference))
+            .put("retrieval_and_presentation_pure",V::boolean_value(service->capture()==current_view && port.publication()==accepted_publication));
+        if(index){row.put("namespace_focus",storage_focus(previous_graph,*accepted,registry,"nt-volume-observation","namespace"));row.put("storage_focus",storage_focus(previous_graph,*accepted,registry,composition=="identity"?"storage-identity-observation":"storage-partition-observation"));}
+        auto old=previous.lock();require(bool(old),"fixture_old_publication_lifetime");
+        for(const auto& node:held->value().find("nodes")->items){const auto id=text(node,"id");const auto& properties=get(node,"properties");const auto& binding=get(properties,"observation_binding");const auto& frame=old->frame(id);
+            held_bindings=held_bindings && disked::digest_sha256(disked::json::dump(frame,text(binding,"source")=="storage"?n::storage_observation_limits():n::volume_inventory_limits()))==text(binding,"frame_digest");
+            if(text(node,"kind")=="storage-identity-observation")for(const auto& ref:get(get(properties,"observation"),"references").fields){
+                auto limits=disked::json::Limits{};limits.bytes=8388608;limits.values=262144;limits.depth=35;limits.string_bytes=1048576;
+                held_bindings=held_bindings && disked::digest_sha256(disked::json::dump(old->resolve(id,ref.first),limits))==text(ref.second,"digest");}
+        }
+        row.put("held_snapshot_retains_publication",V::boolean_value(held_bindings && bool(held->observation_owner())));old.reset();held.reset();
+        row.put("old_publication_released",V::boolean_value(previous.expired()));previous_graph=*accepted;
+        bool replacement_refused=true;for(const auto source:{n::InventorySource::Namespace,n::InventorySource::Storage}){
+            const auto slot=source==n::InventorySource::Namespace?0u:1u;if(!service->capture()->sources[slot].outstanding)continue;
+            bool refused=false;try{if(source==n::InventorySource::Namespace)service->start_namespace(n::InventoryPolicy{},ns);else service->start_storage(n::StorageQueryPolicy{},storage);}catch(const std::invalid_argument&){refused=true;}
+            replacement_refused=replacement_refused && refused;workers.items.push_back(service->retire(source));
+        }
+        row.put("replacement_refused",V::boolean_value(replacement_refused)).put("retired",state()).put("workers",workers);
+        require(!service->capture()->sources[0].outstanding && !service->capture()->sources[1].outstanding,"fixture_outstanding");
+        service->publish();frontend.refresh_observations();rows.items.push_back(std::move(row));
+    }
+    const auto final_view=service->capture();auto final_pub=port.publication();auto final_graph=port.graph();auto final_snapshot=frontend.snapshot();service.reset();
+    bool retained=port.graph()==final_graph && port.publication()==final_pub && final_pub->view()==final_view && final_snapshot->observation_owner()==final_graph;
+    for(const auto& node:final_graph->nodes){final_pub->frame(node.id);if(node.kind=="storage-identity-observation")for(const auto& ref:get(node.observation.payload,"references").fields)final_pub->resolve(node.id,ref.first);}inspect_session(frontend,registry,discovery,"namespace");inspect_session(frontend,registry,discovery,"storage");
+    return V::object().put("stages",rows).put("composition",V::string(composition)).put("retained_after_session_destruction",V::boolean_value(retained))
+        .put("null_owner_refused",V::boolean_value(null_refused)).put("value_construction_unowned",V::boolean_value(true)).put("callbacks",V::string(std::to_string(callbacks)))
+        .put("health_calls",V::string(std::to_string(health_calls))).put("allocation_checkpoint_hits",V::string(std::to_string(inventory_allocation_hits)))
+        .put("pointer_bytes",V::string(std::to_string(sizeof(void*)))).put("frontend_budget_ready",V::boolean_value(budget.ready()))
+        .put("namespace_api_calls",V::string(std::to_string(disked::nt_fixture::call_count()))).put("storage_api_calls",V::string(std::to_string(disked::nt_storage_fixture::call_count())));
+}
+#endif
+
 V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     const auto mode=text(input,"mode");const auto& reg=get(input,"registry");
 #if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
@@ -320,6 +449,9 @@ V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
 #endif
 #if defined(DISKED_NT_IDENTITY_ADAPTER_TESTING)
     if(mode=="identity-adapter")return identity_adapter(input,budget);
+#endif
+#if defined(DISKED_NT_INVENTORY_PORT_TESTING)
+    if(mode=="inventory-port")return inventory_port(input,budget);
 #endif
     disked::Registry registry{get(reg,"commands"),get(reg,"syntax"),get(reg,"schemas")};
     auto commands=registry.commands;for(auto& c:commands.items)c.put("availability",V::string(disked::FrontendSession::handles(text(c,"id"))?"available":"unavailable"));
@@ -483,6 +615,9 @@ int wmain(int argc,wchar_t** argv) {
 #endif
 #if defined(DISKED_NT_IDENTITY_ADAPTER_TESTING)
         allowed=allowed || mode=="identity-adapter";
+#endif
+#if defined(DISKED_NT_INVENTORY_PORT_TESTING)
+        allowed=allowed || mode=="inventory-port";
 #endif
         if(!allowed)throw std::invalid_argument("fixture_mode");const auto result=exercise(input,budget);print(result);
         return result.find("status") && text(result,"status")=="refused"?3:0;

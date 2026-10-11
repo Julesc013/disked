@@ -7040,7 +7040,10 @@
         "spec/catalog/nt-identity-projection-prototype.json",
         "source/providers/windows/storage_identity.cpp",
         "source/providers/windows/storage_identity.h",
-        "spec/catalog/nt-identity-adapter-prototype.json"
+        "spec/catalog/nt-identity-adapter-prototype.json",
+        "source/providers/windows/inventory_session.h",
+        "source/providers/windows/inventory_session.cpp",
+        "spec/catalog/nt-inventory-port-prototype.json"
       ],
       "spec_ids": [
         "DE-034",
@@ -7751,7 +7754,10 @@
         "spec/catalog/nt-identity-projection-prototype.json",
         "source/providers/windows/storage_identity.cpp",
         "source/providers/windows/storage_identity.h",
-        "spec/catalog/nt-identity-adapter-prototype.json"
+        "spec/catalog/nt-identity-adapter-prototype.json",
+        "source/providers/windows/inventory_session.h",
+        "source/providers/windows/inventory_session.cpp",
+        "spec/catalog/nt-inventory-port-prototype.json"
       ],
       "spec_ids": [
         "DE-023",
@@ -8489,6 +8495,86 @@
       "spec_ids": [
         "DE-030",
         "DE-034"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-inventory-port-prototype.json",
+      "path": "spec/catalog/nt-inventory-port-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/providers/windows/inventory_session.h",
+      "path": "source/providers/windows/inventory_session.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/namespace_graph.h",
+        "source/providers/windows/storage_graph.h",
+        "spec/catalog/nt-inventory-port-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "source/providers/windows/inventory_session.cpp",
+      "path": "source/providers/windows/inventory_session.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/inventory_session.h",
+        "spec/catalog/nt-inventory-port-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/windows/test_inventory_port.py",
+      "path": "tests/windows/test_inventory_port.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/observation_frontend_probe.cpp",
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_identity_queries.py",
+        "tests/windows/test_storage_queries.py",
+        "tests/windows/test_volume_namespace.py",
+        "spec/catalog/nt-inventory-port-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-inventory-port/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-inventory-port/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_inventory_port.py",
+        ".aide/evidence/2026-10-12-identity-adapter/reproduce.py",
+        "tests/windows/native/CMakeLists.txt",
+        "spec/catalog/nt-inventory-port-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034",
+        "DE-023"
       ]
     }
   ]

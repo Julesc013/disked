@@ -11,11 +11,15 @@ class StorageFrameSnapshot final {
     const std::shared_ptr<const StorageFrame> frame_;
     const CaptureKey key_;
     const json::Value context_;
-    StorageFrameSnapshot(std::shared_ptr<const StorageFrame> frame,CaptureKey key,json::Value context):frame_(std::move(frame)),key_(std::move(key)),context_(std::move(context)){}
+    const std::string frame_digest_,context_digest_;
+    StorageFrameSnapshot(std::shared_ptr<const StorageFrame> frame,CaptureKey key,json::Value context):frame_(std::move(frame)),key_(std::move(key)),context_(std::move(context)),
+        frame_digest_(digest_sha256(json::dump(frame_->value(),storage_observation_limits()))),context_digest_(digest_sha256(json::dump(context_))){}
     friend class StorageGraphAdapter;
 public:
     const StorageFrame& frame()const{return *frame_;}
     const CaptureKey& key()const{return key_;}
     const json::Value& context()const{return context_;}
+    const std::string& frame_digest()const{return frame_digest_;}
+    const std::string& context_digest()const{return context_digest_;}
 };
 }}

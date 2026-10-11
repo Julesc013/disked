@@ -98,13 +98,19 @@ void NamespaceGraphAdapter::consume(const V& observed) {
                     graph.edges.insert(graph.edges.end(),previous_complete_.edges.begin(),previous_complete_.edges.end());
                 }
                 GraphInput prepared_complete;if(status=="complete")prepared_complete=graph;
-                capture_.update(key_,graph,status=="complete"?SourceState::Complete:SourceState::Partial,status=="complete"?"":"namespace_"+status);
+                const auto frame=std::shared_ptr<const NamespaceFrameSnapshot>(new NamespaceFrameSnapshot(result,context_,key_));
+                auto prepared_frames=std::shared_ptr<const NamespaceGraphEvidence>(new NamespaceGraphEvidence(frame,status=="complete"?frame:(frames_?frames_->last_complete():nullptr)));
+                const auto expected=status=="complete"?SourceState::Complete:SourceState::Partial;
+                const bool changed=capture_.update(key_,graph,expected,status=="complete"?"":"namespace_"+status);
                 const auto& sources=capture_.snapshot()->sources;
-                for(const auto& source:sources)if(status=="complete" && source.id==source_ && source.state==SourceState::Complete) {
+                for(const auto& source:sources)if(changed && source.id==source_ && source.attempt==key_ && source.state==expected) {
+                    frames_.swap(prepared_frames);
                     // Prepare retained complete content before accepting another
                     // capture. Partial frames never recursively grow this cache.
-                    previous_complete_.nodes.swap(prepared_complete.nodes);previous_complete_.edges.swap(prepared_complete.edges);
-                    previous_complete_.omissions.swap(prepared_complete.omissions);previous_complete_.profile=GraphProfile::Observations;have_previous_complete_=true;
+                    if(status=="complete"){
+                        previous_complete_.nodes.swap(prepared_complete.nodes);previous_complete_.edges.swap(prepared_complete.edges);
+                        previous_complete_.omissions.swap(prepared_complete.omissions);previous_complete_.profile=GraphProfile::Observations;have_previous_complete_=true;
+                    }
                 }
             } else capture_.update_failure(key_,status=="denied"?SourceState::Denied:SourceState::Unavailable,"namespace_"+status,text(field(result,"enumeration"),"platform_code"));
         } else if(text(observed,"status")=="unknown")capture_.update_failure(key_,SourceState::Unavailable,"namespace_worker_result_unknown");

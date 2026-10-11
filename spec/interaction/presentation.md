@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.17-proposed.2
+  version: 0.1.18-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,9 +32,8 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-10T03:33:05.006855+00:00'
-  scope: DE-W030 compiled private cached-observation frontend contract; live/provider/public
-    protocol, window/terminal/platform and owner admission remain open
+  at: '2026-10-11T19:55:42.820105+00:00'
+  scope: DE-W030 private mixed native publication, cached aliased port and snapshot ownership; live/physical/provider/public/owner gates remain open
 ---
 
 # FrontendSession and semantic parity
@@ -131,7 +130,7 @@ clone/alias distinction, invalid refresh atomicity, cycles, finite limits,
 cached partial observations, strict graph/assessment schemas, independent
 SHA-256 comparisons, direct/CLI/stdio agreement and the essential-command
 provider trap. Expected behavior in this section precedes implementation.
-The SHA-256 implementation follows [FIPS 180-4 sections 4–6](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf);
+The SHA-256 implementation follows [FIPS 180-4 sections 4â€“6](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf);
 independent vectors do not establish cryptographic-module certification.
 
 ## DE-W017 incremental observation publication
@@ -232,3 +231,17 @@ kind must preserve exact original data and bindings and remain excluded from
 health/media-target authority. Maximum current and cached detail graphs include
 namespace/fake peers under the unchanged shared budgets. Native model/process
 evidence does not qualify actual windows, terminals, live media or public APIs.
+
+The [private mixed native inventory port](../catalog/nt-inventory-port-prototype.json)
+supplies a prepared immutable generic graph with an aliased ownership pointer.
+Frontend publication retains that input owner in the accepted GraphSnapshot;
+a caller holding an older snapshot keeps its corresponding native publication
+alive after newer delivery or provider teardown. Direct by-value graph creation
+retains its existing semantics and supplies no native retrieval ownership.
+
+Observation callbacks return cached pointers without advancing native readers.
+Validation/allocation failure leaves the frontend snapshot, selection and last
+acknowledged pointer unchanged; the same prepared input remains eligible for
+retry. Reader advancement, native publication preparation and actual retirement
+are separate explicit provider operations. This private serialized composition
+does not admit a product frontend, concurrent callback or public resolver API.

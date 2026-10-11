@@ -5,6 +5,15 @@ namespace disked { namespace nt_inventory {
 json::Value storage_graph_context(const json::Value&,StorageFrameProfile profile=StorageFrameProfile::Metadata);
 enum class StorageGraphProjection {Frame,Identity};
 struct StorageComparisonSelection {std::string previous_digest,previous_subject,current_subject;};
+class StorageFrameEvidence final {
+    const std::shared_ptr<const StorageFrameSnapshot> current_,last_complete_;
+    StorageFrameEvidence(std::shared_ptr<const StorageFrameSnapshot> current,std::shared_ptr<const StorageFrameSnapshot> complete):
+        current_(std::move(current)),last_complete_(std::move(complete)){}
+    friend class StorageGraphAdapter;
+public:
+    std::shared_ptr<const StorageFrameSnapshot> current()const{return current_;}
+    std::shared_ptr<const StorageFrameSnapshot> last_complete()const{return last_complete_;}
+};
 class StorageGraphEvidence final {
     const std::shared_ptr<const StorageIdentityProjection> current_,last_complete_;
     StorageGraphEvidence(std::shared_ptr<const StorageIdentityProjection> current,std::shared_ptr<const StorageIdentityProjection> complete):
@@ -22,6 +31,7 @@ class StorageGraphAdapter final{
     const StorageFrameProfile profile_;
     const StorageGraphProjection projection_;
     std::shared_ptr<const StorageGraphEvidence> evidence_;
+    std::shared_ptr<const StorageFrameEvidence> frames_;
     std::shared_ptr<const StorageIdentityProjection> comparison_previous_;
     std::vector<StorageComparisonSelection> comparisons_;
     void consume(const json::Value&);
@@ -33,5 +43,6 @@ public:
     // Current accepted capture from this actual owned adapter, never from JSON.
     std::shared_ptr<const StorageFrameSnapshot> frame();
     std::shared_ptr<const StorageGraphEvidence> evidence()const{return evidence_;}
+    std::shared_ptr<const StorageFrameEvidence> frames()const{return frames_;}
 };
 }}

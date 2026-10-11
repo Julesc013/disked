@@ -45,6 +45,12 @@ std::string observation_node_id(const GraphNode& node) {
     return "observation:"+digest_sha256(json::dump(bound,limits)).substr(7);
 }
 std::shared_ptr<const GraphSnapshot> GraphSnapshot::create(const GraphInput& input,std::uint64_t epoch) {
+    return prepare(input,epoch,{});
+}
+std::shared_ptr<const GraphSnapshot> GraphSnapshot::create_owned(std::shared_ptr<const GraphInput> input,std::uint64_t epoch) {
+    if(!input)throw std::invalid_argument("graph_owner_missing");const auto& value=*input;return prepare(value,epoch,std::move(input));
+}
+std::shared_ptr<const GraphSnapshot> GraphSnapshot::prepare(const GraphInput& input,std::uint64_t epoch,std::shared_ptr<const GraphInput> owner) {
     require(epoch!=0,"invalid_epoch");
     const auto limits=graph_limits(input.profile);const bool observations=input.profile==GraphProfile::Observations;
     require(input.nodes.size()<=(observations?320U:64U) && input.edges.size()<=(observations?512U:256U) && input.omissions.size()<=64,"graph_limit");
@@ -84,7 +90,7 @@ std::shared_ptr<const GraphSnapshot> GraphSnapshot::create(const GraphInput& inp
         .put("nodes",std::move(nodes)).put("edges",std::move(edges)).put("omissions",strings(input.omissions));
     const auto revision=digest_sha256(json::dump(value,limits));value.put("revision",Value::string(revision));
     json::dump(value,limits); // Validate the final, revision-bearing size before publication.
-    return std::shared_ptr<const GraphSnapshot>(new GraphSnapshot(std::move(value),revision));
+    return std::shared_ptr<const GraphSnapshot>(new GraphSnapshot(std::move(value),revision,std::move(owner)));
 }
 const Value* GraphSnapshot::node(const std::string& id) const {
     for(const auto& node:value_.find("nodes")->items)if(node.find("id")->text==id)return &node;return nullptr;

@@ -10,12 +10,15 @@ FrontendSession::FrontendSession(const Registry& registry,const GraphInput& init
 }
 bool FrontendSession::refresh_observations() {
     if(!observations_)return false;auto next=observations_();if(!next || next==observed_)return false;
-    publish(*next);observed_=std::move(next);return true;
+    publish_graph(*next,next);observed_=std::move(next);return true;
 }
 void FrontendSession::publish(const GraphInput& input) {
+    publish_graph(input,{});
+}
+void FrontendSession::publish_graph(const GraphInput& input,std::shared_ptr<const GraphInput> owner) {
     if(input.profile!=(cached_observations()?GraphProfile::Observations:GraphProfile::Fake))throw std::invalid_argument("graph_profile_not_admitted");
     if(epoch_==(std::numeric_limits<std::uint64_t>::max)())throw std::invalid_argument("epoch_limit");
-    auto next=GraphSnapshot::create(input,epoch_+1);
+    auto next=owner?GraphSnapshot::create_owned(std::move(owner),epoch_+1):GraphSnapshot::create(input,epoch_+1);
     auto identities=identities_;
     for(const auto& node:next->value().find("nodes")->items) {
         const auto& id=node.find("id")->text;const auto& p=*node.find("properties");
