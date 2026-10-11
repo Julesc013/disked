@@ -1,0 +1,20 @@
+clone exit 0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-owned-layout\reproduce.py", line 59, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-owned-layout\reproduce.py", line 15, in main
+    checkout=out/'checkout';run('clone',['git','clone','--local','--no-hardlinks','--no-checkout',root,checkout],root);run('checkout',['git','checkout','--detach',a.source_revision],checkout)
+                                                                                                                       ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-owned-layout\reproduce.py", line 11, in run
+    args=list(map(str,args));start=time.monotonic();r=subprocess.run(args,cwd=cwd,capture_output=True,timeout=limit);log=logs/(name+'.log');log.write_bytes(r.stdout+r.stderr)
+                                                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['git', 'checkout', '--detach', '2c731a1ce0b6bb014648054cabc6ca63d08a8d5d']' timed out after 180 seconds

@@ -206,3 +206,13 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   provenance, composite identity and live/provider/public/platform/owner/
   full-unit/all-platform-storage gates remain separate. Development uses
   owner-authorized `dev` pushes and tested integration into `main`.
+
+- [x] DE-W030 private owned ordinary-image/layout provenance slice `c30b6834`:
+  1362 native processes/40412 assertions, 213 tooling
+  passes/2 skips, 1061 structural checks; exact-source,
+  build/import/hash evidence and implementing-agent review retained at
+  `.aide/evidence/2026-10-12-owned-layout/`. Product dev41 evidence is reused
+  through 404 unchanged inputs, not freshly rerun. Full DE-W030 remains partial.
+- [ ] Continue composite identifier/freshness observations; preserve separate
+  physical/live/provider/public/platform/owner/storage/release gates and the
+  complete all-platform/storage 0.1.0 scope.

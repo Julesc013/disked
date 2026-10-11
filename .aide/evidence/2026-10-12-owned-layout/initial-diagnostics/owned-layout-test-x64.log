@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 130, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 77, in main
+    base=request('mbr',mbr,facts);v=run('mbr',base,state='agree-within-scope',raw_state='complete');check('MBR every entry',len(v['comparison']['common_fields']['matches'])==2)
+                                    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 46, in run
+    check(name+' exact exit',r.returncode==expected and not r.stderr);v=json.loads(r.stdout);check(name+' architecture',v['pointer_bytes']==str(a.pointer_bytes))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 34, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: mbr exact exit

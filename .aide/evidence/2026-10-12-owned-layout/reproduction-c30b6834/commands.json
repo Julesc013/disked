@@ -1,0 +1,1252 @@
+[
+  {
+    "name": "existing-clone-origin",
+    "command": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/existing-clone-origin.log"
+  },
+  {
+    "name": "existing-clone-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.072,
+    "log": "logs/existing-clone-status.log"
+  },
+  {
+    "name": "existing-clone-fetch",
+    "command": [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      "c30b68343bbd2a1d073d0c661dc6705a9e885c48"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.87,
+    "log": "logs/existing-clone-fetch.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "c30b68343bbd2a1d073d0c661dc6705a9e885c48"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.099,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.101,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.133,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.422,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-z",
+      "c30b68343bbd2a1d073d0c661dc6705a9e885c48"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.083,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "configure-x64",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.154,
+    "log": "logs/configure-x64.log"
+  },
+  {
+    "name": "build-x64",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64",
+      "--config",
+      "Release",
+      "--target",
+      "nt_owned_layout_probe",
+      "nt_namespace_worker_probe",
+      "nt_namespace_graph_probe",
+      "nt_capture_lifecycle_probe",
+      "nt_storage_worker_probe",
+      "nt_identity_frame_probe",
+      "nt_observation_frontend_probe",
+      "nt_identity_frontend_probe",
+      "nt_raw_layout_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 169.627,
+    "log": "logs/build-x64.log"
+  },
+  {
+    "name": "owned-layout-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_owned_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_owned_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\owned-layout-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 8.428,
+    "log": "logs/owned-layout-x64.log"
+  },
+  {
+    "name": "owned-layout-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.062,
+    "log": "logs/owned-layout-headers-x64.log"
+  },
+  {
+    "name": "owned-layout-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/owned-layout-imports-x64.log"
+  },
+  {
+    "name": "owned-layout-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/owned-layout-dependents-x64.log"
+  },
+  {
+    "name": "namespace-worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\namespace-worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.972,
+    "log": "logs/namespace-worker-x64.log"
+  },
+  {
+    "name": "namespace-worker-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/namespace-worker-headers-x64.log"
+  },
+  {
+    "name": "namespace-worker-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/namespace-worker-imports-x64.log"
+  },
+  {
+    "name": "namespace-worker-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.063,
+    "log": "logs/namespace-worker-dependents-x64.log"
+  },
+  {
+    "name": "namespace-graph-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_namespace_graph.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_graph_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\namespace-graph-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.747,
+    "log": "logs/namespace-graph-x64.log"
+  },
+  {
+    "name": "namespace-graph-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/namespace-graph-headers-x64.log"
+  },
+  {
+    "name": "namespace-graph-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "logs/namespace-graph-imports-x64.log"
+  },
+  {
+    "name": "namespace-graph-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/namespace-graph-dependents-x64.log"
+  },
+  {
+    "name": "capture-lifecycle-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\capture-lifecycle-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.773,
+    "log": "logs/capture-lifecycle-x64.log"
+  },
+  {
+    "name": "capture-lifecycle-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/capture-lifecycle-headers-x64.log"
+  },
+  {
+    "name": "capture-lifecycle-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/capture-lifecycle-imports-x64.log"
+  },
+  {
+    "name": "capture-lifecycle-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "logs/capture-lifecycle-dependents-x64.log"
+  },
+  {
+    "name": "storage-worker-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\storage-worker-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.524,
+    "log": "logs/storage-worker-x64.log"
+  },
+  {
+    "name": "storage-worker-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/storage-worker-headers-x64.log"
+  },
+  {
+    "name": "storage-worker-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.062,
+    "log": "logs/storage-worker-imports-x64.log"
+  },
+  {
+    "name": "storage-worker-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.06,
+    "log": "logs/storage-worker-dependents-x64.log"
+  },
+  {
+    "name": "identity-frame-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_identity_frame.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frame_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\identity-frame-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.872,
+    "log": "logs/identity-frame-x64.log"
+  },
+  {
+    "name": "identity-frame-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/identity-frame-headers-x64.log"
+  },
+  {
+    "name": "identity-frame-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.091,
+    "log": "logs/identity-frame-imports-x64.log"
+  },
+  {
+    "name": "identity-frame-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/identity-frame-dependents-x64.log"
+  },
+  {
+    "name": "observation-frontend-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\observation-frontend-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.611,
+    "log": "logs/observation-frontend-x64.log"
+  },
+  {
+    "name": "observation-frontend-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/observation-frontend-headers-x64.log"
+  },
+  {
+    "name": "observation-frontend-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.057,
+    "log": "logs/observation-frontend-imports-x64.log"
+  },
+  {
+    "name": "observation-frontend-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.057,
+    "log": "logs/observation-frontend-dependents-x64.log"
+  },
+  {
+    "name": "identity-frontend-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\identity-frontend-x64",
+      "--pointer-bytes",
+      "8",
+      "--storage-profile",
+      "identity-layout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 11.422,
+    "log": "logs/identity-frontend-x64.log"
+  },
+  {
+    "name": "identity-frontend-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/identity-frontend-headers-x64.log"
+  },
+  {
+    "name": "identity-frontend-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/identity-frontend-imports-x64.log"
+  },
+  {
+    "name": "identity-frontend-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "logs/identity-frontend-dependents-x64.log"
+  },
+  {
+    "name": "raw-layout-x64",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_raw_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_raw_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\raw-layout-x64",
+      "--pointer-bytes",
+      "8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.234,
+    "log": "logs/raw-layout-x64.log"
+  },
+  {
+    "name": "raw-layout-headers-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/raw-layout-headers-x64.log"
+  },
+  {
+    "name": "raw-layout-imports-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.062,
+    "log": "logs/raw-layout-imports-x64.log"
+  },
+  {
+    "name": "raw-layout-dependents-x64",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-x64\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "logs/raw-layout-dependents-x64.log"
+  },
+  {
+    "name": "configure-Win32",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\native",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DCMAKE_SYSTEM_VERSION=10.0.19041.0"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 11.709,
+    "log": "logs/configure-Win32.log"
+  },
+  {
+    "name": "build-Win32",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32",
+      "--config",
+      "Release",
+      "--target",
+      "nt_owned_layout_probe",
+      "nt_namespace_worker_probe",
+      "nt_namespace_graph_probe",
+      "nt_capture_lifecycle_probe",
+      "nt_storage_worker_probe",
+      "nt_identity_frame_probe",
+      "nt_observation_frontend_probe",
+      "nt_identity_frontend_probe",
+      "nt_raw_layout_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 129.976,
+    "log": "logs/build-Win32.log"
+  },
+  {
+    "name": "owned-layout-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_owned_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_owned_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\owned-layout-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 9.56,
+    "log": "logs/owned-layout-Win32.log"
+  },
+  {
+    "name": "owned-layout-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "logs/owned-layout-headers-Win32.log"
+  },
+  {
+    "name": "owned-layout-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/owned-layout-imports-Win32.log"
+  },
+  {
+    "name": "owned-layout-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_owned_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/owned-layout-dependents-Win32.log"
+  },
+  {
+    "name": "namespace-worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_namespace_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\namespace-worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.831,
+    "log": "logs/namespace-worker-Win32.log"
+  },
+  {
+    "name": "namespace-worker-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/namespace-worker-headers-Win32.log"
+  },
+  {
+    "name": "namespace-worker-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/namespace-worker-imports-Win32.log"
+  },
+  {
+    "name": "namespace-worker-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/namespace-worker-dependents-Win32.log"
+  },
+  {
+    "name": "namespace-graph-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_namespace_graph.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_graph_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\namespace-graph-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.927,
+    "log": "logs/namespace-graph-Win32.log"
+  },
+  {
+    "name": "namespace-graph-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/namespace-graph-headers-Win32.log"
+  },
+  {
+    "name": "namespace-graph-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/namespace-graph-imports-Win32.log"
+  },
+  {
+    "name": "namespace-graph-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_namespace_graph_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.043,
+    "log": "logs/namespace-graph-dependents-Win32.log"
+  },
+  {
+    "name": "capture-lifecycle-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_capture_lifecycle.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\capture-lifecycle-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.814,
+    "log": "logs/capture-lifecycle-Win32.log"
+  },
+  {
+    "name": "capture-lifecycle-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/capture-lifecycle-headers-Win32.log"
+  },
+  {
+    "name": "capture-lifecycle-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/capture-lifecycle-imports-Win32.log"
+  },
+  {
+    "name": "capture-lifecycle-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_capture_lifecycle_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/capture-lifecycle-dependents-Win32.log"
+  },
+  {
+    "name": "storage-worker-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_storage_worker.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_storage_worker_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\storage-worker-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.635,
+    "log": "logs/storage-worker-Win32.log"
+  },
+  {
+    "name": "storage-worker-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/storage-worker-headers-Win32.log"
+  },
+  {
+    "name": "storage-worker-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "logs/storage-worker-imports-Win32.log"
+  },
+  {
+    "name": "storage-worker-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_storage_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/storage-worker-dependents-Win32.log"
+  },
+  {
+    "name": "identity-frame-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_identity_frame.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frame_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\identity-frame-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 7.604,
+    "log": "logs/identity-frame-Win32.log"
+  },
+  {
+    "name": "identity-frame-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/identity-frame-headers-Win32.log"
+  },
+  {
+    "name": "identity-frame-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/identity-frame-imports-Win32.log"
+  },
+  {
+    "name": "identity-frame-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frame_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-frame-dependents-Win32.log"
+  },
+  {
+    "name": "observation-frontend-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_observation_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\observation-frontend-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.313,
+    "log": "logs/observation-frontend-Win32.log"
+  },
+  {
+    "name": "observation-frontend-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/observation-frontend-headers-Win32.log"
+  },
+  {
+    "name": "observation-frontend-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/observation-frontend-imports-Win32.log"
+  },
+  {
+    "name": "observation-frontend-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_observation_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/observation-frontend-dependents-Win32.log"
+  },
+  {
+    "name": "identity-frontend-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_observation_frontend.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frontend_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\identity-frontend-Win32",
+      "--pointer-bytes",
+      "4",
+      "--storage-profile",
+      "identity-layout"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 10.009,
+    "log": "logs/identity-frontend-Win32.log"
+  },
+  {
+    "name": "identity-frontend-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-frontend-headers-Win32.log"
+  },
+  {
+    "name": "identity-frontend-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-frontend-imports-Win32.log"
+  },
+  {
+    "name": "identity-frontend-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_identity_frontend_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/identity-frontend-dependents-Win32.log"
+  },
+  {
+    "name": "raw-layout-Win32",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\windows\\test_raw_layout.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_raw_layout_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\raw-layout-Win32",
+      "--pointer-bytes",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.656,
+    "log": "logs/raw-layout-Win32.log"
+  },
+  {
+    "name": "raw-layout-headers-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/raw-layout-headers-Win32.log"
+  },
+  {
+    "name": "raw-layout-imports-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/raw-layout-imports-Win32.log"
+  },
+  {
+    "name": "raw-layout-dependents-Win32",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\build-Win32\\Release\\nt_raw_layout_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.071,
+    "log": "logs/raw-layout-dependents-Win32.log"
+  },
+  {
+    "name": "tooling-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 192.436,
+    "log": "logs/tooling-tests.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.117,
+    "log": "logs/check.log"
+  },
+  {
+    "name": "index-freshness",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.285,
+    "log": "logs/index-freshness.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W030",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\context",
+      "--byte-budget",
+      "680000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.663,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-c30b6834\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.034,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.219,
+    "log": "logs/verify-manifest.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.051,
+    "log": "logs/final-source-status.log"
+  }
+]

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 130, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 91, in main
+    req=request(name,data,facts);v=run(name,req,state='disagree' if name=='partial-block' else 'incomparable',raw_state=raw_state)
+                                   ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 63, in run
+    check(name+' expected comparison',c['state']==state)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_owned_layout.py", line 34, in check
+    def check(label,ok):checks.append(dict(label=label,passed=bool(ok)));assert ok,label
+                                                                                ^^
+AssertionError: partial-block expected comparison

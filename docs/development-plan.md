@@ -385,3 +385,15 @@ the actual CLI uses existing bounded cached presentation without widening
 wire limits. This does not qualify a live /2 product provider or actual /2
 window/terminal. Continue owned raw-reader provenance and composite identity;
 physical/live/provider/public/platform/owner/full-unit acceptance stays separate.
+
+The owned ordinary-image/layout slice at `c30b6834`
+([review](../.aide/evidence/2026-10-12-owned-layout/REVIEW.md)) passes
+1362 controller/reader processes and 40412 assertions across 18
+x64/x86 campaigns, plus 213 tooling passes/2 skips
+and 1061 structural checks. Its private reader binds actual file/process/
+capture/context/content observations and independently reconstructs the bytes
+before the pure comparison. Unstable or partial-sector captures are incomparable.
+The 404 unchanged product inputs reuse dev41's earlier build/77 groups; no new
+product execution is claimed. Physical association/current freshness/atomic
+consistency, live/provider/public/other-host/owner and full-unit gates remain.
+Continue composite identifier/freshness observations under the existing grant.
