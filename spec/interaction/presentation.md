@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.22-proposed.2
+  version: 0.1.23-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,7 +32,7 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-11T23:44:45.159500+00:00'
+  at: '2026-10-11T23:46:39.892928+00:00'
   scope: DE-W030 private serialized source advancement and cached model delivery;
     all admission gates remain separate
 ---
@@ -290,9 +290,12 @@ product flags, live provider or other-host admission. The owning private catalog
 records the continuation base and expected outcomes before evaluation.
 
 The next private integration contract withholds one already computed read-only
-`target.inspect` result behind a separately owned completion event. Its synthetic
-running/completed envelopes keep an explicit fixture operation ID and exact old
-request/result binding. Native source pulses and `CompletionPoll` remain independent.
+`target.inspect` result behind a separately owned completion event. The existing
+internal `Submission::deferred()` state keeps its exact pending request identity;
+it is not a protocol response or an admitted durable operation. Do not manufacture
+an `accepted_running` envelope or operation ID. The original completed read-only
+envelope and legitimately absent/null operation ID remain exact. Native source
+pulses and `CompletionPoll` stay independent.
 Actual GUI/TUI retain the old-view completion separately; the linear shell preserves
 its original transcript and result basis. This simulates deferred interface delivery
 and does not qualify a real asynchronous storage operation, durable record, reconnect,
