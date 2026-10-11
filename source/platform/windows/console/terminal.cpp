@@ -230,7 +230,7 @@ int run_windows_tui(const std::string& style,const std::function<std::unique_ptr
         }
         if(before_release)before_release();if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
     } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
-    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 3;}
+    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 4;}
 }
 int run_windows_shell(const std::string& style,const std::function<std::unique_ptr<ShellModel>()>& create,const std::function<void()>& advance,const std::function<void()>& before_release) {
     try {
@@ -249,6 +249,6 @@ int run_windows_shell(const std::string& style,const std::function<std::unique_p
         }
         if(before_release)before_release();if(!terminal.close())throw Failure("terminal_restore_failed");return 0;
     } catch(const Failure& failure) {std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
-    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 3;}
+    catch(const std::exception&) {std::fputs("disked: frontend_event_error\n",stderr);return 4;}
 }
 }

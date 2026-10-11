@@ -319,6 +319,6 @@ int run_windows_gui(const std::function<std::unique_ptr<GuiModel>(const Value&)>
     try {Api api;Window window(api,advance);const auto observations=window.observe();window.model=create(observations);
         const auto result=window.run();if(before_release)before_release();return result;}
     catch(const Failure& failure) {if(_fileno(stderr)<0)return 4;std::fprintf(stderr,"disked: %s\n",failure.what());return failure.code;}
-    catch(const std::exception&) {if(_fileno(stderr)<0)return 4;std::fputs("disked: frontend_event_error\n",stderr);return 3;}
+    catch(const std::exception&) {if(_fileno(stderr)<0)return 4;std::fputs("disked: frontend_event_error\n",stderr);return 4;}
 }
 }
