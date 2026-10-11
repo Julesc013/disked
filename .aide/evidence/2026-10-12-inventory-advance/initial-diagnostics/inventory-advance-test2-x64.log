@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 173, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 164, in main
+    gui('gui-close-pending','identity',[stage(),stage()],action='close-pending',states=('partial','partial'))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 93, in gui
+    check(name+' source outcome not inferred from display',[s['state'] for s in v['trace'][-1]['sources']]==list(states))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 21, in check
+    checks.append(dict(label=label,passed=bool(value)));assert value,label
+                                                               ^^^^^
+AssertionError: gui-close-pending source outcome not inferred from display

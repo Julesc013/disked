@@ -266,3 +266,25 @@ total 546 processes/31208 assertions; fresh dev.41 x64 build/launch,
 1073 structural checks pass. Existing Fake product defaults and budgets remain.
 Ongoing native source advancement, live/physical/provider/public/product/other-host/
 accessibility/owner/full-unit/storage/release gates and the full 0.1.0 scope stay open.
+
+Private active native observation delivery at `6e4c2059`
+([review](../.aide/evidence/2026-10-12-inventory-advance/REVIEW.md)) wires explicit
+serialized application pulses into actual Windows GUI/TUI/linear-shell hosts.
+Cached model delivery preserves exact selected IDs, editors and staged review
+revision; stale review conflicts, pending replacement refusal, cancellation,
+late results, finite hung-reader deadlines, startup recovery and separate actual
+retirement pass. Older complete native backing survives newer delivery and
+host/session teardown. Shell chooser closure prevents row-index rebinding;
+editor/cursor/completion candidates remain exact. GUI/TUI reducer tests separate
+late pending-operation completions after changed delivery. Per architecture:
+50 controllers/81 readers, including 20 actual hosts and 30 private refusals.
+Eight clean campaigns total 808 processes/37960 assertions;
+fresh dev.41 x64 build/launch/imports, 77 product groups, 213 tooling
+passes/2 skips and 1075 structural checks. Fake product
+supplies no source callback. Active screen-mode TUI/callback-failure checks,
+live/physical/provider/public/product/other-host/accessibility/owner/full-unit/
+storage/release gates remain open; full 0.1.0 scope continues.
+The private port fixture alone was corrected at `8cf67f0d` and freshly tested
+on both architectures. Each artifact keeps its real source identity; all 404
+production inputs are unchanged. The retained parallel joined-report exit-wait
+failure is still under investigation despite isolated and full serial passes.

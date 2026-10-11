@@ -1,0 +1,24 @@
+existing-clone-origin exit 0
+existing-clone-status exit 0
+existing-clone-fetch exit 0
+checkout exit 0
+source-status exit 0
+source-map exit 0
+host exit 0
+source-tree exit 0
+cmake-version exit 0
+python-environment exit 0
+product-configure exit 0
+product-build exit 0
+product-test-catalog exit 0
+product-native exit 8
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-inventory-advance\reproduce.py", line 86, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-inventory-advance\reproduce.py", line 51, in main
+    tests=run('product-native',['ctest','--preset','windows-bootstrap','--parallel','4','--output-on-failure'],checkout,2400);assert b'0 tests failed out of 77' in tests
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-12-inventory-advance\reproduce.py", line 17, in run
+    if r.returncode:raise RuntimeError(name+' failed '+str(log))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: product-native failed D:\Projects\DiskEd\disked\.aide-local\inventory-advance-clean-6e4c2059\logs\product-native.log

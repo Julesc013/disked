@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 170, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 160, in main
+    gui('gui-hang-deadline','identity',[stage(),stage(namespace(worker_fault='hang'),identity(worker_fault='hang'))],action='deadline',states=('unavailable','unavailable'))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 104, in gui
+    if action in ('deadline','startup-recover'):check(name+' deadline retirement independently observed','deadline_retired' in kinds)
+                                                ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 21, in check
+    checks.append(dict(label=label,passed=bool(value)));assert value,label
+                                                               ^^^^^
+AssertionError: gui-hang-deadline deadline retirement independently observed

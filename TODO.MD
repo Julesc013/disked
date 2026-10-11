@@ -259,8 +259,19 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   213 tooling passes/2 skips, 1073 structural checks.
   DE-W030 remains partial; implementer review in
   `.aide/evidence/2026-10-12-inventory-frontend/`.
-- [ ] Define and qualify explicit serialized native observation advancement and
-  active cached refresh in actual hosts; keep cached getters and CompletionPoll
-  pure, preserve exact owners/selection and source coverage through pending/
-  partial/late/cancel/retirement and teardown. Keep fake-only product defaults,
+- [x] DE-W030 private active native observation delivery `6e4c2059`:
+  actual GUI/TUI/linear-shell refresh, preserved exact focus/editor/reviews,
+  source deadlines/cancel/late/startup failure/retirement, held old backing and
+  GUI/TUI pending completion regressions. Eight x64/Win32 campaigns:
+  808 processes/37960 assertions, fresh dev.41 x64 launch and
+  77 product groups, 213 tooling passes/2 skips,
+  1075 structural checks. Private port fixture corrected/tested at `8cf67f0d`;
+  all 404 production inputs unchanged, per-artifact source identities retained.
+  Partial; implementer review in
+  `.aide/evidence/2026-10-12-inventory-advance/`.
+- [ ] Investigate the retained joined-report worker exit wait failure; preserve
+  the original3000-ms wait and distinguish finished receipts from actual exit.
+- [ ] Qualify active screen-mode TUI delivery and escaping application-callback
+  failures with pending owned readers, exact late-request binding and separate
+  actual host restoration/source retirement. Preserve Fake product defaults,
   original budgets, full 0.1.0 scope and separate admission/authority gates.
