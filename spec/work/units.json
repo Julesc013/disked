@@ -1146,7 +1146,9 @@
         "source/runtime/capture/raw_layout.h",
         "source/runtime/capture/raw_layout.cpp",
         "source/providers/image/file_layout.h",
-        "source/providers/image/file_layout.cpp"
+        "source/providers/image/file_layout.cpp",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/console/terminal.cpp"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -1180,7 +1182,8 @@
         "Sealed coordinator-local capture domains in actual keys, owned graph/frame/identity observations and raw-layout joins; foreign-domain publication/retirement/comparison rejection without physical or durable reconnect authority.",
         "Private immutable compact identity/comparison graph projection with exact complete-content resolution from retained native objects, bounded current/last-complete evidence through existing cached models and unchanged reader/storage authority.",
         "Private owned NT identity projection publication with immutable matching current/last-complete native evidence, exact explicit prior comparison selections, pure reference retrieval and unchanged reader/budget/storage authority.",
-        "Private mixed owned native inventory publication and cached aliased frontend observation port with exact retained frame/reference retrieval, held snapshot lifetimes, retry without acknowledgment on allocation failure and separate explicit reader advancement/retirement."
+        "Private mixed owned native inventory publication and cached aliased frontend observation port with exact retained frame/reference retrieval, held snapshot lifetimes, retry without acknowledgment on allocation failure and separate explicit reader advancement/retirement.",
+        "Private actual Windows GUI/TUI/linear shell rendering over a frozen mixed native publication, explicit cached labels, owned inactive desktop/hidden console, exact frame/reference retrieval after source-session/renderer teardown, bounded launcher refusals and unchanged fake-only product defaults; no live/provider/public/product/other-host/owner admission."
       ],
       "acceptance": [
         "XP and modern import floors audited.",
@@ -1203,7 +1206,8 @@
         "python tests/windows/test_capture_domain_limit.py --probe PRIVATE_BUILD/nt_capture_domain_limit_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
         "python tests/windows/test_identity_projection.py --probe PRIVATE_BUILD/nt_identity_projection_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
         "python tests/windows/test_identity_adapter.py --probe PRIVATE_BUILD/nt_identity_adapter_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
-        "python tests/windows/test_inventory_port.py --probe PRIVATE_BUILD/nt_inventory_port_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
+        "python tests/windows/test_inventory_port.py --probe PRIVATE_BUILD/nt_inventory_port_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+        "python tests/windows/test_inventory_frontend.py --probe PRIVATE_BUILD/nt_inventory_frontend_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -1322,7 +1326,17 @@
         "source/providers/windows/inventory_session.h",
         "source/providers/windows/inventory_session.cpp",
         "tests/windows/test_inventory_port.py",
-        ".aide/evidence/2026-10-12-inventory-port/reproduce.py"
+        ".aide/evidence/2026-10-12-inventory-port/reproduce.py",
+        "spec/catalog/nt-inventory-frontend-prototype.json",
+        "tests/windows/native/inventory_frontend_probe.cpp",
+        "tests/windows/inventory_console_fixture.py",
+        "tests/windows/test_inventory_frontend.py",
+        ".aide/evidence/2026-10-12-inventory-frontend/reproduce.py",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/console/terminal.cpp",
+        "tests/frontend/gui_fixture.py",
+        "tests/frontend/console_tui_fixture.py"
       ]
     },
     {

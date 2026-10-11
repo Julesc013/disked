@@ -218,7 +218,7 @@ public:
                 }
             }
         }
-        const auto command=state.find("command");std::string summary="Current: cached fake observations | Proposed: none";
+        const auto command=state.find("command");std::string summary=model->cached_observations()?"Current: cached observations | Proposed: none":"Current: cached fake observations | Proposed: none";
         if(state.find("form")->boolean && command && command->text=="image.acquire") {
             const auto phase=state.find("parameters")->find("phase");
             summary=phase && phase->text=="prepare"?"Acquisition: metadata preparation; no copy admitted":
@@ -287,7 +287,7 @@ public:
         wc.hCursor=api.LoadCursorW(nullptr,MAKEINTRESOURCEW(32512));wc.hIcon=api.LoadIconW(nullptr,MAKEINTRESOURCEW(32512));
         wc.hbrBackground=api.GetSysColorBrush(COLOR_BTNFACE);
         if(!api.RegisterClassW(&wc))throw Failure("gui_class_registration");registered=true;
-        window=api.CreateWindowExW(WS_EX_CONTROLPARENT,class_name,L"DiskEd - Image and fake storage workbench",WS_OVERLAPPEDWINDOW,
+        window=api.CreateWindowExW(WS_EX_CONTROLPARENT,class_name,model->cached_observations()?L"DiskEd - Cached observation prototype":L"DiskEd - Image and fake storage workbench",WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT,CW_USEDEFAULT,1000,720,nullptr,nullptr,wc.hInstance,nullptr);
         if(!window || failed)throw Failure("gui_window_creation");
         if(!api.SetTimer(window,1,50,nullptr))throw Failure("gui_timer_unavailable");

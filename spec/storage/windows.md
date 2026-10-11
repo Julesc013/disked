@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.14-proposed.2
+  version: 0.1.15-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,8 +49,9 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T19:55:42.820105+00:00'
-  scope: DE-W030 private mixed native publication, cached aliased port and snapshot ownership; live/physical/provider/public/owner gates remain open
+  at: '2026-10-11T21:09:03.961443+00:00'
+  scope: DE-W030 private actual cached native renderer contract; owner/provider/public/product
+    admission remains separate
 ---
 
 # Windows NT provider strategy
@@ -362,3 +363,16 @@ remain unchanged; compact identity projection remains an explicit private /2
 selection. Complete frame and advertised-reference retrieval performs no I/O.
 This is a serialized provider composition, without product/provider/public,
 physical, other-host or owner admission.
+
+The [private actual cached renderer composition](../catalog/nt-inventory-frontend-prototype.json)
+prepares and retires injected namespace/storage readers before using the
+existing Windows GUI, TUI or linear shell. Its source session is destroyed
+before rendering, while readonly ports and generic snapshots retain frozen
+native frame/reference owners through host teardown. Cached labels, evidence
+focus, manual refresh and refusal of health/media-target authority use the
+same semantic service. No native advancement occurs during presentation.
+Generated JSON inputs and new receipts belong only to the separate bounded
+test launcher; they add no public flags, live paths or shipped composition.
+Owned desktop/console and import/launch evidence remains limited to its tested
+host and selected x64/Win32 processes; provider, live/physical, historical-host,
+public/product, accessibility, owner and full-unit admission remain separate.

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.18-proposed.2
+  version: 0.1.19-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,8 +32,9 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-11T19:55:42.820105+00:00'
-  scope: DE-W030 private mixed native publication, cached aliased port and snapshot ownership; live/physical/provider/public/owner gates remain open
+  at: '2026-10-11T21:09:03.961443+00:00'
+  scope: DE-W030 private actual cached native renderer contract; owner/provider/public/product
+    admission remains separate
 ---
 
 # FrontendSession and semantic parity
@@ -245,3 +246,18 @@ acknowledged pointer unchanged; the same prepared input remains eligible for
 retry. Reader advancement, native publication preparation and actual retirement
 are separate explicit provider operations. This private serialized composition
 does not admit a product frontend, concurrent callback or public resolver API.
+
+The [private actual native renderer profile](../catalog/nt-inventory-frontend-prototype.json)
+uses the existing Windows GUI, TUI and linear shell hosts over a frozen mixed
+inventory publication. Its cached GUI caption and summary and linear shell
+heading explicitly identify cached observations. Fake product labels, window
+class, composition, command identities and budgets remain unchanged. Compiled
+model profile selects these labels; metadata cannot select a composition.
+
+Reader start/release/poll/retirement and immutable publication happen explicitly
+before renderer entry. Retained ports/snapshots preserve complete matching
+frames and advertised references after source-session and renderer teardown.
+Manual refresh consumes cached data; CompletionPoll/tick does not advance
+sources. Actual host tests use owned inactive desktops and hidden consoles.
+This private composition admits no live/product/provider/public API, concurrent
+callback, other-host/platform, accessibility or owner qualification.

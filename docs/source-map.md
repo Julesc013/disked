@@ -43,7 +43,7 @@ Current file names describe implemented responsibility; they do not reserve ever
 | Navigate text screens, focus rows and edit forms | `apps/disked/tui/tui_model.*` | These are text-interface choices. The model works independently of a Windows console handle. |
 | Represent text/key input shared by the text interfaces | `runtime/presentation/text_input.h` | This is a small common value contract, not a TUI-owned model or a host API. |
 | Read native input, observe console capabilities, run text-interface loops and restore console modes | `platform/windows/console/terminal.*` | Windows owns these APIs and handle lifetimes; both shell and TUI use this host. A future host supplies its own adapter to the same interface contracts. |
-| Maintain graphical interaction state / create actual Windows controls | `apps/disked/gui/gui_model.*` / `platform/windows/ui/gui.*` | The model owns interaction; the host owns Win32 controls and window lifetime. Shared model files do not need a `win32/` parent. |
+| Maintain graphical interaction state / create actual Windows controls | `apps/disked/gui/gui_model.*` / `platform/windows/ui/gui.*` | The model owns interaction and its explicit fake/cached profile; the host owns Win32 controls, profile-correct labels and window lifetime. Shared model files do not need a `win32/` parent. |
 
 CLI is part of the same executable and command system. Its separate folder identifies presentation ownership; it does not imply a separate product, process or duplicated parser. A terminal is the host mechanism used by text interfaces, so moving it into `tui/` or `shell/` would give a shared host to one of its consumers.
 

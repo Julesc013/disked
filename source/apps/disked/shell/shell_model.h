@@ -9,6 +9,7 @@ struct ShellPrompt {std::string text;unsigned cursor=0;};
 class ShellModel final {
 public:
     ShellModel(FrontendSession& session,const Registry& registry,json::Value discovery,FrontendHandler dispatch,bool history,CompletionPoll poll={});
+    bool cached_observations()const{return session_.cached_observations();}
     bool tick();
     void input(const TextInput& event);
     std::vector<std::string> render(unsigned columns,unsigned rows,bool linear);
