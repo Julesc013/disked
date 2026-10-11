@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 115, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 88, in main
+    v=run(name,[stage(value)],states=['complete']);check(name+' ambiguity is evidence',next(x for x in v['stages'][0]['identity']['resources'] if x['subject']=='disk')['quality']=='ambiguous')
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 23, in run
+    if states:check(label+' specified source state',row['source']['state']==states[i])
+              ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 12, in check
+    def check(name,ok):checks.append(dict(label=name,passed=bool(ok)));assert ok,name
+                                                                              ^^
+AssertionError: duplicate-occurrences:0 specified source state

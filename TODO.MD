@@ -234,8 +234,16 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   build/launch and 77 product groups. 213 tooling passes/
   2 skips and 1067 structural checks. Full DE-W030 partial;
   implementing-agent review in `.aide/evidence/2026-10-12-identity-projection/`.
-- [ ] Integrate composite projection into actual owned adapter/coordinator
-  retention/publication with exact complete evidence ownership across partial,
-  late, retry and outstanding-reader cases. Preserve native domains/budgets and
-  separate live/physical/provider/public/platform/owner/storage/release gates
-  under the complete all-platform/storage 0.1.0 scope.
+- [x] DE-W030 private owned identity adapter `4666c6f7`: accepted graph and
+  matching immutable current/last-complete native evidence, explicit prior-digest/
+  subject comparisons, pure references, repeated partial/rejected/late/allocation/
+  outstanding-reader coverage. 2168 processes/70406 assertions across
+  26 x64/x86 campaigns; fresh dev.41 build/launch and 77 product groups;
+  213 tooling passes/2 skips, 1069 structural checks.
+  Full DE-W030 partial; implementing-agent review in
+  `.aide/evidence/2026-10-12-identity-adapter/`.
+- [ ] Connect accepted owned inventory/evidence to the serialized frontend
+  observation port; mixed namespace/storage captures and consumer publication
+  refusal/retry must preserve matching references and native domains without
+  polling during presentation. Keep budgets and all-platform/storage0.1.0 scope,
+  with separate live/physical/provider/public/product/platform/owner/release gates.

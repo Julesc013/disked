@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 112, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 76, in main
+    run('complete',[stage()],states=['complete'])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 40, in run
+    if ref['kind']=='frame':check(label+' actual owned frame schema',content['schema']=='org.disked.nt-storage-frame/2')
+                            ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_identity_adapter.py", line 12, in check
+    def check(name,ok):checks.append(dict(label=name,passed=bool(ok)));assert ok,name
+                                                                              ^^
+AssertionError: complete:0 actual owned frame schema

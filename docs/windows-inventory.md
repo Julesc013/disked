@@ -223,3 +223,16 @@ Fresh dev.41 launch and 77 product groups, 213 tooling passes/
 2 skips and 1067 structural checks pass. This qualifies
 private projection/model fixtures; actual owned adapter/coordinator integration
 and live/provider/public/historical-host/owner/full-unit gates remain open.
+
+The owned identity adapter at `4666c6f7`
+([review](../.aide/evidence/2026-10-12-identity-adapter/REVIEW.md)) prepares matching
+immutable graph/evidence before publication and retains exact current/last-complete
+owners through repeated partial, rejected, superseded and failed attempts. Explicit
+prior-digest/subject comparisons, pure complete references and separate reader
+retirement pass 34/60/4338 per architecture. Clean 26 x64/x86 campaigns pass
+2168 controller/readers and 70406 assertions; fresh dev.41 build/launch
+and 77 product groups, 213 tooling passes/2 skips and
+1069 structural checks pass. Original /1 and /2 frame defaults and budgets are
+unchanged. This qualifies private owned adapter/model fixtures; the serialized
+frontend observation port integration and full live/provider/public/product/
+historical-host/owner/full-unit/storage/release admission remain open.
