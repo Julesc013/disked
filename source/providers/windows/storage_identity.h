@@ -19,4 +19,24 @@ std::shared_ptr<const StorageIdentityObservation> observe_storage_identity(const
 struct IdentityComparisonBinding {std::string previous_digest,current_digest,previous_subject,current_subject;};
 // Explicit lookup continuity, not automatic identity matching. No I/O or effect.
 json::Value compare_storage_identity(const StorageIdentityObservation&,const StorageIdentityObservation&,const IdentityComparisonBinding&);
+class StorageIdentityProjection final {
+    const std::shared_ptr<const StorageFrameSnapshot> frame_,previous_frame_;
+    const std::shared_ptr<const StorageIdentityObservation> identity_,previous_identity_;
+    const json::Value comparisons_;
+    const GraphInput graph_;
+    StorageIdentityProjection(std::shared_ptr<const StorageFrameSnapshot>,std::shared_ptr<const StorageIdentityObservation>,
+        std::shared_ptr<const StorageFrameSnapshot>,std::shared_ptr<const StorageIdentityObservation>,json::Value,GraphInput);
+    friend std::shared_ptr<const StorageIdentityProjection> project_storage_identity(std::shared_ptr<const StorageFrameSnapshot>,
+        std::shared_ptr<const StorageIdentityObservation>,const IdentityBinding&,std::shared_ptr<const StorageIdentityProjection>,const std::vector<IdentityComparisonBinding>&);
+public:
+    const GraphInput& graph()const{return graph_;}
+    const StorageFrameSnapshot& frame()const{return *frame_;}
+    const StorageIdentityObservation& identity()const{return *identity_;}
+    const json::Value& comparisons()const{return comparisons_;}
+    // Complete retained content only; no path lookup, I/O or reconstructed grant.
+    const json::Value& resolve(const std::string& kind,const std::string& digest)const;
+};
+std::shared_ptr<const StorageIdentityProjection> project_storage_identity(std::shared_ptr<const StorageFrameSnapshot>,
+    std::shared_ptr<const StorageIdentityObservation>,const IdentityBinding&,std::shared_ptr<const StorageIdentityProjection> previous={},
+    const std::vector<IdentityComparisonBinding>& comparisons={});
 }}

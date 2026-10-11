@@ -7036,7 +7036,9 @@
         "tests/windows/native/raw_layout_probe.cpp",
         "tests/windows/test_raw_layout.py",
         "source/apps/disked/cli/cli.cpp",
-        "spec/catalog/nt-identity-frontend-prototype.json"
+        "spec/catalog/nt-identity-frontend-prototype.json",
+        "spec/catalog/nt-identity-projection-prototype.json",
+        "source/providers/windows/storage_identity.cpp"
       ],
       "spec_ids": [
         "DE-034",
@@ -7737,7 +7739,9 @@
         "source/apps/disked/gui/win32/gui_model.cpp",
         "source/apps/disked/shell/shell_model.cpp",
         "source/apps/disked/cli/cli.cpp",
-        "spec/catalog/nt-identity-frontend-prototype.json"
+        "spec/catalog/nt-identity-frontend-prototype.json",
+        "spec/catalog/nt-identity-projection-prototype.json",
+        "source/providers/windows/storage_identity.cpp"
       ],
       "spec_ids": [
         "DE-023",
@@ -8259,7 +8263,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/windows/storage_frame_reader.h"
+        "source/providers/windows/storage_frame_reader.h",
+        "spec/catalog/nt-identity-projection-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -8274,7 +8279,8 @@
       "depends_on": [
         "source/providers/windows/storage_identity.h",
         "spec/catalog/nt-composite-identity-prototype.json",
-        "spec/catalog/nt-capture-domain-prototype.json"
+        "spec/catalog/nt-capture-domain-prototype.json",
+        "spec/catalog/nt-identity-projection-prototype.json"
       ],
       "spec_ids": [
         "DE-030",
@@ -8379,6 +8385,51 @@
       "depends_on": [
         "tests/windows/native/capture_domain_limit_probe.cpp",
         "spec/catalog/nt-capture-domain-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "spec/catalog/nt-identity-projection-prototype.json",
+      "path": "spec/catalog/nt-identity-projection-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_identity_projection.py",
+      "path": "tests/windows/test_identity_projection.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/observation_frontend_probe.cpp",
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_identity_queries.py",
+        "tests/windows/test_storage_queries.py",
+        "spec/catalog/nt-identity-projection-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-030",
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-identity-projection/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-identity-projection/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_identity_projection.py",
+        ".aide/evidence/2026-10-12-capture-domain/reproduce.py",
+        "tests/windows/native/CMakeLists.txt",
+        "spec/catalog/nt-identity-projection-prototype.json"
       ],
       "spec_ids": [
         "DE-030",

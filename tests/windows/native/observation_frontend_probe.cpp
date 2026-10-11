@@ -8,6 +8,10 @@
 #include "tui_model.h"
 #include "cli.h"
 #include "memory_budget.h"
+#include <algorithm>
+#if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
+#include "storage_identity.h"
+#endif
 #include <cstdio>
 #include <cstdlib>
 #include <new>
@@ -79,9 +83,9 @@ V inspect_storage(const disked::GraphInput& graph,const disked::Registry& regist
     }
     require(!calls,"fixture_storage_health_called");return out;
 }
-V storage_focus(const disked::GraphInput& original,const disked::GraphInput& current,const disked::Registry& registry) {
+V storage_focus(const disked::GraphInput& original,const disked::GraphInput& current,const disked::Registry& registry,const char* preferred="storage-partition-observation") {
     std::string id;for(const auto& node:original.nodes)if(node.scope==disked::GraphNodeScope::Observation && node.observation.source=="storage") {
-        if(id.empty() || node.kind=="storage-partition-observation")id=node.id;if(node.kind=="storage-partition-observation")break;
+        if(id.empty() || node.kind==preferred)id=node.id;if(node.kind==preferred)break;
     }
     if(id.empty())return V{};
     disked::FrontendSession session(registry,original,{},{},disked::FrontendProfile::CachedObservations);const auto before=session.snapshot();
@@ -112,8 +116,111 @@ V owned(Adapter& a,const Policy& p,const V& fixture) {
     require(text(get(result,"worker"),"observation")=="exited","fixture_reader_not_retired");
     return V::object().put("before",before).put("after",result);
 }
+#if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
+V identity_projection(const V& input,const disked::WindowsMemoryBudget& budget){
+    const auto& reg=get(input,"registry");disked::Registry registry{get(reg,"commands"),get(reg,"syntax"),get(reg,"schemas")};
+    auto commands=registry.commands;for(auto& command:commands.items)command.put("availability",V::string(disked::FrontendSession::handles(text(command,"id"))?"available":"unavailable"));
+    auto discovery=V::object().put("commands",commands);const auto& stages=get(input,"stages");
+    if(stages.kind!=V::Kind::array || stages.items.empty() || stages.items.size()>3)throw std::invalid_argument("fixture_stages");
+    const auto fault=input.find("fault")?text(input,"fault"):"";
+    const std::vector<std::string> faults={"","source","capture","worker","frame_digest","context_digest","domain_missing","domain_foreign","identity_mismatch","identity_null","frame_null","comparison_digest","comparison_subject","comparison_duplicate","comparison_limit","previous_unused","previous_absent","allocation"};
+    require(std::find(faults.begin(),faults.end(),fault)!=faults.end(),"fixture_fault");
+    auto capture=std::unique_ptr<disked::ObservationCapture>(new disked::ObservationCapture({"storage"},disked::GraphProfile::Observations));
+    auto adapter=std::unique_ptr<n::StorageGraphAdapter>(new n::StorageGraphAdapter(*capture,"storage",n::StorageFrameProfile::IdentityLayout));
+    std::shared_ptr<const n::StorageIdentityProjection> previous,last_complete;disked::GraphInput previous_graph;std::string first_frame_digest;auto rows=V::array();bool refused=false;
+    for(std::size_t index=0;index<stages.items.size();++index){
+        const auto& stage=stages.items[index];if(index){
+            if(stage.find("new_domain") && get(stage,"new_domain").boolean){adapter.reset();capture.reset(new disked::ObservationCapture({"storage"},disked::GraphProfile::Observations));adapter.reset(new n::StorageGraphAdapter(*capture,"storage",n::StorageFrameProfile::IdentityLayout));}
+            else capture->next_capture();
+        }
+        const auto previous_digest=previous?n::storage_identity_digest(previous->identity()):"";
+        const bool live=stage.find("live") && get(stage,"live").boolean;auto row=V::object();
+        if(live){adapter->start(n::StorageQueryPolicy{},get(stage,"fixture"));const auto started=adapter->poll();adapter->release();V observed;const auto deadline=GetTickCount64()+1000;
+            do{observed=adapter->poll(1);if(text(observed,"status")=="completed")break;}while(GetTickCount64()<deadline);
+            require(text(observed,"status")=="completed" && text(get(observed,"worker"),"observation")=="running","fixture_live_frame_missing");
+            row.put("worker",V::object().put("before",started).put("after",observed));
+        }else row.put("worker",owned(*adapter,n::StorageQueryPolicy{},get(stage,"fixture")));
+        const auto frame=adapter->frame();
+        require(bool(frame),"fixture_frame_missing");const auto frame_digest=disked::digest_sha256(disked::json::dump(frame->frame().value(),n::storage_observation_limits()));
+        n::IdentityBinding binding{frame->key(),frame_digest,disked::digest_sha256(disked::json::dump(frame->context()))};
+        const auto identity=n::observe_storage_identity(*frame,binding);auto selected_frame=frame;auto selected_identity=identity;
+        std::vector<n::IdentityComparisonBinding> comparisons;
+        if(previous)comparisons.push_back({n::storage_identity_digest(previous->identity()),n::storage_identity_digest(*identity),"disk","disk"});
+        if(const auto* declarations=stage.find("comparisons")){comparisons.clear();if(declarations->kind!=V::Kind::array)throw std::invalid_argument("fixture_comparisons");
+            for(const auto& d:declarations->items)comparisons.push_back({previous?n::storage_identity_digest(previous->identity()):"",n::storage_identity_digest(*identity),text(d,"previous_subject"),text(d,"current_subject")});}
+        auto selected_previous=previous;
+        if(index+1==stages.items.size()){
+            if(fault=="source")binding.capture.source="foreign";
+            if(fault=="capture")++binding.capture.capture;if(fault=="worker")++binding.capture.worker;
+            if(fault=="frame_digest")binding.frame_digest="sha256:"+std::string(64,'0');if(fault=="context_digest")binding.context_digest="sha256:"+std::string(64,'0');
+            if(fault=="domain_missing")binding.capture.domain.reset();
+            if(fault=="domain_foreign"){disked::ObservationCapture foreign({"storage"},disked::GraphProfile::Observations);binding.capture.domain=foreign.epoch_domain();}
+            if(fault=="identity_mismatch"){require(bool(previous),"fixture_previous_missing");selected_identity=std::make_shared<const n::StorageIdentityObservation>(previous->identity());}
+            if(fault=="identity_null")selected_identity.reset();if(fault=="frame_null")selected_frame.reset();
+            if(fault=="previous_unused")comparisons.clear();if(fault=="previous_absent")selected_previous.reset();
+            if(fault=="comparison_digest"){require(!comparisons.empty(),"fixture_comparison_missing");comparisons[0].previous_digest="sha256:"+std::string(64,'0');}
+            if(fault=="comparison_subject"){require(!comparisons.empty(),"fixture_comparison_missing");comparisons[0].current_subject="missing";}
+            if(fault=="comparison_duplicate"){require(!comparisons.empty(),"fixture_comparison_missing");comparisons.push_back(comparisons[0]);}
+            if(fault=="comparison_limit"){require(!comparisons.empty(),"fixture_comparison_missing");while(comparisons.size()<17)comparisons.push_back(comparisons[0]);}
+        }
+        row.put("frame",frame->frame().value()).put("identity",identity->value()).put("context",frame->context());
+        const auto before=capture->snapshot();std::shared_ptr<const n::StorageIdentityProjection> projected;
+        try{
+            if(fault=="allocation" && index+1==stages.items.size())fail_next_allocation=true;
+            projected=n::project_storage_identity(selected_frame,selected_identity,binding,selected_previous,comparisons);
+        }catch(const std::exception& e){fail_next_allocation=false;row.put("error",V::string(e.what()));refused=true;}
+        fail_next_allocation=false;require(before==capture->snapshot(),"fixture_projection_changed_capture");
+        row.put("capture_unchanged",V::boolean_value(true)).put("api_calls",V::string(std::to_string(disked::nt_storage_fixture::call_count())));
+        if(!projected){row.put("previous_preserved",V::boolean_value(!previous || n::storage_identity_digest(previous->identity())==previous_digest));rows.items.push_back(std::move(row));continue;}
+        const auto status=text(frame->frame().value(),"status");if(status=="selected_queries_complete")last_complete.reset();
+        std::weak_ptr<const n::StorageIdentityProjection> old=previous;previous.reset();selected_previous.reset();
+        const bool retained_for_cache=!old.expired() && last_complete==old.lock();require(old.expired() || retained_for_cache,"fixture_projection_history_chain");
+        auto graph=projected->graph();
+        if(last_complete){
+            for(auto node:last_complete->graph().nodes){node.state="stale";graph.nodes.push_back(std::move(node));}
+            graph.edges.insert(graph.edges.end(),last_complete->graph().edges.begin(),last_complete->graph().edges.end());
+        }
+        auto resolved=V::array(),artifacts=V::object();for(const auto& node:graph.nodes)if(node.kind=="storage-identity-observation"){
+            const auto& references=get(node.observation.payload,"references");for(const auto& entry:references.fields){
+                const V* value=nullptr;std::string resolver="current-projection";
+                try{value=&projected->resolve(text(entry.second,"kind"),text(entry.second,"digest"));}catch(const std::invalid_argument&){
+                    if(!last_complete)throw;value=&last_complete->resolve(text(entry.second,"kind"),text(entry.second,"digest"));resolver="last-complete-projection";}
+                const auto artifact=text(entry.second,"kind")+":"+text(entry.second,"digest");if(!artifacts.find(artifact))artifacts.put(artifact,*value);
+                resolved.items.push_back(V::object().put("node",V::string(node.id)).put("name",V::string(entry.first)).put("reference",entry.second).put("artifact",V::string(artifact)).put("resolver",V::string(resolver)));}
+        }
+        bool unknown_kind=false,unknown_digest=false;try{projected->resolve("../file",frame_digest);}catch(const std::invalid_argument&){unknown_kind=true;}
+        try{projected->resolve("frame","sha256:"+std::string(64,'0'));}catch(const std::invalid_argument&){unknown_digest=true;}
+        bool pruned=true;if(index>1)try{projected->resolve("frame",first_frame_digest);pruned=false;}catch(const std::invalid_argument&){}
+        const auto snapshot=disked::GraphSnapshot::create(graph,frame->key().capture);
+        disked::FrontendSession guarded(registry,graph,{},{},disked::FrontendProfile::CachedObservations);const auto guarded_snapshot=guarded.snapshot();
+        const auto focus_id=graph.nodes.back().id;guarded.act({disked::ActionKind::Select,focus_id,guarded_snapshot->revision(),"guard:select"});const auto guarded_selection=disked::json::dump(guarded.selection());
+        auto oversized_graph=graph;oversized_graph.nodes.resize(321,graph.nodes.front());std::string graph_refusal;
+        try{guarded.publish(oversized_graph);}catch(const std::invalid_argument& e){graph_refusal=e.what();}
+        require(graph_refusal=="graph_limit" && guarded.snapshot()==guarded_snapshot && disked::json::dump(guarded.selection())==guarded_selection,"fixture_graph_not_atomic");
+        bool allocation_refused=false;fail_next_allocation=true;try{guarded.publish(graph);}catch(const std::bad_alloc&){allocation_refused=true;}fail_next_allocation=false;
+        require(allocation_refused && guarded.snapshot()==guarded_snapshot && disked::json::dump(guarded.selection())==guarded_selection,"fixture_publication_not_atomic");
+        bool domains=true;for(const auto& node:graph.nodes)domains=domains && node.observation.domain==frame->key().domain;
+        row.put("graph",snapshot->value()).put("resolved",resolved).put("artifacts",artifacts).put("comparisons",projected->comparisons()).put("inspections",inspect_storage(graph,registry,discovery))
+            .put("previous_object_expired",V::boolean_value(old.expired())).put("previous_retained_for_cache",V::boolean_value(retained_for_cache)).put("unknown_reference_refused",V::boolean_value(unknown_kind && unknown_digest)).put("oldest_reference_pruned",V::boolean_value(pruned))
+            .put("domains_retained",V::boolean_value(domains)).put("frame_digest",V::string(frame_digest));
+        row.put("graph_refusal",V::string(graph_refusal)).put("publication_allocation_refused",V::boolean_value(allocation_refused));
+        if(index)row.put("focus",storage_focus(previous_graph,graph,registry,"storage-identity-observation"));
+        row.put("base_graph",disked::GraphSnapshot::create(before->graph,frame->key().capture)->value());
+        if(live){const auto live_worker=adapter->poll();const bool outstanding=capture->snapshot()->sources[0].outstanding;const auto retirement=adapter->retire();
+            row.put("live_worker",live_worker).put("live_outstanding",V::boolean_value(outstanding)).put("retirement",retirement);}
+        if(!index)first_frame_digest=frame_digest;
+        if(status=="selected_queries_complete")last_complete=projected;
+        previous_graph=projected->graph();previous=std::move(projected);rows.items.push_back(std::move(row));
+    }
+    return V::object().put("status",V::string(refused?"refused":"observed")).put("pointer_bytes",V::string(std::to_string(sizeof(void*)))).put("stages",rows)
+        .put("frontend_budget_ready",V::boolean_value(budget.ready())).put("api_calls",V::string(std::to_string(disked::nt_storage_fixture::call_count())));
+}
+#endif
 V exercise(const V& input,const disked::WindowsMemoryBudget& budget) {
     const auto mode=text(input,"mode");const auto& reg=get(input,"registry");
+#if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
+    if(mode=="identity-projection")return identity_projection(input,budget);
+#endif
     disked::Registry registry{get(reg,"commands"),get(reg,"syntax"),get(reg,"schemas")};
     auto commands=registry.commands;for(auto& c:commands.items)c.put("availability",V::string(disked::FrontendSession::handles(text(c,"id"))?"available":"unavailable"));
     auto discovery=V::object().put("commands",commands);
@@ -270,6 +377,11 @@ int wmain(int argc,wchar_t** argv) {
     try {
         std::string data;char block[8192];for(;;){const auto bytes=std::fread(block,1,sizeof(block),stdin);if(data.size()+bytes>1048576)return 2;data.append(block,bytes);if(bytes<sizeof(block)){if(std::ferror(stdin))return 2;break;}}
         disked::json::Limits l;l.bytes=1048576;l.values=131072;l.depth=35;const auto input=disked::json::parse(data,l);const auto mode=text(input,"mode");
-        if(mode!="owned" && mode!="pending" && mode!="synthetic" && mode!="default" && mode!="history" && mode!="cli-limit")throw std::invalid_argument("fixture_mode");print(exercise(input,budget));return 0;
+        bool allowed=mode=="owned" || mode=="pending" || mode=="synthetic" || mode=="default" || mode=="history" || mode=="cli-limit";
+#if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
+        allowed=allowed || mode=="identity-projection";
+#endif
+        if(!allowed)throw std::invalid_argument("fixture_mode");const auto result=exercise(input,budget);print(result);
+        return result.find("status") && text(result,"status")=="refused"?3:0;
     }catch(const std::exception& e){fail_next_allocation=false;print(V::object().put("status",V::string("refused")).put("reason",V::string(e.what())));return 3;}
 }

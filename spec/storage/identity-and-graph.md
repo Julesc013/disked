@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.5-proposed.2
+  version: 0.1.6-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,8 +27,8 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-11T16:45:02.441242+00:00'
-  scope: DE-W030 sealed coordinator-local capture domains; physical/provider/public/reconnect/owner admission remains open
+  at: '2026-10-11T17:45:52.338289+00:00'
+  scope: DE-W030 private compact identity projection and retained complete evidence; physical/provider/public/reconnect/owner admission remains open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -195,3 +195,24 @@ is explanatory metadata with bounded overflow, not a durable or globally unique
 source identity. Serialized observation data and pure fixture projections cannot
 create the native token or restore an execution grant. Cross-session reconnect,
 physical association, freshness and mutation retain their separate gates.
+
+The [private identity projection](../catalog/nt-identity-projection-prototype.json)
+adds compact resource summaries to the existing owned frame detail graph without
+changing those detail IDs or merging targets. Summaries retain reported quality,
+fingerprints, duplicate-group/occurrence counts and explicit comparison relations;
+complete facts, names, identifiers and changes remain in immutable evidence.
+
+References bind complete content by kind and digest within a retained native
+projection object. That object resolves only its current and required previous
+frame/identity values and complete comparisons, with no path lookup, I/O or
+unbounded history chain. A serialized reference is data, not reconstructed native
+ownership, a persistence guarantee, a cross-process resolver or a grant. Cached
+consumers must retain its corresponding object; no public retrieval command or
+fingerprint ABI is admitted by this prototype.
+
+Explicit comparison still requires the same actual domain, valid epoch ordering
+and named disk subjects. Partial evidence may accompany retained complete rows
+marked stale with original references. Existing focus cannot rebind by name.
+Graph, node and display budgets remain fixed; overflow and failed construction
+or publication refuse without replacing originals. Projection/presentation does
+not retire readers, qualify physical freshness or authorize storage operations.

@@ -121,4 +121,67 @@ V compare_storage_identity(const StorageIdentityObservation& previous,const Stor
         .put("changes",changes).put("previous_quality",get(ra,"quality")).put("current_quality",get(rb,"quality")).put("continuity",V::string("caller-declared-subject-lookup; physical association unproven")).put("claims",claims());
     json::dump(out,storage_identity_limits());return out;
 }
+StorageIdentityProjection::StorageIdentityProjection(std::shared_ptr<const StorageFrameSnapshot> frame,std::shared_ptr<const StorageIdentityObservation> identity,
+    std::shared_ptr<const StorageFrameSnapshot> previous_frame,std::shared_ptr<const StorageIdentityObservation> previous_identity,V comparisons,GraphInput graph):
+    frame_(std::move(frame)),previous_frame_(std::move(previous_frame)),identity_(std::move(identity)),previous_identity_(std::move(previous_identity)),
+    comparisons_(std::move(comparisons)),graph_(std::move(graph)){}
+const V& StorageIdentityProjection::resolve(const std::string& kind,const std::string& digest)const{
+    if(kind=="frame")for(const auto* frame:{frame_.get(),previous_frame_.get()})if(frame &&
+        digest_sha256(json::dump(frame->frame().value(),storage_observation_limits()))==digest)return frame->frame().value();
+    if(kind=="identity")for(const auto* identity:{identity_.get(),previous_identity_.get()})if(identity && storage_identity_digest(*identity)==digest)return identity->value();
+    if(kind=="comparison")for(const auto& value:comparisons_.items)if(hash(value)==digest)return value;
+    throw std::invalid_argument("storage_identity_reference");
+}
+std::shared_ptr<const StorageIdentityProjection> project_storage_identity(std::shared_ptr<const StorageFrameSnapshot> frame,
+    std::shared_ptr<const StorageIdentityObservation> identity,const IdentityBinding& expected,std::shared_ptr<const StorageIdentityProjection> previous,
+    const std::vector<IdentityComparisonBinding>& expected_comparisons){
+    if(!frame || !identity)throw std::invalid_argument("storage_identity_projection_input");
+    const auto& key=frame->key();const auto& observed=identity->value();const auto& binding=get(observed,"binding");
+    if(frame->frame().profile()!=StorageFrameProfile::IdentityLayout)throw std::invalid_argument("storage_identity_projection_profile");
+    if(!key.domain || identity->epoch_domain()!=key.domain)throw std::invalid_argument("storage_identity_projection_domain");
+    const auto frame_digest=digest_sha256(json::dump(frame->frame().value(),storage_observation_limits())),context_digest=digest_sha256(json::dump(frame->context()));
+    if(!(key==expected.capture) || expected.frame_digest!=frame_digest || expected.context_digest!=context_digest ||
+        text(binding,"domain")!="capture-domain-local:"+std::to_string(key.domain->local_ordinal()) || text(binding,"source")!=key.source ||
+        number(binding,"capture")!=key.capture || number(binding,"worker")!=key.worker || text(binding,"frame_digest")!=frame_digest || text(binding,"context_digest")!=context_digest ||
+        json::dump(get(observed,"worker_context"))!=json::dump(frame->context()))throw std::invalid_argument("storage_identity_projection_binding");
+    if(expected_comparisons.size()>16 || static_cast<bool>(previous)!=!expected_comparisons.empty())throw std::invalid_argument("storage_identity_projection_comparisons");
+    auto comparisons=V::array();std::set<std::string> current_subjects;
+    for(const auto& comparison:expected_comparisons){
+        if(!current_subjects.insert(comparison.current_subject).second)throw std::invalid_argument("storage_identity_projection_duplicate_subject");
+        comparisons.items.push_back(compare_storage_identity(previous->identity(),*identity,comparison));
+    }
+    auto graph=project_storage_frame(frame->frame(),key,context_digest,frame->context());const auto identity_digest=storage_identity_digest(*identity);
+    auto reference=[](const char* kind,const std::string& digest){return V::object().put("kind",V::string(kind)).put("digest",V::string(digest))
+        .put("retrieval",V::string("retained-native-projection")).put("scope",V::string("complete-evidence-only"));};
+    for(const auto& resource:get(observed,"resources").items){
+        const auto resource_subject=text(resource,"subject");std::string parent,label;
+        for(const auto& n:graph.nodes)if((n.kind=="storage-device-observation" || n.kind=="storage-volume-observation") &&
+            text(n.observation.payload,"subject_key")==resource_subject){parent=n.id;label=n.label;break;}
+        if(parent.empty())throw std::invalid_argument("storage_identity_projection_subject");
+        std::map<std::string,std::pair<std::size_t,std::size_t>> counts;
+        for(const auto& collision:get(observed,"collisions").items){std::size_t occurrences=0;
+            for(const auto& row:get(collision,"occurrences").items)if(text(row,"subject")==resource_subject)++occurrences;
+            if(occurrences){auto& count=counts[text(collision,"kind")];++count.first;count.second+=occurrences;}
+        }
+        auto collisions=V::array();for(const auto& entry:counts)collisions.items.push_back(V::object().put("kind",V::string(entry.first))
+            .put("groups",V::string(std::to_string(entry.second.first))).put("occurrences",V::string(std::to_string(entry.second.second))));
+        auto summary=select(resource,{"observation_id","reported_fingerprint","quality"});summary.put("collisions",collisions).put("claims",get(observed,"claims"));
+        auto references=V::object().put("frame",reference("frame",frame_digest)).put("identity",reference("identity",identity_digest));
+        for(const auto& comparison:comparisons.items)if(text(comparison,"current_subject")==resource_subject){
+            auto change=select(comparison,{"previous_subject","current_subject","relation","reported_relation","previous_quality","current_quality","continuity"});
+            auto components=V::array();for(const auto& value:get(comparison,"changes").items)components.items.push_back(get(value,"component"));
+            change.put("changed_components",components);summary.put("comparison",std::move(change));
+            references.put("comparison",reference("comparison",hash(comparison))).put("previous_identity",reference("identity",text(comparison,"previous_digest")))
+                .put("previous_frame",reference("frame",digest_sha256(json::dump(previous->frame().frame().value(),storage_observation_limits()))));
+        }
+        GraphNode node;node.scope=GraphNodeScope::Observation;node.kind="storage-identity-observation";node.state="unknown";node.label=label;
+        auto& o=node.observation;o.source=key.source;o.capture=key.capture;o.worker=key.worker;o.domain=key.domain;o.frame_digest=frame_digest;o.context_digest=context_digest;
+        o.payload=V::object().put("subject_key",V::string(resource_subject)).put("parent_observation",V::string(parent)).put("summary",std::move(summary)).put("references",std::move(references))
+            .put("binding_scope",V::string("owned-reader-context")).put("worker_context",frame->context()).put("capture_consistency",V::string("sequential-not-atomic"));
+        node.id=observation_node_id(node);graph.edges.push_back({parent,node.id,"reports-identity"});graph.nodes.push_back(std::move(node));
+    }
+    GraphSnapshot::create(graph,key.capture);
+    return std::shared_ptr<const StorageIdentityProjection>(new StorageIdentityProjection(std::move(frame),std::move(identity),
+        previous?previous->frame_:nullptr,previous?previous->identity_:nullptr,std::move(comparisons),std::move(graph)));
+}
 }}

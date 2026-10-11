@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.11-proposed.2
+  version: 0.1.12-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,8 +49,8 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T16:45:02.441242+00:00'
-  scope: DE-W030 domain-bound native adapter startup and owned evidence; live/physical/provider/public/owner gates remain open
+  at: '2026-10-11T17:45:52.338289+00:00'
+  scope: DE-W030 private compact owned identity projection and complete local references; live/physical/provider/public/owner gates remain open
 ---
 
 # Windows NT provider strategy
@@ -319,3 +319,13 @@ reconstruction cannot manufacture this native binding. No host role/channel,
 wire schema, physical source association, provider or shipped composition is
 added by this private guard. Historical receipts remain evidence at their exact
 source revision, without admitting reconnect or fresh-media authority.
+
+The [private compact projection](../catalog/nt-identity-projection-prototype.json)
+derives evidence-only summary rows from actual owned /2 frames and immutable
+identity objects. It preserves the existing frame detail nodes and adds bounded
+links and complete content references. The retained native object resolves exact
+current/previous frame, identity and comparison values; serialized hashes alone
+do not reconstruct ownership or provide public retrieval. Cached CLI, shell,
+TUI and GUI models consume these rows under their existing observation profile.
+No Windows host role, storage query profile, shipped product composition or
+public command is added. Full live/provider/platform/owner admission remains open.

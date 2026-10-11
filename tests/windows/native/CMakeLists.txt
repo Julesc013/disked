@@ -232,6 +232,14 @@ target_compile_definitions(nt_identity_frontend_probe PRIVATE _WIN32_WINNT=0x0A0
 target_compile_options(nt_identity_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_identity_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
 
+add_executable(nt_identity_projection_probe ${identity_frontend_sources}
+  "${DISKED_ROOT}/source/providers/windows/storage_identity.cpp")
+target_include_directories(nt_identity_projection_probe PRIVATE ${identity_frontend_includes})
+target_compile_definitions(nt_identity_projection_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00
+  DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_NT_IDENTITY_FRONTEND_TESTING=1 DISKED_NT_IDENTITY_PROJECTION_TESTING=1)
+target_compile_options(nt_identity_projection_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
+target_link_options(nt_identity_projection_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
 get_target_property(owned_layout_sources nt_storage_worker_probe SOURCES)
 list(FILTER owned_layout_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
 add_executable(nt_owned_layout_probe ${owned_layout_sources}
