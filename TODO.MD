@@ -271,7 +271,16 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   `.aide/evidence/2026-10-12-inventory-advance/`.
 - [ ] Investigate the retained joined-report worker exit wait failure; preserve
   the original3000-ms wait and distinguish finished receipts from actual exit.
-- [ ] Qualify active screen-mode TUI delivery and escaping application-callback
-  failures with pending owned readers, exact late-request binding and separate
-  actual host restoration/source retirement. Preserve Fake product defaults,
-  original budgets, full 0.1.0 scope and separate admission/authority gates.
+- [x] DE-W030 private screen TUI delivery and escaping callback teardown `b42c23fd`:
+  62 controllers/113 readers per architecture; 350 total processes,
+  9190 assertions, fresh dev.41 x64 launch/imports, 77 serial product groups,
+  213 tooling passes/2 skips and 1075 structural checks.
+  Exact old reviews, unavailable failure sample, original console restoration and
+  independent actual retirement; partial implementer review in
+  `.aide/evidence/2026-10-12-inventory-host/`. Normal screen-shell updates and actual
+  asynchronous storage-operation completion remain unqualified.
+- [ ] Qualify independently bound pending read-only operations through actual native
+  snapshot updates and late completion in GUI/TUI/shell, preserving exact requests,
+  old-view results/transcripts and cached owner lifetime without source advancement
+  in CompletionPoll. Preserve Fake defaults, original budgets, full 0.1.0 scope
+  and separate owner/storage/admission/release gates.

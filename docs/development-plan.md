@@ -502,3 +502,17 @@ The private port fixture alone was corrected at `8cf67f0d` and freshly tested
 on both architectures. Each artifact keeps its real source identity; all 404
 production inputs are unchanged. The retained parallel joined-report exit-wait
 failure is still under investigation despite isolated and full serial passes.
+
+Private native host qualification `b42c23fd`
+([review](../.aide/evidence/2026-10-12-inventory-host/REVIEW.md)) adds actual screen
+TUI refresh across metadata/full-frame/compact-identity compositions and pending
+application-callback failures in GUI and linear/screen TUI/shell. Exact old review
+conflicts, retained original owners, internal-error4/unavailable final model sample,
+independent actual reader retirement and original console restoration pass.
+Per architecture: 62 controllers/113 readers; two campaigns total 350
+processes/9190 assertions. Fresh same-source dev.41 x64 build/launch/imports,
+77 serial product groups, 213 tooling passes/2 skips
+and 1075 structural checks. Production source files/composition and all budgets
+remain unchanged. Normal active screen-shell update and actual asynchronous operation
+completion remain separate work. The earlier parallel joined-report exit-delay cause
+is still unestablished. All broader admission gates and the full 0.1.0 goal remain.
