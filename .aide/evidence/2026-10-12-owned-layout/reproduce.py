@@ -42,7 +42,7 @@ def main():
         for name,target,script,wanted_controllers,wanted_children,wanted_assertions in cases:
             probe=build/('Release/'+target+'.exe');campaign=out/(name+'-'+arch);extra=['--storage-profile','identity-layout'] if name=='identity-frontend' else []
             run(name+'-'+arch,[sys.executable,checkout/('tests/windows/'+script),'--probe',probe,'--output',campaign,'--pointer-bytes',pointer,*extra],checkout,240)
-            result=json.loads((campaign/'results.json').read_bytes());assert result['status']=='pass' and result['pointer_bytes']==pointer and all(x['passed'] for x in result['checks'])
+            result=json.loads((campaign/'results.json').read_bytes());assert result['status']=='pass' and result['pointer_bytes']==pointer and all(x['passed'] for x in result.get('checks',[])) and result['assertions']>0
             controllers=result.get('controller_executions',result.get('native_executions',result.get('processes',result.get('executions'))));controllers=len(controllers) if isinstance(controllers,list) else controllers
             children=result.get('actual_child_launches',0);assertions=result['assertions']
             if wanted_controllers is not None:assert (controllers,children,assertions)==(wanted_controllers,wanted_children,wanted_assertions),(name,controllers,children,assertions)
