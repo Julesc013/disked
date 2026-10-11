@@ -15,20 +15,24 @@ struct ObservationWorkerProfile {
     std::size_t input_mapping_bytes;json::Limits input_limits,provider_limits,reply_limits;
     std::function<void(const json::Value&)> validate_request;
     std::function<void(const json::Value&,const json::Value&)> validate_result;
+    // Optional compiled ordinary-image byte channel; never JSON-selected.
+    std::size_t payload_bytes=0;
 };
 using ObservationCollector=std::function<json::Value(const std::function<bool()>&)>;
 using ObservationFactory=std::function<ObservationCollector(const json::Value&,const std::function<void()>&)>;
+using PayloadObservationFactory=std::function<ObservationCollector(const json::Value&,const std::function<void()>&,HANDLE)>;
 class ObservationWorker final {
     struct Impl;std::unique_ptr<Impl> impl_;
     explicit ObservationWorker(std::unique_ptr<Impl>);
 public:
     ~ObservationWorker();ObservationWorker(const ObservationWorker&)=delete;ObservationWorker& operator=(const ObservationWorker&)=delete;
     // Complete allocation/pinning/serialization before any child is created.
-    static std::unique_ptr<ObservationWorker> prepare(const json::Value& request,const ObservationWorkerProfile&);
+    static std::unique_ptr<ObservationWorker> prepare(const json::Value& request,const ObservationWorkerProfile&,HANDLE payload=INVALID_HANDLE_VALUE);
     // The caller owns this object before launch, including any post-spawn throw.
     void launch();bool never_launched() const;
     json::Value observe(DWORD wait_ms=0);void release();void cancel();
     json::Value retire(DWORD wait_ms=2000);bool wait_entered(DWORD wait_ms);
 };
 int observation_worker_role(int,wchar_t**,const ObservationWorkerProfile&,const ObservationFactory&);
+int observation_worker_role(int,wchar_t**,const ObservationWorkerProfile&,const PayloadObservationFactory&);
 }}

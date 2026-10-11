@@ -35,6 +35,7 @@
 - [nt-identity-frontend-prototype.json](nt-identity-frontend-prototype.json)
 - [nt-identity-layout-prototype.json](nt-identity-layout-prototype.json)
 - [nt-namespace-worker-prototype.json](nt-namespace-worker-prototype.json)
+- [nt-owned-layout-prototype.json](nt-owned-layout-prototype.json)
 - [nt-raw-layout-prototype.json](nt-raw-layout-prototype.json)
 - [nt-storage-observation-prototype.json](nt-storage-observation-prototype.json)
 - [nt-storage-worker-prototype.json](nt-storage-worker-prototype.json)

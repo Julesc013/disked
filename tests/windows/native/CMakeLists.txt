@@ -231,3 +231,29 @@ target_compile_definitions(nt_identity_frontend_probe PRIVATE _WIN32_WINNT=0x0A0
   DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_NT_IDENTITY_FRONTEND_TESTING=1)
 target_compile_options(nt_identity_frontend_probe PRIVATE /W4 /WX /utf-8 /permissive- /GS /sdl /guard:cf)
 target_link_options(nt_identity_frontend_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)
+
+get_target_property(owned_layout_sources nt_storage_worker_probe SOURCES)
+list(FILTER owned_layout_sources EXCLUDE REGEX "storage_worker_probe[.]cpp$")
+add_executable(nt_owned_layout_probe ${owned_layout_sources}
+  "${CMAKE_CURRENT_LIST_DIR}/owned_layout_probe.cpp"
+  "${DISKED_ROOT}/source/platform/windows/storage/image_layout_worker.cpp"
+  "${DISKED_ROOT}/source/platform/windows/memory_budget.cpp"
+  "${DISKED_ROOT}/source/providers/image/file_layout.cpp"
+  "${DISKED_ROOT}/source/providers/windows/storage_layout.cpp"
+  "${DISKED_ROOT}/source/providers/windows/layout_provenance.cpp"
+  "${DISKED_ROOT}/source/runtime/capture/raw_layout.cpp"
+  "${DISKED_ROOT}/source/portable/primitives/checked.c"
+  "${DISKED_ROOT}/source/portable/primitives/extent.c"
+  "${DISKED_ROOT}/source/portable/primitives/view.c"
+  "${DISKED_ROOT}/source/portable/mbr/mbr.c"
+  "${DISKED_ROOT}/source/portable/ebr/ebr.c"
+  "${DISKED_ROOT}/source/portable/gpt/gpt.c"
+  "${DISKED_ROOT}/source/portable/gpt/encoding.c")
+target_include_directories(nt_owned_layout_probe PRIVATE ${identity_frame_includes}
+  "${DISKED_ROOT}/source/runtime/capture" "${DISKED_ROOT}/source/portable/primitives"
+  "${DISKED_ROOT}/source/portable/mbr" "${DISKED_ROOT}/source/portable/ebr" "${DISKED_ROOT}/source/portable/gpt")
+set_target_properties(nt_owned_layout_probe PROPERTIES C_STANDARD 90 C_STANDARD_REQUIRED ON)
+target_compile_definitions(nt_owned_layout_probe PRIVATE _WIN32_WINNT=0x0A00 WINVER=0x0A00
+  DISKED_NT_OBSERVATION_WORKER_TESTING=1 DISKED_FILE_LAYOUT_TESTING=1)
+target_compile_options(nt_owned_layout_probe PRIVATE /W4 /WX /utf-8 /GS /sdl /guard:cf $<$<COMPILE_LANGUAGE:CXX>:/permissive->)
+target_link_options(nt_owned_layout_probe PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)

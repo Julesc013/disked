@@ -64,4 +64,12 @@ void StorageGraphAdapter::consume(const V& observed){
 }
 V StorageGraphAdapter::poll(DWORD ms){if(!session_)throw std::invalid_argument("storage_graph_not_started");auto v=session_->observe(ms);consume(v);return v;}
 V StorageGraphAdapter::retire(DWORD ms){if(!session_)throw std::invalid_argument("storage_graph_not_started");auto v=session_->retire(ms);consume(v);return v;}
+std::shared_ptr<const StorageFrameSnapshot> StorageGraphAdapter::frame(){
+    const auto observed=poll();const auto current=capture_.snapshot();if(current->capture!=key_.capture || text(observed,"status")!="completed")return {};
+    bool accepted=false;for(const auto& source:current->sources)if(source.id==source_ && source.attempt.capture==key_.capture && source.attempt.worker==key_.worker &&
+        (source.state==SourceState::Complete || source.state==SourceState::Partial))accepted=true;
+    if(!accepted)return {};const auto context=storage_graph_context(observed,profile_);if(json::dump(context)!=json::dump(context_))throw std::invalid_argument("storage_graph_binding");
+    const auto result=read_storage_frame(get(observed,"result"),input_.provider_input,key_.capture,input_.policy,profile_);
+    return std::shared_ptr<const StorageFrameSnapshot>(new StorageFrameSnapshot(result,key_,context));
+}
 }}

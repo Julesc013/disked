@@ -36,15 +36,20 @@ V permissions(){return V::object().put("live_namespace",V::boolean_value(false))
 }
 struct ObservationWorker::Impl {
     Security security;Image image;Directory code_parent;WorkerBudget aggregate;
-    ObservationWorkerProfile profile;Handle input,output,cancellation,admission,gate,job,process;std::unique_ptr<View> view;
+    ObservationWorkerProfile profile;Handle input,output,cancellation,admission,gate,job,process,payload;std::unique_ptr<View> view;
     V binding;std::string input_digest,created,last_bytes;DWORD pid=0;bool cancellation_requested=false,retired=false,launch_attempted=false;
     explicit Impl(const ObservationWorkerProfile& p):code_parent(narrow(image.path.substr(0,image.path.find_last_of(L'\\')))),aggregate(security,true),profile(p){}
 };
 ObservationWorker::ObservationWorker(std::unique_ptr<Impl> p):impl_(std::move(p)){}
 ObservationWorker::~ObservationWorker()=default;
-std::unique_ptr<ObservationWorker> ObservationWorker::prepare(const V& r,const ObservationWorkerProfile& profile){
+std::unique_ptr<ObservationWorker> ObservationWorker::prepare(const V& r,const ObservationWorkerProfile& profile,HANDLE payload){
     request(r,profile);if(profile.input_mapping_bytes<sizeof(Input) || profile.input_mapping_bytes>278528 || profile.input_limits.bytes>profile.input_mapping_bytes-sizeof(Input) || profile.reply_limits.bytes>786432)invalid(profile,"profile");
+    if(profile.payload_bytes>16U*1024U*1024U || ((payload && payload!=INVALID_HANDLE_VALUE)!=bool(profile.payload_bytes)))invalid(profile,"payload_profile");
     std::unique_ptr<Impl> p(new Impl(profile));p->binding=r;
+    if(profile.payload_bytes){
+        HANDLE owned=nullptr;if(!DuplicateHandle(GetCurrentProcess(),payload,GetCurrentProcess(),&owned,FILE_MAP_READ|FILE_MAP_WRITE,FALSE,0))fail("observation_payload_duplicate");
+        p->payload=Handle(owned);View check(p->payload.value,FILE_MAP_READ,profile.payload_bytes);
+    }
     p->binding.put("schema",V::string(profile.input_schema)).put("scope",V::string(profile.scope)).put("host_id",V::string(p->security.host_id)).put("code_sha256",V::string(p->image.digest))
         .put("observer_epoch",V::string(p->security.identity("observer:"))).put("worker_epoch",V::string(p->security.identity("worker:"))).put("attempt_id",V::string(p->security.identity(profile.attempt_prefix)));
     const auto bytes=json::dump(p->binding,profile.input_limits);p->input_digest=hash(bytes);
@@ -64,7 +69,8 @@ bool ObservationWorker::never_launched() const{return !impl_->process.valid();}
 void ObservationWorker::launch(){
     auto& p=*impl_;if(p.launch_attempted)invalid(p.profile,"launch_reused");p.launch_attempted=true;
     auto ci=inherited(p.input.value,FILE_MAP_READ),co=inherited(p.output.value,FILE_MAP_WRITE),cc=inherited(p.cancellation.value,SYNCHRONIZE),ca=inherited(p.admission.value,EVENT_MODIFY_STATE),cg=inherited(p.gate.value,SYNCHRONIZE);
-    std::vector<HANDLE> handles={ci.value,co.value,cc.value,ca.value,cg.value},jobs={p.aggregate.job.value,p.job.value};AttributeList attributes(handles,jobs);
+    Handle cp;if(p.profile.payload_bytes)cp=inherited(p.payload.value,FILE_MAP_WRITE);
+    std::vector<HANDLE> handles={ci.value,co.value,cc.value,ca.value,cg.value},jobs={p.aggregate.job.value,p.job.value};if(cp.valid())handles.push_back(cp.value);AttributeList attributes(handles,jobs);
     STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=attributes.list;
     startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
     std::wstring command=L"\""+p.image.path+L"\" "+p.profile.role;for(const auto h:handles)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(h));
@@ -119,15 +125,16 @@ V ObservationWorker::retire(DWORD ms){
     if(p.process.valid() && WaitForSingleObject(p.process.value,0)==WAIT_TIMEOUT){if(!TerminateJobObject(p.job.value,31))fail("observation_retirement_unresolved");p.retired=true;}
     if(p.process.valid())WaitForSingleObject(p.process.value,ms);return observe();
 }
-int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfile& profile,const ObservationFactory& factory){
-    if(argc!=7)return 2;
+int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfile& profile,const PayloadObservationFactory& factory){
+    if(profile.payload_bytes>16U*1024U*1024U || argc!=(profile.payload_bytes?8:7))return 2;
     try{
         auto hi=Handle(argument_handle(argv[2])),ho=Handle(argument_handle(argv[3])),hc=Handle(argument_handle(argv[4])),ha=Handle(argument_handle(argv[5])),hg=Handle(argument_handle(argv[6]));
         Security security;WorkerBudget budget(security,false);Image image;View input(hi.value,FILE_MAP_READ,profile.input_mapping_bytes),output(ho.value,FILE_MAP_WRITE,sizeof(Output)+profile.reply_limits.bytes);
         const auto* raw=static_cast<const Input*>(input.value);if(!raw->length || raw->length>profile.input_limits.bytes)invalid(profile,"input_size");
         const std::string bytes(reinterpret_cast<const char*>(raw+1),raw->length);const auto h=json::parse(bytes,profile.input_limits);header(h,profile);
         if(text(h,"host_id")!=security.host_id || text(h,"code_sha256")!=image.digest)invalid(profile,"worker_code");
-        auto* value=static_cast<Output*>(output.value);auto collector=factory(h,[value]{InterlockedExchange(&value->entered,1);});signal(ha.value);
+        Handle payload;if(profile.payload_bytes)payload=Handle(argument_handle(argv[7]));
+        auto* value=static_cast<Output*>(output.value);auto collector=factory(h,[value]{InterlockedExchange(&value->entered,1);},payload.value);signal(ha.value);
         if(WaitForSingleObject(hg.value,1000)!=WAIT_OBJECT_0)return 4;
         const auto snapshot=collector([&]{return WaitForSingleObject(hc.value,0)==WAIT_OBJECT_0;});
         auto reply=h;reply.fields.erase("policy");reply.fields.erase("provider_input");reply.put("schema",V::string(profile.reply_schema)).put("request_digest",V::string(hash(bytes)))
@@ -135,6 +142,10 @@ int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfi
 #if defined(DISKED_NT_NAMESPACE_WORKER_TESTING) || defined(DISKED_NT_OBSERVATION_WORKER_TESTING)
         const auto fault=field(h,"provider_input").find("reply_fault");const auto mode=fault?fault->text:"";
         if(mode=="capture")reply.put("capture_epoch",V::string("0"));if(mode=="worker")reply.put("worker_epoch",V::string("stale-worker"));
+        if(mode=="code")reply.put("code_sha256",V::string(std::string(64,'0')));if(mode=="request")reply.put("request_digest",V::string(std::string(64,'0')));
+        if(mode=="scope")reply.put("scope",V::string("wrong-profile"));if(mode=="host")reply.put("host_id",V::string("wrong-host"));
+        if(mode=="observer")reply.put("observer_epoch",V::string("wrong-observer"));if(mode=="attempt")reply.put("attempt_id",V::string("wrong-attempt"));
+        if(mode=="pid")reply.put("pid",V::string("0"));if(mode=="created")reply.put("created",V::string("0"));
         if(mode=="shape")reply.fields["snapshot"].put(profile.records_field,V{});if(mode=="status")reply.fields["snapshot"].put("status",V::string("invented"));
         if(mode=="claims")reply.fields["snapshot"].fields["claims"].put("physical_admission",V::boolean_value(true));if(mode=="schema")reply.put("schema",V::string("unknown-producer"));
         if(mode=="capacity")reply.fields["snapshot"].fields["resources"].items[0].fields["components"].fields["length"].fields["data"].put("length_bytes",V::string("1"));
@@ -146,5 +157,9 @@ int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfi
 #endif
         return 0;
     }catch(const std::exception&){return 3;}
+}
+int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfile& profile,const ObservationFactory& factory){
+    if(profile.payload_bytes)return 2;
+    return observation_worker_role(argc,argv,profile,PayloadObservationFactory([&](const V& h,const std::function<void()>& notify,HANDLE){return factory(h,notify);}));
 }
 }}

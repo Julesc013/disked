@@ -11,5 +11,7 @@ public:
     StorageGraphAdapter(ObservationCapture&,std::string source,StorageFrameProfile profile=StorageFrameProfile::Metadata);
     void start(const StorageQueryPolicy&,const json::Value& fixture);void release();void cancel();bool timeout();bool wait_entered(DWORD);
     json::Value poll(DWORD wait_ms=0);json::Value retire(DWORD wait_ms=2000);const CaptureKey& key() const{return key_;}
+    // Current accepted capture from this actual owned adapter, never from JSON.
+    std::shared_ptr<const StorageFrameSnapshot> frame();
 };
 }}

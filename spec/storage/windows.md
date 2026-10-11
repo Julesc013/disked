@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.8-proposed.2
+  version: 0.1.9-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -272,3 +272,30 @@ consistency, media identity or storage authority. Original observations and thei
 claims remain immutable. Generated x64/x86 ordinary-image fixtures must qualify
 this private selection; live, owned-reader, provider/product/public, historical
 platform, owner acceptance and full-unit admission remain separate gates.
+
+## Private owned image/layout provenance
+
+The [owned-layout execution profile](../catalog/nt-owned-layout-prototype.json)
+adds an ordinary generated-file reader to the finite Windows observation host.
+It pins expected file/parent identity, reads a complete bounded first capture,
+rereads chunks and retains metadata, length/error and digest observations.
+Its compiled role receives one anonymous inherited byte channel capped at the
+existing 16 MiB decoder limit. The parent copies and hashes bounded bytes,
+independently reconstructs the layout and retains immutable values, rather than
+keeping a borrowed view of writable shared memory. Old roles retain their
+existing argument count, channels and limits.
+
+Only actual owned sessions construct the private typed file/frame snapshots.
+The pure join binds native PID/creation, code/request/profile/attempt/context,
+capture, selected subject and content digests before comparing common fields.
+An expired capture cannot provide a current frame. Historical snapshots retain
+their exact evidence without claiming current resource freshness. Unstable
+source observations or a partial final logical block make the overall join
+incomparable; rounded capacity cannot establish missing source bytes.
+
+These bindings authenticate the owned observation relationship, not a physical
+association between the ordinary file and injected Windows subject. Equal reads
+and metadata remain live-uncoordinated observations, not an atomic snapshot.
+The original pure comparison retains its separate no-authentication scope.
+Product composition, public protocol, provider admission, real storage, other
+hosts, owner acceptance and full-unit completion require their existing gates.

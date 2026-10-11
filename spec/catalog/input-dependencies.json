@@ -8095,6 +8095,149 @@
         "DE-023",
         "DE-034"
       ]
+    },
+    {
+      "id": "spec/catalog/nt-owned-layout-prototype.json",
+      "path": "spec/catalog/nt-owned-layout-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-034",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_layout.h",
+      "path": "source/providers/image/file_layout.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/raw_layout.h"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/providers/image/file_layout.cpp",
+      "path": "source/providers/image/file_layout.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_layout.h",
+        "source/providers/image/local_file.h",
+        "spec/catalog/nt-owned-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034",
+        "DE-032"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/image_layout_worker.h",
+      "path": "source/platform/windows/storage/image_layout_worker.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/file_layout.h",
+        "source/platform/windows/storage/observation_worker.h"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/image_layout_worker.cpp",
+      "path": "source/platform/windows/storage/image_layout_worker.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/image_layout_worker.h",
+        "source/platform/windows/worker_files.h",
+        "spec/catalog/nt-owned-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/layout_provenance.h",
+      "path": "source/providers/windows/layout_provenance.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/storage_layout.h",
+        "source/providers/windows/storage_frame_reader.h",
+        "source/providers/image/file_layout.h"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "source/providers/windows/layout_provenance.cpp",
+      "path": "source/providers/windows/layout_provenance.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/windows/layout_provenance.h",
+        "spec/catalog/nt-owned-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/native/owned_layout_probe.cpp",
+      "path": "tests/windows/native/owned_layout_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/image_layout_worker.h",
+        "source/providers/windows/layout_provenance.h",
+        "tests/windows/native/storage_fixture.h",
+        "tests/windows/native/volume_fixture.h"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": "tests/windows/test_owned_layout.py",
+      "path": "tests/windows/test_owned_layout.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/native/owned_layout_probe.cpp",
+        "tests/windows/test_raw_layout.py",
+        "tests/windows/test_storage_queries.py",
+        "spec/catalog/nt-owned-layout-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-owned-layout/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-owned-layout/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/windows/test_owned_layout.py",
+        "tests/windows/native/CMakeLists.txt",
+        "tests/windows/test_namespace_worker.py",
+        "tests/windows/test_namespace_graph.py",
+        "tests/windows/test_capture_lifecycle.py",
+        "tests/windows/test_storage_worker.py",
+        "tests/windows/test_identity_frame.py",
+        "tests/windows/test_observation_frontend.py",
+        "tests/windows/test_raw_layout.py"
+      ],
+      "spec_ids": [
+        "DE-034"
+      ]
     }
   ]
 }
