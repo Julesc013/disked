@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.12-proposed.2
+  version: 0.1.13-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -49,7 +49,7 @@ sources:
   resource: ../references/sources.json#windows-identity-layout-query
 updated:
   by: codex
-  at: '2026-10-11T17:45:52.338289+00:00'
+  at: '2026-10-11T18:49:03.898590+00:00'
   scope: DE-W030 private compact owned identity projection and complete local references; live/physical/provider/public/owner gates remain open
 ---
 
@@ -329,3 +329,20 @@ do not reconstruct ownership or provide public retrieval. Cached CLI, shell,
 TUI and GUI models consume these rows under their existing observation profile.
 No Windows host role, storage query profile, shipped product composition or
 public command is added. Full live/provider/platform/owner admission remains open.
+
+The [private owned identity adapter](../catalog/nt-identity-adapter-prototype.json)
+explicitly selects compact identity projection with the existing /2 frame
+profile. Existing /1 and /2 frame projection defaults remain unchanged. Prepare
+the exact owned frame, identity, graph and immutable evidence owners before
+coordinator publication; replace owners only for an accepted graph of that
+exact attempt. Duplicate, rejected and superseded publications cannot replace
+matching retained evidence. Cached retrieval does not poll or dispatch APIs.
+
+Optional comparisons require an exact retained prior digest and explicit named
+disk subjects before launching the reader; the current digest comes from its
+actual result. Complete captures replace current and last complete owners;
+partial captures retain the last complete projection and stale original rows.
+Allocation refusal preserves originals, while failure during reader retirement
+can leave accepted content published and the actual attempt still outstanding.
+No timed-out, cancelled or published result proves retirement. This remains a
+private serialized adapter, without live/provider/public/product/owner admission.

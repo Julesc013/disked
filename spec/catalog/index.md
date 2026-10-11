@@ -33,6 +33,7 @@
 - [native-bootstrap.json](native-bootstrap.json)
 - [nt-capture-domain-prototype.json](nt-capture-domain-prototype.json)
 - [nt-composite-identity-prototype.json](nt-composite-identity-prototype.json)
+- [nt-identity-adapter-prototype.json](nt-identity-adapter-prototype.json)
 - [nt-identity-frame-prototype.json](nt-identity-frame-prototype.json)
 - [nt-identity-frontend-prototype.json](nt-identity-frontend-prototype.json)
 - [nt-identity-layout-prototype.json](nt-identity-layout-prototype.json)

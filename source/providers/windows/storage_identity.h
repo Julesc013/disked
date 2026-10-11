@@ -31,6 +31,7 @@ class StorageIdentityProjection final {
 public:
     const GraphInput& graph()const{return graph_;}
     const StorageFrameSnapshot& frame()const{return *frame_;}
+    std::shared_ptr<const StorageFrameSnapshot> frame_snapshot()const{return frame_;}
     const StorageIdentityObservation& identity()const{return *identity_;}
     const json::Value& comparisons()const{return comparisons_;}
     // Complete retained content only; no path lookup, I/O or reconstructed grant.

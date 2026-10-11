@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-030
   profile: disked-spec/1
-  version: 0.1.6-proposed.2
+  version: 0.1.7-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
   - DE-REQ-030-04
 updated:
   by: codex
-  at: '2026-10-11T17:45:52.338289+00:00'
+  at: '2026-10-11T18:49:03.898590+00:00'
   scope: DE-W030 private compact identity projection and retained complete evidence; physical/provider/public/reconnect/owner admission remains open
 sources:
 - id: review-inputs-2026-10-04
@@ -216,3 +216,19 @@ marked stale with original references. Existing focus cannot rebind by name.
 Graph, node and display budgets remain fixed; overflow and failed construction
 or publication refuse without replacing originals. Projection/presentation does
 not retire readers, qualify physical freshness or authorize storage operations.
+
+The [owned adapter integration](../catalog/nt-identity-adapter-prototype.json)
+retains an immutable native evidence view matching accepted graph rows. Current
+and last selected-query-complete projections remain separate across repeated
+partial captures. Explicit comparison selections bind the exact retained prior
+digest and named subjects; current identity derives from the actual owned frame.
+Pending, timed-out, rejected and superseded attempts preserve published owners.
+Do not replace them merely because a coordinator method reports a state change:
+confirm acceptance for the exact attempt and expected source state. Prepare all
+allocating work before publication, then swap matching owners without allocation.
+
+Complete reference resolution and cached presentation perform no polling, I/O
+or reader retirement. A cached consumer may retain its native evidence view
+after adapter destruction; serialized hashes still provide no independent
+resolver, durable reconnect, media freshness or storage grant. The adapter and
+coordinator remain serialized private owners, not an admitted concurrent API.
