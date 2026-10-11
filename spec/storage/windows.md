@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-034
   profile: disked-spec/1
-  version: 0.1.16-proposed.2
+  version: 0.1.17-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -395,3 +395,13 @@ source outstanding state and held old native owners remain separate evidence.
 This private injected profile admits no live/physical association, current
 resource freshness, provider/public/product API, other-host, owner or release
 claim.
+
+The next private host qualification contract selects `screen` explicitly in
+owned hidden consoles, preserving the exact old review and restoring the original
+active buffer and console state. Its separately injected `pending` application
+callback fault escapes the driver only after readers are outstanding. Internal
+frontend error 4, unavailable final model sampling, cached owner retention and
+actual reader retirement remain separate observations. These optional test-only
+selectors default to the earlier linear/no-fault fixture behavior and add no
+product flags, live provider or other-host admission. The owning private catalog
+records the continuation base and expected outcomes before evaluation.

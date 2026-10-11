@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.20-proposed.2
+  version: 0.1.21-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -278,3 +278,13 @@ proves neither host restoration nor reader exit. Owned native controller tests
 bind delivered and retained graph/frame/context/reference identities through
 source/session/renderer teardown. No public flags or product/live/provider,
 concurrent, historical-host, accessibility or owner admission follows.
+
+The next private host qualification contract selects `screen` explicitly in
+owned hidden consoles, preserving the exact old review and restoring the original
+active buffer and console state. Its separately injected `pending` application
+callback fault escapes the driver only after readers are outstanding. Internal
+frontend error 4, unavailable final model sampling, cached owner retention and
+actual reader retirement remain separate observations. These optional test-only
+selectors default to the earlier linear/no-fault fixture behavior and add no
+product flags, live provider or other-host admission. The owning private catalog
+records the continuation base and expected outcomes before evaluation.
