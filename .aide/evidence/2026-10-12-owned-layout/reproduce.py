@@ -5,14 +5,25 @@ from pathlib import Path
 def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
 def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--repository',type=Path,default=Path.cwd());p.add_argument('--source-revision',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--repository',type=Path,default=Path.cwd());p.add_argument('--source-revision',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--existing-clone',type=Path);a=p.parse_args()
     assert re.fullmatch('[0-9a-f]{40}',a.source_revision);root=a.repository.absolute();out=a.output.absolute();out.mkdir();logs=out/'logs';logs.mkdir();commands=[]
     def run(name,args,cwd,limit=180):
-        args=list(map(str,args));start=time.monotonic();r=subprocess.run(args,cwd=cwd,capture_output=True,timeout=limit);log=logs/(name+'.log');log.write_bytes(r.stdout+r.stderr)
+        args=list(map(str,args));start=time.monotonic();log=logs/(name+'.log')
+        try:r=subprocess.run(args,cwd=cwd,capture_output=True,timeout=limit)
+        except subprocess.TimeoutExpired as error:
+            log.write_bytes((error.stdout or b'')+(error.stderr or b''));commands.append(dict(name=name,command=args,cwd=str(cwd),exit_code=None,elapsed_seconds=round(time.monotonic()-start,3),log='logs/'+log.name,error='timeout'));save(out/'commands.json',commands);raise
+        log.write_bytes(r.stdout+r.stderr)
         commands.append(dict(name=name,command=args,cwd=str(cwd),exit_code=r.returncode,elapsed_seconds=round(time.monotonic()-start,3),log='logs/'+log.name));save(out/'commands.json',commands);print(name+' exit '+str(r.returncode),flush=True)
         if r.returncode:raise RuntimeError(name+' failed '+str(log))
         return r.stdout
-    checkout=out/'checkout';run('clone',['git','clone','--local','--no-hardlinks','--no-checkout',root,checkout],root);run('checkout',['git','checkout','--detach',a.source_revision],checkout)
+    checkout=a.existing_clone.resolve() if a.existing_clone else out/'checkout'
+    if a.existing_clone:
+        assert checkout.is_relative_to((root/'.aide-local').resolve()) and (checkout/'.git').is_dir()
+        origin=run('existing-clone-origin',['git','remote','get-url','origin'],checkout).decode().strip();assert Path(origin).resolve()==root.resolve()
+        assert not run('existing-clone-status',['git','status','--porcelain'],checkout,600).strip()
+        run('existing-clone-fetch',['git','fetch','--no-tags','origin',a.source_revision],checkout,600)
+    else:run('clone',['git','clone','--local','--no-hardlinks','--no-checkout',root,checkout],root,600)
+    run('checkout',['git','checkout','--detach',a.source_revision],checkout,600)
     assert not run('source-status',['git','status','--porcelain'],checkout).strip();run('source-map',[sys.executable,'tools/check-source-map.py'],checkout)
     host=json.loads(run('host',['powershell','-NoProfile','-Command','$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress'],checkout))
     assert host['identity']=='BLACKGLASS-WIN1\\Jules' and not host['elevated']
