@@ -1,0 +1,7 @@
+{"mode": "tui", "exit": 0, "status": "pass", "error": null}
+{"mode": "shell", "exit": 1, "status": "fail", "error": "Missing REQUEST REVIEW\nDiskEd shell | CACHED OBSERVATIONS | linear\n[1] session\n{\n  \"controls\": \"F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+C closes\",\n  \"history\": \"off\",\n  \"host\": \"local cached observations\"\n}\n[2] review (inert)\n{\n  \"command\": \"target.list\",\n  \"expected_revision\": \"sha256:dde8b81d0a2d6d5e5523735e822cff633fd61d760de3c33a44c2392ae61900fb\",\n  \"help_scope\": \"\",\n  \"parameters\": {\n  },\n  \"selection\": {\n    \"observation_id\": null,\n    \"scope\": \"none\",\n    \"state\": \"none\",\n    \"target_id\": null\n  }\n}\nF9 submits: target.list\n\n\n"}
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\run-inventory-console2.py", line 7, in <module>
+    v=json.loads((out/(mode+'.report.json')).read_bytes());print(json.dumps(dict(mode=mode,exit=r.returncode,status=v['status'],error=v.get('error'))));assert r.returncode==0
+                                                                                                                                                               ^^^^^^^^^^^^^^^
+AssertionError

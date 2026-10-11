@@ -465,3 +465,18 @@ and 77 product groups, 213 tooling passes/2 skips and
 private model/provider composition evidence; actual cached frontend integration,
 live/physical/provider/public/product/platform/owner/full-unit/storage/release
 admission and the full 0.1.0 programme remain open.
+
+Actual private cached native renderers at `a72454e9`
+([review](../.aide/evidence/2026-10-12-inventory-frontend/REVIEW.md)) use the existing
+Windows GUI/TUI/linear shell over frozen mixed inventory. Native sources are
+explicitly retired and the source session destroyed before rendering; readonly
+ports/snapshots retain exact complete frame/reference backing through teardown.
+Profile-correct labels, original inert details/focus/manual cached refresh,
+health/unavailable-command refusals and hidden console restoration pass.
+New 59/36/916 controllers/readers/assertions per x64/Win32 architecture, including
+15 actual renderer cases and 44 launcher refusals, pass. Six clean campaigns
+total 546 processes/31208 assertions; fresh dev.41 x64 build/launch,
+77 product groups, 213 tooling passes/2 skips and
+1073 structural checks pass. Existing Fake product defaults and budgets remain.
+Ongoing native source advancement, live/physical/provider/public/product/other-host/
+accessibility/owner/full-unit/storage/release gates and the full 0.1.0 scope stay open.

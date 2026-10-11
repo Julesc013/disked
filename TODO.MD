@@ -250,8 +250,17 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   77 product groups; 213 tooling passes/2 skips,
   1071 structural checks. DE-W030 remains partial; implementing-worker review
   in `.aide/evidence/2026-10-12-inventory-port/`.
-- [ ] Exercise actual cached native inventory frontend integration with retained
-  full evidence, source coverage, refresh/focus/failure and renderer lifetimes.
-  Keep fake-only product defaults and all original native/graph/display/process
-  limits; continue the full 0.1.0 scope with separate live/physical/provider/
-  public/product/platform/owner/storage/release gates.
+- [x] DE-W030 private actual cached native GUI/TUI/linear shell `a72454e9`:
+  frozen mixed native inventory, exact complete backing through source-session/
+  renderer teardown, inert original names, focus/refresh, authority refusals,
+  bounded launcher/no-clobber checks and restored owned-console state. New
+  59/36/916 per architecture; six clean x64/Win32 campaigns, 546 processes/
+  31208 assertions, fresh dev.41 x64 launch and 77 product groups,
+  213 tooling passes/2 skips, 1073 structural checks.
+  DE-W030 remains partial; implementer review in
+  `.aide/evidence/2026-10-12-inventory-frontend/`.
+- [ ] Define and qualify explicit serialized native observation advancement and
+  active cached refresh in actual hosts; keep cached getters and CompletionPoll
+  pure, preserve exact owners/selection and source coverage through pending/
+  partial/late/cancel/retirement and teardown. Keep fake-only product defaults,
+  original budgets, full 0.1.0 scope and separate admission/authority gates.
