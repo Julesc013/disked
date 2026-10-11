@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.21-proposed.2
+  version: 0.1.22-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -32,7 +32,7 @@ sources:
   resource: ../references/sources.json#review-08a8246-2026-10-04
 updated:
   by: codex
-  at: '2026-10-11T22:06:54.560107+00:00'
+  at: '2026-10-11T23:44:45.159500+00:00'
   scope: DE-W030 private serialized source advancement and cached model delivery;
     all admission gates remain separate
 ---
@@ -288,3 +288,14 @@ actual reader retirement remain separate observations. These optional test-only
 selectors default to the earlier linear/no-fault fixture behavior and add no
 product flags, live provider or other-host admission. The owning private catalog
 records the continuation base and expected outcomes before evaluation.
+
+The next private integration contract withholds one already computed read-only
+`target.inspect` result behind a separately owned completion event. Its synthetic
+running/completed envelopes keep an explicit fixture operation ID and exact old
+request/result binding. Native source pulses and `CompletionPoll` remain independent.
+Actual GUI/TUI retain the old-view completion separately; the linear shell preserves
+its original transcript and result basis. This simulates deferred interface delivery
+and does not qualify a real asynchronous storage operation, durable record, reconnect,
+freshness or mutation authority. Closing before completion records undelivered state
+without inferring reader exit. The owning private catalog fixes expected outcomes
+before implementation; all earlier host behavior and source budgets remain.
