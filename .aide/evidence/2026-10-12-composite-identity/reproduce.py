@@ -33,7 +33,7 @@ def main():
     inputs=dict(product_binding)
     for folder in ('source/platform/windows/storage','source/providers/windows','source/providers/image','source/runtime/graph','source/runtime/capture','tests/windows','source/portable/hash','source/portable/primitives','source/portable/mbr','source/portable/ebr','source/portable/gpt'):
         for f in (checkout/folder).rglob('*'):
-            if f.is_file():inputs[f.relative_to(checkout).as_posix()]=sha(f)
+            if f.is_file() and '__pycache__' not in f.parts:inputs[f.relative_to(checkout).as_posix()]=sha(f)
     for n in ('source/platform/windows/worker_files.h','spec/catalog/nt-owned-layout-prototype.json','spec/catalog/nt-composite-identity-prototype.json','spec/storage/identity-and-graph.md','spec/storage/windows.md','docs/source-map.md','tools/check-source-map.py','.aide/evidence/2026-10-12-composite-identity/reproduce.py'):
         inputs[n]=sha(checkout/n)
     save(out/'source-inputs.json',inputs);tree=run('source-tree',['git','ls-tree','-r','-z',a.source_revision],checkout);blobs={}
