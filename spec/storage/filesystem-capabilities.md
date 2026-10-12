@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.7-proposed.1
+  version: 0.1.7-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T18:58:11.024491+00:00'
-  scope: DE-W029 source-bound auxiliary FAT evidence; namespace, host, owner and release gates remain open
+  at: '2026-10-12T19:44:19.069732+00:00'
+  scope: DE-W036 source-bound namespace evidence; consumer, frontend, host, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -152,3 +152,10 @@ returns capture-local IDs, with no path, access, mount or consumer admission.
 Windows text API evidence does not qualify every FAT driver/host. Additional
 consumer, chunked coverage, extraction, worker/frontend and release work remain
 in the full programme.
+
+The namespace slice is implementer-reviewed at `330c223c`, with 171 independent
+cases (21 ordinary-file observations), 95 native groups and 12 headers. Evidence
+is retained in `.aide/evidence/2026-10-13-fat-namespace/`. Original names, consumer
+eligibility, collision/lookup observations and source applicability remain separate.
+Mounted-consumer, larger/chunked coverage, extraction, actual worker/frontend,
+host/owner and full all-platform/storage 0.1.0 qualification remain unfinished.

@@ -1,0 +1,28 @@
+test_callback_faults_and_preflight_validation (__main__.NamespaceTests.test_callback_faults_and_preflight_validation) ... ok
+test_capture_integration_partial_and_no_additional_reads (__main__.NamespaceTests.test_capture_integration_partial_and_no_additional_reads) ... ok
+test_coverage_applicability_and_each_budget (__main__.NamespaceTests.test_coverage_applicability_and_each_budget) ... ok
+test_cross_entry_collision_forms_and_exact_oem (__main__.NamespaceTests.test_cross_entry_collision_forms_and_exact_oem) ... ok
+test_directory_scope_and_excluded_or_unknown_records (__main__.NamespaceTests.test_directory_scope_and_excluded_or_unknown_records) ... ok
+test_fixed_short_fields_invalid_bytes_and_long_flags (__main__.NamespaceTests.test_fixed_short_fields_invalid_bytes_and_long_flags) ... ok
+test_independent_ascii_alias_oracle (__main__.NamespaceTests.test_independent_ascii_alias_oracle) ... ok
+test_late_auxiliary_overlap_withdraws_lookup (__main__.NamespaceTests.test_late_auxiliary_overlap_withdraws_lookup) ... ERROR
+test_maximum_shapes_and_comparison_ceiling (__main__.NamespaceTests.test_maximum_shapes_and_comparison_ceiling) ... ok
+test_ordinal_unicode_and_no_normalization (__main__.NamespaceTests.test_ordinal_unicode_and_no_normalization) ... ok
+test_ordinary_files_recapture_and_source_preservation (__main__.NamespaceTests.test_ordinary_files_recapture_and_source_preservation) ... ok
+test_reserved_and_invalid_components_remain_data (__main__.NamespaceTests.test_reserved_and_invalid_components_remain_data) ... ok
+test_short_long_same_entry_and_case_aliases (__main__.NamespaceTests.test_short_long_same_entry_and_case_aliases) ... ok
+test_windows_code_pages_and_dbcs_trail_byte (__main__.NamespaceTests.test_windows_code_pages_and_dbcs_trail_byte) ... ok
+
+======================================================================
+ERROR: test_late_auxiliary_overlap_withdraws_lookup (__main__.NamespaceTests.test_late_auxiliary_overlap_withdraws_lookup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_namespace.py", line 237, in test_late_auxiliary_overlap_withdraws_lookup
+    index=next(i for i,c in enumerate(calls,1) if int(c['offset'])==volume.offset and int(c['bytes'])==3*volume.unit)
+StopIteration
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.795s
+
+FAILED (errors=1)
+FAT namespace cases executed: 170

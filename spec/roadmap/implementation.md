@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.4
+  version: 0.1.5-proposed.5
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T18:58:11.040876+00:00'
-  scope: DE-W029 source-bound FAT metadata progress; full platform, storage, owner and release gates remain open
+  at: '2026-10-12T19:44:19.070074+00:00'
+  scope: DE-W036 source-bound name model progress; full platform/storage, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -294,3 +294,9 @@ DE-W029 header/FSInfo/backup metadata at `87e7e246` has 257 independent cases an
 namespace/consumer rules, larger/chunked coverage, extraction and actual contained
 worker/frontend volume inspection. Full platform/storage, owner, production
 journal/recovery and release gates remain open.
+
+DE-W036 namespace/consumer-name observations at `330c223c` have 171 independent
+cases and 95 native groups, retained in `.aide/evidence/2026-10-13-fat-namespace/`.
+This completes the bounded API/rule-model slice, not mounted-consumer, extraction,
+worker/frontend, historical-host or full 0.1.0 admission. Continue remaining
+storage/platform work under its existing authority and qualification gates.

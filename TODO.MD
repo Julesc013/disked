@@ -1,6 +1,6 @@
 # DiskEd development checklist
 
-Status: proposed baseline with scoped DE-W000 review and a native DE-W010 bootstrap; owner acceptance remains pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
+Status: active all-platform/storage 0.1.0 development, with source-bound native and image-prototype evidence. Baseline/implementation owner acceptance and release qualification remain pending. This checklist summarizes [canonical work definitions](spec/work/units.json), [decisions](spec/catalog/decisions.json) and the [development plan](docs/development-plan.md); it does not grant execution or record acceptance.
 
 ## Specification preparation
 
@@ -322,3 +322,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Global FAT allocation at 0e414ccd: paged data-cluster counts, copy/raw variants, graph/cycle/merge findings and ownership applicability; 86 cases/92 native groups, default 149 capture cases retained. Auxiliary metadata, namespace, extraction, frontend, owner and full 0.1.0 remain open.
 
 - [x] FAT auxiliary metadata at 87e7e246: C90 header/FSInfo, explicit backup/copy/raw agreement and count/hint applicability; 257 cases/94 native groups, 206 source files. Namespace, extraction, worker/frontend, consumer/host, owner and full release remain open.
+
+- [x] DE-W036 bounded FAT namespace/API model at `330c223c`: preserved OEM/UTF-16 aliases, scoped collisions/lookup, explicit Windows code pages and late recapture denial; 171 cases/95 native groups/12 headers. [Evidence](.aide/evidence/2026-10-13-fat-namespace/README.md). Actual consumers, larger coverage, extraction, worker/frontend and full 0.1.0 remain open.

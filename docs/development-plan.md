@@ -60,9 +60,9 @@ Conflicting attachments remain attributed proposals. The machine-readable [amend
 
 ## AIDE maintenance
 
-AIDE `dev` was fetched at `5be37bd6510977e6cb2e960859c45b33b048dade`; the exact tree, inspected file hashes and limits live in [aide-lock.json](../spec/references/aide-lock.json). The checkout is disposable at `.aide-local/upstream/aide`. No upstream runtime or worker was launched. Passive validation of DiskEd exports against the pinned queue schema is separate from the live import and isolation qualification in DE-W061.
+The current reviewed AIDE `dev` pin is `6f2abc4cd69e0d94f86a00495cb8feeebe20398a` (12 October 2026); the exact tree, inspected file hashes and limits live in [aide-lock.json](../spec/references/aide-lock.json). The checkout is disposable at `.aide-local/upstream/aide`. No upstream runtime or worker was launched. Passive validation of DiskEd exports against the pinned queue schema is separate from the live import and isolation qualification in DE-W061.
 
-Review upstream approximately weekly; the next review is **11 October 2026, Australia/Sydney**. Compare the current pin with the next candidate, inspect changed protocol/authority requirements, revalidate projections and record actual evidence before changing the lock. No automatic schedule, floating dependency, upstream execution or stable-release claim is installed by this policy. After a stable release appears, review and qualify an exact version before adopting it.
+Review upstream approximately weekly; the next review is **19 October 2026, Australia/Sydney**. Compare the current pin with the next candidate, inspect changed protocol/authority requirements, revalidate projections and record actual evidence before changing the lock. No automatic schedule, floating dependency, upstream execution or stable-release claim is installed by this policy. After a stable release appears, review and qualify an exact version before adopting it.
 
 ## Corrective review at 08a8246
 
@@ -561,3 +561,10 @@ DE-W027 bounded FAT capture at f98712a4 has 149 independent supplied-reader/ordi
 DE-W028 optional global FAT allocation at 0e414ccd has 86 independent cases, including 21 ordinary-file cases and 92 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-allocation-scan/README.md). Coverage, tree/copy applicability and detail omissions stay separate; auxiliary/namespace/extraction/worker/frontend/host and full release gates remain open.
 
 DE-W029 auxiliary FAT metadata at 87e7e246 has 257 independent cases (24 ordinary-file) and 94 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-auxiliary/README.md). Source/driver/advisory/backup dimensions remain separate; namespace, extraction, actual worker/frontend/host and full 0.1.0 gates remain open.
+
+DE-W036 FAT namespace at `330c223c` retains original aliases and explicit Windows
+text/rule models, with 171 independent cases, 95 native groups and 12 headers.
+[Evidence](../.aide/evidence/2026-10-13-fat-namespace/README.md). Actual consumers,
+larger coverage, extraction, contained worker/frontend and full 0.1.0 gates remain
+open. Current work is owned by the programme record, rather than historical
+checkpoint paragraphs in this plan.

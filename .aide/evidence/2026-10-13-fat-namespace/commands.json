@@ -1,0 +1,554 @@
+[
+  {
+    "name": "origin",
+    "command": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/origin.log"
+  },
+  {
+    "name": "existing-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.084,
+    "log": "logs/existing-status.log"
+  },
+  {
+    "name": "fetch",
+    "command": [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      "330c223c6f184cce9cb8a922f1364118a039def6"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 19.529,
+    "log": "logs/fetch.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "330c223c6f184cce9cb8a922f1364118a039def6"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.12,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.096,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$fatIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$fatPrincipal=[System.Security.Principal.WindowsPrincipal]::new($fatIdentity);$fatOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$fatIdentity.Name;elevated=$fatPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$fatOS.Caption;version=$fatOS.Version;architecture=$fatOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.547,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.109,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-z",
+      "330c223c6f184cce9cb8a922f1364118a039def6"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.114,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print('PyYAML='+m.version('PyYAML'));print('jsonschema='+m.version('jsonschema'))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.111,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "gcc-version",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-dumpfullversion"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.022,
+    "log": "logs/gcc-version.log"
+  },
+  {
+    "name": "gcc-description",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.034,
+    "log": "logs/gcc-description.log"
+  },
+  {
+    "name": "gcc-c90",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-std=c90",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "source",
+      "-fsyntax-only",
+      "source/portable/fat/volume.c",
+      "source/portable/fat/allocation.c",
+      "source/portable/fat/directory.c",
+      "source/portable/fat/auxiliary.c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.31,
+    "log": "logs/gcc-c90.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 5.53,
+    "log": "logs/configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 121.189,
+    "log": "logs/build.log"
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-build-boundaries.py",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build-boundaries.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.492,
+    "log": "logs/boundaries.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build",
+      "-C",
+      "Release",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.223,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build",
+      "-C",
+      "Release",
+      "--parallel",
+      "4",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 557.713,
+    "log": "logs/native-tests.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 198.28,
+    "log": "logs/tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 2.429,
+    "log": "logs/spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.914,
+    "log": "logs/index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.674,
+    "log": "logs/manifest.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W036",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\context",
+      "--byte-budget",
+      "850000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 1.537,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.414,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.075,
+    "log": "logs/product-launch.log"
+  },
+  {
+    "name": "disked-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.131,
+    "log": "logs/disked-headers.log"
+  },
+  {
+    "name": "disked-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "logs/disked-imports.log"
+  },
+  {
+    "name": "disked-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/disked-dependents.log"
+  },
+  {
+    "name": "fat_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/fat_probe-headers.log"
+  },
+  {
+    "name": "fat_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "logs/fat_probe-imports.log"
+  },
+  {
+    "name": "fat_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/fat_probe-dependents.log"
+  },
+  {
+    "name": "fat_directory_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_directory_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/fat_directory_probe-headers.log"
+  },
+  {
+    "name": "fat_directory_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_directory_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/fat_directory_probe-imports.log"
+  },
+  {
+    "name": "fat_directory_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_directory_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/fat_directory_probe-dependents.log"
+  },
+  {
+    "name": "fat_capture_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/fat_capture_probe-headers.log"
+  },
+  {
+    "name": "fat_capture_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/fat_capture_probe-imports.log"
+  },
+  {
+    "name": "fat_capture_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/fat_capture_probe-dependents.log"
+  },
+  {
+    "name": "fat_capture_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/fat_capture_fault-headers.log"
+  },
+  {
+    "name": "fat_capture_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/fat_capture_fault-imports.log"
+  },
+  {
+    "name": "fat_capture_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-namespace-clean-330c223c\\build\\Release\\fat_capture_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "logs/fat_capture_fault-dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.086,
+    "log": "logs/final-source-status.log"
+  }
+]
