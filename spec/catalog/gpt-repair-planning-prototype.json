@@ -1,0 +1,33 @@
+{
+  "schema": "org.disked.gpt-repair-planning-profile/1",
+  "status": "proposed",
+  "scope": "Private side-effect-free preview from supplied bounded PMBR, primary/backup header and array captures; no file/provider/mutation ports, command admission or production journal ABI.",
+  "base_revision": "c9dd6659c26bcb0e5c87622a969f61db72de314d",
+  "source": "https://uefi.org/specs/UEFI/2.10/05_GUID_Partition_Table_Format.html",
+  "source_observation": "2026-10-12 official indexed UEFI2.10 sections5.3.1/5.3.2 rechecked; no local complete-document byte hash claimed.",
+  "max_entries": 1024,
+  "max_entry_bytes": 4096,
+  "max_advertised_array_bytes": 1048576,
+  "max_logical_block_bytes": 1048576,
+  "max_captured_array_bytes": 2097151,
+  "input_contract": "Immutable caller-owned capture: one named image identifier, positive capture epoch, exact u64 logical block count/u32 block bytes, complete PMBR/header blocks and rounded bounded arrays. Source role is explicitly primary or backup; a matching independently expected capture digest is mandatory. Large offsets remain decimal u64 strings and checked byte extents; no whole-image allocation.",
+  "fingerprint": "SHA256 of DiskEd.gpt-repair.capture/1 LF plus canonical metadata containing schema/image_id/epoch/blocks/block_bytes and bytes+SHA256 for protective_mbr/primary_header/primary_array/backup_header/backup_array. Binds original raw reserved/name/padding bytes; proves neither physical identity nor freshness/exclusivity.",
+  "ownership": "Require a valid exclusive protective MBR and complete consistent authoritative GPT candidate. Other copy must retain compatible structurally bounded GPT metadata; its only allowed header defect is CRC. Both copies keep equal disk GUID, header size, usable bounds, count and entry size; role-specific header/array locations are preserved. Refuse unsupported/ambiguous layout, legacy/hybrid MBR, unknown metadata ownership, source defects and budget/overflow/truncation. Fully destroyed target headers need a later explicit footprint/ownership contract, never guessed offsets.",
+  "selection": "Explicit source required even with one valid copy. Two valid byte-disagreeing copies require an additional nonzero selection-decision digest; CRC equality cannot substitute for byte equality. This supplied digest is a declaration, never authenticated approval.",
+  "patches": "Own immutable exact before/after bytes. Replace only advertised target-array bytes, preserving rounded padding and all unrelated captures. Header replacement covers only its declared size, preserving every field except array CRC and header CRC. Omit equal regions; changed array precedes changed header. Preserve source and PMBR, disk/partition GUIDs, attributes, exact UTF16 and opaque entry bytes. Reject if the resulting two candidates do not independently parse consistently and compare equal using the existing reader.",
+  "preview_identity": "SHA256 of complete canonical immutable preview definition, excluding only separately returned digest. Includes input/geometry/image/epoch/source choice/selection declaration, exact patch byte extents/hashes/order, policy/profile and explicit unverified execution requirements. No mutable review/approval/admission/execution state inside definition.",
+  "simulation": "Shared-parser byte-overlay consistency/agreement only, not independent verification, source consistency, whole-device validity, atomicity or recovery. Native test oracle uses Python struct/zlib/exact bytes independently. No I/O or writer port exists.",
+  "execution_requirements": [
+    "fresh exact image identity/epoch and recapture",
+    "exclusive image access and resolved aliases/dependencies",
+    "original metadata backup outside affected scope",
+    "accepted journal/durability and recovery policy",
+    "admitted provider byte-write footprint and order",
+    "exact-plan review/grant/admission receipts",
+    "flush/reread/independent postcondition verification"
+  ],
+  "public_command_admitted": false,
+  "writer_admitted": false,
+  "qualifies_recovery": false,
+  "owner_accepted": false
+}

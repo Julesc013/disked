@@ -19,6 +19,7 @@
 - [decisions.json](decisions.json)
 - [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
+- [gpt-repair-planning-prototype.json](gpt-repair-planning-prototype.json)
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [health-observation-prototype.json](health-observation-prototype.json)
 - [image-verification-collection-prototype.json](image-verification-collection-prototype.json)

@@ -2117,7 +2117,7 @@
       "id": "DE-W041",
       "title": "Implement table mutation only in disposable images",
       "phase": "M5",
-      "status": "planned",
+      "status": "active",
       "risk": "R4",
       "dependencies": [
         "DE-W040",
@@ -2137,7 +2137,15 @@
         "source/runtime/planner/**",
         "source/runtime/journal/**",
         "source/providers/image/**",
-        "tests/images/**"
+        "tests/images/**",
+        "spec/**",
+        "docs/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2156,7 +2164,8 @@
         "claiming unrun tests passed"
       ],
       "deliverables": [
-        "Image-only reviewed plans, bounded writers and independent verifier."
+        "Image-only reviewed plans, bounded writers and independent verifier.",
+        "Private supplied-capture GPT-copy repair planner with immutable exact byte patches, explicitly bound source/selection and modeled consistency; no file/writer/journal/public command ports. Do not treat this partial calculation as DE-W041 mutation/recovery qualification."
       ],
       "acceptance": [
         "Fault injection around every write/flush.",
@@ -2168,7 +2177,20 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/gpt-repair-planning-prototype.json",
+        "source/portable/gpt/gpt.h",
+        "source/portable/gpt/gpt.c",
+        "source/portable/gpt/encoding.c",
+        "source/portable/mbr/mbr.h",
+        "source/portable/mbr/mbr.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h",
+        "source/portable/hash/sha256.h",
+        "source/portable/hash/sha256.cpp",
+        "tests/property/test_gpt.py"
+      ]
     },
     {
       "id": "DE-W042",

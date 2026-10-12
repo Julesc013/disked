@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-104
   profile: disked-spec/1
-  version: 0.1.0
+  version: 0.1.1-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -66,3 +66,27 @@ Crash before/after each metadata write/flush, altered backup, shortened device, 
 - [DE-042](../safety/planning.md)
 - [DE-043](../safety/journal-and-recovery.md)
 - [DE-044](../safety/verification-and-performance.md)
+
+## DE-W041 private supplied-capture planning contract
+
+[The bounded preview profile](../catalog/gpt-repair-planning-prototype.json)
+implements the first pure planning boundary in `source/runtime/planner/`. Its
+caller supplies both copies and PMBR, exact geometry, image/capture bindings, an
+independently expected capture digest and explicit source selection. It constructs
+owned immutable byte patches and validates the modeled postcondition without any
+file, provider, journal or effect port. No public command becomes available.
+
+Recognizable target metadata must establish an unambiguous compatible footprint;
+only target-header checksum damage is accepted as a header defect. A destroyed
+header or changed layout requires a separately specified ownership/footprint
+selection before reconstruction; no canonical array offset is guessed. Valid
+disagreeing copies require a separately bound selection declaration. Its digest
+does not authenticate an operator or grant storage authority. Source/PMBR and
+unrelated header fields, names, GUIDs, attributes and padding remain exact.
+
+Preview identity binds immutable input, patches, order and policy. The shared-parser
+simulation is scoped to captured byte-overlay consistency/agreement. Independent
+Python byte/CRC oracles qualify this calculation, not an actual writer, whole-image
+safety, recovery or power-loss durability. Freshness/exclusivity/backup/journal/
+provider/review/grant/admission/verification remain explicit execution requirements.
+DE-DEC-004 and all production mutation gates remain unresolved. DE-W041 is partial.
