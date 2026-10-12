@@ -102,6 +102,221 @@ class Observer {
     bool complete_ = true, consistent_ = true, overlap_equal_ = true;
     V diagnostics_ = V::array();
 
+    de_fat_entry paged_cell(std::uint32_t index, std::uint32_t copy) {
+        de_fat_cell_request wanted{};
+        checked(de_fat_entry_request(volume_.bits, volume_.cluster_count, index, &wanted));
+        const auto table_bytes = native(volume_.fat_bytes), within = native(wanted.offset);
+        if (within > table_bytes || wanted.bytes > table_bytes - within)
+            stop("fat_cell_extent");
+        const auto table =
+            static_cast<std::uint64_t>(volume_.reserved_sectors) * volume_.bytes_per_sector +
+            static_cast<std::uint64_t>(copy) * table_bytes;
+        unsigned char raw[4]{};
+        for (std::size_t copied = 0; copied < wanted.bytes;) {
+            const auto position = within + copied, page = position / 4096 * 4096;
+            const auto length =
+                static_cast<std::size_t>(std::min<std::uint64_t>(4096, table_bytes - page));
+            const auto &bytes = read(add(table, page), length);
+            const auto offset = static_cast<std::size_t>(position - page);
+            const auto amount = std::min<std::size_t>(wanted.bytes - copied, length - offset);
+            std::copy_n(bytes.begin() + offset, amount, raw + copied);
+            copied += amount;
+        }
+        const de_view view{raw, wanted.bytes};
+        de_fat_entry out{};
+        checked(de_fat_cell_read(&view, volume_.bits, volume_.cluster_count, index, &out));
+        return out;
+    }
+
+    V allocation() {
+        // This phase cannot rewrite a completed tree's state. Coverage, copy
+        // agreement and finding truncation remain independent observations.
+        auto findings = V::array(), failures = V::array();
+        std::size_t total_findings = 0, omitted = 0, differences = 0, raw_variants = 0;
+        auto finding = [&](V value) {
+            ++total_findings;
+            const auto bytes = encoded(value) + 16;
+            if (findings.items.size() == request_.limits.allocation_findings ||
+                bytes > request_.limits.output_bytes - output_used_) {
+                ++omitted;
+                return;
+            }
+            charge(bytes);
+            findings.items.push_back(std::move(value));
+        };
+        const auto copies =
+            std::min<std::size_t>(volume_.fat_count, request_.limits.compare_copies);
+        const auto capacity =
+            std::min<std::size_t>(volume_.cluster_count, request_.limits.allocation_clusters);
+        std::vector<de_fat_entry> cells;
+        cells.reserve(capacity);
+        std::size_t categories[8]{};
+        const bool ownership = complete_ && consistent_;
+        try {
+            for (std::uint32_t index = 2; cells.size() < capacity; ++index) {
+                const auto chosen = paged_cell(index, request_.fat_copy);
+                auto variants = V::array();
+                auto variant = [&](std::uint32_t copy, const de_fat_entry &entry) {
+                    variants.items.push_back(V::object()
+                                                 .put("copy", exact(copy))
+                                                 .put("raw", exact(entry.raw_value))
+                                                 .put("value", exact(entry.value)));
+                };
+                variant(request_.fat_copy, chosen);
+                bool different = false, raw_different = false;
+                std::size_t compared = 1;
+                for (std::uint32_t copy = 0; copy < volume_.fat_count && compared < copies;
+                     ++copy) {
+                    if (copy == request_.fat_copy)
+                        continue;
+                    const auto other = paged_cell(index, copy);
+                    variant(copy, other);
+                    different = different || other.value != chosen.value;
+                    raw_different = raw_different || other.raw_value != chosen.raw_value;
+                    ++compared;
+                }
+                // Publication commits the entire requested comparison set.
+                cells.push_back(chosen);
+                ++categories[chosen.kind];
+                if (different)
+                    ++differences;
+                if (raw_different)
+                    ++raw_variants;
+                if (different || raw_different)
+                    finding(
+                        V::object()
+                            .put("code", V::string(different ? "fat_allocation_copy_disagreement"
+                                                             : "fat_allocation_raw_variant"))
+                            .put("cluster", exact(index))
+                            .put("copies", std::move(variants)));
+            }
+            if (cells.size() < volume_.cluster_count)
+                failures.items.push_back(V::string("fat_allocation_cluster_budget"));
+        } catch (const Stop &error) {
+            failures.items.push_back(V::string(error.code));
+        }
+
+        std::vector<std::uint32_t> incoming(cells.size(), 0);
+        std::vector<unsigned char> colors(cells.size(), 0);
+        std::size_t outside = 0, into_free = 0, into_bad = 0, into_reserved = 0;
+        std::size_t unowned = 0, merges = 0, cycles = 0, cyclic_clusters = 0;
+        for (std::size_t i = 0; i < cells.size(); ++i) {
+            const auto &entry = cells[i];
+            if ((entry.kind == DE_FAT_ENTRY_NEXT || entry.kind == DE_FAT_ENTRY_END) &&
+                !owners_.count(static_cast<std::uint32_t>(i + 2))) {
+                ++unowned;
+                finding(V::object()
+                            .put("code", V::string("fat_allocation_without_observed_owner"))
+                            .put("cluster", exact(i + 2))
+                            .put("value", exact(entry.value)));
+            }
+            if (entry.kind != DE_FAT_ENTRY_NEXT)
+                continue;
+            const auto target = static_cast<std::size_t>(entry.value - 2);
+            if (target >= cells.size()) {
+                ++outside;
+                finding(V::object()
+                            .put("code", V::string("fat_allocation_link_outside_coverage"))
+                            .put("cluster", exact(i + 2))
+                            .put("target", exact(entry.value)));
+                continue;
+            }
+            ++incoming[target];
+            const char *code = nullptr;
+            if (cells[target].kind == DE_FAT_ENTRY_FREE) {
+                ++into_free;
+                code = "fat_allocation_link_into_free";
+            } else if (cells[target].kind == DE_FAT_ENTRY_BAD) {
+                ++into_bad;
+                code = "fat_allocation_link_into_bad";
+            } else if (cells[target].kind == DE_FAT_ENTRY_RESERVED) {
+                ++into_reserved;
+                code = "fat_allocation_link_into_reserved";
+            }
+            if (code)
+                finding(V::object()
+                            .put("code", V::string(code))
+                            .put("cluster", exact(i + 2))
+                            .put("target", exact(entry.value)));
+        }
+        for (std::size_t i = 0; i < cells.size(); ++i) {
+            if (incoming[i] > 1) {
+                ++merges;
+                finding(V::object()
+                            .put("code", V::string("fat_allocation_merge"))
+                            .put("cluster", exact(i + 2))
+                            .put("incoming", exact(incoming[i])));
+            }
+            if (colors[i])
+                continue;
+            std::vector<std::size_t> path;
+            std::size_t cursor = i;
+            while (cursor < cells.size() && colors[cursor] == 0) {
+                colors[cursor] = 1;
+                path.push_back(cursor);
+                if (cells[cursor].kind != DE_FAT_ENTRY_NEXT) {
+                    cursor = cells.size();
+                    break;
+                }
+                cursor = static_cast<std::size_t>(cells[cursor].value - 2);
+            }
+            if (cursor < cells.size() && colors[cursor] == 1) {
+                std::size_t length = 1;
+                for (auto at = static_cast<std::size_t>(cells[cursor].value - 2); at != cursor;
+                     at = static_cast<std::size_t>(cells[at].value - 2))
+                    ++length;
+                ++cycles;
+                cyclic_clusters += length;
+                finding(V::object()
+                            .put("code", V::string("fat_allocation_cycle"))
+                            .put("cluster", exact(cursor + 2))
+                            .put("clusters", exact(length)));
+            }
+            for (auto visited : path)
+                colors[visited] = 2;
+        }
+        const bool coverage = cells.size() == volume_.cluster_count;
+        const bool comparison = coverage && copies == volume_.fat_count;
+        return V::object()
+            .put("expected_clusters", exact(volume_.cluster_count))
+            .put("scanned_clusters", exact(cells.size()))
+            .put("first_cluster", exact(2))
+            .put("covered_end", exact(cells.size() + 2))
+            .put("next_cluster", coverage ? V{} : exact(cells.size() + 2))
+            .put("coverage_complete", V::boolean_value(coverage))
+            .put("prefix_analysis_complete", V::boolean_value(true))
+            .put("compared_copies", exact(cells.empty() ? 0 : copies))
+            .put("comparison_complete", V::boolean_value(comparison))
+            .put("different_cells", exact(differences))
+            .put("raw_variant_cells", exact(raw_variants))
+            .put("categories", V::object()
+                                   .put("free", exact(categories[DE_FAT_ENTRY_FREE]))
+                                   .put("next", exact(categories[DE_FAT_ENTRY_NEXT]))
+                                   .put("end", exact(categories[DE_FAT_ENTRY_END]))
+                                   .put("bad", exact(categories[DE_FAT_ENTRY_BAD]))
+                                   .put("reserved", exact(categories[DE_FAT_ENTRY_RESERVED])))
+            .put("links_outside_coverage", exact(outside))
+            .put("links_into_free", exact(into_free))
+            .put("links_into_bad", exact(into_bad))
+            .put("links_into_reserved", exact(into_reserved))
+            .put("merge_points", exact(merges))
+            .put("cycle_components", exact(cycles))
+            .put("cyclic_clusters", exact(cyclic_clusters))
+            .put("prefix_graph_consistent",
+                 V::boolean_value(!differences && !into_free && !into_bad && !into_reserved &&
+                                  !merges && !cycles))
+            .put("allocated_without_observed_owner", exact(unowned))
+            .put("tree_ownership_complete", V::boolean_value(ownership))
+            .put("unreferenced_allocation_qualified",
+                 V::boolean_value(ownership && coverage && comparison && !differences &&
+                                  overlap_equal_))
+            .put("findings", std::move(findings))
+            .put("total_findings", exact(total_findings))
+            .put("omitted_findings", exact(omitted))
+            .put("details_complete", V::boolean_value(!omitted))
+            .put("diagnostics", std::move(failures));
+    }
+
     void charge(std::size_t n) {
         if (n > request_.limits.output_bytes - output_used_)
             stop("fat_output_budget");
@@ -498,8 +713,11 @@ class Observer {
             l.records > 4096 || !l.read_requests || l.read_requests > 8192 || !l.read_bytes ||
             l.read_bytes > 2097152 || !l.orphan_groups || l.orphan_groups > 128 ||
             l.output_bytes < 16384 || l.output_bytes > 1048576 || !l.compare_copies ||
-            l.compare_copies > 16)
+            l.compare_copies > 16 || !l.allocation_clusters || l.allocation_clusters > 262144 ||
+            !l.allocation_findings || l.allocation_findings > 128)
             throw std::invalid_argument("fat_capture_limits");
+        if (request.allocation_scan)
+            output_used_ += 2048; // Reserve the summary even if tree/detail budgets stop.
         const auto bytes = portable(request.source_bytes);
         checked(
             de_space_init(request.source_id.data(), request.source_id.size(), &bytes, 1, &source_));
@@ -575,6 +793,10 @@ class Observer {
                 cross.items.push_back(
                     V::object().put("cluster", exact(pair.first)).put("owners", std::move(ids)));
             }
+        V scanned;
+        if (request_.allocation_scan && volume_.usable_layout &&
+            request_.fat_copy < volume_.fat_count)
+            scanned = allocation();
         auto nodes = V::array();
         for (auto &n : nodes_) {
             auto codes = V::array();
@@ -624,6 +846,21 @@ class Observer {
                        .put("filesystem_health_qualified", V::boolean_value(false))
                        .put("authorizes_effects", V::boolean_value(false))
                        .put("product_dispatch_admitted", V::boolean_value(false));
+        if (request_.allocation_scan) {
+            const bool all =
+                scanned.find("coverage_complete") && scanned.find("coverage_complete")->boolean;
+            const bool comparison =
+                scanned.find("comparison_complete") && scanned.find("comparison_complete")->boolean;
+            const bool graph = scanned.find("prefix_graph_consistent") &&
+                               scanned.find("prefix_graph_consistent")->boolean;
+            out.put("tree_metadata_consistent", V::boolean_value(consistent_))
+                .put("observed_metadata_consistent",
+                     V::boolean_value(consistent_ && all && comparison && graph && overlap_equal_))
+                .put("allocation_scope", V::string(scanned.kind == V::Kind::null ? "not-observed"
+                                                   : all ? "all-data-clusters"
+                                                         : "data-cluster-prefix"))
+                .put("allocation_scan", std::move(scanned));
+        }
         if (encoded(out) > request_.limits.output_bytes)
             throw std::runtime_error("fat_output_accounting");
         return out;

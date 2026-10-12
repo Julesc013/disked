@@ -9,11 +9,13 @@ struct FatCaptureLimits {
     std::size_t nodes = 128, depth = 8, chain_clusters = 1024, total_clusters = 4096;
     std::size_t records = 4096, read_requests = 8192, read_bytes = 2097152;
     std::size_t orphan_groups = 128, output_bytes = 1048576, compare_copies = 16;
+    std::size_t allocation_clusters = 262144, allocation_findings = 128;
 };
 struct FatCaptureRequest {
     std::string source_id;
     std::uint64_t epoch = 0, source_bytes = 0, volume_offset = 0, volume_bytes = 0;
     std::uint32_t fat_copy = 0;
+    bool allocation_scan = false;
     FatCaptureLimits limits;
 };
 // Private supplied-reader observation. Limits/geometry are checked; returned

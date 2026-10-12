@@ -68,6 +68,8 @@ static disked::FatCaptureLimits limits(const V &input) {
     LOAD_LIMIT(orphan_groups);
     LOAD_LIMIT(output_bytes);
     LOAD_LIMIT(compare_copies);
+    LOAD_LIMIT(allocation_clusters);
+    LOAD_LIMIT(allocation_findings);
 #undef LOAD_LIMIT
     return out;
 }
@@ -109,12 +111,14 @@ static V observe(const V &input) {
     }
     if (op.text == "file") {
         try {
+            const auto *scan = input.find("allocation_scan");
+            require(!scan || scan->kind == V::Kind::boolean);
             return V::object().put(
                 "result",
                 disked::capture_fat_file(field(input, "path").text, integer(field(input, "offset")),
                                          integer(field(input, "length")),
                                          static_cast<std::uint32_t>(integer(field(input, "copy"))),
-                                         limits(input)));
+                                         limits(input), scan && scan->boolean));
         } catch (const std::exception &error) {
             return V::object().put("error", V::string(error.what()));
         }
@@ -131,6 +135,10 @@ static V observe(const V &input) {
     require(copy <= 0xffffffff);
     request.fat_copy = static_cast<std::uint32_t>(copy);
     request.limits = limits(input);
+    if (const auto *scan = input.find("allocation_scan")) {
+        require(scan->kind == V::Kind::boolean);
+        request.allocation_scan = scan->boolean;
+    }
     struct Segment {
         std::uint64_t start;
         std::vector<unsigned char> bytes;
