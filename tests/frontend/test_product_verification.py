@@ -86,7 +86,9 @@ def main():
         check('independent-generated-acquisition',src.read_bytes()==image.read_bytes()==expected and s['outcome']['status']=='completed');map_check(mapping,expected);original={f.name:f.read_bytes() for f in case.iterdir() if f.is_file()};case_id=start['operation_id']
         def fixture(name):
             folder=owned/name;folder.mkdir();store=folder/'state';store.mkdir();return folder,dict(phase='prepare',case_operation_id=case_id,case_directory=str(case),image=str(image),map=str(mapping),state_directory=str(store))
-        discovery=cli(['commands'])['result']['commands'];d=next(c for c in discovery if c['id']=='image.verify');check('explicit-provisional-product-selection',sum(c['availability']=='available' for c in discovery)==20 and d['availability']=='available' and d['contract_status']=='planned' and d['reason']=='recorded_acquired_image_verification')
+        discovery=cli(['commands'])['result']['commands'];d=next(c for c in discovery if c['id']=='image.verify')
+        selected=set(json.loads((root/'spec/catalog/native-bootstrap.json').read_bytes())['implemented_commands'])
+        check('explicit-provisional-product-selection',{c['id'] for c in discovery if c['availability']=='available'}==selected and d['availability']=='available' and d['contract_status']=='planned' and d['reason']=='recorded_acquired_image_verification')
         check('explicit-verifier-identity',cli(['build','inspect'])['result']['verification_provider']=='provider.image.verify.recorded.prototype/1')
         for kind in ('cli','stdio','gui','tui','shell'):
             folder,p=fixture(kind)

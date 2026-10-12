@@ -205,7 +205,8 @@ def main():
         saved=(store/'verification.collection').read_bytes();(store/'verification.collection').write_bytes(saved[:-1])
         changed=observe(out['operation_id'],store);check('changed-retention-not-authoritative',changed['status']=='unknown' and changed['value']['state']['outcome']['status']=='matched')
         registry=cli(['commands'])['result']
-        check('product-selects-proposed-verification',any(c['id']=='image.verify' and c['availability']=='available' and c['contract_status']=='planned' for c in registry['commands']) and sum(c['availability']=='available' for c in registry['commands'])==20)
+        selected=set(json.loads((root/'spec/catalog/native-bootstrap.json').read_bytes())['implemented_commands'])
+        check('product-selects-proposed-verification',any(c['id']=='image.verify' and c['availability']=='available' and c['contract_status']=='planned' for c in registry['commands']) and {c['id'] for c in registry['commands'] if c['availability']=='available'}==selected)
     report=dict(schema='org.disked.verification-worker-validation/1',status='passed',checks=checks,count=len(checks),samples=samples,
         binaries={n:digest(v.read_bytes()) for n,v in [('probe',probe),('fault',fault),('product',product),('collection',collection)]},
         limitations=['private Windows prototype only','public command/frontend and caller latency unqualified','no physical media/elevation/customer data','no authenticated custody or power-loss persistence'])
