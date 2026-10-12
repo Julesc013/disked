@@ -1,0 +1,245 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W000",
+  "base_revision": "607d68a7c6edefeea93bf17218c2685e787683e2",
+  "spec_manifest_digest": "sha256:1bff3125bd61faaaa98252f1c47162c38a792937a8fdf290ffe02af06238b4aa",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/architecture/repository.md",
+    "spec/catalog/source-maintenance-prototype.json",
+    "docs/source-map.md",
+    "docs/code-structure.md",
+    "docs/structure-review.md",
+    "CMakeLists.txt",
+    "tools/check-source-map.py",
+    "tools/check-build-boundaries.py",
+    "tests/tools/test_build_boundaries.py",
+    ".aide/evidence/2026-10-13-fat-window/summary.json",
+    ".aide/evidence/2026-10-13-qualified-headers/summary.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.md",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/ui-conversation.txt",
+    ".aide/evidence/2026-10-12-structure-review/inputs/structure-conversation.txt"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-13-structure-followup/.gitattributes",
+    ".aide/evidence/2026-10-13-structure-followup/README.md",
+    ".aide/evidence/2026-10-13-structure-followup/advisory-inputs.json",
+    ".aide/evidence/2026-10-13-structure-followup/audit.py",
+    ".aide/evidence/2026-10-13-structure-followup/commands.json",
+    ".aide/evidence/2026-10-13-structure-followup/context-manifest.json",
+    ".aide/evidence/2026-10-13-structure-followup/context.tar.gz",
+    ".aide/evidence/2026-10-13-structure-followup/github-observations.json",
+    ".aide/evidence/2026-10-13-structure-followup/inventory.json",
+    ".aide/evidence/2026-10-13-structure-followup/logs/boundary-fixtures.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/check.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/context-fresh.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/context.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/diff-check.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-index-retention.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-retention.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/index.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/manifest.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/prior-command-retention.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/prior-window-retention.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/setup-failed-job.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/source-map.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/spec-tools.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/verify-context.log",
+    ".aide/evidence/2026-10-13-structure-followup/logs/verify-manifest.log",
+    ".aide/evidence/2026-10-13-structure-followup/review-inputs.json",
+    ".aide/evidence/2026-10-13-structure-followup/source-inventory.json",
+    ".aide/evidence/2026-10-13-structure-followup/validation.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "README.md",
+    "TODO.MD",
+    "docs/code-structure.md",
+    "docs/development-plan.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "spec/architecture/repository.md",
+    "spec/bundle.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tools/check-build-boundaries.py",
+    ".aide/handoffs/DE-W000-structure-followup-2026-10-13.json"
+  ],
+  "summary": "Owner-requested structure/release assessment and contributor clarification. Keep current five source owners, qualified includes and implemented frontend names; complete source map and planned growth remain canonical explanatory routing. Correct stale header-count/parser-placement wording, include repository architecture in baseline review closure and retain current review dispositions/evidence. 1,133 structural checks; 222 tool passes/two skips; 29 checker fixtures; 218 source files and 348 staged spec-manifest bindings verified. Prior native99-group evidence retained, not rerun. Documentation checkpoint 3acadf1284bc21c96d5d243cebe368e7e66ef0bc was successfully pushed to dev. No baseline/implementation owner acceptance, native DE-W044 result or full release completion manufactured.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/spec-tools.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/tools -p test_build_boundaries.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/boundary-fixtures.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/structure-followup --byte-budget 2000000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 2,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/structure-followup-validated --byte-budget 2000000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/context-fresh.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-context .aide-local/context/structure-followup-validated",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/verify-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 .aide/evidence/2026-10-13-fat-window/audit_retention.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/prior-window-retention.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 .aide/evidence/2026-10-13-fat-command/audit_retention.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/prior-command-retention.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 .aide/evidence/2026-10-12-gpt-restoration-inspection/audit_retention.py --historical",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-retention.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 .aide/evidence/2026-10-12-gpt-restoration-inspection/audit_retention.py --index --historical",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-index-retention.log"
+    },
+    {
+      "command": "git diff --cached --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/diff-check.log"
+    },
+    {
+      "command": "gh run view 38252891691 --repo Julesc013/universal-setup --log-failed",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/setup-failed-job.log"
+    },
+    {
+      "command": "python .aide/evidence/2026-10-13-structure-followup/audit.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/handoffs/DE-W000-structure-followup-2026-10-13.audit.log"
+    },
+    {
+      "command": "python .aide-local/check-staged-structure.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide-local/structure-staged-manifest.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/structure-review.md",
+      "sha256": "sha256:cdc87f68606d1599901579b2cbbc8588c26f0460aa622d695e0d6285596fdd37"
+    },
+    {
+      "path": "docs/source-map.md",
+      "sha256": "sha256:64f3dd10013ecd515107be0e5ef3f50461a7ac8cddecefe41cdb18589429ef22"
+    },
+    {
+      "path": "docs/code-structure.md",
+      "sha256": "sha256:fdbbce8cd13df4dff3dcb421765e4da8ddb5ecc5e3213df9fb6cc3c186dbe095"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-followup/validation.json",
+      "sha256": "sha256:7762ffee83c244c440c4dfd031e97d0763abd5e0c7ea6e699b137b3fba1cb193"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-followup/inventory.json",
+      "sha256": "sha256:edbdefdc742da74633e310c665752ee5338f4df3c0ceb993284982d82ad8ed05"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-followup/github-observations.json",
+      "sha256": "sha256:928864fd7e3708ae5339596a55cd387099927cbe35ed1be7d66dc355c060359f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-followup/context.tar.gz",
+      "sha256": "sha256:e2c8a5df340681f9f7b1f8f2feb79875df12ab165db83e75208cf3951cdc4dcb"
+    },
+    {
+      "path": ".aide/handoffs/DE-W000-structure-followup-2026-10-13.audit.log",
+      "sha256": "sha256:321d0654991bfc8e44245e853dde1ec6a78534aeb262909bc33fbc2c738e6f70"
+    }
+  ],
+  "blockers": [
+    "No blocker to this documentation checkpoint. DE-W044 retained-capture implementation remains unfinished/unverified.",
+    "Full original all-platform/storage0.1.0, owner acceptance, journal/physical/elevation/customer/install/sign/release gates remain.",
+    "Universal Setup PR237 at0fc1f90d retains failing Windows qualification; no other-repository repair/promotion was performed."
+  ],
+  "next_safe_step": "Continue authorized dev/main synchronization of this tested documentation checkpoint; restore the preserved incomplete DE-W044 patch and implement/build/test exact FAT frame retention and source-independent retrieval under its contract. Keep the full original programme and separate owner/storage/release gates.",
+  "performed_remote_writes": true
+}
