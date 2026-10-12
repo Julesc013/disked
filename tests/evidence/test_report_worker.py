@@ -11,6 +11,12 @@ from test_case import policy
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,JobLimits,K
 
+def report_exit_observation(handle):
+    # Observe once on the caller's creation-verified handle. Keep the original
+    # budget and raw result; a finished effect receipt supplies no exit proof.
+    started=time.monotonic();result=K.WaitForSingleObject(handle,3000)
+    return dict(wait_result=result,budget_ms=3000,elapsed_seconds=round(time.monotonic()-started,6))
+
 def report_process(state,executable):
     # A failed final record leaves phase executing even when the same process
     # exits. Verify its actual creation identity; never edit the recorded phase.
@@ -26,7 +32,8 @@ def report_process(state,executable):
             # same creation-verified handle is signaled. Require actual exit;
             # do not reopen/reassign a PID or treat a timeout as quiescence.
             code=C.get_last_error()
-            assert K.WaitForSingleObject(handle,3000)==0,('unavailable live process identity',binding,code)
+            observation=report_exit_observation(handle)
+            assert observation['wait_result']==0,('unavailable live process identity',binding,code,observation)
         return handle
     except BaseException:K.CloseHandle(handle);raise
 

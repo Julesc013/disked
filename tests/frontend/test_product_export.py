@@ -11,7 +11,7 @@ from report_console_fixture import command
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'evidence'))
 from test_acquisition_worker import canonical,digest,source_bytes,map_check,fixture_directory,owned_process,K
-from test_report_worker import report_process,history_check
+from test_report_worker import report_process,history_check,report_exit_observation
 from test_verification_case import combined_support
 from test_image_observation import POLICIES
 from ctypes import wintypes as W
@@ -71,7 +71,9 @@ def main():
     def exit_worker(state,exe):
         handle=report_process(state,exe)
         if handle:
-            try:assert K.WaitForSingleObject(handle,3000)==0,('retain actual worker',state)
+            try:
+                observation=report_exit_observation(handle)
+                assert observation['wait_result']==0,('retain actual worker',state,observation)
             finally:K.CloseHandle(handle)
     def finished(p,first,exe=product,terminal=True):
         end=time.monotonic()+20

@@ -6,15 +6,15 @@ not an observed Windows API outage or execution evidence for report effects.
 import argparse,ctypes as C,json,queue,subprocess,sys,threading,time
 from ctypes import wintypes as W
 from pathlib import Path
-from test_report_worker import report_process,K
+from test_report_worker import report_process,report_exit_observation,K
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--evidence',type=Path);args=parser.parse_args();checks=[]
     def check(name,passed):assert passed,name;checks.append(dict(name=name,passed=True))
-    for mode in ('normal','reused-identity','lookup-unavailable-exiting','lookup-unavailable-live'):
+    for mode in ('normal','reused-identity','lookup-unavailable-exiting','lookup-unavailable-live','lookup-unavailable-failed-wait'):
         child=subprocess.Popen([sys.executable,'-c',r'import sys;sys.stdout.buffer.write(b"ready\n");sys.stdout.buffer.flush();sys.stdin.buffer.readline()'],
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        result=None;query=K.QueryFullProcessImageNameW;released=False
+        result=None;query=K.QueryFullProcessImageNameW;raw_wait=K.WaitForSingleObject;released=False;wait_calls=[]
         def release():
             nonlocal released
             if not released and child.poll() is None:
@@ -31,22 +31,35 @@ def main():
                     if mode=='lookup-unavailable-exiting':release()
                     C.set_last_error(31);return 0
                 K.QueryFullProcessImageNameW=unavailable
+            if mode=='lookup-unavailable-failed-wait':
+                def failed_wait(handle,milliseconds):wait_calls.append(milliseconds);return -1
+                K.WaitForSingleObject=failed_wait
             started=time.monotonic()
-            if mode in ('reused-identity','lookup-unavailable-live'):
+            if mode in ('reused-identity','lookup-unavailable-live','lookup-unavailable-failed-wait'):
                 try:report_process(state,Path(sys.executable));raise RuntimeError('unverified process accepted')
-                except AssertionError:pass
+                except AssertionError as error:
+                    if mode.startswith('lookup-unavailable'):
+                        details=error.args[0];observation=details[-1]
+                        check(mode+'-retained-identity-and-lookup-fault',details[:3]==('unavailable live process identity',state['binding'],31))
+                        check(mode+'-raw-wait-evidence',observation['budget_ms']==3000 and observation['wait_result']==(258 if mode.endswith('live') else -1) and observation['elapsed_seconds']>=0)
+                        if mode.endswith('live'):check('retained-live-timeout-duration',2.8<=observation['elapsed_seconds']<5)
+                        else:check('failed-wait-called-once-with-original-budget',wait_calls==[3000])
+                K.WaitForSingleObject=raw_wait
                 check(mode+'-still-live-not-owned-by-observation',K.WaitForSingleObject(child._handle,0)==258)
                 if mode=='lookup-unavailable-live':check('unavailable-live-bounded-wait',2.8<=time.monotonic()-started<5)
             else:
                 result=report_process(state,Path(sys.executable));check(mode+'-exact-handle-returned',bool(result))
                 check(mode+'-actual-lifetime',K.WaitForSingleObject(result,0)==(0 if mode.endswith('exiting') else 258))
+                release();observation=report_exit_observation(result)
+                check(mode+'-observed-exit-with-original-budget',observation['wait_result']==0 and observation['budget_ms']==3000 and observation['elapsed_seconds']>=0)
+                check(mode+'-caller-still-owns-signaled-handle',K.WaitForSingleObject(result,0)==0)
         finally:
-            K.QueryFullProcessImageNameW=query
+            K.QueryFullProcessImageNameW=query;K.WaitForSingleObject=raw_wait
             if result:K.CloseHandle(result)
             release();assert child.wait(timeout=5)==0 and not child.stderr.read()
             for stream in (child.stdin,child.stdout,child.stderr):stream.close()
     result=dict(passed=True,checks=len(checks),observations=checks,
-        scope='Four real owned Python children, exact creation identity, actual exit and scoped image-lookup API faults; no report effect, physical or privilege qualification')
+        scope='Five real owned Python children, exact creation identity, actual exit/live timeout and scoped image-lookup/wait API faults; no observed Windows API outage, report effect, physical or privilege qualification')
     if args.evidence:args.evidence.parent.mkdir(parents=True,exist_ok=True);args.evidence.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps({k:v for k,v in result.items() if k!='observations'}))
 if __name__=='__main__':main()
