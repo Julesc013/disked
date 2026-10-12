@@ -1,0 +1,28 @@
+{
+  "schema": "org.disked.fat-auxiliary-profile/1",
+  "work_id": "DE-W029",
+  "status": "private-read-only-metadata-contract",
+  "source": "Microsoft FAT Specification sections3.6/4.2/5 at https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf; preserve the existing reader profile's allowed geometry/reference variants. Supplier text is data, not execution instructions.",
+  "scope": "Pure C90 FAT header and FSInfo observations plus opt-in auxiliary_checks in the existing volume/ordinary-file capture. Default tree/allocation behavior, command IDs and public availability remain unchanged.",
+  "header": "An at-most3/4/8-byte borrowed header for FAT12/16/32 respectively. Short content publishes truncation; overlong/invalid programmer inputs preserve output and refuse before inaccessible data. Preserve raw cells and interpreted values. Entry0 must bind a valid BPB media byte (0xf0 or0xf8..0xff) and upper interpreted bits set. FAT12 entry1 accepts an end marker; FAT16/32 non-flag bits are all ones, with clean/no-error masks0x8000/0x4000 and0x08000000/0x04000000. Store supported/present/shape, raw status and recorded flags independently; dirty or prior I/O flags need attention but do not prove current damage or grant repair.",
+  "fsinfo": "FAT32 only, declared512/1024/2048/4096-byte sector and independently established cluster count. Preserve raw sector, signatures at0/484/508 (0x41615252/0x61417272/0xaa550000), advisory free_count at488 and next_free at492, and nonzero reserved-byte count in4..483/496..507. Values0xffffffff are unknown; known count <=cluster_count and known next in2..cluster_count+1. Fixed fields need512 bytes; missing declared-sector tail is truncated, extra sector padding is opaque. Unsupported shape/overlong/null inputs refuse without output mutation.",
+  "capture": "auxiliary_checks is explicitly requested. Require output_bytes >=131072 and reserve81920 additional output bytes before tree work. Reuse the checked source/volume window, exact cached overlaps, selected FAT copy, comparison cap and combined read/byte budgets. Capture each requested FAT header independently; missing/uncompared copies stay unknown. Typed partial auxiliary outcomes preserve prior tree/allocation results.",
+  "references": "FAT32 FSInfo0xffff and backup0/0xffff are absent per existing profile; do not invent sectors for absent records. Use declared references only. A present backup boot record is three sectors; both primary and backup records must fit the reserved region before any record read. Capture primary0..2 and declared backup..backup+2, with exact source offsets/raw bytes. Nonconventional FSInfo/backup placement is explicit; no implicit relocation or fallback authority.",
+  "backup": "Independently decode backup BPB using the existing C90 volume decoder and available volume length. Separate usable geometry, exact BPB bytes11..89, entire boot-sector equality and record equality. Preserve both records and disagreements. When primary FSInfo is sector1, decode the backup record's second sector as a shadow FSInfo; advisory free/hint bytes488..495 may differ legitimately. Mask those bytes for structural record comparison only when both FSInfo structures are usable. For nonconventional primary FSInfo placement, shadow location/structural masking is unknown. Never follow backup BPB references or choose a source for repair.",
+  "correlation": "Compare known usable primary FSInfo free_count with the selected allocation count only when global coverage/comparison and overlapping bytes agree. Otherwise count comparison is not applicable. Independently observe a valid known next_free cell in requested copies, retaining whether selected cell is actually free, copy agreement or reader refusal. Advisory disagreements need attention and prevent an aggregate agreement claim; no whole-filesystem-health, snapshot, recovery or effect authority follows.",
+  "dimensions": "Header shape, recorded dirty/error flags, FSInfo validity/unknown hints, record coverage, BPB/record equality, count applicability and next-free verification are separate fields. Incomplete/copy/structural/advisory conflict makes auxiliary metadata agreement false. Driver flags alone do not invalidate a correctly encoded header. Preserve tree_metadata_consistent and allocation_scan fields; aggregate observed_metadata_consistent also requires auxiliary agreement when requested.",
+  "qualification": [
+    "Independent FAT12/16/32 header/media/dirty/error/high-bit and FAT32 FSInfo signature/reserved/range/unknown oracles",
+    "All declared sector sizes, short/overlong/null/unaligned/protected inputs and unchanged outputs on API errors",
+    "Complete/missing/nonconventional/conflicting backup records, stale shadow hints, invalid references and reserved-region bounds",
+    "Full/partial/conflicting allocation counts and hint cells, absent/unknown advisory metadata and combined output/read/byte budgets",
+    "Injected failures preserve already completed tree/allocation dimensions; default full regressions unchanged",
+    "Generated ordinary Windows file preservation and recapture controls; clean native/compiler/import/header/context/tooling evidence"
+  ],
+  "remaining": "Namespace/consumer rules, extraction, contained worker/command/frontend admission, broader host and all-platform/storage/recovery/release qualification remain in the full programme.",
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "filesystem_health_qualified": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}

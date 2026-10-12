@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.5-proposed.2
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -126,3 +126,12 @@ The global allocation slice is implementer-reviewed at source `0e414ccd`, with
 `.aide/evidence/2026-10-13-fat-allocation-scan/` retains exact prefix/category/graph/
 comparison/detail dimensions. Auxiliary metadata, namespace, extraction, actual
 worker/frontend/host and owner/storage/release qualification remain unfinished.
+
+## DE-W029 auxiliary FAT metadata
+
+The [auxiliary profile](../catalog/fat-auxiliary-prototype.json) defines header
+flags, advisory FSInfo and backup-record observations before evaluation. Preserve
+raw values and separate shape, historical driver state, allocation comparison and
+backup agreement. No implicit source selection, repair or filesystem-health claim
+follows. Existing default capture remains unchanged; namespace, extraction,
+worker/frontend, consumer/host and full release gates stay in the programme.
