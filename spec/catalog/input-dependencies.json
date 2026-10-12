@@ -3397,7 +3397,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/command/json.h"
+        "source/runtime/command/json.h",
+        "source/runtime/planner/gpt_repair.h"
       ],
       "spec_ids": [
         "DE-010",
@@ -9008,6 +9009,76 @@
       "delivery": "content",
       "depends_on": [
         "spec/catalog/gpt-repair-planning-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/gpt_capture.cpp",
+      "path": "source/runtime/capture/gpt_capture.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/gpt_capture.h",
+        "source/portable/gpt/gpt.h"
+      ],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/gpt_capture.h",
+      "path": "source/runtime/capture/gpt_capture.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/planner/gpt_repair.h",
+        "source/runtime/capture/map_observation.h"
+      ],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": "spec/schemas/command-gpt-repair-parameters.schema.json",
+      "path": "spec/schemas/command-gpt-repair-parameters.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": "spec/schemas/gpt-repair-command-result.schema.json",
+      "path": "spec/schemas/gpt-repair-command-result.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_gpt_repair_command.py",
+      "path": "tests/frontend/test_gpt_repair_command.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-104"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-gpt-repair-command/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-gpt-repair-command/reproduce.py",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/test_gpt_repair_command.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
       ],
       "spec_ids": [
         "DE-104"

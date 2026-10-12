@@ -28,7 +28,7 @@
       "advertised_array_bytes": 1048576
     },
     "consistency": "same ordinary-file/parent identity checks as image.inspect; every requested region reread; compare overlap, metadata and bytes; live-uncoordinated, not atomic snapshot or whole-file hash",
-    "bindings": "image_id is canonical source_before metadata SHA256; numeric epoch is started_filetime; provider transport supplies the owned bytes and their declared private capture digest; runtime independently recomputes that digest before planning; no independently approved prior capture is implied"
+    "bindings": "image_id is canonical source_before metadata SHA256; numeric epoch is started_filetime; provider transport supplies the owned bytes and their declared private capture digest; runtime independently recomputes that digest before planning; no independently approved prior capture is implied; this numeric wall-clock timestamp is not a globally unique/monotonic observation sequence; the separate opaque transport epoch binds process creation and capture sequence"
   },
   "result": {
     "schema": "org.disked.gpt-repair-command-result/1",
@@ -44,20 +44,17 @@
     "capture": "ordinary-file consistency receipt, epoch and region manifest digest; at most five region summaries",
     "definition": "unchanged immutable gpt-repair-preview-prototype/1 definition from the private planner; hashes/offsets/lengths/dependencies, no raw patch bytes",
     "plan_digest": "sha256 over canonical immutable definition only; excludes outer mutable transport timings",
-    "review": "fresh preview identity per capture; digest is not a replay ticket, approval, selection authentication or write authority",
+    "review": "Reconstructed/bound definition per capture; identical immutable inputs may have the same digest. Transport observation epoch is distinct. A digest is not a replay ticket, approval, selection authentication or write authority.",
     "maximum_response_bytes": 65536
   },
   "outcomes": {
     "invalid_syntax": {
       "exit": 2,
-      "before_provider_open": true
+      "before_provider_open": true,
+      "diagnostics": "existing CLI token diagnostics: missing_parameter, invalid_option_value, duplicate_option, unknown_option; typed stdio values use invalid_parameter/unexpected_parameter"
     },
     "invalid_parameters": {
       "exit": 2,
-      "before_provider_open": true
-    },
-    "unsupported_revision_or_features": {
-      "exit": 3,
       "before_provider_open": true
     },
     "file_geometry_or_open_or_planner_refusal": {
@@ -82,7 +79,16 @@
         "repair_preview"
       ]
     },
-    "unresolved_wait": "existing bounded image request policy; retain live callback until it settles; no replacement admission while occupied"
+    "unresolved_wait": "existing bounded image request policy; retain live callback until it settles; no replacement admission while occupied",
+    "unsupported_revision": {
+      "exit": 2,
+      "diagnostic": "unexpected_revision",
+      "before_provider_open": true
+    },
+    "unsupported_required_features": {
+      "exit": 3,
+      "before_provider_open": true
+    }
   },
   "frontends": "same schema-generated forms and shared command dispatch in CLI, stdio, GUI, TUI and shell; viewing/reviewing a form does not open the source; essential help/discovery do not enumerate or open files",
   "qualification": {

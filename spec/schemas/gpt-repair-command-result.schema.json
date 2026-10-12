@@ -1,0 +1,422 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.gpt-repair-command-result/1"
+    },
+    "command": {
+      "const": "table.gpt.repair.plan"
+    },
+    "provider": {
+      "const": "provider.image.raw.prototype/1"
+    },
+    "scope": {
+      "const": "ordinary-local-raw-file"
+    },
+    "profile": {
+      "const": "ordinary-local-gpt-repair-preview/1"
+    },
+    "capture": {
+      "type": "object",
+      "$comment": "Existing ordinary-file capture receipt; fields/semantics owned by the source-bound capture profile."
+    },
+    "plan_digest": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "x-disked-scalar": "sha256-digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "definition": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "const": "org.disked.gpt-repair-preview-prototype/1"
+            },
+            "operation": {
+              "const": "table.gpt.repair"
+            },
+            "profile": {
+              "const": "gpt-repair-planning-prototype/1"
+            },
+            "capture": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "const": "org.disked.gpt-repair-capture-prototype/1"
+                },
+                "image_id": {
+                  "type": "string",
+                  "minLength": 71,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest"
+                },
+                "epoch": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "blocks": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$"
+                },
+                "block_bytes": {
+                  "enum": [
+                    "512",
+                    "4096"
+                  ]
+                },
+                "protective_mbr": {
+                  "type": "object",
+                  "properties": {
+                    "bytes": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 71,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "x-disked-scalar": "sha256-digest"
+                    }
+                  },
+                  "required": [
+                    "bytes",
+                    "sha256"
+                  ],
+                  "additionalProperties": false
+                },
+                "primary_header": {
+                  "type": "object",
+                  "properties": {
+                    "bytes": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 71,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "x-disked-scalar": "sha256-digest"
+                    }
+                  },
+                  "required": [
+                    "bytes",
+                    "sha256"
+                  ],
+                  "additionalProperties": false
+                },
+                "primary_array": {
+                  "type": "object",
+                  "properties": {
+                    "bytes": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 71,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "x-disked-scalar": "sha256-digest"
+                    }
+                  },
+                  "required": [
+                    "bytes",
+                    "sha256"
+                  ],
+                  "additionalProperties": false
+                },
+                "backup_header": {
+                  "type": "object",
+                  "properties": {
+                    "bytes": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 71,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "x-disked-scalar": "sha256-digest"
+                    }
+                  },
+                  "required": [
+                    "bytes",
+                    "sha256"
+                  ],
+                  "additionalProperties": false
+                },
+                "backup_array": {
+                  "type": "object",
+                  "properties": {
+                    "bytes": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,19})$"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "minLength": 71,
+                      "maxLength": 71,
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "x-disked-scalar": "sha256-digest"
+                    }
+                  },
+                  "required": [
+                    "bytes",
+                    "sha256"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "schema",
+                "image_id",
+                "epoch",
+                "blocks",
+                "block_bytes",
+                "protective_mbr",
+                "primary_header",
+                "primary_array",
+                "backup_header",
+                "backup_array"
+              ],
+              "additionalProperties": false
+            },
+            "capture_digest": {
+              "type": "string",
+              "minLength": 71,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "x-disked-scalar": "sha256-digest"
+            },
+            "authoritative_copy": {
+              "enum": [
+                "primary",
+                "backup"
+              ]
+            },
+            "target_copy": {
+              "enum": [
+                "primary",
+                "backup"
+              ]
+            },
+            "selection_decision_digest": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 71,
+                  "maxLength": 71,
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "x-disked-scalar": "sha256-digest",
+                  "allOf": [
+                    {
+                      "if": {
+                        "const": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                      },
+                      "then": false
+                    }
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "enum": [
+                "repair_preview",
+                "no_change"
+              ]
+            },
+            "patches": {
+              "type": "array",
+              "maxItems": 2,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "target-array",
+                      "target-header"
+                    ]
+                  },
+                  "offset": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]{0,19})$"
+                  },
+                  "bytes": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]{0,19})$"
+                  },
+                  "before_sha256": {
+                    "type": "string",
+                    "minLength": 71,
+                    "maxLength": 71,
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "x-disked-scalar": "sha256-digest"
+                  },
+                  "after_sha256": {
+                    "type": "string",
+                    "minLength": 71,
+                    "maxLength": 71,
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "x-disked-scalar": "sha256-digest"
+                  },
+                  "depends_on": {
+                    "type": "array",
+                    "maxItems": 1,
+                    "items": {
+                      "enum": [
+                        "target-array"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "offset",
+                  "bytes",
+                  "before_sha256",
+                  "after_sha256",
+                  "depends_on"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "execution_requirements": {
+              "type": "array",
+              "minItems": 7,
+              "maxItems": 7,
+              "items": {
+                "type": "string"
+              }
+            },
+            "simulation": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "shared-parser-byte-overlay"
+                },
+                "both_copies_consistent": {
+                  "const": true
+                },
+                "both_copies_agree": {
+                  "const": true
+                },
+                "coverage": {
+                  "const": "supplied-captures-only"
+                },
+                "independent_verification": {
+                  "const": false
+                },
+                "whole_device_valid": {
+                  "const": false
+                }
+              },
+              "required": [
+                "type",
+                "both_copies_consistent",
+                "both_copies_agree",
+                "coverage",
+                "independent_verification",
+                "whole_device_valid"
+              ],
+              "additionalProperties": false
+            },
+            "authorizes_effects": {
+              "const": false
+            },
+            "writer_admitted": {
+              "const": false
+            },
+            "qualifies_durability": {
+              "const": false
+            },
+            "qualifies_recovery": {
+              "const": false
+            }
+          },
+          "required": [
+            "schema",
+            "operation",
+            "profile",
+            "capture",
+            "capture_digest",
+            "authoritative_copy",
+            "target_copy",
+            "selection_decision_digest",
+            "status",
+            "patches",
+            "execution_requirements",
+            "simulation",
+            "authorizes_effects",
+            "writer_admitted",
+            "qualifies_durability",
+            "qualifies_recovery"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "command",
+    "provider",
+    "scope",
+    "profile",
+    "capture",
+    "plan_digest",
+    "definition"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:gpt-repair-command-result:1",
+  "title": "gpt-repair-command-result",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "definition": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan_digest": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan_digest": {
+            "type": "string",
+            "minLength": 71,
+            "maxLength": 71,
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "x-disked-scalar": "sha256-digest"
+          }
+        }
+      }
+    }
+  ]
+}

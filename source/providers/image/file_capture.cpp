@@ -4,6 +4,7 @@
 #include "file_capture.h"
 #include "local_file.h"
 #include "map_observation.h"
+#include "gpt_capture.h"
 #include "sha256.h"
 #include <algorithm>
 #include <atomic>
@@ -95,6 +96,9 @@ public:
         // Test-only process environment, absent from the product/library build.
         if(regions_.empty() && GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_READ_ERROR",nullptr,0)) {item.first.bytes.clear();item.first.error=ERROR_READ_FAULT;}
         if(regions_.empty() && GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_SHORT_READ",nullptr,0) && !item.first.bytes.empty())item.first.bytes.pop_back();
+        if(regions_.size()==1 && GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_GPT_HEADER_SHORT",nullptr,0) && !item.first.bytes.empty())item.first.bytes.pop_back();
+        if(regions_.size()==3 && GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_GPT_ARRAY_SHORT",nullptr,0) && !item.first.bytes.empty())item.first.bytes.pop_back();
+        if(regions_.size()==3 && GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_GPT_ARRAY_ERROR",nullptr,0)) {item.first.bytes.clear();item.first.error=ERROR_READ_FAULT;}
         if(GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_OVERLAP_CHANGED",nullptr,0))for(const auto& r:regions_) {
             const auto begin=std::max(start,r.start),finish=std::min(start+item.first.bytes.size(),r.start+r.first.bytes.size());
             if(begin<finish)item.first.bytes[static_cast<std::size_t>(begin-start)]^=1;
@@ -139,12 +143,19 @@ public:
     }
 };
 }
-CapturedImage capture_raw_image(const std::string& input,std::uint32_t unit) {
+CapturedImage capture_raw_image(const std::string& input,std::uint32_t unit,bool repair_preview) {
     try {
     if(unit!=512 && unit!=4096)fail("image_geometry");
     const auto started=now(),ticks=GetTickCount64();Source source(input);const auto before=metadata(source.file.value);
     const auto blocks=before.size/unit+(before.size%unit?1:0);Capture capture(source.file.value);
-    CapturedImage out;out.report=observe_partition_regions(portable(blocks),unit,[&capture](const de_byte_extent& extent) {return capture.region(extent);});
+    CapturedImage out;
+    if(repair_preview) {
+        if(before.size%unit || blocks<3)fail("image_geometry");
+        out.repair=capture_gpt_regions(hash(json::dump(before.value)),started,blocks,unit,
+            [&capture](const de_byte_extent& extent) {return capture.region(extent);});
+        out.repair_captured=true;out.repair_digest=planner::proposal::gpt_repair_capture_digest(out.repair);
+        out.report=V::object().put("schema",V::string("org.disked.gpt-repair-capture-observation/1"));
+    } else out.report=observe_partition_regions(portable(blocks),unit,[&capture](const de_byte_extent& extent) {return capture.region(extent);});
     auto receipt=V::object().put("source_consistency",V::string("live-uncoordinated"))
         .put("whole_file_hashed",V::boolean_value(false)).put("atomic_snapshot",V::boolean_value(false))
         .put("capture_epoch",V::string(epoch(before.value,started))).put("started_filetime",exact(started))

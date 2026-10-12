@@ -107,6 +107,9 @@ private transport boundary. This does not claim independently approved earlier
 inputs or atomic freshness. A later execution must recapture and satisfy all
 mutation preconditions above. Numeric planning epochs bind the capture start;
 the ordinary-file transport also retains its separate opaque capture epoch.
+The wall-clock planning timestamp is not a globally unique sequence. Identical
+immutable definitions may hash equally; transport epochs bind process creation
+and capture sequence. No execution/replay freshness is established by either.
 
 Only checksum damage in an otherwise valid header permits deriving its advertised
 array extent from a checksum-corrected private copy. Original bytes are retained;

@@ -1,5 +1,6 @@
 #pragma once
 #include "json.h"
+#include "gpt_repair.h"
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -14,6 +15,9 @@ struct ImageCaptureError : std::runtime_error {
 struct CapturedImage {
     json::Value report;
     json::Value region_manifest;
+    bool repair_captured=false;
+    planner::proposal::GptRepairCapture repair;
+    std::string repair_digest;
 };
-using ImageCapture=std::function<CapturedImage(const std::string&,std::uint32_t)>;
+using ImageCapture=std::function<CapturedImage(const std::string&,std::uint32_t,bool)>;
 }

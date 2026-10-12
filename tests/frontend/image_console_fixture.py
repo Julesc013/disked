@@ -20,10 +20,11 @@ def current_text():
         return '\n'.join(buffer[i:min(i+value.size.X,got.value)].rstrip() for i in range(0,got.value,value.size.X))
     finally:k.CloseHandle(handle)
 
-def run(exe,frontend,command,path,unit,report):
+def run(exe,frontend,command,path,unit,report,options=None):
     configure(k.GetStdHandle(-11),240,25);before=snapshot();process=None
     handler=Callback(lambda _:True);checked(k.SetConsoleCtrlHandler(handler,True))
     flags=['shell','--terminal=linear'] if frontend=='shell' else ['--tui','--terminal=linear',*command.split('.'),path,'--logical-block-bytes',unit]
+    if frontend!='shell':flags+=options or []
     def wait(predicate):
         end=time.monotonic()+10
         while time.monotonic()<end:
@@ -47,6 +48,7 @@ def run(exe,frontend,command,path,unit,report):
         if frontend=='shell':
             wait(lambda t:'disked>' in t)
             line=' '.join(command.split('.'))+' "'+path+'" --logical-block-bytes '+unit
+            if options:line+=' '+subprocess.list2cmdline(options)
             for char in line:
                 encoded=char.encode('utf-16-le')
                 for at in range(0,len(encoded),2):key(0,chr(int.from_bytes(encoded[at:at+2],'little')))
@@ -67,7 +69,7 @@ def run(exe,frontend,command,path,unit,report):
 
 if __name__=='__main__':
     result={};code=0
-    try:run(*sys.argv[1:6],result)
+    try:run(*sys.argv[1:6],result,json.loads(sys.argv[7]) if len(sys.argv)>7 else None)
     except Exception as error:result['fixture_error']=str(error);code=1
     Path(sys.argv[6]).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
     raise SystemExit(code)

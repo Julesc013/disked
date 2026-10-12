@@ -53,12 +53,12 @@ void image_test_wait() {
 // Composition binds the concrete provider. Runtime semantics depend only on
 // its inward-facing capture port; presentation models never call raw I/O.
 Outcome image_action(const std::string& request,const std::string& command,const Value& parameters) {
-    return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit) {
+    return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit,bool repair) {
 #ifdef DISKED_IMAGE_COMMAND_TESTING
         if(path.find("test-wait-")!=std::string::npos)
             image_test_wait();
 #endif
-        return capture_raw_image(path,unit);
+        return capture_raw_image(path,unit,repair);
     },bootstrap::image_provider_id);
 }
 bool acquisition_identity(const Value& parameters) {
