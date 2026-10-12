@@ -1,0 +1,45 @@
+{
+  "schema": "org.disked.fat-directory-profile/1",
+  "work_id": "DE-W026",
+  "status": "private-supplied-byte-contract",
+  "scope": "C90 directory-entry, complete contiguous long-name-set and escaped-display observations. No provider I/O, directory traversal, allocation ownership, extraction, lookup key, mount, mutation or frontend command admission.",
+  "sources": [
+    "https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf",
+    "https://raw.githubusercontent.com/torvalds/linux/v6.12/include/uapi/linux/msdos_fs.h"
+  ],
+  "baseline": "Microsoft-authored FAT specification 2005-08-30 sections6/7, hosted by MIT, plus pinned Linux v6.12 directory/slot and NT case-hint definitions. Format facts are references; supplier implementation is not copied and documents are not worker instructions.",
+  "ownership": "Extend the existing private portable/fat/fat.h contract with directory.c as its implementation. Reuse byte views and caller-owned disjoint immutable inputs/output. No allocation, recursion, globals or alternate Unicode/source tree. FAT allocation behavior remains unchanged.",
+  "entry": {
+    "input": "One supplied record, type12/16/32 and at most32 bytes. Short content publishes a truncated raw observation; overlong views and invalid arguments refuse without output. Interpret no entry bytes until all32 are supplied.",
+    "kind": "First byte0 is end marker;0xe5 is deleted, regardless of stale attributes. Otherwise exact low-six attribute value0x0f identifies a long-name candidate; ordinary volume/directory/file candidates preserve attribute conflicts and unknown upper bits. Live records retain raw names, case flags, timestamps, cluster words and size. Deleted/end records retain raw bytes, without interpreting stale data as live file metadata.",
+    "short_name": "Retain all11 stored OEM bytes and the0x05 lead-byte escape observation. No code page or DBCS assumption, normalization, case conversion, truncation, display execution or lookup key is inferred. NT case-hint bits0x08/0x10 are preserved separately; unknown bits are issues. Dot/dotdot are exact raw-name observations, not resolution rights.",
+    "fields": "Preserve exact raw first-cluster words. FAT32 masks its high reserved nibble for the interpreted cluster and reports nonzero reserved bits. FAT12/16 report nonzero high words; FAT12 out-of-width low values remain raw with an issue. Unknown actual volume bounds are not inferred. A volume label has zero cluster/size; directories have zero size; regular nonempty files need cluster>=2, and zero-length files with clusters are inconsistent in this strict observation profile.",
+    "time": "Retain all raw DOS date/time and creation-fraction fields. Zero date means unspecified. Validate nonzero Gregorian dates1980..2107, encoded hour/minute/two-second ranges and fraction0..199. Do not invent UTC, timezone or equality between creation/modification timestamps.",
+    "long_slot": "Preserve ordinal, checksum, type, zero-cluster field and all13 UTF-16LE units. Unknown attribute/type/reserved ordinal bits, ordinal outside1..20 and nonzero cluster are slot-shape issues. This single-record observation does not associate a slot with a file."
+  },
+  "long_name": {
+    "max_slots": 20,
+    "max_raw_units": 260,
+    "max_name_units": 255,
+    "input": "An explicit complete contiguous reverse-order sequence of at most640 bytes plus its immediately following short record. These two byte views are supplied observations of one logical adjacency, not proof of provider identity/freshness. Zero slots means no long name. Short/trailing partial records produce truncated observations; oversized sequences refuse before reading input/output. Provider chunk/cluster traversal is future work.",
+    "association": "First ordinal is count|0x40; subsequent ordinals decrease exactly to1 without another last bit or reserved bits. Each active slot must have exact0x0f attributes, type0, cluster0 and checksum matching all11 stored short bytes (including an unmodified0x05). The short record must be an active ordinary file/directory candidate with known attributes and cannot be dot/dotdot. Cluster/time issues in the short record do not erase a separately established name-byte correlation and do not grant file access.",
+    "payload": "Reconstruct all logical13-unit segments only when complete order is valid; retain the raw views even on failures. Non-full names terminate with0 and remaining units are0xffff. A full multiple-of13 name has no terminator/padding. Reject empty, over255-unit, missing/incorrect padding, embedded0xffff and redundant slot sets. Preserve raw units and whether a terminator was observed; never substitute or normalize original text.",
+    "dimensions": "Report structural association, UTF-16 validity and canonical name characters independently. Valid surrogate pairs may cross slots; unpaired units are retained with an encoding issue. Forbidden controls/path punctuation and leading/trailing spaces or trailing periods are issues, not trimming. These text issues do not erase a checksum/order correlation. No claim of global name uniqueness or consumer lookup compatibility follows."
+  },
+  "display": "ASCII-only reversible unit display: printable ASCII except backslash is literal, backslash doubles, every other16-bit unit is\\uXXXX with uppercase hex. Encoding-invalid units are escaped exactly. Maximum260 units; all invalid/budget/capacity failures leave output unchanged. No code-page conversion, normalization or terminal control execution. The caller keeps exact original values separately; this display is not a path or lookup key.",
+  "qualification": [
+    "Independent raw entry fixtures for FAT12/16/32, all kinds, unknown/conflicting attributes, OEM/DBCS bytes,0x05/deleted/end, case hints, exact cluster words and file-size distinctions",
+    "Date/time boundary and leap-year cases, absent dates and preserved raw values; no fabricated UTC",
+    "All lengths1..255, exact13-unit boundaries,20-slot maximum, surrogate pairs across slots, malformed encodings, raw-preserved forbidden/noncanonical names",
+    "Independent checksum/order oracle, reordered/missing/duplicate/deleted/orphan slots, reserved fields, checksum-forged associations, bad termination/padding and budget/truncation",
+    "Reversible display/backslash/control/bidi/invalid-unit cases, unchanged output on capacity failures and no input changes",
+    "Protected read-only/end-of-page inputs and oversized/capacity refusal before inaccessible bytes; complete native regression, strict C90 syntax, header/build/import/source/context evidence"
+  ],
+  "remaining": "Bounded directory traversal/cross-cluster streaming, duplicate/lookup compatibility, whole allocation/cross-links, exact file extents/extraction, provider capture, frontend admission and all host profiles remain later capability work within full0.1.0.",
+  "reader_host_io": false,
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "filesystem_health_qualified": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}

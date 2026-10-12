@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.2-proposed.2
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -73,3 +73,14 @@ This qualifies the supplied-byte metadata scope on the recorded Windows host,
 not complete FAT inspection, GCC runtime, directories, extraction, mounting,
 frontend dispatch, historical targets or a writer. Continue the remaining
 filesystem and recovery capabilities under the full programme.
+
+## DE-W026 lossless FAT directory and name observations
+
+The [directory/name profile](../catalog/fat-directory-prototype.json) extends the
+existing supplied-byte FAT reader. Keep exact OEM short-name bytes, UTF-16 units,
+structural association, encoding validity, character issues and escaped display
+separate. No normalization, guessed code page, timezone, lookup uniqueness or
+file access follows from a checksum-matched name. Bound complete long-name sets
+and retain malformed/deleted/end observations without effects. Traversal, whole
+allocation, extraction, providers/frontends and actual consumer/host admission
+remain unfinished work within the full all-platform/storage 0.1.0 programme.

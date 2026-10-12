@@ -3479,6 +3479,80 @@
         "tests/property/test_fat.py",
         ".aide/evidence/2026-10-13-fat-allocation/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W026",
+      "title": "Decode lossless FAT directory and name metadata",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W025"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/fat/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 raw directory-entry and exact contiguous long-name observations, with separate association/encoding/character/display dimensions.",
+        "Independent checksum/byte/name fixtures, protected input/output boundaries and exact clean native evidence.",
+        "Record traversal, lookup, allocation, extraction, provider/frontend and target admission as unfinished capabilities."
+      ],
+      "acceptance": [
+        "Preserve original OEM bytes and UTF-16 units; no implicit code page, normalization, lookup key or UTC.",
+        "No false long-name association across mismatched order/checksum, deleted/end/orphan records or malformed slot shapes.",
+        "Finite20-slot/260-unit bounds and unchanged output/input on API/capacity errors.",
+        "No allocation, host I/O, mutation, mount or full filesystem-health claim."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "source/portable/fat/fat.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/checked.h"
+      ]
     }
   ]
 }
