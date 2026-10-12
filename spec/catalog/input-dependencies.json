@@ -8883,6 +8883,78 @@
         "DE-104",
         "DE-042"
       ]
+    },
+    {
+      "id": "source/runtime/planner/gpt_repair.h",
+      "path": "source/runtime/planner/gpt_repair.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h",
+        "spec/catalog/gpt-repair-planning-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-104",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "source/runtime/planner/gpt_repair.cpp",
+      "path": "source/runtime/planner/gpt_repair.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/planner/gpt_repair.h",
+        "source/portable/gpt/gpt.h",
+        "source/portable/mbr/mbr.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-104",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/images/gpt_repair_probe.cpp",
+      "path": "tests/images/gpt_repair_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/planner/gpt_repair.h"
+      ],
+      "spec_ids": [
+        "DE-104",
+        "DE-042"
+      ]
+    },
+    {
+      "id": "tests/images/test_gpt_repair.py",
+      "path": "tests/images/test_gpt_repair.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/property/test_gpt.py",
+        "spec/catalog/gpt-repair-planning-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-104",
+        "DE-042"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-gpt-repair-planning/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-gpt-repair-planning/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_gpt_repair.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-104",
+        "DE-042"
+      ]
     }
   ]
 }

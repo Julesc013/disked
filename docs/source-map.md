@@ -83,6 +83,7 @@ Byte algorithms and constrained primitives. They operate on supplied buffers/ran
 
 ## runtime files
 
+
 Shared semantic contracts and state. Domain behavior here stays independent of the concrete OS, window implementation and storage backend.
 
 | Files under `source/` | Responsibility and naming rationale |
@@ -125,6 +126,7 @@ Shared semantic contracts and state. Domain behavior here stays independent of t
 | [runtime/journal/semantics.cpp](../source/runtime/journal/semantics.cpp), [runtime/journal/semantics.h](../source/runtime/journal/semantics.h) | Private semantic journal-history validation above the byte codec and plan/receipt definitions. |
 | [runtime/operation/fake_operation.cpp](../source/runtime/operation/fake_operation.cpp), [runtime/operation/fake_operation.h](../source/runtime/operation/fake_operation.h) | Shared fake-operation definition/state/progress semantics used by the isolated fake worker; explicit fake name prevents a production-executor claim. |
 | [runtime/operation/watch.cpp](../source/runtime/operation/watch.cpp), [runtime/operation/watch.h](../source/runtime/operation/watch.h) | Shared bounded replay/live event watching and queue/profile mechanics reused by acquisition, report and verification operations. |
+| [runtime/planner/gpt_repair.h](../source/runtime/planner/gpt_repair.h), [runtime/planner/gpt_repair.cpp](../source/runtime/planner/gpt_repair.cpp) | Private supplied-capture GPT-copy repair preview: explicit source/decision/input binding, owned exact byte patches and limited shared-parser simulation. Runtime owns planning policy and effect descriptions; portable GPT code owns decoding, providers own future I/O. No file/writer/public-command admission. |
 | [runtime/presentation/requests.cpp](../source/runtime/presentation/requests.cpp), [runtime/presentation/requests.h](../source/runtime/presentation/requests.h) | Bounded deferred-request channels, completion polling, timeout/disconnection and unresolved-result handling; models consume it without owning worker threads. |
 | [runtime/presentation/session.cpp](../source/runtime/presentation/session.cpp), [runtime/presentation/session.h](../source/runtime/presentation/session.h) | Common frontend semantic session, immutable view/focus, capability explanations and dispatch; accepted observation snapshots retain generic input owners and failed delivery remains eligible for retry. |
 | [runtime/presentation/text_input.h](../source/runtime/presentation/text_input.h) | Shared private text/key event values consumed by TUI and shell and produced by terminal hosts. The name describes the event domain; the header has no host calls, model state or implementation requiring a `.cpp`. |
