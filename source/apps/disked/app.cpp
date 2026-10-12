@@ -16,6 +16,7 @@
 #include "platform/windows/memory_budget.h"
 #include "runtime/capture/image_commands.h"
 #include "providers/image/file_capture.h"
+#include "platform/windows/storage/fat_reader.h"
 #include <cstdio>
 #if defined(DISKED_IMAGE_COMMAND_TESTING) || defined(DISKED_REPORT_COMMAND_TESTING) || defined(DISKED_VERIFICATION_COMMAND_TESTING)
 #define WIN32_LEAN_AND_MEAN
@@ -53,13 +54,17 @@ void image_test_wait() {
 // Composition binds the concrete provider. Runtime semantics depend only on
 // its inward-facing capture port; presentation models never call raw I/O.
 Outcome image_action(const std::string& request,const std::string& command,const Value& parameters) {
+#ifdef DISKED_FAT_COMMAND_TESTING
+    if(command=="image.inspect" && fat_inspection_parameters(parameters) && GetEnvironmentVariableW(L"DISKED_FAT_COMMAND_TEST_GATE",nullptr,0))
+        image_test_wait();
+#endif
     return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit,bool repair) {
 #ifdef DISKED_IMAGE_COMMAND_TESTING
         if(path.find("test-wait-")!=std::string::npos)
             image_test_wait();
 #endif
         return capture_raw_image(path,unit,repair);
-    },bootstrap::image_provider_id);
+    },bootstrap::image_provider_id,[](const FatInspectionRequest& input){return inspect_fat_image(input);});
 }
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
@@ -112,6 +117,7 @@ bool background_command(const std::string& command) {
     return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export" || command=="image.verify";
 }
 std::size_t request_bytes(const std::string& command,const Value& parameters) {
+    if(command=="image.inspect" && fat_inspection_parameters(parameters))return fat_inspection_response_bytes;
     return command=="evidence.export" || command=="image.verify" || verification_identity(parameters) || report_identity(parameters) || (command=="operation.watch" && acquisition_identity(parameters))?1048575:65536;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
@@ -135,6 +141,7 @@ Value build_information() {
 #undef IDENTITY_FIELD
     return result.put("fake_provider",Value::string(fake_provider_identity()))
         .put("image_provider",Value::string(bootstrap::image_provider_id))
+        .put("fat_provider",Value::string(bootstrap::fat_provider_id))
         .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id))
         .put("report_provider",Value::string(bootstrap::report_provider_id))
         .put("joined_report_provider",Value::string(bootstrap::joined_report_provider_id))

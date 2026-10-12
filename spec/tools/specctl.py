@@ -32,6 +32,7 @@ SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('verification-worker
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-verification-export-definition','acquisition-verification-export-outcome')})
 SEMANTICS[SCHEMA_PREFIX+'report-worker-definition:2']='joined-report-worker-definition'
 SEMANTICS[SCHEMA_PREFIX+'export-command-parameters:1']='export-command-parameters'
+SEMANTICS[SCHEMA_PREFIX+'command-image-inspect-parameters:1']='fat-inspect-parameters'
 for _version in ('1','2'):
     for _name in ('export-preparation-result','export-operation-result'):
         SEMANTICS[SCHEMA_PREFIX+_name+':'+_version]=_name
@@ -246,7 +247,22 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind in ('export-command-parameters','export-preparation-result','export-operation-result'):
+    if kind == 'fat-inspect-parameters':
+        for key in ('volume_offset','volume_bytes','fat_copy'):
+            if key in value:
+                n=bounded_u64(value[key],key)
+                if (key=='volume_bytes' and not n) or (key=='fat_copy' and n>0xffffffff):raise SpecError('FAT inspection quantity outside bounds: '+key)
+        if 'lookup' in value:
+            lookup=value['lookup']
+            if bounded_u64(lookup['directory'],'FAT directory')>=128:raise SpecError('FAT directory outside capture-local bounds')
+            for name in lookup['names']:
+                try:encoded=name.encode('utf-16-le')
+                except UnicodeError as exc:raise SpecError('Invalid FAT query encoding') from exc
+                if not encoded or len(encoded)>510:raise SpecError('FAT query exceeds255 UTF-16 units')
+            if len(canonical(lookup))>16384:raise SpecError('FAT lookup object exceeds byte bound')
+        if 'volume_offset' in value and 'volume_bytes' in value and int(value['volume_offset'])+int(value['volume_bytes'])>U64_MAX:
+            raise SpecError('FAT inspection window overflows u64')
+    elif kind in ('export-command-parameters','export-preparation-result','export-operation-result'):
         from export_contracts import validate
         try:validate(kind,value,acquisition_record_bytes,semantic_validate)
         except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc

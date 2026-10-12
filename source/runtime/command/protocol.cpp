@@ -110,7 +110,12 @@ bool verification_response(const Value& response) {
 }
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
+    if(fat_inspection_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;return limits;}
     if(report_response(response) || verification_response(response))limits.values=131072;return limits;
+}
+bool fat_inspection_response(const Value& response) {
+    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-fat";
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;

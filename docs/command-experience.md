@@ -29,3 +29,10 @@ Progress distinguishes completed and verified work, unknown totals and waiting. 
 Contracts: [commands and parser boundaries](../spec/interaction/commands.md), [invocation](../spec/interaction/invocation.md), [terminal sessions](../spec/interaction/terminal-session.md), [shell](../spec/interaction/interactive-shell.md), [output/progress](../spec/interaction/output-and-progress.md). The [syntax corpus](../spec/fixtures/command-syntax.json) contains native test expectations; native parser tests execute the implemented subset; specification metadata checks alone do not qualify it. Implementation and qualification belong to DE-W012/018/019/071.
 
 The current ordinary-image preview form is `disked table repair IMAGE --authoritative-copy primary|backup`. It never selects a winner automatically or writes the file. See the [native guide](native-bootstrap.md) and [source-bound evidence](../.aide/evidence/2026-10-12-gpt-repair-command/README.md) for the exact provisional subset.
+
+The FAT inspection prototype extends `image.inspect` with an explicit `--view fat`
+and byte window. Its controls and outcomes are shared by all five frontends;
+[the build guide](native-bootstrap.md#explicit-fat-image-inspection-de-w038)
+describes invocation. The default map view remains compatible. Bounded display
+omissions, actual capture coverage, consumer-model applicability and source
+stability are separate facts; none grants mutation or certifies filesystem health.

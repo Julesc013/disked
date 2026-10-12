@@ -4,6 +4,20 @@
 #include <utility>
 
 namespace disked { namespace json {
+std::vector<std::uint16_t> utf16_units(const std::string& text) {
+    if(!valid_utf8(text))throw std::invalid_argument("invalid_utf8");
+    std::vector<std::uint16_t> out;
+    for(std::size_t i=0;i<text.size();) {
+        unsigned cp=static_cast<unsigned char>(text[i++]);
+        if(cp>=0x80) {
+            const unsigned count=cp<0xe0?1:cp<0xf0?2:3;cp&=count==1?31:count==2?15:7;
+            for(unsigned n=0;n<count;++n)cp=(cp<<6)|(static_cast<unsigned char>(text[i++])&63);
+        }
+        if(cp<=0xffff)out.push_back(static_cast<std::uint16_t>(cp));
+        else {cp-=0x10000;out.push_back(static_cast<std::uint16_t>(0xd800+(cp>>10)));out.push_back(static_cast<std::uint16_t>(0xdc00+(cp&1023)));}
+    }
+    return out;
+}
 Error::Error(const std::string& name, std::size_t position)
     : std::runtime_error(name), code(name), offset(position) {}
 Value Value::string(const std::string& value) { Value v; v.kind=Kind::string; v.text=value; return v; }

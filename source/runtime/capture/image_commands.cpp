@@ -5,8 +5,9 @@ namespace disked {
 using json::Value;
 bool image_command(const std::string& command) {return command=="image.inspect" || command=="table.verify" || command=="table.gpt.repair.plan";}
 Outcome dispatch_image(const std::string& request,const std::string& command,const Value& parameters,
-    const ImageCapture& capture_source,const std::string& provider) {
+    const ImageCapture& capture_source,const std::string& provider,const FatInspectionPort& fat) {
     if(!image_command(command))return refused(request,"command_unavailable",3);
+    if(command=="image.inspect" && fat_inspection_parameters(parameters))return dispatch_fat_inspection(request,parameters,fat);
     const auto* path=parameters.find("path"),*unit=parameters.find("logical_block_bytes");
     if(!path || path->kind!=Value::Kind::string || path->text.empty() ||
         (unit && (unit->kind!=Value::Kind::string || (unit->text!="512" && unit->text!="4096"))))

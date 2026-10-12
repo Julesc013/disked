@@ -93,6 +93,8 @@ def generate(args):
     composition = next(c for c in read(root / "spec/catalog/compositions.json")["compositions"] if c["id"] == profile["composition_id"])
     if profile.get("image_provider_id") != "provider.image.raw.prototype/1":
         raise ValueError("Image profile requires an explicit provider identity change")
+    if profile.get("fat_provider_id") != "provider.image.fat.prototype/1":
+        raise ValueError("FAT profile requires an explicit provider identity change")
     if profile.get("acquisition_provider_id") != "provider.image.acquire.raw.prototype/1":
         raise ValueError("Acquisition profile requires an explicit provider identity change")
     if profile.get("report_provider_id") != "provider.report.acquisition-case.prototype/1":
@@ -105,7 +107,7 @@ def generate(args):
         raise ValueError("Wrong bootstrap composition")
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
-    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
+    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.fat.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
         raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file observations/acquisition and recorded case report export/verification")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
@@ -157,6 +159,7 @@ def generate(args):
             header.extend(cpp(s, True) + "," for s in option["spellings"])
     header += ["};", "static const char* const fake_provider_id = " + cpp(profile["fake_provider_id"]) + ";"]
     header += ["static const char* const image_provider_id = " + cpp(profile["image_provider_id"]) + ";"]
+    header += ["static const char* const fat_provider_id = " + cpp(profile["fat_provider_id"]) + ";"]
     header += ["static const char* const acquisition_provider_id = " + cpp(profile["acquisition_provider_id"]) + ";"]
     header += ["static const char* const report_provider_id = " + cpp(profile["report_provider_id"]) + ";"]
     header += ["static const char* const joined_report_provider_id = " + cpp(profile["joined_report_provider_id"]) + ";"]

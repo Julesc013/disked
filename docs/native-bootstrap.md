@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.42 prototype selects 21 command identities, including read-only
+The current dev.43 prototype selects 21 command identities, including read-only
 GPT repair previews, recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
@@ -844,3 +844,37 @@ GUI, TUI and shell expose the same typed action with inert review before submiss
 
 Exact source,59 focused cases and79 clean native test groups are retained in the
 [GPT preview evidence](../.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation and owner acceptance remain open.
+
+## Explicit FAT image inspection (DE-W038)
+
+The selected Windows image prototype adds `--view fat` to the existing
+`image.inspect` identity. The default `map` view and `table.verify` keep their
+existing partition-map behavior. The FAT view requires an explicit byte window:
+
+```powershell
+& .\build\windows-bootstrap\Release\disked.exe image inspect C:\fixtures\fat.img --view fat --volume-offset 0 --volume-bytes 1474560 --json
+```
+
+The path must name an ordinary local file allowed by the image prototype. Choose
+the window from the fixture's actual layout. The reader performs metadata reads
+and rereads in an owned process; it does not mount the image or write its source.
+Optional controls are `--fat-copy N`, `--allocation-scan yes|no`,
+`--auxiliary-checks yes|no`, and explicit `--name-code-page 437|850|932`.
+`--lookup-json` accepts a directory ID local to this capture and up to 16 UTF-8
+name components, each at most 255 UTF-16 units; lookup requires a code page.
+It never turns names into host paths. `--logical-block-bytes` is map-only.
+Invalid or conflicting controls are rejected before source access.
+
+CLI, machine protocol and GUI/TUI/shell forms use the same request and reader
+port. Review only prepares a request; submit performs the read. Output distinguishes
+completed requested coverage, incomplete reads/tree/model observations, source
+changes, native refusals and unresolved worker waits. Completed observation does
+not establish filesystem health or a mounted consumer's name rules. Large detail
+arrays have explicit returned/omitted counts and hashes; omitted display detail
+does not change the complete observation's coverage or lookup outcomes.
+
+The prototype result is bounded to 512 KiB and binds complete original observation
+and capture values by hashes. Retrieval of omitted captures, extraction, physical
+storage, mounted consumers, further hosts and production writers remain open.
+Exact clean-build qualification and evidence are recorded separately from this
+execution guide and from owner acceptance.

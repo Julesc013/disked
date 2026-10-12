@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include <cstdint>
 #include <map>
 #include <stdexcept>
 #include <string>
@@ -34,6 +35,7 @@ struct Value {
     Value& put(const std::string& key, Value value);
 };
 bool valid_utf8(const std::string& text);
+std::vector<std::uint16_t> utf16_units(const std::string& text);
 bool decimal_u64(const std::string& text);
 Value parse(const std::string& input, Limits limits = Limits{});
 std::string dump(const Value& value, Limits limits = Limits{});

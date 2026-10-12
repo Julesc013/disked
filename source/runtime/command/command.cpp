@@ -66,6 +66,17 @@ std::string validate_scalar(const Value& shape,const Value& value) {
         const auto scalar=text(shape,"x-disked-scalar");
         if((scalar=="decimal-u64" || scalar=="watch-follow-ms") && (!json::decimal_u64(value.text) ||
             (scalar=="watch-follow-ms" && std::stoull(value.text)>2000)))return "invalid_parameter";
+        if(scalar=="decimal-u64")for(const auto key:{"x-disked-minimum","x-disked-maximum"}) {
+            if(const auto* bound=shape.find(key)) {
+                if(bound->kind!=Value::Kind::number || !json::decimal_u64(bound->text))return "schema_unavailable";
+                const auto n=std::stoull(value.text),limit=std::stoull(bound->text);
+                if((std::string(key)=="x-disked-minimum" && n<limit) || (std::string(key)=="x-disked-maximum" && n>limit))return "invalid_parameter";
+            }
+        }
+        if(const auto* bound=shape.find("x-disked-utf16-maximum")) {
+            if(bound->kind!=Value::Kind::number || !json::decimal_u64(bound->text))return "schema_unavailable";
+            if(json::utf16_units(value.text).size()>std::stoull(bound->text))return "invalid_parameter";
+        }
         if(scalar=="worker-epoch" && (value.text.size()!=39 || value.text.compare(0,7,"worker:")!=0 ||
             value.text.find_first_not_of("0123456789abcdef",7)!=std::string::npos))return "invalid_parameter";
         if(scalar=="record-digest" && (value.text.size()!=64 || value.text.find_first_not_of("0123456789abcdef")!=std::string::npos))return "invalid_parameter";
@@ -148,6 +159,14 @@ std::string validate_shape(const Registry& registry,const Value& shape,const Val
     if(shape.find("x-disked-byte-budget")) {
         try {json::dump(value,parameter_limits(shape));}catch(const json::Error&) {return "invalid_parameter";}
         catch(const std::exception&) {return "schema_unavailable";}
+    }
+    if(const auto* window=shape.find("x-disked-u64-window")) {
+        if(window->kind!=Value::Kind::array || window->items.size()!=2 || window->items[0].kind!=Value::Kind::string || window->items[1].kind!=Value::Kind::string)return "schema_unavailable";
+        const auto* first=value.find(window->items[0].text),*length=value.find(window->items[1].text);
+        if(first && length) {
+            if(first->kind!=Value::Kind::string || length->kind!=Value::Kind::string || !json::decimal_u64(first->text) || !json::decimal_u64(length->text))return "invalid_parameter";
+            if(std::stoull(first->text)>UINT64_MAX-std::stoull(length->text))return "invalid_parameter";
+        }
     }
     for(const auto& child:array(shape,"allOf")) {const auto error=validate_shape(registry,child,value,depth+1,help);if(!error.empty())return error;}
     if(const auto condition=shape.find("if")) {

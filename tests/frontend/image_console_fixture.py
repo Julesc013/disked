@@ -23,7 +23,8 @@ def current_text():
 def run(exe,frontend,command,path,unit,report,options=None):
     configure(k.GetStdHandle(-11),240,25);before=snapshot();process=None
     handler=Callback(lambda _:True);checked(k.SetConsoleCtrlHandler(handler,True))
-    flags=['shell','--terminal=linear'] if frontend=='shell' else ['--tui','--terminal=linear',*command.split('.'),path,'--logical-block-bytes',unit]
+    unit_options=[] if unit=='-' else ['--logical-block-bytes',unit]
+    flags=['shell','--terminal=linear'] if frontend=='shell' else ['--tui','--terminal=linear',*command.split('.'),path,*unit_options]
     if frontend!='shell':flags+=options or []
     def wait(predicate):
         end=time.monotonic()+10
@@ -47,7 +48,8 @@ def run(exe,frontend,command,path,unit,report,options=None):
         process=subprocess.Popen([exe,*flags],close_fds=False)
         if frontend=='shell':
             wait(lambda t:'disked>' in t)
-            line=' '.join(command.split('.'))+' "'+path+'" --logical-block-bytes '+unit
+            line=' '.join(command.split('.'))+' "'+path+'"'
+            if unit!='-':line+=' --logical-block-bytes '+unit
             if options:line+=' '+subprocess.list2cmdline(options)
             for char in line:
                 encoded=char.encode('utf-16-le')
