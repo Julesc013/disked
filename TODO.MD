@@ -312,3 +312,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Shared presentation055bd850: GUI/TUI request/view correlation and discovery eligibility consolidated in existing owners;34native rule cases/8cross-model tests,85native groups,7standalone headers,213tooling passes/2skips. SR-03/module-qualified headers, broader platform/storage and owner/release remain open; `.aide/evidence/2026-10-12-shared-presentation/README.md`.
 
 - [x] Qualified private headers at 3598ac40: layer/module include names and CMake owned/exported header visibility;85 native groups,29 checker fixtures,7 header compiles,20 Windows adapter compiles,213 tools/2 skips.196 source files retained; no physical execution/ABI/SDK/full-unit/owner/release qualification. `.aide/evidence/2026-10-13-qualified-headers/README.md`.
+
+- [x] Supplied-byte FAT allocation metadata at 97a377d7: C90 layout/entry/bounded-chain reader; 1,335 independent cases, protected bounds, 87 native groups, eight headers and strict GCC 15.2 syntax. No public FAT/provider/directory/extraction/mount/writer or owner/full-release qualification.

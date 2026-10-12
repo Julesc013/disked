@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.2-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -64,3 +64,12 @@ capacity and caller-selected FAT copies are explicit; format labels are not
 classification authority. Directory/name, extraction, whole-allocation, provider,
 frontend and actual host compatibility require subsequent evidence. The full
 all-platform/storage 0.1.0 scope is unchanged.
+
+The allocation metadata slice is implementer-reviewed at source `97a377d7`, with
+1,335 independent byte cases, protected bounds, 87 native regression groups, eight
+headers and strict GCC 15.2 C90 syntax checks. Retained evidence is under
+`.aide/evidence/2026-10-13-fat-allocation/`; owner acceptance remains pending.
+This qualifies the supplied-byte metadata scope on the recorded Windows host,
+not complete FAT inspection, GCC runtime, directories, extraction, mounting,
+frontend dispatch, historical targets or a writer. Continue the remaining
+filesystem and recovery capabilities under the full programme.
