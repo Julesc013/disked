@@ -4,7 +4,7 @@
   "status": "private-read-only-volume-contract",
   "scope": "Bounded selected-copy FAT12/16/32 directory-tree and file-extent observation over a supplied region reader, plus ordinary Windows image-file capture. No extraction, lookup/path resolution, mutation, mount, physical provider or public command admission.",
   "source": "Microsoft FAT Specification 2005-08-30 sections3/4/6/7, linked by the allocation/directory profiles. Native observations remain distinct from supplier format facts and whole-filesystem/consumer qualification.",
-  "inputs": "Exact supplied source label/positive capture epoch, independently supplied source byte length, volume byte offset/length, explicit zero-based FAT copy and positive caller budgets. Validate extent arithmetic and all budgets before any callback. A label/epoch is a correlation domain, not authenticated provider identity. Windows capture supplies held file identity/generation separately.",
+  "inputs": "Exact valid-UTF8 source label of1..128 bytes/positive capture epoch, independently supplied source byte length, volume byte offset/length, explicit zero-based FAT copy and positive caller budgets (output at least16384 bytes). Validate extent arithmetic and all budgets before any callback. A label/epoch is a correlation domain, not authenticated provider identity. Windows capture supplies held file identity/generation separately.",
   "limits": {
     "nodes": 128,
     "depth": 8,

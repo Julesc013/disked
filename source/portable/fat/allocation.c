@@ -7,24 +7,36 @@ static int shape(int bits, de_u32 clusters) {
            (bits == 32 && clusters >= 65525 && clusters <= 268435445UL);
 }
 
-int de_fat_entry_read(const de_view *fat, int bits, de_u32 clusters, de_u32 index,
-                      de_fat_entry *out) {
-    de_fat_entry value;
-    de_u32 offset, mask;
-    de_u64 position, length, raw;
-    de_view cell;
-    int status;
-    if (!fat || !out || (!fat->data && fat->size) || !shape(bits, clusters))
+int de_fat_entry_request(int bits, de_u32 clusters, de_u32 index, de_fat_cell_request *out) {
+    de_fat_cell_request value;
+    de_u32 offset;
+    if (!out || !shape(bits, clusters))
         return DE_INVALID;
     if (index > clusters + 1)
         return DE_BOUNDS;
+    memset(&value, 0, sizeof(value));
     offset = bits == 12 ? index + index / 2 : index * (de_u32)(bits / 8);
-    position = de_u64_from_u32(offset);
-    length = de_u64_from_u32(bits == 32 ? 4 : 2);
-    status = de_view_slice_u64(fat, &position, &length, &cell);
+    value.offset = de_u64_from_u32(offset);
+    value.bytes = bits == 32 ? 4 : 2;
+    *out = value;
+    return DE_OK;
+}
+
+int de_fat_cell_read(const de_view *cell, int bits, de_u32 clusters, de_u32 index,
+                     de_fat_entry *out) {
+    de_fat_entry value;
+    de_u32 mask;
+    de_u64 raw;
+    de_fat_cell_request request;
+    int status;
+    if (!cell || !out || (!cell->data && cell->size))
+        return DE_INVALID;
+    status = de_fat_entry_request(bits, clusters, index, &request);
     if (status)
         return status;
-    status = de_view_read_uint(&cell, 0, bits == 32 ? 4 : 2, DE_LITTLE_ENDIAN, &raw);
+    if (cell->size != request.bytes)
+        return DE_BOUNDS;
+    status = de_view_read_uint(cell, 0, request.bytes, DE_LITTLE_ENDIAN, &raw);
     if (status)
         return status;
     memset(&value, 0, sizeof(value));
@@ -49,6 +61,24 @@ int de_fat_entry_read(const de_view *fat, int bits, de_u32 clusters, de_u32 inde
         value.kind = DE_FAT_ENTRY_RESERVED;
     *out = value;
     return DE_OK;
+}
+
+int de_fat_entry_read(const de_view *fat, int bits, de_u32 clusters, de_u32 index,
+                      de_fat_entry *out) {
+    de_fat_cell_request request;
+    de_view cell;
+    de_u64 length;
+    int status;
+    if (!fat || !out || (!fat->data && fat->size))
+        return DE_INVALID;
+    status = de_fat_entry_request(bits, clusters, index, &request);
+    if (status)
+        return status;
+    length = de_u64_from_u32(request.bytes);
+    status = de_view_slice_u64(fat, &request.offset, &length, &cell);
+    if (status)
+        return status;
+    return de_fat_cell_read(&cell, bits, clusters, index, out);
 }
 
 int de_fat_chain_read(const de_view *fat, int bits, de_u32 clusters, de_u32 start,

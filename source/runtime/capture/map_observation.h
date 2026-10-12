@@ -3,7 +3,7 @@
 #include "portable/primitives/checked.h"
 #include "portable/primitives/extent.h"
 #include "portable/primitives/view.h"
-#include <functional>
+#include "region_reader.h"
 #include <vector>
 
 namespace disked {
@@ -18,7 +18,7 @@ json::Value observe_partition_map(const std::vector<unsigned char>& bytes,
 // Private metadata-region source. Views must remain alive and immutable until
 // this call returns. The callback receives a checked half-open byte extent;
 // missing bytes are a short/empty view. No callback or view escapes in the result.
-using MapRegionReader=std::function<de_view(const de_byte_extent&)>;
+using MapRegionReader=RegionReader;
 json::Value observe_partition_regions(const de_u64& blocks,
     de_u32 logical_block_bytes,const MapRegionReader& reader);
 }

@@ -42,6 +42,10 @@ typedef struct de_fat_entry {
     de_u32 index, raw_value, value;
     int kind;
 } de_fat_entry;
+typedef struct de_fat_cell_request {
+    de_u64 offset;
+    de_u32 bytes;
+} de_fat_cell_request;
 
 enum de_fat_chain_disposition {
     DE_FAT_CHAIN_EMPTY,
@@ -119,6 +123,11 @@ int de_fat_volume_read(const de_view *boot, const de_u64 *available_bytes, de_fa
    explicit. This reads one cell, not a complete or reconciled allocation map. */
 int de_fat_entry_read(const de_view *fat, int bits, de_u32 cluster_count, de_u32 index,
                       de_fat_entry *out);
+/* Streamable table-relative request and exact-cell decode; no resident FAT needed.
+   Type/count/index remain independently established inputs. Errors preserve output. */
+int de_fat_entry_request(int bits, de_u32 cluster_count, de_u32 index, de_fat_cell_request *out);
+int de_fat_cell_read(const de_view *cell, int bits, de_u32 cluster_count, de_u32 index,
+                     de_fat_entry *out);
 /* Workspace has capacity >= budget, budget in 1..DE_FAT_MAX_CHAIN. Prefix cells
    [0,count) are published for all content dispositions; the remainder is untouched.
    Known cycles take precedence over a budget for the next unseen cluster. */

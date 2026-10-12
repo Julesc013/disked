@@ -3226,6 +3226,7 @@
         "source/portable/primitives/checked.h",
         "source/portable/primitives/extent.h",
         "source/portable/primitives/view.h",
+        "source/runtime/capture/region_reader.h",
         "source/runtime/command/json.h"
       ],
       "spec_ids": [
@@ -9484,6 +9485,7 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
+        "spec/catalog/fat-capture-prototype.json",
         "spec/catalog/fat-directory-prototype.json",
         "spec/catalog/fat-reader-prototype.json"
       ],
@@ -9642,6 +9644,117 @@
         "DE-037",
         "DE-031",
         "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/region_reader.h",
+      "path": "source/runtime/capture/region_reader.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/portable/primitives/extent.h",
+        "source/portable/primitives/view.h"
+      ],
+      "spec_ids": [
+        "DE-032",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/fat_capture.h",
+      "path": "source/runtime/capture/fat_capture.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/region_reader.h",
+        "source/runtime/command/json.h",
+        "spec/catalog/fat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/fat_capture.cpp",
+      "path": "source/runtime/capture/fat_capture.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_capture.h",
+        "source/portable/fat/fat.h"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/providers/image/fat_file.h",
+      "path": "source/providers/image/fat_file.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_capture.h"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/providers/image/fat_file.cpp",
+      "path": "source/providers/image/fat_file.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/fat_file.h",
+        "source/providers/image/local_file.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/unit/fat_capture_probe.cpp",
+      "path": "tests/unit/fat_capture_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/fat_file.h",
+        "source/portable/fat/fat.h"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/test_fat_capture.py",
+      "path": "tests/images/test_fat_capture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/fat-capture-prototype.json",
+        "tests/property/test_fat.py",
+        "tests/property/test_fat_directory.py"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-13-fat-capture/reproduce.py",
+      "path": ".aide/evidence/2026-10-13-fat-capture/reproduce.py",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_capture.cpp",
+        "source/providers/image/fat_file.cpp",
+        "tests/unit/fat_capture_probe.cpp",
+        "tests/images/test_fat_capture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-037"
       ]
     }
   ]
