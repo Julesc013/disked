@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.4-proposed.2
+  version: 0.1.5-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -110,3 +110,13 @@ Evidence under `.aide/evidence/2026-10-13-fat-capture/` binds streaming allocati
 cells, tree/name/extent provenance and actual repeated ordinary-file observations.
 Global allocation, lookup/extraction, worker/frontend admission, other hosts and
 production storage/recovery/release gates remain open; owner acceptance is pending.
+
+## DE-W028 global FAT allocation observation
+
+The [allocation scan profile](../catalog/fat-allocation-scan-prototype.json) adds
+optional paged data-cluster scanning and bounded graph analysis to existing volume
+capture. Tree coverage, allocation coverage, FAT-copy agreement and finding-detail
+completeness remain separate. Unreferenced allocations do not imply recoverable
+content, repair authority or filesystem health. Default tree-only capture remains
+unchanged. Auxiliary metadata, namespace/consumer, extraction and worker/frontend
+admission are further capabilities in the full all-platform/storage programme.

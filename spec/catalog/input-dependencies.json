@@ -9668,6 +9668,7 @@
       "depends_on": [
         "source/runtime/capture/region_reader.h",
         "source/runtime/command/json.h",
+        "spec/catalog/fat-allocation-scan-prototype.json",
         "spec/catalog/fat-capture-prototype.json"
       ],
       "spec_ids": [
@@ -9693,7 +9694,8 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/capture/fat_capture.h"
+        "source/runtime/capture/fat_capture.h",
+        "spec/catalog/fat-allocation-scan-prototype.json"
       ],
       "spec_ids": [
         "DE-037"
@@ -9755,6 +9757,20 @@
       ],
       "spec_ids": [
         "DE-037"
+      ]
+    },
+    {
+      "id": "spec/catalog/fat-allocation-scan-prototype.json",
+      "path": "spec/catalog/fat-allocation-scan-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/fat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
       ]
     }
   ]

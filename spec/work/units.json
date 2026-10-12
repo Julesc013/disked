@@ -3646,6 +3646,92 @@
         "tests/images/test_fat_capture.py",
         ".aide/evidence/2026-10-13-fat-capture/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W028",
+      "title": "Observe global FAT allocation and graph integrity",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W027"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/fat/**",
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Optional paged full-data-cluster FAT scan with explicit prefix/copy/category/graph/detail outcomes.",
+        "Independent full-count/graph/partial/copy/read-budget fixtures and ordinary-file preservation evidence."
+      ],
+      "acceptance": [
+        "Expected contract precedes evaluation; default tree behavior and command identities preserved.",
+        "No unobserved suffix interpreted as free; no lost-data or repair authority from incomplete ownership/copy/source evidence.",
+        "Allocation, tree, comparison and detail completeness remain separate; no source mutation or extracted output."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "CMakeLists.txt",
+        "docs/source-map.md",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/region_reader.h",
+        "spec/catalog/fat-allocation-scan-prototype.json",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "tests/images/test_fat_capture.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

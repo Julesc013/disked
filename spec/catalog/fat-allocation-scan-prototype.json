@@ -1,0 +1,29 @@
+{
+  "schema": "org.disked.fat-allocation-scan-profile/1",
+  "work_id": "DE-W028",
+  "status": "private-read-only-allocation-contract",
+  "scope": "Optional global FAT data-cluster allocation observation in the existing volume capture and ordinary Windows image adapter. Preserve the default tree-only behavior and current command surface.",
+  "inputs": "Explicit allocation_scan boolean, existing source/window/copy identity and budgets, positive allocation_clusters <=262144 and allocation_findings <=128. Validate all limits before callbacks even when scanning is disabled. No whole-table residency supplied by the caller.",
+  "reads": "Scan ascending data-cluster indices 2..cluster_count+1. Reuse exact-cell C90 decoding, but obtain cells from bounded <=4096-byte table pages, including FAT12 cells crossing page boundaries. Read only declared FAT bytes within the source/volume window. Compare overlaps with previous tree captures. Existing request/byte budgets apply to all phases together.",
+  "publication": "Publish a cell in the covered prefix only after selected and every requested comparison-copy cell is available. A reader failure does not count an incompletely compared cell. Retain expected/scanned counts, exclusive covered end, next cluster, category totals, copy coverage and typed failure/budget outcomes. Table padding and reserved header entries do not enter data-cluster counts.",
+  "copies": "Preserve the explicitly chosen copy. Count cells with interpreted disagreements separately from cells with raw-storage variants, including FAT32 high bits and neighboring FAT12 bits. Bounded findings retain copy/raw/value tuples. Never select authority by majority, active-copy status or apparent health. Uncompared copies remain unknown.",
+  "analysis": "Over the covered selected-copy prefix, count incoming links, links into free/bad/reserved cells, links beyond coverage, merge points, cycle components/cyclic clusters and allocated NEXT/END cells without observed tree owners. Use bounded linear graph traversal without recursion. Missing suffix cells are unknown and cannot be interpreted as free or terminal.",
+  "ownership": "Distinguish allocated_without_observed_owner from lost-data/repair authority. Complete and consistent selected-tree observation, complete allocation coverage, complete interpreted-copy agreement and overlap agreement are prerequisites for unreferenced-allocation qualification against this observation. No source snapshot, file-content, namespace, recoverability or whole-filesystem-health claim follows.",
+  "dimensions": "Preserve selected_tree_complete and node chain/entry outcomes when the later scan stops. Allocation coverage, covered-prefix graph analysis, comparison coverage and finding-detail completeness are separate fields. Bounded detail omission retains total findings/omitted counts and does not silently terminate coverage analysis.",
+  "resources": "At most262144 selected cells and bounded incoming/color/path workspace; existing <=2MiB captured bytes, <=8192 requests and <=1MiB output. Findings bounded by both count and remaining output budget. Full coverage is possible only when geometry and combined budgets permit it; otherwise retain an explicit prefix. These are finite application payload/work bounds, not exact RSS or wall-clock promises.",
+  "windows_adapter": "Opt-in scan uses the same ordinary-file identity/path/parent checks and repeated-region verification, GENERIC_READ and no source writes. Actual generated-image hashes must remain unchanged. Synchronous execution remains private until worker containment and frontend contracts are qualified.",
+  "qualification": [
+    "Independent FAT12/16/32 full-count/category and graph oracles, nonzero/wide source origins, all sector units and explicit copy selection",
+    "FAT12 page-crossing cells; FAT32 raw variants; conflicts/uncompared copies; padding and FAT header exclusion",
+    "Unreferenced chains, tails into cycles, multiple cycles, merge points, free/bad/reserved targets and links outside partial coverage",
+    "Every declared scan/detail/read/byte/output budget and invalid input before callback; failures at exercised read boundaries preserve tree outcomes",
+    "Actual ordinary Windows files, complete byte preservation and normal/fault recapture controls",
+    "Default tree-only full regressions, clean native build/launch/import/header/dependency/context/tooling evidence"
+  ],
+  "remaining": "FAT header/FSInfo/backup semantic validation, namespace/consumer rules, extraction, worker/command/frontend admission and all-platform/storage/recovery/release qualification remain within the full programme.",
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "filesystem_health_qualified": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}
