@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.8-proposed.1
+  version: 0.1.9-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -370,3 +370,23 @@ Recovery MUST reidentify the target and inspect uncertain effects instead of bli
 
 - [DE-042](planning.md)
 - [DE-041](broker-and-authorization.md)
+
+## DE-W041 owned-image write and flush experiment
+
+The [GPT fixture profile](../catalog/gpt-fixture-execution-prototype.json) adds a
+private create-only ordinary-file adapter to exercise real bounded WriteFile/
+FlushFileBuffers calls with the proposed framing. Its GPT-specific critical payloads
+are a separate semantic profile; old fake-range semantic readers must reject them.
+Original metadata backup, exact fixture review/grant/admission, intention-before-effect,
+target flush/recapture-before-completion and checkpoint cancellation are observable
+boundaries. Failures preserve files, accepted prefix and uncertainty without retry,
+tail repair, destructive cleanup or inferred rollback. Read-only reconciliation
+compares live bytes with the exact before/after prefixes and independently expected
+file/code/plan bindings.
+
+This is a test-only storage/durability spike permitted by the local disposable-image
+development grant. It does not resolve the production journal decision or admit a
+product writer. Same-volume files are not independent failure domains. Process exit
+and successful flush acknowledgements do not qualify hardware power loss, retirement,
+fresh operator authority or general recovery. Any later execution/recovery provider
+must earn the corresponding admission and independent verification claims.

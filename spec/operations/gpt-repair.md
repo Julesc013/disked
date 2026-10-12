@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-104
   profile: disked-spec/1
-  version: 0.1.2-proposed.1
+  version: 0.1.3-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -124,3 +124,24 @@ CLI, stdio, GUI, TUI and shell share the same parameter registry and action. The
 contract requires actual executable/frontend evidence before claiming this command
 implemented. Defining this execution profile does not admit mutation or complete
 DE-W041, accept the baseline, or resolve DE-DEC-004.
+
+## DE-W041 private owned-file execution experiment
+
+[The execution experiment](../catalog/gpt-fixture-execution-prototype.json)
+defines actual bounded native writes only to newly created test-owned images.
+Its port and adapter stay separate from the product executable. A controller first
+receives the immutable preview and actual fixture resource/code identities, then
+provides separately bound review/grant data. The experiment retains all captured
+original metadata in a verified backup, records an intention before each exact patch,
+flushes/rereads affected images and journals, and retains uncertain outcomes.
+
+The existing proposed binary framing is reused with a distinct GPT fixture payload
+profile; it is not the fake-range model's semantic stream or an accepted production
+encoding. Actual Windows flush acknowledgements and process-interruption observations
+qualify only the named test host/fault cases. The three files share a volume and do
+not supply independent hardware protection or power-loss durability. Read-only
+reconciliation observes current bytes and history; it grants no replay/restore/write
+authority. Production DE-DEC-004/008, backup/placement, writer/provider/operator,
+physical/elevation, independent safety and full-unit gates remain open. Public
+`table repair` remains a read-only preview. No existing target is executable through
+the private experiment's create-only adapter.

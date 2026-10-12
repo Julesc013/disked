@@ -1,0 +1,75 @@
+{
+  "schema": "org.disked.gpt-fixture-execution-profile/1",
+  "work_id": "DE-W041",
+  "status": "proposed-execution-contract",
+  "scope": "Private native execution experiment over newly created, exclusively held ordinary image/backup/journal files. Never linked into disked.exe; no production writer or existing-target mutation admission.",
+  "environment": "owned-file-fixture",
+  "limits": {
+    "image_bytes": 8388608,
+    "block_bytes": [
+      512,
+      4096
+    ],
+    "patches": 2,
+    "write_chunk_bytes": 65536,
+    "journal_bytes": 1048576,
+    "backup_bytes": 2117632,
+    "records": 32
+  },
+  "preparation": "Probe creates a new owned child directory and CREATE_NEW image/backup/journal files under an ordinary local test parent. Seed image is fixture preparation. Parser/planner receive supplied owned bytes and perform no I/O. Return a prepared manifest and exact definition/digests before accepting a separate controller grant. No external target can be selected for execution.",
+  "manifest": "Binds plan/capture digest, actual file/root generation identities, exact image bytes, provider identity, actual executable byte SHA256, original journal publisher identity/epoch, path and explicit fixture scope. All identities are checked through held handles and pinned ordinary parents. File objects must be distinct, single-link and non-reparse; image size is fixed. Same-volume storage is declared non-independent.",
+  "review_grant": "Separate exact closed review/grant data binds plan, basis, manifest, executable, provider, all three observed file identities and exact patch IDs. Require reviewed=true, allow_fixture_writes=true and acknowledgement of the proposed journal. These are test-controller declarations and the recorded local development grant, not authenticated product/operator/storage authority. Mismatch refuses before execution-port writes.",
+  "backup": {
+    "encoding": "DEGBK001 magic8 + little-endian u32 manifest length + compact canonical JSON manifest + concatenated original captured region bytes",
+    "manifest": "schema org.disked.gpt-fixture-backup/1, plan_digest, capture_digest, ordered regions with name/image_offset/payload_offset/bytes/sha256",
+    "regions": [
+      "protective_mbr",
+      "primary_header",
+      "primary_array",
+      "backup_header",
+      "backup_array"
+    ],
+    "required_order": "verify complete current basis; append backup in bounded chunks; successful actual FlushFileBuffers; reread exact entire backup; no image effect before this completes",
+    "qualification": "All original captured metadata, including unchanged copies/padding, is retained. Same-volume backup is not independent hardware protection or whole-data backup."
+  },
+  "journal": {
+    "framing": "Existing proposed DEJPR001 v1 codec; plan digest, actual resource-identity digest, provider/executable closure digest and journal-file identity are independently expected",
+    "payload_profile": "org.disked.gpt-fixture-journal/1; distinct from the existing fake.range-transition semantic stream; generic framing is reused, fake-plan semantic compatibility is not claimed",
+    "sequence": "Contiguous binary sequence starting1, publisher and positive epoch fixed by the original prepared manifest",
+    "bootstrap_kinds": {
+      "1": "Exact immutable GPT repair definition",
+      "2": "Exact separate fixture review",
+      "3": "Exact separate fixture grant",
+      "4": "Admission binds review/grant, resources, validated basis, verified backup and executor"
+    },
+    "effect_kinds": {
+      "5": "Intention binds exact patch, prefix index, before/after state and backup",
+      "6": "Completion follows actual target flush and exact complete-region reread against the modeled prefix",
+      "7": "Checkpoint cancellation request",
+      "9": "Seal binds completed prefix/outcome and current capture"
+    },
+    "write_order": "append record; actual journal flush acknowledgement; exact journal-prefix reread/validation; only then advance in-memory admission/progress. Never truncate or repair a failed/torn tail. A write/flush error can leave bytes, so failure retains uncertainty."
+  },
+  "execution": "Validate grant and current basis; retain/verify backup; persist/reread bootstrap; for each exact planned patch in its declared dependency order recapture expected current prefix, persist/reread intention, write only patch bytes in <=64KiB chunks, flush image, recapture all original captured regions against expected prefix, persist/reread completion. Seal only after all selected patches completed. Check ownership before each adapter call. No retries, cleanup or rollback on error.",
+  "cancellation": "Only before effects or after a verified completed-patch checkpoint. Preserve already completed effects, seal exact partial prefix when possible, report remaining work; never imply cancellation restored the original image. No-change plan performs no execution-port writes.",
+  "failure": "Set possible-effect state before dispatching an image write. Any source/backup/journal/write/flush/recapture failure returns a typed refused/unresolved result with retained files and confirmed prefix. Journal bytes or accepted historical completion never alone prove live effects, quiescence, durability or replay authority.",
+  "inspection": "A separate read-only reopen route requires the original prepared manifest and independently reconstructed plan/basis, validates the same file/root generations and expected journal bindings, verifies backup bytes, and compares current patch/complete-region captures with before and modeled prefix states. Report exact before/after/mixed/other observations, rejected/torn journal prefix and recovery requirement. It never writes, resumes, restores, deletes or obtains authority from absence of a record.",
+  "faults": "Private adapter only: named before/after/partial/flush-error/short-read/change boundaries around each actual backup/journal/image WriteFile and FlushFileBuffers call; deliberate own-process exit112 at selected boundaries. Retain cases and independently reopen/read after actual process exit. Process termination and flush acknowledgements are not physical power-loss qualification.",
+  "expected_evidence": [
+    "Exact independent full-image/backup/journal byte and CRC/SHA oracles",
+    "Both selected roles/512 and4096/header/array/combined damage/noncanonical footprints/valid disagreement",
+    "Grant/identity/code/plan/basis mismatches before effects; limits, unsupported paths and unsafe ownership refused",
+    "Every actual successful-run write/flush boundary exercised with before/after interruption and partial-write/flush-error variants",
+    "Native process termination, current-state read-only reconciliation and source-byte preservation outside exact patches",
+    "Cancellation checkpoints, no-change, journal corruption/torn tails and no implicit replay",
+    "Clean source build, target/probe launches/imports, exact input/executable hashes and appropriate regression checks"
+  ],
+  "product_dispatch_admitted": false,
+  "production_journal_accepted": false,
+  "writer_admitted": false,
+  "authenticates_operator": false,
+  "qualifies_power_loss": false,
+  "qualifies_recovery": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}
