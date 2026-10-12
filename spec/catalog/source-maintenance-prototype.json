@@ -25,7 +25,7 @@
     {
       "id": "SR-03",
       "state": "implemented-pending-owner-review",
-      "action": "Cross-module source-relative include names and CMake target-owned private header visibility implemented. Main target declarations, direct/interface compile usage and seven header smoke checks are validated independently; standalone Windows/legacy build lanes retain separate scope. No original wrong-header failure reproduced."
+      "action": "Cross-module source-relative include names and CMake target-owned private header visibility implemented. Main target declarations, direct/interface compile usage and selected standalone header checks are validated independently; standalone Windows/legacy build lanes retain separate scope. No original wrong-header failure reproduced."
     },
     {
       "id": "SR-04",
@@ -61,7 +61,7 @@
   "release_ready": false,
   "build_phase_base_revision": "9de2b2156e51d31919cb2c93012c06237db65544",
   "build_checks": {
-    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private targets, five core plus two presentation header checks, not SDK admission.",
+    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private core targets and CMake-selected standalone header checks, not SDK admission. Initial core/presentation contract has seven checks; later campaigns record additional headers and exact counts.",
     "core_targets": {
       "disked_json": {
         "sources": [
@@ -169,7 +169,15 @@
     "limits": "The source namespace root is a shared compiler search root, not filesystem/C++ access control. CMake/CI checks enforce ownership; lexical quoted-header checking is not preprocessing or full platform/ABI qualification. Current literal dependencies supported; unknown generator expressions fail closed pending an explicit projection rule.",
     "behaviour": "Private include/build declarations only; no command/API/ABI/algorithm/effect/resource changes. Old specification input IDs and historical evidence stay at exact revisions.",
     "conditional_scope": "Only explicit compile-only DISKED_MODEL_BINARY_PROJECTION ifdef/ifndef uses CMake definitions for visibility; source redefinitions/undefinitions refuse. Other expressions/platform macros/elif remain conservative, not full preprocessing.",
-    "coverage": "97 source headers keep paths.80 are declared by current main composition targets;17 belong to standalone Windows adapter lanes. Current main/standalone include names are migrated; header visibility conformance is enforced for the main CMake composition. Standalone adapter compile does not authorize or execute physical queries.",
+    "coverage": "At qualified source 3598ac40: 97 source headers keep paths.80 are declared by current main composition targets;17 belong to standalone Windows adapter lanes. Current main/standalone include names are migrated; header visibility conformance is enforced for the main CMake composition. Standalone adapter compile does not authorize or execute physical queries.",
     "test_expected": "29 checker tests include compile-vs-build visibility, private link non-export, qualified naming, CMake ownership, unknown edges and bounded compile-only guard conditions. Clean main native85groups and tooling215runs required; standalone Windows targets compile without device access."
+  },
+  "review_followup": {
+    "observed_at": "2026-10-12T23:41:56.659806+00:00",
+    "base_revision": "607d68a7c6edefeea93bf17218c2685e787683e2",
+    "guide": "docs/structure-review.md",
+    "evidence": ".aide/evidence/2026-10-13-structure-followup/validation.json",
+    "native_evidence": ".aide/evidence/2026-10-13-fat-window/summary.json",
+    "scope": "Current-guide count and parser-owner clarification; dated review disposition and read-only upstream observations. No new native, owner, public ABI or release qualification."
   }
 }

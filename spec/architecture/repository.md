@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.6-proposed.2
+  version: 0.1.7-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,12 +26,14 @@ disked:
   - DE-REQ-011-02
 updated:
   by: codex
-  at: '2026-10-10T05:14:06.314038+00:00'
-  scope: Owner-requested source naming/ownership clarification; private path migration,
-    public semantics unchanged; owner review pending
+  at: '2026-10-12T23:41:56.659806+00:00'
+  scope: Owner-requested structure review follow-up; clarify current header evidence
+    without changing source ownership or public contracts; owner review pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
+- id: structure-review-2026-10-12-review-md
+  resource: ../references/sources.json#structure-review-2026-10-12-review-md
 ---
 
 # Repository architecture and ownership
@@ -120,7 +122,8 @@ external reviews supply neither execution authority nor owner acceptance.
 
 The pinned current-Windows test lane checks private core targets and lexical
 quoted-header resolution against CMake's generated codemodel, with independent
-negative fixtures and seven standalone core/presentation-header compilations. Generated build
+negative fixtures and standalone header compilations selected by CMake. Retained
+campaigns record their exact source identity, selection and results. Generated build
 dependencies include transitive/order dependencies; do not label them direct
 link declarations. Record the source revision, actual flags, results and the
 unchecked preprocessor/system-header/other-platform scope. Cross-module include

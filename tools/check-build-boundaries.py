@@ -285,7 +285,7 @@ def inspect(root, build, targets, contract, usage=None):
         "visible_headers": {name: sorted(values) for name, values in visibility.items()},
         "limits": ["Lexical quoted includes, including conditional branches; not preprocessing.",
                    "Generated build closure includes transitive/order dependencies; not direct links.",
-                   "Five core headers and presentation requests.h/session.h have separate compiler self-containment checks.",
+                   "Standalone header compiler checks are configured by CMake; this lexical report does not establish their execution or complete header coverage.",
                    "No OS/SDK import, ABI, storage authority or full portability qualification."],
     }
 

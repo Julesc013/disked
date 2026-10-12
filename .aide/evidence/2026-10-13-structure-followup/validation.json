@@ -1,0 +1,280 @@
+{
+  "schema": "org.disked.structure-review-followup/1",
+  "base_revision": "607d68a7c6edefeea93bf17218c2685e787683e2",
+  "observed_at": "2026-10-12T23:50:13.840274+00:00",
+  "status": "pass",
+  "work_id": "DE-W000",
+  "scope": "Requested structure documentation/review maintenance; not baseline ratification or DE-W044 native qualification.",
+  "spec_checks": 1133,
+  "spec_tool_tests": 224,
+  "spec_tool_skipped": 2,
+  "boundary_fixture_tests": 29,
+  "source_files": 218,
+  "context_bytes": 402074,
+  "commands": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/check.log",
+      "sha256": "sha256:a168dda8cbbe6ad6a3145a97c4ce310b08f7be8bcfb3f3e06fff56ee7b177bf7"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/spec-tools.log",
+      "sha256": "sha256:c32ee645e5437860b442b8b01b399459f6a3d6ab971b216752c587d6af156ae0"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/tools",
+        "-p",
+        "test_build_boundaries.py",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/boundary-fixtures.log",
+      "sha256": "sha256:e47564bd0fac1a7ca39738a7dc2d048e488d6a3d97a1923b8d4caca2d7005b82"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/source-map.log",
+      "sha256": "sha256:23dc803a756b9d25d13cb443d8a1a0fe35c664409b2df4f02acbf99e46ae07f1"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/manifest.log",
+      "sha256": "sha256:de76d1d7bceb241345c408fa792176096e7ba99ef40540a1189e4ec509315650"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/verify-manifest.log",
+      "sha256": "sha256:9fdb21f79ede1a976ca2598c662cd8d3966691e9c2d4d1e40bbb9f7d88e213be"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W000",
+        "--output",
+        ".aide-local/context/structure-followup",
+        "--byte-budget",
+        "2000000"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 2,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/context.log",
+      "sha256": "sha256:db5d2ff902775eea8d45e8cd35d722f6b60b750a7fd159b62cba573ccb5813a3"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W000",
+        "--output",
+        ".aide-local/context/structure-followup-validated",
+        "--byte-budget",
+        "2000000"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/context-fresh.log",
+      "sha256": "sha256:bb8c1040717e945d63d3103b5f3f0738eb1ed547b2dd35797dcf5d840b011222"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/structure-followup-validated"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/verify-context.log",
+      "sha256": "sha256:198790a57fae336d7e49f7171a56855c6ee8f726994f2bb1d5ac9f9e17900802"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        ".aide/evidence/2026-10-13-fat-window/audit_retention.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/prior-window-retention.log",
+      "sha256": "sha256:04a2b7fe4e608ba23e0d869cd4ff2f3e125cb8ecfe846666011774b670339c90"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        ".aide/evidence/2026-10-13-fat-command/audit_retention.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/prior-command-retention.log",
+      "sha256": "sha256:0ef398737ee99f849d460a55f61e2c8760345f1b2f00189defa38f2ac9c5a7db"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        ".aide/evidence/2026-10-12-gpt-restoration-inspection/audit_retention.py",
+        "--historical"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "status": "fail",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-retention.log",
+      "sha256": "sha256:c7b579d482952f17df66b7c398ec5adb23793c68e68b9fd2a3e385bbbcbb36a7"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        ".aide/evidence/2026-10-12-gpt-restoration-inspection/audit_retention.py",
+        "--index",
+        "--historical"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/historical-gpt-index-retention.log",
+      "sha256": "sha256:be50b5215b6a033789ff9909a255fe1971bd028ebcbf19ca9d94572b7bac3400"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/diff-check.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "gh",
+        "run",
+        "view",
+        "38252891691",
+        "--repo",
+        "Julesc013/universal-setup",
+        "--log-failed"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "status": "pass",
+      "evidence_path": ".aide/evidence/2026-10-13-structure-followup/logs/setup-failed-job.log",
+      "sha256": "sha256:84ef0d4ed645026ccff933b9fa24c9f1eba75022529e353ebf72003b0635f69e"
+    }
+  ],
+  "corrected_invocations": [
+    "Context destination was occupied. Retained refusal, then fresh destination generation/verification passed.",
+    "Historical audit checks current tree metadata as well as historical receipts. HEAD metadata differed from intentional unstaged edits; retained failure and reran against staged current metadata with --index --historical. Historical receipt bytes were unchanged."
+  ],
+  "prior_native_evidence": {
+    "path": ".aide/evidence/2026-10-13-fat-window/summary.json",
+    "source_revision": "543826fe09591b1bc470b212f5a1bb667daee216",
+    "groups": 99
+  },
+  "native_tests_run_in_followup": false,
+  "owner_accepted": false,
+  "release_ready": false,
+  "remaining": [
+    "DE-W044 source patch is incomplete and unverified.",
+    "SR-05 composition and test seams remain a named follow-up.",
+    "Setup draft PR #237 still has failing exact-head Windows CI.",
+    "Original full 0.1.0 platform/storage and owner/release gates remain."
+  ]
+}

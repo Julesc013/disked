@@ -83,9 +83,11 @@ invocation. This changes internal linkage, not command IDs or public semantics.
 In the pinned Windows Release test lane, `build.boundaries` reads CMake's generated
 codemodel and actual quoted headers. It checks forbidden layer crossings, ambiguous
 or wrongly cased includes, core source/flag expectations and consumer isolation.
-Ten generated translation units compile the JSON, command, protocol, shell
-lexer, invocation policy, presentation request/session, FAT and region/FAT capture
-headers individually. Each header check uses its declared compile dependencies.
+Generated translation units compile selected headers individually, using each
+header's declared compile dependencies. CMake owns the current selection; retained
+campaigns state the exact number actually compiled. The FAT allocation-window
+campaign at `543826fe` compiled 17 standalone headers; see the
+[source-bound results](../.aide/evidence/2026-10-13-fat-window/summary.json).
 Run the normal configure/build/test
 presets; retain `build/windows-bootstrap/build-boundaries.json` with evidence.
 The checker distinguishes generated build closure from header visibility through
@@ -121,3 +123,8 @@ Current work routes through the [programme record](../.aide/programmes/disked-0.
 and canonical work definitions. Merge qualification, owner acceptance and release
 publication remain separate. The full all-platform/storage 0.1.0 objective is
 unchanged; this guide does not redefine it as the current Windows prototype.
+
+The [structure and release follow-up](structure-review.md) explains the present
+file-placement decisions, maps the supplied review findings to implemented work
+and records the remaining release gates. Use it as a dated assessment; the source
+map, canonical contracts and programme retain their respective ownership.

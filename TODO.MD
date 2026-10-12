@@ -330,3 +330,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W038 bounded FAT image command slice at `57cfd113`: explicit windows/model controls through CLI/stdio/GUI/TUI/shell; 62 cases/97 native groups/17 headers. [Evidence](.aide/evidence/2026-10-13-fat-command/README.md). Larger coverage, retrieval/extraction and full 0.1.0 remain open.
 
 - [x] DE-W039 bounded FAT allocation-window slice at `543826fe`: 34 interval / 44 command cases, 99 native groups / 17 headers; partial windows cannot qualify global allocation or FSInfo counts. [Evidence](.aide/evidence/2026-10-13-fat-window/README.md). Larger coherent traversal, retrieval/extraction and full 0.1.0 remain open.
+
+- [x] 2026-10-13 structure review follow-up: retain existing owners and implemented CLI/TUI/shell names; reconcile review dispositions and correct stale header-count/parser-placement wording. [Assessment](docs/structure-review.md) links exact native evidence and fresh tooling/upstream observations. Composition/test seams, Setup Windows qualification and full product/release remain open.

@@ -16,6 +16,7 @@ This repository contains a **proposed specification, working specification tooli
 - [Development plan](docs/development-plan.md) and [TODO](TODO.MD) for the amended roadmap and outstanding decisions.
 - [Getting started](docs/getting-started.md) for local validation and the first work unit.
 - [Architecture overview](docs/architecture.md), [contribution workflow](docs/contributing.md), and [compatibility policy](docs/compatibility.md).
+- [Source file map](docs/source-map.md), [code structure](docs/code-structure.md), and [structure/release review follow-up](docs/structure-review.md).
 
 ## Direction
 

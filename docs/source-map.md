@@ -22,7 +22,7 @@ source/
     gui/gui_model.*
 ```
 
-Choose an owner by responsibility, not by whichever caller first needs it. A parser belongs in `portable/`; the meaning of an observation belongs in `runtime/`; collecting concrete storage facts belongs in `providers/`; the host API and process lifetime belong in `platform/`; selecting implementations belongs in `apps/disked/`. Two files can use the same OS without having the same responsibility. Conversely, a Windows API wrapper and a Windows storage provider have different owners even though both are Windows-specific.
+Choose an owner by responsibility, not by whichever caller first needs it. A storage-format decoder over supplied bytes belongs in `portable/`; command grammar, protocol parsing and observation meaning belong in `runtime/`; collecting concrete storage facts belongs in `providers/`; the host API and process lifetime belong in `platform/`; selecting implementations belongs in `apps/disked/`. Two files can use the same OS without having the same responsibility. Conversely, a Windows API wrapper and a Windows storage provider have different owners even though both are Windows-specific.
 
 Platform entry/UI/console hosts consume this product's frontend factories/models. They are concrete application hosts, not a platform-neutral public library. The common runtime and portable strata do not import those hosts or concrete providers. Keep such host dependencies explicit instead of claiming a reusable platform API before a second consumer exists.
 
@@ -33,8 +33,9 @@ For each paired row below, `.h` declares the private types/ports/functions and `
 Current file names describe implemented responsibility; they do not reserve every future class or helper. `tools/check-source-map.py` checks that every current source file is listed exactly once. Add/change the explanation when a source file is added or moved.
 
 Native dependency/header checks are separate from this inventory. See
-`tools/check-build-boundaries.py`, the three core targets and five independent
-header compilations described in [code structure](code-structure.md). Those
+`tools/check-build-boundaries.py`, the three core targets and the standalone
+header compilations described in [code structure](code-structure.md). Exact
+counts and source-bound results are linked from the [review follow-up](structure-review.md). Those
 checks do not imply that every private header or platform has been qualified.
 
 ## CLI, shell, TUI and terminal: different responsibilities
