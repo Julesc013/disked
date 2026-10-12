@@ -4,7 +4,7 @@
   "canonical_work": "spec/work/units.json",
   "canonical_specs": "spec/",
   "upstream_repository": "Julesc013/aide",
-  "observed_revision": "5be37bd6510977e6cb2e960859c45b33b048dade",
+  "observed_revision": "6f2abc4cd69e0d94f86a00495cb8feeebe20398a",
   "observed_schema": ".aide/protocol/aide-workunit.schema.json",
   "export_command": "python spec/tools/specctl.py aide-export --output .aide-local/aide-export",
   "runtime_verified": false,
@@ -17,14 +17,25 @@
     "events": ".aide/events/"
   },
   "ephemeral_root": ".aide-local/",
-  "note": "Exact dev source fetched; queue schema unchanged. Passive schema matching is separate from live AIDE import, worker isolation and runtime qualification. No upstream implementation vendored or executed.",
+  "note": "Weekly exact dev source fetched/read. Queue schema byte-identical;36exported WorkUnits pass passive validation. Lite1.0.0 publication/scope observed, with no downloaded-asset/live-consumer/runtime qualification. Source pin remains dev; no upstream implementation executed or imported.",
   "source_lock": "spec/references/aide-lock.json",
   "upstream_checkout": ".aide-local/upstream/aide",
   "refresh_policy": {
     "cadence_days_approximate": 7,
-    "next_review_date": "2026-10-11",
+    "next_review_date": "2026-10-19",
     "timezone": "Australia/Sydney",
     "automatic_fetch_or_execution": false,
     "until": "An exact stable upstream release has been reviewed and qualified for the selected consumer scope."
+  },
+  "observed_stable_release": {
+    "tag": "aide-lite-v1.0.0",
+    "source_revision": "0f293eb6a99dbd444bfa35016007b13451c49275",
+    "published_at": "2026-10-08T13:50:35Z",
+    "resource": "https://github.com/Julesc013/aide/releases/tag/aide-lite-v1.0.0",
+    "declared_scope": "T3 Limited Support: local Windows10 19045/Python3.14.7 Lite CLI lifecycle. Native isolated-host automation, hosted effects, model autonomy and non-Windows apply excluded.",
+    "selected_for_disked": false,
+    "consumer_qualified": false,
+    "assets_independently_verified": false,
+    "documentation_drift": "Fetched dev README still describes the Lite candidate as unpublished; release API records actual publication. Preserve both scoped observations."
   }
 }

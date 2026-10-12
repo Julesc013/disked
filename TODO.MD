@@ -53,7 +53,7 @@ release/storage authority remain separate. The programme record is
 - [x] DE-W062 bounded local H/D/ZIP and generated-view servicing preview: clean source `d4102ab` passed native/source reproduction and implementing-agent review. Exact D bytes and independent H/S bindings are retained in `.aide/evidence/2026-10-10-carrier-fixtures/`; embedded/native carriers, live ownership/interlocks and full unit/owner/channel gates remain open.
 - [x] DE-W063 local checker implementation: separate nonempty staging inventory, bounded ZIP verification and owned regression fixtures. Owner acceptance, release-candidate qualification and publication remain open.
 - [ ] DE-W061: validate live AIDE import and worker boundaries in a separately authorized disposable environment.
-- [ ] Review AIDE roughly weekly; next review **2026-10-11**. Update exact pins and evidence until a stable release is reviewed and qualified. No automatic schedule is configured.
+- [ ] Review AIDE roughly weekly; next review **2026-10-19**. Update exact pins and evidence until a stable release is reviewed and qualified. No automatic schedule is configured.
 - [ ] DE-W080/090: qualify exact target/operation compositions and satisfy scoped release gates.
 
 The DE-W010 checks cover only the essential native human subset and provider-initialization boundary. Full runtime/provider behavior, recovery, hardware, installer and release qualification remain unverified. Exact results and limitations are retained under `.aide/evidence/2026-10-06-native-bootstrap/`.
@@ -295,3 +295,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W041 private supplied-capture GPT repair planning `6b025fdc`:16tests/107native runs, exact immutable before/after patches and independent byte/CRC oracles;78parallel product groups,213toolpasses/twoskips/1077structure. Public command/writer/recovery/other-host/owner/full-unit gates remain open.
 - [x] Independent compatible caller memory jobs `98a5b593`:12native cases, actual256MiB fresh child/inherited64MiB denial, real protocol/discovery coexistence, all guards/host policies and shared4-worker quotas retained;78product/213tools/twoskips/1079structure. Exact scoped evidence in `.aide/evidence/2026-10-12-job-coexistence/`; arbitrary/legacy/worker/storage admission remains separate.
+
+- [x] Weekly AIDE source review2026-10-12: exactdev `6f2abc4c`, unchanged queue schema and36passive WorkUnit validations; Lite1.0.0 publication/scope recorded separately. No upstream execution/install/import/stable-consumer qualification.

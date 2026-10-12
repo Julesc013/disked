@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-070
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -61,11 +61,11 @@ Model choice, reasoning level, provider generation, token budget and execution p
 
 ## Pinned dev refresh policy
 
-The user requested AIDE dev at `5be37bd6510977e6cb2e960859c45b33b048dade`. It was fetched into ignored `.aide-local/upstream/aide` as a detached checkout; branch dev matched that identity when checked. `references/aide-lock.json` records upstream tree and inspected-file hashes. No upstream script, worker, scheduler, install/import lifecycle or external write is run by fetching source.
+The initial2026-10-04 request selected AIDE dev at `5be37bd6510977e6cb2e960859c45b33b048dade`. It was fetched into ignored `.aide-local/upstream/aide` as a detached checkout; branch dev matched that identity when checked. `references/aide-lock.json` records upstream tree and inspected-file hashes. No upstream script, worker, scheduler, install/import lifecycle or external write is run by fetching source.
 
-The current README reports repo-native and Windows lifecycle/runtime foundations in dev, while stable integrated/delivered-artifact, restricted-principal and model-enabled qualification remain gated. Its queue WorkUnit schema is unchanged from the prior pin. Source/schema inspection and passive local schema validation are narrower than live consumer installation or runtime interoperability; DE-W061 and DE-DEC-007 remain open for those claims.
+The initially inspected README reports repo-native and Windows lifecycle/runtime foundations in dev, while stable integrated/delivered-artifact, restricted-principal and model-enabled qualification remain gated. Its queue WorkUnit schema is unchanged from the prior pin. Source/schema inspection and passive local schema validation are narrower than live consumer installation or runtime interoperability; DE-W061 and DE-DEC-007 remain open for those claims.
 
-Review upstream roughly every seven days until an explicitly stable, qualified release is selected. Next review target: 2026-10-11, Australia/Sydney; no unattended task is installed. Fetch/read a candidate into ignored storage, retain old and candidate identities, inspect release notes and changed contracts/security limits, validate exports against the exact schema, run authorized consumer checks, and update lock/source records in one reviewable change. Never float the accepted pin or execute a mutable dev checkout automatically. Stable promotion requires an exact release identity and applicable evidence, not a branch name.
+Review upstream roughly every seven days until an explicitly stable, qualified release is selected. Next review target: 2026-10-19, Australia/Sydney; no unattended task is installed. Fetch/read a candidate into ignored storage, retain old and candidate identities, inspect release notes and changed contracts/security limits, validate exports against the exact schema, run authorized consumer checks, and update lock/source records in one reviewable change. Never float the accepted pin or execute a mutable dev checkout automatically. Stable promotion requires an exact release identity and applicable evidence, not a branch name.
 
 ## Normative requirements
 
@@ -91,3 +91,26 @@ Generated OKF knowledge MUST reference canonical specs/evidence and MUST NOT bec
 
 - [DE-002](../foundation/authority.md)
 - [DE-004](../foundation/requirements-and-traceability.md)
+
+## Weekly review2026-10-12
+
+Current exact dev pin is `6f2abc4cd69e0d94f86a00495cb8feeebe20398a`. Fetch/cache
+checkout is source acquisition only; checkout hooks and LFS filters were disabled
+for that read-only-source update. No upstream CLI, installer, worker or scheduler
+was executed. Prior identities and complete inspected-file hashes remain in the
+lock history. Queue schema bytes are unchanged;36actual DiskEd WorkUnit exports
+validate passively, retaining planned/NOT_RUN/false implementation authorization.
+
+[AIDE Lite1.0.0](https://github.com/Julesc013/aide/releases/tag/aide-lite-v1.0.0)
+was published2026-10-08 at source `0f293eb6a99dbd444bfa35016007b13451c49275`. Its
+declared stable scope is the local Windows10 19045/Python3.14.7 Lite CLI lifecycle
+with T3 Limited Support. Native isolated-host automation, hosted effects, model
+autonomy and non-Windows lifecycle apply remain outside that release profile.
+The fetched dev README's unpublished-candidate wording is stale relative to the
+release API; neither source implies full AIDE stable/runtime qualification.
+
+Release asset names/digests were observed in API metadata; assets were not acquired
+or independently verified here. DiskEd has not installed/imported or qualified
+that stable consumer. Continue weekly source review through2026-10-19 until an
+exact stable release is qualified for the selected consumer scope. Existing
+DE-W061/DE-DEC-007/live-runtime/installation authority gates remain.
