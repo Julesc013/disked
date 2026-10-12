@@ -1,0 +1,194 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/owned-layout-clean-2c731a1c/checkout/build/windows-bootstrap
+      Start  8: evidence.verification_case_export
+      Start 49: resilience.capture
+      Start 23: journal.semantic_reader
+      Start 62: command.syntax
+ 1/79 Test #62: command.syntax ............................   Passed   14.37 sec
+      Start 43: planner.gpt_repair
+ 2/79 Test #43: planner.gpt_repair ........................   Passed    3.22 sec
+      Start 14: evidence.file_export
+ 3/79 Test #23: journal.semantic_reader ...................   Passed   20.41 sec
+      Start 60: invocation.policy
+ 4/79 Test #60: invocation.policy .........................   Passed    6.99 sec
+      Start 36: image.acquisition_pipeline
+ 5/79 Test #14: evidence.file_export ......................   Passed   10.95 sec
+      Start 26: journal.repeated_crash_audit
+ 6/79 Test #36: image.acquisition_pipeline ................   Passed    6.87 sec
+      Start 20: evidence.case_model
+ 7/79 Test #49: resilience.capture ........................   Passed   34.79 sec
+      Start 39: image.file_capture
+ 8/79 Test #26: journal.repeated_crash_audit ..............   Passed    6.48 sec
+      Start 41: portable.gpt
+ 9/79 Test #20: evidence.case_model .......................   Passed    5.09 sec
+      Start 77: disked_provider_guard.acceptance
+10/79 Test #41: portable.gpt ..............................   Passed    4.61 sec
+      Start 22: health.command
+11/79 Test #39: image.file_capture ........................   Passed    5.84 sec
+      Start 75: disked.acceptance
+12/79 Test #77: disked_provider_guard.acceptance ..........   Passed    4.51 sec
+      Start 63: protocol.json_codec
+13/79 Test #22: health.command ............................   Passed    4.36 sec
+      Start 25: journal.model_binary_producer
+14/79 Test #75: disked.acceptance .........................   Passed    4.14 sec
+      Start 24: journal.guarded_model
+15/79 Test  #8: evidence.verification_case_export .........   Passed   46.66 sec
+      Start 30: frontend.acquisition_interactive
+16/79 Test #24: journal.guarded_model .....................   Passed    2.89 sec
+      Start 13: evidence.export_model
+17/79 Test #63: protocol.json_codec .......................   Passed    3.91 sec
+      Start 40: image.map_observation
+18/79 Test #25: journal.model_binary_producer .............   Passed    3.96 sec
+      Start 79: artifacts.archive_completeness
+19/79 Test #40: image.map_observation .....................   Passed    2.32 sec
+      Start 76: disked_provider_guard.invocation
+20/79 Test #79: artifacts.archive_completeness ............   Passed    2.26 sec
+      Start 51: shell.model
+21/79 Test #13: evidence.export_model .....................   Passed    2.59 sec
+      Start 74: disked.invocation
+22/79 Test #76: disked_provider_guard.invocation ..........   Passed    2.21 sec
+      Start 44: portable.mbr_ebr
+23/79 Test #51: shell.model ...............................   Passed    2.18 sec
+      Start 59: frontend.transport
+24/79 Test #74: disked.invocation .........................   Passed    2.23 sec
+      Start 50: resilience.request_channel
+25/79 Test #50: resilience.request_channel ................   Passed    0.62 sec
+      Start 52: operation.reducer
+26/79 Test #44: portable.mbr_ebr ..........................   Passed    1.81 sec
+      Start 61: protocol.compatible_reader
+27/79 Test #52: operation.reducer .........................   Passed    1.06 sec
+      Start 53: frontend.gui_model
+28/79 Test #59: frontend.transport ........................   Passed    1.88 sec
+      Start 55: frontend.tui_model
+29/79 Test #55: frontend.tui_model ........................   Passed    0.81 sec
+      Start 48: operation.watch_reader
+30/79 Test #61: protocol.compatible_reader ................   Passed    1.01 sec
+      Start 27: journal.plan_definitions
+31/79 Test #53: frontend.gui_model ........................   Passed    1.08 sec
+      Start  6: operation.directory_pins
+32/79 Test #27: journal.plan_definitions ..................   Passed    0.56 sec
+      Start 58: frontend.service
+33/79 Test #48: operation.watch_reader ....................   Passed    0.68 sec
+      Start 46: portable.checked
+34/79 Test  #6: operation.directory_pins ..................   Passed    0.66 sec
+      Start 28: journal.binary_codec
+35/79 Test #46: portable.checked ..........................   Passed    1.19 sec
+      Start 21: health.observation_model
+36/79 Test #28: journal.binary_codec ......................   Passed    1.08 sec
+      Start 78: provider_guard.positive_control
+37/79 Test #58: frontend.service ..........................   Passed    1.27 sec
+      Start 47: portable.c_cpp_linkage
+38/79 Test #47: portable.c_cpp_linkage ....................   Passed    0.04 sec
+      Start 42: portable.gpt_guard
+39/79 Test #42: portable.gpt_guard ........................   Passed    0.05 sec
+      Start 45: portable.mbr_guard
+40/79 Test #45: portable.mbr_guard ........................   Passed    0.04 sec
+41/79 Test #78: provider_guard.positive_control ...........   Passed    0.85 sec
+42/79 Test #21: health.observation_model ..................   Passed    0.96 sec
+43/79 Test #30: frontend.acquisition_interactive ..........   Passed   47.07 sec
+      Start  1: frontend.product_verification
+44/79 Test  #1: frontend.product_verification .............***Failed    1.83 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\.aide-local\disked-acq-worker-mu5vegca
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_product_verification.py", line 191, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_product_verification.py", line 89, in main
+    discovery=cli(['commands'])['result']['commands'];d=next(c for c in discovery if c['id']=='image.verify');check('explicit-provisional-product-selection',sum(c['availability']=='available' for c in discovery)==20 and d['availability']=='available' and d['contract_status']=='planned' and d['reason']=='recorded_acquired_image_verification')
+                                                                                                              ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_product_verification.py", line 25, in check
+    def check(name,ok,**extra):assert ok,(name,extra);checks.append(dict(name=name,passed=True,**extra))
+                                      ^^
+AssertionError: ('explicit-provisional-product-selection', {})
+
+      Start 64: operation.watch
+45/79 Test #64: operation.watch ...........................   Passed   32.63 sec
+      Start 18: evidence.verification_worker
+46/79 Test #18: evidence.verification_worker ..............***Failed   32.29 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\.aide-local\disked-acq-worker-735opd5c
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\evidence\test_verification_worker.py", line 215, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\evidence\test_verification_worker.py", line 208, in main
+    check('product-selects-proposed-verification',any(c['id']=='image.verify' and c['availability']=='available' and c['contract_status']=='planned' for c in registry['commands']) and sum(c['availability']=='available' for c in registry['commands'])==20)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\evidence\test_verification_worker.py", line 20, in check
+    def check(name,value,**extra):assert value,(name,extra);checks.append(dict(name=name,passed=True,**extra))
+                                         ^^^^^
+AssertionError: ('product-selects-proposed-verification', {})
+
+      Start 19: evidence.verification_commands
+47/79 Test #19: evidence.verification_commands ............   Passed   24.27 sec
+      Start 33: image.acquisition_worker
+48/79 Test #33: image.acquisition_worker ..................   Passed   40.59 sec
+      Start  9: evidence.report_worker
+49/79 Test  #9: evidence.report_worker ....................   Passed   21.93 sec
+      Start 70: operation.worker
+50/79 Test #70: operation.worker ..........................   Passed   20.92 sec
+      Start 34: image.file_acquisition
+51/79 Test #34: image.file_acquisition ....................   Passed   61.58 sec
+      Start 11: evidence.report_watch
+52/79 Test #11: evidence.report_watch .....................   Passed   24.06 sec
+      Start 68: resilience.request_waiting
+53/79 Test #68: resilience.request_waiting ................   Passed   19.83 sec
+      Start 37: image.shared_commands
+54/79 Test #37: image.shared_commands .....................   Passed   18.96 sec
+      Start 31: image.acquisition_commands
+55/79 Test #31: image.acquisition_commands ................   Passed   21.65 sec
+      Start 69: resilience.output_waiting
+56/79 Test #69: resilience.output_waiting .................   Passed   17.60 sec
+      Start 67: resilience.store_failures
+57/79 Test #67: resilience.store_failures .................   Passed   16.96 sec
+      Start  3: frontend.joined_report
+58/79 Test  #3: frontend.joined_report ....................   Passed   17.38 sec
+      Start 72: resilience.console_waiting
+59/79 Test #72: resilience.console_waiting ................   Passed   12.87 sec
+      Start  2: frontend.product_export
+60/79 Test  #2: frontend.product_export ...................   Passed   13.60 sec
+      Start 32: image.acquisition_operations
+61/79 Test #32: image.acquisition_operations ..............   Passed   14.61 sec
+      Start 10: evidence.export_commands
+62/79 Test #10: evidence.export_commands ..................   Passed    9.94 sec
+      Start 65: resilience.capture_campaign
+63/79 Test #65: resilience.capture_campaign ...............   Passed    9.29 sec
+      Start 12: evidence.acquisition_case
+64/79 Test #12: evidence.acquisition_case .................   Passed    8.84 sec
+      Start 73: resilience.worker_budget
+65/79 Test #73: resilience.worker_budget ..................   Passed    8.41 sec
+      Start 66: resilience.frontend_memory
+66/79 Test #66: resilience.frontend_memory ................   Passed   11.38 sec
+      Start 57: shell.windows
+67/79 Test #57: shell.windows .............................   Passed    6.68 sec
+      Start 71: resilience.gui_waiting
+68/79 Test #71: resilience.gui_waiting ....................   Passed    6.33 sec
+      Start 17: evidence.image_verification_collection
+69/79 Test #17: evidence.image_verification_collection ....   Passed    6.23 sec
+      Start 16: evidence.image_verification_observation
+70/79 Test #16: evidence.image_verification_observation ...   Passed    4.06 sec
+      Start 56: frontend.tui_windows
+71/79 Test #56: frontend.tui_windows ......................   Passed    3.73 sec
+      Start  5: evidence.report_process_identity
+72/79 Test  #5: evidence.report_process_identity ..........   Passed    3.39 sec
+      Start 15: evidence.acquired_image_verification
+73/79 Test #15: evidence.acquired_image_verification ......   Passed    3.95 sec
+      Start  7: evidence.acquisition_export
+74/79 Test  #7: evidence.acquisition_export ...............   Passed    3.32 sec
+      Start 29: frontend.acquisition_forms
+75/79 Test #29: frontend.acquisition_forms ................   Passed    2.55 sec
+      Start 54: frontend.gui_windows
+76/79 Test #54: frontend.gui_windows ......................   Passed    2.41 sec
+      Start  4: frontend.gui_capture
+77/79 Test  #4: frontend.gui_capture ......................   Passed    0.89 sec
+      Start 35: image.parent_pins
+78/79 Test #35: image.parent_pins .........................   Passed    1.00 sec
+      Start 38: image.gpt_repair_command
+79/79 Test #38: image.gpt_repair_command ..................   Passed    7.42 sec
+
+97% tests passed, 2 tests failed out of 79
+
+Total Test time (real) = 607.10 sec
+
+The following tests FAILED:
+	  1 - frontend.product_verification (Failed)
+	 18 - evidence.verification_worker (Failed)
+Errors while running CTest

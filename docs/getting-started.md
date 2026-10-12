@@ -44,10 +44,16 @@ python spec/tools/specctl.py bootstrap --root . --apply
 
 The bootstrap command refuses existing destinations and symlink paths. Resolve conflicts manually; there is no overwrite flag. The repository-bootstrap ZIP already includes those files, so do not run bootstrap again over that layout.
 
-## What is not present
+## Native development prototype
 
-There is no DiskEd native executable, filesystem executor, elevated broker or live AIDE scheduler in this archive. Example product requests are fixtures, not commands to execute on workstation drives. Windows, hardware, recovery and installation claims require later evidence.
+The current repository includes a Windows image/fake executable. Follow the
+[native build guide](native-bootstrap.md) for installed prerequisites, exact
+commands, capability discovery and tested scope. It supports generated fake targets,
+ordinary-file image observations/acquisition/evidence and a read-only GPT repair
+preview. Use disposable files under the applicable local development grant.
 
-## Native prototype
-
-The current bounded implementation is DE-W010. Follow the [native bootstrap guide](native-bootstrap.md) for installed prerequisites, exact build/test commands and supported invocations. A separate grant is required for later work; this prototype does not open storage.
+Physical-device access, elevated storage effects and admitted table/filesystem
+writers remain outside this prototype. Other platforms, full recovery, installation
+and release claims require their own evidence and authority. Specification fixtures
+are examples; their presence does not qualify execution against workstation drives.
+Owner acceptance and full DiskEd0.1.0 completion remain open.

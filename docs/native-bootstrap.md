@@ -5,7 +5,8 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.35 prototype selects 20 command identities, including recorded
+The current dev.42 prototype selects 21 command identities, including read-only
+GPT repair previews, recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
@@ -822,3 +823,24 @@ worker exit, denied grants and occupied callback behavior. The new
 `frontend.joined_report` CTest group runs serially with other owned worker tests.
 Source-bound clean qualification at `ec30be78ba9e9f61dc578ff67b9d0af186166145` is retained in `.aide/evidence/2026-10-10-joined-report-public/`, with implementing-agent review and separate remaining gates. Full DE-W034, all
 0.1.0 platforms/storage and owner/privilege/release gates remain open.
+
+## Read-only GPT repair preview
+
+The current image prototype can preview a repair from an explicitly selected GPT
+copy in an ordinary local raw file:
+
+```powershell
+& .\build\windows-bootstrap\Release\disked.exe table repair .\disposable.img --authoritative-copy primary --logical-block-bytes 512 --json
+```
+
+Select `primary` or `backup` explicitly. Two valid disagreeing copies additionally
+require `--selection-decision-digest sha256:...`, referring to a separate selection
+record. A supplied digest is a declaration, not authenticated operator approval.
+The result contains exact proposed region/plan hashes and unverified execution
+requirements; it creates no output file and performs no writes. Equal rereads
+cover requested metadata, not an atomic snapshot or whole-image verification.
+Unknown target footprints are refused. A preview cannot be used as write authority.
+GUI, TUI and shell expose the same typed action with inert review before submission.
+
+Exact source,59 focused cases and79 clean native test groups are retained in the
+[GPT preview evidence](../.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation and owner acceptance remain open.

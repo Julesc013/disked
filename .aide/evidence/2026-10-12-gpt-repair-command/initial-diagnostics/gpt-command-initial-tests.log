@@ -1,0 +1,54 @@
+CASE '512-backup.img-primary'
+CASE '512-both-backup.img-primary'
+CASE '512-header-backup.img-primary'
+CASE '512-primary.img-backup'
+CASE '512-both-primary.img-backup'
+CASE '512-header-primary.img-backup'
+CASE '4096-backup.img-primary'
+CASE '4096-both-backup.img-primary'
+CASE '4096-header-backup.img-primary'
+CASE '4096-primary.img-backup'
+CASE '4096-both-primary.img-backup'
+CASE '4096-header-primary.img-backup'
+CASE 'agree.img-primary'
+CASE 'disagree.img-primary'
+CASE 'disagree.img-primary'
+CASE 'disagree.img-backup'
+CASE 'disagree.img-backup'
+CASE 'crc-collision.img-primary'
+CASE 'crc-collision.img-primary'
+CASE 'noncanonical.img-primary'
+CASE 'max-array.img-primary'
+CASE 'unknown-header.img-primary'
+CASE 'mismatched-guid.img-primary'
+CASE 'unusable-source.img-primary'
+CASE 'over-budget.img-primary'
+CASE 'partial.img-primary'
+CASE 'empty.img-primary'
+CASE 'short.img-primary'
+CASE 'two-blocks.img-primary'
+CASE 'missing.img-primary'
+CASE '\u78c1\u76d8-\U0001f642.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'agree.img-primary'
+CASE 'parse-before-open-missing_parameter'
+CASE 'parse-before-open-invalid_option_value'
+CASE 'parse-before-open-duplicate_option'
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_gpt_repair_command.py", line 129, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_gpt_repair_command.py", line 106, in main
+    launch('parse-before-open-'+diagnostic,['--json','table','repair',str(missing),*tail],2,diagnostic,exe=a.fault,fault='OPEN_GUARD')
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_gpt_repair_command.py", line 66, in launch
+    if diagnostic:assert diagnostic in [d['code'] for d in values[0]['diagnostics']],(name,values)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('parse-before-open-invalid_parameter', [{'diagnostics': [{'code': 'invalid_option_value', 'message_key': 'disked.invalid_option_value', 'parameters': {'token': 6}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'cli', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}])
