@@ -27,6 +27,7 @@
 - [fat-directory-prototype.json](fat-directory-prototype.json)
 - [fat-namespace-prototype.json](fat-namespace-prototype.json)
 - [fat-reader-prototype.json](fat-reader-prototype.json)
+- [fat-retention-prototype.json](fat-retention-prototype.json)
 - [fat-worker-prototype.json](fat-worker-prototype.json)
 - [frontend-job-coexistence-prototype.json](frontend-job-coexistence-prototype.json)
 - [gpt-fixture-execution-prototype.json](gpt-fixture-execution-prototype.json)

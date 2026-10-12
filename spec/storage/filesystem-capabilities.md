@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.10-proposed.2
+  version: 0.1.11-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T23:20:49.604738+00:00'
-  scope: DE-W039 source-bound interval evidence; owner and full platform-storage-release gates remain open
+  at: '2026-10-12T23:31:02.887528+00:00'
+  scope: DE-W044 exact in-process retention contract; native qualification pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -195,3 +195,8 @@ default global scan and source/process/wire budgets remain unchanged. Native
 implementation and evidence are pending.
 
 DE-W039 source 543826fe qualifies explicit allocation windows with 34 interval cases / 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Requested range, all-volume coverage, consumer/source applicability and authority remain distinct; larger directory/namespace/session coverage, retrieval/extraction and other platforms/storage are unfinished.
+
+DE-W044 defines explicit bounded in-process retention and byte retrieval of
+original verified FAT metadata frames in `catalog/fat-retention-prototype.json`.
+Retained observations grant no source freshness, authenticated custody or
+extraction/storage authority. Native implementation and qualification are pending.

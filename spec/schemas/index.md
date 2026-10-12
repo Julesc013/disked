@@ -20,6 +20,8 @@
 - [capability-assessment.schema.json](capability-assessment.schema.json)
 - [cli-syntax.schema.json](cli-syntax.schema.json)
 - [command-capability-parameters.schema.json](command-capability-parameters.schema.json)
+- [command-capture-inspect-parameters.schema.json](command-capture-inspect-parameters.schema.json)
+- [command-capture-release-parameters.schema.json](command-capture-release-parameters.schema.json)
 - [command-empty-parameters.schema.json](command-empty-parameters.schema.json)
 - [command-fake-operation-parameters.schema.json](command-fake-operation-parameters.schema.json)
 - [command-fake-simulation-parameters.schema.json](command-fake-simulation-parameters.schema.json)
