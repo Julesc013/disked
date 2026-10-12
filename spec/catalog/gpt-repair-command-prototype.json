@@ -1,0 +1,101 @@
+{
+  "schema": "org.disked.gpt-repair-command-prototype/1",
+  "work_id": "DE-W041",
+  "spec_id": "DE-104",
+  "status": "proposed-execution-contract",
+  "command_id": "table.gpt.repair.plan",
+  "words": [
+    "table",
+    "repair"
+  ],
+  "profile": "ordinary-local-gpt-repair-preview/1",
+  "parameters": {
+    "path": "required nonempty ordinary local raw-file path",
+    "logical_block_bytes": "optional 512 or 4096 decimal string; default 512",
+    "authoritative_copy": "required primary or backup; never selected automatically",
+    "selection_decision_digest": "optional nonzero lowercase sha256 digest declaration; required for two valid byte-disagreeing copies"
+  },
+  "effects": "read-only file opens and bounded metadata reads/rereads; no output files, writes, mounting, physical access, broker, journal or durable operation",
+  "capture": {
+    "geometry": "file size must be a whole number of selected logical blocks and at least three blocks; capacity must fit checked byte space",
+    "regions": "full PMBR block; primary LBA1 block; backup final block; each advertised rounded array only when its own header establishes a valid bounded footprint",
+    "target_header_crc": "repair only a private header copy to derive array extents when CRC is the sole header issue; retain original bytes; never infer destroyed layout",
+    "limits": {
+      "requests": 5,
+      "aggregate_bytes": 2109440,
+      "entries": 1024,
+      "entry_bytes": 4096,
+      "advertised_array_bytes": 1048576
+    },
+    "consistency": "same ordinary-file/parent identity checks as image.inspect; every requested region reread; compare overlap, metadata and bytes; live-uncoordinated, not atomic snapshot or whole-file hash",
+    "bindings": "image_id is canonical source_before metadata SHA256; numeric epoch is started_filetime; provider transport supplies the owned bytes and their declared private capture digest; runtime independently recomputes that digest before planning; no independently approved prior capture is implied"
+  },
+  "result": {
+    "schema": "org.disked.gpt-repair-command-result/1",
+    "fields": [
+      "command",
+      "provider",
+      "scope",
+      "profile",
+      "capture",
+      "plan_digest",
+      "definition"
+    ],
+    "capture": "ordinary-file consistency receipt, epoch and region manifest digest; at most five region summaries",
+    "definition": "unchanged immutable gpt-repair-preview-prototype/1 definition from the private planner; hashes/offsets/lengths/dependencies, no raw patch bytes",
+    "plan_digest": "sha256 over canonical immutable definition only; excludes outer mutable transport timings",
+    "review": "fresh preview identity per capture; digest is not a replay ticket, approval, selection authentication or write authority",
+    "maximum_response_bytes": 65536
+  },
+  "outcomes": {
+    "invalid_syntax": {
+      "exit": 2,
+      "before_provider_open": true
+    },
+    "invalid_parameters": {
+      "exit": 2,
+      "before_provider_open": true
+    },
+    "unsupported_revision_or_features": {
+      "exit": 3,
+      "before_provider_open": true
+    },
+    "file_geometry_or_open_or_planner_refusal": {
+      "exit": 3,
+      "plan_digest": null
+    },
+    "incomplete_or_changed_capture": {
+      "exit": 4,
+      "diagnostics": [
+        "image_capture_incomplete",
+        "image_source_changed"
+      ],
+      "plan_digest": null,
+      "definition": null
+    },
+    "completed_preview": {
+      "exit": 0,
+      "operation_id": null,
+      "status": "completed",
+      "definition_status": [
+        "no_change",
+        "repair_preview"
+      ]
+    },
+    "unresolved_wait": "existing bounded image request policy; retain live callback until it settles; no replacement admission while occupied"
+  },
+  "frontends": "same schema-generated forms and shared command dispatch in CLI, stdio, GUI, TUI and shell; viewing/reviewing a form does not open the source; essential help/discovery do not enumerate or open files",
+  "qualification": {
+    "required": [
+      "independent fixture bytes and patch hash/offset oracle",
+      "both authority directions; 512 and 4096 units; header/array damage and valid disagreement",
+      "malformed/truncated/changed/unsupported inputs; parameter and open guard ordering",
+      "CLI/stdio parity; GUI/TUI/shell journeys; exact source preservation and no output creation",
+      "clean native build, actual launches, import closure, full relevant regression campaign"
+    ],
+    "owner_accepted": false,
+    "writer_admitted": false,
+    "qualifies_recovery": false,
+    "unit_complete": false
+  }
+}

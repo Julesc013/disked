@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-104
   profile: disked-spec/1
-  version: 0.1.1-proposed.1
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -90,3 +90,34 @@ Python byte/CRC oracles qualify this calculation, not an actual writer, whole-im
 safety, recovery or power-loss durability. Freshness/exclusivity/backup/journal/
 provider/review/grant/admission/verification remain explicit execution requirements.
 DE-DEC-004 and all production mutation gates remain unresolved. DE-W041 is partial.
+
+## DE-W041 ordinary-file preview execution contract
+
+[The shared command profile](../catalog/gpt-repair-command-prototype.json) defines
+the next bounded implementation before its outputs are evaluated. Stable command
+ID `table.gpt.repair.plan` uses `table repair IMAGE --authoritative-copy primary|backup`
+with optional `--logical-block-bytes 512|4096` and
+`--selection-decision-digest sha256:...`. The image argument is an ordinary local
+raw file. Parameters and unsupported preconditions fail before opening it.
+
+This first preview captures and rereads both recognizable GPT footprints. It binds
+owned original bytes and source metadata, then invokes the pure planner. The
+provider declares its capture digest and the runtime recomputes it across the
+private transport boundary. This does not claim independently approved earlier
+inputs or atomic freshness. A later execution must recapture and satisfy all
+mutation preconditions above. Numeric planning epochs bind the capture start;
+the ordinary-file transport also retains its separate opaque capture epoch.
+
+Only checksum damage in an otherwise valid header permits deriving its advertised
+array extent from a checksum-corrected private copy. Original bytes are retained;
+unknown/destroyed/ambiguous footprints are refused. No canonical array location is
+guessed. The result contains immutable plan/region digests and byte offsets, not
+raw patch bytes. The existing 64 KiB response bound remains. Incomplete or changed
+captures return failed observations without a plan. Invalid source/layout/selection
+returns a typed refusal. Every successful preview declares that effects, writer,
+durability and recovery are unqualified. No durable operation is created.
+
+CLI, stdio, GUI, TUI and shell share the same parameter registry and action. The
+contract requires actual executable/frontend evidence before claiming this command
+implemented. Defining this execution profile does not admit mutation or complete
+DE-W041, accept the baseline, or resolve DE-DEC-004.
