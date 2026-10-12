@@ -3456,7 +3456,10 @@
         "python -m unittest discover -s spec/tools/tests -v",
         "cmake --preset windows-bootstrap",
         "cmake --build --preset windows-bootstrap",
-        "ctest --preset windows-bootstrap"
+        "ctest --preset windows-bootstrap",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
@@ -3468,7 +3471,13 @@
         "source/portable/primitives/checked.c",
         "source/portable/primitives/checked.h",
         "source/portable/primitives/view.c",
-        "source/portable/primitives/view.h"
+        "source/portable/primitives/view.h",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/portable/fat/allocation.c",
+        "tests/unit/fat_probe.cpp",
+        "tests/property/test_fat.py",
+        ".aide/evidence/2026-10-13-fat-allocation/reproduce.py"
       ]
     }
   ]

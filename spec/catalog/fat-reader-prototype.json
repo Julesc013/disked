@@ -20,7 +20,7 @@
   "chain": {
     "max_clusters": 1024,
     "inputs": "Selected FAT observation, type/count, start cluster, explicit positive step budget and caller-owned de_u32 workspace with capacity at least that budget. Refuse bad arguments/capacity before reading FAT bytes or changing output/workspace.",
-    "observation": "Publish the ordered unique cluster prefix and distinct empty, end, free, bad, reserved, invalid-start, cycle, truncated-entry or budget-exhausted disposition. A known cycle takes precedence over exhausting the next unseen-cluster budget. Budget exhaustion is incomplete observation, not filesystem corruption. No link outside the declared cluster range is followed. Work and memory are finite; visited-prefix detection is at most quadratic in the capped1024 steps.",
+    "observation": "Publish the ordered unique cluster prefix and distinct empty, end, free, bad, reserved, invalid-start, cycle, truncated-entry, host-address-width refusal or budget-exhausted disposition. A known cycle takes precedence over exhausting the next unseen-cluster budget. Budget/width refusals are incomplete observation, not filesystem corruption. No link outside the declared cluster range is followed. Work and memory are finite; visited-prefix detection is at most quadratic in the capped1024 steps.",
     "authority": "A chain result does not resolve mirrored copies, cross-links, ownership, file length, deleted content, global allocation correctness or operator/storage authority. It supplies no effect or replay permission."
   },
   "qualification": [
@@ -37,5 +37,6 @@
   "product_dispatch_admitted": false,
   "filesystem_health_qualified": false,
   "owner_accepted": false,
-  "unit_complete": false
+  "unit_complete": false,
+  "development_observation": "Preliminary Windows build and 19 independent methods/1335 supplied-byte cases plus protected boundaries pass; existing GCC15.2 accepts strict-C90 syntax. Exact clean campaign remains required; this is not acceptance."
 }
