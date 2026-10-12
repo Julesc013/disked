@@ -557,3 +557,5 @@ DE-W025 supplied-byte FAT allocation metadata at 97a377d7 has exact clean Window
 DE-W026 FAT directory/name observations at 205e6cd8 retain 6,790 independent cases, protected full/partial records and 89 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-directory/README.md). No lookup, extraction, provider/frontend, mount/writer or full 0.1.0 admission; continue bounded traversal and volume integration.
 
 DE-W027 bounded FAT capture at f98712a4 has 149 independent supplied-reader/ordinary-file cases and 91 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-capture/README.md). It adds real volume tree/file extents while preserving separate global allocation, namespace, extraction, worker/frontend, host and storage/release admission.
+
+DE-W028 optional global FAT allocation at 0e414ccd has 86 independent cases, including 21 ordinary-file cases and 92 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-allocation-scan/README.md). Coverage, tree/copy applicability and detail omissions stay separate; auxiliary/namespace/extraction/worker/frontend/host and full release gates remain open.

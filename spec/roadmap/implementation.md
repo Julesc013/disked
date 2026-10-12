@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.2
+  version: 0.1.5-proposed.3
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T16:54:53.215222+00:00'
-  scope: revision-bound source maintenance and FAT capture progress; proposed, no owner or release acceptance
+  at: '2026-10-12T17:55:38.586589+00:00'
+  scope: DE-W028 source-bound allocation progress; full platform, storage, owner and release qualification remains open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -281,3 +281,10 @@ cases and 91 native groups are retained in `.aide/evidence/2026-10-13-fat-captur
 Next qualify global allocation/namespace and actual worker/command/frontend volume
 inspection. Extraction, all-platform/storage 0.1.0, production recovery and
 owner/physical/elevation/customer/install/sign/release gates remain open.
+
+DE-W028 global FAT data-cluster allocation at `0e414ccd` adds paged counts,
+copy/coverage/graph and unreferenced-ownership observations, with 86 independent
+cases/92 native groups. Evidence is retained under
+`.aide/evidence/2026-10-13-fat-allocation-scan/`. Continue auxiliary metadata and
+namespace/consumer semantics before actual worker/frontend and extraction
+admission. Full 0.1.0 and owner/storage/recovery/release gates remain open.

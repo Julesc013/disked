@@ -1,0 +1,10 @@
+{
+  "source": "https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf",
+  "title": "Microsoft FAT Specification",
+  "reviewed_sections": ["3.5", "4"],
+  "question": "Does a fixed high reserved range take precedence over geometry-derived next-cluster values near FAT type cutoffs?",
+  "finding": "This selected supplier document defines the next-cluster range through the geometry-derived maximum valid cluster number and the following reserved range through the bad-marker predecessor. The current decoder and global oracle follow that definition. No code change is justified by the suspected fixed-range mismatch.",
+  "limits": "This source check does not qualify another FAT variant, operating-system consumer, legacy host, physical device or writer. Consumer compatibility remains an explicit separate gate.",
+  "supplier_code_copied": false,
+  "runtime_or_hardware_result": false
+}

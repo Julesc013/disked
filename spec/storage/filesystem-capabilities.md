@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.5-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-03T17:24:09.000824+00:00'
-  scope: 2026-10-04 supplied-proposal reconciliation; owner review pending
+  at: '2026-10-12T17:55:38.570853+00:00'
+  scope: DE-W028 source-bound global allocation evidence; auxiliary, namespace, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -120,3 +120,9 @@ completeness remain separate. Unreferenced allocations do not imply recoverable
 content, repair authority or filesystem health. Default tree-only capture remains
 unchanged. Auxiliary metadata, namespace/consumer, extraction and worker/frontend
 admission are further capabilities in the full all-platform/storage programme.
+
+The global allocation slice is implementer-reviewed at source `0e414ccd`, with
+86 independent cases/21 actual ordinary-file cases and 92 native regression groups.
+`.aide/evidence/2026-10-13-fat-allocation-scan/` retains exact prefix/category/graph/
+comparison/detail dimensions. Auxiliary metadata, namespace, extraction, actual
+worker/frontend/host and owner/storage/release qualification remain unfinished.

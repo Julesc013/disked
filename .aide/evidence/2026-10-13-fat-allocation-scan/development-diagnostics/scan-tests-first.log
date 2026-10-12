@@ -1,0 +1,27 @@
+test_combined_read_and_byte_budgets (__main__.AllocationScanTests.test_combined_read_and_byte_budgets) ... ok
+test_copy_choice_and_incomplete_comparison (__main__.AllocationScanTests.test_copy_choice_and_incomplete_comparison) ... ok
+test_default_behavior_and_unusable_layout (__main__.AllocationScanTests.test_default_behavior_and_unusable_layout) ... FAIL
+test_detail_count_and_output_budget_preserve_full_counts (__main__.AllocationScanTests.test_detail_count_and_output_budget_preserve_full_counts) ... ok
+test_every_scan_read_failure_preserves_tree (__main__.AllocationScanTests.test_every_scan_read_failure_preserves_tree) ... ok
+test_full_empty_all_types_sector_sizes_and_offset (__main__.AllocationScanTests.test_full_empty_all_types_sector_sizes_and_offset) ... ok
+test_global_cycles_merges_and_invalid_targets (__main__.AllocationScanTests.test_global_cycles_merges_and_invalid_targets) ... ok
+test_ordinary_files_and_recapture_faults (__main__.AllocationScanTests.test_ordinary_files_and_recapture_faults) ... ok
+test_owner_and_unreferenced_allocation_dimensions (__main__.AllocationScanTests.test_owner_and_unreferenced_allocation_dimensions) ... ok
+test_page_crossing_fat12_cell_and_padding_exclusion (__main__.AllocationScanTests.test_page_crossing_fat12_cell_and_padding_exclusion) ... ok
+test_prefix_missing_links_are_not_free (__main__.AllocationScanTests.test_prefix_missing_links_are_not_free) ... ok
+test_raw_variants_and_interpreted_disagreements (__main__.AllocationScanTests.test_raw_variants_and_interpreted_disagreements) ... ok
+
+======================================================================
+FAIL: test_default_behavior_and_unusable_layout (__main__.AllocationScanTests.test_default_behavior_and_unusable_layout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_allocation_scan.py", line 188, in test_default_behavior_and_unusable_layout
+    self.assertIsNone(value['allocation_scan']);self.assertEqual(value['allocation_scope'],'not-observed')
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'allocated_without_observed_owner': '0', 'categories': {'bad': '0', 'end': '0', 'free': '2847', 'next': '0', 'reserved': '0'}, 'compared_copies': '2', 'comparison_complete': True, 'coverage_complete': True, 'covered_end': '2849', 'cycle_components': '0', 'cyclic_clusters': '0', 'details_complete': True, 'diagnostics': [], 'different_cells': '0', 'expected_clusters': '2847', 'findings': [], 'first_cluster': '2', 'links_into_bad': '0', 'links_into_free': '0', 'links_into_reserved': '0', 'links_outside_coverage': '0', 'merge_points': '0', 'next_cluster': None, 'omitted_findings': '0', 'prefix_analysis_complete': True, 'prefix_graph_consistent': True, 'raw_variant_cells': '0', 'scanned_clusters': '2847', 'total_findings': '0', 'tree_ownership_complete': True, 'unreferenced_allocation_qualified': True} is not None
+
+----------------------------------------------------------------------
+Ran 12 tests in 5.479s
+
+FAILED (failures=1)
+FAT allocation scan cases executed: 84

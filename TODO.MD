@@ -318,3 +318,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] FAT directory/name metadata at 205e6cd8: exact OEM/UTF-16 representations and checksum/order correlation with reversible display; 6,790 cases, protected records and 89 native groups. Traversal, lookup, extraction, provider/frontend, host, owner and full 0.1.0 remain open.
 
 - [x] Bounded FAT volume/tree/file-extent capture at f98712a4: streaming cells, exact record/name provenance, partial/cycle/copy/cross-link outcomes and ordinary read-only Windows image verification. 149 cases/91 native groups. Global allocation, extraction, frontend, host, owner and full 0.1.0 remain open.
+
+- [x] Global FAT allocation at 0e414ccd: paged data-cluster counts, copy/raw variants, graph/cycle/merge findings and ownership applicability; 86 cases/92 native groups, default 149 capture cases retained. Auxiliary metadata, namespace, extraction, frontend, owner and full 0.1.0 remain open.
