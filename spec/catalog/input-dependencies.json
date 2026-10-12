@@ -9276,6 +9276,36 @@
       "spec_ids": [
         "DE-043"
       ]
+    },
+    {
+      "id": "tests/recovery/test_gpt_restoration_inspection.py",
+      "path": "tests/recovery/test_gpt_restoration_inspection.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/recovery/test_gpt_restoration.py",
+        "tests/images/gpt_execution_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-gpt-restoration-inspection/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-gpt-restoration-inspection/reproduce.py",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/recovery/test_gpt_restoration_inspection.py",
+        "tests/recovery/test_gpt_restoration.py",
+        "tests/images/test_gpt_execution.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-104"
+      ]
     }
   ]
 }

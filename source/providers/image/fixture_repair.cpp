@@ -1,5 +1,5 @@
 #ifndef DISKED_GPT_OWNED_FIXTURE
-#error The create-only GPT file adapter is a private test experiment, not a product provider.
+#error The owned GPT fixture adapter is a private test experiment, not a product provider.
 #endif
 #include "fixture_repair.h"
 #include "local_file.h"
@@ -126,6 +126,12 @@ std::unique_ptr<GptFiles> GptFiles::reopen_for_restoration(const V& expected,con
     const auto epoch=created_time();const auto publisher=hash(std::to_string(GetCurrentProcessId())+":"+std::to_string(epoch)+":"+id);
     owned.store=V::object().put("schema",V::string("org.disked.gpt-restoration-store/1")).put("name",V::string(name)).put("identity",V::string(id)).put("publisher_identity",V::string(publisher.substr(7,32))).put("publisher_epoch",exact(epoch)).put("executor_digest",*expected.find("executor_digest")).put("storage_independent",V::boolean_value(false));
     owned.readonly=false;owned.restoring=true;owned.check();return files;
+}
+std::unique_ptr<GptFiles> GptFiles::reopen_restoration_readonly(const V& expected,const V& store,const Fault& fault) {
+    const auto name=text(store,"name");require(name.size()==45 && name.compare(0,9,"recovery-")==0 && name.compare(41,4,".bin")==0 && name.substr(9,32).find_first_not_of("0123456789abcdef")==std::string::npos,"fixture_restoration_name");
+    auto files=reopen_readonly(expected,fault);auto& owned=*files->impl_;
+    owned.recovery_name=std::wstring(name.begin(),name.end());owned.recovery_journal=open(local_file::path_for(local_file::utf8(owned.directory)+"\\"+name),false);
+    owned.store=store;owned.restoring=true;owned.check();require(text(store,"executor_digest")==text(expected,"executor_digest"),"fixture_executor_generation");return files;
 }
 const V& GptFiles::manifest() const {return impl_->metadata;}
 V GptFiles::events() const {return impl_->trace;}

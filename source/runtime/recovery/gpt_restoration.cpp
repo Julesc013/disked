@@ -24,12 +24,25 @@ void check_store(const V& m,const V& s,const std::string& name) {
     require(json::decimal_u64(text(s,"publisher_epoch")) && std::stoull(text(s,"publisher_epoch"))>0,"restoration_store_identity");require(text(s,"executor_digest")==text(m,"executor_digest"),"restoration_code_generation");
     for(const auto key:{"root_identity","image_identity","backup_identity","journal_identity"})require(text(s,"identity")!=text(m,key),"restoration_store_alias");
 }
+j::Bindings restoration_bindings(const V& m,const V& s,const std::string& definition_digest) {
+    j::Bindings b;const auto id=parse_digest(text(s,"identity"));std::copy_n(id.begin(),16,b.journal.begin());b.plan=parse_digest(definition_digest);
+    b.targets=parse_digest(hash(V::object().put("original",m).put("recovery_store",s)));b.providers=parse_digest(hash(V::object().put("provider",*m.find("provider_id")).put("executor",*s.find("executor_digest"))));return b;
+}
+V restoration_admission(const V& store,const std::string& definition_digest,const V& review,const V& grant) {
+    return V::object().put("schema",V::string("org.disked.gpt-restoration-admission/1")).put("restoration_digest",V::string(definition_digest)).put("review_digest",V::string(hash(review))).put("grant_digest",V::string(hash(grant))).put("store",store);
+}
+class Buffer:public j::Source {
+    const Bytes& raw_;
+public:
+    explicit Buffer(const Bytes& raw):raw_(raw) {}
+    std::uint64_t size() override {return raw_.size();}
+    Bytes read_at(std::uint64_t offset,std::size_t count) override {require(offset<=raw_.size() && count<=raw_.size()-static_cast<std::size_t>(offset),"restoration_read_extent");return Bytes(raw_.begin()+static_cast<std::size_t>(offset),raw_.begin()+static_cast<std::size_t>(offset)+count);}
+};
 class Writer {
     GptRestorationPort& port_;j::Bindings bindings_;j::Digest header_{},last_{};j::Identity publisher_{};std::uint64_t epoch_=0,sequence_=0;Bytes persisted_;
 public:
     Writer(GptRestorationPort& port,const std::string& definition_digest):port_(port) {
-        const auto& m=port.manifest();const auto& s=port.restoration_store();const auto id=parse_digest(text(s,"identity"));std::copy_n(id.begin(),16,bindings_.journal.begin());bindings_.plan=parse_digest(definition_digest);
-        bindings_.targets=parse_digest(hash(V::object().put("original",m).put("recovery_store",s)));bindings_.providers=parse_digest(hash(V::object().put("provider",*m.find("provider_id")).put("executor",*s.find("executor_digest"))));publisher_=identity(text(s,"publisher_identity"));epoch_=std::stoull(text(s,"publisher_epoch"));
+        const auto& s=port.restoration_store();bindings_=restoration_bindings(port.manifest(),s,definition_digest);publisher_=identity(text(s,"publisher_identity"));epoch_=std::stoull(text(s,"publisher_epoch"));
     }
     void persist(const Bytes& data) {require(persisted_.size()+data.size()<=1048576,"restoration_journal_budget");port_.check_ownership();port_.append_journal(data);port_.flush_journal();auto wanted=persisted_;wanted.insert(wanted.end(),data.begin(),data.end());require(port_.read_journal()==wanted,"restoration_journal_reread");persisted_=std::move(wanted);port_.check_ownership();}
     void start() {const auto raw=j::encode_header(bindings_);persist(raw);std::copy_n(raw.begin()+160,32,header_.begin());last_=header_;}
@@ -74,7 +87,7 @@ V GptFixtureRestoration::execute(GptRestorationPort& port,const V& review,const 
         validate_grant(review,grant);require(json::dump(port.manifest())==json::dump(manifest_),"restoration_manifest_changed");check_store(manifest_,port.restoration_store(),journal_name());port.check_ownership();
         require(port.read_backup()==backup_ && port.read_original_journal()==old_journal_,"restoration_artifacts_changed");require(current(port,basis_.size())==observed_,"restoration_snapshot_changed");require(port.read_journal().empty(),"restoration_attempt_already_started");
         if(patches_.empty())return result("unchanged",0,false);
-        Writer log(port,digest_);log.start();log.append(1,definition_);log.append(2,review);log.append(3,grant);log.append(4,V::object().put("schema",V::string("org.disked.gpt-restoration-admission/1")).put("restoration_digest",V::string(digest_)).put("review_digest",V::string(hash(review))).put("grant_digest",V::string(hash(grant))).put("store",port.restoration_store()));
+        Writer log(port,digest_);log.start();log.append(1,definition_);log.append(2,review);log.append(3,grant);log.append(4,restoration_admission(port.restoration_store(),digest_,review,grant));
         auto expected=observed_;
         for(std::size_t i=0;i<patches_.size();++i) {
             require(current(port,basis_.size())==expected,"restoration_prefix_changed");require(port.read_backup()==backup_ && port.read_original_journal()==old_journal_,"restoration_artifacts_changed");
@@ -84,5 +97,58 @@ V GptFixtureRestoration::execute(GptRestorationPort& port,const V& review,const 
         require(expected==basis_ && current(port,basis_.size())==basis_,"restoration_final_basis");require(port.read_backup()==backup_ && port.read_original_journal()==old_journal_,"restoration_artifacts_changed");
         log.append(9,V::object().put("schema",V::string("org.disked.gpt-restoration-event/1")).put("event",V::string("seal-restored-basis")).put("restoration_digest",V::string(digest_)).put("prefix",exact(completed)).put("image_digest",V::string(hash(basis_))));return result("restored_original_basis",completed,possible);
     }catch(const std::exception& error) {return result(possible?"unresolved":"refused",completed,possible,error.what());}
+}
+V GptFixtureRestoration::inspect(GptRestorationPort& port,const V& review,const V& grant) const {
+    validate_grant(review,grant);require(json::dump(port.manifest())==json::dump(manifest_),"restoration_manifest_changed");const auto& store=port.restoration_store();check_store(manifest_,store,journal_name());
+    const auto image=current(port,basis_.size()),backup=port.read_backup(),old_history=port.read_original_journal(),raw=port.read_journal();require(raw.size()<=1048576,"restoration_journal_budget");
+    auto expected=observed_;auto matches=V::array(),states=V::array();
+    for(std::size_t i=0;i<=patches_.size();++i) {if(image==expected)matches.items.push_back(exact(i));if(i<patches_.size()){const auto& p=patches_[i];std::copy(p.after.begin(),p.after.end(),expected.begin()+static_cast<std::size_t>(p.offset));}}
+    bool known=true;for(std::size_t i=0;i<image.size();++i)known=known && (image[i]==observed_[i] || image[i]==basis_[i]);
+    for(const auto& p:patches_) {
+        const auto offset=static_cast<std::size_t>(p.offset);Bytes b(image.begin()+offset,image.begin()+offset+p.before.size());std::string state="other";
+        if(b==p.before)state="before";else if(b==p.after)state="after";else {bool mixed=true;for(std::size_t i=0;i<b.size();++i)mixed=mixed && (b[i]==p.before[i] || b[i]==p.after[i]);if(mixed)state="mixed";}
+        states.items.push_back(V::object().put("id",V::string(p.id)).put("state",V::string(state)).put("sha256",V::string(hash(b))));
+    }
+    expected=observed_;std::size_t bootstrap=0,completed=0,records=0;bool pending=false,sealed=false;Buffer source(raw);j::Scan scan;
+    if(raw.empty())scan.disposition="not_started";
+    else scan=j::scan(source,restoration_bindings(manifest_,store,digest_),[&](const j::Record& record) {
+        if(records>=32 || record.publisher!=identity(text(store,"publisher_identity")) || record.publisher_epoch!=std::stoull(text(store,"publisher_epoch")))return false;
+        V value;try {value=json::parse(std::string(record.payload.begin(),record.payload.end()));if(bytes(json::dump(value))!=record.payload)return false;}catch(const json::Error&){return false;}
+        if(bootstrap<4) {const std::vector<V> values{definition_,review,grant,restoration_admission(store,digest_,review,grant)};if(record.kind!=bootstrap+1 || json::dump(value)!=json::dump(values[bootstrap]))return false;++bootstrap;++records;return true;}
+        V wanted;auto after=expected;
+        if(record.kind==5 || record.kind==6) {
+            if(completed>=patches_.size() || (record.kind==5?pending:!pending))return false;
+            if(record.kind==6){const auto& p=patches_[completed];std::copy(p.after.begin(),p.after.end(),after.begin()+static_cast<std::size_t>(p.offset));}
+            wanted=V::object().put("schema",V::string("org.disked.gpt-restoration-event/1")).put("restoration_digest",V::string(digest_)).put("event",V::string(record.kind==5?"intention":"completion")).put("prefix",exact(completed+(record.kind==6?1:0))).put("image_digest",V::string(hash(after))).put("patch",definition_.find("patches")->items[completed]);
+        }else if(record.kind==9) {
+            if(pending || completed!=patches_.size() || expected!=basis_)return false;
+            wanted=V::object().put("schema",V::string("org.disked.gpt-restoration-event/1")).put("event",V::string("seal-restored-basis")).put("restoration_digest",V::string(digest_)).put("prefix",exact(completed)).put("image_digest",V::string(hash(basis_)));
+        }else return false;
+        if(json::dump(value)!=json::dump(wanted))return false;
+        if(record.kind==5)pending=true;else if(record.kind==6){pending=false;++completed;expected=std::move(after);}else sealed=true;++records;return true;
+    });
+    const bool backup_ok=backup==backup_,old_ok=old_history==old_journal_,current_match=image==expected;
+    require(current(port,basis_.size())==image,"restoration_inspection_snapshot_changed");port.check_ownership();
+    return V::object().put("schema",V::string("org.disked.gpt-restoration-inspection/1")).put("restoration_digest",V::string(digest_)).put("image_digest",V::string(hash(image))).put("matching_prefixes",matches).put("patch_states",states)
+        .put("current_known_bytes",V::boolean_value(known)).put("current_original_image",V::boolean_value(image==basis_)).put("backup_exact",V::boolean_value(backup_ok)).put("backup_sha256",V::string(hash(backup))).put("original_journal_unchanged",V::boolean_value(old_ok)).put("original_journal_sha256",V::string(hash(old_history)))
+        .put("current_matches_seal",V::boolean_value(sealed && scan.disposition=="valid_prefix" && backup_ok && old_ok && current_match)).put("reconciliation_required",V::boolean_value(!(sealed && scan.disposition=="valid_prefix" && backup_ok && old_ok && current_match)))
+        .put("journal",V::object().put("disposition",V::string(scan.disposition)).put("diagnostic",V::string(scan.diagnostic)).put("records",exact(scan.records)).put("verified_bytes",exact(scan.verified_bytes)).put("error_offset",exact(scan.error_offset)).put("bootstrap_records",exact(bootstrap)).put("confirmed_prefix",exact(completed)).put("pending_intention",V::boolean_value(pending)).put("sealed",V::boolean_value(sealed)))
+        .put("fixture_only",V::boolean_value(true)).put("authorizes_effects",V::boolean_value(false)).put("product_writes_admitted",V::boolean_value(false)).put("qualifies_power_loss",V::boolean_value(false)).put("qualifies_recovery",V::boolean_value(false));
+}
+GptFixtureRestoration retained_gpt_restoration(const execution::proposal::GptFixtureExecution& original,const Bytes& seed,const Bytes& observed,const Bytes& old_journal,const V& manifest,const V& old_review,const V& old_grant,const V& definition,const std::string& expected_digest) {
+    require(seed.size()==observed.size() && seed.size()<=8388608 && old_journal.size()<=1048576,"restoration_retained_budget");parse_digest(expected_digest);
+    class Observation final:public execution::proposal::GptFixturePort {
+        const Bytes& image_;const Bytes& backup_;const Bytes& journal_;const V& manifest_;
+    public:
+        Observation(const Bytes& image,const Bytes& backup,const Bytes& journal,const V& manifest):image_(image),backup_(backup),journal_(journal),manifest_(manifest) {}
+        const V& manifest() const override {return manifest_;}
+        void check_ownership() override {} // Retained values only; no current resource claim.
+        Bytes read_image(std::uint64_t start,std::size_t count) override {require(start<=image_.size() && count<=image_.size()-static_cast<std::size_t>(start),"restoration_retained_extent");return Bytes(image_.begin()+static_cast<std::size_t>(start),image_.begin()+static_cast<std::size_t>(start)+count);}
+        Bytes read_backup() override {return backup_;}Bytes read_journal() override {return journal_;}
+        void write_image(std::uint64_t,const Bytes&) override {fail("restoration_inspection_read_only");}void flush_image() override {fail("restoration_inspection_read_only");}
+        void write_backup(const Bytes&) override {fail("restoration_inspection_read_only");}void flush_backup() override {fail("restoration_inspection_read_only");}
+        void append_journal(const Bytes&) override {fail("restoration_inspection_read_only");}void flush_journal() override {fail("restoration_inspection_read_only");}
+    } observation(observed,original.backup_bytes(),old_journal,manifest);
+    GptFixtureRestoration value(original,seed,observation,old_review,old_grant,text(definition,"attempt_id"));require(value.digest()==expected_digest && json::dump(value.definition())==json::dump(definition),"restoration_retained_binding");return value;
 }
 }}}

@@ -43,6 +43,75 @@ def journal(raw,definition,digest,review,grant,store):
         n+=1;previous=trailer;at+=144+length
     return n
 
+def history_expectation(case,before,prepared,review,grant,store):
+    d=prepared['definition'];dg=prepared['restoration_digest'];rows=[(1,d),(2,review),(3,grant),(4,dict(schema='org.disked.gpt-restoration-admission/1',restoration_digest=dg,review_digest=sha(canonical(review)),grant_digest=sha(canonical(grant)),store=store))];images=[before];patch_by_id={p['id']:p for p in case['patches']}
+    for i,p in enumerate(d['patches']):
+        rows.append((5,dict(schema='org.disked.gpt-restoration-event/1',restoration_digest=dg,event='intention',prefix=str(i),image_digest=sha(images[-1]),patch=p)))
+        raw=bytearray(images[-1]);original=patch_by_id[p['id']];raw[original['offset']:original['offset']+len(original['before'])]=original['before'];images.append(bytes(raw))
+        rows.append((6,dict(schema='org.disked.gpt-restoration-event/1',restoration_digest=dg,event='completion',prefix=str(i+1),image_digest=sha(images[-1]),patch=p)))
+    rows.append((9,dict(schema='org.disked.gpt-restoration-event/1',event='seal-restored-basis',restoration_digest=dg,prefix=str(len(d['patches'])),image_digest=sha(case['raw']))));return rows,images
+
+def history_oracle(raw,case,before,prepared,review,grant,store):
+    rows,images=history_expectation(case,before,prepared,review,grant,store);v=dict(disposition='not_started' if not raw else 'invalid',diagnostic='',records='0',verified_bytes='0',error_offset='0',bootstrap_records='0',confirmed_prefix='0',pending_intention=False,sealed=False)
+    def bad(code,offset=0):v.update(disposition='invalid',diagnostic=code,error_offset=str(offset));return v
+    if not raw:return v
+    if len(raw)<192:return bad('journal_header_incomplete')
+    if raw[:8]!=b'DEJPR001':return bad('journal_magic')
+    if struct.unpack_from('<HH',raw,8)!=(1,0):return bad('journal_version')
+    if struct.unpack_from('<I',raw,12)[0]!=192 or struct.unpack_from('<I',raw,20)[0]!=65536:return bad('journal_header_profile')
+    if any(raw[16:20]+raw[136:160]):return bad('journal_header_flags')
+    if hashlib.sha256(raw[:160]).digest()!=raw[160:192]:return bad('journal_header_checksum')
+    d=prepared['definition'];binding=bytes.fromhex(store['identity'][7:])[:16]+bytes.fromhex(prepared['restoration_digest'][7:])+hashlib.sha256(canonical(dict(original=d['resources'],recovery_store=store))).digest()+hashlib.sha256(canonical(dict(provider=d['resources']['provider_id'],executor=store['executor_digest']))).digest()
+    if raw[24:136]!=binding:return bad('journal_binding_mismatch')
+    at=192;previous=raw[160:192];v['verified_bytes']='192'
+    while at<len(raw):
+        if v['sealed']:return bad('journal_after_terminal',at)
+        if len(raw)-at<112:v.update(disposition='torn_tail',diagnostic='journal_final_prefix_incomplete',error_offset=str(at));return v
+        prefix=raw[at:at+112]
+        if prefix[:4]!=b'JREC':return bad('journal_record_magic',at)
+        kind,flags,header,length,sequence=struct.unpack_from('<HHIIQ',prefix,4)
+        if header!=112:return bad('journal_prefix_length',at)
+        if length>65536:return bad('journal_payload_limit',at)
+        if flags>1:return bad('journal_record_flags',at)
+        if 1<=kind<=9 and flags!=1:return bad('journal_critical_bit',at)
+        if kind==32769 and flags!=0:return bad('journal_observation_flags',at)
+        if kind not in range(1,10) and kind!=32769 and (flags!=0 or kind<32768):return bad('journal_unknown_kind',at)
+        if not any(prefix[24:40]) or not struct.unpack_from('<Q',prefix,40)[0]:return bad('journal_record_identity',at)
+        if sequence!=int(v['records'])+1:return bad('journal_sequence',at)
+        if prefix[48:80]!=previous:return bad('journal_previous_digest',at)
+        if len(raw)-at<144+length:v.update(disposition='torn_tail',diagnostic='journal_final_record_incomplete',error_offset=str(at));return v
+        payload=raw[at+112:at+112+length];trailer=raw[at+112+length:at+144+length]
+        if hashlib.sha256(payload).digest()!=prefix[80:112]:return bad('journal_payload_checksum',at)
+        if hashlib.sha256(raw[160:192]+prefix+payload).digest()!=trailer:return bad('journal_record_checksum',at)
+        n=int(v['records'])
+        if prefix[24:40]!=bytes.fromhex(store['publisher_identity']) or struct.unpack_from('<Q',prefix,40)[0]!=int(store['publisher_epoch']) or n>=len(rows) or kind!=rows[n][0] or payload!=canonical(rows[n][1]):return bad('journal_semantic_rejected',at)
+        v['records']=str(n+1);v['bootstrap_records']=str(min(n+1,4))
+        if kind==5:v['pending_intention']=True
+        elif kind==6:v['pending_intention']=False;v['confirmed_prefix']=str(int(v['confirmed_prefix'])+1)
+        elif kind==9:v['sealed']=True
+        at+=144+length;previous=trailer;v['verified_bytes']=str(at)
+    v.update(disposition='valid_prefix',error_offset='0');return v
+
+def inspect_fixture(probe,data,prepared,review,grant,store,before,old_journal,mutate=None,fault=None):
+    owned=data['owned'];prior={p.name:p.read_bytes() for p in owned.iterdir()};case=data['case']
+    call=request(case,data['source'],'restore-inspect',manifest=data['preparation']['manifest'],review=data['review'],grant=data['grant'],restoration_definition=prepared['definition'],restoration_digest=prepared['restoration_digest'],restoration_review=review,restoration_grant=grant,restoration_store=store)
+    if fault:call['fault']=fault
+    lines=copy.deepcopy([call,dict(phase='retained-observation',image_hex=before.hex()),dict(phase='retained-original-journal',journal_hex=old_journal.hex())])
+    if mutate:mutate(lines)
+    result=subprocess.run([str(probe)],input=b''.join(canonical(v)+b'\n' for v in lines),capture_output=True,timeout=15);assert not result.stderr
+    assert prior=={p.name:p.read_bytes() for p in owned.iterdir()},'Inspection changed owned artifacts'
+    output=json.loads(result.stdout)
+    if result.returncode==0:
+        assert output['phase']=='restoration_inspected' and not any('.write.' in x['stage'] or '.flush.' in x['stage'] for x in output['events'])
+        v=output['inspection'];oracle=history_oracle(prior[store['name']],case,before,prepared,review,grant,store);assert v['journal']==oracle,(v['journal'],oracle)
+        _,images=history_expectation(case,before,prepared,review,grant,store);current=prior['image.bin'];d=prepared['definition'];assert v['matching_prefixes']==[str(i) for i,b in enumerate(images) if b==current]
+        assert v['image_digest']==sha(current) and v['current_original_image']==(current==case['raw']) and v['backup_exact']==(sha(prior['backup.bin'])==d['backup_digest']) and v['original_journal_unchanged']==(prior['journal.bin']==old_journal)
+        assert v['current_known_bytes']==all(a in (b,c) for a,b,c in zip(current,before,case['raw']))
+        matches=oracle['sealed'] and oracle['disposition']=='valid_prefix' and current==images[int(oracle['confirmed_prefix'])] and v['backup_exact'] and v['original_journal_unchanged'];assert v['current_matches_seal']==matches and v['reconciliation_required']==(not matches)
+        assert all(not v[k] for k in ('authorizes_effects','product_writes_admitted','qualifies_power_loss','qualifies_recovery'))
+    else:assert result.returncode==3 and output['phase']=='refused'
+    return result.returncode,output
+
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--probe',type=Path,required=True);ap.add_argument('--root',type=Path,required=True);ap.add_argument('--evidence',type=Path);a=ap.parse_args();a.probe=a.probe.resolve();a.root=a.root.resolve();records=[];passed=False;probe_sha=sha(a.probe.read_bytes())
     def record(name,**data):records.append(dict(name=name,**data));print('CASE '+ascii(name),flush=True)
@@ -94,7 +163,10 @@ def main():
             raw=b''
             if store:
                 raw=(owned/store['name']).read_bytes();journal(raw,prepared['definition'],prepared['restoration_digest'],review,grant,store)
-            record(name,exit_code=code,preparation=prepared,store=store,finish=finish,review=review,grant=grant,image_before_sha256=sha(before),image_after_sha256=sha(current),original_image_sha256=sha(case['raw']),journal_hex=raw.hex(),old_artifacts_sha256={n:sha(data) for n,data in old_artifacts.items()},fault=fault)
+            inspection=None
+            if store:
+                inspection_code,inspection=inspect_fixture(a.probe,fixture_data,prepared,review,grant,store,before,old_artifacts['journal.bin']);assert inspection_code==0
+            record(name,exit_code=code,preparation=prepared,store=store,finish=finish,review=review,grant=grant,inspection=inspection,image_before_sha256=sha(before),image_after_sha256=sha(current),original_image_sha256=sha(case['raw']),journal_hex=raw.hex(),old_artifacts_sha256={n:sha(data) for n,data in old_artifacts.items()},fault=fault)
             return finish,prepared,store
         finally:close(process,thread)
     try:

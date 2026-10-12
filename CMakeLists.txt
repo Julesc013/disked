@@ -609,6 +609,9 @@ if(BUILD_TESTING)
   add_test(NAME image.gpt_fixture_restoration COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery/test_gpt_restoration.py"
     --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.gpt_fixture_restoration PROPERTIES TIMEOUT 300)
+  add_test(NAME image.gpt_restoration_inspection COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery/test_gpt_restoration_inspection.py"
+    --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(image.gpt_restoration_inspection PROPERTIES TIMEOUT 300)
   add_executable(image_file_capture_probe tests/frontend/image_file_capture_probe.cpp)
   target_link_libraries(image_file_capture_probe PRIVATE disked_image_capture)
   set_target_properties(image_file_capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

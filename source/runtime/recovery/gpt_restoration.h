@@ -29,5 +29,13 @@ public:
     // Pure validation must run before a recovery adapter can create its journal.
     void validate_grant(const json::Value& review,const json::Value& grant) const;
     json::Value execute(GptRestorationPort&,const json::Value& review,const json::Value& grant) const;
+    // History/current observations only. The port must hold read-only file rights.
+    json::Value inspect(GptRestorationPort&,const json::Value& review,const json::Value& grant) const;
 };
+// Reconstruct the historical proposal from retained immutable evidence, without
+// observing today's image as the historical pre-restoration state.
+GptFixtureRestoration retained_gpt_restoration(const execution::proposal::GptFixtureExecution&,
+    const Bytes& original_image,const Bytes& observed_before,const Bytes& original_journal,
+    const json::Value& manifest,const json::Value& original_review,const json::Value& original_grant,
+    const json::Value& definition,const std::string& expected_digest);
 }}}
