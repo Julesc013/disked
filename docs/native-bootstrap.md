@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.43 prototype selects 21 command identities, including read-only
+The current dev.44 prototype selects 21 command identities, including read-only
 GPT repair previews, recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
@@ -880,3 +880,25 @@ Exact clean-build qualification and evidence are recorded separately from this
 execution guide and from owner acceptance.
 
 The exact clean DE-W038 source is `57cfd113`, with 62 command cases, 97 native groups, 17 independent headers and 221 tooling passes/two skips. [Reproduction and retained evidence](../.aide/evidence/2026-10-13-fat-command/README.md). These are Windows ordinary-file prototype results, not mounted-consumer, writer, other-platform or full-release qualification.
+
+## FAT allocation windows (DE-W039)
+
+`image.inspect --view fat` accepts `--allocation-window-json` with exactly
+`{"first_cluster":"800000","clusters":"1024"}` for an explicit data-cluster
+interval. Choose values that fit the image's actual geometry; this example
+requires a sufficiently large FAT32 volume. Count is 1–8192, starting at cluster
+2 or later. The volume byte window remains explicit. The interval conflicts with
+`--allocation-scan yes`; the default global prefix scan keeps its existing meaning
+and limits. GUI/TUI/shell use the same bounded typed field.
+
+The result distinguishes requested interval coverage from complete volume
+coverage. It records exclusive covered end, categories, copy comparison, graph
+facts within the covered interval and explicit omitted finding counts. Links
+outside either end remain unknown. Complete partial-window observation does not
+qualify global allocation, filesystem health or source snapshots. FSInfo free
+count comparison continues to use the explicitly requested global scan, never
+a partial-window free count. Source/process/wire limits remain unchanged.
+
+Native implementation qualification is recorded separately in source-bound
+evidence; further directory/namespace coverage, capture retrieval/extraction,
+consumer/host/platform/storage and production writer/release work remain open.

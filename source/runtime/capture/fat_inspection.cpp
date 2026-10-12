@@ -95,6 +95,7 @@ bool decode_fat_inspection(const V &params, FatInspectionRequest &output) {
                                             "volume_bytes",
                                             "fat_copy",
                                             "allocation_scan",
+                                            "allocation_window",
                                             "auxiliary_checks",
                                             "name_code_page",
                                             "lookup"};
@@ -131,6 +132,16 @@ bool decode_fat_inspection(const V &params, FatInspectionRequest &output) {
             if (page != 437 && page != 850 && page != 932)
                 return false;
             r.name_code_page = static_cast<std::uint32_t>(page);
+        }
+        if (const auto *window = params.find("allocation_window")) {
+            if (r.allocation_scan || window->kind != V::Kind::object || window->fields.size() != 2)
+                return false;
+            const auto first = integer(*window, "first_cluster"),
+                       count = integer(*window, "clusters");
+            if (first < 2 || first > 268435446 || !count || count > 8192)
+                return false;
+            r.allocation_window = {static_cast<std::uint32_t>(first),
+                                   static_cast<std::uint32_t>(count)};
         }
         if (const auto *lookup = params.find("lookup")) {
             if (!r.name_code_page || lookup->kind != V::Kind::object || lookup->fields.size() != 2)
@@ -191,6 +202,12 @@ V project_fat_inspection(const FatInspectionRead &read) {
             if (const auto *records = backup->find("records"))
                 selected.fields.at("backup").put("records", projection(*records, 8192, 3));
         observation.put("auxiliary_checks", std::move(selected));
+    }
+    if (const auto *window = original.find("allocation_window")) {
+        auto selected = *window;
+        if (const auto *findings = window->find("findings"))
+            selected.put("findings", projection(*findings, 16384));
+        observation.put("allocation_window", std::move(selected));
     }
     if (const auto *ns = original.find("namespace")) {
         auto names = *ns;
@@ -258,6 +275,9 @@ Outcome dispatch_fat_inspection(const std::string &request, const V &parameters,
         if (const auto *scan = obs.find("allocation_scan"))
             incomplete = incomplete || !flag(*scan, "coverage_complete") ||
                          !flag(*scan, "comparison_complete");
+        if (const auto *window = obs.find("allocation_window"))
+            incomplete = incomplete || !flag(*window, "coverage_complete") ||
+                         !flag(*window, "comparison_complete");
         if (const auto *aux = obs.find("auxiliary_checks"))
             incomplete = incomplete || !flag(*aux, "coverage_complete");
         if (const auto *ns = obs.find("namespace"))

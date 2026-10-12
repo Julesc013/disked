@@ -6,6 +6,9 @@
 #include <string>
 
 namespace disked {
+struct FatAllocationWindow {
+    std::uint32_t first_cluster = 0, clusters = 0;
+};
 struct FatCaptureLimits {
     std::size_t nodes = 128, depth = 8, chain_clusters = 1024, total_clusters = 4096;
     std::size_t records = 4096, read_requests = 8192, read_bytes = 2097152;
@@ -17,6 +20,7 @@ struct FatCaptureRequest {
     std::uint64_t epoch = 0, source_bytes = 0, volume_offset = 0, volume_bytes = 0;
     std::uint32_t fat_copy = 0;
     bool allocation_scan = false;
+    FatAllocationWindow allocation_window;
     bool auxiliary_checks = false;
     const FatNameConsumer *namespace_consumer = nullptr;
     std::vector<FatNameQuery> namespace_queries;
@@ -27,4 +31,5 @@ struct FatCaptureRequest {
 // JSON owns all metadata. No source identity/freshness, extraction or writer grant.
 json::Value observe_fat_volume(const FatCaptureRequest &, const RegionReader &);
 void validate_fat_capture_request(const FatCaptureRequest &);
+void withdraw_fat_allocation_window_applicability(json::Value &);
 } // namespace disked

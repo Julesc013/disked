@@ -65,6 +65,14 @@ V exercise(const V &input) {
         r.fat_copy = static_cast<std::uint32_t>(copy);
     }
     r.allocation_scan = input.find("allocation_scan") && input.find("allocation_scan")->boolean;
+    if (const auto *window = input.find("allocation_window")) {
+        const auto first = integer(*window, "first_cluster"), count = integer(*window, "clusters");
+        if (window->kind != V::Kind::object || window->fields.size() != 2 || first < 2 ||
+            first > 268435446 || !count || count > 8192)
+            throw std::invalid_argument("fat_allocation_window_input");
+        r.allocation_window = {static_cast<std::uint32_t>(first),
+                               static_cast<std::uint32_t>(count)};
+    }
     r.auxiliary_checks = input.find("auxiliary_checks") && input.find("auxiliary_checks")->boolean;
     if (const auto *queries = input.find("queries"))
         for (const auto &q : queries->items) {

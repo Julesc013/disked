@@ -389,14 +389,21 @@ class Observer {
         };
         const auto copies =
             std::min<std::size_t>(volume_.fat_count, request_.limits.compare_copies);
+        const bool window = request_.allocation_window.clusters != 0;
+        const auto first = window ? request_.allocation_window.first_cluster : 2U;
+        const auto expected = window ? request_.allocation_window.clusters : volume_.cluster_count;
+        const bool valid =
+            first <= volume_.cluster_count + 1 && expected <= volume_.cluster_count + 2 - first;
         const auto capacity =
-            std::min<std::size_t>(volume_.cluster_count, request_.limits.allocation_clusters);
+            valid ? std::min<std::size_t>(expected, request_.limits.allocation_clusters) : 0;
+        if (!valid)
+            failures.items.push_back(V::string("fat_allocation_window_range"));
         std::vector<de_fat_entry> cells;
         cells.reserve(capacity);
         std::size_t categories[8]{};
         const bool ownership = complete_ && consistent_;
         try {
-            for (std::uint32_t index = 2; cells.size() < capacity; ++index) {
+            for (std::uint32_t index = first; cells.size() < capacity; ++index) {
                 const auto chosen = paged_cell(index, request_.fat_copy);
                 auto variants = V::array();
                 auto variant = [&](std::uint32_t copy, const de_fat_entry &entry) {
@@ -433,7 +440,7 @@ class Observer {
                             .put("cluster", exact(index))
                             .put("copies", std::move(variants)));
             }
-            if (cells.size() < volume_.cluster_count)
+            if (valid && cells.size() < expected)
                 failures.items.push_back(V::string("fat_allocation_cluster_budget"));
         } catch (const Stop &error) {
             failures.items.push_back(V::string(error.code));
@@ -443,24 +450,30 @@ class Observer {
         std::vector<unsigned char> colors(cells.size(), 0);
         std::size_t outside = 0, into_free = 0, into_bad = 0, into_reserved = 0;
         std::size_t unowned = 0, merges = 0, cycles = 0, cyclic_clusters = 0;
+        // A link outside either end of this covered interval remains unknown.
+        auto position = [&](std::uint32_t cluster) {
+            return cluster >= first && static_cast<std::uint64_t>(cluster - first) < cells.size()
+                       ? static_cast<std::size_t>(cluster - first)
+                       : cells.size();
+        };
         for (std::size_t i = 0; i < cells.size(); ++i) {
             const auto &entry = cells[i];
             if ((entry.kind == DE_FAT_ENTRY_NEXT || entry.kind == DE_FAT_ENTRY_END) &&
-                !owners_.count(static_cast<std::uint32_t>(i + 2))) {
+                !owners_.count(static_cast<std::uint32_t>(i + first))) {
                 ++unowned;
                 finding(V::object()
                             .put("code", V::string("fat_allocation_without_observed_owner"))
-                            .put("cluster", exact(i + 2))
+                            .put("cluster", exact(i + first))
                             .put("value", exact(entry.value)));
             }
             if (entry.kind != DE_FAT_ENTRY_NEXT)
                 continue;
-            const auto target = static_cast<std::size_t>(entry.value - 2);
+            const auto target = position(entry.value);
             if (target >= cells.size()) {
                 ++outside;
                 finding(V::object()
                             .put("code", V::string("fat_allocation_link_outside_coverage"))
-                            .put("cluster", exact(i + 2))
+                            .put("cluster", exact(i + first))
                             .put("target", exact(entry.value)));
                 continue;
             }
@@ -479,7 +492,7 @@ class Observer {
             if (code)
                 finding(V::object()
                             .put("code", V::string(code))
-                            .put("cluster", exact(i + 2))
+                            .put("cluster", exact(i + first))
                             .put("target", exact(entry.value)));
         }
         for (std::size_t i = 0; i < cells.size(); ++i) {
@@ -487,7 +500,7 @@ class Observer {
                 ++merges;
                 finding(V::object()
                             .put("code", V::string("fat_allocation_merge"))
-                            .put("cluster", exact(i + 2))
+                            .put("cluster", exact(i + first))
                             .put("incoming", exact(incoming[i])));
             }
             if (colors[i])
@@ -501,63 +514,70 @@ class Observer {
                     cursor = cells.size();
                     break;
                 }
-                cursor = static_cast<std::size_t>(cells[cursor].value - 2);
+                cursor = position(cells[cursor].value);
             }
             if (cursor < cells.size() && colors[cursor] == 1) {
                 std::size_t length = 1;
-                for (auto at = static_cast<std::size_t>(cells[cursor].value - 2); at != cursor;
-                     at = static_cast<std::size_t>(cells[at].value - 2))
+                for (auto at = position(cells[cursor].value); at != cursor;
+                     at = position(cells[at].value))
                     ++length;
                 ++cycles;
                 cyclic_clusters += length;
                 finding(V::object()
                             .put("code", V::string("fat_allocation_cycle"))
-                            .put("cluster", exact(cursor + 2))
+                            .put("cluster", exact(cursor + first))
                             .put("clusters", exact(length)));
             }
             for (auto visited : path)
                 colors[visited] = 2;
         }
-        const bool coverage = cells.size() == volume_.cluster_count;
+        const bool coverage = valid && cells.size() == expected;
+        const bool whole = coverage && first == 2 && cells.size() == volume_.cluster_count;
         const bool comparison = coverage && copies == volume_.fat_count;
-        return V::object()
-            .put("expected_clusters", exact(volume_.cluster_count))
-            .put("scanned_clusters", exact(cells.size()))
-            .put("first_cluster", exact(2))
-            .put("covered_end", exact(cells.size() + 2))
-            .put("next_cluster", coverage ? V{} : exact(cells.size() + 2))
-            .put("coverage_complete", V::boolean_value(coverage))
-            .put("prefix_analysis_complete", V::boolean_value(true))
-            .put("compared_copies", exact(cells.empty() ? 0 : copies))
-            .put("comparison_complete", V::boolean_value(comparison))
-            .put("different_cells", exact(differences))
-            .put("raw_variant_cells", exact(raw_variants))
-            .put("categories", V::object()
-                                   .put("free", exact(categories[DE_FAT_ENTRY_FREE]))
-                                   .put("next", exact(categories[DE_FAT_ENTRY_NEXT]))
-                                   .put("end", exact(categories[DE_FAT_ENTRY_END]))
-                                   .put("bad", exact(categories[DE_FAT_ENTRY_BAD]))
-                                   .put("reserved", exact(categories[DE_FAT_ENTRY_RESERVED])))
-            .put("links_outside_coverage", exact(outside))
-            .put("links_into_free", exact(into_free))
-            .put("links_into_bad", exact(into_bad))
-            .put("links_into_reserved", exact(into_reserved))
-            .put("merge_points", exact(merges))
-            .put("cycle_components", exact(cycles))
-            .put("cyclic_clusters", exact(cyclic_clusters))
-            .put("prefix_graph_consistent",
-                 V::boolean_value(!differences && !into_free && !into_bad && !into_reserved &&
-                                  !merges && !cycles))
-            .put("allocated_without_observed_owner", exact(unowned))
-            .put("tree_ownership_complete", V::boolean_value(ownership))
-            .put("unreferenced_allocation_qualified",
-                 V::boolean_value(ownership && coverage && comparison && !differences &&
-                                  overlap_equal_))
-            .put("findings", std::move(findings))
-            .put("total_findings", exact(total_findings))
-            .put("omitted_findings", exact(omitted))
-            .put("details_complete", V::boolean_value(!omitted))
-            .put("diagnostics", std::move(failures));
+        auto out =
+            V::object()
+                .put("expected_clusters", exact(expected))
+                .put("scanned_clusters", exact(cells.size()))
+                .put("first_cluster", exact(first))
+                .put("covered_end", exact(cells.size() + first))
+                .put("next_cluster", coverage ? V{} : exact(cells.size() + first))
+                .put("coverage_complete", V::boolean_value(coverage))
+                .put("prefix_analysis_complete", V::boolean_value(true))
+                .put("compared_copies", exact(cells.empty() ? 0 : copies))
+                .put("comparison_complete", V::boolean_value(comparison))
+                .put("different_cells", exact(differences))
+                .put("raw_variant_cells", exact(raw_variants))
+                .put("categories", V::object()
+                                       .put("free", exact(categories[DE_FAT_ENTRY_FREE]))
+                                       .put("next", exact(categories[DE_FAT_ENTRY_NEXT]))
+                                       .put("end", exact(categories[DE_FAT_ENTRY_END]))
+                                       .put("bad", exact(categories[DE_FAT_ENTRY_BAD]))
+                                       .put("reserved", exact(categories[DE_FAT_ENTRY_RESERVED])))
+                .put("links_outside_coverage", exact(outside))
+                .put("links_into_free", exact(into_free))
+                .put("links_into_bad", exact(into_bad))
+                .put("links_into_reserved", exact(into_reserved))
+                .put("merge_points", exact(merges))
+                .put("cycle_components", exact(cycles))
+                .put("cyclic_clusters", exact(cyclic_clusters))
+                .put("prefix_graph_consistent",
+                     V::boolean_value(!differences && !into_free && !into_bad && !into_reserved &&
+                                      !merges && !cycles))
+                .put("allocated_without_observed_owner", exact(unowned))
+                .put("tree_ownership_complete", V::boolean_value(ownership))
+                .put("unreferenced_allocation_qualified",
+                     V::boolean_value(ownership && whole && comparison && !differences &&
+                                      overlap_equal_))
+                .put("findings", std::move(findings))
+                .put("total_findings", exact(total_findings))
+                .put("omitted_findings", exact(omitted))
+                .put("details_complete", V::boolean_value(!omitted))
+                .put("diagnostics", std::move(failures));
+        if (window)
+            out.put("scope", V::string("explicit-cluster-window"))
+                .put("volume_clusters", exact(volume_.cluster_count))
+                .put("all_volume_coverage", V::boolean_value(whole));
+        return out;
     }
 
     void charge(std::size_t n) {
@@ -960,7 +980,7 @@ class Observer {
         if (!reader)
             throw std::invalid_argument("fat_capture_inputs");
         validate_fat_capture_request(request);
-        if (request.allocation_scan)
+        if (request.allocation_scan || request.allocation_window.clusters)
             output_used_ += 2048; // Reserve the summary even if tree/detail budgets stop.
         if (request.auxiliary_checks)
             output_used_ += 81920;
@@ -1045,6 +1065,25 @@ class Observer {
         if (request_.allocation_scan && volume_.usable_layout &&
             request_.fat_copy < volume_.fat_count)
             scanned = allocation();
+        V window;
+        if (request_.allocation_window.clusters) {
+            if (volume_.usable_layout && request_.fat_copy < volume_.fat_count)
+                window = allocation();
+            else {
+                window = V::object()
+                             .put("scope", V::string("explicit-cluster-window"))
+                             .put("first_cluster", exact(request_.allocation_window.first_cluster))
+                             .put("expected_clusters", exact(request_.allocation_window.clusters))
+                             .put("scanned_clusters", exact(0))
+                             .put("coverage_complete", V::boolean_value(false))
+                             .put("comparison_complete", V::boolean_value(false))
+                             .put("all_volume_coverage", V::boolean_value(false))
+                             .put("unreferenced_allocation_qualified", V::boolean_value(false))
+                             .put("diagnostics", V::array());
+                window.fields.at("diagnostics")
+                    .items.push_back(V::string("fat_allocation_window_geometry"));
+            }
+        }
         V auxiliary_result;
         if (request_.auxiliary_checks) {
             if (volume_.usable_layout && request_.fat_copy < volume_.fat_count)
@@ -1057,6 +1096,8 @@ class Observer {
         }
         if (!overlap_equal_ && scanned.find("unreferenced_allocation_qualified"))
             scanned.put("unreferenced_allocation_qualified", V::boolean_value(false));
+        if (!overlap_equal_)
+            withdraw_fat_allocation_window_applicability(window);
         V namespace_result;
         if (request_.namespace_consumer) {
             std::vector<FatNamespaceDirectory> directories;
@@ -1140,6 +1181,21 @@ class Observer {
                                                          : "data-cluster-prefix"))
                 .put("allocation_scan", std::move(scanned));
         }
+        if (request_.allocation_window.clusters) {
+            const auto flag = [&](const char *name) {
+                const auto *p = window.find(name);
+                return p && p->kind == V::Kind::boolean && p->boolean;
+            };
+            const auto *unowned = window.find("allocated_without_observed_owner");
+            const bool agreement = flag("coverage_complete") && flag("comparison_complete") &&
+                                   flag("prefix_graph_consistent") && unowned &&
+                                   unowned->text == "0";
+            out.put("tree_metadata_consistent", V::boolean_value(consistent_))
+                .put("observed_metadata_consistent",
+                     V::boolean_value(consistent_ && agreement && overlap_equal_))
+                .put("allocation_scope", V::string("observed-tree-and-allocation-window"))
+                .put("allocation_window", std::move(window));
+        }
         if (request_.auxiliary_checks) {
             const bool aggregate = out.find("observed_metadata_consistent")->boolean &&
                                    auxiliary_result.find("metadata_agreement")->boolean;
@@ -1156,6 +1212,11 @@ class Observer {
 };
 } // namespace
 void validate_fat_capture_request(const FatCaptureRequest &request) {
+    const auto &w = request.allocation_window;
+    if ((w.clusters && (w.first_cluster < 2 || w.first_cluster > 268435446U || w.clusters > 8192 ||
+                        request.allocation_scan)) ||
+        (!w.clusters && w.first_cluster))
+        throw std::invalid_argument("fat_allocation_window_input");
     const auto &l = request.limits;
     if (!request.epoch || !request.source_bytes || !request.volume_bytes ||
         request.source_id.empty() || request.source_id.size() > 128 ||
@@ -1185,6 +1246,10 @@ void validate_fat_capture_request(const FatCaptureRequest &request) {
             throw std::invalid_argument("fat_namespace_capture_limits");
     } else if (!request.namespace_queries.empty())
         throw std::invalid_argument("fat_namespace_consumer_required");
+}
+void withdraw_fat_allocation_window_applicability(json::Value &value) {
+    if (value.find("unreferenced_allocation_qualified"))
+        value.put("unreferenced_allocation_qualified", json::Value::boolean_value(false));
 }
 json::Value observe_fat_volume(const FatCaptureRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();

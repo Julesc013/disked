@@ -50,7 +50,9 @@ def run(exe,frontend,command,path,unit,report,options=None):
             wait(lambda t:'disked>' in t)
             line=' '.join(command.split('.'))+' "'+path+'"'
             if unit!='-':line+=' --logical-block-bytes '+unit
-            if options:line+=' '+subprocess.list2cmdline(options)
+            if options:
+                # DiskEd's shell uses doubled quotes, not Windows argv backslash escaping.
+                line+=' '+' '.join('"'+value.replace('"','""')+'"' for value in options)
             for char in line:
                 encoded=char.encode('utf-16-le')
                 for at in range(0,len(encoded),2):key(0,chr(int.from_bytes(encoded[at:at+2],'little')))

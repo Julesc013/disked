@@ -12,6 +12,7 @@ struct FatSnapshotInput {
     std::string path;
     json::Value expected_source;
     bool allocation_scan = false, auxiliary_checks = false;
+    FatAllocationWindow allocation_window;
     FatCaptureLimits limits;
     std::vector<FatNameQuery> queries;
     FatNamespaceLimits namespace_limits;

@@ -9,6 +9,17 @@ import specctl as sc
 
 
 class FatCommandContract(unittest.TestCase):
+    def test_allocation_window_interval_bounds_and_global_conflicts(self):
+        value=self.fat(allocation_window=dict(first_cluster='2',clusters='8192'))
+        self.bundle.validate(self.uri,value)
+        self.bundle.validate(self.uri,dict(value,allocation_scan='no'))
+        for first,count in [('1','1'),('2','0'),('2','8193'),('268435447','1'),('01','1'),('2',1)]:
+            self.reject(dict(value,allocation_window=dict(first_cluster=first,clusters=count)))
+        self.reject(dict(value,allocation_scan='yes'))
+        self.reject(dict(value,view='map'))
+        self.reject(dict(value,allocation_window=dict(first_cluster='2')))
+        self.reject(dict(value,allocation_window=dict(first_cluster='2',clusters='1',extra='x')))
+
     @classmethod
     def setUpClass(cls):
         cls.bundle = sc.Bundle(Path(__file__).resolve().parents[2])

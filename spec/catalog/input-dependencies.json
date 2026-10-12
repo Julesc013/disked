@@ -10335,6 +10335,66 @@
         "DE-044",
         "DE-102"
       ]
+    },
+    {
+      "id": "tests/images/test_fat_allocation_window.py",
+      "path": "tests/images/test_fat_allocation_window.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_auxiliary.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "spec/catalog/fat-allocation-window-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-021",
+        "DE-023",
+        "DE-044",
+        "DE-102"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_fat_windows.py",
+      "path": "tests/frontend/test_fat_windows.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_fat_allocation_window.py",
+        "tests/frontend/gui_fixture.py",
+        "tests/frontend/image_console_fixture.py",
+        "tests/images/fat_worker_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-021",
+        "DE-023",
+        "DE-044",
+        "DE-102"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-13-fat-window/reproduce.py",
+      "path": ".aide/evidence/2026-10-13-fat-window/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_fat_allocation_window.py",
+        "tests/frontend/test_fat_windows.py",
+        "CMakeLists.txt",
+        "tools/check-build-boundaries.py"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-021",
+        "DE-023",
+        "DE-044",
+        "DE-102"
+      ]
     }
   ]
 }

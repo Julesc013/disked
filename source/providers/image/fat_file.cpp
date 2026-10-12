@@ -70,7 +70,8 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
                                    bool auxiliary_checks, const FatNameConsumer *namespace_consumer,
                                    const std::vector<FatNameQuery> &namespace_queries,
                                    const FatNamespaceLimits &namespace_limits,
-                                   const V *expected_source, const std::function<bool()> &stop) {
+                                   const V *expected_source, const std::function<bool()> &stop,
+                                   const FatAllocationWindow &allocation_window) {
     const auto path = local_file::path_for(input);
     auto ancestors = local_file::pin_parents(path);
     const auto generations = local_file::parent_generations(ancestors);
@@ -115,6 +116,7 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
     request.fat_copy = copy;
     request.limits = limits;
     request.allocation_scan = allocation_scan;
+    request.allocation_window = allocation_window;
     request.auxiliary_checks = auxiliary_checks;
     request.namespace_consumer = namespace_consumer;
     request.namespace_queries = namespace_queries;
@@ -201,6 +203,8 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
 #endif
     const bool same = json::dump(before.value) == json::dump(after.value);
     const bool stable = !regions.empty() && equal && same;
+    if (!stable && observation.find("allocation_window"))
+        withdraw_fat_allocation_window_applicability(observation.fields.at("allocation_window"));
     if (!stable && namespace_consumer) {
         // Preserve measured names/matches; a failed recapture withdraws lookup applicability.
         auto &names = observation.fields.at("namespace");
@@ -247,9 +251,11 @@ json::Value capture_fat_file(const std::string &path, std::uint64_t offset, std:
                              bool allocation_scan, bool auxiliary_checks,
                              const FatNameConsumer *consumer,
                              const std::vector<FatNameQuery> &queries,
-                             const FatNamespaceLimits &namespace_limits) {
+                             const FatNamespaceLimits &namespace_limits,
+                             const FatAllocationWindow &allocation_window) {
     return capture_fat_file_owned(path, offset, bytes, copy, limits, allocation_scan,
-                                  auxiliary_checks, consumer, queries, namespace_limits)
+                                  auxiliary_checks, consumer, queries, namespace_limits, nullptr,
+                                  {}, allocation_window)
         .result;
 }
 } // namespace disked

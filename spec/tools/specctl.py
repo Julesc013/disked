@@ -248,6 +248,11 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
 
 def semantic_validate(kind: str | None, value: dict):
     if kind == 'fat-inspect-parameters':
+        if 'allocation_window' in value:
+            window=value['allocation_window']
+            first=bounded_u64(window['first_cluster'],'FAT allocation first cluster')
+            count=bounded_u64(window['clusters'],'FAT allocation cluster count')
+            if not 2<=first<=268435446 or not 1<=count<=8192:raise SpecError('FAT allocation window outside bounds')
         for key in ('volume_offset','volume_bytes','fat_copy'):
             if key in value:
                 n=bounded_u64(value[key],key)

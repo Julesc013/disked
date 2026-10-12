@@ -103,6 +103,7 @@ FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
         input.fat_copy = request.fat_copy;
         input.name_code_page = request.name_code_page;
         input.allocation_scan = request.allocation_scan;
+        input.allocation_window = request.allocation_window;
         input.auxiliary_checks = request.auxiliary_checks;
         input.queries = request.queries;
 #ifdef DISKED_FAT_COMMAND_TESTING

@@ -21,7 +21,8 @@ FatFileRead capture_fat_file_owned(const std::string &path, std::uint64_t volume
                                    const std::vector<FatNameQuery> &namespace_queries,
                                    const FatNamespaceLimits &namespace_limits,
                                    const json::Value *expected_source = nullptr,
-                                   const std::function<bool()> &stop = {});
+                                   const std::function<bool()> &stop = {},
+                                   const FatAllocationWindow &allocation_window = {});
 // Private Windows ordinary-image adapter. Read-only; synchronous waits require
 // external containment before frontend admission. Does not mount or extract files.
 json::Value capture_fat_file(const std::string &path, std::uint64_t volume_offset,
@@ -30,5 +31,6 @@ json::Value capture_fat_file(const std::string &path, std::uint64_t volume_offse
                              bool allocation_scan = false, bool auxiliary_checks = false,
                              const FatNameConsumer *namespace_consumer = nullptr,
                              const std::vector<FatNameQuery> &namespace_queries = {},
-                             const FatNamespaceLimits &namespace_limits = FatNamespaceLimits{});
+                             const FatNamespaceLimits &namespace_limits = FatNamespaceLimits{},
+                             const FatAllocationWindow &allocation_window = {});
 } // namespace disked

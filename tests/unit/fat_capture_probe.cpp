@@ -31,6 +31,17 @@ static std::uint64_t integer(const V &v) {
 static V exact(std::uint64_t n) {
     return V::string(std::to_string(n));
 }
+static disked::FatAllocationWindow allocation_window(const V &input) {
+    disked::FatAllocationWindow out;
+    if (const auto *window = input.find("allocation_window")) {
+        require(window->kind == V::Kind::object && window->fields.size() == 2);
+        const auto first = integer(field(*window, "first_cluster"));
+        const auto count = integer(field(*window, "clusters"));
+        require(first <= 0xffffffff && count <= 0xffffffff);
+        out = {static_cast<std::uint32_t>(first), static_cast<std::uint32_t>(count)};
+    }
+    return out;
+}
 static std::uint64_t native(const de_u64 &n) {
     char s[21];
     require(!de_u64_format(&n, s, sizeof(s)));
@@ -314,12 +325,12 @@ static V observe(const V &input) {
             if (names)
                 consumer = name_consumer(input);
             return V::object().put(
-                "result",
-                disked::capture_fat_file(
-                    field(input, "path").text, integer(field(input, "offset")),
-                    integer(field(input, "length")), static_cast<std::uint32_t>(copy),
-                    limits(input), scan && scan->boolean, aux && aux->boolean,
-                    names ? &consumer : nullptr, name_queries(input), name_limits(input)));
+                "result", disked::capture_fat_file(
+                              field(input, "path").text, integer(field(input, "offset")),
+                              integer(field(input, "length")), static_cast<std::uint32_t>(copy),
+                              limits(input), scan && scan->boolean, aux && aux->boolean,
+                              names ? &consumer : nullptr, name_queries(input), name_limits(input),
+                              allocation_window(input)));
         } catch (const std::exception &error) {
             return V::object().put("error", V::string(error.what()));
         }
@@ -336,6 +347,7 @@ static V observe(const V &input) {
     require(copy <= 0xffffffff);
     request.fat_copy = static_cast<std::uint32_t>(copy);
     request.limits = limits(input);
+    request.allocation_window = allocation_window(input);
     disked::FatNameConsumer consumer;
     if (input.find("namespace_code_page")) {
         consumer = name_consumer(input);

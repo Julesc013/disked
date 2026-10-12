@@ -1,6 +1,7 @@
 #pragma once
 #include "runtime/command/protocol.h"
 #include "fat_namespace.h"
+#include "fat_capture.h"
 
 namespace disked {
 struct FatInspectionRequest {
@@ -8,6 +9,7 @@ struct FatInspectionRequest {
     std::uint64_t volume_offset = 0, volume_bytes = 0;
     std::uint32_t fat_copy = 0, name_code_page = 0;
     bool allocation_scan = false, auxiliary_checks = false;
+    FatAllocationWindow allocation_window;
     std::vector<FatNameQuery> queries;
 };
 struct FatInspectionRead {

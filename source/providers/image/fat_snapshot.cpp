@@ -104,6 +104,7 @@ FatCaptureRequest capture_request(const FatSnapshotInput &input, const FatNameCo
     r.fat_copy = input.fat_copy;
     r.limits = input.limits;
     r.allocation_scan = input.allocation_scan;
+    r.allocation_window = input.allocation_window;
     r.auxiliary_checks = input.auxiliary_checks;
     r.namespace_consumer = consumer;
     r.namespace_queries = input.queries;
@@ -212,23 +213,29 @@ V fat_snapshot_input_value(const FatSnapshotInput &input) {
         queries.items.push_back(
             V::object().put("directory", number(q.directory)).put("units", std::move(units)));
     }
-    return V::object()
-        .put("path", V::string(input.path))
-        .put("expected_source", input.expected_source)
-        .put("volume_offset", number(input.volume_offset))
-        .put("volume_bytes", number(input.volume_bytes))
-        .put("fat_copy", number(input.fat_copy))
-        .put("name_code_page", number(input.name_code_page))
-        .put("allocation_scan", V::boolean_value(input.allocation_scan))
-        .put("auxiliary_checks", V::boolean_value(input.auxiliary_checks))
-        .put("limits", limit_value(input.limits))
-        .put("queries", std::move(queries))
-        .put("namespace_limits",
-             V::object()
-                 .put("comparisons", number(input.namespace_limits.comparisons))
-                 .put("findings", number(input.namespace_limits.findings))
-                 .put("output_bytes", number(input.namespace_limits.output_bytes)))
-        .put("fixture", input.fixture);
+    auto value = V::object()
+                     .put("path", V::string(input.path))
+                     .put("expected_source", input.expected_source)
+                     .put("volume_offset", number(input.volume_offset))
+                     .put("volume_bytes", number(input.volume_bytes))
+                     .put("fat_copy", number(input.fat_copy))
+                     .put("name_code_page", number(input.name_code_page))
+                     .put("allocation_scan", V::boolean_value(input.allocation_scan))
+                     .put("auxiliary_checks", V::boolean_value(input.auxiliary_checks))
+                     .put("limits", limit_value(input.limits))
+                     .put("queries", std::move(queries))
+                     .put("namespace_limits",
+                          V::object()
+                              .put("comparisons", number(input.namespace_limits.comparisons))
+                              .put("findings", number(input.namespace_limits.findings))
+                              .put("output_bytes", number(input.namespace_limits.output_bytes)))
+                     .put("fixture", input.fixture);
+    if (input.allocation_window.clusters)
+        value.put("allocation_window",
+                  V::object()
+                      .put("first_cluster", number(input.allocation_window.first_cluster))
+                      .put("clusters", number(input.allocation_window.clusters)));
+    return value;
 }
 FatSnapshotInput fat_snapshot_input_from(const V &header) {
     FatSnapshotInput input;
@@ -239,7 +246,7 @@ FatSnapshotInput fat_snapshot_input_from(const V &header) {
         std::set<std::string>{"path",     "expected_source", "volume_offset",    "volume_bytes",
                               "fat_copy", "name_code_page",  "allocation_scan",  "auxiliary_checks",
                               "limits",   "queries",         "namespace_limits", "fixture"};
-    for (const auto key : {"startup_fault", "reply_fault"})
+    for (const auto key : {"startup_fault", "reply_fault", "allocation_window"})
         if (v.find(key))
             keys.insert(key);
     exact(v, keys);
@@ -253,6 +260,14 @@ FatSnapshotInput fat_snapshot_input_from(const V &header) {
     input.fat_copy = static_cast<std::uint32_t>(copy);
     input.name_code_page = static_cast<std::uint32_t>(page);
     input.allocation_scan = boolean(v, "allocation_scan");
+    if (const auto *window = v.find("allocation_window")) {
+        exact(*window, {"first_cluster", "clusters"});
+        const auto first = integer(*window, "first_cluster"), count = integer(*window, "clusters");
+        if (first < 2 || first > 268435446 || !count || count > 8192)
+            throw std::invalid_argument("fat_allocation_window_input");
+        input.allocation_window = {static_cast<std::uint32_t>(first),
+                                   static_cast<std::uint32_t>(count)};
+    }
     input.auxiliary_checks = boolean(v, "auxiliary_checks");
     input.fixture = field(v, "fixture");
     const auto &limits = field(v, "limits");
@@ -325,7 +340,8 @@ V read_fat_snapshot_frame(const FatSnapshotInput &input, const std::function<boo
     auto captured = capture_fat_file_owned(
         input.path, input.volume_offset, input.volume_bytes, input.fat_copy, input.limits,
         input.allocation_scan, input.auxiliary_checks, input.name_code_page ? &consumer : nullptr,
-        input.queries, input.namespace_limits, &input.expected_source, stop);
+        input.queries, input.namespace_limits, &input.expected_source, stop,
+        input.allocation_window);
     auto regions = V::array();
     for (const auto &r : captured.regions)
         regions.items.push_back(V::object()
@@ -471,6 +487,8 @@ V verify_fat_snapshot_frame(const V &frame, const FatSnapshotInput &input) {
     if (input.name_code_page && !stable)
         withdraw_fat_namespace_applicability(reconstructed.fields.at("namespace"),
                                              "file_recapture_not_applicable");
+    if (!stable && reconstructed.find("allocation_window"))
+        withdraw_fat_allocation_window_applicability(reconstructed.fields.at("allocation_window"));
     if (!same(reconstructed, observation))
         throw std::invalid_argument("fat_snapshot_reconstruction");
     return result;
