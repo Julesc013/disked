@@ -165,3 +165,10 @@ The DE-W024 initial ordinary-local-raw-file command profile is owned by
 [DE-102](../operations/map-verify.md). `image.inspect` and `table.verify` share
 explicit path/unit parameters and captured-region findings; prototype admission
 does not qualify whole-image verification, physical storage or image containers.
+
+DE-W038's [FAT command profile](../catalog/fat-command-prototype.json) extends
+image.inspect with explicit view/window/codec/lookup controls. The separate
+command-image-inspect parameter schema owns conditional required/inapplicable
+fields and mode-selected forms. table.verify keeps command-image-path parameters.
+Map defaults and public command identities stay unchanged; admission depends on
+actual native/frontend evidence, not this proposed registry update.

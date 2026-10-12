@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-image-inspect-parameters:1",
+  "title": "command-image-inspect-parameters",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "logical_block_bytes": {
+      "type": "string",
+      "enum": [
+        "512",
+        "4096"
+      ]
+    },
+    "view": {
+      "type": "string",
+      "enum": [
+        "map",
+        "fat"
+      ]
+    },
+    "volume_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64"
+    },
+    "volume_bytes": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,19}$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64"
+    },
+    "fat_copy": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64"
+    },
+    "allocation_scan": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "auxiliary_checks": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "name_code_page": {
+      "type": "string",
+      "enum": [
+        "437",
+        "850",
+        "932"
+      ]
+    },
+    "lookup": {
+      "type": "object",
+      "properties": {
+        "directory": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64"
+        },
+        "names": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "pattern": "^[^\\u0000]+$"
+          }
+        }
+      },
+      "required": [
+        "directory",
+        "names"
+      ],
+      "additionalProperties": false,
+      "x-disked-byte-budget": 16384,
+      "x-disked-value-budget": 64,
+      "x-disked-depth-budget": 4,
+      "x-disked-string-budget": 2048
+    }
+  },
+  "required": [
+    "path"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "map"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "fat"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "lookup"
+        ]
+      },
+      "then": {
+        "required": [
+          "name_code_page"
+        ]
+      }
+    }
+  ],
+  "x-disked-form-discriminator": "view",
+  "x-disked-form-default": "map"
+}

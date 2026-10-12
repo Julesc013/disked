@@ -25,6 +25,7 @@
 - [command-fake-simulation-parameters.schema.json](command-fake-simulation-parameters.schema.json)
 - [command-gpt-repair-parameters.schema.json](command-gpt-repair-parameters.schema.json)
 - [command-health-parameters.schema.json](command-health-parameters.schema.json)
+- [command-image-inspect-parameters.schema.json](command-image-inspect-parameters.schema.json)
 - [command-image-path-parameters.schema.json](command-image-path-parameters.schema.json)
 - [command-operation-parameters.schema.json](command-operation-parameters.schema.json)
 - [command-resize-proposal-parameters.schema.json](command-resize-proposal-parameters.schema.json)

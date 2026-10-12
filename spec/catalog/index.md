@@ -22,6 +22,7 @@
 - [fat-allocation-scan-prototype.json](fat-allocation-scan-prototype.json)
 - [fat-auxiliary-prototype.json](fat-auxiliary-prototype.json)
 - [fat-capture-prototype.json](fat-capture-prototype.json)
+- [fat-command-prototype.json](fat-command-prototype.json)
 - [fat-directory-prototype.json](fat-directory-prototype.json)
 - [fat-namespace-prototype.json](fat-namespace-prototype.json)
 - [fat-reader-prototype.json](fat-reader-prototype.json)

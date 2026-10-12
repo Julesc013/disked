@@ -210,12 +210,13 @@
       "spec_ids": [
         "DE-023",
         "DE-032",
+        "DE-037",
         "DE-102"
       ],
       "handler": null,
       "summary": "Inspect image without mounting it",
       "syntax_status": "defined",
-      "parameter_schema": "urn:disked:schema:command-image-path-parameters:1",
+      "parameter_schema": "urn:disked:schema:command-image-inspect-parameters:1",
       "argument_bindings": [
         {
           "parameter": "path",
@@ -225,6 +226,70 @@
         {
           "parameter": "logical_block_bytes",
           "option": "--logical-block-bytes",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "view",
+          "option": "--view",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "volume_offset",
+          "option": "--volume-offset",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "volume_bytes",
+          "option": "--volume-bytes",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "fat_copy",
+          "option": "--fat-copy",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "allocation_scan",
+          "option": "--allocation-scan",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "auxiliary_checks",
+          "option": "--auxiliary-checks",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "name_code_page",
+          "option": "--name-code-page",
+          "option_aliases": [],
+          "repeatable": false,
+          "completion": "none",
+          "value_arity": 1
+        },
+        {
+          "parameter": "lookup",
+          "option": "--lookup-json",
           "option_aliases": [],
           "repeatable": false,
           "completion": "none",

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.8-proposed.2
+  version: 0.1.9-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -175,3 +175,12 @@ The contained reader slice is implementer-reviewed at `56effc8f`, with 109 cases
 independent region reconstruction do not admit public consumers or storage effects.
 Shared commands/frontends, larger coverage, extraction, additional hosts and
 owner/full all-platform/storage 0.1.0 qualification remain open.
+
+## DE-W038 shared FAT image inspection
+
+The [command profile](../catalog/fat-command-prototype.json) adds explicit byte-window
+FAT inspection to the existing image.inspect identity. Map mode remains the default.
+Canonical mode-specific controls and prototype results separate full observations,
+coverage, display omissions, model outcomes and actual process/source context.
+Qualification requires real CLI/stdio/GUI/TUI/shell evidence. This contract alone
+admits no source effects, public storage ABI, additional platform or full 0.1.0.

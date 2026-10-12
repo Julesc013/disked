@@ -4033,6 +4033,129 @@
         "tests/images/test_fat_worker.py",
         ".aide/evidence/2026-10-13-fat-worker/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W038",
+      "title": "Expose contained FAT image inspection through shared frontends",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W024",
+        "DE-W037"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Canonical explicit FAT image-inspection controls and bounded lossless/provenance result projection.",
+        "Actual owned reader in the native composition, through shared CLI/stdio/GUI/TUI/shell flows.",
+        "Independent source preservation/diagnostic/coverage/lookup/wait/native build evidence."
+      ],
+      "acceptance": [
+        "Existing map/table/GPT behaviours stay compatible; invalid/help/discovery perform no source access.",
+        "Actual worker/file/process/coverage facts remain separate from model applicability, display omissions and authority.",
+        "All frontends share validated controls and outcomes; review is inert, timeouts retain uncertain slots and caller state is restored.",
+        "No source writes/mount/physical/elevation/install/release or full-platform/storage completion claim."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "CMakeLists.txt",
+        "docs/source-map.md",
+        "source/apps/disked/cli.cpp",
+        "source/apps/disked/cli/cli.cpp",
+        "source/platform/windows/entry.cpp",
+        "source/platform/windows/file_names.cpp",
+        "source/platform/windows/file_names.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/storage/fat_worker.cpp",
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/fat_snapshot.cpp",
+        "source/providers/image/fat_snapshot.h",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/fat_namespace.cpp",
+        "source/runtime/capture/fat_namespace.h",
+        "source/runtime/capture/image_commands.cpp",
+        "source/runtime/capture/image_commands.h",
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/region_reader.h",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/presentation/session.cpp",
+        "spec/catalog/commands.json",
+        "spec/catalog/fat-allocation-scan-prototype.json",
+        "spec/catalog/fat-auxiliary-prototype.json",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-command-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-namespace-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "spec/catalog/fat-worker-prototype.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/catalog/nt-owned-layout-prototype.json",
+        "spec/schemas/command-image-inspect-parameters.schema.json",
+        "tests/frontend/gui_fixture.py",
+        "tests/frontend/image_console_fixture.py",
+        "tests/frontend/test_image_commands.py",
+        "tests/images/fat_worker_probe.cpp",
+        "tests/images/test_fat_allocation_scan.py",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_namespace.py",
+        "tests/images/test_fat_worker.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }
