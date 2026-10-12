@@ -1,0 +1,15 @@
+existing-status exit 0
+origin exit 0
+fetch exit 0
+checkout exit 0
+source-status exit 0
+blob-0 exit 0
+blob-1 exit 0
+blob-2 exit 0
+owned-process exit 0
+joined-product exit 0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\qualify-report-exit-diagnostics.py", line 18, in <module>
+    run('joined-product',[sys.executable,checkout/'tests/frontend/test_product_export.py','--product',paths['product'],'--fault',paths['fault'],'--probe',paths['probe'],'--root',checkout,'--joined','--evidence',out/'joined-product.json']);joined=json.loads((out/'joined-product.json').read_bytes());assert joined['passed'] and joined['checks']==281 and joined['source_revision']==source and not joined['source_dirty']
+                                                                                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

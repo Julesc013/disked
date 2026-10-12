@@ -290,3 +290,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] Diagnose the retained parallel frontend.joined_report reader-exit delay;
   retain the exact 3000-ms wait and require actual process exit independently of
   receipts. Keep full 0.1.0 scope and all owner/storage/platform/release gates.
+
+- [x] Private report exit-wait diagnostics `b5d6ddfc`:18 owned-process and286 joined-export checks,213toolpasses/twoskips/1075structure. Exact unchanged3000ms/raw result/timing/identity guards; native producer remains `f7b4376f`. Original parallel cause remains unknown; partial evidence in `.aide/evidence/2026-10-12-report-exit-diagnostics/`.
