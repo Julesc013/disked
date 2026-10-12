@@ -21,8 +21,8 @@ std::string hash(const std::string& s) {return hash(Bytes(s.begin(),s.end()));}
 std::string token(HANDLE h,bool directory=false) {return hash(json::dump(local_file::generation(h,directory)));}
 std::uint64_t size(HANDLE h) {LARGE_INTEGER n{};require(GetFileSizeEx(h,&n) && n.QuadPart>=0,"fixture_file_size");return static_cast<std::uint64_t>(n.QuadPart);}
 void seek(HANDLE h,std::uint64_t offset) {require(offset<=8388608,"fixture_io_extent");LARGE_INTEGER position{};position.QuadPart=static_cast<LONGLONG>(offset);require(SetFilePointerEx(h,position,nullptr,FILE_BEGIN)!=FALSE,"fixture_seek");}
-Handle open(const std::wstring& path,bool create,bool directory=false) {
-    Handle h(CreateFileW(path.c_str(),directory || !create?GENERIC_READ:GENERIC_READ|GENERIC_WRITE,
+Handle open(const std::wstring& path,bool create,bool directory=false,bool writable_existing=false) {
+    Handle h(CreateFileW(path.c_str(),directory || (!create && !writable_existing)?GENERIC_READ:GENERIC_READ|GENERIC_WRITE,
         directory?FILE_SHARE_READ:0,nullptr,create?CREATE_NEW:OPEN_EXISTING,
         FILE_FLAG_OPEN_REPARSE_POINT|(directory?FILE_FLAG_BACKUP_SEMANTICS:FILE_FLAG_RANDOM_ACCESS),nullptr));
     require(h.value!=INVALID_HANDLE_VALUE,"fixture_open");local_file::ordinary(h.value,directory);local_file::bind_path(h.value,path);return h;
@@ -43,8 +43,8 @@ void fault_shape(const Fault& f) {
 }
 }
 struct GptFiles::Impl {
-    std::wstring directory;std::vector<Handle> parents;V parent_generations;Handle root,image,backup,journal;V metadata,trace=V::array();
-    std::map<std::string,std::size_t> calls;Fault fault;bool fired=false,readonly=false;std::uint64_t image_bytes=0;
+    std::wstring directory,recovery_name;std::vector<Handle> parents;V parent_generations;Handle root,image,backup,journal,recovery_journal;V metadata,store,trace=V::array();
+    std::map<std::string,std::size_t> calls;Fault fault;bool fired=false,readonly=false,restoring=false;std::uint64_t image_bytes=0;
     Impl(const Fault& f):fault(f) {fault_shape(f);}
     std::wstring path(const wchar_t* name) const {return directory+L"\\"+name;}
     void check(bool check_size=true) {
@@ -53,6 +53,7 @@ struct GptFiles::Impl {
         const std::vector<std::pair<HANDLE,const wchar_t*>> files{{image.value,L"image.bin"},{backup.value,L"backup.bin"},{journal.value,L"journal.bin"}};const char* names[]={"image_identity","backup_identity","journal_identity"};
         for(std::size_t i=0;i<files.size();++i) {local_file::ordinary(files[i].first,false);local_file::bind_path(files[i].first,path(files[i].second));require(token(files[i].first)==text(metadata,names[i]),"fixture_file_changed");}
         if(check_size)require(size(image.value)==image_bytes,"fixture_image_size_changed");
+        if(restoring) {local_file::ordinary(recovery_journal.value,false);local_file::bind_path(recovery_journal.value,directory+L"\\"+recovery_name);require(token(recovery_journal.value)==text(store,"identity"),"fixture_restoration_store_changed");}
     }
     std::string begin(const std::string& operation,std::uint64_t offset,std::size_t count,bool setup=false) {
         check(!setup);const auto stage=operation+"."+std::to_string(++calls[operation]);require(trace.items.size()<2048,"fixture_trace_budget");
@@ -116,6 +117,16 @@ std::unique_ptr<GptFiles> GptFiles::reopen_readonly(const V& expected,const Faul
     owned->image=open(owned->path(L"image.bin"),false);owned->backup=open(owned->path(L"backup.bin"),false);owned->journal=open(owned->path(L"journal.bin"),false);owned->check();
     require(text(expected,"executor_digest")==executable_digest(),"fixture_executor_generation");return std::unique_ptr<GptFiles>(new GptFiles(std::move(owned)));
 }
+std::unique_ptr<GptFiles> GptFiles::reopen_for_restoration(const V& expected,const std::string& name,const Fault& fault) {
+    require(name.size()==45 && name.compare(0,9,"recovery-")==0 && name.compare(41,4,".bin")==0 && name.substr(9,32).find_first_not_of("0123456789abcdef")==std::string::npos,"fixture_restoration_name");
+    auto files=reopen_readonly(expected,fault);auto& owned=*files->impl_;
+    owned.image=Handle();owned.image=open(owned.path(L"image.bin"),false,false,true);owned.check();
+    owned.recovery_name=std::wstring(name.begin(),name.end());const auto path=local_file::path_for(local_file::utf8(owned.directory)+"\\"+name);owned.recovery_journal=open(path,true);
+    const auto id=token(owned.recovery_journal.value);for(const auto key:{"root_identity","image_identity","backup_identity","journal_identity"})require(id!=text(expected,key),"fixture_restoration_alias");
+    const auto epoch=created_time();const auto publisher=hash(std::to_string(GetCurrentProcessId())+":"+std::to_string(epoch)+":"+id);
+    owned.store=V::object().put("schema",V::string("org.disked.gpt-restoration-store/1")).put("name",V::string(name)).put("identity",V::string(id)).put("publisher_identity",V::string(publisher.substr(7,32))).put("publisher_epoch",exact(epoch)).put("executor_digest",*expected.find("executor_digest")).put("storage_independent",V::boolean_value(false));
+    owned.readonly=false;owned.restoring=true;owned.check();return files;
+}
 const V& GptFiles::manifest() const {return impl_->metadata;}
 V GptFiles::events() const {return impl_->trace;}
 bool GptFiles::fault_fired() const {return impl_->fired;}
@@ -124,9 +135,11 @@ Bytes GptFiles::read_image(std::uint64_t offset,std::size_t count) {require(offs
 void GptFiles::write_image(std::uint64_t offset,const Bytes& value) {require(offset<=impl_->image_bytes && value.size()<=impl_->image_bytes-offset,"fixture_image_extent");impl_->write(impl_->image.value,"image",offset,value);}
 void GptFiles::flush_image() {impl_->flush(impl_->image.value,"image");}
 Bytes GptFiles::read_backup() {const auto count=size(impl_->backup.value);require(count<=2117632,"fixture_backup_budget");return impl_->read(impl_->backup.value,"backup",0,static_cast<std::size_t>(count));}
-void GptFiles::write_backup(const Bytes& value) {require(value.size()<=2117632 && size(impl_->backup.value)==0,"fixture_backup_not_empty");impl_->write(impl_->backup.value,"backup",0,value);}
-void GptFiles::flush_backup() {impl_->flush(impl_->backup.value,"backup");}
-Bytes GptFiles::read_journal() {const auto count=size(impl_->journal.value);require(count<=1048576,"fixture_journal_budget");return impl_->read(impl_->journal.value,"journal",0,static_cast<std::size_t>(count));}
-void GptFiles::append_journal(const Bytes& value) {const auto count=size(impl_->journal.value);require(count<=1048576 && value.size()<=1048576-count,"fixture_journal_budget");impl_->write(impl_->journal.value,"journal",count,value);}
-void GptFiles::flush_journal() {impl_->flush(impl_->journal.value,"journal");}
+void GptFiles::write_backup(const Bytes& value) {require(!impl_->restoring,"fixture_backup_read_only");require(value.size()<=2117632 && size(impl_->backup.value)==0,"fixture_backup_not_empty");impl_->write(impl_->backup.value,"backup",0,value);}
+void GptFiles::flush_backup() {require(!impl_->restoring,"fixture_backup_read_only");impl_->flush(impl_->backup.value,"backup");}
+Bytes GptFiles::read_journal() {const auto h=impl_->restoring?impl_->recovery_journal.value:impl_->journal.value;const auto count=size(h);require(count<=1048576,"fixture_journal_budget");return impl_->read(h,impl_->restoring?"recovery":"journal",0,static_cast<std::size_t>(count));}
+void GptFiles::append_journal(const Bytes& value) {const auto h=impl_->restoring?impl_->recovery_journal.value:impl_->journal.value;const auto count=size(h);require(count<=1048576 && value.size()<=1048576-count,"fixture_journal_budget");impl_->write(h,impl_->restoring?"recovery":"journal",count,value);}
+void GptFiles::flush_journal() {impl_->flush(impl_->restoring?impl_->recovery_journal.value:impl_->journal.value,impl_->restoring?"recovery":"journal");}
+const V& GptFiles::restoration_store() const {require(impl_->restoring,"fixture_not_restoration");return impl_->store;}
+Bytes GptFiles::read_original_journal() {const auto count=size(impl_->journal.value);require(count<=1048576,"fixture_journal_budget");return impl_->read(impl_->journal.value,"journal",0,static_cast<std::size_t>(count));}
 }}}

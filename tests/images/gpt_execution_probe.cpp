@@ -23,8 +23,8 @@ void emit(const V& value) {disked::json::Limits limits;limits.bytes=262144;limit
 int main(int argc,char** argv) {
     try {
         require(argc==1 || (argc==3 && std::string(argv[1])=="--fixture-parent"));const auto input=line();require(input.kind==V::Kind::object);
-        const auto phase=text(input,"phase"),unit=text(input,"logical_block_bytes"),source=text(input,"authoritative_copy");require(phase=="create" || phase=="inspect");require(unit=="512" || unit=="4096");require(source=="primary" || source=="backup");
-        for(const auto& item:input.fields)require(item.first=="phase" || item.first=="logical_block_bytes" || item.first=="authoritative_copy" || item.first=="image_hex" || item.first=="expected_capture_digest" || item.first=="expected_plan_digest" || item.first=="selection_decision_digest" || item.first=="fault" || (phase=="inspect" && (item.first=="manifest" || item.first=="review" || item.first=="grant")));
+        const auto phase=text(input,"phase"),unit=text(input,"logical_block_bytes"),source=text(input,"authoritative_copy");require(phase=="create" || phase=="inspect" || phase=="restore");require(unit=="512" || unit=="4096");require(source=="primary" || source=="backup");
+        for(const auto& item:input.fields)require(item.first=="phase" || item.first=="logical_block_bytes" || item.first=="authoritative_copy" || item.first=="image_hex" || item.first=="expected_capture_digest" || item.first=="expected_plan_digest" || item.first=="selection_decision_digest" || item.first=="fault" || ((phase=="inspect" || phase=="restore") && (item.first=="manifest" || item.first=="review" || item.first=="grant")) || (phase=="restore" && item.first=="attempt_id"));
         const auto image=unhex(text(input,"image_hex"));const std::uint32_t block_bytes=unit=="4096"?4096:512;require(!image.empty() && image.size()%block_bytes==0,"fixture_probe_geometry");
         auto basis=disked::capture_gpt_regions("image:gpt-fixture",1,image.size()/block_bytes,block_bytes,[&image](const de_byte_extent& extent) {
             const auto start=native(extent.start),end=native(extent.end);if(start>=image.size())return de_view{nullptr,0};return de_view{image.data()+static_cast<std::size_t>(start),static_cast<std::size_t>(std::min<std::uint64_t>(end,image.size())-start)};
@@ -32,6 +32,16 @@ int main(int argc,char** argv) {
         p::GptRepairSelection selection;selection.source=source=="primary"?p::GptCopy::primary:p::GptCopy::backup;
         if(const auto x=input.find("selection_decision_digest")) {require(x->kind==V::Kind::string);selection.decision_digest=x->text;}
         e::GptFixtureExecution execution(basis,text(input,"expected_capture_digest"),selection);require(execution.plan().digest()==text(input,"expected_plan_digest"),"fixture_probe_plan_binding");
+        if(phase=="restore") {
+            require(argc==1);execution.prepare(field(input,"manifest"));auto readonly=f::GptFiles::reopen_readonly(field(input,"manifest"));
+            disked::recovery::proposal::GptFixtureRestoration restoration(execution,image,*readonly,field(input,"review"),field(input,"grant"),text(input,"attempt_id"));auto prepared=restoration.prepare();prepared.put("events",readonly->events());emit(prepared);readonly.reset();
+            const auto instruction=line();require(instruction.kind==V::Kind::object && instruction.fields.size()==3 && text(instruction,"phase")=="restore-execute");restoration.validate_grant(field(instruction,"review"),field(instruction,"grant"));
+            auto files=f::GptFiles::reopen_for_restoration(restoration.original_manifest(),restoration.journal_name(),fault(input));
+            // The new store is visible before effect dispatch for crash evidence.
+            emit(V::object().put("phase",V::string("restoration_store")).put("store",files->restoration_store()));
+            const auto result=restoration.execute(*files,field(instruction,"review"),field(instruction,"grant"));emit(V::object().put("phase",V::string("restoration_finished")).put("restoration",result).put("events",files->events()).put("fault_fired",V::boolean_value(files->fault_fired())));
+            const auto status=text(result,"status");return status=="unresolved"?6:status=="refused"?3:0;
+        }
         if(phase=="inspect") {
             require(argc==1);execution.prepare(field(input,"manifest"));auto files=f::GptFiles::reopen_readonly(field(input,"manifest"),fault(input));auto result=execution.inspect(*files,field(input,"review"),field(input,"grant"));emit(V::object().put("phase",V::string("inspected")).put("inspection",result).put("events",files->events()).put("fault_fired",V::boolean_value(files->fault_fired())));return 0;
         }

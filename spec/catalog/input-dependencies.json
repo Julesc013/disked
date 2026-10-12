@@ -9131,7 +9131,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "source/runtime/operation/gpt_execution.h"
+        "source/runtime/operation/gpt_execution.h",
+        "source/runtime/recovery/gpt_restoration.h"
       ],
       "spec_ids": [
         "DE-104",
@@ -9208,6 +9209,60 @@
       ],
       "spec_ids": [
         "DE-043"
+      ]
+    },
+    {
+      "id": "source/runtime/recovery/gpt_restoration.h",
+      "path": "source/runtime/recovery/gpt_restoration.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/operation/gpt_execution.h"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "source/runtime/recovery/gpt_restoration.cpp",
+      "path": "source/runtime/recovery/gpt_restoration.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/recovery/gpt_restoration.h"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": "tests/recovery/test_gpt_restoration.py",
+      "path": "tests/recovery/test_gpt_restoration.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/test_gpt_execution.py",
+        "tests/images/gpt_execution_probe.cpp",
+        "tests/property/test_gpt.py"
+      ],
+      "spec_ids": [
+        "DE-043"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-gpt-restoration/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-gpt-restoration/reproduce.py",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/recovery/test_gpt_restoration.py",
+        "tests/images/test_gpt_execution.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-043",
+        "DE-104"
       ]
     }
   ]

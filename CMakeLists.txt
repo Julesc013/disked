@@ -136,9 +136,15 @@ target_link_libraries(disked_gpt_fixture_execution PUBLIC disked_gpt_repair_plan
 set_target_properties(disked_gpt_fixture_execution PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_gpt_fixture_execution PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+add_library(disked_gpt_fixture_restoration STATIC source/runtime/recovery/gpt_restoration.cpp)
+target_include_directories(disked_gpt_fixture_restoration PUBLIC source/runtime/recovery)
+target_link_libraries(disked_gpt_fixture_restoration PUBLIC disked_gpt_fixture_execution)
+set_target_properties(disked_gpt_fixture_restoration PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_gpt_fixture_restoration PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 add_library(disked_gpt_fixture_files STATIC source/providers/image/fixture_repair.cpp)
 target_include_directories(disked_gpt_fixture_files PUBLIC source/providers/image)
-target_link_libraries(disked_gpt_fixture_files PUBLIC disked_gpt_fixture_execution disked_local_file)
+target_link_libraries(disked_gpt_fixture_files PUBLIC disked_gpt_fixture_restoration disked_local_file)
 target_compile_definitions(disked_gpt_fixture_files PRIVATE _WIN32_WINNT=0x0A00 DISKED_GPT_OWNED_FIXTURE=1)
 set_target_properties(disked_gpt_fixture_files PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_gpt_fixture_files PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -600,6 +606,9 @@ if(BUILD_TESTING)
   add_test(NAME image.gpt_fixture_execution COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_gpt_execution.py"
     --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.gpt_fixture_execution PROPERTIES TIMEOUT 300)
+  add_test(NAME image.gpt_fixture_restoration COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery/test_gpt_restoration.py"
+    --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(image.gpt_fixture_restoration PROPERTIES TIMEOUT 300)
   add_executable(image_file_capture_probe tests/frontend/image_file_capture_probe.cpp)
   target_link_libraries(image_file_capture_probe PRIVATE disked_image_capture)
   set_target_properties(image_file_capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
