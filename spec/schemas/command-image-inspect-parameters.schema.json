@@ -98,6 +98,36 @@
       "x-disked-value-budget": 64,
       "x-disked-depth-budget": 4,
       "x-disked-string-budget": 2048
+    },
+    "allocation_window": {
+      "type": "object",
+      "properties": {
+        "first_cluster": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 2,
+          "x-disked-maximum": 268435446
+        },
+        "clusters": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 8192
+        }
+      },
+      "required": [
+        "first_cluster",
+        "clusters"
+      ],
+      "additionalProperties": false,
+      "x-disked-byte-budget": 256,
+      "x-disked-value-budget": 8,
+      "x-disked-depth-budget": 3,
+      "x-disked-string-budget": 20
     }
   },
   "required": [
@@ -121,7 +151,8 @@
           "allocation_scan": false,
           "auxiliary_checks": false,
           "name_code_page": false,
-          "lookup": false
+          "lookup": false,
+          "allocation_window": false
         }
       }
     },
@@ -156,6 +187,22 @@
         "required": [
           "name_code_page"
         ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "allocation_window"
+        ]
+      },
+      "then": {
+        "properties": {
+          "allocation_scan": {
+            "enum": [
+              "no"
+            ]
+          }
+        }
       }
     }
   ],

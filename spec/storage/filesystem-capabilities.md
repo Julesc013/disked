@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.9-proposed.2
+  version: 0.1.10-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T22:22:57.435572+00:00'
-  scope: DE-W038 source-bound shared FAT inspection; full platform-storage, owner and release gates remain open
+  at: '2026-10-12T22:35:40.593701+00:00'
+  scope: DE-W039 explicit allocation-window contract; implementation qualification pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -186,3 +186,10 @@ Qualification requires real CLI/stdio/GUI/TUI/shell evidence. This contract alon
 admits no source effects, public storage ABI, additional platform or full 0.1.0.
 
 DE-W038 shared FAT image commands at `57cfd113` have 62 focused cases, 97 native groups and 17 independent headers. Explicit window/lookup/model controls, captures and omitted-detail bindings are shared across five frontends. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Larger coverage, retained capture retrieval, extraction, mounted consumers and further hosts/storage/recovery remain open.
+
+DE-W039 defines explicit bounded allocation windows in
+`catalog/fat-allocation-window-prototype.json`. Requested interval and complete
+volume coverage are distinct. A partial interval cannot qualify global allocation,
+FSInfo free-count agreement, filesystem health or source snapshot. Existing
+default global scan and source/process/wire budgets remain unchanged. Native
+implementation and evidence are pending.

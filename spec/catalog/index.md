@@ -20,6 +20,7 @@
 - [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
 - [fat-allocation-scan-prototype.json](fat-allocation-scan-prototype.json)
+- [fat-allocation-window-prototype.json](fat-allocation-window-prototype.json)
 - [fat-auxiliary-prototype.json](fat-auxiliary-prototype.json)
 - [fat-capture-prototype.json](fat-capture-prototype.json)
 - [fat-command-prototype.json](fat-command-prototype.json)
