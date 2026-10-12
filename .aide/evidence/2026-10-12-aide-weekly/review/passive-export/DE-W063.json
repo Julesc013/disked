@@ -1,0 +1,110 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W063",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W063",
+    "title": "Implement and qualify publication completeness tooling",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W010"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "tools/release/**",
+        "tests/artifacts/**",
+        "release/**",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "CMakeLists.txt",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        "tools/build-inputs.json"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/artifacts/test_artifact_check.py",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "ctest --preset windows-bootstrap -R '^(artifacts.archive_completeness|disked.invocation|disked.acceptance|provider_guard.positive_control)$'",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "Reject valid-but-empty, missing/extra/duplicate/case-colliding/traversal and changed-byte artifacts.",
+      "No archive code is executed by verification; publication and authenticity remain separate."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W090",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W090",
+    "title": "Ratify licensing and prepare read-only release criteria",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W031",
+      "DE-W034",
+      "DE-W063"
+    ],
+    "dependencies": [
+      "DE-DEC-001"
+    ],
+    "scope": {
+      "allowed_paths": [
+        "LICENSES/**",
+        "NOTICE*",
+        "release/**",
+        "docs/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "No false Microsoft/Sysinternals endorsement.",
+      "Actual target evidence accompanies support claims.",
+      "Portable read-only release has no mandatory Setup dependency; any claimed managed channel additionally needs DE-W060/062 acceptance and its exact ownership/carrier evidence."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

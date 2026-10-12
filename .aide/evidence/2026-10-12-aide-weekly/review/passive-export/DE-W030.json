@@ -1,0 +1,197 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W030",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W030",
+    "title": "Implement native NT read-only inventory",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W023",
+      "DE-W024",
+      "DE-W017"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/providers/windows/**",
+        "source/platform/windows/storage/**",
+        "tests/windows/**",
+        "spec/**",
+        "docs/windows-inventory.md",
+        "docs/development-plan.md",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "source/runtime/graph/**",
+        "tests/resilience/**",
+        "source/runtime/presentation/session.cpp",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "tools/check-source-map.py",
+        "docs/source-map.md",
+        "docs/architecture.md",
+        "docs/index.md",
+        "source/apps/disked/app.cpp",
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/**",
+        "source/apps/disked/tui/tui_model.cpp",
+        "source/apps/disked/tui/tui_model.h",
+        "source/apps/disked/gui/gui_model.cpp",
+        "source/apps/disked/gui/gui_model.h",
+        "source/apps/disked/shell/shell_model.h",
+        "source/platform/windows/entry.cpp",
+        "source/platform/windows/console/terminal.h",
+        "tests/frontend/tui_probe.cpp",
+        "source/runtime/presentation/session.h",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/runtime/capture/raw_layout.h",
+        "source/runtime/capture/raw_layout.cpp",
+        "source/providers/image/file_layout.h",
+        "source/providers/image/file_layout.cpp",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/console/terminal.cpp",
+        "source/platform/windows/ui/gui.h"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_volume_namespace.py --probe PRIVATE_BUILD/nt_volume_namespace_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_namespace_worker.py --probe PRIVATE_BUILD/nt_namespace_worker_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_capture_lifecycle.py --probe PRIVATE_BUILD/nt_capture_lifecycle_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_namespace_graph.py --probe PRIVATE_BUILD/nt_namespace_graph_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_storage_queries.py --probe PRIVATE_BUILD/nt_storage_query_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_storage_worker.py --probe PRIVATE_BUILD/nt_storage_worker_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_observation_frontend.py --probe PRIVATE_BUILD/nt_observation_frontend_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_identity_queries.py --probe PRIVATE_BUILD/nt_identity_query_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_identity_frame.py --probe PRIVATE_BUILD/nt_identity_frame_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_identity_observation.py --probe PRIVATE_BUILD/nt_identity_observation_probe.exe --metadata-probe PRIVATE_BUILD/nt_identity_profile_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_capture_domain_limit.py --probe PRIVATE_BUILD/nt_capture_domain_limit_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_identity_projection.py --probe PRIVATE_BUILD/nt_identity_projection_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_identity_adapter.py --probe PRIVATE_BUILD/nt_identity_adapter_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_inventory_port.py --probe PRIVATE_BUILD/nt_inventory_port_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_inventory_frontend.py --probe PRIVATE_BUILD/nt_inventory_frontend_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/windows/test_inventory_advance.py --probe PRIVATE_BUILD/nt_inventory_advance_probe.exe --output NEW_EVIDENCE --pointer-bytes 4_OR_8",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "XP and modern import floors audited.",
+      "No deep test or elevation triggered by bare startup.",
+      "Duplicate identity and removal cases retained."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

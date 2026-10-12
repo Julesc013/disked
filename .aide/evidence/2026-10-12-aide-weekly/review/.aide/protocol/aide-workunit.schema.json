@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "Minimal AIDE WorkUnit queue schema for additive projections from filesystem queue tasks.",
+  "properties": {
+    "apiVersion": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "WorkUnit"
+      ],
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "properties": {
+        "compatibility": {
+          "additionalProperties": true,
+          "properties": {
+            "featureFlags": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "minReaderVersion": {
+              "type": "string"
+            },
+            "minWriterVersion": {
+              "type": "string"
+            },
+            "protocolVersion": {
+              "type": "string"
+            },
+            "requiredCapabilities": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "schemaVersion": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "protocolVersion",
+            "minReaderVersion",
+            "minWriterVersion",
+            "featureFlags"
+          ],
+          "type": "object"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "producer": {
+          "additionalProperties": true,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "version"
+          ],
+          "type": "object"
+        },
+        "sourcePath": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "sourcePath",
+        "producer",
+        "compatibility"
+      ],
+      "type": "object"
+    },
+    "protocol_version": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "spec": {
+      "additionalProperties": true,
+      "properties": {
+        "acceptance_review": {
+          "type": "boolean"
+        },
+        "artifacts": {
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "role"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "authorizes_implementation": {
+          "type": "boolean"
+        },
+        "capability_label": {
+          "type": "string"
+        },
+        "check_only": {
+          "type": "boolean"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "explicit_non_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "implementation_scope": {
+          "type": "string"
+        },
+        "predecessors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "scope": {
+          "additionalProperties": true,
+          "properties": {
+            "allowed_paths": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "forbidden_operations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "forbidden_paths": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "read_only_review_paths": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "allowed_paths",
+            "forbidden_paths"
+          ],
+          "type": "object"
+        },
+        "stop_state": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "validation": {
+          "additionalProperties": true,
+          "properties": {
+            "commands": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "command": {
+                    "type": "string"
+                  },
+                  "exit_code": {
+                    "type": "integer"
+                  },
+                  "notes": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "PASS",
+                      "PASS_WITH_WARNINGS",
+                      "FAILED_VALIDATION",
+                      "BLOCKED",
+                      "PARTIAL",
+                      "UNAVAILABLE",
+                      "NOT_RUN"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "command",
+                  "status"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "commands"
+          ],
+          "type": "object"
+        },
+        "work_type": {
+          "enum": [
+            "build",
+            "check",
+            "harden",
+            "accept",
+            "repair",
+            "unblock",
+            "complete",
+            "unknown"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "title",
+        "work_type",
+        "authorizes_implementation",
+        "check_only",
+        "acceptance_review",
+        "implementation_scope",
+        "stop_state",
+        "predecessors",
+        "dependencies",
+        "scope",
+        "validation",
+        "evidence_requirements",
+        "explicit_non_capabilities"
+      ],
+      "type": "object"
+    },
+    "status": {
+      "additionalProperties": true,
+      "properties": {
+        "phase": {
+          "enum": [
+            "planned",
+            "ready",
+            "running",
+            "needs_review",
+            "passed",
+            "blocked",
+            "partial",
+            "failed",
+            "accepted",
+            "accepted_with_warnings",
+            "implementation_completed",
+            "acceptance_review_completed",
+            "check_completed",
+            "hardening_completed",
+            "repair_completed",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "PASS",
+            "PASS_WITH_WARNINGS",
+            "ACCEPTED",
+            "ACCEPTED_WITH_WARNINGS",
+            "REJECTED_NEEDS_REPAIR",
+            "FAILED_VALIDATION",
+            "BLOCKED",
+            "PARTIAL",
+            "NOT_RUN",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "validated": {
+          "type": "boolean"
+        },
+        "validation_errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "validation_warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "phase",
+        "validated",
+        "validation_errors",
+        "validation_warnings"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec",
+    "status"
+  ],
+  "title": "AIDE WorkUnit Queue V1",
+  "type": "object"
+}

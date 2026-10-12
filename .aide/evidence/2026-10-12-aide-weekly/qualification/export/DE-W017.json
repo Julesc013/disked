@@ -1,0 +1,130 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W017",
+    "createdAt": "2026-10-12T02:40:56.224181+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.92-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W017",
+    "title": "Measure fake-provider resilience and resource bounds",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W014",
+      "DE-W015",
+      "DE-W016",
+      "DE-W019"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/runtime/**",
+        "source/providers/fake/**",
+        "tests/frontend/**",
+        "tests/transport/**",
+        ".aide/evidence/**",
+        "source/apps/disked/**",
+        "source/platform/windows/**",
+        "tests/resilience/**",
+        "tests/operation/**",
+        "tests/interaction/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --build --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "ctest --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/operation/test_worker_directory.py --probe build/windows-bootstrap/Release/worker_directory_probe.exe --root .",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "Unknown cancellation never becomes quiescence or an automatic writer retry.",
+      "Input latency, worker/retry/memory/event ceilings and retained observations have actual logs.",
+      "Guard logical operation, attempt, worker/capture epochs, effect certainty, cancellation and recovery independently; late events never transfer writer ownership.",
+      "Once DE-W019 is implemented, include its shell in frontend semantic/failure transcripts."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W032",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W032",
+    "title": "Add bounded health observations and redaction",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W030"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/providers/health/**",
+        "source/runtime/evidence/**",
+        "tests/health/**",
+        "spec/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/**",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "source/providers/fake/**",
+        "source/runtime/presentation/**",
+        "source/runtime/command/protocol.cpp",
+        "source/apps/disked/app.cpp",
+        "tests/frontend/**",
+        "tests/resilience/capture_campaign.cpp",
+        "tools/build-bootstrap.py",
+        "tests/interaction/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/health/test_health.py --probe build/windows-bootstrap/Release/health_observation_probe.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "ctest --preset windows-bootstrap -R ^health.command$",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "No health oracle implies safe media.",
+      "Deep/self-test actions are not auto-issued."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

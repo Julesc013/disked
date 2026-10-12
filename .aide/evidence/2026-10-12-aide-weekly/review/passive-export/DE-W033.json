@@ -1,0 +1,179 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W033",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W033",
+    "title": "Implement resumable image acquisition against fixtures",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W024",
+      "DE-W020",
+      "DE-W017"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "CMakeLists.txt",
+        "TODO.MD",
+        "docs/**",
+        "source/apps/disked/app.cpp",
+        "source/platform/windows/acquisition_worker.cpp",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/fake_worker.cpp",
+        "source/platform/windows/worker_files.h",
+        "source/providers/image/**",
+        "source/runtime/acquisition/**",
+        "source/runtime/command/command.cpp",
+        "source/runtime/command/command.h",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/operation/watch.cpp",
+        "source/runtime/operation/watch.h",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
+        "spec/bundle.json",
+        "spec/catalog/commands.json",
+        "spec/catalog/input-dependencies.json",
+        "spec/catalog/native-bootstrap.json",
+        "spec/generated/**",
+        "spec/manifest.json",
+        "spec/operations/acquire-image.md",
+        "spec/reports/**",
+        "spec/schemas/acquisition-*.schema.json",
+        "spec/schemas/command-operation-parameters.schema.json",
+        "spec/schemas/command-watch-parameters.schema.json",
+        "spec/schemas/index.md",
+        "spec/storage/acquisition-consistency.md",
+        "spec/templates/**",
+        "spec/tools/specctl.py",
+        "spec/tools/tests/test_corrective.py",
+        "spec/work/units.json",
+        "tests/images/**",
+        "tests/images/test_acquisition_operations.py",
+        "tests/operation/**",
+        "tests/resilience/request_channel_probe.cpp",
+        "tests/resilience/test_request_channel.py",
+        "tools/build-bootstrap.py",
+        "tools/build-inputs.json",
+        "source/apps/disked/gui/gui_model.cpp",
+        "source/apps/disked/gui/gui_model.h",
+        "source/apps/disked/tui/tui_model.cpp",
+        "source/apps/disked/tui/tui_model.h",
+        "source/platform/windows/ui/gui.cpp",
+        "source/platform/windows/entry.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/acquisition_console_fixture.py",
+        "tests/frontend/test_acquisition_forms.py",
+        "spec/interaction/tui-and-gui.md",
+        "source/apps/disked/shell/shell_model.cpp",
+        "source/apps/disked/shell/shell_model.h",
+        "source/runtime/command/shell_lexer.cpp",
+        "source/runtime/command/shell_lexer.h",
+        "source/runtime/command/protocol.h",
+        "source/runtime/presentation/session.cpp",
+        "source/runtime/presentation/session.h",
+        "tests/interaction/shell_probe.cpp",
+        "tests/interaction/test_shell_model.py",
+        "tests/frontend/test_acquisition_interactive.py",
+        "spec/interaction/interactive-shell.md",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "README.md",
+        "tests/native/test_protocol.py",
+        "spec/catalog/ordinary-file-path-profile.json",
+        "source/providers/report/file_export.cpp",
+        "spec/operations/map-verify.md",
+        "spec/index.md",
+        "spec/catalog/index.md",
+        "spec/architecture/execution-topology.md",
+        "tests/resilience/test_store_failures.py"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/images/test_parent_pins.py --probe build/windows-bootstrap/Release/file_acquisition_fault.exe --capture-probe build/windows-bootstrap/Release/image_file_capture_probe.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/operation/test_worker_directory.py --probe build/windows-bootstrap/Release/worker_directory_probe.exe --root .",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "Source/destination alias and no-clobber protection tested.",
+      "Resume verifies identity and map; failing-media policy documented.",
+      "Typed source/destination/host resource bindings and epochs are checked independently before acquisition implementation claims."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W012",
+    "createdAt": "2026-10-12T02:06:04.615544+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.91-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W012",
+    "title": "Implement descriptor-owned CLI and machine envelopes",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W010"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/runtime/command/**",
+        "source/apps/disked/cli/**",
+        "tests/contracts/**",
+        "include/**",
+        "source/runtime/invocation/**",
+        "source/apps/disked/main.cpp",
+        "source/apps/disked/command_registry*",
+        "CMakeLists.txt",
+        "tools/build*",
+        "tests/native/**",
+        "spec/**",
+        "docs/**",
+        ".aide/**",
+        "source/apps/disked/app.cpp",
+        "source/apps/disked/app.h",
+        "TODO.MD"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --build --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "ctest --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "Duplicate keys/oversized requests rejected.",
+      "Machine stdout has only valid framed JSON.",
+      "Exit codes and no-prompt behavior tested.",
+      "Typed argument bindings and alias/canonical collision checks drive parser/help/completion; unavailable unresolved syntax cannot be advertised as implemented.",
+      "Strict producer and compatible-reader fixtures, operation/attempt/epoch identities and native exit/wait outcomes are defined before protocol admission.",
+      "Run the shared command-syntax corpus and option-placement metamorphic cases against the native parser; no pre-parse output, file creation, provider access or frontend initialization.",
+      "Complete typed operation parameter contracts before admitting unresolved commands. Validate exact option arity, reserved names, duplicate aliases, prefix/operand ambiguity, help-only requests and unchanged target/effect semantics."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

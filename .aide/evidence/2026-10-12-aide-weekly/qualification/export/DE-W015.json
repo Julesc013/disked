@@ -1,0 +1,129 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W015",
+    "createdAt": "2026-10-12T02:40:56.224181+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.92-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W015",
+    "title": "Implement minimal native Win32 GUI over fake state",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W013",
+      "DE-W011"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/apps/disked/gui/**",
+        "source/platform/windows/ui/**",
+        "tests/frontend/**",
+        "source/apps/disked/**",
+        "source/platform/windows/**",
+        "source/runtime/presentation/**",
+        "tests/invocation/**",
+        "tests/native/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "README.md",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "cmake --build --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "ctest --preset windows-bootstrap",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/frontend/test_gui_capture.py --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_report_process.py",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "GUI initializes only when requested.",
+      "Keyboard and high-contrast checks recorded on actual tested host.",
+      "Parity transcript matches CLI and TUI.",
+      "Use original/licensed fixture artwork until source provenance and exact redistribution rights are evidenced; a supplied icon inspection report alone grants none."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}

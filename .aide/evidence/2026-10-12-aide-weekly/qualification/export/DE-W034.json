@@ -1,0 +1,214 @@
+{
+  "apiVersion": "aide.disked-projection/v1",
+  "kind": "WorkUnit",
+  "metadata": {
+    "id": "DE-W034",
+    "createdAt": "2026-10-12T02:40:56.224181+00:00",
+    "sourcePath": "spec/work/units.json",
+    "producer": {
+      "name": "disked-specctl",
+      "version": "0.1.92-proposed.1"
+    },
+    "compatibility": {
+      "schemaVersion": "1",
+      "protocolVersion": "1",
+      "minReaderVersion": "1",
+      "minWriterVersion": "1",
+      "featureFlags": [
+        "disked-non-authorizing-projection"
+      ]
+    }
+  },
+  "spec": {
+    "task_id": "DE-W034",
+    "title": "Implement case evidence and reports",
+    "work_type": "build",
+    "authorizes_implementation": false,
+    "check_only": false,
+    "acceptance_review": false,
+    "implementation_scope": "See spec/work/units.json for exact outputs. Separate grant required.",
+    "stop_state": "needs_review",
+    "predecessors": [
+      "DE-W032",
+      "DE-W033"
+    ],
+    "dependencies": [],
+    "scope": {
+      "allowed_paths": [
+        "source/runtime/evidence/**",
+        "source/runtime/case/**",
+        "docs/**",
+        "tests/evidence/**",
+        "spec/**",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**",
+        "source/providers/report/**",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/report_worker.cpp",
+        "source/runtime/command/command.cpp",
+        "tools/build-bootstrap.py",
+        "source/runtime/command/protocol.cpp",
+        "source/runtime/command/command.h",
+        "source/runtime/operation/watch.h",
+        "source/runtime/operation/watch.cpp",
+        "source/runtime/acquisition/observation.cpp",
+        "source/runtime/command/protocol.h",
+        "source/apps/disked/app.cpp",
+        "source/platform/windows/entry.cpp",
+        "source/runtime/presentation/requests.cpp",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.cpp",
+        "source/apps/disked/gui/gui_model.cpp",
+        "source/apps/disked/shell/shell_model.cpp",
+        "tests/native/test_protocol.py",
+        "spec/catalog/components.json",
+        "spec/catalog/compositions.json",
+        "tests/frontend/test_product_export.py",
+        "tests/frontend/report_console_fixture.py",
+        "source/platform/windows/ui/gui.cpp",
+        "tests/frontend/acquisition_console_fixture.py",
+        "source/providers/image/file_verification.h",
+        "source/providers/image/file_verification.cpp",
+        "tests/images/test_acquisition_worker.py",
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/verification_worker.cpp",
+        "tests/frontend/test_product_verification.py",
+        "tests/frontend/verification_console_fixture.py",
+        "tests/resilience/request_channel_probe.cpp",
+        "tests/resilience/test_request_channel.py",
+        "source/apps/disked/tui/tui_model.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp",
+        "tests/frontend/test_gui_model.py",
+        "tests/frontend/test_tui_model.py"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "read_only_review_paths": [
+        "spec/**"
+      ]
+    },
+    "validation": {
+      "commands": [
+        {
+          "command": "python spec/tools/specctl.py check",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python -m unittest discover -s spec/tools/tests -v",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_case.py --probe build/windows-bootstrap/Release/case_evidence_probe.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_export.py --probe build/windows-bootstrap/Release/report_export_probe.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_file_export.py --probe build/windows-bootstrap/Release/file_report_export_probe.exe --fault build/windows-bootstrap/Release/file_report_export_fault.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_acquisition_case.py --probe build/windows-bootstrap/Release/acquisition_case_probe.exe --product build/windows-bootstrap/Release/disked.exe --worker-fault build/windows-bootstrap/Release/acquisition_worker_fault.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_acquisition_export.py --probe build/windows-bootstrap/Release/acquisition_export_probe.exe --fault build/windows-bootstrap/Release/acquisition_export_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_report_worker.py --probe build/windows-bootstrap/Release/report_worker_probe.exe --fault build/windows-bootstrap/Release/report_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_export_commands.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_report_watch.py --probe build/windows-bootstrap/Release/export_command_probe.exe --fault build/windows-bootstrap/Release/export_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_report_process.py",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_image_verification.py --probe build/windows-bootstrap/Release/acquired_image_verification_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_image_observation.py --probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_image_collection.py --probe build/windows-bootstrap/Release/image_verification_collection_probe.exe --observation-probe build/windows-bootstrap/Release/image_verification_observation_probe.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_verification_worker.py --probe build/windows-bootstrap/Release/verification_worker_probe.exe --fault build/windows-bootstrap/Release/verification_worker_fault.exe --product build/windows-bootstrap/Release/disked.exe --collection build/windows-bootstrap/Release/image_verification_collection_probe.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_verification_commands.py --probe build/windows-bootstrap/Release/verification_command_probe.exe --fault build/windows-bootstrap/Release/verification_command_fault.exe --product build/windows-bootstrap/Release/disked.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/frontend/test_product_verification.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_verification_test.exe --root .",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/evidence/test_verification_case.py --probe build/windows-bootstrap/Release/verification_case_probe.exe --fault build/windows-bootstrap/Release/verification_case_fault.exe --product build/windows-bootstrap/Release/disked.exe --root . --worker build/windows-bootstrap/Release/report_worker_probe.exe --worker-fault build/windows-bootstrap/Release/report_worker_fault.exe",
+          "status": "NOT_RUN"
+        },
+        {
+          "command": "python tests/frontend/test_product_export.py --product build/windows-bootstrap/Release/disked.exe --fault build/windows-bootstrap/Release/disked_report_test.exe --root . --joined",
+          "status": "NOT_RUN"
+        }
+      ]
+    },
+    "evidence_requirements": [
+      "Actual facts separated from inference.",
+      "No secrets/customer filenames exported without policy."
+    ],
+    "explicit_non_capabilities": [
+      "physical_device_access",
+      "elevation",
+      "release_signing",
+      "automatic_promotion",
+      "execution_authority"
+    ]
+  },
+  "status": {
+    "phase": "planned",
+    "result": "NOT_RUN",
+    "validated": false,
+    "validation_errors": [],
+    "validation_warnings": [
+      "Projection shape checked locally; full pinned AIDE runtime/CLI integration not executed."
+    ]
+  }
+}
