@@ -103,8 +103,10 @@ class AllocationScanTests(unittest.TestCase):
     def test_owner_and_unreferenced_allocation_dimensions(self):
         for bits in (12,16,32):
             volume=Volume(bits);volume.chain([3,4]);volume.chain([7,8])
-            volume.directory([bytes(short(cluster=3,size=700))]);_,scan,_=observe(volume)
+            volume.directory([bytes(short(cluster=3,size=700))]);value,scan,_=observe(volume)
             self.assertEqual(scan['allocated_without_observed_owner'],'2');self.assertTrue(scan['unreferenced_allocation_qualified'])
+            self.assertFalse(value['observed_metadata_consistent'])
+            self.assertTrue(value['tree_metadata_consistent']);self.assertTrue(value['selected_tree_complete'])
             volume.directory([bytes(short(cluster=3,size=700)),bytes(short(name=b'SHARED  BIN',cluster=4,size=20))])
             value,scan,_=observe(volume)
             self.assertFalse(scan['tree_ownership_complete']);self.assertFalse(scan['unreferenced_allocation_qualified'])

@@ -853,9 +853,12 @@ class Observer {
                 scanned.find("comparison_complete") && scanned.find("comparison_complete")->boolean;
             const bool graph = scanned.find("prefix_graph_consistent") &&
                                scanned.find("prefix_graph_consistent")->boolean;
+            const bool owned = scanned.find("allocated_without_observed_owner") &&
+                               scanned.find("allocated_without_observed_owner")->text == "0";
             out.put("tree_metadata_consistent", V::boolean_value(consistent_))
                 .put("observed_metadata_consistent",
-                     V::boolean_value(consistent_ && all && comparison && graph && overlap_equal_))
+                     V::boolean_value(consistent_ && all && comparison && graph && owned &&
+                                      overlap_equal_))
                 .put("allocation_scope", V::string(scanned.kind == V::Kind::null ? "not-observed"
                                                    : all ? "all-data-clusters"
                                                          : "data-cluster-prefix"))
