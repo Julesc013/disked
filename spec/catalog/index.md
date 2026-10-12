@@ -24,6 +24,7 @@
 - [gpt-fixture-restoration-prototype.json](gpt-fixture-restoration-prototype.json)
 - [gpt-repair-command-prototype.json](gpt-repair-command-prototype.json)
 - [gpt-repair-planning-prototype.json](gpt-repair-planning-prototype.json)
+- [gpt-restoration-inspection-prototype.json](gpt-restoration-inspection-prototype.json)
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)
 - [health-observation-prototype.json](health-observation-prototype.json)
 - [image-verification-collection-prototype.json](image-verification-collection-prototype.json)

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.10-proposed.1
+  version: 0.1.11-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -411,3 +411,21 @@ journal, retaining earlier failed attempts. Exact original-state restoration may
 restore the originally damaged copy; it is not a healthy-disk or universal rollback
 claim. Same-volume files, process interruption and flush acknowledgements do not
 qualify hardware power loss, production recovery or operator authentication.
+
+## DE-W042 read-only restoration history inspection
+
+The [inspection profile](../catalog/gpt-restoration-inspection-prototype.json)
+retains an old immutable proposal independently of current image state. Reconstruct
+the reviewed definition from the exact historical observation and original evidence;
+do not issue a new definition from today's image in order to inspect an old journal.
+All file handles remain read-only. Exact bootstrap receipts and guarded patch/prefix
+events must agree with independently calculated historical effects, including when
+checksums have been recomputed after a critical payload change.
+
+Keep historical acceptance, pending intention, current whole-image/patch observation
+and old-artifact applicability separate. A valid old seal cannot qualify changed
+current bytes, and current matching bytes cannot supply a missing completion or
+authority. Inspection preserves corrupt/torn files and earlier attempts without
+repair, replay, cleanup or write rights. The same-generation fixture reader remains
+an explicitly limited prototype, not general historical-reader or production
+recovery qualification.

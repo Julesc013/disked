@@ -1,0 +1,34 @@
+{
+  "schema": "org.disked.gpt-restoration-inspection-profile/1",
+  "work_id": "DE-W042",
+  "status": "proposed-inspection-contract",
+  "scope": "Private read-only inspection of the reviewed owned-image restoration experiment at b2c6a4e3. No product command, replay, artifact repair, writer admission or authenticated authority.",
+  "limits": {
+    "image_bytes": 8388608,
+    "journal_bytes": 1048576,
+    "records": 32,
+    "trace_events": 2048,
+    "response_bytes": 262144,
+    "input_lines": 3,
+    "input_line_bytes": 17825792
+  },
+  "retained_reference": "Keep exact original execution/basis/manifest/review/grant, original whole image, whole pre-restoration image, original journal bytes, restoration definition/digest/review/grant and recovery store. A bounded memory observation port reconstructs the exact original immutable restoration through the existing resolver; compare its definition/digest and validate historical receipts. Retained bytes are historical data, never current observation or permission to execute.",
+  "adapter": "A separate reopen_restoration_readonly route opens image, backup, original journal and the named existing restoration journal with GENERIC_READ only, preserving ordinary path/root/file/link/generation checks and the same creator executable-generation requirement. Compare the expected recovery store file token and name. No CREATE_NEW, write, flush, truncate or cleanup. Read-only inspection need not grant new storage authority.",
+  "history": "Check proposed DEJPR001 framing against exact restoration/original/new resource/code bindings and the expected publisher epoch/sequence domain. Within the 32-record profile require exact definition/review/grant/admission bootstrap, then intention and completion for exact next reverse patch and independently reconstructed full-image prefix digests; seal only at original whole-image digest. Unknown critical or observational payloads in this closed private profile, changed critical fields even with recomputed checksums, false/order-conflicting completions, extra records after seal and changed publisher/bindings are not accepted. Preserve last verified framing/semantic prefix and pending intention on torn or rejected tails. Empty new journal is not_started, an incomplete header is invalid, an incomplete final record/prefix is torn_tail.",
+  "current_state": "Separately report exact current whole-image digest, matching restoration prefixes and patch before/after/mixed/other states, known-byte status, current original-image match, actual backup validity and unchanged original-journal applicability. Historical seal validity does not imply matching current bytes; matching bytes do not supply a missing completion. current_matches_seal requires accepted complete sealed history, matching current confirmed prefix and applicable original artifacts. Actual old-artifact corruption is reported as non-applicable, without rewriting history.",
+  "probe": "The private native probe accepts restore-inspect with exact original/reference receipts, then two closed lines retained-observation/image_hex and retained-original-journal/journal_hex. Each existing line budget remains unchanged, each image is at most8MiB and each original/new journal at most1MiB. No physical, remote, elevation, customer or product storage inputs.",
+  "qualification": [
+    "Inspect every existing restoration case with a created store; preserve exact all-file bytes and names and assert no write/flush trace",
+    "Independent semantic/framing oracle for completed, pending and partial histories, both source directions and block units, repeated attempts and multi-chunk arrays",
+    "Checksum-valid definition/review/grant/admission/intention/completion/seal/publisher/epoch/header forgeries and unknown kinds rejected at exact prefix",
+    "Corrupt/torn/truncated/post-seal histories, current bytes, original backup/journal applicability and replaced/aliased store objects",
+    "Clean native build/source/blob/input/PE/imports and existing190 execution/138 restoration plus complete native regression"
+  ],
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "writer_admitted": false,
+  "qualifies_power_loss": false,
+  "qualifies_recovery": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}
