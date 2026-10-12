@@ -1,0 +1,351 @@
+{
+  "schema": "review.disked-source-structure/1",
+  "observed_date": "2026-10-12",
+  "timezone": "Australia/Melbourne",
+  "repository_state": {
+    "disked": {
+      "main": "af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f",
+      "dev": "af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f",
+      "github_releases_observed": 0,
+      "branches_protected": false
+    },
+    "universal_setup": {
+      "main": "c048f7f1ae2e5922c15a08ee572bdafc29027c63",
+      "dev": "2b7a4d011a61992970601e8c174b5d9d0298a8cd",
+      "main_dev_tree": "b836676ca8f487d48063071733ca5ff5c5c8abab",
+      "dev_ahead_by": 1,
+      "dev_behind_by": 0,
+      "difference": "synchronization merge only; identical content",
+      "github_releases_observed": 0,
+      "draft_pr": 237,
+      "draft_head": "b6dff645a252f886e2b46ea142d361620b7e0a95",
+      "workflow_run": 38221243094,
+      "workflow_conclusion": "failure"
+    }
+  },
+  "scope": {
+    "read": "Pinned live repository files, relevant source/header implementations, source map, CMake, documentation, release lists, branch comparison and hosted job metadata.",
+    "not_done": [
+      "No complete repository checkout; direct clone failed because network name resolution is unavailable in the container.",
+      "No current native/spec suite rerun.",
+      "No hardware, recovery or package qualification.",
+      "No repository write, branch change, acceptance or release.",
+      "Not a line-by-line audit of all 196 reported source files."
+    ],
+    "tests_run_in_review": []
+  },
+  "findings": [
+    {
+      "id": "SR-01",
+      "class": "resolved",
+      "title": "Explicit TUI filenames and separate CLI owner already exist",
+      "evidence": [
+        "source/apps/disked/tui/tui_model.cpp",
+        "source/apps/disked/cli/cli.cpp",
+        "spec/architecture/repository.md"
+      ],
+      "action": "Do not repeat the rename or create another CLI tree."
+    },
+    {
+      "id": "SR-02",
+      "class": "design_recommendation",
+      "title": "Narrow and accurately name build targets",
+      "evidence": [
+        "CMakeLists.txt"
+      ],
+      "action": "The disked_json target currently compiles json, command, protocol, shell_lexer and invocation policy. Extract target responsibilities incrementally or use an honest encompassing name. Keep exact target qualification."
+    },
+    {
+      "id": "SR-03",
+      "class": "design_recommendation",
+      "title": "Make cross-module includes unambiguous",
+      "evidence": [
+        "CMakeLists.txt",
+        "source/apps/disked/app.cpp",
+        "source/apps/disked/tui/tui_model.h"
+      ],
+      "action": "Prefer module-qualified includes and narrow usage requirements. No actual wrong-header binding was reproduced in this review."
+    },
+    {
+      "id": "SR-04",
+      "class": "observed_duplication",
+      "title": "Consolidate shared frontend invariants, not all frontend code",
+      "evidence": [
+        "source/apps/disked/tui/tui_model.cpp",
+        "source/apps/disked/gui/gui_model.cpp"
+      ],
+      "action": "tick, availability and portions of form staging repeat across TUI/GUI. Extend existing presentation helpers with regression coverage; retain different navigation/renderers."
+    },
+    {
+      "id": "SR-05",
+      "class": "design_recommendation",
+      "title": "Keep composition distinct from repeated command-specific policy",
+      "evidence": [
+        "source/apps/disked/app.cpp"
+      ],
+      "action": "Incrementally derive routing/limits from one reviewed service binding, and move test-only synchronization into test support when warranted. Preserve separation of metadata and execution grants."
+    },
+    {
+      "id": "SR-06",
+      "class": "observed_tool_limit",
+      "title": "Source-map coverage does not enforce dependencies",
+      "evidence": [
+        "tools/check-source-map.py"
+      ],
+      "action": "Current checker detects missing, obsolete and repeated links. Add independent header/dependency boundary checks without creating a second manually maintained source inventory."
+    },
+    {
+      "id": "SR-07",
+      "class": "observed_documentation_drift",
+      "title": "Root first-task text is stale",
+      "evidence": [
+        "AGENTS.md",
+        "README.md",
+        ".aide/evidence/2026-10-12-gpt-restoration/README.md"
+      ],
+      "action": "Route current work through one live work-state summary; retain historical decisions and pending acceptance independently."
+    },
+    {
+      "id": "SR-08",
+      "class": "release_blocker",
+      "title": "USK pending maintenance candidate fails hosted qualification",
+      "evidence": [
+        "https://github.com/Julesc013/universal-setup/pull/237",
+        "https://github.com/Julesc013/universal-setup/actions/runs/38221243094"
+      ],
+      "action": "Fix and qualify actual repair.apply completion, source-free recovery and required consumers before promotion. Do not solve by raising a deadline without cause analysis."
+    }
+  ],
+  "selected_file_map": [
+    {
+      "path": "source/apps/disked/main.cpp",
+      "role": "Native wmain entry; delegates to Windows startup.",
+      "recommendation": "Keep the conventional basename.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/main.cpp"
+    },
+    {
+      "path": "source/apps/disked/app.h",
+      "role": "Private application entry declaration.",
+      "recommendation": "Not a public SDK header.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/app.h"
+    },
+    {
+      "path": "source/apps/disked/app.cpp",
+      "role": "Composition, service/provider wiring, frontend routing, discovery, request dispatch and prototype test hooks.",
+      "recommendation": "Keep the owner; incrementally reduce command-specific policy and test scaffolding in this unit.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/app.cpp"
+    },
+    {
+      "path": "source/apps/disked/command_registry.h",
+      "role": "Private declaration for the product command-registry instance.",
+      "recommendation": "Concrete product registry, not another canonical catalog.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/command_registry.h"
+    },
+    {
+      "path": "source/apps/disked/command_registry.cpp",
+      "role": "Loads generated command descriptors/parameter schemas into the shared registry.",
+      "recommendation": "Keep in product composition.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/command_registry.cpp"
+    },
+    {
+      "path": "source/apps/disked/disked.manifest",
+      "role": "Windows product activation/execution manifest.",
+      "recommendation": "Product resource, not runtime semantics.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/disked.manifest"
+    },
+    {
+      "path": "source/apps/disked/cli/cli.h",
+      "role": "Declares the human CLI text result and formatting entry.",
+      "recommendation": "No artificial CLI model class required.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/cli/cli.h"
+    },
+    {
+      "path": "source/apps/disked/cli/cli.cpp",
+      "role": "Formats one invocation into an explicit output channel; no native handle writes.",
+      "recommendation": "Separate folder is appropriate; retain compact presentation-only ownership.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/cli/cli.cpp"
+    },
+    {
+      "path": "source/apps/disked/shell/shell_model.h",
+      "role": "Declares persistent shell editing/session state.",
+      "recommendation": "Keep shell_model.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/shell/shell_model.h"
+    },
+    {
+      "path": "source/apps/disked/shell/shell_model.cpp",
+      "role": "Persistent command editing, history, completion, transcript and result state.",
+      "recommendation": "Not an arbitrary OS shell executor; document that distinction.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/shell/shell_model.cpp"
+    },
+    {
+      "path": "source/apps/disked/tui/tui_model.h",
+      "role": "Declares text UI navigation/form/view state and methods.",
+      "recommendation": "Rename from model has already landed.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/tui/tui_model.h"
+    },
+    {
+      "path": "source/apps/disked/tui/tui_model.cpp",
+      "role": "Text navigation, forms, review, results and bounded rendering.",
+      "recommendation": "Share only actual common invariants with GUI; keep TUI interaction local.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/tui/tui_model.cpp"
+    },
+    {
+      "path": "source/apps/disked/gui/gui_model.h",
+      "role": "Declares toolkit-neutral GUI interaction state.",
+      "recommendation": "Keep directly in gui while it has no toolkit dependency.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/gui/gui_model.h"
+    },
+    {
+      "path": "source/apps/disked/gui/gui_model.cpp",
+      "role": "Rows, focus, forms, reviewed submission, deferred results and GUI state.",
+      "recommendation": "No Win32 window ownership; share demonstrated pending-request and form rules.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/apps/disked/gui/gui_model.cpp"
+    },
+    {
+      "path": "source/platform/windows/entry.cpp",
+      "role": "Windows argument/startup handling and role dispatch.",
+      "recommendation": "Concrete host adapter, not a universal entrypoint.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/entry.cpp"
+    },
+    {
+      "path": "source/platform/windows/invocation.h",
+      "role": "Windows launch-context observation interface.",
+      "recommendation": "Different from platform-neutral invocation policy.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/invocation.h"
+    },
+    {
+      "path": "source/platform/windows/invocation.cpp",
+      "role": "Observes handles, console and launch context.",
+      "recommendation": "Report facts; policy remains in runtime.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/invocation.cpp"
+    },
+    {
+      "path": "source/platform/windows/output.h",
+      "role": "Native standard-stream output interface.",
+      "recommendation": "Separate handle effects from human text formatting.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/output.h"
+    },
+    {
+      "path": "source/platform/windows/output.cpp",
+      "role": "Windows output writing and failed-channel sealing.",
+      "recommendation": "Do not move into a frontend just because that frontend calls it.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/output.cpp"
+    },
+    {
+      "path": "source/platform/windows/console/terminal.h",
+      "role": "Declares Windows text-interface host functions.",
+      "recommendation": "Shared by shell and TUI.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/console/terminal.h"
+    },
+    {
+      "path": "source/platform/windows/console/terminal.cpp",
+      "role": "Native console observation, input translation, event loops, rendering and restoration.",
+      "recommendation": "Distinguish reusable OS service from product-specific host loop in dependency policy.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/console/terminal.cpp"
+    },
+    {
+      "path": "source/platform/windows/ui/gui.h",
+      "role": "Declares the concrete Win32 GUI host.",
+      "recommendation": "May consume the product GUI factory under current architecture.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/ui/gui.h"
+    },
+    {
+      "path": "source/platform/windows/ui/gui.cpp",
+      "role": "Win32 controls, events, window lifetime and teardown.",
+      "recommendation": "Not the shared GUI model; toolkit-specific expansion only when another implementation exists.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/platform/windows/ui/gui.cpp"
+    },
+    {
+      "path": "source/runtime/presentation/text_input.h",
+      "role": "Shared key/text value types.",
+      "recommendation": "Header-only is correct; do not manufacture a .cpp.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/presentation/text_input.h"
+    },
+    {
+      "path": "source/runtime/presentation/session.h",
+      "role": "Shared frontend session and form/presentation contract declarations.",
+      "recommendation": "Runtime owner, not CLI or TUI.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/presentation/session.h"
+    },
+    {
+      "path": "source/runtime/presentation/session.cpp",
+      "role": "Shared action/view/selection, form and presentation semantics.",
+      "recommendation": "Extend existing abstractions rather than introducing a second interaction framework.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/presentation/session.cpp"
+    },
+    {
+      "path": "source/runtime/presentation/requests.h",
+      "role": "Deferred request and completion-channel declarations.",
+      "recommendation": "Runtime contract independent of Windows worker handles.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/presentation/requests.h"
+    },
+    {
+      "path": "source/runtime/presentation/requests.cpp",
+      "role": "Bounded request/completion/timeout and unresolved-result handling.",
+      "recommendation": "Natural home for proven cross-frontend request invariants.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/presentation/requests.cpp"
+    },
+    {
+      "path": "source/runtime/command/command.h",
+      "role": "Registry/parser/parameter/completion declarations.",
+      "recommendation": "Shared by frontends; not owned by one-shot CLI.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/command.h"
+    },
+    {
+      "path": "source/runtime/command/command.cpp",
+      "role": "Descriptor-owned parsing, registry, validation and completion implementation.",
+      "recommendation": "May split by responsibility after focused tests, not by arbitrary line count.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/command.cpp"
+    },
+    {
+      "path": "source/runtime/command/json.h",
+      "role": "Bounded JSON value/codec declarations.",
+      "recommendation": "Currently not a public serialization standard.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/json.h"
+    },
+    {
+      "path": "source/runtime/command/json.cpp",
+      "role": "JSON parser and serializer.",
+      "recommendation": "Build target should not misleadingly imply that all command/runtime code is JSON.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/json.cpp"
+    },
+    {
+      "path": "source/runtime/command/protocol.h",
+      "role": "Request/response/event and serving declarations.",
+      "recommendation": "Shared protocol semantics.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/protocol.h"
+    },
+    {
+      "path": "source/runtime/command/protocol.cpp",
+      "role": "Envelope validation, framing and stdio serving.",
+      "recommendation": "Separate from CLI human formatting and Windows handle mechanics.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/protocol.cpp"
+    },
+    {
+      "path": "source/runtime/command/shell_lexer.h",
+      "role": "Shell-text lexer declaration.",
+      "recommendation": "Shared grammar owner; independent of shell UI state.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/shell_lexer.h"
+    },
+    {
+      "path": "source/runtime/command/shell_lexer.cpp",
+      "role": "Quoting/tokenization and incomplete-input handling.",
+      "recommendation": "Do not tokenize already-parsed OS argv a second time.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/command/shell_lexer.cpp"
+    },
+    {
+      "path": "source/runtime/invocation/policy.h",
+      "role": "Platform-neutral mode-selection contract.",
+      "recommendation": "Consumes observations rather than Windows handles.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/invocation/policy.h"
+    },
+    {
+      "path": "source/runtime/invocation/policy.cpp",
+      "role": "CLI/TUI/GUI and output/interaction selection rules.",
+      "recommendation": "Private basename policy is sufficiently scoped.",
+      "url": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/source/runtime/invocation/policy.cpp"
+    }
+  ],
+  "full_existing_map": "https://github.com/Julesc013/disked/blob/af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f/docs/source-map.md",
+  "caution": "File-map role statements combine inspected implementations with the repository-owned map; they are not individual runtime validation results."
+}

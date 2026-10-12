@@ -18,6 +18,7 @@
 - [docs-native-bootstrap.txt](docs-native-bootstrap.txt)
 - [review-start.txt](review-start.txt)
 - [root-agents.txt](root-agents.txt)
+- [root-clang-format.txt](root-clang-format.txt)
 - [root-claude.txt](root-claude.txt)
 - [root-contributing.txt](root-contributing.txt)
 - [root-editorconfig.txt](root-editorconfig.txt)

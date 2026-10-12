@@ -67,6 +67,7 @@
 - [servicing-preview-prototype.json](servicing-preview-prototype.json)
 - [setup-fixture-prototype.json](setup-fixture-prototype.json)
 - [setup-source-consumer-prototype.json](setup-source-consumer-prototype.json)
+- [source-maintenance-prototype.json](source-maintenance-prototype.json)
 - [targets.json](targets.json)
 - [tests.json](tests.json)
 - [validation-cases.json](validation-cases.json)

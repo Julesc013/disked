@@ -51,6 +51,12 @@ Add product-specific tests when product code exists. Initial work-unit validatio
 
 Record work ID, exact base, files read/changed, rationale, actual command results, artifact hashes, uncertainties, blockers and next safe action using `spec/schemas/handoff.schema.json`. A tool-limited chat session reports tests as `not_run` and returns a proposal/patch, not a fictional commit. Only claim a GitHub write after an authorized successful tool call. Stop at the work unit's review boundary.
 
-## Current first task
+## Current work
 
-`DE-W000`: review/ratify the baseline and record unresolved scoped decisions. Then `DE-W010`: one native executable with a fake provider. No physical writes are part of either task.
+When present, read `.aide/programmes/disked-0.1.0.json` for `current_work`, `in_progress_slice`,
+`next_action` and revision-bound evidence. Resolve that work ID in
+`spec/work/units.json`, then read its contract, current grant and applicable gates.
+The programme is a work-state summary, not execution authority or owner acceptance.
+Historical bootstrap instructions do not determine the current task.
+An exported specification without a programme starts from `spec/bundle.json`,
+`spec/START-HERE.md` and `specctl next`; readiness still supplies no execution grant.

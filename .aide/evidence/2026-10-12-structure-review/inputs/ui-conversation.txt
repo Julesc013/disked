@@ -1,0 +1,531 @@
+Okay, check out the latest spec/ and docs/ int he GitHub repo and read the other chats in this ChatGPT project... Let's focus on the UI and UX and CLI and TUI and GUI in this discussion...
+
+What can the CLI do? What commands to we have? What's the structure? Will we have abbreviated versions of commands and keywords for power users? Will it work on primitive DOS machines to modern windows machines equally while supporting new presentation and features like autocomplete and transient prompts and live updating status bar and progress bars and status lines and logging and terminal types and features and window sizes and buffers and graceful degradation and graceful support for colors and widgets and interactive tui and mouse support and etc where available?
+Yes—DiskEd should provide a consistent command system from primitive DOS to modern Windows, while taking advantage of richer terminals wherever they are available. But the current specifications define the foundations, not yet the complete terminal experience you are describing.
+
+The distinction I would preserve is:
+
+The same command meanings, safety rules, and operation outcomes; the best appropriate presentation for each environment—not identical graphics, executable formats, or storage capabilities.
+
+I reviewed Julesc013/disked at main commit 08a8246, including the interaction specifications, command catalogue and schema, DOS/platform policy, configuration and responsiveness contracts, and the relevant architecture, compatibility, and development documentation. I also retrieved relevant context from the other DiskEd discussions; that was available excerpts and prior decisions, not an exhaustive export of every chat transcript. The repository remains a proposed specification with no DiskEd binary or runtime command handlers.
+
+1. What commands do we currently have?
+The canonical human grammar is:
+
+disked [global-options] <domain> <verb> [arguments]
+The corresponding machine interface uses stable command IDs:
+
+target.list
+partition.resize.plan
+operation.cancel.request
+That separation is good. A human-facing command can be readable and convenient without forcing machine clients to parse human syntax. The specification already says command discovery, help, completion, and advanced UI forms should derive from the same descriptors.
+
+The actual catalogue
+There are 33 planned command descriptors in the current catalogue:
+
+Area	Human commands, following disked	Intended purpose
+Product and command discovery	build inspect, mode explain, command list, resource list	Explain the build, invocation decision, command availability, and embedded resources.
+Targets and topology	target list, target inspect, topology show	Enumerate storage targets, inspect identity, and display layered relationships.
+Partition tables	table verify, table repair	Verify partition maps; construct an explicit GPT-copy repair plan.
+Images	image inspect, image acquire, image verify	Inspect images, acquire data to an explicit destination, and verify coverage.
+Health	health assess	Collect bounded health evidence.
+Capabilities and providers	capability explain, provider list, provider inspect, provider resolve	Explain eligibility, provider composition, qualification, and missing capabilities.
+Partitions	partition resize, partition move	Construct resize and move plans.
+Filesystems	filesystem migrate, filesystem format	Construct migration and formatting plans.
+Plans	plan show, plan validate, plan simulate, plan apply	Review, check, simulate, and apply an admitted plan.
+Running operations	operation inspect, operation watch, operation cancel	Inspect durable state, follow events, and request cancellation.
+Recovery	recovery inspect, recovery plan, recovery apply	Inspect interrupted state and separately plan/admit recovery.
+Evidence	evidence export	Export reviewed and redacted evidence.
+Software installation ownership	setup inspect	Inspect declared software-maintenance ownership without installing anything.
+All are currently marked planned, with handler: null. Their command-alias arrays are also empty. This is a catalogue of intended capabilities, not commands in a released application.
+
+What “doing something” means
+The plan-first distinction is important:
+
+partition resize
+        ↓
+plan show → plan validate → plan simulate
+        ↓
+plan apply
+partition resize, filesystem format, and table repair must not secretly mean “write immediately.” The current specification explicitly makes these plan-building commands and rejects a generic --force bypass. Machine application is bound to an exact plan and expected state.
+
+Conversely, read-only source access is not the same as no writes anywhere: image acquire writes a destination, and evidence export writes an output artifact. The catalogue correctly distinguishes these as output-write.
+
+This is not yet the complete eventual command set
+There are operation specifications for things such as partition creation/deletion and offline boot-dependent operations that do not yet have corresponding public command entries. Likewise, the catalogue does not currently define an interactive shell, terminal diagnostics, completion generation, or a comprehensive settings interface.
+
+I would expand the catalogue as those contracts become concrete—not advertise every imaginable storage verb as though it already worked.
+
+2. Yes, we should have abbreviations—but deliberately designed ones
+My recommendation is stable, explicitly registered shorthand, not arbitrary prefix matching.
+
+For example, these would be sensible proposed equivalents:
+
+disked target list          disked tgt ls
+disked partition resize     disked part resize
+disked filesystem format    disked fs format
+disked operation watch      disked op watch
+They should resolve to exactly the same descriptor and handler.
+
+The current specification supports aliases conceptually, and already names global flag aliases such as --cli, --tui, --gui, and --json. But the 33 command descriptors have not yet been populated with command shorthand. Those are two different levels of aliasing.
+
+What I would avoid
+I would not make:
+
+disked p ...
+mean whichever of partition, plan, or provider happens to match in a particular release.
+
+Nor should an abbreviation that is unique today silently change meaning after another command or extension is installed.
+
+The rules should be:
+
+Registered aliases are stable compatibility contracts. Retired spellings are not reassigned to unrelated actions.
+Completion may expand a partial word; execution must not guess. Tab completion and command parsing are different responsibilities.
+Shorthand changes typing effort, never safety or targeting. It cannot skip plan review, silently choose a disk, or turn a planning command into immediate execution.
+For scripts, canonical spellings should be the documented default. Deliberately registered aliases can still be supported in scripts, but scripts should not depend on interactive abbreviations or personal aliases.
+
+For dangerous operations, the review should show the expanded canonical action and resolved target identity, regardless of how briefly the command was entered.
+
+I would also provide familiar help conveniences such as -h, --help, and a carefully defined /?, without turning every slash-prefixed token into an option. Paths, quoting, --, negative values, units, and case handling all need explicit parser rules rather than platform-specific accidents.
+
+3. We need to distinguish the CLI, interactive shell, TUI, and GUI
+These should share authority, but they are different interaction styles.
+
+One-shot CLI
+This is the ordinary:
+
+disked target list
+disked --format=json target list
+The application performs one requested action and exits, or follows an operation according to an explicit waiting policy.
+
+It needs excellent help, predictable output, usable errors, completion integration, and reliable exit behavior. It should not unexpectedly open a full-screen interface.
+
+The current invocation policy already says that a domain command without an explicit frontend selects the CLI.
+
+Interactive DiskEd command shell
+I recommend adding an explicit disked shell entrypoint. This is a proposal, not a current catalogue command.
+
+Inside it, users could enter DiskEd commands repeatedly, with editing, history, completion, a contextual prompt, and optional live operation status.
+
+This is where DiskEd can directly own the experience:
+
+disked[local]> target list
+disked[local]> operation watch …
+The shell should not become an unnecessary replacement for COMMAND.COM, cmd.exe, or PowerShell. It needs DiskEd command composition and context—not a second general-purpose operating-system scripting language.
+
+Crucially, “allow this command to ask a question” and “enter a persistent command shell” should not be the same setting. The existing --interactive=auto|yes|no contract needs to make that distinction explicit, particularly for --cli --interactive=yes.
+
+Interactive TUI
+This is a navigable application: device lists, topology, inspectors, plans, dialogs, progress, and a command palette.
+
+The current specification already provides three TUI renderings: full-screen, linear accessible, and plain noninteractive. It also requires narrow terminals to change layout rather than lose commands.
+
+The TUI should include access to the same command explorer as the GUI. An operation should not become inaccessible merely because nobody has designed a dedicated menu item for it yet.
+
+Native GUI
+The GUI should offer familiar task-oriented workflows, native controls, keyboard navigation, accessibility, and appropriate platform styling.
+
+It must not own a separate implementation of partition legality or planning. The existing FrontendSession design correctly puts eligibility, action receipts, plan outcomes, and operation truth in the application service, with frontends consuming that information.
+
+Switching interfaces should change how the user works—not what the operation means. Switching views also must not itself apply a plan, obtain elevation, or change the selected storage identity.
+
+4. DOS to modern Windows: consistent, but not artificially identical
+The project already separates DOS version, CPU, executable format, memory model, BIOS services, addressing, and filesystem capabilities. It explicitly allows a constrained implementation to stream observations or consume a bounded plan subset rather than host the complete modern planner. DOS 1.x/2.x remain unqualified research profiles.
+
+That is the right foundation.
+
+I would describe the promise as:
+
+Every qualified target gets the strongest usable interface its actual environment can support, with clear explanations for unavailable operations.
+
+Not:
+
+Every target loads the same binary, supports the same storage operations, and draws the same screen.
+
+There should be one public disked identity per target composition, not a universal binary-format trick. The documentation already distinguishes target-specific executables from one-file delivery and self-contained operation.
+
+An old local console need not be a poor interface
+We should not equate “no modern VT support” with “no widgets, mouse, or rich text interface.”
+
+DiskEd already names separate Win32-console, VT/terminfo, DOS, and serial adapters. Windows’ native console API also provides keyboard, mouse, and window-input events independently of a VT-based implementation. 
+
+For DOS, I would therefore design a qualified local text-console backend that can use the host’s appropriate display, keyboard, and mouse facilities without requiring ANSI escape processing. A serial-terminal backend would make different choices.
+
+That means an older local machine could have a good keyboard-driven, coloured, mouse-capable text workbench while a modern machine connected through a restricted output channel gets plain text.
+
+The channel’s capabilities matter as much as the operating system’s age.
+
+5. Terminal support needs a real capability contract
+This is the largest missing piece.
+
+The present specs identify renderer families and graceful fallback, but they do not yet define the detailed terminal negotiation and behavior required for all the features in your question.
+
+I recommend a shared TerminalCapabilities / terminal-session contract, separate from storage capabilities.
+
+It should describe input, output, and error channels independently; visible dimensions and backing-buffer properties; cursor addressing; colour depth; encoding and usable glyphs; mouse and keyboard events; paste handling; alternate-screen support; and relevant accessibility/user preferences.
+
+There should not be one Boolean named rich_terminal.
+
+Practical presentation profiles
+These would be useful proposed profiles, assembled from independently detected capabilities:
+
+Profile	Appropriate experience
+Plain stream or captured output	Complete append-only text, no cursor movement, no animation, no prompts unless explicitly using a supported interactive channel.
+Linear interactive	Questions, numbered choices, command editing where available, and readable operation updates without full-screen layout.
+Native text console	Cell-based lists, dialogs, status bars, keyboard navigation, and mouse support where the platform backend provides it.
+Addressable terminal	Full-screen or inline interactive rendering using the supported terminal-control subset.
+Enhanced modern terminal	Optional richer colour, Unicode, paste support, shell integration, and other independently supported enhancements.
+An accessible linear mode must be a first-class choice, not merely an error fallback.
+
+Detection and restoration
+On Windows, VT behavior requires the appropriate console mode; native console APIs provide another path. Microsoft also documents distinct viewport, scrolling-margin, and alternate-buffer behavior. That is why the renderer must inspect the actual environment rather than assume support from an OS name. 
+
+I would require conservative, bounded probing. Terminal discovery must not hang waiting for a reply, consume arbitrary input, or inject probe sequences into redirected data.
+
+Every backend also needs ownership and cleanup rules: restore the modes it changed, preserve the caller’s console, and avoid resizing the user’s terminal just to fit DiskEd. Recovery from abnormal termination should be best-effort rather than an impossible guarantee.
+
+6. How I would specify the features you named
+Autocomplete
+There are two separate completion systems.
+
+Inside DiskEd’s own shell, DiskEd can control command editing and completion directly. That provides a consistent experience even when the surrounding shell has few features.
+
+At an external shell prompt, DiskEd should supply appropriate integration for that shell. It should not assume that running an executable gives it ownership of the parent shell’s prompt or editor. Microsoft’s terminal shell-integration documentation likewise describes cooperation between the shell/application and terminal host. 
+
+The completion engine should use the canonical command registry and typed argument definitions. It should complete commands, options, enums, units, and suitable identifiers.
+
+An especially important rule for this application:
+
+Pressing Tab must not trigger a deep storage scan, wake every disk, request elevation, or acquire a provider.
+
+Static completions should be immediate. Dynamic completions should use bounded, sufficiently fresh observations and explain when their information is incomplete.
+
+Transient prompts
+Yes, as an optional presentation feature in the DiskEd shell.
+
+A detailed active prompt could show host, context, and operation state, then compact after submission. But it must not erase the meaningful record of what happened.
+
+I would require that the executed command, important warnings, target context, and final result remain understandable in the transcript. Transient decoration is not an audit mechanism.
+
+For external shells, prompt behavior belongs to the relevant shell integration—not arbitrary rewriting of whatever happens to be above DiskEd’s output.
+
+Live status bars and progress bars
+Yes, but the renderer must consume operation truth, not invent it.
+
+A useful operation display distinguishes the current phase, completed work, verified work, known total, elapsed time, and uncertainty. “Waiting for device” is not progress. A moving spinner is not proof that the storage provider remains healthy.
+
+The existing protocol already provides operation identity, event sequences, reconnection, and bounded event handling. It explicitly distinguishes cancellation requests from completed cancellation. Those are strong foundations for live UI.
+
+For presentation, I would require:
+
+A rich terminal can redraw progress in place.
+A limited terminal gets periodic complete lines.
+Captured output gets stable records, not hundreds of carriage-return frames.
+Unknown totals produce an honest indeterminate display, not a fabricated percentage or ETA.
+A full-screen TUI should have one compositor controlling its screen. Providers and background workers must not print arbitrary text into it.
+
+Colours, glyphs, and widgets
+Yes, with meaning preserved when they disappear.
+
+Colour should supplement words and symbols. A warning remains a warning in monochrome; unavailable actions retain readable reasons; partition maps retain structured alternatives. These requirements are already present in the presentation specifications.
+
+I would make the glyph strategy explicit: plain ASCII, appropriate legacy character sets, and Unicode are presentation choices. An unsupported character must not become the only distinction between two states.
+
+Core widgets should include tables, trees, lists, forms, dialogs, a command palette, a plan review, and an operation timeline. Each needs keyboard behavior and a linear equivalent—not merely attractive drawing code.
+
+Mouse support
+Yes, wherever the backend supports it, with complete keyboard alternatives.
+
+Mouse input should help navigation and editing proposed geometry. It should not create a separate path around plan construction and review.
+
+Dragging a partition boundary should modify a proposal; it must not write to storage. Device refresh must not move selection onto a different disk. The existing spec already requires identity-bound selection across refresh and removal.
+
+Window sizes and buffers
+I would require responsive terminal layouts rather than a single hard-coded screen size.
+
+A wide window can show navigator, map, and inspector together. A narrower one should use tabs or stacked views. An extremely small or unsuitable terminal should use linear presentation.
+
+Shrinking the window must never hide the selected target, an unresolved error, or a destructive confirmation’s essential information.
+
+The contract must distinguish the visible viewport, the terminal’s scrollback, DiskEd’s render buffer, command history, and operation event retention. They are not interchangeable.
+
+All application-owned buffers need bounds. The existing responsiveness specification already calls for finite resource limits and prevents slow observers from discarding durable operation truth.
+
+Input and paste safety
+This deserves explicit treatment because DiskEd handles destructive commands.
+
+I would require pasted text to be inspectable before execution, especially multiline input. Completion and history selection must not execute anything themselves.
+
+Device labels, filenames, provider messages, and other externally supplied text must be rendered as data, not interpreted as terminal-control instructions.
+
+Legacy keyboard layouts, escape-key ambiguity, code pages, and modern text input need backend-specific handling without leaking into command semantics.
+
+7. Logging and machine output must remain separate from decoration
+The current machine contract is already sensible: UTF-8 JSON for bounded responses, NDJSON for event streams, stable command identities, and no human banners or terminal decoration in machine output.
+
+I would formalize three separate records:
+
+The presentation transcript is what the operator sees.
+
+Diagnostic/event logs explain observations, errors, and operation events.
+
+The durable operation journal and recovery evidence support execution and recovery.
+
+A progress bar is not a log. A log is not automatically a recovery journal. Closing the TUI must not make those distinctions disappear.
+
+For ordinary CLI commands, my recommendation is that stdout carry the requested result, while human diagnostics and optional interactive progress use an appropriate separate channel. Machine mode must have a precisely documented channel contract and never ask an unexpected question.
+
+Exit behavior also needs an explicit distinction between completed successfully and accepted and still running. A successful submission is not successful completion.
+
+Finally, history and logs need declared locations, size limits, and redaction rules. DiskEd must not silently create them beside an executable launched from recovery media. The existing root model already supports read-only payloads and explicit writable state/evidence locations.
+
+8. What I would change in the specifications now
+I would extend the existing architecture, not redesign it. The most valuable changes are concentrated in a few contracts.
+
+Specification area	Recommended amendment
+interaction/commands.md, command catalogue, and command schema	Define stable shorthand, namespace collisions, option parsing, typed arguments, completion metadata, canonical expansion, and compatibility policy.
+interaction/invocation.md	Distinguish one-shot interaction from a persistent shell; resolve --cli --interactive=yes; define terminal-channel requirements and fallback behavior precisely.
+New terminal contract	Own capability detection, backend selection, encoding, dimensions, buffers, input, mouse, screen ownership, restoration, and accessibility overrides.
+New interactive-shell contract	Own editing, history, completion, contextual/transient prompts, session context, and command-execution boundaries.
+Output/progress contract	Define human output, machine channels, progress phases, final summaries, logging, event retention, and exit/wait semantics.
+presentation.md and tui-and-gui.md	Specify shared widget behavior, command-explorer reachability, narrow-layout behavior, and parity between rich and linear presentations.
+Platform profiles and public documentation	Record exact terminal/backend qualification per target; publish generated command reference and practical CLI/TUI guides.
+The command schema is a particularly concrete gap. It currently contains command words, aliases, effects, availability, schema references, handler, and summary—but no explicit argument-to-option mapping or completion metadata. The catalogue also points its commands at generic request/response envelopes. That is not yet enough to generate a complete parser, detailed help, contextual completion, and typed advanced forms from one source.
+
+We should add those definitions either directly or through linked command-specific schemas, with one owner for each fact. We should not hard-code them separately into four frontends.
+
+Prove this with a small, demanding vertical slice
+The existing development plan already starts with fake providers, shared frontend semantics, failure drills, and small legacy probes. That is exactly where these UI contracts should be exercised.
+
+I would test the same inventory → inspect → propose → review → simulated operation journey through CLI, machine mode, the interactive shell, TUI, and GUI.
+
+Then vary the environment: monochrome, narrow window, redirected output, slow terminal, missing mouse, malformed labels, a stalled provider, a disappearing target, and a disconnected frontend.
+
+The acceptance question is not “does every screen look identical?” It is:
+
+Can the operator still understand the target, available actions, proposed effects, current operation state, and next safe action—and do all interfaces produce the same semantic result?
+
+Bottom line
+Yes to stable abbreviations, autocomplete, transient prompts, live status, progress bars, logging, terminal-aware layouts, colour, widgets, mouse support, and graceful fallback.
+
+The current DiskEd design can accommodate all of them without sacrificing DOS portability or native Windows behavior. It already has the right separation between commands, application semantics, frontends, platform adapters, and durable operations. What it lacks is the detailed contract connecting those foundations to a polished everyday terminal experience.
+
+The goal should be a capable plain CLI that never depends on decoration, an excellent built-in command shell, a genuinely useful adaptive TUI, and native GUIs over the same operation system. Primitive targets should receive deliberate, usable implementations—not neglected fallback ports—and modern targets should not be artificially limited to the primitive presentation.
+
+Ideally --[global-options] can be placed after disked or after <domain> <verb> [arguments] and ideally more anywhere so we do t have to delete if we forget to add them or other domains and verbs.... And ideally we think through these shortcuts, making them as universally recognisable and conviniently typable in as few characters and without having to memorise abbreviations, not things that sounds right but don't type right
+GPT-6 Astra Pro — Reasoning — 2026-10-04 17:07:47 AEDT
+
+Yes. Global options should apply to the entire invocation, regardless of where they appear. And I would revise my earlier tgt ls suggestion: shortening words into consonant codes is not necessarily good shortcut design.
+
+The design principle should be:
+
+Let users append what they forgot. Minimize typing and memorization without making command interpretation unpredictable.
+
+I re-read the current command and invocation specifications. They show a leading [global-options] grammar but do not explicitly guarantee options throughout the command line. They already reject duplicate non-repeatable options and conflicting explicit modes. Flexible placement should extend those contracts, not accidentally weaken them. The following is a proposed refinement, not an implemented feature.
+
+1. Global options should work throughout the invocation
+All these should be equivalent:
+
+disked --json target list
+disked target --json list
+disked target list --json
+Likewise, an option should work after the operands:
+
+disked --json target inspect TARGET_ID
+disked target --json inspect TARGET_ID
+disked target inspect --json TARGET_ID
+disked target inspect TARGET_ID --json
+TARGET_ID is a placeholder here.
+
+“Global” should describe the option’s scope, not a mandatory position. A trailing --json must govern the entire response—not only output produced after the parser happens to encounter it.
+
+That also means DiskEd must finish interpreting and validating the invocation before starting command execution, opening output files, initializing a frontend, or printing a human banner.
+
+Interspersed options have established precedent: the GNU C Library documents parsing intermixed option and non-option arguments. However, this is not a behavior that every parser automatically guarantees. DiskEd should own the rule explicitly. 
+
+Command-specific options should be flexible too
+I would extend the same convenience to the selected command’s named options:
+
+disked partition resize PARTITION_ID --length=50GiB --json
+disked partition --length=50GiB resize PARTITION_ID --json
+disked --length=50GiB partition resize PARTITION_ID --json
+These should resolve to the same command and parameters. An option does not become a global capability merely because its position is flexible: --length must still be rejected for commands that do not accept it.
+
+Supporting this properly requires descriptor-defined option names, value types, and how many values each option consumes. It should not be implemented by indiscriminately extracting everything that begins with a hyphen.
+
+The boundaries must remain precise
+Boundary	Proposed behavior
+Option and value	Accept --format=json and --format json. With the separated form, the option and its value stay together.
+Literal-data boundary	-- ends option recognition. Anything after it remains operand data, even when it looks like an option.
+Duplicate options	Reject duplicate non-repeatable options, including duplicates expressed through different aliases.
+Conflicting settings	Reject contradictions such as --gui --json, regardless of order.
+Unknown options	Report an error; never ignore an unknown option or silently substitute a similar spelling.
+Global names	Reserve global option names and short flags so that individual domains cannot redefine them.
+For example:
+
+disked image inspect -- --json
+Here, --json is an image filename operand, not a request for JSON output. The existing command specification already establishes that filenames after -- are data.
+
+There is also a distinction between appending an omitted option and overriding an earlier option:
+
+disked target list --json
+should work, but:
+
+disked target list --format=human --json
+should report the contradictory output selections—not quietly choose whichever was last. This preserves the current invocation policy.
+
+2. Nouns and verbs can have natural alternative orders—but not arbitrary rearrangement
+For command words, I would go beyond rigid domain-first syntax where a natural alternative is useful.
+
+These are reasonable equivalent forms to register:
+
+disked target list
+disked list targets
+With interspersed options:
+
+disked target --json list
+disked list --json targets
+That directly supports the situation you describe: someone starts with list, remembers an option, then adds what they want listed.
+
+Verb-first syntax also has a relevant Windows precedent: DiskPart documents list disk, list partition, and list volume. That supports considering this word order; it does not mean DiskEd should inherit DiskPart’s selection or mutation semantics. 
+
+However, I would not let the parser search an arbitrary sequence of words for something that resembles a command.
+
+A filename can be list. An image can be named resize. A label can contain partition. Those must not suddenly become command words.
+
+The rule should therefore be:
+
+Accept explicitly defined natural command forms. Do not reinterpret operands to rescue an otherwise invalid command.
+
+This is still deterministic parsing, not natural-language guessing. Each accepted form maps to one canonical command descriptor.
+
+3. The best shortcut is often removing an unnecessary word
+My earlier example:
+
+disked tgt ls
+optimizes the spelling of the existing hierarchy rather than questioning whether the hierarchy needs to be typed at all.
+
+For routine target enumeration, I would prefer:
+
+disked list
+That is shorter than tgt ls and introduces no invented abbreviation.
+
+The internal command can remain target.list. Users should not have to reproduce the internal organization for every common task.
+
+A more useful candidate set
+These are candidates for review, not claims that their typing performance has been tested:
+
+Canonical form	Proposed convenient form	Design rationale
+target list	list; optionally ls	Remove the redundant domain for the most common inventory action.
+target inspect TARGET_ID	show TARGET_ID	Use a short ordinary word. Define this explicitly as target inspection.
+command list	commands	A direct way to discover the command catalogue.
+partition …	part …	A recognizable beginning of the full word rather than a consonant code.
+filesystem …	fs …	An optional technical shorthand; the full word remains available.
+operation …	op …	A compact family alias, without abbreviating every operation verb as well.
+For example:
+
+disked list --json
+disked show TARGET_ID
+disked part resize PARTITION_ID --length=50GiB
+disked op watch OPERATION_ID
+I would not insist that every domain and verb receive a short alias. Rare commands gain less from abbreviations, while every public alias consumes namespace and becomes another compatibility obligation.
+
+The current catalogue already separates command IDs, human command words, and aliases; the inspected entries have empty alias arrays and planned handlers. That is the appropriate place to define these forms—not separate handwritten alias logic in each frontend.
+
+Shortcuts must preserve the object being requested
+A convenience such as:
+
+disked disks
+could be useful, but it should mean list disks, not silently become another name for listing every kind of target.
+
+Similarly, show TARGET_ID must not switch between target inspection, plan review, and operation inspection according to whichever object happens to match first.
+
+Shortening the command must not broaden, narrow, or guess its meaning.
+
+4. Optimize actual effort—not just character count
+There is no single abbreviation vocabulary that everyone will recognize without learning. Familiarity differs between DOS/Windows operators, Unix users, storage technicians, and occasional users.
+
+I would use this order of preference:
+
+First, short ordinary words. Prefer list, show, help, and watch where their meanings fit.
+
+Second, recognizable shortened words. Consider part before something like ptn, and retain the full spelling.
+
+Third, established technical shorthand where it helps the intended audience. Candidates such as fs and op should remain optional, not the only discoverable spelling.
+
+Fourth, single-letter flags for selected frequent options. Do not allocate a letter to everything merely because it is available.
+
+For flags, I would start with a small set:
+
+Form	Proposed role
+-h, --help	Contextual help.
+-j, --json	JSON output. -j would be a DiskEd choice, not a claimed universal standard.
+--cli, --tui, --gui	Already short and readable; single-letter versions offer less obvious value.
+I would avoid assigning -f casually: it could plausibly suggest format, file, force, frontend, or filesystem. A short flag is poor design when users must continually remember which plausible interpretation was chosen.
+
+The ergonomic evaluation should include time to enter a correct command, corrections, hesitation, completion keystrokes, and recall after a gap—not just string length. Different keyboard layouts and constrained terminals should be represented.
+
+tgt having fewer letters than target does not establish that it is the best interface. Conversely, I would not claim part is empirically optimal before testing it.
+
+5. Completion should remove the need to memorize shortcuts
+The more important experience is:
+
+Type the beginning of the word you remember, see the available choices, and accept the intended completion.
+
+That lets users remember “partition” without memorizing whether its sanctioned shorthand is part, par, or something else.
+
+I would require completion and help to expose aliases alongside canonical spellings:
+
+partition  (part)   Partition operations
+filesystem (fs)    Filesystem operations
+operation  (op)    Running and completed operations
+For the built-in shell, a syntax error should preserve the editable command and identify the problematic token. The user should not have to reconstruct a long invocation because one option was misplaced or incomplete.
+
+Completion and execution should have different permissiveness
+Completion may search partial words and suggest likely corrections. Execution should accept full spellings and registered aliases—not guess.
+
+For example, I would not make:
+
+disked p ...
+resolve to whichever of partition, plan, or provider is available in the current build.
+
+Nor should --fo mean one thing today and become ambiguous after another option is added.
+
+This matters when choosing implementation libraries. Python’s argparse, for example, enables unambiguous long-option abbreviation by default, and its intermixed parser does not support subparsers. Those are documented library behaviors, not necessarily suitable DiskEd policies. 
+
+Aliases should remain bound to the same meaning across releases and target builds. When a capability is unavailable, its alias should report that unavailability—not resolve to a different command.
+
+6. Help should also work wherever the user remembers it
+These should all request help for partition resizing:
+
+disked partition resize --help
+disked partition --help resize
+disked --help partition resize
+disked help partition resize
+A help request should not require the user to supply a real partition, enumerate storage, or satisfy operational prerequisites.
+
+For an incomplete command, help should describe the deepest unambiguously identified command or domain. For an invalid command, it should explain the error and show relevant suggestions without dispatching anything.
+
+That would make “append --help” a dependable escape route, rather than another feature whose placement must be memorized.
+
+7. Make these parser guarantees testable across every target
+I would amend spec/interaction/commands.md, spec/interaction/invocation.md, and the command registry/schema together.
+
+The central requirement should be:
+
+For a given command, moving an accepted option/value group between permitted positions must preserve the normalized command, arguments, requested presentation, and safety requirements.
+
+The original invocation text can differ for diagnostics; the resolved operation must not.
+
+A compact acceptance suite should cover:
+
+Test	Required result
+Move --json before, between, and after command words and operands.	Identical normalized request and output-mode selection.
+Move --length=50GiB through permitted positions.	Identical resize-plan parameters.
+Use list, list targets, and target list.	Same registered inventory command and scope.
+Supply an option-looking filename after --.	Preserve it as data.
+Repeat or contradict an option through another alias.	Deterministic diagnostic; no execution.
+Add a new command or remove a runtime capability.	Existing aliases retain their meaning.
+The same parser fixtures should run against the qualified DOS, OS/2, and Windows compositions. Rich completion may depend on the environment; basic option placement and alias interpretation should not.
+
+My recommendation is therefore broader than “add abbreviations”: make options position-independent, offer a small number of natural command forms, remove redundant words from common tasks, and let completion handle partial typing. Keep the interpretation exact even when the typing is convenient.

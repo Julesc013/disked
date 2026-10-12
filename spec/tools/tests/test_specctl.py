@@ -287,17 +287,29 @@ class TemporaryBundleTests(unittest.TestCase):
         self.bundle=sc.Bundle(self.root)
     def tearDown(self):self.temp.cleanup()
 
+    def prepare_bootstrap_root(self):
+        # Context fixtures need declared inputs, including formatter files.
+        # Bootstrap fixtures instead require absent output destinations.
+        root=self.repo.resolve()
+        for item in sc.read_json(self.root/'templates/bootstrap-map.json')['files']:
+            destination=self.repo/item['destination']
+            self.assertTrue(destination.resolve().is_relative_to(root))
+            if destination.is_file():destination.unlink()
+
     def test_bootstrap_preview_has_no_write(self):
+        self.prepare_bootstrap_root()
         result=self.bundle.bootstrap(self.repo)
         self.assertEqual('preview',result['mode'])
         self.assertFalse((self.repo/'AGENTS.md').exists())
 
     def test_bootstrap_applies_exact_template_bytes(self):
+        self.prepare_bootstrap_root()
         self.bundle.bootstrap(self.repo,True)
         for item in sc.read_json(self.root/'templates/bootstrap-map.json')['files']:
             self.assertEqual((self.root/item['source']).read_bytes(),(self.repo/item['destination']).read_bytes())
 
     def test_bootstrap_refuses_any_existing_file_before_writing(self):
+        self.prepare_bootstrap_root()
         (self.repo/'CLAUDE.md').write_text('existing user instructions')
         with self.assertRaises(sc.SpecError):self.bundle.bootstrap(self.repo,True)
         self.assertFalse((self.repo/'AGENTS.md').exists())

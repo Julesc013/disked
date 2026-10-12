@@ -1,0 +1,153 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W010",
+  "base_revision": "51a8d516c293b2476a6a83489b855f83525e2a04",
+  "spec_manifest_digest": "sha256:6b96cacddfa36f6fc6576d79af18e90a3ff288025ce02696d22bff5d4dc3c754",
+  "status": "partial",
+  "files_read": [
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.md",
+    ".aide/evidence/2026-10-12-structure-review/inputs/structure-conversation.txt",
+    ".aide/evidence/2026-10-12-structure-review/inputs/ui-conversation.txt",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "docs/source-map.md",
+    "source/apps/disked/gui/gui_model.cpp",
+    "source/apps/disked/tui/tui_model.cpp",
+    "spec/START-HERE.md",
+    "spec/architecture/languages-and-build.md",
+    "spec/architecture/repository.md",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/index.md",
+    "spec/templates/bootstrap-map.json",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_specctl.py",
+    "spec/work/units.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-12-structure-review/.gitattributes",
+    ".aide/evidence/2026-10-12-structure-review/README.md",
+    ".aide/evidence/2026-10-12-structure-review/check.log",
+    ".aide/evidence/2026-10-12-structure-review/context-fixture-failure.log",
+    ".aide/evidence/2026-10-12-structure-review/context-verify.log",
+    ".aide/evidence/2026-10-12-structure-review/context.log",
+    ".aide/evidence/2026-10-12-structure-review/disked-main.json",
+    ".aide/evidence/2026-10-12-structure-review/disked-releases.json",
+    ".aide/evidence/2026-10-12-structure-review/format-config.log",
+    ".aide/evidence/2026-10-12-structure-review/index.log",
+    ".aide/evidence/2026-10-12-structure-review/initial-tooling-failure.log",
+    ".aide/evidence/2026-10-12-structure-review/inputs.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.md",
+    ".aide/evidence/2026-10-12-structure-review/inputs/structure-conversation.txt",
+    ".aide/evidence/2026-10-12-structure-review/inputs/ui-conversation.txt",
+    ".aide/evidence/2026-10-12-structure-review/manifest.log",
+    ".aide/evidence/2026-10-12-structure-review/remote-observations.json",
+    ".aide/evidence/2026-10-12-structure-review/retention.json",
+    ".aide/evidence/2026-10-12-structure-review/source-map.log",
+    ".aide/evidence/2026-10-12-structure-review/style.log",
+    ".aide/evidence/2026-10-12-structure-review/tooling-corrected.log",
+    ".aide/evidence/2026-10-12-structure-review/usk-compare.json",
+    ".aide/evidence/2026-10-12-structure-review/usk-dev.json",
+    ".aide/evidence/2026-10-12-structure-review/usk-main.json",
+    ".aide/evidence/2026-10-12-structure-review/usk-pr.json",
+    ".aide/evidence/2026-10-12-structure-review/usk-releases.json",
+    ".aide/evidence/2026-10-12-structure-review/usk-run.json",
+    ".aide/evidence/2026-10-12-structure-review/validation-summary.json",
+    ".aide/handoffs/DE-W010-structure-review-2026-10-12.json",
+    ".aide/programmes/disked-0.1.0.json",
+    ".clang-format",
+    ".editorconfig",
+    ".gitattributes",
+    "AGENTS.md",
+    "TODO.MD",
+    "docs/code-structure.md",
+    "spec/architecture/repository.md",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/references/sources.json",
+    "spec/roadmap/implementation.md",
+    "spec/templates/bootstrap-map.json",
+    "spec/templates/index.md",
+    "spec/templates/root-agents.txt",
+    "spec/templates/root-clang-format.txt",
+    "spec/templates/root-editorconfig.txt",
+    "spec/templates/root-gitattributes.txt",
+    "spec/tools/tests/test_specctl.py",
+    "spec/work/units.json"
+  ],
+  "summary": "Reconciled all four supplied structure/UI/release advisory inputs against current source and read-only GitHub metadata. Kept existing ownership/names and full scope; corrected current-work routing, contributor naming/style guidance, root/bootstrap formatter/editor policy and separate bootstrap/context fixture preparation.215tooling tests:213pass2skip;1094structural checks;196source files covered. Actual dependency/include/build-target and shared frontend-invariant improvements remain pending, Universal Setup PR237 remains unqualified, owner/release/full0.1.0 remain open.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/tooling-corrected.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local/context/structure-maintenance-corrected",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/context-verify.log"
+    },
+    {
+      "command": "\"C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/bin/clang-format.exe\" --style=file --dump-config",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-structure-review/format-config.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-12-structure-review/validation-summary.json",
+      "sha256": "sha256:8597538bdbcbff7893c7bb706224244d98a9f80a1917fe3b542de71f76059632"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-structure-review/retention.json",
+      "sha256": "sha256:93606432f3edc5a47c3c682eb81011a5745fbb5111fb81a8adbf3f4590a18d5e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-structure-review/README.md",
+      "sha256": "sha256:ff7b4739c833fdc4c6bef0fc3f33cca849812658a1b9d96201c6c3295d7b03d1"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue the source-maintenance profile: narrow actual JSON/command/invocation targets; verify module-qualified include/header/layer boundaries and consolidate demonstrated completion/availability invariants with exact native regression. Preserve all-platform/storage0.1.0 goal, public contracts, existing tree and separate owner/release/storage/other-repository authority.",
+  "performed_remote_writes": true
+}

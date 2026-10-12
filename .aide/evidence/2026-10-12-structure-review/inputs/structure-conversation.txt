@@ -1,0 +1,519 @@
+GPT-6 Astra Pro — Reasoning — 2026-10-12 20:26:27 AEDT
+
+## Verdict
+
+**Keep the current `source/` architecture. The naming inconsistency warranted a small correction, not a massive rewrite—and the current repository already contains that correction and a dedicated CLI directory.**
+
+There are worthwhile improvements to make: clearer build-target boundaries, less ambiguous includes, shared frontend request invariants, and more readable implementation style. However, the evidence does **not** justify restarting the architecture or pre-creating every conceivable future file.
+
+The release question is separate:
+
+| Repository | Current state |
+|---|---|
+| **DiskEd** | `main` and `dev` both point to **`af9f4fe85dfbb818fbe7f65eab8d5bb8a216427f`**. There is no outstanding `dev` → `main` content merge. |
+| **Universal Setup** | `main` is **`c048f7f`**; `dev` is **`2b7a4d0`**. Their **file trees are identical**. The extra `dev` commit is a synchronization merge. |
+| **Universal Setup’s pending maintenance work** | Draft **PR #237**, at **`b6dff645`**, has a failing Windows qualification run. That work is not ready for promotion. |
+
+These are live repository observations, rechecked during this review.    
+
+**DiskEd-structure-and-release-review-2026-10-12.md[Download the structure and release review](sandbox:/mnt/data/DiskEd-structure-and-release-review-2026-10-12.md)** · DiskEd-structure-and-release-review-2026-10-12.json[Machine-readable findings and selected file map](sandbox:/mnt/data/DiskEd-structure-and-release-review-2026-10-12.json)
+
+I inspected live source, headers, build rules, documentation, retained evidence and CI metadata. **I did not rerun the native builds or complete test suites**: a complete checkout was unavailable in this environment. This is not a line-by-line correctness certification of every implementation file. No repository files were changed.
+
+---
+
+## 1. The immediate naming problem is already fixed
+
+The current tree contains:
+
+```text
+source/apps/disked/
+├── app.cpp
+├── app.h
+├── command_registry.cpp
+├── command_registry.h
+├── disked.manifest
+├── main.cpp
+├── cli/
+│   ├── cli.cpp
+│   └── cli.h
+├── gui/
+│   ├── gui_model.cpp
+│   └── gui_model.h
+├── shell/
+│   ├── shell_model.cpp
+│   └── shell_model.h
+└── tui/
+    ├── tui_model.cpp
+    └── tui_model.h
+```
+
+So the older conversation about `tui/model.cpp` no longer describes the live code. CLI presentation has also been separated from the broader application composition. 
+
+**These are sensible names. Retain them.**
+
+### Was `model.cpp` inherently wrong?
+
+No. A file called `model.cpp` can be clear when its ownership is always visible:
+
+```text
+tui/model.cpp
+```
+
+But `tui_model.cpp` is more helpful when filenames appear without their directories—in editor tabs, search results, compiler diagnostics and discussion. Given the existing `shell_model` and `gui_model`, consistency favours `tui_model`.
+
+The useful naming rule is already in DE-011:
+
+> **Directories identify ownership; basenames identify responsibility. Qualify a name when ambiguity warrants it, without repeating the entire directory path.** 
+
+This does **not** mean every file needs a long name:
+
+```text
+Good:
+    tui/tui_model.cpp
+    primitives/extent.c
+    graph/snapshot.cpp
+    main.cpp
+
+Unnecessarily repetitive:
+    apps/disked/tui/disked_terminal_user_interface_model.cpp
+```
+
+### Should CLI have a `cli_model`?
+
+**Not merely for symmetry.**
+
+The CLI formats one invocation’s result. The shell, TUI and GUI maintain interactive state across events. Different responsibilities justify different shapes.
+
+`cli/cli.cpp` is reasonable for the current compact formatter. A `CliModel` with no meaningful persistent state would be an artificial abstraction.
+
+---
+
+## 2. CLI, shell, TUI, GUI and terminal are different things
+
+This distinction explains most of the placement decisions.
+
+| Component | Responsibility | What it should not own |
+|---|---|---|
+| **Command system** | Command identities, argument parsing, validation, dispatch contracts and completion | Console handles or GUI widgets |
+| **CLI frontend** | Present one command’s result as human-readable output | A separate parser or storage engine |
+| **Interactive shell** | Editable command line, history, completion, transcript and session state | Arbitrary operating-system shell execution |
+| **TUI frontend** | Text-screen navigation, focus, forms, review and results | Windows console APIs |
+| **GUI frontend model** | Graphical interaction state and semantic actions | Win32 window handles |
+| **Terminal host** | Native input, console modes, rendering mechanics and restoration | Storage decisions or ownership of the shell/TUI model |
+| **Application composition** | Select and connect the concrete frontend, services and providers | A second implementation of their rules |
+
+The current source map explicitly documents this split, including that DiskEd’s shell is its own command session—not a general-purpose wrapper around `cmd.exe` or a Unix shell. 
+
+### Why the command parser is not in `cli/`
+
+Because the same command contract serves more than the CLI:
+
+```text
+CLI arguments ──────────┐
+Shell command text ────┤
+TUI command forms ─────┼── shared command/action system
+GUI command forms ─────┤
+Machine requests ──────┘
+```
+
+Putting the canonical parser and command semantics inside the CLI would make every other interface depend on the CLI as though it were the product’s authority.
+
+Conversely, moving CLI-specific formatting into the shared runtime would make the runtime depend on a particular human presentation.
+
+**The current separation is correct.**
+
+---
+
+## 3. What the relevant source files actually do
+
+The repository now contains **`docs/source-map.md`**, a source-by-source explanation with links. The latest retained audit reports **196 current source files mapped once**, and `tools/check-source-map.py` checks for missing, obsolete and duplicate entries. That existing document should remain the complete inventory, rather than creating another competing catalog in this chat.  
+
+Here is the architectural explanation for the files most relevant to your question.
+
+### Application and frontend files
+
+Paths below are relative to `source/`. Paired `.h/.cpp` files declare and implement the responsibility; a `.h` extension does not itself make a header a public SDK.
+
+| Files | What they do | Why they belong there |
+|---|---|---|
+| `apps/disked/main.cpp` | Minimal native `wmain` entrypoint, delegating startup | It is the executable entry, not the application engine |
+| `apps/disked/app.*` | Composition, frontend selection, provider wiring, build/discovery data and request dispatch | It connects concrete implementations across all modes; calling it `cli` would be misleading |
+| `apps/disked/command_registry.*` | Loads the generated command descriptors and parameter schemas | This is the product’s concrete registry instance |
+| `apps/disked/disked.manifest` | Windows execution and application declarations | Product activation metadata |
+| `apps/disked/cli/cli.*` | Converts results and diagnostics into human CLI text and an output-channel selection | It formats output but performs no native handle writes |
+| `apps/disked/shell/shell_model.*` | Editing, history, completion, transcript and persistent command-session state | Behaviour specific to the interactive shell |
+| `apps/disked/tui/tui_model.*` | Text navigation, forms, review, selection and bounded screen/linear rendering | TUI behaviour independent of console handles |
+| `apps/disked/gui/gui_model.*` | GUI rows, focus, forms, reviewed submission and deferred results | Graphical interaction independent of Win32 controls |
+
+This matches the source map and the inspected CLI, application and frontend implementations.    
+
+### Shared runtime files
+
+| Files | Responsibility |
+|---|---|
+| `runtime/command/command.*` | Descriptor-owned registry, invocation parsing, typed parameters and completion |
+| `runtime/command/shell_lexer.*` | Converts editable shell text into tokens using the selected quoting rules |
+| `runtime/command/json.*` | Bounded JSON values, parsing and serialization |
+| `runtime/command/protocol.*` | Request/response/event envelopes, validation, framing and stdio serving |
+| `runtime/invocation/policy.*` | Selects frontend/interaction behaviour from supplied host observations |
+| `runtime/presentation/session.*` | Shared semantic session, selection, actions and presentation/form helpers |
+| `runtime/presentation/requests.*` | Deferred requests, completions, timeout and unresolved-result handling |
+| `runtime/presentation/text_input.h` | Shared key/text value types used by the shell and TUI |
+| `runtime/graph/snapshot.*` | Validated immutable graph snapshots and their identity/context |
+| `runtime/graph/capture.*` | Capture epochs, observation coordination and late-result handling |
+
+`text_input.h` correctly has no corresponding `.cpp`: it declares value types. Creating a translation unit solely to make file counts symmetrical would add nothing. 
+
+### Windows host files
+
+| Files | Responsibility |
+|---|---|
+| `platform/windows/entry.cpp` | Windows startup, argument conversion and private-role dispatch |
+| `platform/windows/invocation.*` | Observes launch context and standard handles |
+| `platform/windows/output.*` | Writes native standard streams and seals failed output channels |
+| `platform/windows/console/terminal.*` | Console capability observation, native key decoding, text event loops and mode restoration |
+| `platform/windows/ui/gui.*` | Actual Win32 controls, window events and teardown |
+| `platform/windows/memory_budget.*` | Enforces the selected Windows process-memory budget |
+| `platform/windows/*_worker.*` | Concrete process, persistence and observation hosts for the relevant operations |
+
+These own mechanisms that a future OS port must replace. They do not own the meaning of a partition, acquisition plan or recovery result. 
+
+### A useful end-to-end example
+
+For image inspection, the ownership chain is approximately:
+
+```text
+Frontend submits an image-inspection action
+    ↓
+Runtime validates and dispatches that action
+    ↓
+Image provider opens and identifies the ordinary file
+    ↓
+Portable MBR/EBR/GPT code interprets supplied bytes
+    ↓
+Runtime constructs the shared observation
+    ↓
+Frontend presents the result
+    ↓
+Platform host writes text or updates native controls
+```
+
+That is why `file_capture`, `gpt`, `map_observation` and `gui_model` should not be collected into one “disk code” directory. They change for different reasons and have different permitted effects. 
+
+---
+
+## 4. One subtle boundary needs to remain explicit
+
+The current specification permits concrete platform UI/entry hosts to consume product frontend factories and models. Thus:
+
+```text
+platform/windows/ui/gui.cpp → GuiModel
+```
+
+is an intentional product-host relationship, not automatically a dependency violation. 
+
+However, **`platform/` therefore does not currently mean “one entirely product-independent reusable library.”** It contains both:
+
+1. Reusable OS mechanisms, such as handle observation and output.
+2. Concrete DiskEd host adapters, such as the Win32 window loop.
+
+Keep those classifications explicit in the build graph.
+
+I would **not** relocate all those files now. When another product or toolkit genuinely needs the reusable part, separate the mechanism from the product host. Do not create an abstraction merely to make a diagram appear perfectly layered.
+
+The crucial prohibitions remain:
+
+```text
+Portable algorithms must not acquire native devices.
+Shared runtime semantics must not depend on concrete GUI hosts.
+Frontend models must not perform their own storage operations.
+Concrete providers must not redefine command semantics.
+```
+
+---
+
+## 5. What I would improve in the current implementation
+
+### A. Make build-target names match their contents
+
+The current `disked_json` library builds:
+
+```text
+json.cpp
+command.cpp
+protocol.cpp
+shell_lexer.cpp
+invocation/policy.cpp
+```
+
+That is substantially more than a JSON library. A consumer linking it receives a broader dependency than the target name suggests. 
+
+Two legitimate improvements are:
+
+- Rename the target to an honest broader name while keeping the current grouping.
+- Split JSON, command processing, protocol and invocation policy when independent consumers/tests justify those boundaries.
+
+My preference is incremental separation, starting with a genuinely small JSON target. **Do not create one library per source file.**
+
+The root CMake file also repeats many compiler settings and test-target patterns. Factor those into a small number of target-policy helpers and responsibility-oriented CMake files, preserving the exact flags and source closures. The existing file already demonstrates some useful factoring through `bootstrap_executable`; extend that approach rather than inventing a build framework. 
+
+### B. Strengthen include boundaries
+
+Current code frequently uses:
+
+```cpp
+#include "session.h"
+#include "protocol.h"
+#include "gui.h"
+#include "output.h"
+```
+
+while CMake exposes multiple source directories through target include paths. That is workable, but it relies heavily on the surrounding search configuration.  
+
+**I did not reproduce a wrong-header inclusion. This is a preventable future risk, not a demonstrated runtime defect.**
+
+Prefer short module-qualified includes for cross-module references, with deliberate target include roots. Keep same-directory includes short.
+
+Also audit `PUBLIC`, `PRIVATE` and `INTERFACE` usage requirements. CMake propagates public/interface requirements to consumers; those declarations should describe real dependencies rather than simply make compilation succeed. [CMake](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html)
+
+Useful checks include header self-containment, clean compilation without accidental transitive includes, case-sensitive path checks, and forbidden cross-layer dependencies.
+
+### C. Share frontend invariants—not entire frontends
+
+The TUI and GUI implementations repeat closely related logic for:
+
+- Pending request identity.
+- View epochs and late completions.
+- Command availability.
+- Parts of form construction and staging.
+
+The inspected `tick()` implementations are particularly similar. Shared form helpers already exist, so this is an opportunity to extend the existing presentation layer rather than introduce another UI framework.  
+
+Extract the invariant that must be identical. Keep navigation, focus, keyboard handling and rendering separate.
+
+For example:
+
+```text
+Shared:
+    A completion belongs to this request and view epoch.
+
+TUI-specific:
+    F9 reviews, then a subsequent action submits.
+
+GUI-specific:
+    Review and Submit are separate controls.
+```
+
+A single generic “universal frontend model” would likely be a worse abstraction.
+
+### D. Keep `app.cpp` from becoming the application’s miscellaneous drawer
+
+Its composition ownership is correct. However, it now also contains command-specific routing, operation-ID prefix tests, response-size choices, discovery reasons and test-only synchronization code. 
+
+As those responsibilities grow, move them toward explicit service bindings and test support.
+
+A binding can identify a handler, result profile, execution mechanism and limits. It must **not** turn a metadata declaration into automatic storage authority.
+
+Do not split `app.cpp` arbitrarily by line count. Split it when a responsibility has a name, contract and independent tests.
+
+### E. Stop compressing safety-relevant code for visual brevity
+
+The current frontend and composition files contain numerous multi-statement lines and tightly packed branches. That reduces reviewability even when the code is correct.  
+
+Adopt one formatter configuration and prefer:
+
+```text
+One meaningful statement per line
+Explicit branches around state transitions
+Named limits with units
+Clear ownership and lifetime
+Specific outcomes rather than overloaded booleans
+Comments explaining invariants and consequences
+```
+
+A formatting-only change should remain separate from a behavioural change. Do not obscure a recovery or authorization fix inside thousands of formatting edits.
+
+### F. Recognize what the source-map checker does—and does not prove
+
+The current checker verifies that each source file has exactly one map link. It detects missing, obsolete and repeated entries. It does **not** prove that the description is accurate or that the code respects the stated dependency direction. 
+
+Keep it. Add dependency/header checks alongside it.
+
+There is also a stale current-work pointer: root `AGENTS.md` still describes DE-W000 followed by the first fake-provider build, while current source and evidence are much further advanced. Replace that fixed progress paragraph with a reliable route to the current work record—not another manually maintained status summary.  
+
+---
+
+## 6. The naming and coding policy I would settle now
+
+The following is enough to guide growth without overengineering it.
+
+| Concern | Recommended rule |
+|---|---|
+| Directories | Lowercase, ownership-oriented names |
+| Private filenames | Short `snake_case`; qualify ambiguous cross-module names |
+| Conventional files | Retain `main.cpp`, `CMakeLists.txt`, `README.md` and similar conventions |
+| C/C++ extensions | Preserve the current `.c`, `.cpp`, `.h` policy; avoid a mass `.h` → `.hpp` rename |
+| C++ namespaces | Use subsystem namespaces as collision pressure warrants; do not duplicate the full directory path in every symbol |
+| Public C symbols | Consistent project prefix, explicit types and ownership |
+| Member functions | Short responsibility names are appropriate within a clearly named class |
+| Units and limits | Explicit in types or names; do not make callers infer bytes versus blocks or requested versus completed work |
+| Errors | Preserve meaningful failure distinctions and platform detail |
+| Resources | Scope-bound ownership and explicit cancellation/lifetime rules |
+| Dependencies | Declare the smallest actual interface requirements |
+| Historical evidence | Immutable; never rewrite it to make old source paths look current |
+
+**Private paths are not your backwards-compatibility promise.** Public command syntax, protocol identifiers, installed headers, durable formats and documented SDK behaviour are.
+
+An internal rename changes source/build identities and requires fresh applicable evidence. It does not inherently break users.
+
+The right goal is not “never refactor.” It is:
+
+> **A refactor changes one owned implementation without forcing changes throughout the product or invalidating unrelated public contracts.**
+
+---
+
+## 7. Can we include all future files now?
+
+We can—and largely already do—describe **where future responsibilities belong**. We should not pretend to know every future translation unit.
+
+The current source map already routes planned storage, platform, frontend, integration and packaging work to owners. 
+
+Retain this structure:
+
+| Future capability | Placement rule |
+|---|---|
+| Additional partition/filesystem/image decoders | `source/portable/<format>/` |
+| Identity, graphs, plans, admission, operation and recovery semantics | `source/runtime/<responsibility>/` |
+| Filesystem, pool, RAID, tape, optical, flux and remote backends | `source/providers/<backend>/` |
+| Native process, handle, security, console and UI mechanisms | `source/platform/<host>/` |
+| Product interaction | `source/apps/disked/<frontend>/` |
+| Admitted SDKs and integrations | Public `include/`, `sdk/`, and specific implemented integration owners |
+| Composition, Setup bindings and distribution | Existing `targets/`, `tools/`, `release/` and dependency records |
+
+Freeze the ownership rules and interfaces. Add concrete files with their implementations.
+
+Predeclaring every future filename would create new problems: empty scaffolding, misleading completeness, artificial interfaces and a permanent obligation to reconcile names chosen before the behaviour was understood.
+
+It is also unnecessary to add a toolkit subdirectory while only one implementation exists. When a second Windows GUI host arrives, decide whether a few qualified filenames or a cohesive toolkit directory is clearer. Do not add another path level merely to reserve it.
+
+---
+
+## 8. Is DiskEd actually progressing?
+
+**Yes. It is no longer just a specification or a fake bootstrap. It is also not a finished partition manager.**
+
+The current README describes CLI/machine output, TUI, Win32 GUI, interactive shell, fake operation workers, ordinary-file image inspection and explicitly granted file acquisition. It continues to distinguish those from qualified physical-storage functionality. 
+
+The latest retained restoration report records:
+
+| Reported evidence | Scope |
+|---|---|
+| 138 restoration cases | Private owned-image restoration |
+| 190 original-execution regression cases | Private fixture execution |
+| 81 native test groups | Recorded clean native campaign |
+| 213 tooling passes, two skips | Specification/development tooling |
+| 196 source files mapped | Source-map coverage |
+
+**Those are retained project results, not tests I reran.** The same report explicitly excludes product writer/recovery admission, physical power-loss qualification and full 0.1.0 completion. The restoration probe is not linked into `disked.exe`; public `table repair` remains a read-only preview. 
+
+That separation is a strength. It prevents “we tested fixture restoration” from becoming “we can safely recover a customer’s damaged drive.”
+
+### What still blocks a release claim?
+
+At minimum, the selected release needs an accepted feature/target scope, exact final binaries, applicable qualification, honest limitations and publication authority. The README still identifies original-code licensing as an unresolved owner decision. 
+
+You can define a narrower preview without abandoning the full product. But it must be a deliberate release scope—not silently relabelling unfinished full-product obligations as completed.
+
+---
+
+## 9. Universal Setup: real progress, but a concrete blocker remains
+
+Universal Setup has a substantive runtime, lifecycle contracts, native validation and a CMake SDK candidate. It is not merely an installer concept. Its documented ownership remains product-neutral software installation state, not DiskEd storage operations. 
+
+However, the current pending maintenance candidate is **not ready**.
+
+At PR #237 head `b6dff645`, the recorded GitHub Actions run **`38221243094`** completed with failure. The job metadata shows six successful jobs and a failing `native-windows` job. The fresh maintenance probes fail, and subsequent recovery/consumer qualification is not established. The PR attributes the immediate problem to `repair.apply` exceeding the unchanged public-client deadline.  
+
+This is more important than directory aesthetics.
+
+The correct next action is to diagnose the actual operation’s progress and response path, establish correct completion or a truthful bounded outcome, and rerun the affected exact-head qualification.
+
+Do not solve it merely by increasing the deadline without establishing why the operation fails to complete. Do not interpret “journal metadata was written” as equivalent to “the client received a verified terminal result.”
+
+The draft PR itself retains the unfinished Foundation 1.1 and wider specification scope. Local passing checks have not erased those obligations. 
+
+---
+
+## 10. When can `dev` merge into `main`, and when can we release?
+
+### The current integrated branches
+
+**There is presently nothing further to merge between DiskEd’s `dev` and `main`.** They are the same commit.
+
+For Universal Setup, the current `dev`/`main` difference is history-only: identical content with a synchronization merge. Repeatedly merging those branches to make the commit IDs identical would create work without advancing the product.  
+
+### The pending Universal Setup task
+
+Use the existing progression:
+
+```text
+Fix the task branch
+    → required exact-head checks and consumer qualification
+    → review and merge to dev
+    → required promotion checks
+    → promote to main
+    → build and qualify the selected release artifacts
+    → publish under the applicable authority
+```
+
+PR #237 should remain draft until its applicable gates are satisfied.
+
+### Publication
+
+Both repositories’ GitHub release collections currently return no published releases. That is not a claim about every private artifact or historical tag; it means no GitHub Release was visible through those collections.  
+
+No reliable calendar release date follows from the evidence available today.
+
+The meaningful release criteria are:
+
+| Gate | Required result |
+|---|---|
+| Scope | Finite features and targets selected |
+| Correctness | Required tests pass on the exact candidate |
+| Integration | Consumers exercise the actual packaged interfaces |
+| Safety/limits | Unqualified capabilities stay unavailable |
+| Packaging | Final extracted contents match the expected composition |
+| Documentation | Implemented/tested/planned claims agree |
+| Licensing and provenance | Applicable terms and exact dependencies are established |
+| Publication | Explicit release authority and final artifact verification |
+
+**A naming cleanup should not block an otherwise qualified release. A hanging repair operation should.**
+
+---
+
+## 11. The next maintenance pass should be small and ordered
+
+I recommend three bounded changes, alongside continued implementation—not a new overhaul campaign.
+
+| Change | Contents |
+|---|---|
+| **Build-boundary cleanup** | Accurate target names, shared build policy, deliberate include interfaces and dependency checks |
+| **Frontend-invariant cleanup** | Extract proven duplicated request/epoch/form rules; retain separate interaction models and regression behaviour |
+| **Contributor clarity** | Formatter policy, accurate current-work routing and continued source-map coverage |
+
+Keep naming-only, formatting-only and behavioural changes separate. Preserve source-bound historical evidence. Do not combine these edits with new disk-write capabilities.
+
+Then continue the existing DiskEd work and resolve Universal Setup’s maintenance failure.
+
+A dedicated machine, more agents or a larger model will not compensate for ambiguous ownership—but neither will another hundred pages of planned filenames. The current repository has enough structure; what it needs now is consistent enforcement and measured evolution.
+
+## Bottom line
+
+**You are on the right architectural track. The current CLI/TUI/shell/GUI placement is substantially coherent, and the specific filename problem has already been repaired.**
+
+The strongest improvements now are:
+
+> **Clearer dependency boundaries, less duplicated semantic logic, readable state transitions, accurate work routing and release decisions tied to actual results.**
+
+Retain the structure. Improve those specific weaknesses. Do not reset a functioning codebase merely because the eventual product is much larger than the implementation today.

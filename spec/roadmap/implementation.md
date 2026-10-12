@@ -270,3 +270,7 @@ evaluation. Clean native reproduction and agent review govern local continuation
 Public image.verify commands, negotiated events, bounded caller requests and
 actual frontend journeys are the next gate; all platform/storage and owner
 acceptance remain open.
+
+## Current continuation and source maintenance
+
+The programme record `.aide/programmes/disked-0.1.0.json` routes current work and exact verified revisions. Earlier progress notes are historical, not independent current admission. The 2026-10-12 structure review keeps the existing tree and resolves no future capability or owner gate. Its bounded maintenance profile records current-work/format clarity and pending build/header/dependency/shared-invariant changes. The full all-platform/storage 0.1.0 objective remains unchanged.

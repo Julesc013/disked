@@ -1,0 +1,96 @@
+{
+  "observed_at": "2026-10-12T10:15:02.211912+00:00",
+  "identity": "BLACKGLASS-WIN1\\Jules",
+  "github_account": "Julesc013",
+  "scope": "Read-only API metadata, not native/runtime qualification or promotion.",
+  "commands": [
+    {
+      "name": "usk-pr",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/pulls/237",
+        "--jq",
+        "{number,state,draft,head:.head.sha,base:.base.sha,mergeable,mergeable_state,updated_at,html_url}"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "usk-run",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/actions/runs/38221243094",
+        "--jq",
+        "{head_sha,status,conclusion,run_attempt,updated_at,html_url}"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "usk-main",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/commits/main",
+        "--jq",
+        "{sha,tree:.commit.tree.sha}"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "usk-dev",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/commits/dev",
+        "--jq",
+        "{sha,tree:.commit.tree.sha}"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "usk-compare",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/compare/main...dev",
+        "--jq",
+        "{status,ahead_by,behind_by,files:[.files[].filename]}"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "usk-releases",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/universal-setup/releases",
+        "--jq",
+        "map({tag_name,draft,prerelease,published_at})"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "disked-releases",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/disked/releases",
+        "--jq",
+        "map({tag_name,draft,prerelease,published_at})"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "disked-main",
+      "command": [
+        "gh",
+        "api",
+        "repos/Julesc013/disked/branches/main",
+        "--jq",
+        "{name,protected,sha:.commit.sha}"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

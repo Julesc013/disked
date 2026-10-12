@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.3-proposed.2
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -105,6 +105,18 @@ Use protected `main` once initialized, an optional integrated `dev`, bounded tas
 ## Interfaces, not incidental paths
 
 Stable command IDs, schema IDs and requirement IDs are public contracts. Internal filenames and functions are not. The generated index permits lookup by ID after movement. Spec links must remain valid or have deliberate aliases; code tools should resolve ownership through the project graph rather than hard-coding directory folklore.
+
+Contributor naming, function/ownership conventions and evolution are explained in
+`docs/code-structure.md`. Root `.editorconfig` and `.clang-format` define text and
+C/C++ formatting on modern coordinators; keep formatting-only changes separate
+from behaviour changes and preserve generated/upstream/historical bytes. This
+policy does not assert that every existing file is already formatter-clean.
+Source-map coverage does not prove description accuracy, include resolution or
+dependency conformance. Build targets and usage requirements must represent their
+actual responsibilities; maintain independent header/layer checks alongside the
+inventory. The current work pointer routes through the programme and owning work
+record rather than a permanently fixed first-task paragraph. Programme state and
+external reviews supply neither execution authority nor owner acceptance.
 
 ## Explicit source-map amendment
 
