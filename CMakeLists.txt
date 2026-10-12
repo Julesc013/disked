@@ -129,6 +129,20 @@ target_link_libraries(disked_gpt_capture PUBLIC disked_map_observation disked_gp
 set_target_properties(disked_gpt_capture PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_gpt_capture PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Private create-only image effects experiment; not linked to the product.
+add_library(disked_gpt_fixture_execution STATIC source/runtime/operation/gpt_execution.cpp)
+target_include_directories(disked_gpt_fixture_execution PUBLIC source/runtime/operation)
+target_link_libraries(disked_gpt_fixture_execution PUBLIC disked_gpt_repair_planning disked_journal_prototype)
+set_target_properties(disked_gpt_fixture_execution PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_gpt_fixture_execution PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_gpt_fixture_files STATIC source/providers/image/fixture_repair.cpp)
+target_include_directories(disked_gpt_fixture_files PUBLIC source/providers/image)
+target_link_libraries(disked_gpt_fixture_files PUBLIC disked_gpt_fixture_execution disked_local_file)
+target_compile_definitions(disked_gpt_fixture_files PRIVATE _WIN32_WINNT=0x0A00 DISKED_GPT_OWNED_FIXTURE=1)
+set_target_properties(disked_gpt_fixture_files PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_gpt_fixture_files PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 add_library(disked_local_file STATIC source/providers/image/local_file.cpp)
 target_include_directories(disked_local_file PUBLIC source/providers/image)
 target_link_libraries(disked_local_file PUBLIC disked_json)
@@ -577,6 +591,15 @@ if(BUILD_TESTING)
   add_test(NAME image.gpt_repair_command COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_gpt_repair_command.py"
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_image_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.gpt_repair_command PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
+  add_executable(gpt_execution_probe tests/images/gpt_execution_probe.cpp)
+  add_dependencies(gpt_execution_probe bootstrap_registry)
+  target_include_directories(gpt_execution_probe PRIVATE "${generated}")
+  target_link_libraries(gpt_execution_probe PRIVATE disked_gpt_fixture_files disked_gpt_capture)
+  set_target_properties(gpt_execution_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(gpt_execution_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  add_test(NAME image.gpt_fixture_execution COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_gpt_execution.py"
+    --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+  set_tests_properties(image.gpt_fixture_execution PROPERTIES TIMEOUT 300)
   add_executable(image_file_capture_probe tests/frontend/image_file_capture_probe.cpp)
   target_link_libraries(image_file_capture_probe PRIVATE disked_image_capture)
   set_target_properties(image_file_capture_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

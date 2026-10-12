@@ -14,7 +14,9 @@
     "write_chunk_bytes": 65536,
     "journal_bytes": 1048576,
     "backup_bytes": 2117632,
-    "records": 32
+    "records": 32,
+    "trace_events": 2048,
+    "probe_response_bytes": 262144
   },
   "preparation": "Probe creates a new owned child directory and CREATE_NEW image/backup/journal files under an ordinary local test parent. Seed image is fixture preparation. Parser/planner receive supplied owned bytes and perform no I/O. Return a prepared manifest and exact definition/digests before accepting a separate controller grant. No external target can be selected for execution.",
   "manifest": "Binds plan/capture digest, actual file/root generation identities, exact image bytes, provider identity, actual executable byte SHA256, original journal publisher identity/epoch, path and explicit fixture scope. All identities are checked through held handles and pinned ordinary parents. File objects must be distinct, single-link and non-reparse; image size is fixed. Same-volume storage is declared non-independent.",
