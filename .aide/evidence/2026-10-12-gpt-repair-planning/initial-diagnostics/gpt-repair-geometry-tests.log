@@ -1,0 +1,30 @@
+test_already_agree_is_empty_preview (__main__.RepairTests.test_already_agree_is_empty_preview) ... ok
+test_consistent_disagreement_requires_explicit_decision (__main__.RepairTests.test_consistent_disagreement_requires_explicit_decision) ... ok
+test_declared_selection_changes_identity (__main__.RepairTests.test_declared_selection_changes_identity) ... ok
+test_deterministic_corruption_campaign (__main__.RepairTests.test_deterministic_corruption_campaign) ... ok
+test_equal_crc_is_not_equal_payload (__main__.RepairTests.test_equal_crc_is_not_equal_payload) ... ok
+test_exact_high_addresses (__main__.RepairTests.test_exact_high_addresses) ... ok
+test_header_checksum_and_combined_damage (__main__.RepairTests.test_header_checksum_and_combined_damage) ... ok
+test_input_binding_and_plan_ownership (__main__.RepairTests.test_input_binding_and_plan_ownership) ... ok
+test_overflow_and_profile_limit (__main__.RepairTests.test_overflow_and_profile_limit) ... ok
+test_padding_and_pmbr_are_never_normalized (__main__.RepairTests.test_padding_and_pmbr_are_never_normalized) ... ok
+test_repair_both_roles_and_block_sizes (__main__.RepairTests.test_repair_both_roles_and_block_sizes) ... ok
+test_source_truncation_corruption_and_budget (__main__.RepairTests.test_source_truncation_corruption_and_budget) ... FAIL
+test_unknown_target_layout_never_guesses (__main__.RepairTests.test_unknown_target_layout_never_guesses) ... ok
+
+======================================================================
+FAIL: test_source_truncation_corruption_and_budget (__main__.RepairTests.test_source_truncation_corruption_and_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 85, in test_source_truncation_corruption_and_budget
+    f=fixture(count=1025);self.invoke(capture(f),refusal='repair_budget')
+  File "D:\Projects\DiskEd\disked\tests\property\test_gpt.py", line 44, in fixture
+    assert first<=last
+           ^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.761s
+
+FAILED (failures=1)
+{"passed": false, "tests": 13, "executions": 98, "probe_sha256": "sha256:f72d4a9fd7cf0511ddfd51521a8810ba04e3896b35f9a7f26bf2e51c5bd7a499", "scope": "Pure supplied-byte previews, independent Python exact patch/CRC/untouched-byte checks and bounded corruptions; no image writes, provider/public/writer/recovery/other-platform admission"}

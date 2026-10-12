@@ -292,3 +292,6 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   receipts. Keep full 0.1.0 scope and all owner/storage/platform/release gates.
 
 - [x] Private report exit-wait diagnostics `b5d6ddfc`:18 owned-process and286 joined-export checks,213toolpasses/twoskips/1075structure. Exact unchanged3000ms/raw result/timing/identity guards; native producer remains `f7b4376f`. Original parallel cause remains unknown; partial evidence in `.aide/evidence/2026-10-12-report-exit-diagnostics/`.
+
+- [x] DE-W041 private supplied-capture GPT repair planning `6b025fdc`:16tests/107native runs, exact immutable before/after patches and independent byte/CRC oracles;78parallel product groups,213toolpasses/twoskips/1077structure. Public command/writer/recovery/other-host/owner/full-unit gates remain open.
+- [ ] Reproduce independent caller/job memory-budget coexistence: valid discovery returned memory_budget_incompatible/platform5 during another execution-context campaign and succeeded afterward. Preserve all limits, typed refusals and actual process identity; no cause/fix inferred from passing same-tree tests.

@@ -1,0 +1,178 @@
+test_already_agree_is_empty_preview (__main__.RepairTests.test_already_agree_is_empty_preview) ... FAIL
+test_consistent_disagreement_requires_explicit_decision (__main__.RepairTests.test_consistent_disagreement_requires_explicit_decision) ... FAIL
+test_declared_selection_changes_identity (__main__.RepairTests.test_declared_selection_changes_identity) ... FAIL
+test_deterministic_corruption_campaign (__main__.RepairTests.test_deterministic_corruption_campaign) ... FAIL
+test_equal_crc_is_not_equal_payload (__main__.RepairTests.test_equal_crc_is_not_equal_payload) ... FAIL
+test_exact_high_addresses (__main__.RepairTests.test_exact_high_addresses) ... FAIL
+test_header_checksum_and_combined_damage (__main__.RepairTests.test_header_checksum_and_combined_damage) ... FAIL
+test_input_binding_and_plan_ownership (__main__.RepairTests.test_input_binding_and_plan_ownership) ... FAIL
+test_overflow_and_profile_limit (__main__.RepairTests.test_overflow_and_profile_limit) ... ok
+test_padding_and_pmbr_are_never_normalized (__main__.RepairTests.test_padding_and_pmbr_are_never_normalized) ... FAIL
+test_repair_both_roles_and_block_sizes (__main__.RepairTests.test_repair_both_roles_and_block_sizes) ... FAIL
+test_source_truncation_corruption_and_budget (__main__.RepairTests.test_source_truncation_corruption_and_budget) ... FAIL
+test_unknown_target_layout_never_guesses (__main__.RepairTests.test_unknown_target_layout_never_guesses) ... FAIL
+
+======================================================================
+FAIL: test_already_agree_is_empty_preview (__main__.RepairTests.test_already_agree_is_empty_preview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 71, in test_already_agree_is_empty_preview
+    for source in ('primary','backup'):self.assertEqual([],self.invoke(capture(fixture()),source)['definition']['patches'])
+                                                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_consistent_disagreement_requires_explicit_decision (__main__.RepairTests.test_consistent_disagreement_requires_explicit_decision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 62, in test_consistent_disagreement_requires_explicit_decision
+    self.invoke(c,'backup',refusal='repair_selection_required');self.invoke(c,'backup',decision=digest(b'selection-record'))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 30, in invoke
+    if refusal is not None:self.assertEqual(3,r.returncode);self.assertEqual(refusal,v['code']);self.assertFalse(v['authorizes_effects']);return v
+                                                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'repair_selection_required' != 'repair_protective_mbr'
+- repair_selection_required
++ repair_protective_mbr
+
+
+======================================================================
+FAIL: test_declared_selection_changes_identity (__main__.RepairTests.test_declared_selection_changes_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 95, in test_declared_selection_changes_identity
+    c=capture(damaged(fixture()));a=self.invoke(c);b=self.invoke(c,decision=digest(b'extra-decision'));self.assertNotEqual(a['plan_digest'],b['plan_digest'])
+                                    ~~~~~~~~~~~^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_deterministic_corruption_campaign (__main__.RepairTests.test_deterministic_corruption_campaign)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 103, in test_deterministic_corruption_campaign
+    source=rng.choice(('primary','backup'));target='backup' if source=='primary' else 'primary';f=fixture(count=7);data=bytearray.fromhex(f[target+'_array']);index=rng.randrange(7*128);data[index]^=1<<rng.randrange(8);f[target+'_array']=data.hex();self.invoke(capture(f),source)
+                                                                                                                                                                                                                                                        ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_equal_crc_is_not_equal_payload (__main__.RepairTests.test_equal_crc_is_not_equal_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 68, in test_equal_crc_is_not_equal_payload
+    self.invoke(c,'primary',refusal='repair_selection_required')
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 30, in invoke
+    if refusal is not None:self.assertEqual(3,r.returncode);self.assertEqual(refusal,v['code']);self.assertFalse(v['authorizes_effects']);return v
+                                                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'repair_selection_required' != 'repair_protective_mbr'
+- repair_selection_required
++ repair_protective_mbr
+
+
+======================================================================
+FAIL: test_exact_high_addresses (__main__.RepairTests.test_exact_high_addresses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 73, in test_exact_high_addresses
+    c=capture(damaged(fixture(blocks=2**54+19)));v=self.invoke(c);self.assertGreater(int(v['definition']['patches'][0]['offset']),2**53)
+                                                   ~~~~~~~~~~~^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_header_checksum_and_combined_damage (__main__.RepairTests.test_header_checksum_and_combined_damage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 59, in test_header_checksum_and_combined_damage
+    f=damaged(fixture(),target) if array else fixture();raw=bytearray.fromhex(f[target]);raw[16]^=1;f[target]=raw.hex();v=self.invoke(capture(f),source);self.assertEqual('target-header',v['definition']['patches'][-1]['id'])
+                                                                                                                          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_input_binding_and_plan_ownership (__main__.RepairTests.test_input_binding_and_plan_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 75, in test_input_binding_and_plan_ownership
+    c=capture(damaged(fixture()));v=self.invoke(c,mode='mutate_after_build');self.assertFalse(v['matches_changed']);self.assertTrue(v['definition_unchanged'])
+                                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_padding_and_pmbr_are_never_normalized (__main__.RepairTests.test_padding_and_pmbr_are_never_normalized)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 91, in test_padding_and_pmbr_are_never_normalized
+    f=fixture(count=3);raw=bytearray.fromhex(f['backup_array']);raw[-1]=1;f['backup_array']=raw.hex();self.invoke(capture(f),refusal='repair_target_structure')
+                                                                                                      ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 30, in invoke
+    if refusal is not None:self.assertEqual(3,r.returncode);self.assertEqual(refusal,v['code']);self.assertFalse(v['authorizes_effects']);return v
+                                                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'repair_target_structure' != 'repair_protective_mbr'
+- repair_target_structure
++ repair_protective_mbr
+
+
+======================================================================
+FAIL: test_repair_both_roles_and_block_sizes (__main__.RepairTests.test_repair_both_roles_and_block_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 54, in test_repair_both_roles_and_block_sizes
+    target='backup' if source=='primary' else 'primary';f=damaged(fixture(unit=unit),target);self.invoke(capture(f),source)
+                                                                                             ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 31, in invoke
+    self.assertEqual(0,r.returncode);self.assertTrue(v['input_unchanged']);self.assertTrue(v['matches_original']);self.audit(c,source,decision,v);return v
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_source_truncation_corruption_and_budget (__main__.RepairTests.test_source_truncation_corruption_and_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 82, in test_source_truncation_corruption_and_budget
+    f=damaged(fixture());f['primary']=f['primary'][:-2];self.invoke(capture(f),refusal='repair_source_unusable')
+                                                        ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 30, in invoke
+    if refusal is not None:self.assertEqual(3,r.returncode);self.assertEqual(refusal,v['code']);self.assertFalse(v['authorizes_effects']);return v
+                                                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'repair_source_unusable' != 'repair_protective_mbr'
+- repair_source_unusable
++ repair_protective_mbr
+
+
+======================================================================
+FAIL: test_unknown_target_layout_never_guesses (__main__.RepairTests.test_unknown_target_layout_never_guesses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 88, in test_unknown_target_layout_never_guesses
+    f=fixture();change_header(f,offset,'<'+fmt,value,'backup');c=capture(f);code='repair_layout_conflict' if offset in (56,80,48) else 'repair_target_structure';self.invoke(c,refusal=code)
+                                                                                                                                                                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_gpt_repair.py", line 30, in invoke
+    if refusal is not None:self.assertEqual(3,r.returncode);self.assertEqual(refusal,v['code']);self.assertFalse(v['authorizes_effects']);return v
+                                                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'repair_target_structure' != 'repair_protective_mbr'
+- repair_target_structure
++ repair_protective_mbr
+
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.390s
+
+FAILED (failures=12)
+{"passed": false, "tests": 13, "executions": 14, "probe_sha256": "sha256:0e3f5829529295786c66b88a436fd2b7aba3df1da0c63774d80fd4401f5070fd", "scope": "Pure supplied-byte previews, independent Python exact patch/CRC/untouched-byte checks and bounded corruptions; no image writes, provider/public/writer/recovery/other-platform admission"}
