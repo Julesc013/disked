@@ -1,0 +1,1020 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W017",
+  "base_revision": "eb9b49d38e9fda06915f5da1f5ec12c8a10c5f4e",
+  "spec_manifest_digest": "sha256:0feabf5abc8da4e450ede2c8c9de6a3d185f178f263fee3d091be9ab04b4817e",
+  "status": "partial",
+  "files_read": [
+    ".aide/evidence/2026-10-12-job-coexistence/reproduce.py",
+    "AGENTS.md",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "docs/source-map.md",
+    "source/apps/disked/app.cpp",
+    "source/apps/disked/app.h",
+    "source/apps/disked/cli/cli.cpp",
+    "source/apps/disked/cli/cli.h",
+    "source/apps/disked/command_registry.cpp",
+    "source/apps/disked/command_registry.h",
+    "source/apps/disked/disked.manifest",
+    "source/apps/disked/gui/gui_model.cpp",
+    "source/apps/disked/gui/gui_model.h",
+    "source/apps/disked/main.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/apps/disked/shell/shell_model.h",
+    "source/apps/disked/tui/tui_model.cpp",
+    "source/apps/disked/tui/tui_model.h",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/acquisition_worker.h",
+    "source/platform/windows/console/terminal.cpp",
+    "source/platform/windows/console/terminal.h",
+    "source/platform/windows/entry.cpp",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/fake_worker.h",
+    "source/platform/windows/invocation.cpp",
+    "source/platform/windows/invocation.h",
+    "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/memory_budget.h",
+    "source/platform/windows/output.cpp",
+    "source/platform/windows/output.h",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/report_worker.h",
+    "source/platform/windows/ui/gui.cpp",
+    "source/platform/windows/ui/gui.h",
+    "source/platform/windows/verification_worker.cpp",
+    "source/platform/windows/verification_worker.h",
+    "source/platform/windows/worker_files.h",
+    "source/portable/ebr/ebr.c",
+    "source/portable/ebr/ebr.h",
+    "source/portable/gpt/encoding.c",
+    "source/portable/gpt/gpt.c",
+    "source/portable/gpt/gpt.h",
+    "source/portable/hash/sha256.cpp",
+    "source/portable/hash/sha256.h",
+    "source/portable/mbr/mbr.c",
+    "source/portable/mbr/mbr.h",
+    "source/portable/primitives/checked.c",
+    "source/portable/primitives/checked.h",
+    "source/portable/primitives/extent.c",
+    "source/portable/primitives/extent.h",
+    "source/portable/primitives/view.c",
+    "source/portable/primitives/view.h",
+    "source/providers/fake/bootstrap.cpp",
+    "source/providers/fake/bootstrap.h",
+    "source/providers/fake/graph.cpp",
+    "source/providers/fake/graph.h",
+    "source/providers/fake/health_observer.cpp",
+    "source/providers/fake/health_observer.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/providers/image/file_capture.cpp",
+    "source/providers/image/file_capture.h",
+    "source/providers/image/file_verification.cpp",
+    "source/providers/image/file_verification.h",
+    "source/providers/image/local_file.cpp",
+    "source/providers/image/local_file.h",
+    "source/providers/report/file_acquisition_export.cpp",
+    "source/providers/report/file_acquisition_export.h",
+    "source/providers/report/file_case.cpp",
+    "source/providers/report/file_case.h",
+    "source/providers/report/file_export.cpp",
+    "source/providers/report/file_export.h",
+    "source/providers/report/file_image_collection.cpp",
+    "source/providers/report/file_image_collection.h",
+    "source/providers/report/file_verification_case_export.cpp",
+    "source/providers/report/file_verification_case_export.h",
+    "source/runtime/acquisition/commands.cpp",
+    "source/runtime/acquisition/commands.h",
+    "source/runtime/acquisition/observation.cpp",
+    "source/runtime/acquisition/observation.h",
+    "source/runtime/acquisition/operation.cpp",
+    "source/runtime/acquisition/operation.h",
+    "source/runtime/acquisition/pipeline.cpp",
+    "source/runtime/acquisition/pipeline.h",
+    "source/runtime/capture/capture_port.h",
+    "source/runtime/capture/image_commands.cpp",
+    "source/runtime/capture/image_commands.h",
+    "source/runtime/capture/map_observation.cpp",
+    "source/runtime/capture/map_observation.h",
+    "source/runtime/command/command.cpp",
+    "source/runtime/command/command.h",
+    "source/runtime/command/json.cpp",
+    "source/runtime/command/json.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/protocol.h",
+    "source/runtime/command/shell_lexer.cpp",
+    "source/runtime/command/shell_lexer.h",
+    "source/runtime/evidence/acquisition_case.cpp",
+    "source/runtime/evidence/acquisition_case.h",
+    "source/runtime/evidence/acquisition_export.cpp",
+    "source/runtime/evidence/acquisition_export.h",
+    "source/runtime/evidence/acquisition_verification.cpp",
+    "source/runtime/evidence/acquisition_verification.h",
+    "source/runtime/evidence/case_report.cpp",
+    "source/runtime/evidence/case_report.h",
+    "source/runtime/evidence/export_commands.cpp",
+    "source/runtime/evidence/export_commands.h",
+    "source/runtime/evidence/health.cpp",
+    "source/runtime/evidence/health.h",
+    "source/runtime/evidence/image_collection.cpp",
+    "source/runtime/evidence/image_collection.h",
+    "source/runtime/evidence/image_observation.cpp",
+    "source/runtime/evidence/image_observation.h",
+    "source/runtime/evidence/image_verification.cpp",
+    "source/runtime/evidence/image_verification.h",
+    "source/runtime/evidence/report_export.cpp",
+    "source/runtime/evidence/report_export.h",
+    "source/runtime/evidence/report_observation.cpp",
+    "source/runtime/evidence/report_observation.h",
+    "source/runtime/evidence/report_operation.cpp",
+    "source/runtime/evidence/report_operation.h",
+    "source/runtime/evidence/verification_case_export.cpp",
+    "source/runtime/evidence/verification_case_export.h",
+    "source/runtime/evidence/verification_commands.cpp",
+    "source/runtime/evidence/verification_commands.h",
+    "source/runtime/evidence/verification_observation.cpp",
+    "source/runtime/evidence/verification_observation.h",
+    "source/runtime/evidence/verification_operation.cpp",
+    "source/runtime/evidence/verification_operation.h",
+    "source/runtime/graph/capture.cpp",
+    "source/runtime/graph/capture.h",
+    "source/runtime/graph/snapshot.cpp",
+    "source/runtime/graph/snapshot.h",
+    "source/runtime/invocation/policy.cpp",
+    "source/runtime/invocation/policy.h",
+    "source/runtime/journal/codec.cpp",
+    "source/runtime/journal/codec.h",
+    "source/runtime/journal/definitions.cpp",
+    "source/runtime/journal/definitions.h",
+    "source/runtime/journal/guarded_model.cpp",
+    "source/runtime/journal/guarded_model.h",
+    "source/runtime/journal/producer.cpp",
+    "source/runtime/journal/producer.h",
+    "source/runtime/journal/semantics.cpp",
+    "source/runtime/journal/semantics.h",
+    "source/runtime/operation/fake_operation.cpp",
+    "source/runtime/operation/fake_operation.h",
+    "source/runtime/operation/watch.cpp",
+    "source/runtime/operation/watch.h",
+    "source/runtime/planner/gpt_repair.cpp",
+    "source/runtime/planner/gpt_repair.h",
+    "source/runtime/presentation/requests.cpp",
+    "source/runtime/presentation/requests.h",
+    "source/runtime/presentation/session.cpp",
+    "source/runtime/presentation/session.h",
+    "source/runtime/presentation/text_input.h",
+    "spec/START-HERE.md",
+    "spec/architecture/execution-topology.md",
+    "spec/catalog/acquired-image-verification-prototype.json",
+    "spec/catalog/acquisition-case-export-prototype.json",
+    "spec/catalog/acquisition-case-prototype.json",
+    "spec/catalog/acquisition-verification-report-prototype.json",
+    "spec/catalog/artifact-checker-prototype.json",
+    "spec/catalog/case-evidence-prototype.json",
+    "spec/catalog/cli-syntax.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/components.json",
+    "spec/catalog/compositions.json",
+    "spec/catalog/export-command-prototype.json",
+    "spec/catalog/fake-health-command.json",
+    "spec/catalog/frontend-job-coexistence-prototype.json",
+    "spec/catalog/gpt-repair-planning-prototype.json",
+    "spec/catalog/guarded-journal-prototype.json",
+    "spec/catalog/health-observation-prototype.json",
+    "spec/catalog/image-verification-collection-prototype.json",
+    "spec/catalog/image-verification-observation-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/joined-report-public-prototype.json",
+    "spec/catalog/joined-report-worker-prototype.json",
+    "spec/catalog/journal-producer-prototype.json",
+    "spec/catalog/journal-prototype.json",
+    "spec/catalog/journal-semantics-prototype.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/ordinary-file-path-profile.json",
+    "spec/catalog/plan-prototype.json",
+    "spec/catalog/product-verification-prototype.json",
+    "spec/catalog/report-export-prototype.json",
+    "spec/catalog/report-watch-prototype.json",
+    "spec/catalog/report-worker-prototype.json",
+    "spec/catalog/verification-command-prototype.json",
+    "spec/catalog/verification-worker-prototype.json",
+    "spec/development/native-bootstrap.md",
+    "spec/fixtures/command-syntax.json",
+    "spec/fixtures/invocation.json",
+    "spec/fixtures/native-bootstrap.json",
+    "spec/index.md",
+    "spec/interaction/commands.md",
+    "spec/interaction/interactive-shell.md",
+    "spec/interaction/invocation.md",
+    "spec/interaction/output-and-progress.md",
+    "spec/interaction/presentation.md",
+    "spec/interaction/protocol.md",
+    "spec/interaction/terminal-session.md",
+    "spec/interaction/tui-and-gui.md",
+    "spec/operations/gpt-repair.md",
+    "spec/safety/degraded-operation.md",
+    "spec/schemas/acquired-image-verification-outcome.schema.json",
+    "spec/schemas/acquisition-case-export-definition.schema.json",
+    "spec/schemas/acquisition-case-export-outcome.schema.json",
+    "spec/schemas/acquisition-command-parameters.schema.json",
+    "spec/schemas/acquisition-operation-event.schema.json",
+    "spec/schemas/acquisition-outcome-prototype.schema.json",
+    "spec/schemas/acquisition-plan-prototype.schema.json",
+    "spec/schemas/acquisition-verification-export-definition.schema.json",
+    "spec/schemas/acquisition-verification-export-outcome.schema.json",
+    "spec/schemas/acquisition-worker-definition.schema.json",
+    "spec/schemas/acquisition-worker-record.schema.json",
+    "spec/schemas/acquisition-worker-state.schema.json",
+    "spec/schemas/capability-assessment.schema.json",
+    "spec/schemas/cli-syntax.schema.json",
+    "spec/schemas/command-capability-parameters.schema.json",
+    "spec/schemas/command-empty-parameters.schema.json",
+    "spec/schemas/command-fake-operation-parameters.schema.json",
+    "spec/schemas/command-fake-simulation-parameters.schema.json",
+    "spec/schemas/command-health-parameters.schema.json",
+    "spec/schemas/command-image-path-parameters.schema.json",
+    "spec/schemas/command-operation-parameters.schema.json",
+    "spec/schemas/command-resize-proposal-parameters.schema.json",
+    "spec/schemas/command-shell-parameters.schema.json",
+    "spec/schemas/command-syntax-cases.schema.json",
+    "spec/schemas/command-target-parameters.schema.json",
+    "spec/schemas/command-watch-parameters.schema.json",
+    "spec/schemas/diagnostic.schema.json",
+    "spec/schemas/export-command-parameters.schema.json",
+    "spec/schemas/export-operation-result-v2.schema.json",
+    "spec/schemas/export-operation-result.schema.json",
+    "spec/schemas/export-preparation-result-v2.schema.json",
+    "spec/schemas/export-preparation-result.schema.json",
+    "spec/schemas/fake-graph.schema.json",
+    "spec/schemas/fake-operation-event.schema.json",
+    "spec/schemas/fake-operation-record.schema.json",
+    "spec/schemas/fake-operation.schema.json",
+    "spec/schemas/graph.schema.json",
+    "spec/schemas/handoff.schema.json",
+    "spec/schemas/report-operation-event.schema.json",
+    "spec/schemas/report-worker-definition-parameter.schema.json",
+    "spec/schemas/report-worker-definition-v2.schema.json",
+    "spec/schemas/report-worker-definition.schema.json",
+    "spec/schemas/report-worker-grant-v2.schema.json",
+    "spec/schemas/report-worker-grant.schema.json",
+    "spec/schemas/report-worker-record.schema.json",
+    "spec/schemas/report-worker-state.schema.json",
+    "spec/schemas/request.schema.json",
+    "spec/schemas/response.schema.json",
+    "spec/schemas/terminal-capabilities.schema.json",
+    "spec/schemas/verification-command-parameters.schema.json",
+    "spec/schemas/verification-operation-event.schema.json",
+    "spec/schemas/verification-operation-result.schema.json",
+    "spec/schemas/verification-preparation-result.schema.json",
+    "spec/schemas/verification-worker-definition.schema.json",
+    "spec/schemas/verification-worker-grant.schema.json",
+    "spec/schemas/verification-worker-record.schema.json",
+    "spec/schemas/verification-worker-state.schema.json",
+    "spec/storage/capability-resolution.md",
+    "spec/storage/identity-and-graph.md",
+    "spec/tools/export_contracts.py",
+    "spec/tools/joined_report_contracts.py",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_bootstrap_schema_closure.py",
+    "spec/tools/tests/test_export_semantics.py",
+    "spec/tools/tests/test_joined_report_semantics.py",
+    "spec/tools/tests/test_report_semantics.py",
+    "spec/work/units.json",
+    "tests/artifacts/test_artifact_check.py",
+    "tests/contracts/codec_probe.cpp",
+    "tests/contracts/parser_probe.cpp",
+    "tests/contracts/reader_probe.cpp",
+    "tests/contracts/test_json.py",
+    "tests/contracts/test_parser.py",
+    "tests/contracts/test_reader.py",
+    "tests/corpus/partition_images.py",
+    "tests/evidence/acquisition_case_probe.cpp",
+    "tests/evidence/acquisition_export_probe.cpp",
+    "tests/evidence/case_probe.cpp",
+    "tests/evidence/export_command_probe.cpp",
+    "tests/evidence/export_fixture.h",
+    "tests/evidence/export_probe.cpp",
+    "tests/evidence/file_export_probe.cpp",
+    "tests/evidence/fixtures/verification-contracts.json",
+    "tests/evidence/image_collection_probe.cpp",
+    "tests/evidence/image_observation_probe.cpp",
+    "tests/evidence/image_verification_probe.cpp",
+    "tests/evidence/report_worker_probe.cpp",
+    "tests/evidence/test_acquisition_case.py",
+    "tests/evidence/test_acquisition_export.py",
+    "tests/evidence/test_case.py",
+    "tests/evidence/test_export.py",
+    "tests/evidence/test_export_commands.py",
+    "tests/evidence/test_file_export.py",
+    "tests/evidence/test_image_collection.py",
+    "tests/evidence/test_image_observation.py",
+    "tests/evidence/test_image_verification.py",
+    "tests/evidence/test_joined_report_worker.py",
+    "tests/evidence/test_report_process.py",
+    "tests/evidence/test_report_watch.py",
+    "tests/evidence/test_report_worker.py",
+    "tests/evidence/test_verification_case.py",
+    "tests/evidence/test_verification_commands.py",
+    "tests/evidence/test_verification_worker.py",
+    "tests/evidence/verification_budget_fixture.py",
+    "tests/evidence/verification_case_probe.cpp",
+    "tests/evidence/verification_command_probe.cpp",
+    "tests/evidence/verification_worker_probe.cpp",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/console_tui_fixture.py",
+    "tests/frontend/fixtures/gui-capture/fixtures.json",
+    "tests/frontend/fixtures/gui-capture/frame-only.png",
+    "tests/frontend/fixtures/gui-capture/redrawn-client.png",
+    "tests/frontend/gui_fixture.py",
+    "tests/frontend/gui_probe.cpp",
+    "tests/frontend/image_console_fixture.py",
+    "tests/frontend/image_file_capture_probe.cpp",
+    "tests/frontend/image_observation_probe.cpp",
+    "tests/frontend/report_console_fixture.py",
+    "tests/frontend/service_probe.cpp",
+    "tests/frontend/test_acquisition_forms.py",
+    "tests/frontend/test_acquisition_interactive.py",
+    "tests/frontend/test_gui_capture.py",
+    "tests/frontend/test_gui_model.py",
+    "tests/frontend/test_gui_windows.py",
+    "tests/frontend/test_image_commands.py",
+    "tests/frontend/test_image_file_capture.py",
+    "tests/frontend/test_image_observation.py",
+    "tests/frontend/test_product_export.py",
+    "tests/frontend/test_product_verification.py",
+    "tests/frontend/test_service.py",
+    "tests/frontend/test_transport.py",
+    "tests/frontend/test_tui_model.py",
+    "tests/frontend/test_tui_windows.py",
+    "tests/frontend/tui_probe.cpp",
+    "tests/frontend/verification_console_fixture.py",
+    "tests/health/health_probe.cpp",
+    "tests/health/test_command.py",
+    "tests/health/test_health.py",
+    "tests/images/acquisition_command_probe.cpp",
+    "tests/images/acquisition_probe.cpp",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tests/images/file_acquisition_probe.cpp",
+    "tests/images/gpt_repair_probe.cpp",
+    "tests/images/test_acquisition_commands.py",
+    "tests/images/test_acquisition_operations.py",
+    "tests/images/test_acquisition_pipeline.py",
+    "tests/images/test_acquisition_worker.py",
+    "tests/images/test_file_acquisition.py",
+    "tests/images/test_gpt_repair.py",
+    "tests/images/test_parent_pins.py",
+    "tests/interaction/console_shell_fixture.py",
+    "tests/interaction/shell_probe.cpp",
+    "tests/interaction/test_shell_model.py",
+    "tests/interaction/test_shell_windows.py",
+    "tests/invocation/console_fixture.py",
+    "tests/invocation/policy_probe.cpp",
+    "tests/invocation/test_policy.py",
+    "tests/invocation/test_windows.py",
+    "tests/journal/codec_probe.cpp",
+    "tests/journal/definition_probe.cpp",
+    "tests/journal/guarded_probe.cpp",
+    "tests/journal/semantic_probe.cpp",
+    "tests/journal/test_codec.py",
+    "tests/journal/test_crash_audit.py",
+    "tests/journal/test_definitions.py",
+    "tests/journal/test_guarded.py",
+    "tests/journal/test_producer.py",
+    "tests/journal/test_semantics.py",
+    "tests/legacy/README.md",
+    "tests/legacy/primitive_probe.c",
+    "tests/legacy/run_mbr_probes.py",
+    "tests/legacy/run_probes.py",
+    "tests/native/provider_guard_probe.cpp",
+    "tests/native/test_bootstrap.py",
+    "tests/native/test_protocol.py",
+    "tests/native/test_provider_guard.py",
+    "tests/operation/console_watch_fixture.py",
+    "tests/operation/directory_probe.cpp",
+    "tests/operation/reducer_probe.cpp",
+    "tests/operation/test_reducer.py",
+    "tests/operation/test_watch.py",
+    "tests/operation/test_watch_reader.py",
+    "tests/operation/test_worker.py",
+    "tests/operation/test_worker_directory.py",
+    "tests/operation/watch_probe.cpp",
+    "tests/property/test_gpt.py",
+    "tests/property/test_mbr.py",
+    "tests/property/test_primitives.py",
+    "tests/resilience/capture_campaign.cpp",
+    "tests/resilience/capture_probe.cpp",
+    "tests/resilience/console_capture_fixture.py",
+    "tests/resilience/console_memory_fixture.py",
+    "tests/resilience/console_wait_fixture.py",
+    "tests/resilience/memory_budget_probe.cpp",
+    "tests/resilience/memory_fixture.py",
+    "tests/resilience/request_channel_probe.cpp",
+    "tests/resilience/test_capture.py",
+    "tests/resilience/test_capture_campaign.py",
+    "tests/resilience/test_console_waiting.py",
+    "tests/resilience/test_frontend_memory.py",
+    "tests/resilience/test_gui_waiting.py",
+    "tests/resilience/test_output_waiting.py",
+    "tests/resilience/test_request_channel.py",
+    "tests/resilience/test_request_waiting.py",
+    "tests/resilience/test_store_failures.py",
+    "tests/resilience/test_worker_budget.py",
+    "tests/unit/gpt_probe.cpp",
+    "tests/unit/mbr_probe.cpp",
+    "tests/unit/portable_cpp.cpp",
+    "tests/unit/portable_probe.c",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json",
+    "tools/check-source-map.py",
+    "tools/release/artifact_check.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-12-job-coexistence/.gitattributes",
+    ".aide/evidence/2026-10-12-job-coexistence/README.md",
+    ".aide/evidence/2026-10-12-job-coexistence/audit_retention.py",
+    ".aide/evidence/2026-10-12-job-coexistence/compression-map.json",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-all-initial-tests.json.gz",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-all-initial-tests.log",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-before.json",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-before.log",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-build.log",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-configure.log",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-tests.json",
+    ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-tests.log",
+    ".aide/evidence/2026-10-12-job-coexistence/inventory.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduce.py",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCCompiler.cmake",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCXXCompiler.cmake",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCache.txt",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeRCCompiler.cmake",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/disked.vcxproj",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/disked_memory_test.vcxproj",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/memory_budget_probe.vcxproj",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-identity.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/commands.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/frontend-memory-results.json.gz",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/build.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/check.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/checkout.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/cmake-version.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/configure.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/context.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/ctest-catalog.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/existing-status.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/fetch.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/final-status.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/frontend-memory.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/host.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/index.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/manifest.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-dependents.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-headers.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-imports.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-dependents.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-headers.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-imports.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/origin.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-dependents.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-headers.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-imports.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-launch.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-parallel.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/python-environment.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-map.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-status.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-tree.log.gz",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/tooling.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/verify-context.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/worker-quota.log",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/native-details.log.gz",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/results.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/source-blob-bindings.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/source-inputs.json",
+    ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/worker-quota-results.json",
+    ".aide/evidence/2026-10-12-job-coexistence/validation-summary.json",
+    ".aide/handoffs/DE-W017-job-coexistence-2026-10-12.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "source/platform/windows/memory_budget.cpp",
+    "source/platform/windows/memory_budget.h",
+    "spec/architecture/execution-topology.md",
+    "spec/bundle.json",
+    "spec/catalog/frontend-job-coexistence-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/safety/degraded-operation.md",
+    "spec/work/units.json",
+    "tests/resilience/memory_budget_probe.cpp",
+    "tests/resilience/memory_fixture.py",
+    "tests/resilience/test_frontend_memory.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Independent compatible Windows frontend caller jobs at 98a5b593f410ae1f63994e7c07c9c138ecd26b0e: verified fresh child retains256MiB per-process cap and every inherited host restriction; shared worker4/128MiB/512MiB quotas unchanged. Twelve native memory/real-product/guard cases and one focused disconnected-client quota test pass, plus78parallel product groups,213toolpasses/twoskips/1079structure and exact current build/launch/import/source evidence. No storage privilege, worker relocation, arbitrary/older-host, owner or full0.1.0 admission. Original policy refusal/native data and dirty-source initial successes retained separately. Canonical amendment precedes code; no limit, worker quota, inherited policy or failure criterion silently weakened. Full all-platform/storage0.1.0 remains active.",
+  "tests": [
+    {
+      "command": "git remote get-url origin",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/origin.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/existing-status.log"
+    },
+    {
+      "command": "git fetch --no-tags origin 98a5b593f410ae1f63994e7c07c9c138ecd26b0e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/fetch.log"
+    },
+    {
+      "command": "git checkout --detach 98a5b593f410ae1f63994e7c07c9c138ecd26b0e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/checkout.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-status.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-map.log"
+    },
+    {
+      "command": "powershell -NoProfile -Command $diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/host.log"
+    },
+    {
+      "command": "git ls-tree -r -z 98a5b593f410ae1f63994e7c07c9c138ecd26b0e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-tree.log.gz"
+    },
+    {
+      "command": "cmake --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/cmake-version.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/python-environment.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/configure.log"
+    },
+    {
+      "command": "cmake --build --preset windows-bootstrap --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\resilience\\test_frontend_memory.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe --fault D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_memory_test.exe --probe D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\memory_budget_probe.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide-local\\job-coexistence-clean\\frontend-memory-results.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/frontend-memory.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\tests\\resilience\\test_worker_budget.py --exe D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe --delayed D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_worker_delayed.exe --memory D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_worker_memory_limit.exe --evidence D:\\Projects\\DiskEd\\disked\\.aide-local\\job-coexistence-clean\\worker-quota-results.json Budget.test_four_workers_hold_the_limit_across_disconnected_clients",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/worker-quota.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/ctest-catalog.log"
+    },
+    {
+      "command": "ctest --preset windows-bootstrap --parallel 4 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-parallel.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W017 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\job-coexistence-clean\\context --byte-budget 650000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\job-coexistence-clean\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/verify-context.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\memory_budget_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\memory_budget_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\memory_budget_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_memory_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_memory_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_memory_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-dependents.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/final-status.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/.gitattributes",
+      "sha256": "sha256:7bbb5a82f559bf7602fb5bfcecacf94f208a884f6e16633d62200c1db29d87cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/audit_retention.py",
+      "sha256": "sha256:eb749f940c687397af3b62370685311cfced3e5cd4ec8308fb553d693630ac00"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/compression-map.json",
+      "sha256": "sha256:96b68a0d6116470eb4f63dfa362f516c73bb3c4bf50d0a277de2bb18b1286a25"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-all-initial-tests.json.gz",
+      "sha256": "sha256:324e11a7f9afc1a073d7bcd1812707b7fc02aa2be1d10d9aa5f967f88ef7d474"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-all-initial-tests.log",
+      "sha256": "sha256:1d5ec30c891d410d71b557206abb2d5c80504a4d73e008c8c92ca2fb1eb64e22"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-before.json",
+      "sha256": "sha256:e7fb28ced0876ec8e080219ab49f40ba97f4266e5e4fc63837806fa2ab487f4d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-before.log",
+      "sha256": "sha256:3aafcfb92d2337a2b40f83fa2e3651f935bad5e568e035d4c67dd377093dd9a1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-build.log",
+      "sha256": "sha256:b171a82e10dafc0108c0355338437c82115c0fbd28a8291abf397363b3a94a75"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-configure.log",
+      "sha256": "sha256:de14d0c861dde59ff70048260062a0f10b10a77df8bb934587d84e82b6c72ee2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-tests.json",
+      "sha256": "sha256:4f4701df61fc486b70928200536ea06113c54d6456e14469556f1c92e90dddca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/initial-diagnostics/job-coexistence-initial-tests.log",
+      "sha256": "sha256:7cf76aae35c085d733aafc35da1371ce00002c92777b2c644899ebd662b3efba"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/README.md",
+      "sha256": "sha256:62c40403b8fa14cca5a31ffd41ab403f0819ac5cad9349b54281f6c79b19e3f0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduce.py",
+      "sha256": "sha256:1325d9e5f59abcbb4ba63b0163658d8208b427290f681637019167bb223e8393"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCache.txt",
+      "sha256": "sha256:353172dc0d989f9ce0ea06a8739a9bce0b3be115c99a08e784d5ac513eb6551d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCCompiler.cmake",
+      "sha256": "sha256:09367b2d3dd6af024fef102881b25351073c031ce6314d4a6feecad6f69b9131"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeCXXCompiler.cmake",
+      "sha256": "sha256:d23cf5dd02704d0406b74497e6c9de4457684b3381fdbbe6385ff7300ba59a5e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/CMakeRCCompiler.cmake",
+      "sha256": "sha256:85223e3627ab66035651f1bc87d7ab01c67bccd4c1132ea0ebcf6fd87de0c7d1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/disked.vcxproj",
+      "sha256": "sha256:26225fa5a44f4374ddbaa96ba836bb9a8bbb6fc8ffe3508b45e0bacaec2a6079"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/disked_memory_test.vcxproj",
+      "sha256": "sha256:82b3ae60d4f32807123da364cef904c27860628423ebe7e58e2dfeb3fa9b37a2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-configuration/memory_budget_probe.vcxproj",
+      "sha256": "sha256:418f2c9bf84e970ab983b6042efa9f36be7adbfa01b61c58608ebd2351d019bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/build-identity.json",
+      "sha256": "sha256:9d140dbccfa48b9d5c48f18ffc3f86bbd75b26dafa6a23d34262c1d81c6e8ae6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/commands.json",
+      "sha256": "sha256:9f07a33982ccefe6e6680947beff51724ffe4502737f0ee7e246714858f39730"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/frontend-memory-results.json.gz",
+      "sha256": "sha256:f4a848d59baac92ec20b24b8344be86ac27f15695ed0af80105a2d21675afb23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/build.log",
+      "sha256": "sha256:249daca64e26c87db3ce78fce212e30cbce2c23e701fa6b17751c8b4e8bc74bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/check.log",
+      "sha256": "sha256:4d2e75f1a598cf9be36d8b290665de0b16f845510c24c06f766119eb5c2e402d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/checkout.log",
+      "sha256": "sha256:312276db491a81861bd1402152393efe180305999eea4caf23d4421d64c49e24"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/cmake-version.log",
+      "sha256": "sha256:a24e1ae7f8f715ef1f0121cd749052d73c6a4315dba5bb885c584553d826eb79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/configure.log",
+      "sha256": "sha256:6c5b09117f636d8419043cd057f0b8f40c4195c50fd235b9aa57eab0551f6daa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/context.log",
+      "sha256": "sha256:207fadd8fd452d4cd2003b8b3fda3b6f9a3724dd649785de4674d97956863809"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/ctest-catalog.log",
+      "sha256": "sha256:20597a6d15c1b51b871ebdcdd856660dbd5d4564bf09aab20b0c6e5cf48fe466"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/existing-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/fetch.log",
+      "sha256": "sha256:b947f0702004903c48f11a344e5beafac8c54ddc826103a6a40db8a62e6ca7a9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/final-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/frontend-memory.log",
+      "sha256": "sha256:b227bec39e0c4c5a6c8bf208c3bb0c05d3674497200e2361fc015644f39eb65c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/host.log",
+      "sha256": "sha256:be1e1e3ba87c018db4f9aba962a78a4ba2f72b32bc2a5058fefb838eecf98830"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/index.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/manifest.log",
+      "sha256": "sha256:20a26ab7ba88ea427c4c017e3121a869336b8c5ff54ad367a82a8cf474162b4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-dependents.log",
+      "sha256": "sha256:082d14b663ead3609f3fc3fb02f1939333f1b03d2e88cea305fe7b20e1ef596f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-headers.log",
+      "sha256": "sha256:e4d30007f5ce7cb19c0b118c86e32042415ee0c01c30d60c8cd23f2a368e4531"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-fault-imports.log",
+      "sha256": "sha256:cb5728bb4fdd49a38915065523cd7fd0ac5d5253aa456a7d3c879114db833a1e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-dependents.log",
+      "sha256": "sha256:cd03de98693be294e8950efd6bd839907783de17cb1c73852f9a292c068a3fdb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-headers.log",
+      "sha256": "sha256:5ae0d7bdbaccc1d099e85f47dbda30f0f05fd32abcb33db797b564a7a0f8eca4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/memory-probe-imports.log",
+      "sha256": "sha256:387df7e4482897e7339d772984ae9f22842cd6b64d87335c761d4ce72d94a9f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/origin.log",
+      "sha256": "sha256:cd242a714f25fa0a37a6f8740a3d42f6b8fe29f10caa92468b43c2caa2ee786c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-dependents.log",
+      "sha256": "sha256:2a88358f017eded064b2d1c21ef9c3f6e33480f5bf7bde286079664d9ffd4371"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-headers.log",
+      "sha256": "sha256:71df855b6de03e2717785faf9748534031dc53fa399fd99ca6b9671356c5af1a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-imports.log",
+      "sha256": "sha256:eb0053faa9f6b68e754e615cb94deb55e91d1961e96fdb6fc06ecdc4167ce2f7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-launch.log",
+      "sha256": "sha256:fd72cdf9aca5229eda8a37dac8d518bc74842ea3af8889dc51bab4d01413ff35"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/product-parallel.log",
+      "sha256": "sha256:178711d7d674f6250bec90dbe1a8c4b6a52f02224643ddedc0027f116e8369dc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-map.log",
+      "sha256": "sha256:04a8af576736f4cf32fffcecdf345205a94ec1130122b2e99f0ef7f4c70d86b3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/source-tree.log.gz",
+      "sha256": "sha256:2b5bc236e2f9134cc24210d4c0078118d3bdb8e5b5e7db2fa36ce01d28f97b8e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/tooling.log",
+      "sha256": "sha256:993d481b51451bc45e89072129b770ef1eb8757a81d370b57f0279ac79d6045a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/verify-context.log",
+      "sha256": "sha256:b8e2275b4dc7c10c18c2356f827604aedb15c73e5ccd25a3b37faef7b822ccb4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/logs/worker-quota.log",
+      "sha256": "sha256:9f44b085d7f514c9e1ca4b91d7c0c70042b73b0a49b54148ece6de036f54a686"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/native-details.log.gz",
+      "sha256": "sha256:77d60a34197c98a1d8ffa33f723de59b5d3ab8fa42fca1f650f5d6c37c0c4e09"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/results.json",
+      "sha256": "sha256:d1af208e23eda80503596e6de037ca3cb079c57a1c59900e5ef352ddeb313f2d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/source-blob-bindings.json",
+      "sha256": "sha256:f5d229f48289847d9b3be9cae2f2b75be297e433b92590e366aa591eb7512fc1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/source-inputs.json",
+      "sha256": "sha256:f035866fcd9bcdbf1ab67ef6f20ca2e7c024a828bba1c6914e2ff86b15aadef0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduction-98a5b593/worker-quota-results.json",
+      "sha256": "sha256:1686f183ba29d59713f6e5be4c9c8c314b7b66c3d800a658f523c5aced9ed1b4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/validation-summary.json",
+      "sha256": "sha256:d827ad2f56d13b31f3203cae28f0ffa0092a42ca8aa1344405b62cba5bf21f9b"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W017-job-coexistence-98a5b593/disked.exe",
+      "sha256": "sha256:30cb533eab5a625c9cd9cc87a0fecc121a45e9b0bb66b350bfdbe3f3f6f4a219"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W017-job-coexistence-98a5b593/memory_budget_probe.exe",
+      "sha256": "sha256:cef0ca3d980b0df17edceab2ffa114f093519245ce485084224a9706b0bee69d"
+    },
+    {
+      "path": ".aide-local/artifacts/DE-W017-job-coexistence-98a5b593/disked_memory_test.exe",
+      "sha256": "sha256:906b5670dd58c0039b10c0cf56a123cce2eb104a187766200ebc76176ab67783"
+    },
+    {
+      "path": ".aide/evidence/2026-10-12-job-coexistence/inventory.json",
+      "sha256": "sha256:d54a819d77337c20bf78e326e4158134ff08a5c81b0d1485424db990d2fc74aa"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Review/fetch the overdue AIDE weekly dev source update and passive schema compatibility, recording the published Lite1.0.0 constrained release separately from full AIDE/runtime/consumer qualification. Continue full all-platform/storage0.1.0 implementation with owner/journal/writer/physical/elevation/customer/install/sign/release gates separate. The older parallel joined-report exit-delay cause remains unknown.",
+  "performed_remote_writes": true
+}

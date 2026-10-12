@@ -1,0 +1,70 @@
+{
+  "tests": 1,
+  "passed": true,
+  "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\artifacts\\DE-W041-gpt-repair-6b025fdc\\disked.exe",
+  "sha256": "d81dc427be1a7c90b4d39cee8ded8a74a632812f04a7d7880fa726db185b6f4b",
+  "fault_executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\build\\windows-bootstrap\\Release\\disked_memory_test.exe",
+  "fault_sha256": "6ff2c6d3f8190e18e765e7573c183a9872d63494955b4de9ea6ee0d747df5283",
+  "observations": [
+    {
+      "test": "incompatible independent host hierarchies",
+      "before": {
+        "flags": 256,
+        "process_bytes": 67108864,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 0,
+        "peak_job_bytes": 0
+      },
+      "after": {
+        "flags": 256,
+        "process_bytes": 67108864,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 6594560,
+        "peak_job_bytes": 10240000
+      },
+      "response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_incompatible",
+            "message_key": "disked.memory_budget_incompatible",
+            "parameters": {
+              "process_limit_bytes": "268435456"
+            },
+            "platform_code": "5",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      },
+      "first_response": {
+        "diagnostics": [
+          {
+            "code": "memory_budget_unavailable",
+            "message_key": "disked.memory_budget_unavailable",
+            "parameters": {
+              "process_limit_bytes": "268435456",
+              "test_allocation_bytes": "251658240"
+            },
+            "platform_code": "1455",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "cli",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      }
+    }
+  ]
+}
