@@ -19,6 +19,7 @@
 - [decisions.json](decisions.json)
 - [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
+- [fat-reader-prototype.json](fat-reader-prototype.json)
 - [frontend-job-coexistence-prototype.json](frontend-job-coexistence-prototype.json)
 - [gpt-fixture-execution-prototype.json](gpt-fixture-execution-prototype.json)
 - [gpt-fixture-restoration-prototype.json](gpt-fixture-restoration-prototype.json)

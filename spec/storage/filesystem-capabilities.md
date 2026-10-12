@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.1-proposed.2
+  version: 0.1.2-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -52,3 +52,15 @@ Table conversion, filesystem conversion, image-container conversion, encryption 
 Every filesystem/media capability MUST bind exact operation and feature predicates; recognition, creation, mounting and bootability MUST be reported independently.
 
 **Verification:** Present known format with an unknown critical feature, a tape target and a consumer-incompatible format request; refuse the affected action without hiding inspection.
+
+## DE-W025 supplied-byte FAT allocation reader
+
+The [private FAT profile](../catalog/fat-reader-prototype.json) defines bounded
+FAT12/16/32 layout, allocation-entry and chain observations before native
+evaluation. Reuse the portable C90 byte/checked-arithmetic layer. No native I/O,
+allocation, mount, write or public command is admitted by this work. Exact raw
+values and partial/corrupt/budget outcomes remain distinct. Sector size, volume
+capacity and caller-selected FAT copies are explicit; format labels are not
+classification authority. Directory/name, extraction, whole-allocation, provider,
+frontend and actual host compatibility require subsequent evidence. The full
+all-platform/storage 0.1.0 scope is unchanged.

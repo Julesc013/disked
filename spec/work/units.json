@@ -3396,6 +3396,80 @@
         "tools/build-inputs.json",
         "source/runtime/presentation/text_input.h"
       ]
+    },
+    {
+      "id": "DE-W025",
+      "title": "Decode FAT allocation metadata from supplied bytes",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/fat/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 FAT12/16/32 boot/layout and allocation-entry reader with explicit bounded chain observations.",
+        "Independent byte/chain/property fixtures, protected input boundaries and exact clean native evidence.",
+        "Record directory, extraction, provider/frontend and target admission as unfinished capabilities."
+      ],
+      "acceptance": [
+        "No allocation, host I/O, mutation, mount or filesystem-health claim.",
+        "Checked volume/table extents and preserved exact raw values; no label-based type selection.",
+        "Distinct incomplete-budget, damaged metadata and programmer-error outcomes.",
+        "Inputs unchanged; invalid API/capacity errors do not publish output."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/fat-reader-prototype.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.c",
+        "source/portable/primitives/view.h"
+      ]
     }
   ]
 }

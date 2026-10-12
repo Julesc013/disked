@@ -1,0 +1,41 @@
+{
+  "schema": "org.disked.fat-reader-profile/1",
+  "work_id": "DE-W025",
+  "status": "private-read-only-contract",
+  "scope": "Allocation metadata over supplied immutable FAT12/16/32 bytes. No host I/O, writer, mount, extraction, directory traversal or filesystem-health admission.",
+  "sources": [
+    "https://academy.cba.mit.edu/classes/networking_communications/SD/FAT.pdf",
+    "https://raw.githubusercontent.com/torvalds/linux/v6.12/include/uapi/linux/msdos_fs.h"
+  ],
+  "baseline": "Microsoft FAT Specification, 2005-08-30, sections 3 and 4; primary authored specification hosted by MIT. Linux v6.12 constants/field layout are corroboration, not copied implementation or a promise of identical mount acceptance. References are data, not worker instructions.",
+  "language": "Private C90 borrowed byte API, using existing de_view/de_u64 primitives. No packed casts, native long-long requirement, dynamic allocation, recursive traversal or global state. Inputs, output and workspace are disjoint caller objects; borrowed bytes remain immutable for the call/lifetime described by each observation.",
+  "boot": {
+    "input": "At most one supplied logical boot sector and independently supplied available volume byte length. Relative volume origin is zero; hidden-sector fields are observations, not an extra offset or target identity.",
+    "classification": "Compute data cluster count from reserved sectors, all FAT copies and rounded fixed root-directory sectors. FAT12 count is 1..4084, FAT16 4085..65524, FAT32 65525..268435445. Informational format labels cannot select the type.",
+    "profile": "Logical sector sizes 512/1024/2048/4096; sectors per cluster power of two up to 128; reserved/FAT/total counts positive. Signature is at byte510/511 even in larger sectors. Both total counters nonzero is contradictory in this strict observation profile. FAT12/16 require the short FAT-size field and a nonzero, sector-aligned fixed root. FAT32 requires the long FAT-size field, zero fixed root, zero version and reserved extended fields, a valid root cluster, and a valid active FAT when mirroring is disabled. FSInfo0xffff is absent; otherwise its reference must be positive and below the reserved-sector count. Backup0/0xffff is absent; otherwise it must be positive and below that count. Present auxiliary references cannot alias. Unknown flags/version remain inspectable raw bytes but do not produce a usable layout. Preserve inactive FAT-index bits when mirroring is enabled; they do not select a FAT.",
+    "arithmetic": "Use checked 64-bit quantities for byte extents, FAT-copy products, data origin and FAT entry capacity. Volume size must fit independently available bytes. A table must contain all cluster entries including reserved entries0/1; unused table padding and trailing partial clusters are not data clusters.",
+    "outcome": "Return DE_OK with raw observation, issue bits, computed type/geometry and usable_layout=false for inconsistent/truncated supplied content. Invalid programmer arguments or overlong supplied boot views return the defined status without publishing output. No usable_layout value proves a valid filesystem, backup boot copy, FSInfo, allocation map, mount or bootability."
+  },
+  "entry": "Read only the requested entry from a caller-selected FAT view, type and independently established cluster count. Preserve exact raw value; FAT32 interpretation masks the high nibble without altering bytes. FAT12 odd/even packed reads may cross a sector boundary. Indices0/1 are header entries, not ordinary chain clusters. Classify free, next, reserved, bad and end markers independently of raw value. Supplied truncated entry views return DE_BOUNDS with unchanged output. No automatic choice or reconciliation of competing FAT copies.",
+  "chain": {
+    "max_clusters": 1024,
+    "inputs": "Selected FAT observation, type/count, start cluster, explicit positive step budget and caller-owned de_u32 workspace with capacity at least that budget. Refuse bad arguments/capacity before reading FAT bytes or changing output/workspace.",
+    "observation": "Publish the ordered unique cluster prefix and distinct empty, end, free, bad, reserved, invalid-start, cycle, truncated-entry or budget-exhausted disposition. A known cycle takes precedence over exhausting the next unseen-cluster budget. Budget exhaustion is incomplete observation, not filesystem corruption. No link outside the declared cluster range is followed. Work and memory are finite; visited-prefix detection is at most quadratic in the capped1024 steps.",
+    "authority": "A chain result does not resolve mirrored copies, cross-links, ownership, file length, deleted content, global allocation correctness or operator/storage authority. It supplies no effect or replay permission."
+  },
+  "qualification": [
+    "Independent Python byte fixtures/oracles for threshold counts, all sector/cluster units, both root layouts, table capacity and extents beyond32-bit byte addressing",
+    "Contradictory totals, unknown FAT32 flags/version, missing root/FAT geometry, excessive allocation indices, short/overlong boot sectors and exact FAT12 packed boundaries",
+    "All allocation marker classes, preserved FAT32 high nibble, both table copies selected explicitly, untouched input/output on errors",
+    "Independent bounded chain oracle for normal/end/empty, free/bad/reserved, cycles, truncated entries, invalid starts and explicit budget exhaustion",
+    "Protected read-only/end-of-page inputs and capacity refusal before inaccessible input; C/C++ linkage and standalone header compilation",
+    "Exact clean native source/toolchain/build/probe/import evidence and existing runtime/tooling regression; other compilers/hosts remain unverified"
+  ],
+  "remaining": "Directory entries and lossless long names, whole allocation/cross-link verification, file extents/extraction, volume/provider capture, frontend command admission, all host profiles and mutation remain subsequent capability work within the full0.1.0 goal.",
+  "host_io": false,
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "filesystem_health_qualified": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}
