@@ -22,6 +22,7 @@ def main():
     bindings = json.loads((evidence / "source-blob-bindings.json").read_bytes())
     identity = json.loads((evidence / "build-identity.json").read_bytes())
     commands = json.loads((evidence / "commands.json").read_bytes())
+    repair_commands = json.loads((evidence / "tooling-repair-commands.json").read_bytes())
     inventory = json.loads((evidence / "retention.json").read_bytes())
     boundaries = json.loads((evidence / "build-boundaries.json").read_bytes())
     revision = summary["source_revision"]
@@ -43,12 +44,37 @@ def main():
         assert sha(data) == inputs[name], name
     assert all(inputs[name] == value for name, value in identity["inputs"].items())
     assert len(identity["inputs"]) == summary["product_input_count"]
-    expected_commands = {"configure", "build", "boundaries", "test-catalog", "native-tests",
-                         "checker-negative-fixtures", "tooling", "spec-check", "index", "manifest",
-                         "context", "verify-context", "product-launch", "final-source-status"}
+    expected_commands = {"configure", "build", "boundaries", "test-catalog", "native-tests", "checker-negative-fixtures"}
     assert expected_commands <= {v["name"] for v in commands}
-    for record in commands:
+    assert commands[-1]["name"] == "tooling" and commands[-1]["exit_code"] == 1
+    for record in commands[:-1]:
         assert record["exit_code"] == 0 and (evidence / record["log"]).is_file(), record["name"]
+    assert (evidence / commands[-1]["log"]).is_file()
+    tooling_revision = summary["tooling_source_revision"]
+    expected_repair = {"tooling", "spec-check", "index", "manifest", "context", "verify-context", "product-launch", "final-source-status"}
+    assert expected_repair <= {v["name"] for v in repair_commands}
+    for record in repair_commands:
+        assert record["source_revision"] == tooling_revision and record["exit_code"] == 0
+        assert (evidence / record["log"]).is_file(), record["name"]
+    tooling_inputs = json.loads((evidence / "tooling-source-inputs.json").read_bytes())
+    tooling_blobs = json.loads((evidence / "tooling-source-blob-bindings.json").read_bytes())
+    assert set(tooling_inputs) == set(tooling_blobs)
+    tooling_tree = subprocess.check_output(["git", "ls-tree", "-r", "-z", tooling_revision], cwd=root)
+    tooling_actual = {}
+    repair_native = {}
+    for row in tooling_tree.split(b"\0"):
+        if row:
+            header, name = row.split(b"\t", 1)
+            name = name.decode()
+            if name in inputs:
+                repair_native[name] = header.split()[2].decode()
+            if name in tooling_inputs:
+                tooling_actual[name] = header.split()[2].decode()
+    assert tooling_actual == tooling_blobs
+    assert repair_native == bindings
+    for name, blob in tooling_blobs.items():
+        assert sha(subprocess.check_output(["git", "cat-file", "blob", blob], cwd=root)) == tooling_inputs[name]
+    assert sha((evidence / "complete_tooling.py").read_bytes()) == tooling_inputs[".aide/evidence/2026-10-12-build-boundaries/complete_tooling.py"]
     assert summary["native_test_groups"] == 84 and summary["checker_negative_fixtures"] == 16
     assert summary["independent_core_header_compilations"] == 5
     assert boundaries["status"] == "PASS" and not boundaries["violations"]
@@ -73,7 +99,7 @@ def main():
         assert sha((evidence / name).read_bytes()) == expected, name
     assert sha((evidence / "reproduce.py").read_bytes()) == inputs[".aide/evidence/2026-10-12-build-boundaries/reproduce.py"]
     current = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip()
-    print(json.dumps({"status": "PASS", "native_source_revision": revision, "current_revision": current,
+    print(json.dumps({"status": "PASS", "native_source_revision": revision, "tooling_source_revision": tooling_revision, "current_revision": current,
                       "retained_files": len(retained), "source_blob_bindings": len(inputs),
                       "applicability": "Exact native source revision and fixture scope; evidence/metadata integration may be later.",
                       "owner_accepted": False, "release_ready": False}, indent=2))

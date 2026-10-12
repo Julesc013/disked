@@ -1,0 +1,33 @@
+test_ambiguous_header_even_if_compiler_would_pick_first (test_build_boundaries.BoundaryTests.test_ambiguous_header_even_if_compiler_would_pick_first) ... ok
+test_file_api_reply_must_belong_to_checkout (test_build_boundaries.BoundaryTests.test_file_api_reply_must_belong_to_checkout) ... ok
+test_frontend_model_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_frontend_model_cannot_depend_on_provider) ... ok
+test_json_cannot_absorb_command_implementation (test_build_boundaries.BoundaryTests.test_json_cannot_absorb_command_implementation) ... ok
+test_missing_header (test_build_boundaries.BoundaryTests.test_missing_header) ... ok
+test_portable_cannot_depend_on_runtime (test_build_boundaries.BoundaryTests.test_portable_cannot_depend_on_runtime) ... ok
+test_runtime_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_depend_on_provider) ... ok
+test_runtime_cannot_include_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_include_provider) ... ok
+test_transitive_consumer_contamination (test_build_boundaries.BoundaryTests.test_transitive_consumer_contamination) ... ok
+test_unresolved_build_dependency (test_build_boundaries.BoundaryTests.test_unresolved_build_dependency) ... ok
+test_valid_generated_graph_and_header_resolution (test_build_boundaries.BoundaryTests.test_valid_generated_graph_and_header_resolution) ... ok
+test_weakened_compiler_options (test_build_boundaries.BoundaryTests.test_weakened_compiler_options) ... ok
+test_wrong_case_does_not_qualify_portable_header_spelling (test_build_boundaries.BoundaryTests.test_wrong_case_does_not_qualify_portable_header_spelling) ... FAIL
+
+======================================================================
+FAIL: test_wrong_case_does_not_qualify_portable_header_spelling (test_build_boundaries.BoundaryTests.test_wrong_case_does_not_qualify_portable_header_spelling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\tools\test_build_boundaries.py", line 110, in test_wrong_case_does_not_qualify_portable_header_spelling
+    self.fails("include case" if (self.root / "source/runtime/command/JSON.h").is_file() else "unresolved")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\tools\test_build_boundaries.py", line 55, in fails
+    self.assertEqual(result["status"], "FAIL")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.089s
+
+FAILED (failures=1)
