@@ -1,0 +1,14 @@
+Native source: 3598ac40b79972969ea1ce8585e38a05733e2d87
+Actual command: .aide-local/venv/Scripts/python.exe -X utf8 .aide/evidence/2026-10-13-qualified-headers/reproduce.py --source-revision 3598ac40b79972969ea1ce8585e38a05733e2d87 --existing-clone .aide-local/owned-layout-clean-2c731a1c/checkout --output .aide-local/qualified-headers-clean-3598ac40
+Process exit: 1
+Successful stages before stop: main build, main boundaries, Windows configure, Windows compile.
+Traceback from tool output:
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-13-qualified-headers\reproduce.py", line 159, in <module>
+    main()
+  File "D:\Projects\DiskEd\disked\.aide\evidence\2026-10-13-qualified-headers\reproduce.py", line 105, in main
+    assert len(windows_artifacts) == 8
+AssertionError
+Read-only follow-up found 20 .exe outputs matching all 20 add_executable target names in tests/windows/native/CMakeLists.txt.
+The eight count described rewritten include blocks, not executable targets.
+This retained diagnostic transcribes the actual tool result; it is not an independently captured process stdout file.
+complete_campaign.py validates the exact 20 declared target names and resumes native/tooling checks against the unchanged clean source checkout.

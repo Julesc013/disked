@@ -310,3 +310,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Core build boundaries `7f86f6bf`: clean build/launch/imports,84native groups,16checker fixtures,5standalone core headers,120generated targets/3435quoted include edges and213tooling passes/2skips. Bounded lexical/build-closure checks; full units/owner/release/all-platform-storage0.1.0 remain open.
 
 - [x] Shared presentation055bd850: GUI/TUI request/view correlation and discovery eligibility consolidated in existing owners;34native rule cases/8cross-model tests,85native groups,7standalone headers,213tooling passes/2skips. SR-03/module-qualified headers, broader platform/storage and owner/release remain open; `.aide/evidence/2026-10-12-shared-presentation/README.md`.
+
+- [x] Qualified private headers at 3598ac40: layer/module include names and CMake owned/exported header visibility;85 native groups,29 checker fixtures,7 header compiles,20 Windows adapter compiles,213 tools/2 skips.196 source files retained; no physical execution/ABI/SDK/full-unit/owner/release qualification. `.aide/evidence/2026-10-13-qualified-headers/README.md`.

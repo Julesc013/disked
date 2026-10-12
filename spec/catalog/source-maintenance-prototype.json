@@ -124,7 +124,7 @@
     ],
     "layer_checks": "Portable depends only on portable; runtime on portable/runtime; providers do not depend on product apps; frontend models do not depend on concrete providers/platform hosts. Product compositions and platform frontend hosts intentionally wire models and selected mechanisms.",
     "header_checks": "Lexical quoted includes resolve under actual compile-group include paths without ambiguity/wrong case; independent translation units compile five core and two presentation headers using actual target usage requirements.",
-    "limitations": "CMake codemodel dependencies are transitive/order build closure, not direct link declarations. Lexical checking covers conditional include branches but does not preprocess, validate all declarations, inspect system angle includes or qualify all platforms. Most cross-module includes remain unqualified; systematic namespace migration remains pending SR-03.",
+    "limitations": "CMake codemodel dependencies are transitive/order build closure, not direct link declarations. The qualified_include_phase adds a separate direct/interface compile-usage projection and source namespace enforcement for the main composition. Lexical checking uses only the declared compile-only guard rules; it does not perform complete preprocessing, validate all declarations, inspect system angle includes or qualify all platforms. Broader standalone header compilation and adapter ownership enforcement remain open.",
     "test_commands": [
       "cmake --preset windows-bootstrap",
       "cmake --build --preset windows-bootstrap --parallel 4",

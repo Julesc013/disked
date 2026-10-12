@@ -83,13 +83,15 @@ invocation. This changes internal linkage, not command IDs or public semantics.
 In the pinned Windows Release test lane, `build.boundaries` reads CMake's generated
 codemodel and actual quoted headers. It checks forbidden layer crossings, ambiguous
 or wrongly cased includes, core source/flag expectations and consumer isolation.
-Five generated translation units compile `json.h`, `command.h`, `protocol.h`,
-`shell_lexer.h` and `policy.h` individually. Run the normal configure/build/test
+Seven generated translation units compile the JSON, command, protocol, shell
+lexer, invocation policy, presentation request and session headers individually.
+Run the normal configure/build/test
 presets; retain `build/windows-bootstrap/build-boundaries.json` with evidence.
-This checks generated build closure, including transitive/order dependencies;
-it is not a direct-link audit or a complete C++ preprocessor. Cross-module include
-qualification and the remaining headers still need further work. The checker
-derives sources from CMake rather than duplicating the source map.
+The checker distinguishes generated build closure from header visibility through
+direct and exported compile dependencies. Cross-module include qualification is
+checked in the main composition. Broader standalone header coverage and adapter
+ownership enforcement remain open. This is not a complete C++ preprocessor; the
+checker derives sources from CMake rather than duplicating the source map.
 
 The GUI/TUI completion identity and view-epoch rule lives in `PendingRequestView`
 under existing `presentation/requests.*`; their command-view eligibility rule

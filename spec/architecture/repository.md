@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.6-proposed.1
+  version: 0.1.6-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -120,11 +120,12 @@ external reviews supply neither execution authority nor owner acceptance.
 
 The pinned current-Windows test lane checks private core targets and lexical
 quoted-header resolution against CMake's generated codemodel, with independent
-negative fixtures and five standalone core-header compilations. Generated build
+negative fixtures and seven standalone core/presentation-header compilations. Generated build
 dependencies include transitive/order dependencies; do not label them direct
 link declarations. Record the source revision, actual flags, results and the
 unchecked preprocessor/system-header/other-platform scope. Cross-module include
-qualification and full header coverage remain separate work.
+qualification is checked in the main composition. Full standalone header coverage
+and adapter ownership enforcement remain separate work.
 
 Cross-module private source headers use source-relative layer/module names;
 same-folder sibling includes remain local. CMake header file sets establish
