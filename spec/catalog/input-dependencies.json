@@ -1038,11 +1038,13 @@
         "tests/frontend/image_console_fixture.py",
         "tests/frontend/image_file_capture_probe.cpp",
         "tests/frontend/image_observation_probe.cpp",
+        "tests/frontend/presentation_probe.cpp",
         "tests/frontend/test_acquisition_forms.py",
         "tests/frontend/test_acquisition_interactive.py",
         "tests/frontend/test_image_commands.py",
         "tests/frontend/test_image_file_capture.py",
         "tests/frontend/test_image_observation.py",
+        "tests/frontend/test_shared_presentation.py",
         "tests/images/acquisition_command_probe.cpp",
         "tests/images/acquisition_probe.cpp",
         "tests/images/acquisition_worker_probe.cpp",
@@ -1206,6 +1208,7 @@
         "tests/frontend/image_console_fixture.py",
         "tests/frontend/image_file_capture_probe.cpp",
         "tests/frontend/image_observation_probe.cpp",
+        "tests/frontend/presentation_probe.cpp",
         "tests/frontend/service_probe.cpp",
         "tests/frontend/test_gui_model.py",
         "tests/frontend/test_gui_windows.py",
@@ -1213,6 +1216,7 @@
         "tests/frontend/test_image_file_capture.py",
         "tests/frontend/test_image_observation.py",
         "tests/frontend/test_service.py",
+        "tests/frontend/test_shared_presentation.py",
         "tests/frontend/test_transport.py",
         "tests/frontend/test_tui_model.py",
         "tests/frontend/test_tui_windows.py",
@@ -9395,6 +9399,54 @@
       "spec_ids": [
         "DE-011",
         "DE-012",
+        "DE-079"
+      ]
+    },
+    {
+      "id": "tests/frontend/presentation_probe.cpp",
+      "path": "tests/frontend/presentation_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/session.h"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-024",
+        "DE-045"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_shared_presentation.py",
+      "path": "tests/frontend/test_shared_presentation.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/presentation_probe.cpp",
+        "tests/frontend/gui_probe.cpp",
+        "tests/frontend/tui_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-024",
+        "DE-045"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-shared-presentation/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-shared-presentation/reproduce.py",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/frontend/test_shared_presentation.py",
+        "tests/frontend/presentation_probe.cpp",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-024",
         "DE-079"
       ]
     }

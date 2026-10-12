@@ -4,6 +4,34 @@
 #include <condition_variable>
 
 namespace disked {
+void PendingRequestView::begin(const std::string& id, std::uint64_t view) {
+    if (!id_.empty()) {
+        throw std::runtime_error("frontend_pending_limit");
+    }
+    if (id.empty()) {
+        throw std::runtime_error("frontend_completion_identity");
+    }
+    id_ = id;
+    submitted_view_ = view;
+}
+
+RequestDelivery PendingRequestView::poll(const CompletionPoll& callback, std::uint64_t view,
+                                        Outcome& output) {
+    Outcome received;
+    if (!callback || !callback(received)) {
+        return RequestDelivery::NoResult;
+    }
+    const auto* id = received.response.find("request_id");
+    if (id_.empty() || !id || id->kind != json::Value::Kind::string || id->text != id_) {
+        throw std::runtime_error("frontend_completion_identity");
+    }
+    const auto delivery = submitted_view_ == view ? RequestDelivery::CurrentView
+                                                : RequestDelivery::EarlierView;
+    output = std::move(received);
+    id_.clear();
+    return delivery;
+}
+
 struct RequestChannel::State {
     std::mutex mutex;
     std::condition_variable changed;

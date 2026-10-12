@@ -320,6 +320,7 @@ if(BUILD_TESTING)
   private_header_check(disked_json json.h)
   private_header_check(disked_command command.h protocol.h shell_lexer.h)
   private_header_check(disked_invocation policy.h)
+  private_header_check(disked_presentation requests.h session.h)
   add_test(NAME build.boundaries COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tools/check-build-boundaries.py"
     --root "${CMAKE_CURRENT_SOURCE_DIR}" --build "${CMAKE_CURRENT_BINARY_DIR}"
@@ -788,6 +789,15 @@ if(BUILD_TESTING)
   add_test(NAME frontend.transport COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_transport.py"
     --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --probe "$<TARGET_FILE:frontend_service_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.transport PROPERTIES TIMEOUT 120)
+  add_executable(presentation_rules_probe tests/frontend/presentation_probe.cpp)
+  target_link_libraries(presentation_rules_probe PRIVATE disked_presentation)
+  set_target_properties(presentation_rules_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(presentation_rules_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  add_test(NAME frontend.shared_presentation COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_shared_presentation.py"
+    --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>"
+    --rules "$<TARGET_FILE:presentation_rules_probe>")
+  set_tests_properties(frontend.shared_presentation PROPERTIES TIMEOUT 120)
   add_executable(invocation_policy_probe tests/invocation/policy_probe.cpp)
   target_link_libraries(invocation_policy_probe PRIVATE disked_invocation)
   add_test(NAME invocation.policy COMMAND "${Python3_EXECUTABLE}"

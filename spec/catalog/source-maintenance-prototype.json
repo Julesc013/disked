@@ -4,6 +4,8 @@
   "work_ids": [
     "DE-W010",
     "DE-W012",
+    "DE-W014",
+    "DE-W015",
     "DE-W017"
   ],
   "base_revision": "51a8d516c293b2476a6a83489b855f83525e2a04",
@@ -27,7 +29,7 @@
     },
     {
       "id": "SR-04",
-      "state": "pending",
+      "state": "implemented-pending-owner-review",
       "action": "Consolidate demonstrated completion identity/view-epoch/availability invariants in existing presentation owner; retain separate models and behaviour."
     },
     {
@@ -59,7 +61,7 @@
   "release_ready": false,
   "build_phase_base_revision": "9de2b2156e51d31919cb2c93012c06237db65544",
   "build_checks": {
-    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private targets and five private header checks, not SDK admission.",
+    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private targets, five core plus two presentation header checks, not SDK admission.",
     "core_targets": {
       "disked_json": {
         "sources": [
@@ -116,10 +118,12 @@
       "command.h",
       "protocol.h",
       "shell_lexer.h",
-      "policy.h"
+      "policy.h",
+      "requests.h",
+      "session.h"
     ],
     "layer_checks": "Portable depends only on portable; runtime on portable/runtime; providers do not depend on product apps; frontend models do not depend on concrete providers/platform hosts. Product compositions and platform frontend hosts intentionally wire models and selected mechanisms.",
-    "header_checks": "Lexical quoted includes resolve under actual compile-group include paths, without ambiguity or wrong case; compiler checks independently compile each of five core headers using its target usage requirements.",
+    "header_checks": "Lexical quoted includes resolve under actual compile-group include paths without ambiguity/wrong case; independent translation units compile five core and two presentation headers using actual target usage requirements.",
     "limitations": "CMake codemodel dependencies are transitive/order build closure, not direct link declarations. Lexical checking covers conditional include branches but does not preprocess, validate all declarations, inspect system angle includes or qualify all platforms. Most cross-module includes remain unqualified; systematic namespace migration remains pending SR-03.",
     "test_commands": [
       "cmake --preset windows-bootstrap",
@@ -129,5 +133,27 @@
       "python -m unittest discover -s tests/tools -v"
     ],
     "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result."
+  },
+  "shared_presentation": {
+    "base_revision": "7813f45d5934cc0f607f5eb724899895a8e3c050",
+    "status": "private-maintenance-contract",
+    "owners": [
+      "source/runtime/presentation/requests.*",
+      "source/runtime/presentation/session.*"
+    ],
+    "correlation": "PendingRequestView stores only a pending UI request identity and its submitted local view epoch. begin rejects empty identities and second pending registration without replacing the first. poll returns NoResult/CurrentView/EarlierView; successful matching delivery releases the UI slot and preserves the exact outcome. Missing, non-string, mismatched, unsolicited or duplicate request IDs refuse before local correlation/output mutation. False/throwing callback leaves local correlation/output unchanged; this does not roll back a callback or recover a consumed response.",
+    "view_policy": "Compare exact local epochs for equality, including u64 maximum; do not rebase an old request onto a newer view. GUI/TUI retain earlier outcomes separately and keep current interaction/navigation local. Local view epochs are not worker/capture epochs, source authenticity or durable operation IDs.",
+    "availability": "view_command_available is GUI/TUI command-view eligibility based on the compiled composition discovery. Only an exact unique string ID with string availability=available is eligible; protocol.serve/shell.open/shell.close and empty IDs are excluded. Missing/mistyped discovery or matching duplicate records fail closed. Unknown observational background is ignored. Parameter form support, provider admission and operator grants remain separately checked.",
+    "behaviour_changes": "Normal valid inputs, command IDs, schemas and GUI/TUI navigation remain unchanged. Malformed/duplicate private discovery now deterministically fails closed rather than dereferencing missing data or choosing a duplicate. Non-string request identity cannot match a string even if its native text field is equal.",
+    "tests": [
+      "tests/frontend/presentation_probe.cpp",
+      "tests/frontend/test_shared_presentation.py",
+      "tests/frontend/test_gui_model.py",
+      "tests/frontend/test_tui_model.py",
+      "tests/resilience/test_gui_waiting.py",
+      "tests/resilience/test_console_waiting.py"
+    ],
+    "test_expected": "34 direct native rule cases plus8Python regression tests spanning both GUI/TUI models; original callbacks/limits/wait/effect guards remain unchanged. Seven independent header compilations and existing generated boundary checks. Fresh clean native full suite required for source changes.",
+    "scope": "No new scheduler, frontend base class, physical provider, privilege, installation, production broker/journal/recovery or owner acceptance. Product/probe source boundaries remain intact."
   }
 }

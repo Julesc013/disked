@@ -74,9 +74,12 @@ it is not a direct-link audit or a complete C++ preprocessor. Cross-module inclu
 qualification and the remaining headers still need further work. The checker
 derives sources from CMake rather than duplicating the source map.
 
-The GUI/TUI completion identity, view-epoch and availability rules contain real
-duplication. Consolidate those shared invariants in the existing presentation
-owner with regression evidence; keep navigation, editing and rendering local.
+The GUI/TUI completion identity and view-epoch rule lives in `PendingRequestView`
+under existing `presentation/requests.*`; their command-view eligibility rule
+lives in `view_command_available` under `presentation/session.*`. Matching
+delivery releases UI correlation, not worker/storage state. Keep navigation,
+editing and rendering local. Native evidence governs qualification of these
+changes. The seven standalone header checks now include `requests.h` and `session.h`.
 Likewise, move named command policy out of `app.cpp` when it has its own contract
 and consumer. Do not introduce a universal frontend class, another registry, or
 arbitrary splits based on line count.

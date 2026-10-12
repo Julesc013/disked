@@ -16,13 +16,20 @@ int main(int argc,char**) {
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
     discovery.put("commands",commands);
-    bool deferred=false,ready=false;disked::Outcome pending;
+    bool deferred=false,ready=false,override_id=false,omit_id=false;Value delivery_id;disked::Outcome pending;
     disked::TuiModel model(session,registry,discovery,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision)->disked::Submission {
         if(deferred) {deferred=false;pending=disked::completed(id,Value::object().put("test_deferred",Value::string(command)));return disked::Submission::deferred();}
         if(disked::FrontendSession::handles(command))return session.dispatch(id,command,parameters,revision);
         auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire")result.put("test_parameters",parameters);
         return disked::completed(id,result);
-    },[&](disked::Outcome& result){if(!ready)return false;ready=false;result=std::move(pending);return true;});
+    },[&](disked::Outcome& result){
+        if(!ready)return false;ready=false;
+        // Fixture-only delivery replay; the actual request channel is unchanged.
+        result=pending;
+        if(omit_id)result.response.fields.erase("request_id");
+        else if(override_id)result.response.put("request_id",delivery_id);
+        return true;
+    });
     const std::map<std::string,disked::TextKey> keys={{"up",disked::TextKey::Up},{"down",disked::TextKey::Down},{"enter",disked::TextKey::Enter},
         {"pageup",disked::TextKey::PageUp},{"pagedown",disked::TextKey::PageDown},{"tab",disked::TextKey::Tab},{"backtab",disked::TextKey::BackTab},
         {"backspace",disked::TextKey::Backspace},{"escape",disked::TextKey::Escape},{"f2",disked::TextKey::F2},{"f3",disked::TextKey::F3},
@@ -36,7 +43,11 @@ int main(int argc,char**) {
         if(op && op->text=="stage")model.stage(message.find("command")->text,*message.find("parameters"));
         if(op && op->text=="defer")deferred=true;
         if(op && op->text=="observe")model.observe();
-        if(op && op->text=="resolve"){ready=true;model.tick();}
+        if(op && op->text=="resolve"){
+            const auto* id=message.find("request_id");override_id=id!=nullptr;
+            if(id)delivery_id=*id;omit_id=message.find("omit_request_id") && message.find("omit_request_id")->boolean;
+            ready=true;model.tick();
+        }
         if(op && op->text=="publish") {
             if(const auto* removed=message.find("remove")) {
                 input.nodes.erase(std::remove_if(input.nodes.begin(),input.nodes.end(),[&](const disked::GraphNode& n){return n.id==removed->text;}),input.nodes.end());

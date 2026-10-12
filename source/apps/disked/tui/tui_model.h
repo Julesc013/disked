@@ -33,8 +33,8 @@ private:
     std::set<std::string> invalid_object_fields_;
     Outcome outcome_;
     json::Value earlier_=json::Value{};
-    std::string pending_;
-    std::uint64_t view_epoch_=0,pending_view_=0;
+    PendingRequestView pending_;
+    std::uint64_t view_epoch_=0;
     std::size_t field_=0,scroll_=0,page_size_=1;
     std::uint64_t requests_=0;
     bool done_=false,toggle_=false,follow_focus_=true;

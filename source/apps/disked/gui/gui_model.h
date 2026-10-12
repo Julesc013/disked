@@ -38,8 +38,8 @@ private:
     std::string discriminator_;
     Outcome outcome_;
     json::Value earlier_=json::Value{};
-    std::string pending_;
-    std::uint64_t view_epoch_=0,pending_view_=0;
+    PendingRequestView pending_;
+    std::uint64_t view_epoch_=0;
     std::set<std::string> invalid_fields_;
     std::uint64_t requests_=0;
     bool available(const std::string& id) const;

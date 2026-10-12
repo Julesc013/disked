@@ -142,6 +142,31 @@ Outcome FrontendSession::dispatch(const std::string& request,const std::string& 
     auto result=Value::object().put("scope",Value::string("fake-only")).put("assessment",assessment(target,operation));
     return completed(request,cached_observations()?cached_view(std::move(result)):std::move(result));
 }
+bool view_command_available(const Value& discovery, const std::string& id) {
+    if (id.empty() || id == "protocol.serve" || id == "shell.open" || id == "shell.close") {
+        return false;
+    }
+    const auto* commands = discovery.find("commands");
+    if (!commands || commands->kind != Value::Kind::array) {
+        return false;
+    }
+    bool found = false;
+    bool available = false;
+    for (const auto& command : commands->items) {
+        const auto* command_id = command.find("id");
+        if (!command_id || command_id->kind != Value::Kind::string || command_id->text != id) {
+            continue;
+        }
+        if (found) {
+            return false; // Conflicting/duplicate discovery cannot enable a form.
+        }
+        found = true;
+        const auto* state = command.find("availability");
+        available = state && state->kind == Value::Kind::string && state->text == "available";
+    }
+    return available;
+}
+
 std::string presentation_json(const Value& value,json::Limits limits) {
     const auto utf8=json::dump(value,limits);std::string ascii;ascii.reserve(utf8.size());
     const char* hex="0123456789abcdef";

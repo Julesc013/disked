@@ -16,7 +16,7 @@ int main(int argc,char**) {
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
     discovery.put("commands",commands);
-    bool deferred=false,ready=false;Value synthetic;disked::Outcome pending;
+    bool deferred=false,ready=false,override_id=false,omit_id=false;Value synthetic,delivery_id;disked::Outcome pending;
     disked::GuiModel model(session,registry,discovery,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision)->disked::Submission {
         if(synthetic.kind!=Value::Kind::null) {
             auto result=disked::completed(id,synthetic);disked::json::dump(result.response,disked::response_limits(result.response));
@@ -26,7 +26,15 @@ int main(int argc,char**) {
         if(disked::FrontendSession::handles(command))return session.dispatch(id,command,parameters,revision);
         auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire")result.put("test_parameters",parameters);
         return disked::completed(id,result);
-    },[&](disked::Outcome& result) {if(!ready)return false;ready=false;result=std::move(pending);return true;});
+    },[&](disked::Outcome& result) {
+        if(!ready)return false;ready=false;
+        // Fixture replay permits bad/duplicate delivery without losing the
+        // original synthetic response. No product producer is altered.
+        result=pending;
+        if(omit_id)result.response.fields.erase("request_id");
+        else if(override_id)result.response.put("request_id",delivery_id);
+        return true;
+    });
     std::string line;
     while(std::getline(std::cin,line))try {
         disked::json::Limits input_limits;input_limits.string_bytes=65536;
@@ -45,7 +53,11 @@ int main(int argc,char**) {
                 synthetic.put("scope",Value::string("recorded-acquisition-verification-support-export")).put("request_kind",Value::string("operation-observation")).put("synthetic_values",values);
             }
         }
-        if(kind=="resolve") {ready=true;model.tick();}
+        if(kind=="resolve") {
+            const auto* id=message.find("request_id");override_id=id!=nullptr;
+            if(id)delivery_id=*id;omit_id=message.find("omit_request_id") && message.find("omit_request_id")->boolean;
+            ready=true;model.tick();
+        }
         if(kind=="observe")model.observe();
         if(kind=="publish") {
             if(const auto* removed=message.find("remove")) {

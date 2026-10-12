@@ -54,4 +54,7 @@ std::vector<std::string> observation_lines(const json::Value& value);
 // authenticates a producer, a receipt or a storage target.
 bool cached_observation_response(const json::Value& value);
 json::Limits cached_observation_view_limits();
+// GUI/TUI command-view eligibility only. Composition availability is not a
+// parameter-editor guarantee, provider admission or authority to perform effects.
+bool view_command_available(const json::Value& discovery, const std::string& id);
 }

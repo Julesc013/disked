@@ -2,6 +2,7 @@
 #include "protocol.h"
 #include <memory>
 #include <chrono>
+#include <cstdint>
 
 namespace disked {
 // Private frontend submission state. A queued call is not a protocol response
@@ -14,6 +15,21 @@ struct Submission {
 };
 using FrontendHandler=std::function<Submission(const std::string&,const std::string&,const json::Value&,const std::string&)>;
 using CompletionPoll=std::function<bool(Outcome&)>;
+
+enum class RequestDelivery {NoResult, CurrentView, EarlierView};
+// One UI correlation slot, independent of the executing RequestChannel slot.
+// Matching delivery releases this slot; it does not establish effect success,
+// producer authority, durable admission, cancellation or worker quiescence.
+class PendingRequestView final {
+    std::string id_;
+    std::uint64_t submitted_view_=0;
+public:
+    const std::string& id() const {
+        return id_;
+    }
+    void begin(const std::string& id, std::uint64_t view);
+    RequestDelivery poll(const CompletionPoll& callback, std::uint64_t view, Outcome& output);
+};
 
 // One executing call and one result slot. Busy/unknown calls are never replaced
 // by a new thread. The callback must own its inputs and must not reference a UI,

@@ -18,19 +18,21 @@ bool GuiModel::observe() {
     view_changed();snapshot_=std::move(next);notice_.swap(notice);return true;
 }
 bool GuiModel::tick() {
-    Outcome value;if(!poll_ || !poll_(value))return false;
-    const auto* id=value.response.find("request_id");
-    if(pending_.empty() || !id || id->text!=pending_)throw std::runtime_error("frontend_completion_identity");
-    pending_.clear();
-    if(pending_view_==view_epoch_)result(std::move(value));
-    else {earlier_=std::move(value.response);notice_="Earlier request finished; retained separately from the current view";}
+    Outcome value;
+    const auto delivery = pending_.poll(poll_, view_epoch_, value);
+    if (delivery == RequestDelivery::NoResult) {
+        return false;
+    }
+    if (delivery == RequestDelivery::CurrentView) {
+        result(std::move(value));
+    } else {
+        earlier_ = std::move(value.response);
+        notice_ = "Earlier request finished; retained separately from the current view";
+    }
     return true;
 }
 bool GuiModel::available(const std::string& id) const {
-    if(id=="protocol.serve" || id=="shell.open" || id=="shell.close")return false;
-    for(const auto& c:discovery_.find("commands")->items)
-        if(c.find("id")->text==id)return c.find("availability")->text=="available";
-    return false;
+    return view_command_available(discovery_, id);
 }
 void GuiModel::navigate(bool commands) {
     view_changed();
@@ -131,8 +133,7 @@ void GuiModel::submit() {
     view_changed();const auto id="gui:"+std::to_string(++requests_);
     auto reply=dispatch_(id,command_,typed_,FrontendSession::handles(command_)?revision_:"");
     if(reply.pending) {
-        if(!pending_.empty())throw std::runtime_error("frontend_pending_limit");
-        pending_=id;pending_view_=view_epoch_;outcome_=Outcome{};
+        pending_.begin(id, view_epoch_);outcome_=Outcome{};
         notice_="Waiting for request; outcome is not yet observed. Cached views remain usable.";
     } else result(std::move(reply.outcome));
 }
@@ -157,7 +158,7 @@ Value GuiModel::details() const {
         .put("expected_revision",FrontendSession::handles(command_)?Value::string(revision_):Value{}).put("reviewed",Value::boolean_value(reviewed_));
     else current=Value::object().put("current",snapshot_->value()).put("proposed",Value{})
         .put("proposed_reason",Value::string("Planning is not implemented; no storage changes are proposed"));
-    if(!pending_.empty())current.put("pending_request",Value::string(pending_));
+    if(!pending_.id().empty())current.put("pending_request",Value::string(pending_.id()));
     if(earlier_.kind!=Value::Kind::null)current.put("earlier_request",earlier_);
     return current;
 }
@@ -167,7 +168,7 @@ Value GuiModel::state() const {
         .put("selection",session_.selection()).put("view_revision",Value::string(snapshot_->revision()))
         .put("command",Value::string(command_)).put("fields",fields_).put("parameters",parameters_)
         .put("requests",Value::string(std::to_string(requests_))).put("last_outcome",outcome_.response)
-        .put("pending_request",Value::string(pending_)).put("earlier_request",earlier_);
+        .put("pending_request",Value::string(pending_.id())).put("earlier_request",earlier_);
 }
 std::string GuiModel::detail_text() const {
     // Two independently bounded replies plus private correlation fields. These

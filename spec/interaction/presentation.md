@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-023
   profile: disked-spec/1
-  version: 0.1.23-proposed.2
+  version: 0.1.24-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -164,6 +164,29 @@ A runtime fallback exists only after the executable loads. Mandatory framework i
 ## Terminal, shell and shared widgets
 
 [Terminal sessions](terminal-session.md), [the explicit shell](interactive-shell.md) and [output/progress](output-and-progress.md) extend the existing frontend service. Tables, trees, lists, forms, plan review, operation timeline and command explorer share actions and identity-bound selection. Every rich widget has keyboard behavior and a usable linear equivalent. An action without a dedicated menu remains discoverable through the typed command explorer; it does not gain authority from a UI control.
+
+## Shared private GUI/TUI request-view rules
+
+The current GUI/TUI share `PendingRequestView` in `runtime/presentation/requests.*`.
+It binds one pending UI request ID to its submitted local view epoch, independent
+of the executing request channel and durable operation state. A matching string
+request ID releases the UI correlation slot. Exact epoch equality delivers to
+the current view; unequal epochs retain the result separately from that view.
+Missing, non-string, mismatched, unsolicited or duplicate identities refuse
+before changing local correlation or output. A false/throwing poll leaves those
+local values unchanged; it does not roll back a callback or recover a consumed
+response. Empty or second pending registration cannot replace an existing slot.
+Worker/capture epochs, producer authority and effect certainty remain separate.
+
+`view_command_available` in `runtime/presentation/session.*` centralizes the
+private GUI/TUI command-view rule. An exact unique string ID must have string
+availability `available`. Transport/session controls `protocol.serve`, `shell.open`
+and `shell.close` remain excluded. Malformed or duplicate matching discovery fails
+closed; unrelated observational extensions do not enable a command. This is
+display eligibility, not parameter-editor support, storage legality or an
+operator grant. Navigation, editing, rendering and shell interaction remain with
+their distinct owners. The maintenance profile fixes negative delivery/discovery
+and native integration expectations; qualification follows exact source evidence.
 
 ## Normative requirements
 

@@ -196,7 +196,7 @@ def inspect(root, build, targets, contract):
         "resolved_includes": [dict(zip(("target", "including_file", "include", "resolved_file"), v)) for v in sorted(resolved)],
         "limits": ["Lexical quoted includes, including conditional branches; not preprocessing.",
                    "Generated build closure includes transitive/order dependencies; not direct links.",
-                   "Only five core headers have separate compiler self-containment checks.",
+                   "Five core headers and presentation requests.h/session.h have separate compiler self-containment checks.",
                    "No OS/SDK import, ABI, storage authority or full portability qualification."],
     }
 
