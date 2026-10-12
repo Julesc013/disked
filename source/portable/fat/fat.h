@@ -61,6 +61,54 @@ typedef struct de_fat_chain {
     int disposition, terminal_kind;
 } de_fat_chain;
 
+#define DE_FAT_DIR_TRUNCATED 0x0001UL
+#define DE_FAT_DIR_ATTRIBUTES 0x0002UL
+#define DE_FAT_DIR_CASE 0x0004UL
+#define DE_FAT_DIR_CLUSTER 0x0008UL
+#define DE_FAT_DIR_FILE_STATE 0x0010UL
+#define DE_FAT_DIR_TIME 0x0020UL
+#define DE_FAT_DIR_ORDINAL 0x0040UL
+#define DE_FAT_DIR_SLOT 0x0080UL
+#define DE_FAT_DIR_NAME 0x0100UL
+#define DE_FAT_LFN_TRUNCATED 0x0001UL
+#define DE_FAT_LFN_ORDINAL 0x0002UL
+#define DE_FAT_LFN_SLOT 0x0004UL
+#define DE_FAT_LFN_CHECKSUM 0x0008UL
+#define DE_FAT_LFN_SHORT_ENTRY 0x0010UL
+#define DE_FAT_LFN_PADDING 0x0020UL
+#define DE_FAT_LFN_LENGTH 0x0040UL
+#define DE_FAT_LFN_UTF16 0x0080UL
+#define DE_FAT_LFN_CHARACTERS 0x0100UL
+#define DE_FAT_LFN_NONCANONICAL 0x0200UL
+#define DE_FAT_LFN_MAX_SLOTS 20U
+#define DE_FAT_LFN_MAX_UNITS 260U
+
+enum de_fat_dirent_kind {
+    DE_FAT_DIRENT_UNKNOWN,
+    DE_FAT_DIRENT_END,
+    DE_FAT_DIRENT_DELETED,
+    DE_FAT_DIRENT_FILE,
+    DE_FAT_DIRENT_DIRECTORY,
+    DE_FAT_DIRENT_VOLUME,
+    DE_FAT_DIRENT_LONG,
+    DE_FAT_DIRENT_INVALID
+};
+typedef struct de_fat_dirent {
+    de_view raw, name_field;
+    de_u32 issues, raw_cluster, cluster, file_bytes;
+    unsigned short creation_time, creation_date, access_date, write_time, write_date;
+    unsigned short lfn_units[13];
+    unsigned char attributes, case_flags, creation_fraction, ordinal, checksum, lfn_type;
+    int kind, dot, lead_byte_escape;
+} de_fat_dirent;
+typedef struct de_fat_lfn {
+    de_view raw_slots, raw_short;
+    de_u32 issues;
+    size_t slots, unit_count, name_length;
+    unsigned short units[DE_FAT_LFN_MAX_UNITS];
+    int associated, unicode_valid, canonical_name, terminated, requires_escaping;
+} de_fat_lfn;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -76,6 +124,16 @@ int de_fat_entry_read(const de_view *fat, int bits, de_u32 cluster_count, de_u32
    Known cycles take precedence over a budget for the next unseen cluster. */
 int de_fat_chain_read(const de_view *fat, int bits, de_u32 cluster_count, de_u32 start,
                       de_u32 *workspace, size_t capacity, size_t budget, de_fat_chain *out);
+/* Exactly one borrowed record; short content is an observation, not a live entry.
+   Unknown OEM encoding stays raw; dot values 1/2 observe names, not path traversal. */
+int de_fat_dirent_read(const de_view *record, int bits, de_fat_dirent *out);
+int de_fat_short_checksum(const de_view *stored_name, unsigned char *out);
+/* Caller supplies a complete contiguous reverse-ordered set immediately before
+   its short record. Pure correlation is not provider/lookup/file-access authority. */
+int de_fat_lfn_read(const de_view *slots, const de_view *short_record, int bits, de_fat_lfn *out);
+/* ASCII display of original units, including malformed UTF-16; not a lookup key.
+   Disjoint output remains unchanged on invalid/budget/capacity failure. */
+int de_fat_name_display(const unsigned short *units, size_t count, char *out, size_t capacity);
 #ifdef __cplusplus
 }
 #endif
