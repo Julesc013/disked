@@ -47,6 +47,28 @@ typedef struct de_fat_cell_request {
     de_u32 bytes;
 } de_fat_cell_request;
 
+#define DE_FAT_HEADER_TRUNCATED 0x01UL
+#define DE_FAT_HEADER_MEDIA 0x02UL
+#define DE_FAT_HEADER_ZERO 0x04UL
+#define DE_FAT_HEADER_ONE 0x08UL
+typedef struct de_fat_header {
+    de_view raw;
+    de_u32 issues, raw_zero, raw_one, zero, one;
+    int fields_present, flags_supported, clean_shutdown, no_io_error;
+} de_fat_header;
+
+#define DE_FAT_FSINFO_TRUNCATED 0x01UL
+#define DE_FAT_FSINFO_SIGNATURE 0x02UL
+#define DE_FAT_FSINFO_RESERVED 0x04UL
+#define DE_FAT_FSINFO_COUNT 0x08UL
+#define DE_FAT_FSINFO_NEXT 0x10UL
+typedef struct de_fat_fsinfo {
+    de_view raw;
+    de_u32 issues, lead_signature, structure_signature, trail_signature;
+    de_u32 free_count, next_free, reserved_nonzero;
+    int fields_present, free_count_known, next_free_known;
+} de_fat_fsinfo;
+
 enum de_fat_chain_disposition {
     DE_FAT_CHAIN_EMPTY,
     DE_FAT_CHAIN_END,
@@ -119,6 +141,13 @@ extern "C" {
 /* Error statuses do not publish output. Content issues publish raw observations.
    Caller owns disjoint input/output and keeps borrowed bytes immutable. */
 int de_fat_volume_read(const de_view *boot, const de_u64 *available_bytes, de_fat_volume *out);
+/* Exact header maximum is 3/4/8 bytes; short content publishes observations.
+   Recorded driver flags are not current health or recovery authority. */
+int de_fat_header_read(const de_view *header, int bits, unsigned char media, de_fat_header *out);
+/* FAT32 advisory sector: preserve unknown sentinels and original bytes. Fixed
+   fields require512 bytes; a missing declared-sector tail is still truncated. */
+int de_fat_fsinfo_read(const de_view *sector, de_u32 sector_bytes, de_u32 cluster_count,
+                       de_fat_fsinfo *out);
 /* Type/count come from independently established geometry; copy choice is
    explicit. This reads one cell, not a complete or reconciled allocation map. */
 int de_fat_entry_read(const de_view *fat, int bits, de_u32 cluster_count, de_u32 index,

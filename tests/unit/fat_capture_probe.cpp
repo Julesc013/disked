@@ -76,6 +76,60 @@ static disked::FatCaptureLimits limits(const V &input) {
 static V observe(const V &input) {
     const auto &op = field(input, "op");
     require(op.kind == V::Kind::string);
+    if (op.text == "header" || op.text == "fsinfo") {
+        auto bytes = unhex(field(input, "raw"));
+        const auto saved = bytes;
+        const bool null_data = input.find("null") && input.find("null")->boolean;
+        de_view view{null_data ? nullptr : bytes.data(), bytes.size()};
+        auto result = V::object();
+        if (op.text == "header") {
+            const auto bits = integer(field(input, "bits")), media = integer(field(input, "media"));
+            require(bits <= 64 && media <= 255);
+            de_fat_header value;
+            std::memset(&value, 0xa5, sizeof(value));
+            unsigned char before[sizeof(value)];
+            std::memcpy(before, &value, sizeof(value));
+            const auto status = de_fat_header_read(&view, static_cast<int>(bits),
+                                                   static_cast<unsigned char>(media), &value);
+            result.put("status", exact(static_cast<std::uint64_t>(status)));
+            if (status)
+                require(!std::memcmp(before, &value, sizeof(value)));
+            else
+                result.put("issues", exact(value.issues))
+                    .put("raw_zero", exact(value.raw_zero))
+                    .put("raw_one", exact(value.raw_one))
+                    .put("zero", exact(value.zero))
+                    .put("one", exact(value.one))
+                    .put("fields_present", V::boolean_value(value.fields_present != 0))
+                    .put("flags_supported", V::boolean_value(value.flags_supported != 0))
+                    .put("clean_shutdown", V::boolean_value(value.clean_shutdown != 0))
+                    .put("no_io_error", V::boolean_value(value.no_io_error != 0));
+        } else {
+            const auto unit = integer(field(input, "unit")),
+                       clusters = integer(field(input, "clusters"));
+            require(unit <= 0xffffffff && clusters <= 0xffffffff);
+            de_fat_fsinfo value;
+            std::memset(&value, 0xa5, sizeof(value));
+            unsigned char before[sizeof(value)];
+            std::memcpy(before, &value, sizeof(value));
+            const auto status = de_fat_fsinfo_read(&view, static_cast<de_u32>(unit),
+                                                   static_cast<de_u32>(clusters), &value);
+            result.put("status", exact(static_cast<std::uint64_t>(status)));
+            if (status)
+                require(!std::memcmp(before, &value, sizeof(value)));
+            else
+                result.put("issues", exact(value.issues))
+                    .put("reserved_nonzero", exact(value.reserved_nonzero))
+                    .put("free_count", exact(value.free_count))
+                    .put("next_free", exact(value.next_free))
+                    .put("fields_present", V::boolean_value(value.fields_present != 0))
+                    .put("free_count_known", V::boolean_value(value.free_count_known != 0))
+                    .put("next_free_known", V::boolean_value(value.next_free_known != 0));
+        }
+        require(bytes == saved);
+        result.put("inputs_unchanged", V::boolean_value(true));
+        return result;
+    }
     if (op.text == "cell") {
         const auto bits = integer(field(input, "bits")),
                    clusters = integer(field(input, "clusters")),
@@ -113,12 +167,15 @@ static V observe(const V &input) {
         try {
             const auto *scan = input.find("allocation_scan");
             require(!scan || scan->kind == V::Kind::boolean);
+            const auto *aux = input.find("auxiliary_checks");
+            require(!aux || aux->kind == V::Kind::boolean);
+            const auto copy = integer(field(input, "copy"));
+            require(copy <= 0xffffffff);
             return V::object().put(
-                "result",
-                disked::capture_fat_file(field(input, "path").text, integer(field(input, "offset")),
-                                         integer(field(input, "length")),
-                                         static_cast<std::uint32_t>(integer(field(input, "copy"))),
-                                         limits(input), scan && scan->boolean));
+                "result", disked::capture_fat_file(
+                              field(input, "path").text, integer(field(input, "offset")),
+                              integer(field(input, "length")), static_cast<std::uint32_t>(copy),
+                              limits(input), scan && scan->boolean, aux && aux->boolean));
         } catch (const std::exception &error) {
             return V::object().put("error", V::string(error.what()));
         }
@@ -138,6 +195,10 @@ static V observe(const V &input) {
     if (const auto *scan = input.find("allocation_scan")) {
         require(scan->kind == V::Kind::boolean);
         request.allocation_scan = scan->boolean;
+    }
+    if (const auto *aux = input.find("auxiliary_checks")) {
+        require(aux->kind == V::Kind::boolean);
+        request.auxiliary_checks = aux->boolean;
     }
     struct Segment {
         std::uint64_t start;
@@ -231,10 +292,51 @@ static int guard() {
     std::puts("FAT stream-cell protected bounds and no resident-table request checks passed.");
     return 0;
 }
+static int auxiliary_guard() {
+    SYSTEM_INFO info{};
+    GetSystemInfo(&info);
+    require(info.dwPageSize >= 512);
+    auto *pages = static_cast<unsigned char *>(
+        VirtualAlloc(nullptr, info.dwPageSize * 2, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+    require(pages != nullptr);
+    auto *end = pages + info.dwPageSize, *raw = end - 512;
+    const unsigned char lead[]{0x52, 0x52, 0x61, 0x41}, structure[]{0x72, 0x72, 0x41, 0x61},
+        trail[]{0, 0, 0x55, 0xaa};
+    std::memcpy(raw, lead, 4);
+    std::memcpy(raw + 484, structure, 4);
+    std::memcpy(raw + 508, trail, 4);
+    std::fill(raw + 488, raw + 496, static_cast<unsigned char>(0xff));
+    DWORD old = 0;
+    require(VirtualProtect(pages, info.dwPageSize, PAGE_READONLY, &old) != 0 &&
+            VirtualProtect(end, info.dwPageSize, PAGE_NOACCESS, &old) != 0);
+    de_view view{raw, 512};
+    de_fat_fsinfo fs{};
+    require(!de_fat_fsinfo_read(&view, 4096, 65525, &fs) && fs.fields_present &&
+            fs.issues == DE_FAT_FSINFO_TRUNCATED && !fs.free_count_known && !fs.next_free_known);
+    const auto saved_fs = fs;
+    view = {end, 4097};
+    require(de_fat_fsinfo_read(&view, 4096, 65525, &fs) == DE_BOUNDS &&
+            !std::memcmp(&fs, &saved_fs, sizeof(fs)));
+    de_fat_header header{};
+    for (auto bits : {12, 16, 32}) {
+        const auto count = bits == 12 ? 3U : (bits == 16 ? 4U : 8U);
+        view = {end - count, count};
+        require(!de_fat_header_read(&view, bits, 0xf8, &header) && header.fields_present);
+        const auto saved_header = header;
+        view = {end, count + 1};
+        require(de_fat_header_read(&view, bits, 0xf8, &header) == DE_BOUNDS &&
+                !std::memcmp(&header, &saved_header, sizeof(header)));
+    }
+    require(VirtualFree(pages, 0, MEM_RELEASE) != 0);
+    std::puts("FAT auxiliary protected prefix/header bounds and unchanged error outputs passed.");
+    return 0;
+}
 int main(int argc, char **argv) {
     try {
         if (argc == 2 && std::string(argv[1]) == "--guard")
             return guard();
+        if (argc == 2 && std::string(argv[1]) == "--aux-guard")
+            return auxiliary_guard();
         require(argc == 1);
         disked::json::Limits l;
         l.bytes = 16777216;

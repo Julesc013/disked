@@ -66,7 +66,7 @@ struct Region {
 
 json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std::uint64_t bytes,
                              std::uint32_t copy, const FatCaptureLimits &limits,
-                             bool allocation_scan) {
+                             bool allocation_scan, bool auxiliary_checks) {
     const auto path = local_file::path_for(input);
     auto ancestors = local_file::pin_parents(path);
     const auto generations = local_file::parent_generations(ancestors);
@@ -107,6 +107,7 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
     request.fat_copy = copy;
     request.limits = limits;
     request.allocation_scan = allocation_scan;
+    request.auxiliary_checks = auxiliary_checks;
     std::deque<Region> regions;
     bool overlaps = true;
     const auto observation = observe_fat_volume(request, [&](const de_byte_extent &extent) {

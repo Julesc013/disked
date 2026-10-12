@@ -16,6 +16,7 @@ struct FatCaptureRequest {
     std::uint64_t epoch = 0, source_bytes = 0, volume_offset = 0, volume_bytes = 0;
     std::uint32_t fat_copy = 0;
     bool allocation_scan = false;
+    bool auxiliary_checks = false;
     FatCaptureLimits limits;
 };
 // Private supplied-reader observation. Limits/geometry are checked; returned

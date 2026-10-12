@@ -102,6 +102,248 @@ class Observer {
     bool complete_ = true, consistent_ = true, overlap_equal_ = true;
     V diagnostics_ = V::array();
 
+    V fsinfo_fields(const de_fat_fsinfo &info) const {
+        return V::object()
+            .put("issues", exact(info.issues))
+            .put("fields_present", V::boolean_value(info.fields_present != 0))
+            .put("lead_signature", exact(info.lead_signature))
+            .put("structure_signature", exact(info.structure_signature))
+            .put("trail_signature", exact(info.trail_signature))
+            .put("reserved_nonzero", exact(info.reserved_nonzero))
+            .put("free_count", exact(info.free_count))
+            .put("next_free", exact(info.next_free))
+            .put("free_count_known", V::boolean_value(info.free_count_known != 0))
+            .put("next_free_known", V::boolean_value(info.next_free_known != 0));
+    }
+
+    V auxiliary(const V &allocation_result) {
+        auto headers = V::array(), info = V::object().put("status", V::string("not_observed")),
+             backup = V::object().put("status", V::string("not_observed")), codes = V::array();
+        bool complete = true, agreement = true, attention = false;
+        auto note = [&](const char *code, bool incomplete = false) {
+            codes.items.push_back(V::string(code));
+            agreement = false;
+            attention = true;
+            if (incomplete)
+                complete = false;
+        };
+        const auto copies =
+            std::min<std::size_t>(volume_.fat_count, request_.limits.compare_copies);
+        de_fat_fsinfo primary_info{};
+        try {
+            const auto header_bytes = volume_.bits == 12 ? 3U : (volume_.bits == 16 ? 4U : 8U);
+            de_fat_header first{};
+            std::vector<std::uint32_t> selected{request_.fat_copy};
+            for (std::uint32_t n = 0; n < volume_.fat_count && selected.size() < copies; ++n)
+                if (n != request_.fat_copy)
+                    selected.push_back(n);
+            for (auto copy : selected) {
+                const auto table = static_cast<std::uint64_t>(volume_.reserved_sectors) *
+                                       volume_.bytes_per_sector +
+                                   static_cast<std::uint64_t>(copy) * native(volume_.fat_bytes);
+                const auto &bytes = read(table, header_bytes);
+                const de_view view{bytes.data(), bytes.size()};
+                de_fat_header header{};
+                checked(de_fat_header_read(&view, volume_.bits, boot_[21], &header));
+                if (headers.items.empty())
+                    first = header;
+                else if (first.zero != header.zero || first.one != header.one)
+                    note("fat_header_copy_disagreement");
+                const bool recorded_attention = header.fields_present && header.flags_supported &&
+                                                (!header.clean_shutdown || !header.no_io_error);
+                attention = attention || recorded_attention;
+                headers.items.push_back(
+                    V::object()
+                        .put("copy", exact(copy))
+                        .put("raw", V::string(hex(bytes.data(), bytes.size())))
+                        .put("raw_zero", exact(header.raw_zero))
+                        .put("raw_one", exact(header.raw_one))
+                        .put("zero", exact(header.zero))
+                        .put("one", exact(header.one))
+                        .put("issues", exact(header.issues))
+                        .put("fields_present", V::boolean_value(header.fields_present != 0))
+                        .put("flags_supported", V::boolean_value(header.flags_supported != 0))
+                        .put("recorded_clean_shutdown",
+                             header.fields_present && header.flags_supported
+                                 ? V::boolean_value(header.clean_shutdown != 0)
+                                 : V{})
+                        .put("recorded_no_io_error", header.fields_present && header.flags_supported
+                                                         ? V::boolean_value(header.no_io_error != 0)
+                                                         : V{})
+                        .put("needs_attention",
+                             V::boolean_value(recorded_attention || header.issues != 0)));
+                if (header.issues)
+                    note("fat_header_shape");
+            }
+            if (copies != volume_.fat_count)
+                note("fat_header_comparison_budget", true);
+            if (volume_.bits != 32) {
+                info.put("status", V::string("not_applicable"));
+                backup.put("status", V::string("not_applicable"));
+            } else {
+                const bool present = volume_.fsinfo_sector != 65535;
+                if (!present)
+                    info.put("status", V::string("absent"));
+                else {
+                    const auto offset = static_cast<std::uint64_t>(volume_.fsinfo_sector) *
+                                        volume_.bytes_per_sector;
+                    const auto &bytes = read(offset, volume_.bytes_per_sector);
+                    const de_view view{bytes.data(), bytes.size()};
+                    checked(de_fat_fsinfo_read(&view, volume_.bytes_per_sector,
+                                               volume_.cluster_count, &primary_info));
+                    info = fsinfo_fields(primary_info);
+                    info.put("status", V::string("observed"))
+                        .put("source_offset", exact(add(request_.volume_offset, offset)))
+                        .put("raw", V::string(hex(bytes.data(), bytes.size())))
+                        .put("conventional_placement", V::boolean_value(volume_.fsinfo_sector == 1))
+                        .put("count_comparison_applicable", V::boolean_value(false))
+                        .put("free_count_matches", V{})
+                        .put("next_free_is_free", V{})
+                        .put("next_free_copies_agree", V{});
+                    if (volume_.fsinfo_sector != 1)
+                        note("fat_fsinfo_nonconventional_placement");
+                    if (primary_info.issues)
+                        note("fat_fsinfo_shape");
+                    const auto *coverage = allocation_result.find("coverage_complete"),
+                               *comparison = allocation_result.find("comparison_complete"),
+                               *different = allocation_result.find("different_cells"),
+                               *categories = allocation_result.find("categories");
+                    if (!primary_info.issues && primary_info.free_count_known && coverage &&
+                        coverage->boolean && comparison && comparison->boolean && different &&
+                        different->text == "0" && categories && overlap_equal_) {
+                        const bool matches = categories->find("free")->text ==
+                                             std::to_string(primary_info.free_count);
+                        info.put("count_comparison_applicable", V::boolean_value(true))
+                            .put("free_count_matches", V::boolean_value(matches));
+                        if (!matches)
+                            note("fat_fsinfo_free_count_disagreement");
+                    }
+                    if (!primary_info.issues && primary_info.next_free_known) {
+                        auto variants = V::array();
+                        de_fat_entry chosen{};
+                        bool same = true;
+                        for (auto copy : selected) {
+                            const auto entry = paged_cell(primary_info.next_free, copy);
+                            if (variants.items.empty())
+                                chosen = entry;
+                            else
+                                same = same && entry.value == chosen.value;
+                            variants.items.push_back(V::object()
+                                                         .put("copy", exact(copy))
+                                                         .put("raw", exact(entry.raw_value))
+                                                         .put("value", exact(entry.value)));
+                        }
+                        info.put("next_free_is_free",
+                                 V::boolean_value(chosen.kind == DE_FAT_ENTRY_FREE))
+                            .put("next_free_copies_agree", V::boolean_value(same))
+                            .put("next_free_cells", std::move(variants));
+                        if (chosen.kind != DE_FAT_ENTRY_FREE)
+                            note("fat_fsinfo_next_not_free");
+                        if (!same)
+                            note("fat_fsinfo_next_copy_disagreement");
+                    }
+                }
+                const auto start = volume_.backup_sector;
+                if (!start || start == 65535)
+                    backup.put("status", V::string("absent"));
+                else if (volume_.reserved_sectors < 3 || start > volume_.reserved_sectors - 3) {
+                    backup.put("status", V::string("invalid_record_extent"));
+                    note("fat_backup_record_extent", true);
+                } else {
+                    auto records = V::array();
+                    backup.put("status", V::string("observing"))
+                        .put("conventional_placement", V::boolean_value(start == 6));
+                    if (start != 6)
+                        note("fat_backup_nonconventional_placement");
+                    bool exact_record = true, structural_record = true;
+                    const auto available = portable(request_.volume_bytes);
+                    for (std::uint32_t n = 0; n < 3; ++n) {
+                        const auto primary_offset =
+                                       static_cast<std::uint64_t>(n) * volume_.bytes_per_sector,
+                                   backup_offset = static_cast<std::uint64_t>(start + n) *
+                                                   volume_.bytes_per_sector;
+                        const auto &primary = read(primary_offset, volume_.bytes_per_sector),
+                                   &other = read(backup_offset, volume_.bytes_per_sector);
+                        const bool same = primary == other;
+                        bool structural = same;
+                        auto record =
+                            V::object()
+                                .put("ordinal", exact(n))
+                                .put("primary_offset",
+                                     exact(add(request_.volume_offset, primary_offset)))
+                                .put("backup_offset",
+                                     exact(add(request_.volume_offset, backup_offset)))
+                                .put("primary_raw", V::string(hex(primary.data(), primary.size())))
+                                .put("backup_raw", V::string(hex(other.data(), other.size())))
+                                .put("exact_equal", V::boolean_value(same));
+                        if (n == 0) {
+                            const de_view view{other.data(), other.size()};
+                            de_fat_volume observed{};
+                            const auto status = de_fat_volume_read(&view, &available, &observed);
+                            const bool bpb_same = std::equal(
+                                primary.begin() + 11, primary.begin() + 90, other.begin() + 11);
+                            backup.put("decode_status", exact(static_cast<std::uint64_t>(status)))
+                                .put("issues", exact(observed.issues))
+                                .put("usable_geometry",
+                                     V::boolean_value(!status && observed.usable_layout))
+                                .put("bpb_equal", V::boolean_value(bpb_same))
+                                .put("boot_sector_equal", V::boolean_value(same));
+                            if (status || !observed.usable_layout)
+                                note("fat_backup_bpb_unusable");
+                            if (!bpb_same)
+                                note("fat_backup_bpb_disagreement");
+                        } else if (n == 1 && present && volume_.fsinfo_sector == 1) {
+                            const de_view view{other.data(), other.size()};
+                            de_fat_fsinfo shadow{};
+                            checked(de_fat_fsinfo_read(&view, volume_.bytes_per_sector,
+                                                       volume_.cluster_count, &shadow));
+                            backup.put("shadow_fsinfo", fsinfo_fields(shadow));
+                            if (shadow.issues)
+                                note("fat_backup_fsinfo_shape");
+                            if (!shadow.issues && !primary_info.issues) {
+                                structural = std::equal(primary.begin(), primary.begin() + 488,
+                                                        other.begin()) &&
+                                             std::equal(primary.begin() + 496, primary.end(),
+                                                        other.begin() + 496);
+                                backup.put(
+                                    "advisory_hints_equal",
+                                    V::boolean_value(primary_info.free_count == shadow.free_count &&
+                                                     primary_info.next_free == shadow.next_free));
+                            }
+                        } else if (n == 1) {
+                            backup.put("shadow_location_known", V::boolean_value(false));
+                            note("fat_backup_fsinfo_location_unknown");
+                        }
+                        exact_record = exact_record && same;
+                        structural_record = structural_record && structural;
+                        record.put("structural_equal", V::boolean_value(structural));
+                        records.items.push_back(std::move(record));
+                        backup.put("records",
+                                   records); // Preserve complete pairs if a later read fails.
+                    }
+                    backup.put("status", V::string("observed"))
+                        .put("record_exact_equal", V::boolean_value(exact_record))
+                        .put("record_structural_equal", V::boolean_value(structural_record));
+                    if (!structural_record)
+                        note("fat_backup_record_disagreement");
+                }
+            }
+        } catch (const Stop &error) {
+            note(error.code.c_str(), true);
+        }
+        return V::object()
+            .put("status", V::string(complete ? "observed" : "partial"))
+            .put("coverage_complete", V::boolean_value(complete))
+            .put("metadata_agreement", V::boolean_value(complete && agreement && overlap_equal_))
+            .put("needs_attention", V::boolean_value(attention))
+            .put("header_comparison_complete",
+                 V::boolean_value(headers.items.size() == volume_.fat_count))
+            .put("headers", std::move(headers))
+            .put("fsinfo", std::move(info))
+            .put("backup", std::move(backup))
+            .put("diagnostics", std::move(codes));
+    }
+
     de_fat_entry paged_cell(std::uint32_t index, std::uint32_t copy) {
         de_fat_cell_request wanted{};
         checked(de_fat_entry_request(volume_.bits, volume_.cluster_count, index, &wanted));
@@ -716,8 +958,12 @@ class Observer {
             l.compare_copies > 16 || !l.allocation_clusters || l.allocation_clusters > 262144 ||
             !l.allocation_findings || l.allocation_findings > 128)
             throw std::invalid_argument("fat_capture_limits");
+        if (request.auxiliary_checks && l.output_bytes < 131072)
+            throw std::invalid_argument("fat_auxiliary_output_limit");
         if (request.allocation_scan)
             output_used_ += 2048; // Reserve the summary even if tree/detail budgets stop.
+        if (request.auxiliary_checks)
+            output_used_ += 81920;
         const auto bytes = portable(request.source_bytes);
         checked(
             de_space_init(request.source_id.data(), request.source_id.size(), &bytes, 1, &source_));
@@ -797,6 +1043,18 @@ class Observer {
         if (request_.allocation_scan && volume_.usable_layout &&
             request_.fat_copy < volume_.fat_count)
             scanned = allocation();
+        V auxiliary_result;
+        if (request_.auxiliary_checks) {
+            if (volume_.usable_layout && request_.fat_copy < volume_.fat_count)
+                auxiliary_result = auxiliary(scanned);
+            else
+                auxiliary_result = V::object()
+                                       .put("status", V::string("not_observed"))
+                                       .put("coverage_complete", V::boolean_value(false))
+                                       .put("metadata_agreement", V::boolean_value(false));
+        }
+        if (!overlap_equal_ && scanned.find("unreferenced_allocation_qualified"))
+            scanned.put("unreferenced_allocation_qualified", V::boolean_value(false));
         auto nodes = V::array();
         for (auto &n : nodes_) {
             auto codes = V::array();
@@ -863,6 +1121,13 @@ class Observer {
                                                    : all ? "all-data-clusters"
                                                          : "data-cluster-prefix"))
                 .put("allocation_scan", std::move(scanned));
+        }
+        if (request_.auxiliary_checks) {
+            const bool aggregate = out.find("observed_metadata_consistent")->boolean &&
+                                   auxiliary_result.find("metadata_agreement")->boolean;
+            out.put("tree_metadata_consistent", V::boolean_value(consistent_))
+                .put("observed_metadata_consistent", V::boolean_value(aggregate))
+                .put("auxiliary_checks", std::move(auxiliary_result));
         }
         if (encoded(out) > request_.limits.output_bytes)
             throw std::runtime_error("fat_output_accounting");
