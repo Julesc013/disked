@@ -113,6 +113,36 @@ V exercise(const V &input) {
                        .put("verified", disked::verify_fat_snapshot_frame(captured, r));
         return out;
     }
+    if (mode == "quota") {
+        // Owned hung test readers occupy the real shared job. No source read is started.
+        auto held = r;
+        held.fixture = V::object().put("worker_fault", V::string("hang"));
+        std::vector<std::unique_ptr<n::FatWorker>> peers;
+        auto out = V::object();
+        for (unsigned i = 0; i < 4; ++i) {
+            auto peer = n::FatWorker::prepare(held);
+            peer->launch();
+            if (!peer->wait_entered(1000))
+                throw std::runtime_error("fat_probe_quota_not_entered");
+            peer->release();
+            peers.push_back(std::move(peer));
+        }
+        auto fifth = n::FatWorker::prepare(r);
+        try {
+            fifth->launch();
+            out.put("fifth_error", V{});
+        } catch (const std::exception &error) {
+            out.put("fifth_error", V::string(error.what()));
+        }
+        out.put("fifth_never_launched", V::boolean_value(fifth->never_launched()));
+        if (!fifth->never_launched())
+            out.put("fifth_retirement", fifth->retire());
+        auto retirements = V::array();
+        for (auto &peer : peers)
+            retirements.items.push_back(peer->retire());
+        out.put("peer_retirements", std::move(retirements));
+        return out;
+    }
     f::Handle writer;
     if (input.find("hold_writer")) {
         const auto path = f::path_for(r.path);

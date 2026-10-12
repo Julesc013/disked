@@ -15,6 +15,7 @@ from test_fat_namespace import query
 
 PROBE=None
 FAULT=None
+QUOTA_OBSERVATIONS=[]
 
 
 def request(path,volume,**fields):
@@ -24,7 +25,11 @@ def request(path,volume,**fields):
 
 
 def run(rows, fault=False):
-    return capture.run(rows,probe=FAULT if fault else PROBE)
+    values=capture.run(rows,probe=FAULT if fault else PROBE)
+    for row,value in zip(rows,values):
+        if 'error' in value or 'startup_error' in value:
+            print(json.dumps(dict(reader_refusal=value,request_mode=row.get('mode','worker'),fixture=row.get('fixture',{})),sort_keys=True),flush=True)
+    return values
 
 
 def all_false(value):
@@ -198,6 +203,16 @@ class WorkerTests(unittest.TestCase):
         directory=run([request(path.parent,volume)])[0]
         self.assertIn('error',directory)
 
+    def test_real_shared_quota_refuses_fifth_reader(self):
+        path,volume=self.make();before=hashlib.sha256(path.read_bytes()).hexdigest()
+        value=run([request(path,volume,mode='quota')],True)[0]
+        self.assertEqual(value['fifth_error'],'observation_spawn_failed',value)
+        self.assertTrue(value['fifth_never_launched'])
+        self.assertEqual(len(value['peer_retirements']),4)
+        self.assertTrue(all(p['worker']['observation']=='exited' for p in value['peer_retirements']))
+        QUOTA_OBSERVATIONS.append(value)
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),before)
+
 
 def main():
     global PROBE,FAULT
@@ -206,7 +221,7 @@ def main():
     PROBE=args.probe.resolve();FAULT=args.fault_probe.resolve()
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(WorkerTests))
     cases=sum(r['cases'] for r in capture.RECEIPTS)
-    if args.output:args.output.write_text(json.dumps(dict(tests_run=result.testsRun,passed=result.wasSuccessful(),cases=cases,batches=capture.RECEIPTS),indent=2)+'\n',encoding='utf-8',newline='\n')
+    if args.output:args.output.write_text(json.dumps(dict(tests_run=result.testsRun,passed=result.wasSuccessful(),cases=cases,batches=capture.RECEIPTS,quota_observations=QUOTA_OBSERVATIONS),indent=2)+'\n',encoding='utf-8',newline='\n')
     print('Owned FAT reader cases executed: '+str(cases),flush=True)
     raise SystemExit(0 if result.wasSuccessful() else 1)
 
