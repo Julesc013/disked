@@ -5,6 +5,19 @@
 #include <stdexcept>
 
 namespace disked {
+void withdraw_fat_namespace_applicability(json::Value &names, const char *diagnostic) {
+    names.put("capture_applicable", json::Value::boolean_value(false));
+    names.fields.at("diagnostics").items.push_back(json::Value::string(diagnostic));
+    for (auto &directory : names.fields.at("directories").items)
+        directory.put("model_complete", json::Value::boolean_value(false));
+    for (auto &query : names.fields.at("queries").items) {
+        const auto status = query.fields.at("status").text;
+        if (status == "unique" || status == "not_found") {
+            query.put("status", json::Value::string("incomplete"));
+            query.fields.erase("entry_id");
+        }
+    }
+}
 namespace {
 using V = json::Value;
 V exact(std::uint64_t n) {

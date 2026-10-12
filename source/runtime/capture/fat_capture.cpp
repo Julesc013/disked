@@ -957,36 +957,9 @@ class Observer {
   public:
     Observer(const FatCaptureRequest &request, const RegionReader &reader)
         : request_(request), reader_(reader) {
-        const auto &l = request.limits;
-        if (!reader || !request.epoch || !request.source_bytes || !request.volume_bytes ||
-            request.source_id.empty() || request.source_id.size() > 128 ||
-            request.source_id.find('\0') != std::string::npos ||
-            !json::valid_utf8(request.source_id))
+        if (!reader)
             throw std::invalid_argument("fat_capture_inputs");
-        if (request.volume_offset > request.source_bytes ||
-            request.volume_bytes > request.source_bytes - request.volume_offset)
-            throw std::invalid_argument("fat_capture_window");
-        if (!l.nodes || l.nodes > 128 || !l.depth || l.depth > 8 || !l.chain_clusters ||
-            l.chain_clusters > 1024 || !l.total_clusters || l.total_clusters > 4096 || !l.records ||
-            l.records > 4096 || !l.read_requests || l.read_requests > 8192 || !l.read_bytes ||
-            l.read_bytes > 2097152 || !l.orphan_groups || l.orphan_groups > 128 ||
-            l.output_bytes < 16384 || l.output_bytes > 1048576 || !l.compare_copies ||
-            l.compare_copies > 16 || !l.allocation_clusters || l.allocation_clusters > 262144 ||
-            !l.allocation_findings || l.allocation_findings > 128)
-            throw std::invalid_argument("fat_capture_limits");
-        if (request.auxiliary_checks && l.output_bytes < 131072)
-            throw std::invalid_argument("fat_auxiliary_output_limit");
-        if (request.namespace_consumer) {
-            validate_fat_name_consumer(*request.namespace_consumer);
-            validate_fat_name_queries(request.namespace_queries);
-            if (l.output_bytes < 786432 || !request.namespace_limits.comparisons ||
-                request.namespace_limits.comparisons > 65536 ||
-                !request.namespace_limits.findings || request.namespace_limits.findings > 128 ||
-                request.namespace_limits.output_bytes < 16384 ||
-                request.namespace_limits.output_bytes > 524288)
-                throw std::invalid_argument("fat_namespace_capture_limits");
-        } else if (!request.namespace_queries.empty())
-            throw std::invalid_argument("fat_namespace_consumer_required");
+        validate_fat_capture_request(request);
         if (request.allocation_scan)
             output_used_ += 2048; // Reserve the summary even if tree/detail budgets stop.
         if (request.auxiliary_checks)
@@ -1182,6 +1155,37 @@ class Observer {
     }
 };
 } // namespace
+void validate_fat_capture_request(const FatCaptureRequest &request) {
+    const auto &l = request.limits;
+    if (!request.epoch || !request.source_bytes || !request.volume_bytes ||
+        request.source_id.empty() || request.source_id.size() > 128 ||
+        request.source_id.find('\0') != std::string::npos || !json::valid_utf8(request.source_id))
+        throw std::invalid_argument("fat_capture_inputs");
+    if (request.volume_offset > request.source_bytes ||
+        request.volume_bytes > request.source_bytes - request.volume_offset)
+        throw std::invalid_argument("fat_capture_window");
+    if (!l.nodes || l.nodes > 128 || !l.depth || l.depth > 8 || !l.chain_clusters ||
+        l.chain_clusters > 1024 || !l.total_clusters || l.total_clusters > 4096 || !l.records ||
+        l.records > 4096 || !l.read_requests || l.read_requests > 8192 || !l.read_bytes ||
+        l.read_bytes > 2097152 || !l.orphan_groups || l.orphan_groups > 128 ||
+        l.output_bytes < 16384 || l.output_bytes > 1048576 || !l.compare_copies ||
+        l.compare_copies > 16 || !l.allocation_clusters || l.allocation_clusters > 262144 ||
+        !l.allocation_findings || l.allocation_findings > 128)
+        throw std::invalid_argument("fat_capture_limits");
+    if (request.auxiliary_checks && l.output_bytes < 131072)
+        throw std::invalid_argument("fat_auxiliary_output_limit");
+    if (request.namespace_consumer) {
+        validate_fat_name_consumer(*request.namespace_consumer);
+        validate_fat_name_queries(request.namespace_queries);
+        if (l.output_bytes < 786432 || !request.namespace_limits.comparisons ||
+            request.namespace_limits.comparisons > 65536 || !request.namespace_limits.findings ||
+            request.namespace_limits.findings > 128 ||
+            request.namespace_limits.output_bytes < 16384 ||
+            request.namespace_limits.output_bytes > 524288)
+            throw std::invalid_argument("fat_namespace_capture_limits");
+    } else if (!request.namespace_queries.empty())
+        throw std::invalid_argument("fat_namespace_consumer_required");
+}
 json::Value observe_fat_volume(const FatCaptureRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();
 }

@@ -7,6 +7,8 @@
 #include <vector>
 
 namespace disked {
+// Withdraw derived applicability while preserving original entries and measured matches.
+void withdraw_fat_namespace_applicability(json::Value &, const char *diagnostic);
 using FatNameUnits = std::vector<std::uint16_t>;
 enum class FatNameState { Known, Rejected, Unknown };
 enum class FatNameEquality { Equal, Different, Unknown };

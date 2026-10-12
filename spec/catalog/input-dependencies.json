@@ -10001,6 +10001,129 @@
         "DE-015",
         "DE-044"
       ]
+    },
+    {
+      "id": "source/providers/image/fat_snapshot.h",
+      "path": "source/providers/image/fat_snapshot.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/fat_file.h",
+        "spec/catalog/fat-worker-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/providers/image/fat_snapshot.cpp",
+      "path": "source/providers/image/fat_snapshot.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/fat_snapshot.h",
+        "source/providers/image/local_file.h",
+        "source/platform/windows/file_names.h",
+        "source/portable/hash/sha256.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/fat_worker.h",
+      "path": "source/platform/windows/storage/fat_worker.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/observation_worker.h",
+        "source/providers/image/fat_snapshot.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/fat_worker.cpp",
+      "path": "source/platform/windows/storage/fat_worker.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/worker_files.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/images/fat_worker_probe.cpp",
+      "path": "tests/images/fat_worker_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/memory_budget.h",
+        "source/providers/image/local_file.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/images/test_fat_worker.py",
+      "path": "tests/images/test_fat_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/fat_worker_probe.cpp",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_namespace.py",
+        "tests/images/test_fat_auxiliary.py"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-13-fat-worker/reproduce.py",
+      "path": ".aide/evidence/2026-10-13-fat-worker/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/providers/image/fat_snapshot.cpp",
+        "source/platform/windows/storage/fat_worker.cpp",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/providers/image/fat_file.cpp",
+        "tests/images/test_fat_worker.py",
+        "tests/images/fat_worker_probe.cpp",
+        "CMakeLists.txt",
+        "tools/check-build-boundaries.py"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-015",
+        "DE-044"
+      ]
     }
   ]
 }

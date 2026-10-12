@@ -26,4 +26,5 @@ struct FatCaptureRequest {
 // Private supplied-reader observation. Limits/geometry are checked; returned
 // JSON owns all metadata. No source identity/freshness, extraction or writer grant.
 json::Value observe_fat_volume(const FatCaptureRequest &, const RegionReader &);
+void validate_fat_capture_request(const FatCaptureRequest &);
 } // namespace disked

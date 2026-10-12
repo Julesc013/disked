@@ -64,12 +64,13 @@ struct Region {
 };
 } // namespace
 
-json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std::uint64_t bytes,
-                             std::uint32_t copy, const FatCaptureLimits &limits,
-                             bool allocation_scan, bool auxiliary_checks,
-                             const FatNameConsumer *namespace_consumer,
-                             const std::vector<FatNameQuery> &namespace_queries,
-                             const FatNamespaceLimits &namespace_limits) {
+FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offset,
+                                   std::uint64_t bytes, std::uint32_t copy,
+                                   const FatCaptureLimits &limits, bool allocation_scan,
+                                   bool auxiliary_checks, const FatNameConsumer *namespace_consumer,
+                                   const std::vector<FatNameQuery> &namespace_queries,
+                                   const FatNamespaceLimits &namespace_limits,
+                                   const V *expected_source, const std::function<bool()> &stop) {
     const auto path = local_file::path_for(input);
     auto ancestors = local_file::pin_parents(path);
     const auto generations = local_file::parent_generations(ancestors);
@@ -80,12 +81,16 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
     if (file.value == INVALID_HANDLE_VALUE)
         throw local_file::Error("fat_file_open", GetLastError());
     auto check = [&] {
+        if (stop && stop())
+            throw local_file::Error("fat_file_cancelled");
         local_file::check_parents(path, ancestors, generations);
         local_file::ordinary(file.value, false);
         local_file::bind_path(file.value, path);
     };
     check();
     const auto before = local_file::metadata(file.value);
+    if (expected_source && json::dump(before.value) != json::dump(*expected_source))
+        throw local_file::Error("fat_file_source_changed");
     static std::atomic<std::uint64_t> sequence{0};
     auto previous = sequence.load();
     for (;;) {
@@ -123,6 +128,21 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
             throw std::runtime_error("fat_file_extent");
         Region region{start, static_cast<std::size_t>(end - start),
                       read(file.value, start, static_cast<std::size_t>(end - start))};
+#ifdef DISKED_FAT_FILE_TESTING
+        if (regions.empty() &&
+            GetEnvironmentVariableW(L"DISKED_FAT_TEST_CAPTURE_ERROR", nullptr, 0)) {
+            region.first.error = ERROR_READ_FAULT;
+            region.first.bytes.clear();
+        }
+        if (regions.empty() &&
+            GetEnvironmentVariableW(L"DISKED_FAT_TEST_CAPTURE_SHORT", nullptr, 0) &&
+            !region.first.bytes.empty())
+            region.first.bytes.pop_back();
+        if (region.count == 8 &&
+            GetEnvironmentVariableW(L"DISKED_FAT_TEST_OVERLAP_CHANGED", nullptr, 0) &&
+            !region.first.bytes.empty())
+            region.first.bytes[0] ^= 1;
+#endif
         for (const auto &prior : regions) {
             const auto first = std::max(start, prior.start),
                        last = std::min(start + region.first.bytes.size(),
@@ -184,17 +204,7 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
     if (!stable && namespace_consumer) {
         // Preserve measured names/matches; a failed recapture withdraws lookup applicability.
         auto &names = observation.fields.at("namespace");
-        names.put("capture_applicable", V::boolean_value(false));
-        names.fields.at("diagnostics").items.push_back(V::string("file_recapture_not_applicable"));
-        for (auto &directory : names.fields.at("directories").items)
-            directory.put("model_complete", V::boolean_value(false));
-        for (auto &query : names.fields.at("queries").items) {
-            const auto status = query.fields.at("status").text;
-            if (status == "unique" || status == "not_found") {
-                query.put("status", V::string("incomplete"));
-                query.fields.erase("entry_id");
-            }
-        }
+        withdraw_fat_namespace_applicability(names, "file_recapture_not_applicable");
     }
     auto receipt =
         V::object()
@@ -218,11 +228,28 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
             .put("source_consistency", V::string("live-uncoordinated"))
             .put("atomic_snapshot", V::boolean_value(false))
             .put("whole_file_hashed", V::boolean_value(false));
-    return V::object()
-        .put("schema", V::string("org.disked.fat-file-capture/1"))
-        .put("observation", observation)
-        .put("capture", std::move(receipt))
-        .put("authorizes_effects", V::boolean_value(false))
-        .put("product_dispatch_admitted", V::boolean_value(false));
+    FatFileRead owned;
+    owned.process_id = GetCurrentProcessId();
+    owned.process_created = process_created;
+    for (auto &region : regions)
+        owned.regions.push_back(
+            {region.start, region.count, region.first.error, std::move(region.first.bytes)});
+    owned.result = V::object()
+                       .put("schema", V::string("org.disked.fat-file-capture/1"))
+                       .put("observation", observation)
+                       .put("capture", std::move(receipt))
+                       .put("authorizes_effects", V::boolean_value(false))
+                       .put("product_dispatch_admitted", V::boolean_value(false));
+    return owned;
+}
+json::Value capture_fat_file(const std::string &path, std::uint64_t offset, std::uint64_t bytes,
+                             std::uint32_t copy, const FatCaptureLimits &limits,
+                             bool allocation_scan, bool auxiliary_checks,
+                             const FatNameConsumer *consumer,
+                             const std::vector<FatNameQuery> &queries,
+                             const FatNamespaceLimits &namespace_limits) {
+    return capture_fat_file_owned(path, offset, bytes, copy, limits, allocation_scan,
+                                  auxiliary_checks, consumer, queries, namespace_limits)
+        .result;
 }
 } // namespace disked
