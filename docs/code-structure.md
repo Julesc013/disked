@@ -56,6 +56,24 @@ Cross-module includes should identify their module, with deliberate usage
 requirements. The supplied review reproduced no wrong-header binding, so record
 this as enforcement work rather than an existing runtime corruption defect.
 
+The private native build now has three small core targets: `disked_json` compiles
+the JSON codec, `disked_command` compiles command parsing, protocol handling and
+the shell lexer, and `disked_invocation` compiles frontend selection policy.
+The latter two depend on JSON independently. Presentation and typed command
+adapters declare the command dependency; the product composition declares
+invocation. This changes internal linkage, not command IDs or public semantics.
+
+In the pinned Windows Release test lane, `build.boundaries` reads CMake's generated
+codemodel and actual quoted headers. It checks forbidden layer crossings, ambiguous
+or wrongly cased includes, core source/flag expectations and consumer isolation.
+Five generated translation units compile `json.h`, `command.h`, `protocol.h`,
+`shell_lexer.h` and `policy.h` individually. Run the normal configure/build/test
+presets; retain `build/windows-bootstrap/build-boundaries.json` with evidence.
+This checks generated build closure, including transitive/order dependencies;
+it is not a direct-link audit or a complete C++ preprocessor. Cross-module include
+qualification and the remaining headers still need further work. The checker
+derives sources from CMake rather than duplicating the source map.
+
 The GUI/TUI completion identity, view-epoch and availability rules contain real
 duplication. Consolidate those shared invariants in the existing presentation
 owner with regression evidence; keep navigation, editing and rendering local.

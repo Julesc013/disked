@@ -32,6 +32,11 @@ For each paired row below, `.h` declares the private types/ports/functions and `
 
 Current file names describe implemented responsibility; they do not reserve every future class or helper. `tools/check-source-map.py` checks that every current source file is listed exactly once. Add/change the explanation when a source file is added or moved.
 
+Native dependency/header checks are separate from this inventory. See
+`tools/check-build-boundaries.py`, the three core targets and five independent
+header compilations described in [code structure](code-structure.md). Those
+checks do not imply that every private header or platform has been qualified.
+
 ## CLI, shell, TUI and terminal: different responsibilities
 
 | Responsibility | Current owner | Why this placement |

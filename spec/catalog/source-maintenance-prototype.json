@@ -17,13 +17,13 @@
     },
     {
       "id": "SR-02",
-      "state": "pending",
+      "state": "implemented-pending-owner-review",
       "action": "Separate actual JSON codec from command/protocol/lexer and invocation targets; preserve exact compilation flags and declare actual direct dependencies."
     },
     {
       "id": "SR-03",
-      "state": "pending",
-      "action": "Verify actual include/header resolution and enforce ownership with focused checks; no wrong-header failure reproduced."
+      "state": "partially-implemented",
+      "action": "Actual generated quoted-include resolution/case/layer checks and five standalone core headers implemented. Most module-qualified includes and remaining headers are still pending; no original wrong-header failure reproduced."
     },
     {
       "id": "SR-04",
@@ -37,12 +37,12 @@
     },
     {
       "id": "SR-06",
-      "state": "pending",
-      "action": "Add independent dependency/header checks; source-map coverage is not dependency conformance."
+      "state": "implemented-bounded-current-lane-checks",
+      "action": "Independent generated build-closure/quoted-header checks and negative fixtures implemented. Not a preprocessor/direct-link/full-platform audit; retain exact native evidence."
     },
     {
       "id": "SR-07",
-      "state": "implemented-pending-tooling-review",
+      "state": "agent-tested-pending-owner-review",
       "action": "Route AGENTS current task to programme/work/grant; no repeated current-status paragraph."
     },
     {
@@ -56,5 +56,78 @@
   "owner_accepted": false,
   "unit_complete": false,
   "full_010_complete": false,
-  "release_ready": false
+  "release_ready": false,
+  "build_phase_base_revision": "9de2b2156e51d31919cb2c93012c06237db65544",
+  "build_checks": {
+    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private targets and five private header checks, not SDK admission.",
+    "core_targets": {
+      "disked_json": {
+        "sources": [
+          "source/runtime/command/json.cpp"
+        ],
+        "build_closure": []
+      },
+      "disked_command": {
+        "sources": [
+          "source/runtime/command/command.cpp",
+          "source/runtime/command/protocol.cpp",
+          "source/runtime/command/shell_lexer.cpp"
+        ],
+        "build_closure": [
+          "disked_json"
+        ]
+      },
+      "disked_invocation": {
+        "sources": [
+          "source/runtime/invocation/policy.cpp"
+        ],
+        "build_closure": [
+          "disked_json"
+        ]
+      }
+    },
+    "required_compile_flags": [
+      "/W4",
+      "/WX",
+      "/permissive-",
+      "/utf-8",
+      "/GS",
+      "/sdl",
+      "/guard:cf",
+      "/MT"
+    ],
+    "isolated_consumers": {
+      "json_codec_probe": [
+        "disked_command",
+        "disked_invocation"
+      ],
+      "invocation_policy_probe": [
+        "disked_command"
+      ],
+      "command_parser_probe": [
+        "disked_invocation"
+      ],
+      "protocol_reader_probe": [
+        "disked_invocation"
+      ]
+    },
+    "header_compile_checks": [
+      "json.h",
+      "command.h",
+      "protocol.h",
+      "shell_lexer.h",
+      "policy.h"
+    ],
+    "layer_checks": "Portable depends only on portable; runtime on portable/runtime; providers do not depend on product apps; frontend models do not depend on concrete providers/platform hosts. Product compositions and platform frontend hosts intentionally wire models and selected mechanisms.",
+    "header_checks": "Lexical quoted includes resolve under actual compile-group include paths, without ambiguity or wrong case; compiler checks independently compile each of five core headers using its target usage requirements.",
+    "limitations": "CMake codemodel dependencies are transitive/order build closure, not direct link declarations. Lexical checking covers conditional include branches but does not preprocess, validate all declarations, inspect system angle includes or qualify all platforms. Most cross-module includes remain unqualified; systematic namespace migration remains pending SR-03.",
+    "test_commands": [
+      "cmake --preset windows-bootstrap",
+      "cmake --build --preset windows-bootstrap --parallel 4",
+      "ctest --preset windows-bootstrap --parallel 4 --output-on-failure",
+      "python tools/check-build-boundaries.py --build build/windows-bootstrap --output build/windows-bootstrap/build-boundaries.json",
+      "python -m unittest discover -s tests/tools -v"
+    ],
+    "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result."
+  }
 }

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(DiskEdBootstrap VERSION 0.1.0 LANGUAGES C CXX)
+# Inspect the generated build graph rather than maintaining another source list.
+cmake_file_api(QUERY API_VERSION 1 CODEMODEL 2)
 
 # This lane is deliberately narrow. Other targets need their own evidence.
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/spec/catalog/native-bootstrap.json" bootstrap)
@@ -37,10 +39,23 @@ target_include_directories(disked_gpt PUBLIC source/portable/gpt)
 target_link_libraries(disked_gpt PUBLIC disked_primitives)
 set_target_properties(disked_gpt PROPERTIES C_STANDARD 90 C_STANDARD_REQUIRED YES C_EXTENSIONS NO)
 target_compile_options(disked_gpt PRIVATE /W4 /WX /GS /sdl /guard:cf)
-add_library(disked_json STATIC source/runtime/command/json.cpp source/runtime/command/command.cpp source/runtime/command/protocol.cpp source/runtime/command/shell_lexer.cpp source/runtime/invocation/policy.cpp)
-target_include_directories(disked_json PUBLIC source/runtime/command source/runtime/invocation)
+add_library(disked_json STATIC source/runtime/command/json.cpp)
+target_include_directories(disked_json PUBLIC source/runtime/command)
 set_target_properties(disked_json PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_json PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_command STATIC source/runtime/command/command.cpp
+  source/runtime/command/protocol.cpp source/runtime/command/shell_lexer.cpp)
+target_include_directories(disked_command PUBLIC source/runtime/command)
+target_link_libraries(disked_command PUBLIC disked_json)
+set_target_properties(disked_command PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_command PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
+add_library(disked_invocation STATIC source/runtime/invocation/policy.cpp)
+target_include_directories(disked_invocation PUBLIC source/runtime/invocation)
+target_link_libraries(disked_invocation PUBLIC disked_json)
+set_target_properties(disked_invocation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_invocation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_hash STATIC source/portable/hash/sha256.cpp)
 target_include_directories(disked_hash PUBLIC source/portable/hash)
@@ -114,7 +129,7 @@ target_compile_options(disked_acquisition PRIVATE /W4 /WX /permissive- /utf-8 /G
 add_library(disked_presentation STATIC source/runtime/operation/fake_operation.cpp source/runtime/operation/watch.cpp
   source/runtime/graph/snapshot.cpp source/runtime/graph/capture.cpp source/runtime/presentation/session.cpp source/runtime/presentation/requests.cpp)
 target_include_directories(disked_presentation PUBLIC source/runtime/graph source/runtime/presentation source/portable/hash source/runtime/operation)
-target_link_libraries(disked_presentation PUBLIC disked_json disked_hash)
+target_link_libraries(disked_presentation PUBLIC disked_command disked_hash)
 set_target_properties(disked_presentation PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_presentation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
@@ -195,11 +210,11 @@ set_target_properties(disked_file_acquisition PROPERTIES CXX_STANDARD 14 CXX_STA
 target_compile_options(disked_file_acquisition PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_acquisition_commands STATIC source/runtime/acquisition/commands.cpp)
-target_link_libraries(disked_acquisition_commands PUBLIC disked_acquisition)
+target_link_libraries(disked_acquisition_commands PUBLIC disked_acquisition disked_command)
 set_target_properties(disked_acquisition_commands PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_acquisition_commands PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 add_library(disked_export_commands STATIC source/runtime/evidence/export_commands.cpp)
-target_link_libraries(disked_export_commands PUBLIC disked_report_export)
+target_link_libraries(disked_export_commands PUBLIC disked_report_export disked_command)
 set_target_properties(disked_export_commands PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_export_commands PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 add_library(disked_acquisition_observation STATIC source/runtime/acquisition/observation.cpp)
@@ -212,7 +227,7 @@ set_target_properties(disked_report_observation PROPERTIES CXX_STANDARD 14 CXX_S
 target_compile_options(disked_report_observation PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_verification_commands STATIC source/runtime/evidence/verification_commands.cpp)
-target_link_libraries(disked_verification_commands PUBLIC disked_report_export)
+target_link_libraries(disked_verification_commands PUBLIC disked_report_export disked_command)
 set_target_properties(disked_verification_commands PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_verification_commands PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 add_library(disked_verification_observation STATIC source/runtime/evidence/verification_observation.cpp)
@@ -229,7 +244,7 @@ target_compile_options(disked_image_capture PRIVATE /W4 /WX /permissive- /utf-8 
 
 add_library(disked_image_actions STATIC source/runtime/capture/image_commands.cpp)
 target_include_directories(disked_image_actions PUBLIC source/runtime/capture)
-target_link_libraries(disked_image_actions PUBLIC disked_map_observation disked_gpt_repair_planning)
+target_link_libraries(disked_image_actions PUBLIC disked_map_observation disked_gpt_repair_planning disked_command)
 set_target_properties(disked_image_actions PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_image_actions PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
@@ -270,7 +285,7 @@ function(bootstrap_executable target)
     source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/memory_budget.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
   target_include_directories(${target} PRIVATE "${generated}" source/providers/fake source/platform/windows source/platform/windows/console source/platform/windows/ui source/apps/disked source/apps/disked/cli)
-  target_link_libraries(${target} PRIVATE disked_tui disked_gui disked_shell disked_image_actions disked_file_acquisition disked_acquisition_observation disked_health_observation disked_file_acquisition_export disked_file_verification_case_export disked_report_observation disked_file_image_verification disked_verification_observation)
+  target_link_libraries(${target} PRIVATE disked_invocation disked_tui disked_gui disked_shell disked_image_actions disked_file_acquisition disked_acquisition_observation disked_health_observation disked_file_acquisition_export disked_file_verification_case_export disked_report_observation disked_file_image_verification disked_verification_observation)
   target_sources(${target} PRIVATE source/platform/windows/acquisition_worker.cpp source/platform/windows/report_worker.cpp source/platform/windows/verification_worker.cpp)
   if(target STREQUAL "disked_image_test")
     target_sources(${target} PRIVATE source/providers/image/file_capture.cpp)
@@ -288,6 +303,29 @@ bootstrap_executable(disked)
 
 include(CTest)
 if(BUILD_TESTING)
+  # Each private core header must compile as the first and only project include.
+  # These generated translation units are build output, not a second source tree.
+  function(private_header_check target)
+    set(header_sources "")
+    foreach(header IN LISTS ARGN)
+      set(path "${CMAKE_CURRENT_BINARY_DIR}/header-checks/${target}/${header}.cpp")
+      file(GENERATE OUTPUT "${path}" CONTENT "#include \"${header}\"\n")
+      list(APPEND header_sources "${path}")
+    endforeach()
+    add_library(${target}_headers OBJECT ${header_sources})
+    target_link_libraries(${target}_headers PRIVATE ${target})
+    set_target_properties(${target}_headers PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+    target_compile_options(${target}_headers PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  endfunction()
+  private_header_check(disked_json json.h)
+  private_header_check(disked_command command.h protocol.h shell_lexer.h)
+  private_header_check(disked_invocation policy.h)
+  add_test(NAME build.boundaries COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tools/check-build-boundaries.py"
+    --root "${CMAKE_CURRENT_SOURCE_DIR}" --build "${CMAKE_CURRENT_BINARY_DIR}"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/build-boundaries.json")
+  add_test(NAME build.boundary_checker COMMAND "${Python3_EXECUTABLE}"
+    -m unittest discover -s "${CMAKE_CURRENT_SOURCE_DIR}/tests/tools" -p test_build_boundaries.py -v)
   bootstrap_executable(disked_verification_test)
   target_compile_definitions(disked_verification_test PRIVATE DISKED_VERIFICATION_COMMAND_TESTING=1 DISKED_VERIFICATION_WORKER_TESTING=1 DISKED_WORKER_TEST_STORE_FAULTS=1)
   add_test(NAME frontend.product_verification COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_product_verification.py"
@@ -751,19 +789,19 @@ if(BUILD_TESTING)
     --exe "$<TARGET_FILE:disked>" --guard "$<TARGET_FILE:disked_provider_guard>" --probe "$<TARGET_FILE:frontend_service_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.transport PROPERTIES TIMEOUT 120)
   add_executable(invocation_policy_probe tests/invocation/policy_probe.cpp)
-  target_link_libraries(invocation_policy_probe PRIVATE disked_json)
+  target_link_libraries(invocation_policy_probe PRIVATE disked_invocation)
   add_test(NAME invocation.policy COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/invocation/test_policy.py" --exe "$<TARGET_FILE:invocation_policy_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(invocation.policy PROPERTIES TIMEOUT 120)
   add_executable(protocol_reader_probe tests/contracts/reader_probe.cpp)
-  target_link_libraries(protocol_reader_probe PRIVATE disked_json)
+  target_link_libraries(protocol_reader_probe PRIVATE disked_command)
   add_test(NAME protocol.compatible_reader COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/contracts/test_reader.py" --exe "$<TARGET_FILE:protocol_reader_probe>")
   set_tests_properties(protocol.compatible_reader PROPERTIES TIMEOUT 120)
   add_executable(command_parser_probe tests/contracts/parser_probe.cpp source/apps/disked/command_registry.cpp)
   add_dependencies(command_parser_probe bootstrap_registry)
   target_include_directories(command_parser_probe PRIVATE "${generated}" source/apps/disked)
-  target_link_libraries(command_parser_probe PRIVATE disked_json)
+  target_link_libraries(command_parser_probe PRIVATE disked_command)
   add_test(NAME command.syntax COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tests/contracts/test_parser.py" --exe "$<TARGET_FILE:command_parser_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(command.syntax PROPERTIES TIMEOUT 120)
