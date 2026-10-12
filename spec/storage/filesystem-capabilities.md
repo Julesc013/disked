@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.9-proposed.1
+  version: 0.1.9-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T21:00:18.341393+00:00'
-  scope: DE-W037 source-bound contained FAT evidence; public consumer, host, owner and release gates remain open
+  at: '2026-10-12T22:22:57.435572+00:00'
+  scope: DE-W038 source-bound shared FAT inspection; full platform-storage, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -184,3 +184,5 @@ Canonical mode-specific controls and prototype results separate full observation
 coverage, display omissions, model outcomes and actual process/source context.
 Qualification requires real CLI/stdio/GUI/TUI/shell evidence. This contract alone
 admits no source effects, public storage ABI, additional platform or full 0.1.0.
+
+DE-W038 shared FAT image commands at `57cfd113` have 62 focused cases, 97 native groups and 17 independent headers. Explicit window/lookup/model controls, captures and omitted-detail bindings are shared across five frontends. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Larger coverage, retained capture retrieval, extraction, mounted consumers and further hosts/storage/recovery remain open.

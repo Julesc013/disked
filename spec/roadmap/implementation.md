@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.6
+  version: 0.1.5-proposed.7
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T21:00:18.341832+00:00'
-  scope: DE-W037 source-bound reader progress; full platform/storage, owner and release gates remain open
+  at: '2026-10-12T22:22:57.436122+00:00'
+  scope: DE-W038 source-bound shared FAT inspection; full platform-storage, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -306,3 +306,5 @@ groups, retained in `.aide/evidence/2026-10-13-fat-worker/`. Next qualify the sh
 command/frontend path, larger coverage and extraction. Public/consumer/historical
 host/full platform-storage, production journal/recovery and owner/release gates
 remain separate; no partial reader means 0.1.0 completion.
+
+DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd113`, with 62 focused cases and 97 native groups. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Continue larger coverage, capture retrieval/extraction and further platform/storage work; full all-platform/storage 0.1.0 and owner/release gates are unfinished.

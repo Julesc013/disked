@@ -878,3 +878,5 @@ and capture values by hashes. Retrieval of omitted captures, extraction, physica
 storage, mounted consumers, further hosts and production writers remain open.
 Exact clean-build qualification and evidence are recorded separately from this
 execution guide and from owner acceptance.
+
+The exact clean DE-W038 source is `57cfd113`, with 62 command cases, 97 native groups, 17 independent headers and 221 tooling passes/two skips. [Reproduction and retained evidence](../.aide/evidence/2026-10-13-fat-command/README.md). These are Windows ordinary-file prototype results, not mounted-consumer, writer, other-platform or full-release qualification.
