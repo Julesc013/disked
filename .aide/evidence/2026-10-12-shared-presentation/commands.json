@@ -1,0 +1,247 @@
+[
+  {
+    "name": "origin",
+    "command": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "logs/origin.log"
+  },
+  {
+    "name": "existing-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.081,
+    "log": "logs/existing-status.log"
+  },
+  {
+    "name": "fetch",
+    "command": [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      "055bd850e03b723c9b8afa63cb1c803107f466eb"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 18.192,
+    "log": "logs/fetch.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "055bd850e03b723c9b8afa63cb1c803107f466eb"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.408,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.159,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.324,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.103,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-z",
+      "055bd850e03b723c9b8afa63cb1c803107f466eb"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.109,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print('PyYAML='+m.version('PyYAML'));print('jsonschema='+m.version('jsonschema'))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.123,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 6.053,
+    "log": "logs/configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 123.216,
+    "log": "logs/build.log"
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "tools/check-build-boundaries.py",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build-boundaries.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 4.656,
+    "log": "logs/boundaries.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build",
+      "-C",
+      "Release",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.134,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build",
+      "-C",
+      "Release",
+      "--parallel",
+      "4",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 608.82,
+    "log": "logs/native-tests.log"
+  },
+  {
+    "name": "checker-negative-fixtures",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/tools",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.446,
+    "log": "logs/checker-negative-fixtures.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 1,
+    "elapsed_seconds": 231.976,
+    "log": "logs/tooling.log"
+  },
+  {
+    "name": "retained-rule-matrix",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\presentation_rules_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": null,
+    "log": "rule-cases.json"
+  }
+]

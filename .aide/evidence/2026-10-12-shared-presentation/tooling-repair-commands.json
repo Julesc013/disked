@@ -1,0 +1,395 @@
+[
+  {
+    "name": "origin",
+    "command": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "logs/repair-origin.log"
+  },
+  {
+    "name": "source-before",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.101,
+    "log": "logs/repair-source-before.log"
+  },
+  {
+    "name": "fetch",
+    "command": [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      "1b92d0ba2251061e2fd0d40d65af714cff1331b9"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 18.312,
+    "log": "logs/repair-fetch.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "1b92d0ba2251061e2fd0d40d65af714cff1331b9"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.135,
+    "log": "logs/repair-checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.11,
+    "log": "logs/repair-source-status.log"
+  },
+  {
+    "name": "blob-complete_tooling",
+    "command": [
+      "git",
+      "rev-parse",
+      "1b92d0ba2251061e2fd0d40d65af714cff1331b9:.aide/evidence/2026-10-12-shared-presentation/complete_tooling.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/repair-blob-complete_tooling.log"
+  },
+  {
+    "name": "blob-manifest",
+    "command": [
+      "git",
+      "rev-parse",
+      "1b92d0ba2251061e2fd0d40d65af714cff1331b9:spec/manifest.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/repair-blob-manifest.log"
+  },
+  {
+    "name": "blob-test_specctl",
+    "command": [
+      "git",
+      "rev-parse",
+      "1b92d0ba2251061e2fd0d40d65af714cff1331b9:spec/tools/tests/test_specctl.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "logs/repair-blob-test_specctl.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 256.759,
+    "log": "logs/repair-tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 3.083,
+    "log": "logs/repair-spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 1.366,
+    "log": "logs/repair-index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.882,
+    "log": "logs/repair-manifest.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W010",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\context",
+      "--byte-budget",
+      "650000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 2.308,
+    "log": "logs/repair-context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 4.304,
+    "log": "logs/repair-verify-context.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "logs/repair-product-launch.log"
+  },
+  {
+    "name": "disked-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.068,
+    "log": "logs/repair-disked-headers.log"
+  },
+  {
+    "name": "disked-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "logs/repair-disked-imports.log"
+  },
+  {
+    "name": "disked-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "logs/repair-disked-dependents.log"
+  },
+  {
+    "name": "gui_model_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\gui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/repair-gui_model_probe-headers.log"
+  },
+  {
+    "name": "gui_model_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\gui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/repair-gui_model_probe-imports.log"
+  },
+  {
+    "name": "gui_model_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\gui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/repair-gui_model_probe-dependents.log"
+  },
+  {
+    "name": "tui_model_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\tui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/repair-tui_model_probe-headers.log"
+  },
+  {
+    "name": "tui_model_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\tui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/repair-tui_model_probe-imports.log"
+  },
+  {
+    "name": "tui_model_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\tui_model_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/repair-tui_model_probe-dependents.log"
+  },
+  {
+    "name": "presentation_rules_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\presentation_rules_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/repair-presentation_rules_probe-headers.log"
+  },
+  {
+    "name": "presentation_rules_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\presentation_rules_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/repair-presentation_rules_probe-imports.log"
+  },
+  {
+    "name": "presentation_rules_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\shared-presentation-clean-055bd850\\build\\Release\\presentation_rules_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "logs/repair-presentation_rules_probe-dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "source_revision": "1b92d0ba2251061e2fd0d40d65af714cff1331b9",
+    "exit_code": 0,
+    "elapsed_seconds": 0.136,
+    "log": "logs/repair-final-source-status.log"
+  }
+]

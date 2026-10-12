@@ -35,6 +35,7 @@ def main():
     inputs = json.loads((evidence / "source-inputs.json").read_bytes())
     bindings = json.loads((evidence / "source-blob-bindings.json").read_bytes())
     commands = json.loads((evidence / "commands.json").read_bytes())
+    repair_commands = json.loads((evidence / "tooling-repair-commands.json").read_bytes())
     inventory = json.loads((evidence / "retention.json").read_bytes())
     boundaries = json.loads((evidence / "build-boundaries.json").read_bytes())
     source = summary["source_revision"]
@@ -49,9 +50,22 @@ def main():
     assert summary["native_test_groups"] == 85 and summary["shared_rule_cases"] == 34
     assert summary["shared_python_tests"] == 8 and summary["independent_header_compilations"] == 7
     assert summary["checker_negative_fixtures"] == 16
-    assert {"configure", "build", "boundaries", "native-tests", "tooling", "verify-context", "product-launch", "final-source-status"} <= {v["name"] for v in commands}
+    assert {"configure", "build", "boundaries", "native-tests", "tooling"} <= {v["name"] for v in commands}
     for command in commands:
-        assert command["exit_code"] == 0 and (evidence / command["log"]).is_file(), command["name"]
+        assert command["exit_code"] == (1 if command["name"] == "tooling" else 0)
+        assert (evidence / command["log"]).is_file(), command["name"]
+    tooling = summary["tooling_source_revision"]
+    assert {"tooling", "verify-context", "product-launch", "final-source-status"} <= {v["name"] for v in repair_commands}
+    for command in repair_commands:
+        assert command["source_revision"] == tooling and command["exit_code"] == 0
+        assert (evidence / command["log"]).is_file(), command["name"]
+    for name, blob, data in git_blobs(root, tooling, list(inputs)):
+        assert blob == bindings[name] and sha(data) == inputs[name], name
+    repair_inputs = json.loads((evidence / "tooling-source-inputs.json").read_bytes())
+    repair_blobs = json.loads((evidence / "tooling-source-blob-bindings.json").read_bytes())
+    for name, blob, data in git_blobs(root, tooling, list(repair_inputs)):
+        assert blob == repair_blobs[name] and sha(data) == repair_inputs[name], name
+    assert sha((evidence / "complete_tooling.py").read_bytes()) == repair_inputs[".aide/evidence/2026-10-12-shared-presentation/complete_tooling.py"]
     tests = json.loads((evidence / "logs/test-catalog.log").read_bytes())
     assert len(tests["tests"]) == 85
     details = (evidence / "native-details.log").read_text(encoding="utf-8")
@@ -66,6 +80,8 @@ def main():
     header_objects = json.loads((evidence / "header-objects.json").read_bytes())
     assert len(header_objects) == 7 and all(v["bytes"] > 0 for v in header_objects)
     rule_receipt = json.loads((evidence / "rule-cases.json").read_bytes())
+    probe = next(v for v in summary["artifacts"] if v["kind"] == "presentation_rules_probe")
+    assert rule_receipt["source_revision"] == source and rule_receipt["probe_sha256"] == probe["sha256"]
     assert rule_receipt["passed"] and len(rule_receipt["cases"]) == len(set(rule_receipt["cases"])) == 34
     assert {"request-id-number", "maximum-view-equality", "old-delivery-cannot-clear-new-request",
             "availability-duplicate-identity"} <= set(rule_receipt["cases"])
@@ -77,7 +93,7 @@ def main():
         assert sha((evidence / name).read_bytes()) == expected, name
     assert sha((evidence / "reproduce.py").read_bytes()) == inputs[".aide/evidence/2026-10-12-shared-presentation/reproduce.py"]
     current = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip()
-    print(json.dumps(dict(status="PASS", native_source_revision=source, current_revision=current,
+    print(json.dumps(dict(status="PASS", native_source_revision=source, tooling_source_revision=tooling, current_revision=current,
                          retained_files=len(retained), source_blob_bindings=len(inputs),
                          native_groups=85, shared_rule_cases=34, standalone_headers=7,
                          applicability="Exact source/fixture/host scope; metadata integration may be later.",
