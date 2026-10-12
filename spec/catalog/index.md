@@ -21,6 +21,7 @@
 - [fake-health-command.json](fake-health-command.json)
 - [frontend-job-coexistence-prototype.json](frontend-job-coexistence-prototype.json)
 - [gpt-fixture-execution-prototype.json](gpt-fixture-execution-prototype.json)
+- [gpt-fixture-restoration-prototype.json](gpt-fixture-restoration-prototype.json)
 - [gpt-repair-command-prototype.json](gpt-repair-command-prototype.json)
 - [gpt-repair-planning-prototype.json](gpt-repair-planning-prototype.json)
 - [guarded-journal-prototype.json](guarded-journal-prototype.json)

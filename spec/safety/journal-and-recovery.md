@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-043
   profile: disked-spec/1
-  version: 0.1.9-proposed.1
+  version: 0.1.10-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -390,3 +390,24 @@ product writer. Same-volume files are not independent failure domains. Process e
 and successful flush acknowledgements do not qualify hardware power loss, retirement,
 fresh operator authority or general recovery. Any later execution/recovery provider
 must earn the corresponding admission and independent verification claims.
+
+## DE-W042 explicitly granted owned-fixture restoration
+
+The [restoration experiment](../catalog/gpt-fixture-restoration-prototype.json)
+continues from the locally reviewed owned-image execution slice without admitting
+a production writer. It prepares a new immutable restoration definition from held
+read-only observations and the independently supplied original whole-image basis.
+Unknown bytes, changed resource/code identities, invalid backup or malformed history
+refuse effect admission. Completed repairs are not silently treated as interrupted
+operations that may be undone.
+
+A separate review/grant binds the exact current snapshot and reverse byte patches.
+A distinctly named fixture recovery factory may then reacquire the known image with
+write rights and create a new recovery journal; the existing read-only factory keeps
+read-only rights. Old backup/journal bytes remain intact. Intention precedes each
+bounded restoration; target flush and exact full-image prefix recapture precede a
+completion. A further attempt needs a new observed definition/grant and CREATE_NEW
+journal, retaining earlier failed attempts. Exact original-state restoration may
+restore the originally damaged copy; it is not a healthy-disk or universal rollback
+claim. Same-volume files, process interruption and flush acknowledgements do not
+qualify hardware power loss, production recovery or operator authentication.

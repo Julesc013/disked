@@ -2241,7 +2241,7 @@
       "id": "DE-W042",
       "title": "Exercise interrupted image recovery and cancellation",
       "phase": "M5",
-      "status": "planned",
+      "status": "active",
       "risk": "R4",
       "dependencies": [
         "DE-W041"
@@ -2255,7 +2255,17 @@
       "allowed_paths": [
         "source/runtime/recovery/**",
         "tests/interruption/**",
-        "tests/recovery/**"
+        "tests/recovery/**",
+        "source/providers/image/**",
+        "tests/images/**",
+        "spec/**",
+        "docs/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "TODO.MD",
+        ".aide/evidence/**",
+        ".aide/handoffs/**",
+        ".aide/programmes/**"
       ],
       "forbidden_paths": [
         "customer-data/**",
@@ -2274,7 +2284,8 @@
         "claiming unrun tests passed"
       ],
       "deliverables": [
-        "Replay/resume/uncertain outcome test harness and recovery capsule fixtures."
+        "Replay/resume/uncertain outcome test harness and recovery capsule fixtures.",
+        "Private immutable whole-fixture restoration proposal and separately granted native reverse-patch/flush/recapture experiment over the reviewed owned-file execution slice; preserve original and failed recovery artifacts. No full dependency, production or owner acceptance."
       ],
       "acceptance": [
         "No false atomicity/rollback claims.",
@@ -2286,7 +2297,21 @@
       ],
       "stop_state": "needs_review",
       "authorization": "separate-grant-required",
-      "required_inputs": []
+      "required_inputs": [
+        "spec/catalog/gpt-fixture-restoration-prototype.json",
+        "spec/catalog/gpt-fixture-execution-prototype.json",
+        "source/runtime/operation/gpt_execution.h",
+        "source/runtime/operation/gpt_execution.cpp",
+        "source/providers/image/fixture_repair.h",
+        "source/providers/image/fixture_repair.cpp",
+        "source/runtime/journal/codec.h",
+        "source/runtime/journal/codec.cpp",
+        "tests/images/gpt_execution_probe.cpp",
+        "tests/images/test_gpt_execution.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/source-map.md"
+      ]
     },
     {
       "id": "DE-W050",
