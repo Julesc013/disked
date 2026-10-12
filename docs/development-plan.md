@@ -568,3 +568,5 @@ text/rule models, with 171 independent cases, 95 native groups and 12 headers.
 larger coverage, extraction, contained worker/frontend and full 0.1.0 gates remain
 open. Current work is owned by the programme record, rather than historical
 checkpoint paragraphs in this plan.
+
+DE-W037 contained FAT reader at `56effc8f` retains exact file/process/region evidence with 109 focused cases and 96 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-worker/README.md). Continue shared command/frontend admission, larger coverage and extraction under the original full platform/storage goal; owner and release gates remain open.

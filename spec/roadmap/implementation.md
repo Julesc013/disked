@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.5
+  version: 0.1.5-proposed.6
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T19:44:19.070074+00:00'
-  scope: DE-W036 source-bound name model progress; full platform/storage, owner and release gates remain open
+  at: '2026-10-12T21:00:18.341832+00:00'
+  scope: DE-W037 source-bound reader progress; full platform/storage, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -300,3 +300,9 @@ cases and 95 native groups, retained in `.aide/evidence/2026-10-13-fat-namespace
 This completes the bounded API/rule-model slice, not mounted-consumer, extraction,
 worker/frontend, historical-host or full 0.1.0 admission. Continue remaining
 storage/platform work under its existing authority and qualification gates.
+
+DE-W037 contained FAT readers at `56effc8f` have 109 focused cases and 96 native
+groups, retained in `.aide/evidence/2026-10-13-fat-worker/`. Next qualify the shared
+command/frontend path, larger coverage and extraction. Public/consumer/historical
+host/full platform-storage, production journal/recovery and owner/release gates
+remain separate; no partial reader means 0.1.0 completion.

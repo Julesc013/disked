@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.8-proposed.1
+  version: 0.1.8-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T19:44:19.069732+00:00'
-  scope: DE-W036 source-bound namespace evidence; consumer, frontend, host, owner and release gates remain open
+  at: '2026-10-12T21:00:18.341393+00:00'
+  scope: DE-W037 source-bound contained FAT evidence; public consumer, host, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -168,3 +168,10 @@ Parent verification reconstructs original observations before the session create
 an immutable snapshot. Completion, source applicability and actual exit remain
 separate. Existing host quotas are preserved. Shared commands/frontends, larger
 coverage, extraction and full platform/storage/owner/release admission remain open.
+
+The contained reader slice is implementer-reviewed at `56effc8f`, with 109 cases,
+96 native groups and 15 headers. Evidence is retained in
+`.aide/evidence/2026-10-13-fat-worker/`. Exact file/window, process/domain and
+independent region reconstruction do not admit public consumers or storage effects.
+Shared commands/frontends, larger coverage, extraction, additional hosts and
+owner/full all-platform/storage 0.1.0 qualification remain open.

@@ -1,0 +1,26 @@
+test_actual_children_and_independent_regions (__main__.WorkerTests.test_actual_children_and_independent_regions) ... ok
+test_cancel_late_hang_and_actual_retirement (__main__.WorkerTests.test_cancel_late_hang_and_actual_retirement) ... ok
+test_capture_failure_controls_and_normal_isolation (__main__.WorkerTests.test_capture_failure_controls_and_normal_isolation) ... ok
+test_every_publication_binding_and_result_fault (__main__.WorkerTests.test_every_publication_binding_and_result_fault) ... ok
+test_full_optional_observations_and_private_code_pages (__main__.WorkerTests.test_full_optional_observations_and_private_code_pages) ... ok
+test_invalid_inputs_and_expected_source_mismatch (__main__.WorkerTests.test_invalid_inputs_and_expected_source_mismatch) ... ERROR
+test_owned_pre_and_post_spawn_failure_paths (__main__.WorkerTests.test_owned_pre_and_post_spawn_failure_paths) ... ok
+test_partial_media_and_selected_limits_keep_honest_facts (__main__.WorkerTests.test_partial_media_and_selected_limits_keep_honest_facts) ... ok
+test_pure_frame_reconstruction_rejects_tampering (__main__.WorkerTests.test_pure_frame_reconstruction_rejects_tampering) ... ok
+
+======================================================================
+ERROR: test_invalid_inputs_and_expected_source_mismatch (__main__.WorkerTests.test_invalid_inputs_and_expected_source_mismatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_worker.py", line 154, in test_invalid_inputs_and_expected_source_mismatch
+    request(path,volume,offset=str(volume.offset+volume.length)),request(path,volume,length=str(volume.length+1)),
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_worker.py", line 21, in request
+    return dict(op='file',path=str(path),offset=str(volume.offset),length=str(volume.length),**fields)
+TypeError: dict() got multiple values for keyword argument 'offset'
+
+----------------------------------------------------------------------
+Ran 9 tests in 9.371s
+
+FAILED (errors=1)
+Owned FAT reader cases executed: 91

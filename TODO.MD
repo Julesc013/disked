@@ -324,3 +324,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] FAT auxiliary metadata at 87e7e246: C90 header/FSInfo, explicit backup/copy/raw agreement and count/hint applicability; 257 cases/94 native groups, 206 source files. Namespace, extraction, worker/frontend, consumer/host, owner and full release remain open.
 
 - [x] DE-W036 bounded FAT namespace/API model at `330c223c`: preserved OEM/UTF-16 aliases, scoped collisions/lookup, explicit Windows code pages and late recapture denial; 171 cases/95 native groups/12 headers. [Evidence](.aide/evidence/2026-10-13-fat-namespace/README.md). Actual consumers, larger coverage, extraction, worker/frontend and full 0.1.0 remain open.
+
+- [x] DE-W037 contained FAT reader at `56effc8f`: owned expected-file capture, independently reconstructed regions/receipts and actual process/domain snapshots; 109 cases/96 native groups/15 headers. [Evidence](.aide/evidence/2026-10-13-fat-worker/README.md). Shared command/frontend, larger coverage, extraction and full 0.1.0 remain open.

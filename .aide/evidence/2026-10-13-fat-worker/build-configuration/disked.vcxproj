@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{11515D9A-48AF-3413-97FE-6379F5F02A1E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>disked</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">disked.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">disked</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\generated;D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ConformanceMode>true</ConformanceMode>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SDLCheck>true</SDLCheck>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\generated;D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\generated;D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Release\disked_invocation.lib;Release\disked_tui.lib;Release\disked_gui.lib;Release\disked_shell.lib;Release\disked_image_actions.lib;Release\disked_file_acquisition.lib;Release\disked_acquisition_observation.lib;Release\disked_health_observation.lib;Release\disked_file_acquisition_export.lib;Release\disked_file_verification_case_export.lib;Release\disked_report_observation.lib;Release\disked_file_image_verification.lib;Release\disked_verification_observation.lib;Release\disked_image_capture.lib;Release\disked_acquisition_commands.lib;Release\disked_file_case_source.lib;Release\disked_file_report_export.lib;Release\disked_export_commands.lib;Release\disked_verification_commands.lib;Release\disked_report_export.lib;Release\disked_case_evidence.lib;Release\disked_health_observation.lib;Release\disked_acquisition.lib;Release\disked_local_file.lib;Release\disked_gpt_capture.lib;Release\disked_map_observation.lib;Release\disked_presentation.lib;Release\disked_command.lib;Release\disked_gpt_repair_planning.lib;Release\disked_json.lib;Release\disked_hash.lib;Release\disked_mbr.lib;Release\disked_gpt.lib;Release\disked_primitives.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /SUBSYSTEM:CONSOLE,10.00 /HIGHENTROPYVA /guard:cf</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/DiskEd/disked/.aide-local/fat-worker-clean-56effc8f/build/Release/disked.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/DiskEd/disked/.aide-local/fat-worker-clean-56effc8f/build/Release/disked.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\disked.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Projects/DiskEd/disked/.aide-local/owned-layout-clean-2c731a1c/checkout/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/DiskEd/disked/.aide-local/owned-layout-clean-2c731a1c/checkout -BD:/Projects/DiskEd/disked/.aide-local/fat-worker-clean-56effc8f/build --check-stamp-file D:/Projects/DiskEd/disked/.aide-local/fat-worker-clean-56effc8f/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-4.2\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.2\Templates\CTestScript.cmake.in;D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\main.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\app.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\cli\cli.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\command_registry.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\bootstrap.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\graph.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\health_observer.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\entry.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\invocation.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\fake_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\output.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\memory_budget.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\console\terminal.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\ui\gui.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\acquisition_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\report_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\verification_worker.cpp" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\app.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\cli\cli.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\apps\disked\command_registry.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\bootstrap.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\graph.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\providers\fake\health_observer.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\invocation.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\fake_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\output.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\memory_budget.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\console\terminal.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\ui\gui.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\acquisition_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\report_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\source\platform\windows\verification_worker.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\ZERO_CHECK.vcxproj">
+      <Project>{DE2AA7F7-A1F5-335C-AE8A-91830749E159}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\bootstrap_registry.vcxproj">
+      <Project>{B1C8E85C-C9C6-3EC7-B4BE-F5952FD77FD1}</Project>
+      <Name>bootstrap_registry</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_acquisition.vcxproj">
+      <Project>{52CDB1E5-6757-31E9-8C56-6E486651516A}</Project>
+      <Name>disked_acquisition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_acquisition_commands.vcxproj">
+      <Project>{9394A6A8-F002-3E86-A240-358EBCEF7DF4}</Project>
+      <Name>disked_acquisition_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_acquisition_observation.vcxproj">
+      <Project>{8BFC0313-BA83-3363-B0BD-FCC325DB4A25}</Project>
+      <Name>disked_acquisition_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_case_evidence.vcxproj">
+      <Project>{72454E7C-10F3-3B3E-8EAD-6B006286868B}</Project>
+      <Name>disked_case_evidence</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_command.vcxproj">
+      <Project>{776E2BA7-A887-3647-880F-C751D850000A}</Project>
+      <Name>disked_command</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_export_commands.vcxproj">
+      <Project>{63E29882-A9A3-34D8-B7DB-5F823BCF4FC6}</Project>
+      <Name>disked_export_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_acquisition.vcxproj">
+      <Project>{F6275B8C-0812-376E-9DC7-773AABC2CFBB}</Project>
+      <Name>disked_file_acquisition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_acquisition_export.vcxproj">
+      <Project>{D7B3B4AA-6B28-3FBD-9963-0B834C7D312C}</Project>
+      <Name>disked_file_acquisition_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_case_source.vcxproj">
+      <Project>{4687811D-65E1-3FE3-98DA-41EEE7DCA641}</Project>
+      <Name>disked_file_case_source</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_image_verification.vcxproj">
+      <Project>{EF6C31A2-C214-3FB2-B315-FC904D63AEC8}</Project>
+      <Name>disked_file_image_verification</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_report_export.vcxproj">
+      <Project>{72A9DDAD-3D6D-3E66-8ECA-9A3259DC210F}</Project>
+      <Name>disked_file_report_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_file_verification_case_export.vcxproj">
+      <Project>{DBF509D0-F37C-359E-8DE4-2F64FB9FB9EE}</Project>
+      <Name>disked_file_verification_case_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_gpt.vcxproj">
+      <Project>{7F6543D5-C6BB-34A4-9A9D-CCFC147215A1}</Project>
+      <Name>disked_gpt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_gpt_capture.vcxproj">
+      <Project>{EC9C4C40-7590-3436-8A4B-BD8947F19FF3}</Project>
+      <Name>disked_gpt_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_gpt_repair_planning.vcxproj">
+      <Project>{754507D9-C563-3A5F-8DBE-76FB5FBC00C4}</Project>
+      <Name>disked_gpt_repair_planning</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_gui.vcxproj">
+      <Project>{FD56CA0F-FAC8-31BC-B6B7-FF4C2EB1D31B}</Project>
+      <Name>disked_gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_hash.vcxproj">
+      <Project>{82B16442-0FFF-3F0E-80BF-EAF043D2188A}</Project>
+      <Name>disked_hash</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_health_observation.vcxproj">
+      <Project>{0943B048-A53E-3248-B52D-C5F8D4F4AC2F}</Project>
+      <Name>disked_health_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_image_actions.vcxproj">
+      <Project>{4CF437FF-0999-35C2-A170-F687BF4AD353}</Project>
+      <Name>disked_image_actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_image_capture.vcxproj">
+      <Project>{0388B413-53BD-3444-A012-E62C9535160C}</Project>
+      <Name>disked_image_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_invocation.vcxproj">
+      <Project>{4C79BA45-73C1-3919-83AE-D47CCB917EEA}</Project>
+      <Name>disked_invocation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_json.vcxproj">
+      <Project>{5F062735-B15F-3373-8EAE-051912940263}</Project>
+      <Name>disked_json</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_local_file.vcxproj">
+      <Project>{60B3A184-8A95-36BA-9A87-136B596DB68E}</Project>
+      <Name>disked_local_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_map_observation.vcxproj">
+      <Project>{AFED5510-3A59-3CAC-98D7-A30D82DDB092}</Project>
+      <Name>disked_map_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_mbr.vcxproj">
+      <Project>{183BF84C-00ED-31D5-9FD4-3F6CDEE331B9}</Project>
+      <Name>disked_mbr</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_presentation.vcxproj">
+      <Project>{B7EC780D-26BD-3D4D-BF52-D5D8E8F53A0C}</Project>
+      <Name>disked_presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_primitives.vcxproj">
+      <Project>{1E751EF7-19EA-3E22-9F70-EE1D749424FD}</Project>
+      <Name>disked_primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_region_reader.vcxproj">
+      <Project>{A3D7D19D-ADD1-3249-BFE4-7BF47A0B53A7}</Project>
+      <Name>disked_region_reader</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_report_export.vcxproj">
+      <Project>{F5EBFFDA-0F6A-3C73-9883-5C7357058FB8}</Project>
+      <Name>disked_report_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_report_observation.vcxproj">
+      <Project>{AE2BAF5F-9EE7-31F7-9737-5A6227543867}</Project>
+      <Name>disked_report_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_shell.vcxproj">
+      <Project>{00956566-AEB5-3E45-810C-D8E2D42D7118}</Project>
+      <Name>disked_shell</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_tui.vcxproj">
+      <Project>{F8A37ED5-0296-3A86-9BAD-1F664403A988}</Project>
+      <Name>disked_tui</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_verification_commands.vcxproj">
+      <Project>{626C0A4C-2F4F-3DA9-9F94-2CDA94E87DBF}</Project>
+      <Name>disked_verification_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_verification_observation.vcxproj">
+      <Project>{DE503F75-D29B-396F-9FF8-D4A7CA3F0238}</Project>
+      <Name>disked_verification_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\fat-worker-clean-56effc8f\build\disked_windows_files.vcxproj">
+      <Project>{2E56D98A-AE5B-3F44-B53B-BB50E37C8742}</Project>
+      <Name>disked_windows_files</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
