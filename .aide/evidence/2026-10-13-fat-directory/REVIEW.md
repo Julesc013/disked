@@ -7,7 +7,7 @@ Shape/order/checksum failures do not create an associated name. An eight-bit
 collision remains a format correlation, not authentication. Cluster/time issues
 do not erase separately established name-byte correlation or grant file access.
 Original Unicode units are never normalized or substituted; ASCII display cannot
-emit terminal controls. Fixed budgets and output-before-validation behavior are
+emit terminal controls. Fixed budgets and output preservation on API/capacity failures are
 covered by independent fixtures and protected memory.
 
 The exact clean build, 6,790 new cases, previous 1,335 allocation cases, 89 native
