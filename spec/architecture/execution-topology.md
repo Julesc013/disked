@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-015
   profile: disked-spec/1
-  version: 0.1.17-proposed.1
+  version: 0.1.18-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -45,9 +45,10 @@ The Windows fake composition now admits valid frontend invocations to the
 and protected-DACL setup dynamically requires the system `advapi32.dll`; it does
 not initialize a provider or GUI. Fixed parsing/host observation and the loader
 precede assignment. A host-policy incompatibility refuses execution without
-breakaway or changing host limits. All cooperating frontends share one memory
-ancestor so independently lasting workers can still join the existing stricter
-worker jobs. There is no kill-on-close policy or aggregate frontend quota.
+breakaway or changing host limits. Compatible cooperating frontends share one memory ancestor so independently
+lasting workers can still join the existing stricter worker jobs. The DE-045
+fresh private frontend job also admits independent compatible caller hierarchies
+with the same memory ceiling; it does not guarantee shared-worker ancestry. There is no kill-on-close policy or aggregate frontend quota.
 
 ## Roles and boundaries
 

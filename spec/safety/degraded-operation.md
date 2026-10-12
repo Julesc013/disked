@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-045
   profile: disked-spec/1
-  version: 0.1.19-proposed.1
+  version: 0.1.20-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -130,8 +130,8 @@ failure can use the selected diagnostic channel; these bounded startup steps and
 the Windows loader are not covered by a post-start assignment claim. Invalid
 syntax remains its original refusal without attempting budget admission.
 
-All frontend instances for the current user/Windows session join one common
-Windows job. A protected current-user DACL and `Local` namespace bind applicability;
+Compatible frontend instances for the current user/Windows session prefer one
+common Windows job. A protected current-user DACL and `Local` namespace bind applicability;
 the name includes the Windows SID. This is a cooperating-composition resource
 limit, not a security boundary against the same user. Only the per-process
 memory flag is configured there. No active-process, total-memory, kill-on-close,
@@ -143,8 +143,9 @@ A matching named initialization mutex serializes creation/verification and
 assignment, with a 250 ms wait. An existing job is inspected, never reset. A
 missing/denied API is `memory_budget_unavailable`; mutex timeout is
 `memory_budget_busy`; mismatched existing limits are `memory_budget_mismatch`;
-incompatible inherited job membership is `memory_budget_incompatible`. These are
-unavailable refusals (exit 3), preserving the original platform code and selected
+a hierarchy that cannot admit either the verified shared or fresh private job
+is `memory_budget_incompatible`. These are
+unavailable refusals (exit 3), preserving the observed failed-step platform code and selected
 process limit. No handler, provider, window or interactive session is initialized
 after failed admission. No fallback removes or weakens inherited host policy.
 
@@ -312,3 +313,19 @@ Timeout or cancellation request MUST NOT imply quiescence, no effect or permissi
 Every admitted workload MUST have finite target-specific resource limits and a bounded frontend waiting policy, with actual measurements before responsiveness claims.
 
 **Verification:** Inject stalled/crashed providers, huge input, full destination and slow event consumers; measure limits and verify successful unrelated observations remain usable.
+
+## DE-W017 independent caller job coexistence
+
+The [frontend coexistence profile](../catalog/frontend-job-coexistence-prototype.json)
+permits one verified fresh unnamed child job when a matching shared job cannot
+accept this process: shared assignment must report ERROR_ACCESS_DENIED and actual
+membership must be verified absent. The fresh job uses the same protected DACL
+and exact256MiB per-process limit. Query its flags/limit and verify actual process
+membership; refuse if assignment or verification fails. No fallback after busy,
+mismatch, bootstrap/query failure or unresolved membership. Host jobs and their
+stricter limits remain, with no breakaway or policy weakening.
+
+This extends frontend admission, not shared worker quota scope. Existing four
+worker/128MiB per-worker/512MiB aggregate jobs remain unchanged; incompatible
+worker ancestry still refuses admission. Frontend success grants neither storage
+authority, worker retirement nor permission to replace a timed-out worker.

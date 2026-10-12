@@ -1,0 +1,27 @@
+{
+  "schema": "org.disked.frontend-job-coexistence-profile/1",
+  "status": "proposed",
+  "base_revision": "eb9b49d38e9fda06915f5da1f5ec12c8a10c5f4e",
+  "process_memory_bytes": 268435456,
+  "initialization_wait_ms": 250,
+  "scope": "Modern Windows fake composition frontend admission across independent compatible caller job hierarchies; no breakaway, host policy change, worker quota relocation or privilege.",
+  "policy": "Prefer the verified existing per-user/session shared job. Only after AssignProcessToJobObject fails with ERROR_ACCESS_DENIED and IsProcessInJob confirms this process is not a member, create an unnamed fresh current-user-protected job. Configure/query exactly JOB_OBJECT_LIMIT_PROCESS_MEMORY at256MiB and assign this process. Verify membership. Report readiness only after real assignment; failed fresh assignment retains typed refusal.",
+  "not_fallback_conditions": [
+    "invalid invocation",
+    "failed DLL/token/SID/DACL/bootstrap API",
+    "initialization mutex busy/unavailable",
+    "named job creation/query failure",
+    "existing job limit mismatch",
+    "shared assignment error other than ERROR_ACCESS_DENIED",
+    "unresolved shared membership"
+  ],
+  "inheritance": "Keep all caller/ancestor jobs. Effective inherited stricter limits and UI restrictions remain. No terminate/kill-on-close/breakaway/priority/active-process/aggregate-memory flags added. Closing one frontend neither terminates another frontend nor retires an owned worker.",
+  "worker_scope": "Existing single shared worker job limits4/128MiB/512MiB remain unchanged. Private frontend admission does not qualify workers in another incompatible ancestry, move a running worker or authorize retries. Worker start/admission must still validate its actual job hierarchy and refuse if impossible.",
+  "evidence": "Reproduce old independent hierarchy refusal with actual owned processes; qualify both concurrent frontend readiness and actual query of private job flags/256MiB, inherited64MiB commit denial, original host-policy preservation, shared mismatch/busy guards and scoped failed-assignment refusal. Rerun the existing four-worker disconnected-client quota test. No test claims arbitrary host or older-Windows compatibility.",
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/nested-jobs",
+    "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-assignprocesstojobobject"
+  ],
+  "owner_accepted": false,
+  "shipping_invocation_qualified": false
+}
