@@ -1,0 +1,44 @@
+CASE window-12-512
+CASE stdio-12-512
+CASE window-12-4096
+CASE stdio-12-4096
+CASE window-16-512
+CASE stdio-16-512
+CASE window-16-4096
+CASE stdio-16-4096
+CASE window-32-512
+CASE stdio-32-512
+CASE window-32-4096
+CASE stdio-32-4096
+CASE native-large-window
+CASE outside-geometry
+CASE invalid-before-open-0
+CASE invalid-before-open-1
+CASE invalid-before-open-2
+CASE invalid-before-open-3
+CASE invalid-before-open-4
+CASE invalid-before-open-5
+CASE invalid-before-open-6
+CASE invalid-before-open-7
+CASE conflict-before-open
+CASE map-window-before-open
+CASE whole-window
+CASE changed-withdraws-applicability
+CASE normal-ignores-change-fixture
+CASE owned-window-snapshot
+CASE pure-window-frame
+CASE reject-window-claim-all_volume_coverage
+CASE reject-window-claim-unreferenced_allocation_qualified
+CASE reject-window-claim-first_cluster
+CASE reject-window-input-swap
+CASE worker-recapture-window
+CASE gui-12-512.img
+CASE tui-12-512.img
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_windows.py", line 137, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_windows.py", line 128, in main
+    actual=json.loads(report.read_bytes());assert result.returncode==0,actual
+                                                  ^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'fixture_error': 'Console observation timed out\nDiskEd shell | IMAGE / FAKE PROTOTYPE | linear\n[1] session\n{\n  "controls": "F9 review, fresh F9 submit; Enter displays inert input; F10/Ctrl+C closes",\n  "history": "off",\n  "host": "local fake composition"\n}\n[2] diagnostic\n{\n  "byte": "147",\n  "code": "invalid_option_value",\n  "token": "9"\n}\n<inspect \\"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\fat-window-product-jva98nys\\\\12-512.img\\" --view fat --volume-offset 512 --volume-bytes 1467904 --allocation-window-json {\\\\\\"first_cluster\\\\\\":\\\\\\"100\\\\\\",\\\\\\"clusters\\\\\\":\\\\\\"24\\\\\\"}"\n\n\n\n\n\n\n\n\n\n\n'}

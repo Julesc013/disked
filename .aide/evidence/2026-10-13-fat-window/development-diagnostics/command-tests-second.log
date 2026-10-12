@@ -1,0 +1,42 @@
+CASE window-12-512
+CASE stdio-12-512
+CASE window-12-4096
+CASE stdio-12-4096
+CASE window-16-512
+CASE stdio-16-512
+CASE window-16-4096
+CASE stdio-16-4096
+CASE window-32-512
+CASE stdio-32-512
+CASE window-32-4096
+CASE stdio-32-4096
+CASE native-large-window
+CASE outside-geometry
+CASE invalid-before-open-0
+CASE invalid-before-open-1
+CASE invalid-before-open-2
+CASE invalid-before-open-3
+CASE invalid-before-open-4
+CASE invalid-before-open-5
+CASE invalid-before-open-6
+CASE invalid-before-open-7
+CASE conflict-before-open
+CASE map-window-before-open
+CASE whole-window
+CASE changed-withdraws-applicability
+CASE normal-ignores-change-fixture
+CASE owned-window-snapshot
+CASE pure-window-frame
+CASE reject-window-claim-all_volume_coverage
+CASE reject-window-claim-unreferenced_allocation_qualified
+CASE reject-window-claim-first_cluster
+CASE reject-window-input-swap
+CASE worker-recapture-window
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_windows.py", line 135, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_windows.py", line 117, in main
+    assert not U.IsWindowEnabled(g.child(110));g.click(109);assert g.details()['reviewed'];g.click(110)
+                                                                   ~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'reviewed'

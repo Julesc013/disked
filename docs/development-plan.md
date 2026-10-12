@@ -572,3 +572,5 @@ checkpoint paragraphs in this plan.
 DE-W037 contained FAT reader at `56effc8f` retains exact file/process/region evidence with 109 focused cases and 96 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-worker/README.md). Continue shared command/frontend admission, larger coverage and extraction under the original full platform/storage goal; owner and release gates remain open.
 
 DE-W038 shared FAT image inspection at `57cfd113` passes 62 focused cases and 97 native groups with 17 independent headers. [Evidence](../.aide/evidence/2026-10-13-fat-command/README.md). This qualifies the bounded Windows ordinary-file prototype; larger coverage, retrieval/extraction, mounted consumers, other hosts and full platform/storage/release remain open.
+
+DE-W039 allocation windows at `543826fe` pass 34 interval / 44 command cases and 99 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-window/README.md). Windows ordinary-file prototype only; coherent multi-window/directory/namespace coverage, retrieval/extraction and further consumer/host/platform/storage remain open.

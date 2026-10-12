@@ -328,3 +328,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W037 contained FAT reader at `56effc8f`: owned expected-file capture, independently reconstructed regions/receipts and actual process/domain snapshots; 109 cases/96 native groups/15 headers. [Evidence](.aide/evidence/2026-10-13-fat-worker/README.md). Shared command/frontend, larger coverage, extraction and full 0.1.0 remain open.
 
 - [x] DE-W038 bounded FAT image command slice at `57cfd113`: explicit windows/model controls through CLI/stdio/GUI/TUI/shell; 62 cases/97 native groups/17 headers. [Evidence](.aide/evidence/2026-10-13-fat-command/README.md). Larger coverage, retrieval/extraction and full 0.1.0 remain open.
+
+- [x] DE-W039 bounded FAT allocation-window slice at `543826fe`: 34 interval / 44 command cases, 99 native groups / 17 headers; partial windows cannot qualify global allocation or FSInfo counts. [Evidence](.aide/evidence/2026-10-13-fat-window/README.md). Larger coherent traversal, retrieval/extraction and full 0.1.0 remain open.

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.7
+  version: 0.1.5-proposed.8
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T22:22:57.436122+00:00'
-  scope: DE-W038 source-bound shared FAT inspection; full platform-storage, owner and release gates remain open
+  at: '2026-10-12T23:20:49.605178+00:00'
+  scope: DE-W039 source-bound interval evidence; owner and full platform-storage-release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -308,3 +308,5 @@ host/full platform-storage, production journal/recovery and owner/release gates
 remain separate; no partial reader means 0.1.0 completion.
 
 DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd113`, with 62 focused cases and 97 native groups. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Continue larger coverage, capture retrieval/extraction and further platform/storage work; full all-platform/storage 0.1.0 and owner/release gates are unfinished.
+
+DE-W039 explicit larger FAT allocation windows at 543826fe have 34 interval cases, 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Continue coherent multi-window and directory/namespace coverage, retrieval/extraction and further platform/storage work under the original full 0.1.0 goal.

@@ -902,3 +902,5 @@ a partial-window free count. Source/process/wire limits remain unchanged.
 Native implementation qualification is recorded separately in source-bound
 evidence; further directory/namespace coverage, capture retrieval/extraction,
 consumer/host/platform/storage and production writer/release work remain open.
+
+Exact DE-W039 source `543826fe` passes34 interval/44 command cases, 99 native groups, 17 headers and 222 tooling tests/two skips. [Retained reproduction/evidence](../.aide/evidence/2026-10-13-fat-window/README.md). Each result remains its observed interval; separate calls are not an atomic cross-window snapshot or complete graph proof.

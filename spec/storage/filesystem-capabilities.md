@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.10-proposed.1
+  version: 0.1.10-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T22:35:40.593701+00:00'
-  scope: DE-W039 explicit allocation-window contract; implementation qualification pending
+  at: '2026-10-12T23:20:49.604738+00:00'
+  scope: DE-W039 source-bound interval evidence; owner and full platform-storage-release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -193,3 +193,5 @@ volume coverage are distinct. A partial interval cannot qualify global allocatio
 FSInfo free-count agreement, filesystem health or source snapshot. Existing
 default global scan and source/process/wire budgets remain unchanged. Native
 implementation and evidence are pending.
+
+DE-W039 source 543826fe qualifies explicit allocation windows with 34 interval cases / 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Requested range, all-volume coverage, consumer/source applicability and authority remain distinct; larger directory/namespace/session coverage, retrieval/extraction and other platforms/storage are unfinished.
