@@ -320,3 +320,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Bounded FAT volume/tree/file-extent capture at f98712a4: streaming cells, exact record/name provenance, partial/cycle/copy/cross-link outcomes and ordinary read-only Windows image verification. 149 cases/91 native groups. Global allocation, extraction, frontend, host, owner and full 0.1.0 remain open.
 
 - [x] Global FAT allocation at 0e414ccd: paged data-cluster counts, copy/raw variants, graph/cycle/merge findings and ownership applicability; 86 cases/92 native groups, default 149 capture cases retained. Auxiliary metadata, namespace, extraction, frontend, owner and full 0.1.0 remain open.
+
+- [x] FAT auxiliary metadata at 87e7e246: C90 header/FSInfo, explicit backup/copy/raw agreement and count/hint applicability; 257 cases/94 native groups, 206 source files. Namespace, extraction, worker/frontend, consumer/host, owner and full release remain open.

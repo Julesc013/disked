@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.6-proposed.1
+  version: 0.1.6-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T17:55:38.570853+00:00'
-  scope: DE-W028 source-bound global allocation evidence; auxiliary, namespace, owner and release gates remain open
+  at: '2026-10-12T18:58:11.024491+00:00'
+  scope: DE-W029 source-bound auxiliary FAT evidence; namespace, host, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -135,3 +135,10 @@ raw values and separate shape, historical driver state, allocation comparison an
 backup agreement. No implicit source selection, repair or filesystem-health claim
 follows. Existing default capture remains unchanged; namespace, extraction,
 worker/frontend, consumer/host and full release gates stay in the programme.
+
+The auxiliary slice is implementer-reviewed at `87e7e246`, with 257 independent
+cases/24 ordinary-file cases and 94 native groups. Evidence is under
+`.aide/evidence/2026-10-13-fat-auxiliary/`. Driver history, advisory applicability
+and byte/record agreement remain separate from source snapshots, recovery and
+filesystem-health authority. Namespace, extraction, actual worker/frontend/host,
+owner and full 0.1.0 qualification remain unfinished.

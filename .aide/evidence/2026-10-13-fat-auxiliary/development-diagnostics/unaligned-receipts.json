@@ -1,0 +1,58 @@
+{
+  "scope": "Supplemental unaligned MSVC C90 header/FSInfo checks, not full ABI/hardware qualification",
+  "native_source_revision": "87e7e246bc66a0429e93b2cebf83b1d6f61a91f0",
+  "commands": [
+    {
+      "name": "unaligned-compile",
+      "command": [
+        "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "/nologo",
+        "/W4",
+        "/WX",
+        "/TC",
+        "/MT",
+        "/GS",
+        "/sdl",
+        "/c",
+        "/I",
+        "source",
+        "/IC:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/include",
+        "/IC:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt",
+        ".aide-local/fat-aux-development/unaligned.c",
+        "/Fo.aide-local/fat-aux-development/build-supplement/unaligned.obj"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "unaligned-compile.log"
+    },
+    {
+      "name": "unaligned-link",
+      "command": [
+        "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe",
+        "/nologo",
+        "/OUT:.aide-local/fat-aux-development/build-supplement/unaligned.exe",
+        ".aide-local/fat-aux-development/build-supplement/unaligned.obj",
+        ".aide-local/fat-aux-clean-87e7e246/build/Release/disked_fat.lib",
+        "/LIBPATH:C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/lib/x64",
+        "/LIBPATH:C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64",
+        "/LIBPATH:C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "unaligned-link.log"
+    },
+    {
+      "name": "unaligned-run",
+      "command": [
+        ".aide-local/fat-aux-development/build-supplement/unaligned.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "unaligned-run.log"
+    }
+  ],
+  "harness_sha256": "sha256:243ffc2e1d3c992c71644dd7ded4e6e29085e18310c945472485a525224425e0",
+  "library_sha256": "sha256:21422e41dc591242c05e9d043afc7bf3b6c781523204c8997b88d7a25969354f",
+  "executable_path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-aux-development\\build-supplement\\unaligned.exe",
+  "executable_sha256": "sha256:77811d87dac54c96eeb50d61dcbf6b13e35d2481348d1ab58a0e7445a7271067"
+}

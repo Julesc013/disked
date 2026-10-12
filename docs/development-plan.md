@@ -559,3 +559,5 @@ DE-W026 FAT directory/name observations at 205e6cd8 retain 6,790 independent cas
 DE-W027 bounded FAT capture at f98712a4 has 149 independent supplied-reader/ordinary-file cases and 91 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-capture/README.md). It adds real volume tree/file extents while preserving separate global allocation, namespace, extraction, worker/frontend, host and storage/release admission.
 
 DE-W028 optional global FAT allocation at 0e414ccd has 86 independent cases, including 21 ordinary-file cases and 92 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-allocation-scan/README.md). Coverage, tree/copy applicability and detail omissions stay separate; auxiliary/namespace/extraction/worker/frontend/host and full release gates remain open.
+
+DE-W029 auxiliary FAT metadata at 87e7e246 has 257 independent cases (24 ordinary-file) and 94 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-auxiliary/README.md). Source/driver/advisory/backup dimensions remain separate; namespace, extraction, actual worker/frontend/host and full 0.1.0 gates remain open.

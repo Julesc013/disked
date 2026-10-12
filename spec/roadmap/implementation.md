@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.3
+  version: 0.1.5-proposed.4
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T17:55:38.586589+00:00'
-  scope: DE-W028 source-bound allocation progress; full platform, storage, owner and release qualification remains open
+  at: '2026-10-12T18:58:11.040876+00:00'
+  scope: DE-W029 source-bound FAT metadata progress; full platform, storage, owner and release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -288,3 +288,9 @@ cases/92 native groups. Evidence is retained under
 `.aide/evidence/2026-10-13-fat-allocation-scan/`. Continue auxiliary metadata and
 namespace/consumer semantics before actual worker/frontend and extraction
 admission. Full 0.1.0 and owner/storage/recovery/release gates remain open.
+
+DE-W029 header/FSInfo/backup metadata at `87e7e246` has 257 independent cases and
+94 native groups, retained in `.aide/evidence/2026-10-13-fat-auxiliary/`. Continue
+namespace/consumer rules, larger/chunked coverage, extraction and actual contained
+worker/frontend volume inspection. Full platform/storage, owner, production
+journal/recovery and release gates remain open.
