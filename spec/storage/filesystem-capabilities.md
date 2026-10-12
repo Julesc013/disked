@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.4-proposed.1
+  version: 0.1.4-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -104,3 +104,9 @@ read-only adapter binds actual file generations and repeated region observations
 it does not establish an atomic filesystem snapshot or physical/media safety.
 Worker/command/frontend, extraction, actual consumer/host and writer qualification
 remain separate work within the full all-platform/storage 0.1.0 programme.
+The bounded capture slice is implementer-reviewed at source `f98712a4`, with
+149 independent supplied-reader/cell/ordinary-file cases and 91 native groups.
+Evidence under `.aide/evidence/2026-10-13-fat-capture/` binds streaming allocation
+cells, tree/name/extent provenance and actual repeated ordinary-file observations.
+Global allocation, lookup/extraction, worker/frontend admission, other hosts and
+production storage/recovery/release gates remain open; owner acceptance is pending.

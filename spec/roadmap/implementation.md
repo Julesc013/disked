@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.5-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-10T00:00:00Z'
-  scope: DE-W062 finite carrier and servicing fixture progress; proposed, no live lifecycle, carrier release or owner acceptance claim
+  at: '2026-10-12T16:54:53.215222+00:00'
+  scope: revision-bound source maintenance and FAT capture progress; proposed, no owner or release acceptance
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -273,4 +273,11 @@ acceptance remain open.
 
 ## Current continuation and source maintenance
 
-The programme record `.aide/programmes/disked-0.1.0.json` routes current work and exact verified revisions. Earlier progress notes are historical, not independent current admission. The 2026-10-12 structure review keeps the existing tree and resolves no future capability or owner gate. Its bounded maintenance profile records current-work/format clarity and core target separation/generated dependency-header checks qualified at `7f86f6bf`; see `.aide/evidence/2026-10-12-build-boundaries/`. Most module-qualified includes, broader standalone-header coverage remain pending. Shared GUI/TUI identity/view/eligibility rules are qualified at `055bd850`; `.aide/evidence/2026-10-12-shared-presentation/` retains their bounded native evidence, without full-unit/owner/storage/release admission. The full all-platform/storage 0.1.0 objective remains unchanged.
+The programme record `.aide/programmes/disked-0.1.0.json` routes current work and exact verified revisions. Earlier progress notes are historical, not independent current admission. The 2026-10-12 structure review keeps the existing tree and resolves no future capability or owner gate. Its bounded maintenance profile records current-work/format clarity and core target separation/generated dependency-header checks qualified at `7f86f6bf`; see `.aide/evidence/2026-10-12-build-boundaries/`. Module-qualified private includes and CMake compile-header visibility are qualified at `3598ac40`; `.aide/evidence/2026-10-13-qualified-headers/` retains main and standalone adapter compile evidence. Broader standalone headers, host/ABI qualification and composition-policy decomposition remain further work. Shared GUI/TUI identity/view/eligibility rules are qualified at `055bd850`; `.aide/evidence/2026-10-12-shared-presentation/` retains their bounded native evidence, without full-unit/owner/storage/release admission. The full all-platform/storage 0.1.0 objective remains unchanged.
+
+DE-W027 adds bounded FAT volume/tree and file-extent capture at `f98712a4`,
+following the allocation/name readers. The 149 supplied-reader/cell/ordinary-file
+cases and 91 native groups are retained in `.aide/evidence/2026-10-13-fat-capture/`.
+Next qualify global allocation/namespace and actual worker/command/frontend volume
+inspection. Extraction, all-platform/storage 0.1.0, production recovery and
+owner/physical/elevation/customer/install/sign/release gates remain open.

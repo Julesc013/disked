@@ -83,8 +83,9 @@ invocation. This changes internal linkage, not command IDs or public semantics.
 In the pinned Windows Release test lane, `build.boundaries` reads CMake's generated
 codemodel and actual quoted headers. It checks forbidden layer crossings, ambiguous
 or wrongly cased includes, core source/flag expectations and consumer isolation.
-Seven generated translation units compile the JSON, command, protocol, shell
-lexer, invocation policy, presentation request and session headers individually.
+Ten generated translation units compile the JSON, command, protocol, shell
+lexer, invocation policy, presentation request/session, FAT and region/FAT capture
+headers individually. Each header check uses its declared compile dependencies.
 Run the normal configure/build/test
 presets; retain `build/windows-bootstrap/build-boundaries.json` with evidence.
 The checker distinguishes generated build closure from header visibility through
@@ -98,7 +99,7 @@ under existing `presentation/requests.*`; their command-view eligibility rule
 lives in `view_command_available` under `presentation/session.*`. Matching
 delivery releases UI correlation, not worker/storage state. Keep navigation,
 editing and rendering local. Native evidence governs qualification of these
-changes. The seven standalone header checks now include `requests.h` and `session.h`.
+changes. Standalone header checks include `requests.h` and `session.h`.
 Likewise, move named command policy out of `app.cpp` when it has its own contract
 and consumer. Do not introduce a universal frontend class, another registry, or
 arbitrary splits based on line count.

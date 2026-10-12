@@ -1,6 +1,6 @@
 # Development readiness and delivery plan
 
-The amended baseline is **proposed and awaiting review**. The specification tools and the bounded DE-W010 native bootstrap work locally; there is no admitted storage provider or qualified product target. See the [native build guide](native-bootstrap.md) for the exact implemented surface. The [amendment review](../spec/roadmap/amendment-review.md) records conflicts and deferred scope. [Root TODO](../TODO.MD) is the short checklist; [work definitions](../spec/work/units.json) own dependencies, deliverables and acceptance criteria.
+The amended baseline is **proposed and awaiting owner acceptance**. The native Windows development composition and bounded image/format prototypes build and run on the recorded host. The programme links each implemented slice to its exact tests and evidence; this does not establish full product, provider, historical-platform or release qualification. See the [native build guide](native-bootstrap.md) for the exact implemented surface. The [amendment review](../spec/roadmap/amendment-review.md) records conflicts and deferred scope. [Root TODO](../TODO.MD) is the short checklist; [work definitions](../spec/work/units.json) own dependencies, deliverables and acceptance criteria.
 
 ## Start development in bounded slices
 
@@ -555,3 +555,5 @@ DE-W025 advances supplied-byte FAT allocation inspection independently of the pe
 DE-W025 supplied-byte FAT allocation metadata at 97a377d7 has exact clean Windows evidence: 1,335 independent cases, protected bounds, 87 native groups and strict GCC 15.2 syntax. [Evidence](../.aide/evidence/2026-10-13-fat-allocation/README.md). Continue directory/name, allocation/extraction and provider/frontend capability work; this private reader does not close full FAT or 0.1.0 qualification.
 
 DE-W026 FAT directory/name observations at 205e6cd8 retain 6,790 independent cases, protected full/partial records and 89 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-directory/README.md). No lookup, extraction, provider/frontend, mount/writer or full 0.1.0 admission; continue bounded traversal and volume integration.
+
+DE-W027 bounded FAT capture at f98712a4 has 149 independent supplied-reader/ordinary-file cases and 91 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-capture/README.md). It adds real volume tree/file extents while preserving separate global allocation, namespace, extraction, worker/frontend, host and storage/release admission.
