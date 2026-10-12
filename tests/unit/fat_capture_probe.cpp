@@ -1,6 +1,7 @@
 #include "runtime/capture/fat_capture.h"
 #include "providers/image/fat_file.h"
 #include "portable/fat/fat.h"
+#include "platform/windows/file_names.h"
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
@@ -73,9 +74,146 @@ static disked::FatCaptureLimits limits(const V &input) {
 #undef LOAD_LIMIT
     return out;
 }
+static disked::FatNameUnits name_units(const V &v) {
+    require(v.kind == V::Kind::array && v.items.size() <= 260);
+    disked::FatNameUnits out;
+    for (const auto &item : v.items) {
+        const auto n = integer(item);
+        require(n <= 65535);
+        out.push_back(static_cast<std::uint16_t>(n));
+    }
+    return out;
+}
+static std::vector<disked::FatNameQuery> name_queries(const V &input) {
+    std::vector<disked::FatNameQuery> out;
+    if (const auto *v = input.find("namespace_queries")) {
+        require(v->kind == V::Kind::array && v->items.size() <= 16);
+        for (const auto &q : v->items) {
+            const auto id = integer(field(q, "directory"));
+            require(id <= 128);
+            out.push_back({static_cast<std::size_t>(id), name_units(field(q, "units"))});
+        }
+    }
+    return out;
+}
+static disked::FatNamespaceLimits name_limits(const V &input) {
+    disked::FatNamespaceLimits out;
+    if (const auto *v = input.find("namespace_limits")) {
+        require(v->kind == V::Kind::object);
+        if (const auto *n = v->find("comparisons"))
+            out.comparisons = static_cast<std::size_t>(integer(*n));
+        if (const auto *n = v->find("findings"))
+            out.findings = static_cast<std::size_t>(integer(*n));
+        if (const auto *n = v->find("output_bytes"))
+            out.output_bytes = static_cast<std::size_t>(integer(*n));
+    }
+    return out;
+}
+static disked::FatNameConsumer name_consumer(const V &input) {
+    const auto page = integer(field(input, "namespace_code_page"));
+    require(page <= 0xffffffff);
+    auto out = disked::windows_fat_name_consumer(static_cast<std::uint32_t>(page));
+    // Fault callbacks exist only in this test executable, never in the platform adapter.
+    if (const auto *fault = input.find("consumer_fault")) {
+        const auto mode = fault->text;
+        const auto original = out.equal;
+        if (mode == "equal_unknown" || mode == "equal_throw" || mode == "equal_invalid" ||
+            mode == "nonreflexive" || mode == "asymmetric")
+            out.equal = [mode, original](const disked::FatNameUnits &a,
+                                         const disked::FatNameUnits &b) {
+                if (mode == "equal_throw")
+                    throw std::runtime_error("test_comparison_exception");
+                if (mode == "equal_invalid")
+                    return static_cast<disked::FatNameEquality>(99);
+                if (mode == "equal_unknown")
+                    return disked::FatNameEquality::Unknown;
+                if (mode == "nonreflexive")
+                    return disked::FatNameEquality::Different;
+                if (a != b)
+                    return a < b ? disked::FatNameEquality::Equal
+                                 : disked::FatNameEquality::Different;
+                return original(a, b);
+            };
+        else if (mode == "decode_unknown" || mode == "decode_throw" || mode == "decode_invalid")
+            out.decode_short =
+                [mode](const std::array<unsigned char, 11> &) -> disked::FatNameDecode {
+                if (mode == "decode_throw")
+                    throw std::runtime_error("test_decode_exception");
+                disked::FatNameDecode d;
+                if (mode == "decode_invalid")
+                    d.assessment.state = static_cast<disked::FatNameState>(99);
+                return d;
+            };
+        else if (mode == "component_unknown" || mode == "component_throw" ||
+                 mode == "component_invalid")
+            out.component = [mode](const disked::FatNameUnits &) -> disked::FatNameAssessment {
+                if (mode == "component_throw")
+                    throw std::runtime_error("test_component_exception");
+                return {mode == "component_invalid" ? static_cast<disked::FatNameState>(99)
+                                                    : disked::FatNameState::Unknown,
+                        "test_unknown"};
+            };
+        else if (mode == "missing_callback")
+            out.equal = {};
+        else if (mode == "invalid_identity")
+            out.id.clear();
+        else if (mode == "invalid_binding")
+            out.binding = V::array();
+        else
+            require(false);
+    }
+    return out;
+}
+static V namespace_observe(const V &input) {
+    auto consumer = name_consumer(input);
+    std::vector<disked::FatNamespaceDirectory> directories;
+    std::vector<disked::FatNamespaceEntry> entries;
+    for (const auto &d : field(input, "directories").items) {
+        const auto id = integer(field(d, "id"));
+        require(id <= 128);
+        directories.push_back({static_cast<std::size_t>(id), field(d, "complete").boolean});
+    }
+    for (const auto &e : field(input, "entries").items) {
+        disked::FatNamespaceEntry entry;
+        const auto id = integer(field(e, "id")), parent = integer(field(e, "parent"));
+        require(id <= 128 && parent <= 128);
+        entry.id = static_cast<std::size_t>(id);
+        entry.parent = static_cast<std::size_t>(parent);
+        const auto stored = unhex(field(e, "short"));
+        require(stored.size() == 11);
+        std::copy(stored.begin(), stored.end(), entry.short_name.begin());
+        entry.source_record_offset =
+            input.find("record_offset") ? integer(*input.find("record_offset")) : 4096 + id * 32;
+        entry.kind = disked::FatNamespaceKind::File;
+        if (const auto *k = e.find("kind")) {
+            entry.kind = k->text == "directory"  ? disked::FatNamespaceKind::Directory
+                         : k->text == "excluded" ? disked::FatNamespaceKind::Excluded
+                         : k->text == "unknown"  ? disked::FatNamespaceKind::Unknown
+                                                 : disked::FatNamespaceKind::File;
+        }
+        if (const auto *n = e.find("long")) {
+            entry.has_long_name = true;
+            entry.long_name = name_units(*n);
+            entry.long_associated = !e.find("associated") || e.find("associated")->boolean;
+            entry.long_unicode_valid = !e.find("unicode_valid") || e.find("unicode_valid")->boolean;
+            entry.long_canonical = !e.find("canonical") || e.find("canonical")->boolean;
+        }
+        entries.push_back(std::move(entry));
+    }
+    return disked::observe_fat_namespace(
+        directories, entries, consumer, name_queries(input), name_limits(input),
+        !input.find("applicable") || input.find("applicable")->boolean);
+}
 static V observe(const V &input) {
     const auto &op = field(input, "op");
     require(op.kind == V::Kind::string);
+    if (op.text == "namespace") {
+        try {
+            return V::object().put("namespace", namespace_observe(input));
+        } catch (const std::exception &error) {
+            return V::object().put("error", V::string(error.what()));
+        }
+    }
     if (op.text == "header" || op.text == "fsinfo") {
         auto bytes = unhex(field(input, "raw"));
         const auto saved = bytes;
@@ -171,11 +309,17 @@ static V observe(const V &input) {
             require(!aux || aux->kind == V::Kind::boolean);
             const auto copy = integer(field(input, "copy"));
             require(copy <= 0xffffffff);
+            disked::FatNameConsumer consumer;
+            const bool names = input.find("namespace_code_page") != nullptr;
+            if (names)
+                consumer = name_consumer(input);
             return V::object().put(
-                "result", disked::capture_fat_file(
-                              field(input, "path").text, integer(field(input, "offset")),
-                              integer(field(input, "length")), static_cast<std::uint32_t>(copy),
-                              limits(input), scan && scan->boolean, aux && aux->boolean));
+                "result",
+                disked::capture_fat_file(
+                    field(input, "path").text, integer(field(input, "offset")),
+                    integer(field(input, "length")), static_cast<std::uint32_t>(copy),
+                    limits(input), scan && scan->boolean, aux && aux->boolean,
+                    names ? &consumer : nullptr, name_queries(input), name_limits(input)));
         } catch (const std::exception &error) {
             return V::object().put("error", V::string(error.what()));
         }
@@ -192,6 +336,13 @@ static V observe(const V &input) {
     require(copy <= 0xffffffff);
     request.fat_copy = static_cast<std::uint32_t>(copy);
     request.limits = limits(input);
+    disked::FatNameConsumer consumer;
+    if (input.find("namespace_code_page")) {
+        consumer = name_consumer(input);
+        request.namespace_consumer = &consumer;
+    }
+    request.namespace_queries = name_queries(input);
+    request.namespace_limits = name_limits(input);
     if (const auto *scan = input.find("allocation_scan")) {
         require(scan->kind == V::Kind::boolean);
         request.allocation_scan = scan->boolean;

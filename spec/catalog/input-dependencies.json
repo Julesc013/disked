@@ -9667,6 +9667,7 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
+        "source/runtime/capture/fat_namespace.h",
         "source/runtime/capture/region_reader.h",
         "source/runtime/command/json.h",
         "spec/catalog/fat-allocation-scan-prototype.json",
@@ -9724,8 +9725,9 @@
       "kind": "fixture",
       "delivery": "artifact",
       "depends_on": [
-        "source/providers/image/fat_file.h",
-        "source/portable/fat/fat.h"
+        "source/platform/windows/file_names.h",
+        "source/portable/fat/fat.h",
+        "source/providers/image/fat_file.h"
       ],
       "spec_ids": [
         "DE-037"
@@ -9882,6 +9884,100 @@
       "depends_on": [
         "spec/catalog/fat-directory-prototype.json",
         "spec/catalog/fat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/fat_namespace.h",
+      "path": "source/runtime/capture/fat_namespace.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/command/json.h",
+        "spec/catalog/fat-namespace-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/fat_namespace.cpp",
+      "path": "source/runtime/capture/fat_namespace.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_namespace.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/file_names.h",
+      "path": "source/platform/windows/file_names.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_namespace.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "source/platform/windows/file_names.cpp",
+      "path": "source/platform/windows/file_names.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/file_names.h"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": "tests/images/test_fat_namespace.py",
+      "path": "tests/images/test_fat_namespace.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/fat-namespace-prototype.json",
+        "tests/images/test_fat_capture.py",
+        "tests/unit/fat_capture_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-037",
+        "DE-031",
+        "DE-044"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-13-fat-namespace/reproduce.py",
+      "path": ".aide/evidence/2026-10-13-fat-namespace/reproduce.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/fat_namespace.cpp",
+        "source/platform/windows/file_names.cpp",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/providers/image/fat_file.cpp",
+        "tests/images/test_fat_namespace.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "CMakeLists.txt",
+        "tools/check-build-boundaries.py"
       ],
       "spec_ids": [
         "DE-037",

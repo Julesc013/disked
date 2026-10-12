@@ -78,6 +78,7 @@ struct Node {
     std::uint64_t file_bytes = 0, allocated = 0;
     std::size_t depth = 0, parent = 0;
     bool directory = false, entries_complete = false, chain_complete = false;
+    FatNamespaceEntry namespace_entry;
     std::string chain = "not_observed";
 };
 struct CapturedRange {
@@ -830,6 +831,15 @@ class Observer {
         child.first = entry.cluster;
         child.file_bytes = entry.file_bytes;
         child.directory = entry.kind == DE_FAT_DIRENT_DIRECTORY && !entry.dot;
+        child.namespace_entry.id = nodes_.size();
+        child.namespace_entry.parent = parent;
+        child.namespace_entry.source_record_offset = add(request_.volume_offset, physical);
+        child.namespace_entry.kind =
+            entry.kind == DE_FAT_DIRENT_FILE                      ? FatNamespaceKind::File
+            : entry.kind == DE_FAT_DIRENT_DIRECTORY && !entry.dot ? FatNamespaceKind::Directory
+            : entry.dot || entry.kind == DE_FAT_DIRENT_VOLUME     ? FatNamespaceKind::Excluded
+                                                                  : FatNamespaceKind::Unknown;
+        std::copy_n(entry.name_field.data, 11, child.namespace_entry.short_name.begin());
         child.value =
             metadata(entry, raw)
                 .put("id", exact(nodes_.size()))
@@ -854,6 +864,12 @@ class Observer {
             de_view slots{pending.data(), pending.size()};
             de_fat_lfn name{};
             checked(de_fat_lfn_read(&slots, &bytes, volume_.bits, &name));
+            child.namespace_entry.has_long_name = true;
+            child.namespace_entry.long_associated = name.associated != 0;
+            child.namespace_entry.long_unicode_valid = name.unicode_valid != 0;
+            child.namespace_entry.long_canonical = name.canonical_name != 0;
+            for (std::size_t i = 0; i < name.name_length; ++i)
+                child.namespace_entry.long_name.push_back(name.units[i]);
             auto units = V::array();
             for (std::size_t i = 0; i < name.unit_count; ++i)
                 units.items.push_back(exact(name.units[i]));
@@ -960,10 +976,23 @@ class Observer {
             throw std::invalid_argument("fat_capture_limits");
         if (request.auxiliary_checks && l.output_bytes < 131072)
             throw std::invalid_argument("fat_auxiliary_output_limit");
+        if (request.namespace_consumer) {
+            validate_fat_name_consumer(*request.namespace_consumer);
+            validate_fat_name_queries(request.namespace_queries);
+            if (l.output_bytes < 786432 || !request.namespace_limits.comparisons ||
+                request.namespace_limits.comparisons > 65536 ||
+                !request.namespace_limits.findings || request.namespace_limits.findings > 128 ||
+                request.namespace_limits.output_bytes < 16384 ||
+                request.namespace_limits.output_bytes > 524288)
+                throw std::invalid_argument("fat_namespace_capture_limits");
+        } else if (!request.namespace_queries.empty())
+            throw std::invalid_argument("fat_namespace_consumer_required");
         if (request.allocation_scan)
             output_used_ += 2048; // Reserve the summary even if tree/detail budgets stop.
         if (request.auxiliary_checks)
             output_used_ += 81920;
+        if (request.namespace_consumer)
+            output_used_ += 524288;
         const auto bytes = portable(request.source_bytes);
         checked(
             de_space_init(request.source_id.data(), request.source_id.size(), &bytes, 1, &source_));
@@ -1055,6 +1084,22 @@ class Observer {
         }
         if (!overlap_equal_ && scanned.find("unreferenced_allocation_qualified"))
             scanned.put("unreferenced_allocation_qualified", V::boolean_value(false));
+        V namespace_result;
+        if (request_.namespace_consumer) {
+            std::vector<FatNamespaceDirectory> directories;
+            std::vector<FatNamespaceEntry> entries;
+            for (std::size_t i = 0; i < nodes_.size(); ++i) {
+                const auto &node = nodes_[i];
+                if (node.directory)
+                    directories.push_back({i, node.entries_complete && node.chain_complete});
+                if (i)
+                    entries.push_back(node.namespace_entry);
+            }
+            namespace_result =
+                observe_fat_namespace(directories, entries, *request_.namespace_consumer,
+                                      request_.namespace_queries, request_.namespace_limits,
+                                      overlap_equal_ && volume_.usable_layout && !nodes_.empty());
+        }
         auto nodes = V::array();
         for (auto &n : nodes_) {
             auto codes = V::array();
@@ -1129,6 +1174,8 @@ class Observer {
                 .put("observed_metadata_consistent", V::boolean_value(aggregate))
                 .put("auxiliary_checks", std::move(auxiliary_result));
         }
+        if (request_.namespace_consumer)
+            out.put("namespace", std::move(namespace_result));
         if (encoded(out) > request_.limits.output_bytes)
             throw std::runtime_error("fat_output_accounting");
         return out;

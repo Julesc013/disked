@@ -7,5 +7,8 @@ namespace disked {
 json::Value capture_fat_file(const std::string &path, std::uint64_t volume_offset,
                              std::uint64_t volume_bytes, std::uint32_t fat_copy,
                              const FatCaptureLimits &limits = FatCaptureLimits{},
-                             bool allocation_scan = false, bool auxiliary_checks = false);
+                             bool allocation_scan = false, bool auxiliary_checks = false,
+                             const FatNameConsumer *namespace_consumer = nullptr,
+                             const std::vector<FatNameQuery> &namespace_queries = {},
+                             const FatNamespaceLimits &namespace_limits = FatNamespaceLimits{});
 } // namespace disked

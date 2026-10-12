@@ -1,5 +1,6 @@
 #pragma once
 #include "region_reader.h"
+#include "fat_namespace.h"
 #include "runtime/command/json.h"
 #include <cstdint>
 #include <string>
@@ -17,6 +18,9 @@ struct FatCaptureRequest {
     std::uint32_t fat_copy = 0;
     bool allocation_scan = false;
     bool auxiliary_checks = false;
+    const FatNameConsumer *namespace_consumer = nullptr;
+    std::vector<FatNameQuery> namespace_queries;
+    FatNamespaceLimits namespace_limits;
     FatCaptureLimits limits;
 };
 // Private supplied-reader observation. Limits/geometry are checked; returned

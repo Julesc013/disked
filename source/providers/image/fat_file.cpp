@@ -66,7 +66,10 @@ struct Region {
 
 json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std::uint64_t bytes,
                              std::uint32_t copy, const FatCaptureLimits &limits,
-                             bool allocation_scan, bool auxiliary_checks) {
+                             bool allocation_scan, bool auxiliary_checks,
+                             const FatNameConsumer *namespace_consumer,
+                             const std::vector<FatNameQuery> &namespace_queries,
+                             const FatNamespaceLimits &namespace_limits) {
     const auto path = local_file::path_for(input);
     auto ancestors = local_file::pin_parents(path);
     const auto generations = local_file::parent_generations(ancestors);
@@ -108,9 +111,12 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
     request.limits = limits;
     request.allocation_scan = allocation_scan;
     request.auxiliary_checks = auxiliary_checks;
+    request.namespace_consumer = namespace_consumer;
+    request.namespace_queries = namespace_queries;
+    request.namespace_limits = namespace_limits;
     std::deque<Region> regions;
     bool overlaps = true;
-    const auto observation = observe_fat_volume(request, [&](const de_byte_extent &extent) {
+    auto observation = observe_fat_volume(request, [&](const de_byte_extent &extent) {
         check();
         const auto start = native(extent.start), end = native(extent.end);
         if (end < start || end - start > 4096 || end > before.size)
@@ -174,6 +180,22 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
         after.value.put("test_only_changed", V::boolean_value(true));
 #endif
     const bool same = json::dump(before.value) == json::dump(after.value);
+    const bool stable = !regions.empty() && equal && same;
+    if (!stable && namespace_consumer) {
+        // Preserve measured names/matches; a failed recapture withdraws lookup applicability.
+        auto &names = observation.fields.at("namespace");
+        names.put("capture_applicable", V::boolean_value(false));
+        names.fields.at("diagnostics").items.push_back(V::string("file_recapture_not_applicable"));
+        for (auto &directory : names.fields.at("directories").items)
+            directory.put("model_complete", V::boolean_value(false));
+        for (auto &query : names.fields.at("queries").items) {
+            const auto status = query.fields.at("status").text;
+            if (status == "unique" || status == "not_found") {
+                query.put("status", V::string("incomplete"));
+                query.fields.erase("entry_id");
+            }
+        }
+    }
     auto receipt =
         V::object()
             .put("source_before", before.value)
@@ -192,7 +214,7 @@ json::Value capture_fat_file(const std::string &input, std::uint64_t offset, std
             .put("reread_bytes", exact(verified_bytes))
             .put("overlaps_equal", V::boolean_value(overlaps))
             .put("regions_equal", V::boolean_value(equal))
-            .put("observed_stable", V::boolean_value(!regions.empty() && equal && same))
+            .put("observed_stable", V::boolean_value(stable))
             .put("source_consistency", V::string("live-uncoordinated"))
             .put("atomic_snapshot", V::boolean_value(false))
             .put("whole_file_hashed", V::boolean_value(false));
