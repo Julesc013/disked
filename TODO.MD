@@ -279,8 +279,14 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   independent actual retirement; partial implementer review in
   `.aide/evidence/2026-10-12-inventory-host/`. Normal screen-shell updates and actual
   asynchronous storage-operation completion remain unqualified.
-- [ ] Qualify independently bound pending read-only operations through actual native
-  snapshot updates and late completion in GUI/TUI/shell, preserving exact requests,
-  old-view results/transcripts and cached owner lifetime without source advancement
-  in CompletionPoll. Preserve Fake defaults, original budgets, full 0.1.0 scope
-  and separate owner/storage/admission/release gates.
+- [x] DE-W030 private deferred read-only delivery `f7b4376f`: GUI, linear/screen
+  TUI and linear shell, exact old request/revision/result/opnull and close-before-
+  completion ownership. Two x64/Win32 campaigns: 446 processes/11802
+  assertions; fresh dev.41 launch/imports, 77 serial product groups, 213
+  tooling passes/2 skips, 1075 structural checks. Evidence in
+  `.aide/evidence/2026-10-12-inventory-completion/`; DE-W030 partial. This privately
+  withholds a synchronous result; production asynchronous storage execution/durable
+  reconnect and screen-shell deferred delivery remain unqualified.
+- [ ] Diagnose the retained parallel frontend.joined_report reader-exit delay;
+  retain the exact 3000-ms wait and require actual process exit independently of
+  receipts. Keep full 0.1.0 scope and all owner/storage/platform/release gates.

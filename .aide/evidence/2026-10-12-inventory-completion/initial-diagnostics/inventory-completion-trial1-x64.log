@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 264, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 257, in main
+    console(mode+'-'+style+'-'+journey,mode,'identity',[stage(),stage()],journey,style)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 129, in console
+    host=json.loads(report.read_bytes());check(name+' actual owned hidden-console journey',r.returncode==0 and host['status']=='pass')
+                                         ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\windows\test_inventory_advance.py", line 21, in check
+    checks.append(dict(label=label,passed=bool(value)));assert value,label
+                                                               ^^^^^
+AssertionError: shell-linear-deferred actual owned hidden-console journey
