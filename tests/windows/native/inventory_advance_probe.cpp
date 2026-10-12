@@ -11,7 +11,8 @@ using namespace disked_inventory_fixture;
 unsigned reader_starts=0;
 struct Controls final {
     std::array<HANDLE,4> handles{{nullptr,nullptr,nullptr,nullptr}};
-    explicit Controls(const V& input){
+    HANDLE completion=nullptr;
+    explicit Controls(const V& input,const V* completion_name=nullptr){
         const std::array<const char*,4> actions{{"advance","release","cancel","timeout"}};
         if(input.kind!=V::Kind::object || input.fields.size()!=4)throw std::invalid_argument("fixture_controls");
         const std::string prefix="Local\\DiskEd.Inventory.";std::string nonce;
@@ -22,14 +23,19 @@ struct Controls final {
             if(std::any_of(selected.begin(),selected.end(),[](char c){return !(c>='0' && c<='9') && !(c>='a' && c<='f');}) ||
                 (!nonce.empty() && selected!=nonce))throw std::invalid_argument("fixture_controls");nonce=selected;
         }
+        if(completion_name && (completion_name->kind!=V::Kind::string || completion_name->text!=prefix+nonce+".complete"))throw std::invalid_argument("fixture_completion_control");
         try {for(std::size_t i=0;i<4;++i){const auto name=text(input,actions[i]);const std::wstring wide(name.begin(),name.end());
-            handles[i]=OpenEventW(SYNCHRONIZE,FALSE,wide.c_str());if(!handles[i])throw std::invalid_argument("fixture_event_unavailable");}}
+            handles[i]=OpenEventW(SYNCHRONIZE,FALSE,wide.c_str());if(!handles[i])throw std::invalid_argument("fixture_event_unavailable");}
+            if(completion_name){const std::wstring wide(completion_name->text.begin(),completion_name->text.end());
+                completion=OpenEventW(SYNCHRONIZE,FALSE,wide.c_str());if(!completion)throw std::invalid_argument("fixture_completion_unavailable");}}
         catch(...){close();throw;}
     }
     ~Controls(){close();}Controls(const Controls&)=delete;Controls& operator=(const Controls&)=delete;
-    void close(){for(auto& handle:handles)if(handle){CloseHandle(handle);handle=nullptr;}}
+    void close(){for(auto& handle:handles)if(handle){CloseHandle(handle);handle=nullptr;}if(completion){CloseHandle(completion);completion=nullptr;}}
     bool signalled(std::size_t at)const{const auto result=WaitForSingleObject(handles.at(at),0);
         if(result==WAIT_FAILED)throw std::runtime_error("fixture_event_wait");return result==WAIT_OBJECT_0;}
+    bool completion_ready()const{if(!completion)return false;const auto result=WaitForSingleObject(completion,0);
+        if(result==WAIT_FAILED)throw std::runtime_error("fixture_completion_wait");return result==WAIT_OBJECT_0;}
 };
 class Driver final {
     n::InventorySession& service_;const V& stages_;Controls& controls_;
@@ -117,12 +123,16 @@ int render(const V& input,const std::wstring& mode,const wchar_t* output,const d
     const auto composition=text(input,"composition");if(composition!="metadata" && composition!="identity-frame" && composition!="identity")throw std::invalid_argument("fixture_composition");
     const auto style=input.find("terminal_style")?text(input,"terminal_style"):"linear";
     const auto fault=input.find("callback_fault")?text(input,"callback_fault"):"none";
+    const auto deferred=input.find("deferred_completion")?text(input,"deferred_completion"):"none";
     if(style!="linear" && style!="screen")throw std::invalid_argument("fixture_terminal_style");
     if(fault!="none" && fault!="pending")throw std::invalid_argument("fixture_callback_fault");
+    if(deferred!="none" && deferred!="inspect")throw std::invalid_argument("fixture_deferred_completion");
+    if((deferred=="inspect")!=(input.find("completion_control")!=nullptr))throw std::invalid_argument("fixture_completion_control");
+    if(deferred=="inspect" && fault!="none")throw std::invalid_argument("fixture_completion_conflict");
     const auto& stages=field(input,"stages");if(stages.kind!=V::Kind::array || stages.items.empty() || stages.items.size()>3)throw std::invalid_argument("fixture_stages");
     if(registry.commands.kind!=V::Kind::array || registry.syntax.kind!=V::Kind::object || registry.parameter_schemas.kind!=V::Kind::object)throw std::invalid_argument("fixture_registry");
     for(const auto& stage:stages.items)if(field(stage,"namespace").kind!=V::Kind::object || field(stage,"storage").kind!=V::Kind::object)throw std::invalid_argument("fixture_stages");
-    Controls controls(field(input,"controls"));ReceiptFile receipt(output);
+    Controls controls(field(input,"controls"),input.find("completion_control"));ReceiptFile receipt(output);
     auto service=composition=="metadata"?std::unique_ptr<n::InventorySession>(new n::InventorySession()):
         std::unique_ptr<n::InventorySession>(new n::InventorySession(n::StorageFrameProfile::IdentityLayout,
             composition=="identity"?n::StorageGraphProjection::Identity:n::StorageGraphProjection::Frame));
@@ -132,10 +142,20 @@ int render(const V& input,const std::wstring& mode,const wchar_t* output,const d
     frontend.refresh_observations();driver.retain(frontend,"initial");auto commands=registry.commands;
     for(auto& command:commands.items)command.put("availability",V::string(disked::FrontendSession::handles(text(command,"id"))?"available":"unavailable"));
     const auto discovery=V::object().put("commands",commands);std::function<V()> state;V final_model,dispatches=V::array();
-    const auto dispatch=[&](const std::string& id,const std::string& command,const V& parameters,const std::string& revision){
+    bool queued=false,delivered=false;unsigned completion_polls=0;disked::Outcome withheld;V completion_binding;
+    const auto dispatch=[&](const std::string& id,const std::string& command,const V& parameters,const std::string& revision)->disked::Submission{
+        if(deferred=="inspect" && command=="target.inspect" && completion_binding.kind!=V::Kind::null)throw std::runtime_error("fixture_completion_limit");
         auto value=frontend.dispatch(id,command,parameters,revision);if(dispatches.items.size()==32)throw std::length_error("fixture_dispatch_limit");
         dispatches.items.push_back(V::object().put("request_id",V::string(id)).put("command",V::string(command)).put("parameters",parameters)
-            .put("expected_revision",V::string(revision)).put("outcome",value.response));return value;};
+            .put("expected_revision",V::string(revision)).put("outcome",value.response));
+        if(deferred=="inspect" && command=="target.inspect" && !value.exit_code){
+            require(disked::validate_response(value.response).empty(),"fixture_completion_response");
+            completion_binding=dispatches.items.back();withheld=value;queued=true;return disked::Submission::deferred();
+        }return value;};
+    const auto completion_poll=[&](disked::Outcome& value){
+        ++completion_polls;if(!queued || !controls.completion_ready())return false;
+        value=withheld;queued=false;delivered=true;return true;
+    };
     bool callback_threw=false;V callback_sources=V::array();
     const auto advance=[&](){
         driver.pulse(frontend,state);
@@ -147,16 +167,20 @@ int render(const V& input,const std::wstring& mode,const wchar_t* output,const d
             }
         }
     };const auto before_release=[&](){final_model=state();};int exit=0;
-    if(mode==L"gui")exit=disked::run_windows_gui([&](const V&){auto model=std::unique_ptr<disked::GuiModel>(new disked::GuiModel(frontend,registry,discovery,dispatch));
+    const disked::CompletionPoll selected_poll=deferred=="inspect"?disked::CompletionPoll(completion_poll):disked::CompletionPoll{};
+    if(mode==L"gui")exit=disked::run_windows_gui([&](const V&){auto model=std::unique_ptr<disked::GuiModel>(new disked::GuiModel(frontend,registry,discovery,dispatch,selected_poll));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
-    else if(mode==L"tui")exit=disked::run_windows_tui(style,[&](){auto model=std::unique_ptr<disked::TuiModel>(new disked::TuiModel(frontend,registry,discovery,dispatch));
+    else if(mode==L"tui")exit=disked::run_windows_tui(style,[&](){auto model=std::unique_ptr<disked::TuiModel>(new disked::TuiModel(frontend,registry,discovery,dispatch,selected_poll));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
-    else exit=disked::run_windows_shell(style,[&](){auto model=std::unique_ptr<disked::ShellModel>(new disked::ShellModel(frontend,registry,discovery,dispatch,false));
+    else exit=disked::run_windows_shell(style,[&](){auto model=std::unique_ptr<disked::ShellModel>(new disked::ShellModel(frontend,registry,discovery,dispatch,false,selected_poll));
         auto pointer=model.get();state=[pointer](){return pointer->state();};return model;},advance,before_release);
     state={};const auto retirement=driver.cleanup(frontend);service.reset();
     receipt.write(V::object().put("renderer_exit",V::string(std::to_string(exit))).put("composition",V::string(composition))
         .put("terminal_style",V::string(style)).put("callback_fault",V::string(fault)).put("callback_threw",V::boolean_value(callback_threw))
         .put("callback_sources_before_throw",callback_sources)
+        .put("deferred_completion",V::string(deferred)).put("completion_binding",completion_binding)
+        .put("completion_queued",V::boolean_value(queued)).put("completion_delivered",V::boolean_value(delivered))
+        .put("completion_polls",V::string(std::to_string(completion_polls)))
         .put("trace",driver.trace).put("workers",driver.workers).put("events",driver.events).put("errors",driver.errors).put("model_samples",driver.model_samples)
         .put("final_model_state",final_model).put("dispatches",dispatches).put("retirement",retirement).put("selection",frontend.selection())
         .put("retained_after_session_and_renderer",driver.retained()).put("callbacks",V::string(std::to_string(callbacks)))

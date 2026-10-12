@@ -6,8 +6,10 @@ from inventory_events import InventoryEvents
 
 probe,mode,request,receipt,report_path=sys.argv[1:];report={};process=None
 try:
-    with InventoryEvents() as events:
-        packet=json.loads(Path(request).read_bytes());packet['controls']=events.names
+    packet=json.loads(Path(request).read_bytes())
+    with InventoryEvents(completion=packet.get('deferred_completion','none')=='inspect') as events:
+        packet['controls']=events.names
+        if events.completion_name:packet['completion_control']=events.completion_name
         Path(request).write_text(json.dumps(packet,indent=2)+'\n',encoding='utf-8',newline='\n')
         configure(k.GetStdHandle(-11),160,25)
         marker='OWNED CALLER BUFFER\r\n';written=w.DWORD()
@@ -48,7 +50,25 @@ try:
             # Selection is an explicit cached action; F3/Enter selects this ID.
             key(0x72);wait('Enter selects:');key(13,'\r');wait('selection')
             write('target inspect '+node);key(0x78);wait('F9 submits: target.inspect')
-        if scenario=='review':
+        if scenario in ('deferred','deferred-close'):
+            report['reviewed_id']=node;key(0x78)
+            pending_text=wait('Waiting for request' if mode=='tui' else '] pending request')
+            pending_sequence=max(map(int,re.findall(r'\[(\d+)\] pending request',pending_text))) if mode=='shell' else None
+            events.signal('advance');wait('Observations updated' if mode=='tui' else 'observations updated')
+            if scenario=='deferred':
+                events.signal('release');time.sleep(.8);events.signal('complete')
+                if mode=='tui':wait('Earlier request finished')
+                else:
+                    end=time.monotonic()+8
+                    while time.monotonic()<end:
+                        text=current_text();outcomes=list(map(int,re.findall(r'\[(\d+)\] (?:earlier request )?outcome',text)))
+                        if outcomes and max(outcomes)>pending_sequence:
+                            frames.append(dict(contains='new outcome after original pending record',text=text));break
+                        if process.poll() is not None:raise AssertionError('Exited before deferred shell outcome')
+                        time.sleep(.02)
+                    else:raise AssertionError('No deferred shell outcome record')
+            key(0x79)
+        elif scenario=='review':
             report['reviewed_id']=node;events.signal('advance')
             wait('Observations updated' if mode=='tui' else 'observations updated');events.signal('release')
             # A new publication must be observed before consuming the old review.
@@ -67,6 +87,20 @@ try:
         if scenario=='fault':
             assert value['callback_threw'] and all(value['callback_sources_before_throw'])
             assert value['final_model_state'] is None and all(value['retirement']['before']) and not value['dispatches']
+        elif scenario in ('deferred','deferred-close'):
+            binding=value['completion_binding'];final=value['final_model_state'];complete=scenario=='deferred'
+            assert binding['request_id'] and binding['parameters']['target_id']==node
+            assert binding['expected_revision']==value['trace'][0]['graph']['revision']
+            assert binding['outcome']['status']=='completed' and binding['outcome']['operation_id'] is None
+            assert binding['outcome']['result']['basis_revision']==binding['expected_revision']
+            assert value['completion_delivered']==complete and value['completion_queued']!=complete
+            assert final['pending_request']==('' if complete else binding['request_id'])
+            if complete:
+                assert [s['state'] for s in value['trace'][-1]['sources']]==['complete','complete']
+                assert (final['earlier_request'] if mode=='tui' else final['last_outcome'])==binding['outcome']
+            else:assert all(value['retirement']['before'])
+            assert any(s['pending_request']==binding['request_id'] for s in value['model_samples'])
+            assert final['view_revision']!=binding['expected_revision'] and value['selection']['observation_id']==node
         elif scenario=='review':
             assert value['dispatches'][-1]['parameters']['target_id']==node and value['dispatches'][-1]['outcome']['diagnostics'][0]['code']=='revision_conflict'
         else:

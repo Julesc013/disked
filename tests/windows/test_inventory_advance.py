@@ -123,7 +123,7 @@ def main():
                 if g is not None and g.desktop is not None:g.close()
     def console(name,mode,composition,stages,journey='review',style='linear'):
         request=out/(name+'.request.json');receipt=out/(name+'.receipt.json');report=out/(name+'.host.json')
-        save(request,dict(registry=registry,composition=composition,stages=stages,journey=journey,terminal_style=style,callback_fault='pending' if journey=='fault' else 'none'))
+        save(request,dict(registry=registry,composition=composition,stages=stages,journey=journey,terminal_style=style,callback_fault='pending' if journey=='fault' else 'none',deferred_completion='inspect' if journey in ('deferred','deferred-close') else 'none'))
         startup=subprocess.STARTUPINFO();startup.dwFlags=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0;start=time.monotonic()
         r=subprocess.run([sys.executable,str(root/'tests/windows/inventory_advance_console.py'),str(probe),mode,str(request),str(receipt),str(report)],startupinfo=startup,creationflags=subprocess.CREATE_NEW_CONSOLE,timeout=40)
         host=json.loads(report.read_bytes());check(name+' actual owned hidden-console journey',r.returncode==0 and host['status']=='pass')
@@ -139,6 +139,15 @@ def main():
         if journey=='review':
             check(name+' exact old review conflicts',v['dispatches'][-1]['expected_revision']==v['trace'][0]['graph']['revision']
                   and v['dispatches'][-1]['parameters']['target_id']==host['reviewed_id'] and v['selection']['state']=='missing')
+        elif journey in ('deferred','deferred-close'):
+            check(name+' exact old request and result retained',v['completion_binding']==v['dispatches'][-1]
+                  and v['completion_binding']['expected_revision']==v['trace'][0]['graph']['revision']
+                  and v['completion_binding']['parameters']['target_id']==host['reviewed_id']
+                  and v['completion_binding']['outcome']['result']['basis_revision']==v['trace'][0]['graph']['revision'])
+            check(name+' independently completed or explicitly undelivered',v['completion_delivered']==(journey=='deferred')
+                  and v['completion_queued']==(journey=='deferred-close') and int(v['completion_polls'])>0)
+            check(name+' one inspect dispatch without fabricated operation',sum(d['command']=='target.inspect' for d in v['dispatches'])==1
+                  and v['completion_binding']['outcome']['operation_id'] is None)
         else:check(name+' no implicit dispatch from chooser/completion',not v['dispatches'])
         runs.append(dict(label=name,frontend=mode,exit_code=r.returncode,elapsed_seconds=round(time.monotonic()-start,3)))
     def gui_fault():
@@ -155,6 +164,42 @@ def main():
                 v=json.loads(receipt.read_bytes());verify(name,v,True)
                 check(name+' selected observation not rebound by failed host',v['selection']['observation_id']==old and v['selection']['target_id'] is None)
                 save(out/(name+'.host.json'),dict(host=host,capture=capture,exit=g.code,stderr=g.error.decode('ascii')))
+                runs.append(dict(label=name,frontend='gui',exit_code=g.code,elapsed_seconds=round(time.monotonic()-start,3)))
+            finally:
+                if g is not None and g.desktop is not None:g.close()
+    def gui_deferred(close_pending=False):
+        name='gui-deferred-close' if close_pending else 'gui-deferred';request=out/(name+'.request.json');receipt=out/(name+'.receipt.json');g=None;start=time.monotonic()
+        with InventoryEvents(completion=True) as events:
+            save(request,dict(registry=registry,composition='identity',stages=[stage(),stage()],controls=events.names,deferred_completion='inspect',completion_control=events.completion_name))
+            try:
+                g=Gui(probe,[prefix,'gui',str(request),str(receipt)],render=True)
+                g.choose(0);g.click(108);old=g.details()['result']['node']['id']
+                g.click(105);g.choose(next(i for i,s in enumerate(g.list_ids()) if s.startswith('target.inspect')))
+                g.click(108);g.set(200,old);g.click(109);reviewed=g.details();g.click(110)
+                wait(lambda:'Waiting for request' in g.text(103));pending=g.details()['pending_request']
+                events.signal('advance');wait(lambda:'Observations updated' in g.text(103))
+                check(name+' pending request stays bound during native delivery',g.details()['pending_request']==pending)
+                if not close_pending:
+                    events.signal('release');time.sleep(.8)
+                    check(name+' source signals cannot acknowledge a queued call',g.details()['pending_request']==pending)
+                    events.signal('complete');wait(lambda:'Earlier request finished' in g.text(103))
+                    check(name+' late result separate from current view',g.details()['earlier_request']['request_id']==pending and 'pending_request' not in g.details())
+                host=g.observation();capture=g.screenshot(out/(name+'.png'));g.close()
+                check(name+' actual native exit/channels',g.code==0 and not g.output and not g.error and not g.created_files)
+                v=json.loads(receipt.read_bytes());verify(name,v)
+                binding=v['completion_binding'];final=v['final_model_state']
+                check(name+' one exact original read-only result',binding==v['dispatches'][0] and len(v['dispatches'])==1
+                      and binding['request_id']==pending and binding['parameters']['target_id']==old
+                      and binding['expected_revision']==v['trace'][0]['graph']['revision']==binding['outcome']['result']['basis_revision']
+                      and binding['outcome']['operation_id'] is None and binding['outcome']['status']=='completed')
+                check(name+' exact pending and delivered states',v['completion_delivered']!=close_pending and v['completion_queued']==close_pending
+                      and final['pending_request']==(pending if close_pending else '') and final['view_revision']!=binding['expected_revision'])
+                # Normal-return sampling is an equally valid still-live witness
+                # when the controller closes before another timer pulse.
+                check(name+' queued request sampled through new cached view',any(s['pending_request']==pending and s['view_revision']!=binding['expected_revision'] for s in v['model_samples']+[final]))
+                if close_pending:check(name+' closing acknowledged neither result nor reader exit',all(v['retirement']['before']) and final['earlier_request'] is None)
+                else:check(name+' exact old completion and separately complete sources',final['earlier_request']==binding['outcome'] and all(s['state']=='complete' for s in v['trace'][-1]['sources']))
+                save(out/(name+'.host.json'),dict(host=host,capture=capture,reviewed=reviewed,pending_request=pending))
                 runs.append(dict(label=name,frontend='gui',exit_code=g.code,elapsed_seconds=round(time.monotonic()-start,3)))
             finally:
                 if g is not None and g.desktop is not None:g.close()
@@ -180,6 +225,8 @@ def main():
             existing=out/'existing.json';existing.write_bytes(b'original\r\n');reject('existing-receipt',[prefix,'gui',request,existing],'fixture_receipt_unavailable');reject('input-alias',[prefix,'gui',request,request],'fixture_receipt_unavailable')
             for name,field,value,reason in [('style-value','terminal_style','auto','fixture_terminal_style'),('style-type','terminal_style',False,'fixture_shape'),('fault-value','callback_fault','arbitrary','fixture_callback_fault'),('fault-type','callback_fault',False,'fixture_shape')]:
                 invalid=out/(name+'.request.json');selection_input=copy.deepcopy(base);selection_input[field]=value;save(invalid,selection_input);reject(name,[prefix,'tui',invalid,receipt],reason)
+            for name,changes,reason in [('defer-value',{'deferred_completion':'arbitrary'},'fixture_deferred_completion'),('defer-type',{'deferred_completion':True},'fixture_shape'),('defer-missing-control',{'deferred_completion':'inspect'},'fixture_completion_control'),('defer-extra-control',{'completion_control':'arbitrary'},'fixture_completion_control'),('defer-conflict',{'deferred_completion':'inspect','completion_control':'arbitrary','callback_fault':'pending'},'fixture_completion_conflict'),('defer-bad-name',{'deferred_completion':'inspect','completion_control':'Global\\unowned'},'fixture_completion_control'),('defer-control-type',{'deferred_completion':'inspect','completion_control':False},'fixture_completion_control'),('defer-control-source-alias',{'deferred_completion':'inspect','completion_control':events.names['advance']},'fixture_completion_control')]:
+                invalid=out/(name+'.request.json');selection_input=copy.deepcopy(base);selection_input.update(changes);save(invalid,selection_input);reject(name,[prefix,'tui',invalid,receipt],reason)
         good=('complete','complete');metadata=dict(subjects=[disk(),volume()])
         for composition,storage in [('metadata',metadata),('identity-frame',identity()),('identity',identity())]:
             stages=[stage(storage=storage),stage(storage=storage)]
@@ -205,6 +252,11 @@ def main():
         gui_fault()
         for mode in ('tui','shell'):
             for style in ('linear','screen'):console(mode+'-'+style+'-callback-fault',mode,'identity',[stage(),stage()],'fault',style)
+        for close_pending in (False,True):
+            gui_deferred(close_pending)
+            journey='deferred-close' if close_pending else 'deferred'
+            for mode,style in [('tui','linear'),('tui','screen'),('shell','linear')]:
+                console(mode+'-'+style+'-'+journey,mode,'identity',[stage(),stage()],journey,style)
         result=dict(status='pass',pointer_bytes=a.pointer_bytes,controller_executions=len(runs),actual_child_launches=len(children),assertions=len(checks),checks=checks,executions=runs,private_native_advance_qualified=True,live_qualified=False,product_admitted=False,owner_accepted=False,unit_complete=False)
         save(out/'results.json',result);print(json.dumps({k:result[k] for k in ('status','controller_executions','actual_child_launches','assertions')}))
     except BaseException as error:

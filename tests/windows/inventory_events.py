@@ -1,4 +1,4 @@
-"""Four owned private test events; no foreground input or global setting."""
+"""Four owned source controls and an optional independent completion control."""
 import ctypes as c
 from ctypes import wintypes as w
 import uuid
@@ -9,10 +9,10 @@ k.SetEvent.argtypes=[w.HANDLE];k.SetEvent.restype=w.BOOL
 k.CloseHandle.argtypes=[w.HANDLE];k.CloseHandle.restype=w.BOOL
 
 class InventoryEvents:
-    def __init__(self):
-        self.handles={};self.names={};nonce=uuid.uuid4().hex
+    def __init__(self,completion=False):
+        self.handles={};self.names={};self.completion_name=None;nonce=uuid.uuid4().hex
         try:
-            for action in ('advance','release','cancel','timeout'):
+            for action in ('advance','release','cancel','timeout')+(('complete',) if completion else ()):
                 name='Local\\DiskEd.Inventory.'+nonce+'.'+action
                 handle=k.CreateEventW(None,False,False,name)
                 error=c.get_last_error()
@@ -20,7 +20,9 @@ class InventoryEvents:
                 if error==183:
                     k.CloseHandle(handle)
                     raise OSError(error,'owned inventory event already exists')
-                self.handles[action]=handle;self.names[action]=name
+                self.handles[action]=handle
+                if action=='complete':self.completion_name=name
+                else:self.names[action]=name
         except BaseException:self.close();raise
     def signal(self,action):
         if not k.SetEvent(self.handles[action]):raise OSError(c.get_last_error(),'inventory event signal')
