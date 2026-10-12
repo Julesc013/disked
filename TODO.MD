@@ -299,3 +299,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Weekly AIDE source review2026-10-12: exactdev `6f2abc4c`, unchanged queue schema and36passive WorkUnit validations; Lite1.0.0 publication/scope recorded separately. No upstream execution/install/import/stable-consumer qualification.
 
 - [x] DE-W041 read-only ordinary-image GPT repair preview: explicit source/selection binding, bounded capture/rereads, immutable patch digests, native CLI/stdio/GUI/linear TUI/shell and timeout-slot evidence at `3ff136f1`. Clean79product groups and59focused cases; [evidence](.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation/recovery, owner acceptance and full0.1.0 remain open.
+
+- [x] DE-W041 private create-only GPT effects: actual owned-image write/flush/backup/intention/completion and read-only interrupted-state evidence at `b890f9d3`.190cases/70process exits/80native groups; [evidence](.aide/evidence/2026-10-12-gpt-owned-effects/README.md). Existing-target/product writer, production journal, power-loss/recovery, owner and full0.1.0 remain open.
