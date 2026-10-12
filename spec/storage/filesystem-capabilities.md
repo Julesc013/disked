@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.3-proposed.1
+  version: 0.1.3-proposed.2
   authority: proposed-normative
   review: pending
   risk: R2
@@ -84,3 +84,11 @@ file access follows from a checksum-matched name. Bound complete long-name sets
 and retain malformed/deleted/end observations without effects. Traversal, whole
 allocation, extraction, providers/frontends and actual consumer/host admission
 remain unfinished work within the full all-platform/storage 0.1.0 programme.
+
+The directory/name slice is implementer-reviewed at source `205e6cd8`, with
+6,790 independent byte cases, protected records/name sets and 89 native groups.
+Evidence under `.aide/evidence/2026-10-13-fat-directory/` retains original
+representations and separate correlation/encoding/canonical/display outcomes.
+This does not close traversal, global allocation, lookup, extraction, provider/
+frontend, actual consumer/host or full 0.1.0 admission. Header-using task contexts
+bind both the allocation and directory/name contracts.

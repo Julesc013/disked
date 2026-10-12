@@ -314,3 +314,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] Qualified private headers at 3598ac40: layer/module include names and CMake owned/exported header visibility;85 native groups,29 checker fixtures,7 header compiles,20 Windows adapter compiles,213 tools/2 skips.196 source files retained; no physical execution/ABI/SDK/full-unit/owner/release qualification. `.aide/evidence/2026-10-13-qualified-headers/README.md`.
 
 - [x] Supplied-byte FAT allocation metadata at 97a377d7: C90 layout/entry/bounded-chain reader; 1,335 independent cases, protected bounds, 87 native groups, eight headers and strict GCC 15.2 syntax. No public FAT/provider/directory/extraction/mount/writer or owner/full-release qualification.
+
+- [x] FAT directory/name metadata at 205e6cd8: exact OEM/UTF-16 representations and checksum/order correlation with reversible display; 6,790 cases, protected records and 89 native groups. Traversal, lookup, extraction, provider/frontend, host, owner and full 0.1.0 remain open.

@@ -553,3 +553,5 @@ Qualified private headers at 3598ac40 ([evidence](../.aide/evidence/2026-10-13-q
 DE-W025 advances supplied-byte FAT allocation inspection independently of the pending production journal gate. Its private profile defines expected results before implementation. Directory/name, extraction, provider/frontend and target qualification remain separate unfinished work; the full 0.1.0 goal is unchanged.
 
 DE-W025 supplied-byte FAT allocation metadata at 97a377d7 has exact clean Windows evidence: 1,335 independent cases, protected bounds, 87 native groups and strict GCC 15.2 syntax. [Evidence](../.aide/evidence/2026-10-13-fat-allocation/README.md). Continue directory/name, allocation/extraction and provider/frontend capability work; this private reader does not close full FAT or 0.1.0 qualification.
+
+DE-W026 FAT directory/name observations at 205e6cd8 retain 6,790 independent cases, protected full/partial records and 89 native regression groups. [Evidence](../.aide/evidence/2026-10-13-fat-directory/README.md). No lookup, extraction, provider/frontend, mount/writer or full 0.1.0 admission; continue bounded traversal and volume integration.
