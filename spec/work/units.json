@@ -3557,6 +3557,87 @@
         "tests/property/test_fat_directory.py",
         ".aide/evidence/2026-10-13-fat-directory/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W027",
+      "title": "Capture bounded FAT volume trees and file extents",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W025",
+        "DE-W026"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/fat/**",
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bounded shared-region-reader FAT directory/tree and file-extent observation with exact name/chain provenance.",
+        "Read-only ordinary Windows image adapter and independent injected/real-file fixtures with preservation and applicable evidence.",
+        "Keep global allocation, extraction, provider/command/host and owner/release admission unfinished where unverified."
+      ],
+      "acceptance": [
+        "All inputs/budgets/extent arithmetic validated before callbacks; no reader view escapes.",
+        "No FAT-copy guessing, blind cycle traversal, name normalization, hidden-sector offset addition or false complete/healthy result.",
+        "Exact partial outcomes, referenced-tree cross-links and record/slot physical provenance retained.",
+        "Ordinary-file capture stays read-only, preserves all input bytes and distinguishes recapture agreement from atomic/source/media safety."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/runtime/capture/map_observation.h",
+        "source/providers/image/local_file.h"
+      ]
     }
   ]
 }

@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.3-proposed.2
+  version: 0.1.4-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -92,3 +92,15 @@ representations and separate correlation/encoding/canonical/display outcomes.
 This does not close traversal, global allocation, lookup, extraction, provider/
 frontend, actual consumer/host or full 0.1.0 admission. Header-using task contexts
 bind both the allocation and directory/name contracts.
+
+## DE-W027 bounded FAT volume capture
+
+The [volume capture profile](../catalog/fat-capture-prototype.json) connects the
+existing FAT decoders to bounded directory-tree and file-extent observations.
+Explicit volume windows, FAT copies, positive budgets and record/slot provenance
+are required. Retain incomplete, conflicting and cross-linked observations without
+claiming global allocation health or extraction rights. A separate ordinary-file
+read-only adapter binds actual file generations and repeated region observations;
+it does not establish an atomic filesystem snapshot or physical/media safety.
+Worker/command/frontend, extraction, actual consumer/host and writer qualification
+remain separate work within the full all-platform/storage 0.1.0 programme.

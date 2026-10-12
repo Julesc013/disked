@@ -1,0 +1,43 @@
+{
+  "schema": "org.disked.fat-capture-profile/1",
+  "work_id": "DE-W027",
+  "status": "private-read-only-volume-contract",
+  "scope": "Bounded selected-copy FAT12/16/32 directory-tree and file-extent observation over a supplied region reader, plus ordinary Windows image-file capture. No extraction, lookup/path resolution, mutation, mount, physical provider or public command admission.",
+  "source": "Microsoft FAT Specification 2005-08-30 sections3/4/6/7, linked by the allocation/directory profiles. Native observations remain distinct from supplier format facts and whole-filesystem/consumer qualification.",
+  "inputs": "Exact supplied source label/positive capture epoch, independently supplied source byte length, volume byte offset/length, explicit zero-based FAT copy and positive caller budgets. Validate extent arithmetic and all budgets before any callback. A label/epoch is a correlation domain, not authenticated provider identity. Windows capture supplies held file identity/generation separately.",
+  "limits": {
+    "nodes": 128,
+    "depth": 8,
+    "clusters_per_chain": 1024,
+    "total_clusters": 4096,
+    "directory_records": 4096,
+    "read_requests": 8192,
+    "read_bytes": 2097152,
+    "single_read_bytes": 4096,
+    "orphan_groups": 128,
+    "output_bytes": 1048576,
+    "fat_copies_compared": 16
+  },
+  "cells": "Add pure C90 cell-request/decode APIs: exact two-byte FAT12/16 or four-byte FAT32 cell supplied at the checked table-relative offset. Odd FAT12 cells may span sectors. Preserve previous full-view entry/chain outcomes. No whole FAT must be resident; cells beyond native small-pointer widths can still be requested using the existing checked64-bit representation.",
+  "reader": "The existing partition-map region-reader type becomes an alias of one small shared capture-region contract. Views remain immutable/alive for the call; runtime observation owns returned data. Every checked extent stays within the supplied volume/source window, at most4096 bytes. Short/oversized/null views and exceptions produce explicit partial reader outcomes without interpreting missing bytes. Cache exact ranges, compare overlapping returned bytes, and stop on conflicting captures. Application payload/cache/node/count budgets are finite; this does not establish a precise allocator/RSS or wall-clock bound.",
+  "geometry": "Capture the fixed boot prefix then its declared full logical sector, using the existing decoder and independent available-volume length. Unknown/invalid layout stops traversal with raw issues. Never add hidden sectors to the supplied origin. Retain the chosen FAT index; inactive selection is labelled. Compare observed cell values across at most16 copies; preserve raw high-bit variants separately from interpreted-link agreement. Missing/uncompared/different copies are explicit, never an automatic authoritative-copy choice.",
+  "chains": "Observe bounded unique cluster prefixes, checked volume-relative data extents, terminal free/bad/reserved/end/cycle/reader/budget outcomes and exact selected-copy cells. Aggregate referenced cluster owners across the observed tree and annotate every observed owner of a cross-link. This is referenced-tree scope, not a sweep proving global allocation, lost-cluster or unvisited-directory health. A selected chain reaching end does not make inconsistent copies authoritative.",
+  "directories": "FAT12/16 root is the fixed BPB entry region; FAT32 root and child directories use observed chains. Breadth-first traversal uses explicit node/depth/record limits. Dot/dotdot are retained as metadata and never traversed. Repeated directory starts stop expansion. End markers stop live entry interpretation without treating subsequent slack as files. Retain logical record ordinals and actual physical offsets. Complete long-name sequences can span sectors/noncontiguous clusters in one logical directory; capture exact raw slot sets and their offsets before using the existing decoder. Broken/deleted/end/replaced/orphan sequences stay visible with reasons and budgets. Never normalize names or resolve paths from them.",
+  "files": "Publish selected-chain allocated extents and file-content subextents capped by exact declared size, retaining last-cluster slack as allocated only. Empty, short, excess, damaged, uncertain and budget-limited chains stay distinct. Do not read file payload merely to list extents. A complete extent list is not extraction permission, current file-content verification or a healthy filesystem.",
+  "outcome": "Return owned bounded JSON observations with source/volume/copy scope, geometry, nodes, exact names/records, chain/extent outcomes, cross-links, read summary and typed diagnostics. Retain valid prior observations on reader/resource failures. Mark truncation/budget and unsupported work explicitly. Never report whole filesystem health, source consistency or operation authority from the runtime callback alone. Output budgeting is enforced before adding details; omitted observations carry counts/reasons rather than a false complete result.",
+  "windows_adapter": "Use existing ordinary-file path, parent-pinning, file identity and generation helpers. Open GENERIC_READ only, deny write/delete sharing, no device/network/reparse/special paths, no create/mount/write/flush/cleanup. Bind the exact volume window to held file length. Retain per-region digest/offset/count and recapture every accepted range; compare overlaps and before/after metadata/parents. observed_stable is narrow repeated-observation agreement, not an atomic filesystem snapshot or hardware/media-safety claim. Unavailable checks remain unknown. Tests use newly generated disposable files and injected reader failures, not customer or physical targets.",
+  "qualification": [
+    "Independent FAT12/16/32 volume fixtures and physical/logical directory and file-chain oracles, including nonzero source offsets and sparse extents beyond32-bit byte addressing",
+    "Cross-sector FAT12 cells and cross-sector/noncontiguous-cluster LFN sets, fixed versus chained roots, nested/dot/deleted/end/orphan records and exact original names",
+    "Cycle/reused directory/cross-link/short/excess/free/bad/reserved chains, selected inactive or conflicting FAT copies and unobserved/global allocation limitations",
+    "Every explicit node/depth/chain/record/read/byte/orphan/output budget and invalid/overflowing inputs before callback; short/oversized/null/throw/overlap-changing readers",
+    "Ordinary Windows file identity/path/reread/metadata preservation, exact input-file bytes unchanged and no extraction/output creation",
+    "Exact clean build, linkage/header/dependency/import/launch/context/tooling and prior full native regression evidence"
+  ],
+  "remaining": "Whole allocation/namespace/FSInfo/backup validation, extraction, command/worker/frontend admission, actual consumer/host compatibility and writers remain further capabilities under full0.1.0.",
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "filesystem_health_qualified": false,
+  "owner_accepted": false,
+  "unit_complete": false
+}
