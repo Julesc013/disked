@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.6-proposed.2
+  version: 0.1.7-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -142,3 +142,13 @@ cases/24 ordinary-file cases and 94 native groups. Evidence is under
 and byte/record agreement remain separate from source snapshots, recovery and
 filesystem-health authority. Namespace, extraction, actual worker/frontend/host,
 owner and full 0.1.0 qualification remain unfinished.
+
+## DE-W036 namespace and consumer-name observations
+
+The [namespace profile](../catalog/fat-namespace-prototype.json) binds original
+OEM/UTF-16 representations to explicit local name models. Preserve aliases,
+encoding/eligibility uncertainty and directory coverage. Unique model lookup
+returns capture-local IDs, with no path, access, mount or consumer admission.
+Windows text API evidence does not qualify every FAT driver/host. Additional
+consumer, chunked coverage, extraction, worker/frontend and release work remain
+in the full programme.

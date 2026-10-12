@@ -3826,6 +3826,96 @@
         "tests/images/test_fat_auxiliary.py",
         ".aide/evidence/2026-10-13-fat-auxiliary/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W036",
+      "title": "Observe FAT namespace and explicit consumer-name models",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W026",
+        "DE-W029"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "source/platform/windows/**",
+        "tests/unit/**",
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Typed namespace/comparison ports, explicit Windows text/rule adapter and bounded capture integration.",
+        "Independent alias/lookup/callback/budget/code-page and ordinary-file preservation fixtures."
+      ],
+      "acceptance": [
+        "Expected model contract precedes evaluation; original bytes/units retained and no display/path-derived lookup.",
+        "No uniqueness claim from partial/unknown/asymmetric comparison or unresolved source overlap.",
+        "Model/API observations do not admit mounted consumers, storage effects or new public commands."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "CMakeLists.txt",
+        "docs/source-map.md",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/region_reader.h",
+        "spec/catalog/fat-allocation-scan-prototype.json",
+        "spec/catalog/fat-auxiliary-prototype.json",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-namespace-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "tests/images/test_fat_allocation_scan.py",
+        "tests/images/test_fat_capture.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }
