@@ -21,7 +21,7 @@ public:
     json::Value state() const;
 private:
     enum class View {Editor,Review,Complete,Commands,Targets};
-    struct Record {std::uint64_t sequence;std::vector<std::string> lines;std::size_t bytes;bool acquisition=false;};
+    struct Record {std::uint64_t sequence;std::vector<std::string> lines;std::size_t bytes;bool expanded=false;};
     FrontendSession& session_;
     const Registry& registry_;
     json::Value discovery_;

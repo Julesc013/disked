@@ -208,7 +208,7 @@ def main():
                     result=WP();started=time.monotonic();ok=U.SendMessageTimeoutW(g.window,0,0,0,2,250,C.byref(result))
                     samples.append(dict(responsive=bool(ok),elapsed_ms=(time.monotonic()-started)*1000))
                 assert all(x['responsive'] and x['elapsed_ms']<250 for x in samples)
-                g.set(201,str(missing));g.click(109);g.click(110);assert g.details()['diagnostics'][0]['code']=='request_resource_limit'
+                g.set_field('path',str(missing));g.click(109);g.click(110);assert g.details()['diagnostics'][0]['code']=='request_resource_limit'
                 g.click(104);g.choose(0);g.click(108);current=g.details();assert current['result']['target']['id']=='fake:alpha@1'
                 late=wait(lambda:g.details() if 'earlier_request' in g.details() else None)
                 assert late['request_id']==current['request_id'] and late['earlier_request']['request_id']=='gui:1'

@@ -97,8 +97,8 @@ def main():
     assert set(usage['targets']['disked_observation_worker']['interface_headers'])=={'source/platform/windows/storage/observation_worker.h'}
     assert {'disked_fat_snapshot','disked_fat_worker','disked_observation_worker'} <= set(boundary['targets']['disked']['build_closure'])
     command=json.loads((evidence/'fat-command-cases.json').read_bytes())
-    assert summary['product_dispatch_admitted'] and summary['fat_command_cases']==61
-    assert command['passed'] and command['cases']==61 and len(command['records'])==61
+    assert summary['product_dispatch_admitted'] and summary['fat_command_cases']==62
+    assert command['passed'] and command['cases']==62 and len(command['records'])==62
     for frontend in ('gui','tui','shell'):
         assert len([r for r in command['records'] if r['name'].startswith(frontend+'-')])==3
     assert set(usage['targets']['disked_fat_inspection']['interface_headers'])=={'source/runtime/capture/fat_inspection.h'}

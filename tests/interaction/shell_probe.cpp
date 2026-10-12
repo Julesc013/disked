@@ -13,9 +13,14 @@ int main(int argc,char**) {
         if(argc==2 && c.find("id")->text=="image.acquire")available=true;
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
-    auto discovery=Value::object().put("commands",commands);Value calls=Value::array();bool large=false;
+    auto discovery=Value::object().put("commands",commands);Value calls=Value::array();bool large=false,large_fat=false;
     disked::Handler handler=[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
         calls.items.push_back(Value::object().put("command",Value::string(command)).put("parameters",parameters).put("revision",Value::string(revision)));
+        if(large_fat) {
+            auto rows=Value::array();for(unsigned i=0;i<70;++i)rows.items.push_back(Value::string(std::string(4000,'x')));
+            rows.items.back()=Value::string("last-fat-row");
+            return disked::completed(id,Value::object().put("scope",Value::string("ordinary-local-file-fat")).put("rows",rows));
+        }
         if(large) {
             auto value=Value::array();for(unsigned i=0;i<64;++i)value.items.push_back(Value::string(std::string(4000,'x')));
             return disked::completed(id,value);
@@ -43,6 +48,7 @@ int main(int argc,char**) {
         } else if(op=="quote")result=Value::string(disked::quote_shell(input.find("value")->text));
         else if(op=="reset") {
             calls=Value::array();linear=0;large=input.find("large") && input.find("large")->boolean;
+            large_fat=input.find("large_fat") && input.find("large_fat")->boolean;
             if(const auto* secret=input.find("secret"))registry.parameter_schemas.fields["urn:disked:schema:command-target-parameters:1"].fields["properties"].fields["target_id"].put("writeOnly",*secret);
             model.reset(new disked::ShellModel(session,registry,discovery,handler,input.find("history") && input.find("history")->boolean));result=model->state();
         } else if(op=="key") {

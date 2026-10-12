@@ -108,7 +108,7 @@ def generate(args):
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
     if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.fat.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
-        raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file observations/acquisition and recorded case report export/verification")
+        raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file/FAT observations, acquisition and recorded case report export/verification")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
             raise ValueError("Invalid bootstrap component authority/dependency")

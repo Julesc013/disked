@@ -125,6 +125,13 @@ def main():
             assert value['result']['observation']['selected_tree_complete']
             large_wire=launch('stdio-detail-omissions',['protocol','serve','--json'],data=encode(wire(dict(path=str(detail_path),**controls(detailed)))))[0]
             compare(value,large_wire)
+            detail_gui=Gui(args.exe,['--gui','image','inspect',str(detail_path),*options(controls(detailed))],render=True)
+            try:
+                detail_gui.click(109);detail_gui.click(110)
+                actual=wait(lambda:detail_gui.details() if 'status' in detail_gui.details() else None)
+                compare(value,actual);record('large-detail-gui',response=actual,native=detail_gui.observation())
+            finally:detail_gui.close()
+            assert detail_gui.code==0 and detail_gui.created_files==[]
             missing=folder/'missing.img'
             valid=controls(volume);invalid_controls=[dict(view='fat'),dict(view='fat',volume_offset='0'),dict(view='fat',volume_offset='0',volume_bytes='0'),
                 dict(valid,volume_offset=str(2**64-1)),dict(valid,fat_copy=str(2**32)),dict(valid,name_code_page='1252'),dict(valid,allocation_scan='true'),

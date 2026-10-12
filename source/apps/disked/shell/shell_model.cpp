@@ -6,7 +6,7 @@
 namespace disked {
 using json::Value;
 namespace {
-constexpr std::size_t max_line=shell_line_bytes,max_history=65536,max_transcript=262144,max_acquisition_transcript=8388608;
+constexpr std::size_t max_line=shell_line_bytes,max_history=65536,max_transcript=262144,max_expanded_transcript=8388608;
 std::string text(const Value& value,const std::string& key) {const auto* p=value.find(key);return p?p->text:"";}
 std::string display(const std::string& value) {
     json::Limits limits;limits.bytes=2*shell_line_bytes+2;limits.string_bytes=shell_line_bytes;
@@ -55,7 +55,7 @@ bool ShellModel::available(const std::string& id) const {
 void ShellModel::record(const std::string& kind,const Value& value) {
     if(sequence_==(std::numeric_limits<std::uint64_t>::max)())throw std::runtime_error("shell_sequence_exhausted");
     std::vector<std::string> lines;
-    bool acquisition=cached_observation_response(value) || acquisition_watch_response(value) || report_response(value) || verification_response(value);
+    bool expanded=cached_observation_response(value) || acquisition_watch_response(value) || report_response(value) || verification_response(value) || fat_inspection_response(value);
     try {lines=observation_lines(value);}
     catch(const json::Error& error) {
         ++dropped_;lines={"presentation_unavailable: "+error.code+"; complete result was not displayed; no retry performed"};
@@ -65,14 +65,14 @@ void ShellModel::record(const std::string& kind,const Value& value) {
     }
     lines.insert(lines.begin(),"["+std::to_string(++sequence_)+"] "+kind);
     std::size_t bytes=0;for(const auto& line:lines)bytes+=line.size()+1;
-    if(bytes>(acquisition?max_acquisition_transcript:max_transcript)) {
-        ++dropped_;acquisition=false;lines={"["+std::to_string(sequence_)+"] transcript_record_unavailable: complete record exceeds its declared budget"};bytes=lines.front().size()+1;
+    if(bytes>(expanded?max_expanded_transcript:max_transcript)) {
+        ++dropped_;expanded=false;lines={"["+std::to_string(sequence_)+"] transcript_record_unavailable: complete record exceeds its declared budget"};bytes=lines.front().size()+1;
     }
-    auto quota=[&]() {return acquisition || std::any_of(transcript_.begin(),transcript_.end(),[](const Record& r){return r.acquisition;})?max_acquisition_transcript:max_transcript;};
+    auto quota=[&]() {return expanded || std::any_of(transcript_.begin(),transcript_.end(),[](const Record& r){return r.expanded;})?max_expanded_transcript:max_transcript;};
     while(!transcript_.empty() && (transcript_.size()==64 || bytes>quota() || transcript_bytes_>quota()-bytes)) {
         transcript_bytes_-=transcript_.front().bytes;transcript_.pop_front();++dropped_;
     }
-    transcript_.push_back({sequence_,std::move(lines),bytes,acquisition});transcript_bytes_+=bytes;follow_=true;
+    transcript_.push_back({sequence_,std::move(lines),bytes,expanded});transcript_bytes_+=bytes;follow_=true;
 }
 void ShellModel::diagnostic(const std::string& code,std::size_t byte,std::size_t token) {
     notice_=code+" at byte "+std::to_string(byte)+" (token "+std::to_string(token)+")";

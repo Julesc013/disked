@@ -17,6 +17,20 @@ def key(name,text=None,repeat=False):
 def submit(line):return [key('text',line),key('f9'),key('f9')]
 
 class Shell(unittest.TestCase):
+    def test_bounded_fat_presentation_preserves_large_record_and_last_row(self):
+        # Synthetic presentation only; native FAT captures have separate evidence.
+        results=run(dict(op='reset',large_fat=True),*submit('image inspect fixture.img --view fat --volume-offset 0 --volume-bytes 1'),dict(op='calls'))
+        state=results[-2]
+        self.assertEqual(1,len(results[-1]))
+        self.assertEqual('completed',state['last_outcome']['status'])
+        self.assertEqual('0',state['dropped'])
+        self.assertGreater(int(state['transcript_bytes']),262144)
+        self.assertLessEqual(int(state['transcript_bytes']),8388608)
+        shown=json.dumps(state['transcript'])
+        self.assertIn('last-fat-row',shown)
+        self.assertNotIn('presentation_unavailable',shown)
+        self.assertNotIn('transcript_record_unavailable',shown)
+
     def test_literal_quoting_empty_tokens_and_windows_paths(self):
         cases=[('target inspect "fake:alpha@1"',['target','inspect','fake:alpha@1']),
                ("one '' \"\"",['one','','']),('pre"space word"post',['prespace wordpost']),

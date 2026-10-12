@@ -125,7 +125,7 @@ def main():
     assert worker_cases['passed'] and worker_cases['tests_run']==11 and worker_cases['cases']==109
     save(output/'fat-worker-cases.json',worker_cases)
     command_cases=json.loads((build/'fat-command-cases.json').read_bytes())
-    assert command_cases['passed'] and command_cases['cases']==61 and len(command_cases['records'])==61
+    assert command_cases['passed'] and command_cases['cases']==62 and len(command_cases['records'])==62
     save(output/'fat-command-cases.json',command_cases)
     run('tooling',[sys.executable,'-X','utf8','-m','unittest','discover','-s','spec/tools/tests','-v'],600)
     text = (output/'logs/tooling.log').read_text(encoding='utf-8')
@@ -160,7 +160,7 @@ def main():
     assert all(sha(checkout/name)==digest for name,digest in inputs.items())
     save(output/'summary.json',dict(source_revision=args.source_revision,source_state='clean',host=host,
         source_input_count=len(inputs),product_input_count=len(catalog['files']),native_test_groups=97,
-        fat_command_cases=61,fat_test_methods=19,fat_cases=1335,directory_test_methods=19,directory_cases=6790,capture_test_methods=20,capture_cases=149,scan_test_methods=13,scan_cases=86,auxiliary_test_methods=14,auxiliary_cases=257,namespace_test_methods=14,namespace_cases=171,worker_test_methods=11,worker_cases=109,tooling_count=count,tooling_skipped=skipped,structural=check,
+        fat_command_cases=62,fat_test_methods=19,fat_cases=1335,directory_test_methods=19,directory_cases=6790,capture_test_methods=20,capture_cases=149,scan_test_methods=13,scan_cases=86,auxiliary_test_methods=14,auxiliary_cases=257,namespace_test_methods=14,namespace_cases=171,worker_test_methods=11,worker_cases=109,tooling_count=count,tooling_skipped=skipped,structural=check,
         build_target_count=boundaries['target_count'],quoted_include_edges=boundaries['quoted_include_edges'],
         independent_header_compilations=17,gcc_scope='strict C90 syntax; no GCC runtime qualification',
         artifacts=artifacts,passed=True,physical_device_access=False,product_dispatch_admitted=True,

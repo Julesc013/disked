@@ -173,6 +173,19 @@ class Gui:
     def click(self,id):send(self.child(id),0xF5)
     def set(self,id,value):
         buffer=C.create_unicode_buffer(value);send(self.child(id),0xC,0,C.addressof(buffer))
+    def set_field(self,name,value):
+        # Locate the rendered semantic label; schema mode controls can add pages.
+        for _ in range(8):
+            if not U.IsWindowEnabled(self.child(114)):break
+            self.click(114)
+        for _ in range(8):
+            for index in range(2):
+                label=self.child(220+index)
+                if U.IsWindowVisible(label) and caption(label).split(' ',1)[-1]==name:
+                    self.set(200+index,value);return
+            if not U.IsWindowEnabled(self.child(115)):break
+            self.click(115)
+        raise AssertionError('No rendered field named '+name)
     def list_ids(self):
         child=self.child(100);count=send(child,0x18B);result=[]
         for i in range(count):
