@@ -20,6 +20,13 @@ template<class T> T symbol(HMODULE module,const char* name) noexcept {
     static_assert(sizeof(result)==sizeof(address),"function pointer size");
     std::memcpy(&result,&address,sizeof(result));return result;
 }
+BOOL assign(HANDLE job) noexcept {
+#ifdef DISKED_FRONTEND_MEMORY_TESTING
+    char fault[32]{};const auto size=GetEnvironmentVariableA("DISKED_TEST_MEMORY_FAULT",fault,sizeof(fault));
+    if(size && size<sizeof(fault) && std::strcmp(fault,"assign")==0) {SetLastError(ERROR_ACCESS_DENIED);return FALSE;}
+#endif
+    return AssignProcessToJobObject(job,GetCurrentProcess());
+}
 }
 WindowsMemoryBudget::WindowsMemoryBudget() noexcept {
     // This bounded OS-identity/bootstrap work precedes budget assignment. It
@@ -68,12 +75,34 @@ WindowsMemoryBudget::WindowsMemoryBudget() noexcept {
     if(limits.BasicLimitInformation.LimitFlags!=JOB_OBJECT_LIMIT_PROCESS_MEMORY || limits.ProcessMemoryLimit!=limit) {
         error_="memory_budget_mismatch";platform_=ERROR_INVALID_DATA;return;
     }
-    if(!AssignProcessToJobObject(job_,GetCurrentProcess())) {
-        error_="memory_budget_incompatible";platform_=GetLastError();return;
+    if(!assign(job_)) {
+        error_="memory_budget_incompatible";platform_=GetLastError();
+        if(platform_!=ERROR_ACCESS_DENIED)return;
+        BOOL shared_member=FALSE;
+        if(!IsProcessInJob(GetCurrentProcess(),job_,&shared_member)) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+        if(shared_member)return;
+        // A shared job can belong to another caller's ancestry. An empty private
+        // child preserves every ancestor and the same per-process ceiling.
+        Handle fresh;fresh.value=CreateJobObjectW(&attributes,nullptr);
+        if(!fresh.value) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION selected{};selected.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_PROCESS_MEMORY;selected.ProcessMemoryLimit=limit;
+        if(!SetInformationJobObject(fresh.value,JobObjectExtendedLimitInformation,&selected,sizeof(selected))) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+        selected={};
+        if(!QueryInformationJobObject(fresh.value,JobObjectExtendedLimitInformation,&selected,sizeof(selected),nullptr)) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+        if(selected.BasicLimitInformation.LimitFlags!=JOB_OBJECT_LIMIT_PROCESS_MEMORY || selected.ProcessMemoryLimit!=limit) {error_="memory_budget_mismatch";platform_=ERROR_INVALID_DATA;return;}
+        if(!assign(fresh.value)) {platform_=GetLastError();return;}
+        BOOL fresh_member=FALSE;
+        if(!IsProcessInJob(GetCurrentProcess(),fresh.value,&fresh_member)) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+        if(!fresh_member) {error_="memory_budget_unavailable";platform_=ERROR_INVALID_DATA;return;}
+        CloseHandle(job_);job_=fresh.value;fresh.value=nullptr;private_job_=true;
     }
-    error_=nullptr;
+    BOOL admitted=FALSE;
+    if(!IsProcessInJob(GetCurrentProcess(),job_,&admitted)) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
+    if(!admitted) {error_="memory_budget_unavailable";platform_=ERROR_INVALID_DATA;return;}
+    error_=nullptr;platform_=0;
     // Release initialization before any test delay/pressure. The product has no
-    // control that can select the private test namespace or allocation probe.
+    // control that can select the private test namespace, assignment fault or
+    // allocation probe.
     if(!ReleaseMutex(mutex.value)) {error_="memory_budget_unavailable";platform_=GetLastError();return;}
     lock.owned=false;
 #ifdef DISKED_FRONTEND_MEMORY_TESTING

@@ -123,12 +123,14 @@ class AssignedProcess:
     Cleanup may terminate only this fixture-owned frontend. No fake worker is
     launched by these host restriction/allocation cases.
     """
-    def __init__(self, argv, job, env=None):
+    def __init__(self, argv, job, env=None, pipe_input=False):
         self.temp = tempfile.TemporaryDirectory(prefix='disked-memory-host-')
-        self.files = []; self.handle = None; self.pid = None
+        self.files = []; self.handle = None; self.pid = None; self.input_writer=None
         attributes = None; initialized = False
         try:
             self.files = [open(Path(self.temp.name)/n, 'w+b') for n in ('in', 'out', 'err')]
+            if pipe_input:
+                reader,self.input_writer=os.pipe();self.files[0].close();self.files[0]=os.fdopen(reader,'rb');os.set_inheritable(self.input_writer,False)
             handles = (W.HANDLE * 3)(*(msvcrt.get_osfhandle(f.fileno()) for f in self.files))
             for f in self.files: os.set_inheritable(f.fileno(), True)
             size = C.c_size_t()
@@ -156,12 +158,21 @@ class AssignedProcess:
     def poll(self):
         if K.WaitForSingleObject(self.handle, 0) == 258: return None
         value = W.DWORD(); checked(K.GetExitCodeProcess(self.handle, C.byref(value))); return value.value
+    def send(self,data):
+        if self.input_writer is None:raise RuntimeError('no owned input writer')
+        if os.write(self.input_writer,data)!=len(data):raise RuntimeError('partial owned protocol input')
+    def close_input(self):
+        if self.input_writer is not None:os.close(self.input_writer);self.input_writer=None
+    def observed_stdout(self):
+        # Separate file object: do not seek the child's shared output offset.
+        return (Path(self.temp.name)/'out').read_bytes()
     def result(self, timeout=8):
         if K.WaitForSingleObject(self.handle, int(timeout*1000)) != 0:
             raise subprocess.TimeoutExpired('owned memory fixture', timeout)
-        for f in self.files: f.seek(0)
+        for f in self.files[1:]: f.seek(0)
         return self.poll(), self.files[1].read(), self.files[2].read()
     def close(self):
+        self.close_input()
         if self.handle:
             if self.poll() is None:
                 K.TerminateProcess(self.handle, 99); K.WaitForSingleObject(self.handle, 3000)

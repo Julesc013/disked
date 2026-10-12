@@ -18,8 +18,10 @@ P = argparse.ArgumentParser()
 P.add_argument('--exe', type=Path, required=True)
 P.add_argument('--fault', type=Path, required=True)
 P.add_argument('--evidence', type=Path)
+P.add_argument('--probe',type=Path)
 ARGS, REST = P.parse_known_args()
 ARGS.exe = ARGS.exe.resolve(); ARGS.fault = ARGS.fault.resolve()
+ARGS.probe=(ARGS.probe or ARGS.exe.with_name('memory_budget_probe.exe')).resolve()
 OBSERVATIONS = []
 
 def request(index):
@@ -171,9 +173,9 @@ class FrontendMemory(unittest.TestCase):
             OBSERVATIONS.append(dict(test='observed compatible host UI restriction retained', before=before, after=after,
                                      ui_restrictions=restriction.value, response=value))
 
-    def test_incompatible_host_hierarchies_refuse_without_weakening(self):
+    def test_independent_host_hierarchies_keep_both_frontends_bounded(self):
         # A live member under host A makes this common job a subset of A. A
-        # process already under the independent host B cannot join that chain.
+        # process under independent B needs its own equally bounded child job.
         env = dict(os.environ, DISKED_TEST_MEMORY_FAULT='allocate')
         with Job(512*MIB) as first_host, Job(64*MIB) as second_host:
             with AssignedProcess([ARGS.fault, 'build', 'inspect', '--json'], first_host, env) as first:
@@ -188,25 +190,87 @@ class FrontendMemory(unittest.TestCase):
                         self.assertIsNone(first.poll())
                         self.assertLess(time.monotonic(), deadline); time.sleep(.005)
                     before = limits(second_host.handle)
+                    with AssignedProcess([ARGS.probe], second_host) as inspection:
+                        code,out,err=inspection.result();observed=json.loads(out)
+                        self.assertEqual((0,b''),(code,err));self.assertTrue(observed['ready']);self.assertTrue(observed['private_job'])
+                        self.assertEqual(('256',str(256*MIB),'0','0'),tuple(observed[k] for k in ('flags','process_bytes','job_bytes','active_limit')))
                     with AssignedProcess([ARGS.fault, 'build', 'inspect', '--json'], second_host) as second:
-                        value = self.receipt(second.result(), 'memory_budget_incompatible')
+                        code,out,err=second.result();value=json.loads(out)
+                        self.assertEqual((0,b''),(code,err));self.assertEqual('completed',value['status']);self.assertEqual([],value['diagnostics'])
                     self.assertIsNone(first.poll(), 'independent first process was terminated')
                     after = limits(second_host.handle)
                     for key in ('flags', 'process_bytes', 'job_bytes', 'active_limit'):
                         self.assertEqual(before[key], after[key])
                     first_value = self.receipt(first.result(), 'memory_budget_unavailable')
-                    OBSERVATIONS.append(dict(test='incompatible independent host hierarchies', before=before,
-                                             after=after, response=value, first_response=first_value))
+                    OBSERVATIONS.append(dict(test='independent host hierarchies, fresh256MiB child and unchanged64MiB ancestor', before=before,
+                                             after=after, private_job=observed,response=value, first_response=first_value))
                 finally:
                     if job: K.CloseHandle(job)
 
+    def test_failed_assignment_still_refuses(self):
+        env=dict(os.environ,DISKED_TEST_MEMORY_FAULT='assign')
+        with Job(64*MIB) as host:
+            before=limits(host.handle)
+            with AssignedProcess([ARGS.fault,'build','inspect','--json'],host,env) as process:
+                value=self.receipt(process.result(),'memory_budget_incompatible')
+                self.assertEqual('5',value['diagnostics'][0]['platform_code'])
+            after=limits(host.handle)
+            for key in ('flags','process_bytes','job_bytes','active_limit'):self.assertEqual(before[key],after[key])
+            OBSERVATIONS.append(dict(test='scoped simulated assignment failure remains refused without host-policy change',before=before,after=after,response=value))
+
+    def test_real_product_callers_in_independent_host_jobs(self):
+        with Job(512*MIB) as first_host,Job(64*MIB) as second_host:
+            first_before=limits(first_host.handle);second_before=limits(second_host.handle)
+            with AssignedProcess([ARGS.exe,'protocol','serve','--format=ndjson'],first_host,pipe_input=True) as first:
+                ready=dict(schema='org.disked.request/1',request_id='coexistence:ready',command='build.inspect',parameters={},required_features=[])
+                first.send(json.dumps(ready).encode()+b'\n');deadline=time.monotonic()+5
+                while b'\n' not in first.observed_stdout():
+                    self.assertIsNone(first.poll());self.assertLess(time.monotonic(),deadline);time.sleep(.01)
+                response=json.loads(first.observed_stdout());self.assertEqual('completed',response['status']);self.assertEqual('coexistence:ready',response['request_id']);self.assertIsNone(first.poll())
+                with AssignedProcess([ARGS.exe,'command','list','--json'],second_host) as second:
+                    code,out,err=second.result();discovery=json.loads(out);self.assertEqual((0,b''),(code,err));self.assertEqual('completed',discovery['status']);self.assertEqual([],discovery['diagnostics'])
+                self.assertIsNone(first.poll(),'second caller terminated first protocol host')
+                for host,before in ((first_host,first_before),(second_host,second_before)):
+                    after=limits(host.handle)
+                    for key in ('flags','process_bytes','job_bytes','active_limit'):self.assertEqual(before[key],after[key])
+                first.close_input();code,out,err=first.result();self.assertEqual((0,b''),(code,err));self.assertEqual([response],[json.loads(row) for row in out.splitlines()])
+                OBSERVATIONS.append(dict(test='actual product protocol remains alive while discovery completes under independent job',protocol=response,discovery=discovery,first_host=first_before,second_host=second_before))
+
+    def test_private_child_keeps_stricter_inherited_commit_denial(self):
+        env=dict(os.environ,DISKED_TEST_MEMORY_FAULT='allocate')
+        with Job(512*MIB) as first_host,Job(64*MIB) as second_host:
+            with AssignedProcess([ARGS.fault,'build','inspect','--json'],first_host,env) as first:
+                job=None
+                try:
+                    deadline=time.monotonic()+2
+                    while not job:
+                        job=K.OpenJobObjectW(4,False,name(test=True))
+                        self.assertLess(time.monotonic(),deadline)
+                        if not job:time.sleep(.005)
+                    while not member(first.handle,job):
+                        self.assertIsNone(first.poll());self.assertLess(time.monotonic(),deadline);time.sleep(.005)
+                    before=limits(second_host.handle);self.assertIsNone(first.poll())
+                    with AssignedProcess([ARGS.probe],second_host,env) as second:
+                        measured=peak(second,64*MIB);code,out,err=second.result();observed=json.loads(out)
+                        self.assertEqual((3,b''),(code,err));self.assertFalse(observed['ready']);self.assertTrue(observed['private_job'])
+                        self.assertEqual('memory_budget_unavailable',observed['error']);self.assertIn(int(observed['platform_code']),(8,1455,1816))
+                        self.assertEqual(('256',str(256*MIB),'0','0'),tuple(observed[k] for k in ('flags','process_bytes','job_bytes','active_limit')))
+                        self.assertGreaterEqual(int(observed['allocation_bytes']),32*MIB);self.assertLess(int(observed['allocation_bytes']),64*MIB)
+                    after=limits(second_host.handle)
+                    for key in ('flags','process_bytes','job_bytes','active_limit'):self.assertEqual(before[key],after[key])
+                    self.receipt(first.result(),'memory_budget_unavailable')
+                    OBSERVATIONS.append(dict(test='actual commit denial in private256MiB child under unchanged64MiB host',before=before,after=after,memory=measured,probe=observed))
+                finally:
+                    if job:K.CloseHandle(job)
+
     def test_product_ignores_private_allocation_control(self):
-        env = dict(os.environ, DISKED_TEST_MEMORY_FAULT='allocate')
-        result = subprocess.run([str(ARGS.exe), 'build', 'inspect', '--json'], env=env, capture_output=True, timeout=5)
-        self.assertEqual((0, b''), (result.returncode, result.stderr))
-        value = json.loads(result.stdout); self.assertEqual('completed', value['status'])
-        self.assertEqual([], value['diagnostics'])
-        OBSERVATIONS.append(dict(test='product ignores private memory control', response=value))
+        for fault in ('allocate','assign'):
+            env = dict(os.environ, DISKED_TEST_MEMORY_FAULT=fault)
+            result = subprocess.run([str(ARGS.exe), 'build', 'inspect', '--json'], env=env, capture_output=True, timeout=5)
+            self.assertEqual((0, b''), (result.returncode, result.stderr))
+            value = json.loads(result.stdout); self.assertEqual('completed', value['status'])
+            self.assertEqual([], value['diagnostics'])
+            OBSERVATIONS.append(dict(test='product ignores private memory control',control=fault,response=value))
 
 if __name__ == '__main__':
     programme = unittest.main(argv=[__file__]+REST, verbosity=2, exit=False)

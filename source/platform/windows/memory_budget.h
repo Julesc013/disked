@@ -7,6 +7,7 @@ class WindowsMemoryBudget final {
     const char* error_="memory_budget_unavailable";
     unsigned long platform_=0;
     std::uint64_t probe_bytes_=0;
+    bool private_job_=false;
 public:
     static constexpr std::uint64_t limit_bytes() {return 256*1024*1024;}
     WindowsMemoryBudget() noexcept;
@@ -17,5 +18,6 @@ public:
     const char* error() const {return error_;}
     unsigned long platform_error() const {return platform_;}
     std::uint64_t probe_bytes() const {return probe_bytes_;}
+    bool uses_private_job() const {return private_job_;}
 };
 }

@@ -1,0 +1,39 @@
+"""Clean native frontend job coexistence plus one finite parallel product campaign."""
+import argparse,hashlib,json,re,shutil,subprocess,sys,time
+from pathlib import Path
+def main():
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source-revision',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--existing-clone',type=Path,required=True);a=p.parse_args();root=Path.cwd();out=a.output.resolve();out.mkdir();logs=out/'logs';logs.mkdir();commands=[];checkout=a.existing_clone.resolve();assert re.fullmatch('[0-9a-f]{40}',a.source_revision) and checkout.is_relative_to((root/'.aide-local').resolve())
+ def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+ def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf8',newline='\n')
+ def run(name,args,limit=300):
+  args=list(map(str,args));start=time.monotonic();r=subprocess.run(args,cwd=checkout,capture_output=True,timeout=limit);log=logs/(name+'.log');log.write_bytes(r.stdout+r.stderr);commands.append(dict(name=name,command=args,cwd=str(checkout),exit_code=r.returncode,elapsed_seconds=round(time.monotonic()-start,3),log='logs/'+log.name));save(out/'commands.json',commands);print(name+' exit '+str(r.returncode),flush=True);assert r.returncode==0,name;return r.stdout
+ assert Path(run('origin',['git','remote','get-url','origin']).decode().strip()).resolve()==root;assert not run('existing-status',['git','status','--porcelain']).strip();run('fetch',['git','fetch','--no-tags','origin',a.source_revision]);run('checkout',['git','checkout','--detach',a.source_revision]);assert not run('source-status',['git','status','--porcelain']).strip();run('source-map',[sys.executable,'tools/check-source-map.py'])
+ host=json.loads(run('host',['powershell','-NoProfile','-Command','$diskedIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$diskedPrincipal=[System.Security.Principal.WindowsPrincipal]::new($diskedIdentity);$diskedOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$diskedIdentity.Name;elevated=$diskedPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$diskedOS.Caption;version=$diskedOS.Version;architecture=$diskedOS.OSArchitecture}|ConvertTo-Json -Compress']));assert host['identity']=='BLACKGLASS-WIN1\\Jules' and not host['elevated']
+ catalog=json.loads((checkout/'tools/build-inputs.json').read_bytes());names=set(catalog['files'])|{'docs/source-map.md','tools/check-source-map.py','spec/work/units.json','spec/catalog/input-dependencies.json','spec/tools/specctl.py','AGENTS.md','.aide/evidence/2026-10-12-job-coexistence/reproduce.py'};inputs={n:sha(checkout/n) for n in sorted(names)};save(out/'source-inputs.json',inputs)
+ raw=run('source-tree',['git','ls-tree','-r','-z',a.source_revision]);blobs={}
+ for row in raw.split(b'\0'):
+  if row:
+   header,path=row.split(b'\t',1);name=path.decode()
+   if name in inputs:blobs[name]=header.split()[2].decode()
+ assert set(blobs)==set(inputs)
+ for n,b in blobs.items():
+  data=(checkout/n).read_bytes();assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==b
+ save(out/'source-blob-bindings.json',blobs);run('cmake-version',['cmake','--version']);run('python-environment',[sys.executable,'-c','import sys,importlib.metadata as m;print(sys.version);print("PyYAML="+m.version("PyYAML"));print("jsonschema="+m.version("jsonschema"))'])
+ run('configure',['cmake','--preset','windows-bootstrap','-DPython3_EXECUTABLE='+sys.executable]);run('build',['cmake','--build','--preset','windows-bootstrap','--parallel','4'],1200)
+ build=checkout/'build/windows-bootstrap';identity=json.loads((build/'generated/build-identity.json').read_bytes());assert identity['identity']['source_revision']==a.source_revision and identity['identity']['source_state']=='clean' and identity['inputs']=={n:inputs[n] for n in catalog['files']};save(out/'build-identity.json',identity)
+ probe=build/'Release/memory_budget_probe.exe';fault=build/'Release/disked_memory_test.exe';executable=build/'Release/disked.exe'
+ run('frontend-memory',[sys.executable,checkout/'tests/resilience/test_frontend_memory.py','--exe',executable,'--fault',fault,'--probe',probe,'--evidence',out/'frontend-memory-results.json']);new=json.loads((out/'frontend-memory-results.json').read_bytes());assert new['passed'] and new['tests']==12
+ run('worker-quota',[sys.executable,checkout/'tests/resilience/test_worker_budget.py','--exe',executable,'--delayed',build/'Release/disked_worker_delayed.exe','--memory',build/'Release/disked_worker_memory_limit.exe','--evidence',out/'worker-quota-results.json','Budget.test_four_workers_hold_the_limit_across_disconnected_clients']);quota=json.loads((out/'worker-quota-results.json').read_bytes());assert quota['passed'] and quota['tests']==1
+ tests=json.loads(run('ctest-catalog',['ctest','--preset','windows-bootstrap','--show-only=json-v1']));assert len(tests['tests'])==78
+ run('product-parallel',['ctest','--preset','windows-bootstrap','--parallel','4','--output-on-failure'],2400);shutil.copyfile(build/'Testing/Temporary/LastTest.log',out/'native-details.log')
+ executable=build/'Release/disked.exe';launch=json.loads(run('product-launch',[executable,'build','inspect','--json']))['result'];assert launch['source_revision']==a.source_revision and launch['version']=='0.1.0-dev.41'
+ run('tooling',[sys.executable,'-m','unittest','discover','-s','spec/tools/tests','-v']);text=(logs/'tooling.log').read_text();count=int(re.search(r'^Ran (\d+) tests ',text,re.MULTILINE).group(1));skips=int(re.search(r'^OK \(skipped=(\d+)\)$',text,re.MULTILINE).group(1));check=json.loads(run('check',[sys.executable,'spec/tools/specctl.py','check']));run('index',[sys.executable,'spec/tools/specctl.py','index','--check']);run('manifest',[sys.executable,'spec/tools/specctl.py','verify-manifest']);run('context',[sys.executable,'spec/tools/specctl.py','context','--work','DE-W017','--output',out/'context','--byte-budget','650000']);run('verify-context',[sys.executable,'spec/tools/specctl.py','verify-context',out/'context'])
+ dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe');artifacts=[]
+ for kind,exe in [('product',executable),('memory-probe',probe),('memory-fault',fault)]:
+  for mode in ('headers','imports','dependents'):run(kind+'-'+mode,[dumpbin,'/'+mode,exe])
+  artifacts.append(dict(kind=kind,architecture='x64',path=str(exe),bytes=exe.stat().st_size,sha256=sha(exe),source_revision=a.source_revision))
+ config=out/'build-configuration';config.mkdir()
+ for name in ('CMakeCache.txt','memory_budget_probe.vcxproj','disked_memory_test.vcxproj','disked.vcxproj'):shutil.copyfile(build/name,config/name)
+ for f in (build/'CMakeFiles').rglob('CMake*Compiler.cmake'):shutil.copyfile(f,config/f.name)
+ assert not run('final-status',['git','status','--porcelain']).strip();assert inputs=={n:sha(checkout/n) for n in inputs};save(out/'results.json',dict(status='pass',source_revision=a.source_revision,host=host,source_inputs=len(inputs),product_inputs=len(catalog['files']),product_version=launch['version'],frontend_memory_tests=12,focused_worker_quota_tests=1,private_frontend_job_qualified=True,shared_worker_limits_unchanged=True,ctest_groups=78,ctest_mode='one finite parallel4 campaign',tooling=dict(run=count,passed=count-skips,skipped=skips),structural_checks=check['checks'],artifacts=artifacts,writer_admitted=False,public_command_admitted=False,qualifies_recovery=False,owner_accepted=False,unit_complete=False,earlier_parallel_failure_cause_established=False));print('Clean frontend coexistence and preserved worker quotas passed.',flush=True)
+if __name__=='__main__':main()

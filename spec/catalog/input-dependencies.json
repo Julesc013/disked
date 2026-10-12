@@ -8968,6 +8968,38 @@
         "DE-045",
         "DE-015"
       ]
+    },
+    {
+      "id": "tests/resilience/memory_budget_probe.cpp",
+      "path": "tests/resilience/memory_budget_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/memory_budget.cpp",
+        "spec/catalog/frontend-job-coexistence-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-045",
+        "DE-015"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-12-job-coexistence/reproduce.py",
+      "path": ".aide/evidence/2026-10-12-job-coexistence/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/resilience/test_frontend_memory.py",
+        "tests/resilience/memory_budget_probe.cpp",
+        "spec/catalog/frontend-job-coexistence-prototype.json",
+        "tools/build-inputs.json",
+        "CMakeLists.txt"
+      ],
+      "spec_ids": [
+        "DE-045",
+        "DE-015"
+      ]
     }
   ]
 }
