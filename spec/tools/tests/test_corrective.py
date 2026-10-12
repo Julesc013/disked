@@ -150,11 +150,11 @@ class ProtocolCorrections(unittest.TestCase):
             with self.subTest(path=path):self.assertFalse(self.bundle.impact([path])['unknown_impact'])
 
 class TemporaryCorrectiveFixture(unittest.TestCase):
-    # This live-repository fixture tests binding/freshness, not a fixed prose
-    # size. Current declared inputs exceed the old 260 KB fixture allowance.
-    # Explicit capacity changes no assertions; undersized payload/artifact
-    # rejection remains tested separately with no truncation or partial output.
-    context_budget=350000
+    # Positive binding/freshness fixtures follow the copied repository's size,
+    # rather than freezing an unrelated capacity as its work catalog grows.
+    # Two copies allow the selected work definition and presentation wrappers.
+    # Production budgets are untouched; payload/artifact refusal tests retain
+    # their explicitly undersized limits and require no partial output.
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.repo=Path(self.temp.name)/'repo';self.root=self.repo/'spec'
         shutil.copytree(ROOT,self.root,ignore=shutil.ignore_patterns('__pycache__'))
@@ -168,6 +168,7 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
                     destination=self.repo/name;destination.parent.mkdir(parents=True,exist_ok=True)
                     shutil.copy2(source,destination)
         self.bundle=sc.Bundle(self.root);self.pack=Path(self.temp.name)/'pack'
+        self.context_budget=2*sum(p.stat().st_size for p in self.repo.rglob('*') if p.is_file())
     def tearDown(self):self.temp.cleanup()
     def pack_context(self,work='DE-W012'):
         self.bundle.context(work,self.pack,self.context_budget)
