@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.7-proposed.2
+  version: 0.1.8-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -159,3 +159,12 @@ is retained in `.aide/evidence/2026-10-13-fat-namespace/`. Original names, consu
 eligibility, collision/lookup observations and source applicability remain separate.
 Mounted-consumer, larger/chunked coverage, extraction, actual worker/frontend,
 host/owner and full all-platform/storage 0.1.0 qualification remain unfinished.
+
+## DE-W037 contained FAT reader observations
+
+The [contained reader profile](../catalog/fat-worker-prototype.json) binds exact
+ordinary-file expectations, bounded captured regions and actual owned processes.
+Parent verification reconstructs original observations before the session creates
+an immutable snapshot. Completion, source applicability and actual exit remain
+separate. Existing host quotas are preserved. Shared commands/frontends, larger
+coverage, extraction and full platform/storage/owner/release admission remain open.

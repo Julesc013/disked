@@ -3922,6 +3922,110 @@
         "tools/build-inputs.json",
         ".aide/evidence/2026-10-13-fat-namespace/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W037",
+      "title": "Own and independently verify contained FAT file readers",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W027",
+        "DE-W036",
+        "DE-W030"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-031",
+        "DE-037",
+        "DE-012",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "source/platform/windows/**",
+        "tests/unit/**",
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Owned FAT region/frame values with exact expected source and independent parent reconstruction.",
+        "Contained native reader using the existing observation host and typed immutable snapshots.",
+        "Independent generated-file/process/payload/fault/cancellation/retirement evidence."
+      ],
+      "acceptance": [
+        "Expected contract precedes evaluation; exact source and finite host/payload/input limits remain enforced.",
+        "Only actual owned sessions create snapshots; serialized reports/pure verification do not authenticate a process.",
+        "Source bytes/default observations remain unchanged; late/unknown workers are not treated as quiescent.",
+        "Public command/consumer/extraction/writer and full platform/storage admission remain separate."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "CMakeLists.txt",
+        "docs/source-map.md",
+        "source/platform/windows/file_names.cpp",
+        "source/platform/windows/file_names.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/fat_namespace.cpp",
+        "source/runtime/capture/fat_namespace.h",
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/region_reader.h",
+        "spec/catalog/fat-allocation-scan-prototype.json",
+        "spec/catalog/fat-auxiliary-prototype.json",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-namespace-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "spec/catalog/fat-worker-prototype.json",
+        "spec/catalog/nt-owned-layout-prototype.json",
+        "tests/images/test_fat_allocation_scan.py",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_namespace.py",
+        "tests/unit/fat_capture_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }
