@@ -1,8 +1,8 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-#include "file_capture.h"
-#include "map_observation.h"
+#include "providers/image/file_capture.h"
+#include "runtime/capture/map_observation.h"
 #include <cstdio>
 
 int wmain(int argc,wchar_t** argv) {

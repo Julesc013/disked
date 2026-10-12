@@ -1,6 +1,6 @@
-#include "file_acquisition_export.h"
-#include "file_case.h"
-#include "worker_files.h"
+#include "providers/report/file_acquisition_export.h"
+#include "providers/report/file_case.h"
+#include "platform/windows/worker_files.h"
 #include <cstdio>
 using V=disked::json::Value;namespace e=disked::evidence::proposal;
 const V& field(const V& v,const char* key) {const auto p=v.find(key);if(!p)throw e::Error("joint_probe_shape");return *p;}

@@ -1,4 +1,4 @@
-#include "capture.h"
+#include "runtime/graph/capture.h"
 #include <cstdio>
 #include <type_traits>
 

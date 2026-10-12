@@ -1,7 +1,7 @@
 #ifndef DISKED_MBR_H
 #define DISKED_MBR_H
-#include "view.h"
-#include "extent.h"
+#include "portable/primitives/view.h"
+#include "portable/primitives/extent.h"
 
 /* Internal borrowed observation API. No packed structs or on-disk ABI. */
 #define DE_MBR_SIGNATURE 1U

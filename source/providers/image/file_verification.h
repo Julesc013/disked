@@ -1,5 +1,5 @@
 #pragma once
-#include "image_verification.h"
+#include "runtime/evidence/image_verification.h"
 #include <memory>
 #include <functional>
 namespace disked {

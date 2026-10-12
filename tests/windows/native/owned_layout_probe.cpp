@@ -1,9 +1,9 @@
-#include "image_layout_worker.h"
-#include "storage_graph.h"
-#include "layout_provenance.h"
+#include "platform/windows/storage/image_layout_worker.h"
+#include "providers/windows/storage_graph.h"
+#include "providers/windows/layout_provenance.h"
 #include "storage_fixture.h"
-#include "local_file.h"
-#include "memory_budget.h"
+#include "providers/image/local_file.h"
+#include "platform/windows/memory_budget.h"
 #include <cstdio>
 #include <io.h>
 #include <fcntl.h>

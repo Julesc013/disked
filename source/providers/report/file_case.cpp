@@ -1,6 +1,6 @@
 #include "file_case.h"
-#include "worker_files.h"
-#include "local_file.h"
+#include "platform/windows/worker_files.h"
+#include "providers/image/local_file.h"
 
 namespace disked {
 namespace {

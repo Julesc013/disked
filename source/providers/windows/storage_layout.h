@@ -1,6 +1,6 @@
 #pragma once
 #include "storage_inventory.h"
-#include "raw_layout.h"
+#include "runtime/capture/raw_layout.h"
 
 namespace disked { namespace nt_inventory {
 // A caller-declared fixture correlation, not media identity, an owned-reader

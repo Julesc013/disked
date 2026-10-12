@@ -3,9 +3,9 @@
 #include <windows.h>
 #include "file_capture.h"
 #include "local_file.h"
-#include "map_observation.h"
-#include "gpt_capture.h"
-#include "sha256.h"
+#include "runtime/capture/map_observation.h"
+#include "runtime/capture/gpt_capture.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <atomic>
 #include <deque>

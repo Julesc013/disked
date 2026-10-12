@@ -3,7 +3,7 @@
 #endif
 #include "fixture_repair.h"
 #include "local_file.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <atomic>
 #include <cstdlib>

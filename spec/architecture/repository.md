@@ -14,7 +14,7 @@ status: draft
 disked:
   id: DE-011
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -125,6 +125,15 @@ dependencies include transitive/order dependencies; do not label them direct
 link declarations. Record the source revision, actual flags, results and the
 unchecked preprocessor/system-header/other-platform scope. Cross-module include
 qualification and full header coverage remain separate work.
+
+Cross-module private source headers use source-relative layer/module names;
+same-folder sibling includes remain local. CMake header file sets establish
+ownership alongside implementation targets. Generated direct/interface compile
+usage, including owned/exported headers, governs visibility checks separately
+from transitive/order build closure. A private link must not export header access.
+The namespace search root is not compiler/filesystem access control; checks
+enforce the declared source contracts. Do not promote internal file sets into a
+public installed SDK or claim complete preprocessing/other-platform qualification.
 
 ## Explicit source-map amendment
 

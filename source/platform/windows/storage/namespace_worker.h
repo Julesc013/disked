@@ -1,5 +1,5 @@
 #pragma once
-#include "volume_inventory.h"
+#include "providers/windows/volume_inventory.h"
 #include <memory>
 namespace disked { namespace nt_inventory {
 struct NamespaceInput {std::uint64_t capture_epoch=0;InventoryPolicy policy;json::Value provider_input;};

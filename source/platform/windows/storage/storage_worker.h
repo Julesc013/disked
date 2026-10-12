@@ -1,6 +1,6 @@
 #pragma once
 #include "observation_worker.h"
-#include "storage_frame_reader.h"
+#include "providers/windows/storage_frame_reader.h"
 namespace disked { namespace nt_inventory {
 struct StorageInput{std::uint64_t capture_epoch=0;StorageQueryPolicy policy;json::Value provider_input;StorageFrameProfile profile=StorageFrameProfile::Metadata;};
 class StorageWorker final{

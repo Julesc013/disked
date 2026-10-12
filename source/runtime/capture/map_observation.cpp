@@ -1,8 +1,8 @@
 #include "map_observation.h"
-#include "mbr.h"
-#include "ebr.h"
-#include "gpt.h"
-#include "sha256.h"
+#include "portable/mbr/mbr.h"
+#include "portable/ebr/ebr.h"
+#include "portable/gpt/gpt.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 
 namespace disked {

@@ -56,6 +56,23 @@ Cross-module includes should identify their module, with deliberate usage
 requirements. The supplied review reproduced no wrong-header binding, so record
 this as enforcement work rather than an existing runtime corruption defect.
 
+Cross-module private headers now use the source namespace, for example
+`runtime/command/json.h`, `portable/hash/sha256.h` and
+`apps/disked/gui/gui_model.h`. Same-folder sibling includes stay short. CMake
+`disked_internal` header file sets follow actual implementation targets, with
+explicit owners for header-only ports. Paired headers follow their implementation
+sources; no competing header inventory or copied source tree is maintained.
+The shared inline Windows file mechanism keeps its per-executable test macros.
+
+`private-header-usage.json` is generated from CMake's owned/exported headers and
+direct/interface link properties. The checker requires a source header to be
+visible through those compile-usage edges, independently of the build graph.
+Private `LINK_ONLY` edges do not export headers. The shared `source/` search root
+provides namespace resolution; it is not filesystem or C++ access control.
+Only declared compile-only fixture guards use configured definitions; unknown
+expressions remain conservative. These are private build checks, not installed
+SDK exports or complete preprocessing/ABI/platform qualification.
+
 The private native build now has three small core targets: `disked_json` compiles
 the JSON codec, `disked_command` compiles command parsing, protocol handling and
 the shell lexer, and `disked_invocation` compiles frontend selection policy.

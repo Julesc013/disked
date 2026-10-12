@@ -1,6 +1,6 @@
-#include "guarded_model.h"
+#include "runtime/journal/guarded_model.h"
 #ifdef DISKED_MODEL_BINARY_PROJECTION
-#include "producer.h"
+#include "runtime/journal/producer.h"
 #endif
 #include <iostream>
 

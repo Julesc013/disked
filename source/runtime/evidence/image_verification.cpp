@@ -1,5 +1,5 @@
 #include "image_verification.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <limits>
 namespace disked { namespace evidence { namespace proposal {

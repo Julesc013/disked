@@ -1,4 +1,4 @@
-#include "verification_worker.h"
+#include "platform/windows/verification_worker.h"
 #include <cstdio>
 #include <cwchar>
 using V=disked::json::Value;

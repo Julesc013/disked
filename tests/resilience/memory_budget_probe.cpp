@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include "memory_budget.h"
-#include "json.h"
+#include "platform/windows/memory_budget.h"
+#include "runtime/command/json.h"
 #include <iostream>
 int main() {
     using V=disked::json::Value;disked::WindowsMemoryBudget budget;auto value=V::object()

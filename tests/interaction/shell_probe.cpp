@@ -1,8 +1,8 @@
-#include "shell_model.h"
-#include "command_registry.h"
+#include "apps/disked/shell/shell_model.h"
+#include "apps/disked/command_registry.h"
 #include "bootstrap_registry.h"
-#include "graph.h"
-#include "health_observer.h"
+#include "providers/fake/graph.h"
+#include "providers/fake/health_observer.h"
 #include <iostream>
 #include <memory>
 using disked::json::Value;

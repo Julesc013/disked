@@ -1,8 +1,8 @@
-#include "image_collection.h"
-#include "file_image_collection.h"
-#include "file_export.h"
-#include "acquisition_export.h"
-#include "local_file.h"
+#include "runtime/evidence/image_collection.h"
+#include "providers/report/file_image_collection.h"
+#include "providers/report/file_export.h"
+#include "runtime/evidence/acquisition_export.h"
+#include "providers/image/local_file.h"
 #include <cstdio>
 #include <cstring>
 namespace e=disked::evidence::proposal;using V=disked::json::Value;

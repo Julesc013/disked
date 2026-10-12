@@ -1,6 +1,6 @@
 #include "health_observer.h"
-#include "health.h"
-#include "snapshot.h"
+#include "runtime/evidence/health.h"
+#include "runtime/graph/snapshot.h"
 
 namespace disked {
 namespace {

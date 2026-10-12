@@ -1,6 +1,6 @@
 #pragma once
-#include "storage_queries.h"
-#include "capture.h"
+#include "platform/windows/storage/storage_queries.h"
+#include "runtime/graph/capture.h"
 namespace disked { namespace nt_inventory {
 enum class StorageSubjectKind {Disk,Volume};
 // Compiled caller selection, never inferred from a received frame or fixture.

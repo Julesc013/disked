@@ -1,6 +1,6 @@
 #include "file_verification.h"
 #include "local_file.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 namespace disked {
 namespace {

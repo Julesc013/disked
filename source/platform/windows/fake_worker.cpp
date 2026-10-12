@@ -4,9 +4,9 @@
 #include <sddl.h>
 #include "fake_worker.h"
 #include "worker_files.h"
-#include "fake_operation.h"
+#include "runtime/operation/fake_operation.h"
 #include "bootstrap_registry.h"
-#include "bootstrap.h"
+#include "providers/fake/bootstrap.h"
 #include <algorithm>
 #include <cstring>
 #include <cwctype>

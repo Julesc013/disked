@@ -1,5 +1,5 @@
-#include "pipeline.h"
-#include "sha256.h"
+#include "runtime/acquisition/pipeline.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <cstdio>
 #include <map>

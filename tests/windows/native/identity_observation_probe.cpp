@@ -1,7 +1,7 @@
-#include "storage_identity.h"
-#include "storage_graph.h"
+#include "providers/windows/storage_identity.h"
+#include "providers/windows/storage_graph.h"
 #include "storage_fixture.h"
-#include "memory_budget.h"
+#include "platform/windows/memory_budget.h"
 #include <cstdio>
 #include <io.h>
 #include <fcntl.h>

@@ -1,6 +1,6 @@
 #include "file_acquisition.h"
 #include "local_file.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <atomic>
 #include <functional>

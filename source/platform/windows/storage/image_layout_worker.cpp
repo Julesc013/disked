@@ -1,5 +1,5 @@
 #include "image_layout_worker.h"
-#include "worker_files.h"
+#include "platform/windows/worker_files.h"
 #include <set>
 
 namespace disked { namespace nt_inventory {

@@ -1,8 +1,8 @@
-#include "storage_layout.h"
-#include "storage_frame_reader.h"
+#include "providers/windows/storage_layout.h"
+#include "providers/windows/storage_frame_reader.h"
 #include "storage_fixture.h"
-#include "local_file.h"
-#include "memory_budget.h"
+#include "providers/image/local_file.h"
+#include "platform/windows/memory_budget.h"
 #include <cstdio>
 #include <io.h>
 #include <fcntl.h>

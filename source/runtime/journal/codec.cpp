@@ -1,5 +1,5 @@
 #include "codec.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <cstring>
 

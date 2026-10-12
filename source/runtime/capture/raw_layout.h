@@ -1,6 +1,6 @@
 #pragma once
-#include "json.h"
-#include "checked.h"
+#include "runtime/command/json.h"
+#include "portable/primitives/checked.h"
 #include <memory>
 #include <vector>
 

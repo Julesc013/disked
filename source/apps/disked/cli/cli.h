@@ -1,7 +1,7 @@
 #pragma once
-#include "command.h"
-#include "policy.h"
-#include "protocol.h"
+#include "runtime/command/command.h"
+#include "runtime/invocation/policy.h"
+#include "runtime/command/protocol.h"
 namespace disked {
 // Human CLI presentation only. Channel availability is observed by the host;
 // this module neither writes handles nor selects providers or another frontend.

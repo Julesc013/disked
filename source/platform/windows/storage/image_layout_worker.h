@@ -1,6 +1,6 @@
 #pragma once
 #include "observation_worker.h"
-#include "file_layout.h"
+#include "providers/image/file_layout.h"
 
 namespace disked { namespace nt_inventory {
 class ImageLayoutWorker final {

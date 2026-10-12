@@ -1,4 +1,4 @@
-#include "invocation.h"
+#include "platform/windows/invocation.h"
 int wmain(int argc,wchar_t** argv) {
     return disked::windows_entry(argc,argv);
 }

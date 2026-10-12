@@ -1,5 +1,5 @@
-#include "watch.h"
-#include "observation.h"
+#include "runtime/operation/watch.h"
+#include "runtime/acquisition/observation.h"
 #include <iostream>
 using namespace disked;using json::Value;
 std::string field(const Value& value,const char* name,const std::string& fallback="") {const auto* item=value.find(name);return item?item->text:fallback;}

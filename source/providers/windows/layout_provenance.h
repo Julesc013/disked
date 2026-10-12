@@ -1,7 +1,7 @@
 #pragma once
 #include "storage_layout.h"
 #include "storage_frame_reader.h"
-#include "file_layout.h"
+#include "providers/image/file_layout.h"
 
 namespace disked { namespace nt_inventory {
 struct OwnedLayoutBinding {

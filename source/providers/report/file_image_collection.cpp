@@ -1,6 +1,6 @@
 #include "file_image_collection.h"
-#include "local_file.h"
-#include "report_export.h"
+#include "providers/image/local_file.h"
+#include "runtime/evidence/report_export.h"
 #include <algorithm>
 namespace disked {
 namespace {using V=json::Value;namespace e=evidence::proposal;

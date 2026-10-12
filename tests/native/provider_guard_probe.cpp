@@ -1,4 +1,4 @@
-#include "bootstrap.h"
+#include "providers/fake/bootstrap.h"
 
 int main() {
     disked::initialize_fake_provider();

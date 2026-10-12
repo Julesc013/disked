@@ -1,6 +1,6 @@
-#include "verification_commands.h"
-#include "verification_worker.h"
-#include "verification_observation.h"
+#include "runtime/evidence/verification_commands.h"
+#include "platform/windows/verification_worker.h"
+#include "runtime/evidence/verification_observation.h"
 #include "bootstrap_registry.h"
 #include <cstdio>
 #include <cwchar>

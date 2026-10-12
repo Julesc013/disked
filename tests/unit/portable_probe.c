@@ -1,7 +1,7 @@
 /* A bounded test transport, not the DiskEd command interpreter. */
-#include "checked.h"
-#include "view.h"
-#include "extent.h"
+#include "portable/primitives/checked.h"
+#include "portable/primitives/view.h"
+#include "portable/primitives/extent.h"
 #include <stdio.h>
 #include <string.h>
 

@@ -3,10 +3,10 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-#include "capture.h"
-#include "session.h"
-#include "graph.h"
-#include "health_observer.h"
+#include "runtime/graph/capture.h"
+#include "runtime/presentation/session.h"
+#include "providers/fake/graph.h"
+#include "providers/fake/health_observer.h"
 #include <chrono>
 #include <algorithm>
 #include <cstring>

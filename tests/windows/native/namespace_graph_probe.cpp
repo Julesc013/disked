@@ -1,4 +1,4 @@
-#include "namespace_graph.h"
+#include "providers/windows/namespace_graph.h"
 #include "volume_fixture.h"
 #include <cstdio>
 #include <io.h>

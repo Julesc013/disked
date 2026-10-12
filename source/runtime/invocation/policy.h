@@ -1,5 +1,5 @@
 #pragma once
-#include "json.h"
+#include "runtime/command/json.h"
 namespace disked {
 // Private policy model. Platform adapters must supply observed facts and exact
 // composition availability; the fixture defaults are not runtime observations.

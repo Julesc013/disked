@@ -7,9 +7,9 @@
 #endif
 #include <windows.h>
 #include <sddl.h>
-#include "json.h"
-#include "sha256.h"
-#include "local_file.h"
+#include "runtime/command/json.h"
+#include "portable/hash/sha256.h"
+#include "providers/image/local_file.h"
 #include <cstring>
 #include <cwctype>
 #include <cstdint>

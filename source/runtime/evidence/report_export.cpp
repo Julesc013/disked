@@ -1,7 +1,7 @@
 #include "report_export.h"
 #include "image_observation.h"
 #include "image_collection.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 
 namespace disked { namespace evidence { namespace proposal {

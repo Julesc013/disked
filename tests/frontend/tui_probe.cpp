@@ -1,7 +1,7 @@
-#include "tui_model.h"
-#include "graph.h"
-#include "health_observer.h"
-#include "command_registry.h"
+#include "apps/disked/tui/tui_model.h"
+#include "providers/fake/graph.h"
+#include "providers/fake/health_observer.h"
+#include "apps/disked/command_registry.h"
 #include "bootstrap_registry.h"
 #include <algorithm>
 #include <iostream>

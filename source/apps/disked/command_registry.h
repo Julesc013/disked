@@ -1,3 +1,3 @@
 #pragma once
-#include "command.h"
+#include "runtime/command/command.h"
 namespace disked { const Registry& command_registry(); }

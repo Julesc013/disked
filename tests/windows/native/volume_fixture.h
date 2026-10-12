@@ -1,5 +1,5 @@
 #pragma once
-#include "volume_inventory.h"
+#include "providers/windows/volume_inventory.h"
 namespace disked { namespace nt_fixture {
 nt_inventory::VolumeApi api(const json::Value&,const std::function<void()>& notify={});
 unsigned call_count();

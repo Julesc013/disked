@@ -1,5 +1,5 @@
 #pragma once
-#include "snapshot.h"
+#include "runtime/graph/snapshot.h"
 namespace disked {
 struct Registry;class FrontendSession;
 GraphInput fake_graph();

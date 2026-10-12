@@ -1,5 +1,5 @@
 #include "operation.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 namespace disked { namespace acquisition_operation {
 using V=json::Value;
 namespace {

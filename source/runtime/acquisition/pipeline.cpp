@@ -1,5 +1,5 @@
 #include "pipeline.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <limits>
 #include <set>

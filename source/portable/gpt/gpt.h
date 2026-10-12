@@ -1,7 +1,7 @@
 #ifndef DISKED_GPT_H
 #define DISKED_GPT_H
-#include "view.h"
-#include "extent.h"
+#include "portable/primitives/view.h"
+#include "portable/primitives/extent.h"
 
 /* Private borrowed C API. Inputs/output workspace are disjoint caller objects. */
 #define DE_GPT_TRUNCATED       0x000001UL

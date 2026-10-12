@@ -1,6 +1,6 @@
 #pragma once
-#include "json.h"
-#include "gpt_repair.h"
+#include "runtime/command/json.h"
+#include "runtime/planner/gpt_repair.h"
 #include <cstdint>
 #include <functional>
 #include <string>

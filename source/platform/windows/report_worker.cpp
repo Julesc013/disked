@@ -1,9 +1,9 @@
 #include "report_worker.h"
-#include "file_acquisition_export.h"
-#include "file_verification_case_export.h"
+#include "providers/report/file_acquisition_export.h"
+#include "providers/report/file_verification_case_export.h"
 #include "worker_files.h"
 #include "bootstrap_registry.h"
-#include "report_observation.h"
+#include "runtime/evidence/report_observation.h"
 #include <set>
 #include <memory>
 namespace disked {

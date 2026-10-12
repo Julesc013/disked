@@ -1,5 +1,5 @@
-#include "commands.h"
-#include "acquisition_worker.h"
+#include "runtime/acquisition/commands.h"
+#include "platform/windows/acquisition_worker.h"
 #include "bootstrap_registry.h"
 #include <cstdio>
 #include <cwchar>

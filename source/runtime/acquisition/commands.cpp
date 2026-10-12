@@ -1,6 +1,6 @@
 #include "commands.h"
 #include "pipeline.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 
 namespace disked {
 namespace {

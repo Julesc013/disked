@@ -1,5 +1,5 @@
 #pragma once
-#include "protocol.h"
+#include "runtime/command/protocol.h"
 #include <functional>
 namespace disked {
 // Inward service ports. No platform dependency, authenticated approval or

@@ -1,7 +1,7 @@
 #include "inventory_fixture.h"
-#include "gui.h"
-#include "terminal.h"
-#include "memory_budget.h"
+#include "platform/windows/ui/gui.h"
+#include "platform/windows/console/terminal.h"
+#include "platform/windows/memory_budget.h"
 #include <array>
 #include <cstring>
 #include <set>

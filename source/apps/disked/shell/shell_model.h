@@ -1,7 +1,7 @@
 #pragma once
-#include "session.h"
-#include "text_input.h"
-#include "shell_lexer.h"
+#include "runtime/presentation/session.h"
+#include "runtime/presentation/text_input.h"
+#include "runtime/command/shell_lexer.h"
 #include <deque>
 
 namespace disked {

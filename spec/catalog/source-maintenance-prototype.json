@@ -24,8 +24,8 @@
     },
     {
       "id": "SR-03",
-      "state": "partially-implemented",
-      "action": "Actual generated quoted-include resolution/case/layer checks and five standalone core headers implemented. Most module-qualified includes and remaining headers are still pending; no original wrong-header failure reproduced."
+      "state": "implemented-pending-owner-review",
+      "action": "Cross-module source-relative include names and CMake target-owned private header visibility implemented. Main target declarations, direct/interface compile usage and seven header smoke checks are validated independently; standalone Windows/legacy build lanes retain separate scope. No original wrong-header failure reproduced."
     },
     {
       "id": "SR-04",
@@ -132,7 +132,11 @@
       "python tools/check-build-boundaries.py --build build/windows-bootstrap --output build/windows-bootstrap/build-boundaries.json",
       "python -m unittest discover -s tests/tools -v"
     ],
-    "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result."
+    "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result.",
+    "qualified_includes": true,
+    "compile_only_include_guards": [
+      "DISKED_MODEL_BINARY_PROJECTION"
+    ]
   },
   "shared_presentation": {
     "base_revision": "7813f45d5934cc0f607f5eb724899895a8e3c050",
@@ -155,5 +159,17 @@
     ],
     "test_expected": "34 direct native rule cases plus8Python regression tests spanning both GUI/TUI models; original callbacks/limits/wait/effect guards remain unchanged. Seven independent header compilations and existing generated boundary checks. Fresh clean native full suite required for source changes.",
     "scope": "No new scheduler, frontend base class, physical provider, privilege, installation, production broker/journal/recovery or owner acceptance. Product/probe source boundaries remain intact."
+  },
+  "qualified_include_phase": {
+    "base_revision": "c3782b63a941f758cdd011456df1498c22027b45",
+    "status": "private-maintenance-contract",
+    "namespace": "Cross-module project headers use source-relative layer/module paths; same-folder sibling includes and generated registry headers remain local.",
+    "ownership": "CMake disked_internal HEADERS file sets derive paired headers from actual target implementation sources, with explicit capture_port/text_input ownership. Inline Windows worker file utilities retain one interface mechanism target and per-executable macro definitions.",
+    "visibility": "CMake projects actual direct and interface compile-usage edges plus owned/exported headers; LINK_ONLY edges do not export header access. The checker requires source headers in the consumer compile-usage closure and corroborates owned headers against codemodel sources.",
+    "limits": "The source namespace root is a shared compiler search root, not filesystem/C++ access control. CMake/CI checks enforce ownership; lexical quoted-header checking is not preprocessing or full platform/ABI qualification. Current literal dependencies supported; unknown generator expressions fail closed pending an explicit projection rule.",
+    "behaviour": "Private include/build declarations only; no command/API/ABI/algorithm/effect/resource changes. Old specification input IDs and historical evidence stay at exact revisions.",
+    "conditional_scope": "Only explicit compile-only DISKED_MODEL_BINARY_PROJECTION ifdef/ifndef uses CMake definitions for visibility; source redefinitions/undefinitions refuse. Other expressions/platform macros/elif remain conservative, not full preprocessing.",
+    "coverage": "97 source headers keep paths.80 are declared by current main composition targets;17 belong to standalone Windows adapter lanes. Current main/standalone include names are migrated; header visibility conformance is enforced for the main CMake composition. Standalone adapter compile does not authorize or execute physical queries.",
+    "test_expected": "29 checker tests include compile-vs-build visibility, private link non-export, qualified naming, CMake ownership, unknown edges and bounded compile-only guard conditions. Clean main native85groups and tooling215runs required; standalone Windows targets compile without device access."
   }
 }

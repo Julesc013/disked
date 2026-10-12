@@ -1,5 +1,5 @@
 #pragma once
-#include "gpt_restoration.h"
+#include "runtime/recovery/gpt_restoration.h"
 #include <memory>
 
 namespace disked { namespace image { namespace fixture {

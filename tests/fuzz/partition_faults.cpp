@@ -1,7 +1,7 @@
 // Test-only deterministic mutation driver over unmodified private C readers.
-#include "mbr.h"
-#include "ebr.h"
-#include "gpt.h"
+#include "portable/mbr/mbr.h"
+#include "portable/ebr/ebr.h"
+#include "portable/gpt/gpt.h"
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>

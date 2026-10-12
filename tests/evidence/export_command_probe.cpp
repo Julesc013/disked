@@ -1,7 +1,7 @@
-#include "export_commands.h"
-#include "report_worker.h"
+#include "runtime/evidence/export_commands.h"
+#include "platform/windows/report_worker.h"
 #include "bootstrap_registry.h"
-#include "report_observation.h"
+#include "runtime/evidence/report_observation.h"
 #include <cstdio>
 #include <cwchar>
 using V=disked::json::Value;

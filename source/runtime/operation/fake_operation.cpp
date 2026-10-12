@@ -1,5 +1,5 @@
 #include "fake_operation.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <cstdint>
 #include <limits>
 #include <stdexcept>

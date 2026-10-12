@@ -1,7 +1,7 @@
-#include "session.h"
-#include "graph.h"
-#include "health_observer.h"
-#include "command_registry.h"
+#include "runtime/presentation/session.h"
+#include "providers/fake/graph.h"
+#include "providers/fake/health_observer.h"
+#include "apps/disked/command_registry.h"
 #include <iostream>
 
 using disked::json::Value;

@@ -1,6 +1,6 @@
-#include "file_case.h"
-#include "file_export.h"
-#include "worker_files.h"
+#include "providers/report/file_case.h"
+#include "providers/report/file_export.h"
+#include "platform/windows/worker_files.h"
 #include <cstdio>
 #include <cstring>
 using V=disked::json::Value;namespace e=disked::evidence::proposal;

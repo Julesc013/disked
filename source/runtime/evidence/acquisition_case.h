@@ -1,6 +1,6 @@
 #pragma once
 #include "case_report.h"
-#include "operation.h"
+#include "runtime/acquisition/operation.h"
 
 namespace disked { namespace evidence { namespace proposal {
 // Immutable interpretation of an independently supplied request/history pair.

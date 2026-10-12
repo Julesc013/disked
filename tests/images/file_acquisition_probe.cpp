@@ -1,4 +1,4 @@
-#include "file_acquisition.h"
+#include "providers/image/file_acquisition.h"
 #include <cstdio>
 
 namespace {

@@ -1,6 +1,6 @@
 #pragma once
-#include "gpt_repair.h"
-#include "codec.h"
+#include "runtime/planner/gpt_repair.h"
+#include "runtime/journal/codec.h"
 
 namespace disked { namespace execution { namespace proposal {
 using Bytes=planner::proposal::Bytes;

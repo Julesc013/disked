@@ -1,6 +1,6 @@
 #pragma once
 #include "codec.h"
-#include "json.h"
+#include "runtime/command/json.h"
 #include <utility>
 
 namespace disked { namespace journal { namespace proposal {

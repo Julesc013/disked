@@ -1,4 +1,4 @@
-#include "worker_files.h"
+#include "platform/windows/worker_files.h"
 #include <cstdio>
 
 // Owned ordinary-directory fixture only. No worker role, device or privilege.

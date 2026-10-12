@@ -1,5 +1,5 @@
 #include "storage_queries.h"
-#include "volume_inventory.h"
+#include "providers/windows/volume_inventory.h"
 #include <cstddef>
 #include <limits>
 #include <map>

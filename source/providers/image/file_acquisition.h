@@ -1,5 +1,5 @@
 #pragma once
-#include "pipeline.h"
+#include "runtime/acquisition/pipeline.h"
 #include <memory>
 #include <functional>
 

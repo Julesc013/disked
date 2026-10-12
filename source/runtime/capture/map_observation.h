@@ -1,8 +1,8 @@
 #pragma once
-#include "json.h"
-#include "checked.h"
-#include "extent.h"
-#include "view.h"
+#include "runtime/command/json.h"
+#include "portable/primitives/checked.h"
+#include "portable/primitives/extent.h"
+#include "portable/primitives/view.h"
 #include <functional>
 #include <vector>
 

@@ -2,7 +2,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include "invocation.h"
-#include "app.h"
+#include "apps/disked/app.h"
 #include "fake_worker.h"
 #include "acquisition_worker.h"
 #include "report_worker.h"

@@ -1,7 +1,7 @@
 #pragma once
-#include "verification_operation.h"
-#include "verification_commands.h"
-#include "watch.h"
+#include "runtime/evidence/verification_operation.h"
+#include "runtime/evidence/verification_commands.h"
+#include "runtime/operation/watch.h"
 namespace disked {
 json::Value prepare_verification_worker(const std::string& case_operation,const std::string& case_directory,
     const std::string& image,const std::string& map,const std::string& execution_directory);

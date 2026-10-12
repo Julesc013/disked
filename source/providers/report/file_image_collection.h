@@ -1,5 +1,5 @@
 #pragma once
-#include "image_collection.h"
+#include "runtime/evidence/image_collection.h"
 #include <memory>
 namespace disked {
 // Explicit selected ordinary file only; never opens paths in retained records.

@@ -1,5 +1,5 @@
-#include "capture.h"
-#include "session.h"
+#include "runtime/graph/capture.h"
+#include "runtime/presentation/session.h"
 #include <iostream>
 #include <memory>
 #include <new>

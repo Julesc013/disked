@@ -1,6 +1,6 @@
 #pragma once
-#include "volume_namespace.h"
-#include "json.h"
+#include "platform/windows/storage/volume_namespace.h"
+#include "runtime/command/json.h"
 #include <functional>
 #include <cstdint>
 namespace disked { namespace nt_inventory {

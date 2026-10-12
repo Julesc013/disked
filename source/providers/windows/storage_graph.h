@@ -1,5 +1,5 @@
 #pragma once
-#include "storage_worker.h"
+#include "platform/windows/storage/storage_worker.h"
 #include "storage_identity.h"
 namespace disked { namespace nt_inventory {
 json::Value storage_graph_context(const json::Value&,StorageFrameProfile profile=StorageFrameProfile::Metadata);

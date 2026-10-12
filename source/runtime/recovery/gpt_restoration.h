@@ -1,5 +1,5 @@
 #pragma once
-#include "gpt_execution.h"
+#include "runtime/operation/gpt_execution.h"
 
 namespace disked { namespace recovery { namespace proposal {
 using Bytes=execution::proposal::Bytes;

@@ -1,7 +1,7 @@
 #include "graph.h"
 #include "bootstrap.h"
-#include "capture.h"
-#include "session.h"
+#include "runtime/graph/capture.h"
+#include "runtime/presentation/session.h"
 #include "health_observer.h"
 
 namespace disked {

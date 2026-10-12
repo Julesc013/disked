@@ -1,4 +1,4 @@
-#include "definitions.h"
+#include "runtime/journal/definitions.h"
 #include <iostream>
 
 namespace p=disked::journal::proposal;

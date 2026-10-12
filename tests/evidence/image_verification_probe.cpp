@@ -1,6 +1,6 @@
-#include "file_verification.h"
-#include "file_case.h"
-#include "local_file.h"
+#include "providers/image/file_verification.h"
+#include "providers/report/file_case.h"
+#include "providers/image/local_file.h"
 #include <algorithm>
 #include <cstdio>
 #include <cstring>

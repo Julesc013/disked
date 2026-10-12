@@ -1,5 +1,5 @@
 #pragma once
-#include "raw_layout.h"
+#include "runtime/capture/raw_layout.h"
 #include <cstdint>
 #include <functional>
 #include <string>

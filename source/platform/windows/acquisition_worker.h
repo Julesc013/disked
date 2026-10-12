@@ -1,8 +1,8 @@
 #pragma once
-#include "file_acquisition.h"
-#include "protocol.h"
-#include "watch.h"
-#include "commands.h"
+#include "providers/image/file_acquisition.h"
+#include "runtime/command/protocol.h"
+#include "runtime/operation/watch.h"
+#include "runtime/acquisition/commands.h"
 namespace disked {
 // Private admission model; not the stable public command or broker API.
 json::Value prepare_acquisition_worker(const FileAcquisitionRequest&,const std::string& state_directory);

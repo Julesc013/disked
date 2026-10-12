@@ -1,5 +1,5 @@
 #include "gpt_capture.h"
-#include "gpt.h"
+#include "portable/gpt/gpt.h"
 #include <algorithm>
 
 namespace disked {

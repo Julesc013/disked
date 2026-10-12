@@ -1,7 +1,7 @@
 #include "gpt_repair.h"
-#include "gpt.h"
-#include "mbr.h"
-#include "sha256.h"
+#include "portable/gpt/gpt.h"
+#include "portable/mbr/mbr.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <cstring>
 #include <limits>

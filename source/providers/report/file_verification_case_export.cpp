@@ -1,7 +1,7 @@
 #include "file_verification_case_export.h"
 #include "file_case.h"
 #include "file_image_collection.h"
-#include "local_file.h"
+#include "providers/image/local_file.h"
 namespace disked {
 namespace e=evidence::proposal;using V=json::Value;
 namespace {

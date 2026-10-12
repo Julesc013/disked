@@ -1,6 +1,6 @@
-#include "gpt_execution.h"
-#include "fixture_repair.h"
-#include "gpt_capture.h"
+#include "runtime/operation/gpt_execution.h"
+#include "providers/image/fixture_repair.h"
+#include "runtime/capture/gpt_capture.h"
 #include "bootstrap_registry.h"
 #include <iostream>
 #include <memory>

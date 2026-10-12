@@ -1,5 +1,5 @@
 #pragma once
-#include "protocol.h"
+#include "runtime/command/protocol.h"
 #include "capture_port.h"
 
 namespace disked {

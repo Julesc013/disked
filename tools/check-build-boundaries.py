@@ -52,12 +52,59 @@ def forbidden(origin, destination):
     )
 
 
-def inspect(root, build, targets, contract):
+def quoted_includes(text, defines, configured_guards):
+    """Track explicitly declared compile-only guards; unknowns stay possible.
+
+    This is not preprocessing. Compiler/platform macros, expressions and elif
+    remain conservative; only configured ifdef/ifndef branches are known.
+    """
+    active, stack = True, []
+    symbols = set(defines)
+    for line in text.splitlines():
+        directive = re.match(r'^\s*#\s*(\w+)(.*)$', line)
+        if not directive:
+            continue
+        kind, body = directive.groups()
+        body = body.strip()
+        if kind in {"ifdef", "ifndef", "if"}:
+            symbol = body.split()[0] if body else ""
+            choice = (symbol in symbols) if kind in {"ifdef", "ifndef"} and symbol in configured_guards else None
+            if kind == "ifndef" and choice is not None:
+                choice = not choice
+            stack.append((active, choice))
+            active = active and choice is not False
+        elif kind in {"else", "elif"} and stack:
+            parent, choice = stack[-1]
+            if kind == "elif":
+                choice = None
+                stack[-1] = (parent, choice)
+            active = parent and (choice is not True if choice is not None else True)
+        elif kind == "endif" and stack:
+            active, _ = stack.pop()
+        elif kind == "define" and active and body:
+            if body.split()[0] in configured_guards:
+                raise ValueError("Compile-only include guard redefined in source: " + body.split()[0])
+            symbols.add(body.split()[0])
+        elif kind == "undef" and active:
+            if body in configured_guards:
+                raise ValueError("Compile-only include guard undefined in source: " + body)
+            symbols.discard(body)
+        elif kind == "include":
+            value = re.match(r'^"([^"\r\n]+)"', body)
+            if value:
+                yield value.group(1), active
+
+
+def inspect(root, build, targets, contract, usage=None):
     violations = []
     by_id = {v["id"]: v for v in targets}
     by_name = {v["name"]: v for v in targets}
     resolved = set()
     text_cache = {}
+    strict = contract.get("qualified_includes", False)
+    header_usage = usage.get("targets", {}) if usage else {}
+    if strict and (not usage or usage.get("schema") != "org.disked.private-header-usage/1"):
+        violations.append("Missing current CMake private header-usage projection")
     inventory = {p.relative_to(root).as_posix().lower(): p.relative_to(root).as_posix()
                  for folder in (root / "source", root / "tests") for p in folder.rglob("*") if p.is_file()}
 
@@ -84,10 +131,43 @@ def inspect(root, build, targets, contract):
     def compiled(target):
         return [v for v in target.get("sources", []) if "compileGroupIndex" in v]
 
+    def visible_headers(name):
+        if name not in header_usage:
+            if strict and by_name[name].get("type") != "UTILITY":
+                violations.append(f"{name}: missing header-usage target")
+            return set()
+        node = header_usage[name]
+        visible = set(node["headers"])
+        seen = set()
+        pending = list(node["direct"])
+        while pending:
+            dependency = pending.pop()
+            if dependency in seen:
+                continue
+            seen.add(dependency)
+            if dependency not in header_usage:
+                violations.append(f"{name}: unknown compile-usage dependency {dependency}")
+                continue
+            dependency_node = header_usage[dependency]
+            visible.update(dependency_node["interface_headers"])
+            pending.extend(dependency_node["interface"])
+        return visible
+
+    visibility = {v["name"]: visible_headers(v["name"]) for v in targets}
+    if strict:
+        for target in targets:
+            node = header_usage.get(target["name"])
+            if node:
+                actual_headers = {v["path"] for v in target.get("sources", []) if v["path"].endswith(".h")}
+                if not set(node["headers"]) <= actual_headers:
+                    violations.append(f"{target['name']}: header ownership absent from codemodel sources")
+                if not set(node["interface_headers"]) <= set(node["headers"]):
+                    violations.append(f"{target['name']}: exported header has no owning source")
+
     def target_owners(target):
         return {owner(v["path"]) for v in compiled(target)} - {None}
 
-    def visit(target, path, includes, seen):
+    def visit(target, path, includes, seen, defines):
         key = str(path)
         if key in seen:
             return
@@ -97,7 +177,7 @@ def inspect(root, build, targets, contract):
             return
         if key not in text_cache:
             text_cache[key] = path.read_text(encoding="utf-8")
-        for name in re.findall(r'^\s*#\s*include\s*"([^"\r\n]+)"', text_cache[key], re.MULTILINE):
+        for name, active in quoted_includes(text_cache[key], defines, set(contract.get("compile_only_include_guards", []))):
             candidates = set()
             for base in [path.parent, *includes]:
                 supplied = Path(os.path.abspath(base / name))
@@ -121,11 +201,16 @@ def inspect(root, build, targets, contract):
                 violations.append(f"{target['name']}: include case {header_name}; actual {actual}")
             if forbidden(owner(source_name), owner(header_name)):
                 violations.append(f"{target['name']}: forbidden include {source_name} -> {header_name}")
+            if strict and header_name.startswith("source/"):
+                if active and header_name not in visibility[target["name"]]:
+                    violations.append(f"{target['name']}: undeclared header dependency {source_name} -> {header_name}")
+                if path.parent != included.parent and name != header_name[len("source/"):]:
+                    violations.append(f"{target['name']}: unqualified cross-module include {source_name}: {name}")
             resolved.add((target["name"], source_name, name, header_name))
             # Generated project headers are inspected too; SDK/system headers
             # use angle brackets and are qualified by compiler/import evidence.
-            if included.is_relative_to(root) or included.is_relative_to(build):
-                visit(target, included, includes, seen)
+            if active and (included.is_relative_to(root) or included.is_relative_to(build)):
+                visit(target, included, includes, seen, defines)
 
     for target in targets:
         origins = target_owners(target)
@@ -151,7 +236,10 @@ def inspect(root, build, targets, contract):
             if path.suffix.lower() not in {".c", ".cpp", ".cc", ".cxx"}:
                 continue
             includes = [Path(v["path"]) for v in group.get("includes", [])]
-            visit(target, path.resolve(), includes, set())
+            defines = {v["define"].split("=", 1)[0] for v in group.get("defines", [])}
+            for fragment in group.get("compileCommandFragments", []):
+                defines.update(re.findall(r'(?:^|\s)[/-]D(DISKED_[A-Za-z0-9_]+)', fragment["fragment"]))
+            visit(target, path.resolve(), includes, set(), defines)
 
     for name, expected in contract["core_targets"].items():
         target = by_name.get(name)
@@ -194,6 +282,7 @@ def inspect(root, build, targets, contract):
         "targets": {v["name"]: {"sources": [s["path"] for s in compiled(v)],
                                   "build_closure": sorted(by_id[d]["name"] for d in closure(v))} for v in targets},
         "resolved_includes": [dict(zip(("target", "including_file", "include", "resolved_file"), v)) for v in sorted(resolved)],
+        "visible_headers": {name: sorted(values) for name, values in visibility.items()},
         "limits": ["Lexical quoted includes, including conditional branches; not preprocessing.",
                    "Generated build closure includes transitive/order dependencies; not direct links.",
                    "Five core headers and presentation requests.h/session.h have separate compiler self-containment checks.",
@@ -211,7 +300,9 @@ def main():
     root, build = args.root.resolve(), args.build.resolve()
     targets, metadata = load_codemodel(root, build, args.configuration)
     contract = json.loads((root / "spec/catalog/source-maintenance-prototype.json").read_bytes())["build_checks"]
-    result = inspect(root, build, targets, contract)
+    projection = build / "private-header-usage.json"
+    usage = json.loads(projection.read_bytes()) if projection.is_file() else None
+    result = inspect(root, build, targets, contract, usage)
     result["metadata"] = metadata
     if args.output:
         args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")

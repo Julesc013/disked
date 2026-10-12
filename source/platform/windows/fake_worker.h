@@ -1,6 +1,6 @@
 #pragma once
-#include "protocol.h"
-#include "watch.h"
+#include "runtime/command/protocol.h"
+#include "runtime/operation/watch.h"
 namespace disked {
 bool fake_worker_command(const std::string& command);
 Outcome dispatch_fake_worker(const std::string& request,const std::string& command,const json::Value& parameters);

@@ -1,6 +1,6 @@
 #ifndef DISKED_EBR_H
 #define DISKED_EBR_H
-#include "mbr.h"
+#include "portable/mbr/mbr.h"
 #define DE_EBR_LIMIT 128
 typedef struct de_ebr_node { de_u64 lba; de_mbr_table table; } de_ebr_node;
 typedef struct de_ebr_walk {

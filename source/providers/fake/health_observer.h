@@ -1,5 +1,5 @@
 #pragma once
-#include "protocol.h"
+#include "runtime/command/protocol.h"
 namespace disked {
 // Compiled fixture lookup only. No device, self-test, OS worker or file port.
 Outcome fake_health_observation(const std::string& request,const json::Value& node,

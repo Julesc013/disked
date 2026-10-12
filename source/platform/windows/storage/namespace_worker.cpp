@@ -1,6 +1,6 @@
 #include "namespace_worker.h"
 #include "observation_worker.h"
-#include "worker_files.h"
+#include "platform/windows/worker_files.h"
 #include <cstddef>
 #include <cstring>
 #include <set>

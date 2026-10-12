@@ -1,5 +1,5 @@
 #pragma once
-#include "pipeline.h"
+#include "runtime/acquisition/pipeline.h"
 namespace disked { namespace evidence { namespace proposal {
 // Private read-only contract. Matching a recorded map authenticates no actor
 // and does not establish original-source preservation or acquisition consistency.

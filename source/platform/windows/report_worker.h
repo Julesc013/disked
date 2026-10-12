@@ -1,7 +1,7 @@
 #pragma once
-#include "report_operation.h"
-#include "export_commands.h"
-#include "watch.h"
+#include "runtime/evidence/report_operation.h"
+#include "runtime/evidence/export_commands.h"
+#include "runtime/operation/watch.h"
 namespace disked {
 // Private native report-role admission, not a public command ABI. Ordinary
 // acquisition metadata reads and owned report/state writes; no image I/O.

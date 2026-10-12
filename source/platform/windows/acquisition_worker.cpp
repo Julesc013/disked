@@ -1,9 +1,9 @@
 #include "acquisition_worker.h"
-#include "operation.h"
-#include "observation.h"
-#include "commands.h"
+#include "runtime/acquisition/operation.h"
+#include "runtime/acquisition/observation.h"
+#include "runtime/acquisition/commands.h"
 #include "worker_files.h"
-#include "local_file.h"
+#include "providers/image/local_file.h"
 #include "bootstrap_registry.h"
 #include <algorithm>
 #include <memory>

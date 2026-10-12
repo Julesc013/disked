@@ -33,7 +33,7 @@ def main():
     format_files=['source/portable/mbr/mbr.c','source/portable/ebr/ebr.c'] if a.suite=='mbr' else ['source/portable/gpt/encoding.c','source/portable/gpt/gpt.c']
     format_headers=['source/portable/mbr/mbr.h','source/portable/ebr/ebr.h'] if a.suite=='mbr' else ['source/portable/gpt/gpt.h']
     c+=format_files;cpp=['source/runtime/command/json.cpp','tests/unit/'+a.suite+'_probe.cpp']
-    includes=[root/'source/portable/primitives',root/'source/runtime/command']+sorted({(root/f).parent for f in format_headers})
+    includes=[root/'source']
     test='tests/property/test_'+a.suite+'.py'
     sources=c+cpp+['source/portable/primitives/checked.h','source/portable/primitives/view.h','source/portable/primitives/extent.h',*format_headers,'source/runtime/command/json.h',test,'tests/legacy/run_mbr_probes.py']
     identity=dict(source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),

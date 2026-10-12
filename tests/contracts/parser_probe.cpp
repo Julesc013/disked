@@ -1,4 +1,4 @@
-#include "command_registry.h"
+#include "apps/disked/command_registry.h"
 #include <cstdio>
 #include <fcntl.h>
 #include <io.h>

@@ -1,5 +1,5 @@
 #pragma once
-#include "gui_model.h"
+#include "apps/disked/gui/gui_model.h"
 #include <functional>
 
 namespace disked {

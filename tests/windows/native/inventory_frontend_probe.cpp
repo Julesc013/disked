@@ -1,11 +1,11 @@
 #include "inventory_fixture.h"
-#include "inventory_session.h"
+#include "providers/windows/inventory_session.h"
 #include "storage_fixture.h"
 #include "volume_fixture.h"
-#include "session.h"
-#include "gui.h"
-#include "terminal.h"
-#include "memory_budget.h"
+#include "runtime/presentation/session.h"
+#include "platform/windows/ui/gui.h"
+#include "platform/windows/console/terminal.h"
+#include "platform/windows/memory_budget.h"
 #include <algorithm>
 #include <cstdio>
 

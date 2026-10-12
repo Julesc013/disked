@@ -1,6 +1,6 @@
 #pragma once
-#include "inventory_session.h"
-#include "snapshot.h"
+#include "providers/windows/inventory_session.h"
+#include "runtime/graph/snapshot.h"
 #include "storage_fixture.h"
 #include "volume_fixture.h"
 #include <algorithm>

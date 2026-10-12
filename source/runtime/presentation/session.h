@@ -1,6 +1,6 @@
 #pragma once
-#include "snapshot.h"
-#include "protocol.h"
+#include "runtime/graph/snapshot.h"
+#include "runtime/command/protocol.h"
 #include "requests.h"
 
 namespace disked {

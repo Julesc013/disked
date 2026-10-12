@@ -1,5 +1,5 @@
-#include "storage_graph.h"
-#include "namespace_graph.h"
+#include "providers/windows/storage_graph.h"
+#include "providers/windows/namespace_graph.h"
 #include "storage_fixture.h"
 #include "volume_fixture.h"
 #include <cstdio>

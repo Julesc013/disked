@@ -1,5 +1,5 @@
 #include "storage_queries.h"
-#include "snapshot.h"
+#include "runtime/graph/snapshot.h"
 #include <algorithm>
 #include <cstddef>
 #include <limits>

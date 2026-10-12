@@ -1,6 +1,6 @@
 #pragma once
-#include "capture.h"
-#include "namespace_worker.h"
+#include "runtime/graph/capture.h"
+#include "platform/windows/storage/namespace_worker.h"
 
 namespace disked { namespace nt_inventory {
 struct NamespaceGraphBinding {

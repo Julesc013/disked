@@ -1,10 +1,10 @@
-#include "image_observation.h"
-#include "image_collection.h"
-#include "acquisition_export.h"
-#include "file_case.h"
-#include "file_verification.h"
-#include "file_export.h"
-#include "worker_files.h"
+#include "runtime/evidence/image_observation.h"
+#include "runtime/evidence/image_collection.h"
+#include "runtime/evidence/acquisition_export.h"
+#include "providers/report/file_case.h"
+#include "providers/image/file_verification.h"
+#include "providers/report/file_export.h"
+#include "platform/windows/worker_files.h"
 #include "bootstrap_registry.h"
 #include <cstdio>
 #include <cstring>

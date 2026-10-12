@@ -1,5 +1,5 @@
-#include "gpt.h"
-#include "json.h"
+#include "portable/gpt/gpt.h"
+#include "runtime/command/json.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <cstdio>

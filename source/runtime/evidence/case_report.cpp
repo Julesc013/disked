@@ -1,5 +1,5 @@
 #include "case_report.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 
 namespace disked { namespace evidence { namespace proposal {

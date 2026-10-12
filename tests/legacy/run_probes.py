@@ -48,7 +48,7 @@ exe = OUT / 'primitive-probe.exe'
 inputs = [ROOT/'source/portable/primitives/checked.c', ROOT/'tests/legacy/primitive_probe.c']
 if ARGS.suite=='portable':
     inputs=[ROOT/'source/portable/primitives'/name for name in ['checked.c','view.c','extent.c']]+[ROOT/'tests/unit/portable_probe.c']
-include = ROOT/'source/portable/primitives'
+include = ROOT/'source'
 if ARGS.family == 'gcc':
     run('compiler-version', [compiler, '-v'])
     for name in ['cc1','ld']:

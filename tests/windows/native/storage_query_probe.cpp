@@ -1,4 +1,4 @@
-#include "storage_inventory.h"
+#include "providers/windows/storage_inventory.h"
 #include "storage_fixture.h"
 #include <algorithm>
 #include <cstdio>

@@ -1,19 +1,19 @@
-#include "storage_graph.h"
-#include "namespace_graph.h"
+#include "providers/windows/storage_graph.h"
+#include "providers/windows/namespace_graph.h"
 #include "storage_fixture.h"
 #include "volume_fixture.h"
-#include "session.h"
-#include "gui_model.h"
-#include "shell_model.h"
-#include "tui_model.h"
-#include "cli.h"
-#include "memory_budget.h"
+#include "runtime/presentation/session.h"
+#include "apps/disked/gui/gui_model.h"
+#include "apps/disked/shell/shell_model.h"
+#include "apps/disked/tui/tui_model.h"
+#include "apps/disked/cli/cli.h"
+#include "platform/windows/memory_budget.h"
 #if defined(DISKED_NT_INVENTORY_PORT_TESTING)
-#include "inventory_session.h"
+#include "providers/windows/inventory_session.h"
 #endif
 #include <algorithm>
 #if defined(DISKED_NT_IDENTITY_PROJECTION_TESTING)
-#include "storage_identity.h"
+#include "providers/windows/storage_identity.h"
 #endif
 #include <cstdio>
 #include <cstdlib>

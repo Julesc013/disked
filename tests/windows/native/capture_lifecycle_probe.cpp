@@ -1,6 +1,6 @@
-#include "namespace_worker.h"
+#include "platform/windows/storage/namespace_worker.h"
 #include "volume_fixture.h"
-#include "capture.h"
+#include "runtime/graph/capture.h"
 #include <cstdio>
 #include <io.h>
 #include <fcntl.h>

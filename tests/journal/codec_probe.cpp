@@ -1,5 +1,5 @@
-#include "codec.h"
-#include "json.h"
+#include "runtime/journal/codec.h"
+#include "runtime/command/json.h"
 #include <algorithm>
 #include <iostream>
 #include <limits>

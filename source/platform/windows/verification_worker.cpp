@@ -1,8 +1,8 @@
 #include "verification_worker.h"
-#include "file_case.h"
-#include "file_verification.h"
-#include "report_export.h"
-#include "verification_observation.h"
+#include "providers/report/file_case.h"
+#include "providers/image/file_verification.h"
+#include "runtime/evidence/report_export.h"
+#include "runtime/evidence/verification_observation.h"
 #include "worker_files.h"
 #include "bootstrap_registry.h"
 #include <memory>

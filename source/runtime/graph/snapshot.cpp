@@ -1,5 +1,5 @@
 #include "snapshot.h"
-#include "sha256.h"
+#include "portable/hash/sha256.h"
 #include <set>
 
 namespace disked {

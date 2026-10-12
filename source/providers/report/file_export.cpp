@@ -1,5 +1,5 @@
 #include "file_export.h"
-#include "local_file.h"
+#include "providers/image/local_file.h"
 #include <algorithm>
 #include <cstdio>
 

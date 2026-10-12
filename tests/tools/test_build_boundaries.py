@@ -47,7 +47,20 @@ class BoundaryTests(unittest.TestCase):
         }
 
     def inspect(self):
-        return CHECKER.inspect(self.root, self.build, self.targets, self.contract)
+        return CHECKER.inspect(self.root, self.build, self.targets, self.contract, getattr(self, "usage", None))
+
+    def qualified_fixture(self):
+        self.contract["qualified_includes"] = True
+        self.contract["compile_only_include_guards"] = ["DISKED_FIXTURE_GUARD"]
+        header = "source/runtime/command/json.h"
+        self.targets[0]["sources"].append({"path": header})
+        self.usage = {"schema": "org.disked.private-header-usage/1", "targets": {
+            "json": {"headers": [header], "interface_headers": [header], "direct": [], "interface": []},
+            "json_probe": {"headers": [], "interface_headers": [], "direct": ["json"], "interface": []},
+        }}
+        for target in self.targets:
+            target["compileGroups"][0]["includes"] = [{"path": str(self.root / "source")}]
+        self.write("tests/native/json_probe.cpp", '#include "runtime/command/json.h"\n')
 
     def fails(self, text):
         result = self.inspect()
@@ -138,6 +151,84 @@ class BoundaryTests(unittest.TestCase):
         (reply / "index-fixture.json").write_text(json.dumps(index), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "different source"):
             CHECKER.load_codemodel(self.root, self.build, "Release")
+
+    def test_qualified_header_visibility(self):
+        self.qualified_fixture()
+        self.assertEqual(self.inspect()["status"], "PASS")
+
+    def test_bare_cross_module_header_is_rejected_even_if_it_resolves(self):
+        self.qualified_fixture()
+        self.write("tests/native/json_probe.cpp", '#include "json.h"\n')
+        self.targets[1]["compileGroups"][0]["includes"].append({"path": str(self.root / "source/runtime/command")})
+        self.fails("unqualified cross-module include")
+
+    def test_build_dependency_does_not_supply_compile_visibility(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json_probe"]["direct"] = []
+        self.fails("undeclared header dependency")
+
+    def test_private_link_does_not_leak_headers_to_consumer(self):
+        self.qualified_fixture()
+        self.write("source/runtime/presentation/bridge.cpp", "")
+        self.targets.append(self.target("bridge", "source/runtime/presentation/bridge.cpp", ["json"]))
+        self.targets[1]["dependencies"] = [{"id": "bridge"}]
+        self.usage["targets"]["json_probe"]["direct"] = ["bridge"]
+        self.usage["targets"]["bridge"] = dict(headers=[], interface_headers=[], direct=["json"], interface=[])
+        self.fails("json_probe: undeclared header dependency")
+
+    def test_public_interface_supplies_transitive_headers(self):
+        self.qualified_fixture()
+        self.write("source/runtime/presentation/bridge.cpp", "")
+        self.targets.append(self.target("bridge", "source/runtime/presentation/bridge.cpp", ["json"]))
+        self.targets[1]["dependencies"] = [{"id": "bridge"}]
+        self.usage["targets"]["json_probe"]["direct"] = ["bridge"]
+        self.usage["targets"]["bridge"] = dict(headers=[], interface_headers=[], direct=["json"], interface=["json"])
+        self.assertEqual(self.inspect()["status"], "PASS")
+
+    def test_unexported_header_is_private(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json"]["interface_headers"] = []
+        self.fails("json_probe: undeclared header dependency")
+
+    def test_header_ownership_requires_codemodel_source(self):
+        self.qualified_fixture()
+        self.targets[0]["sources"].pop()
+        self.fails("header ownership absent from codemodel sources")
+
+    def test_exported_header_requires_owner(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json"]["headers"] = []
+        self.fails("exported header has no owning source")
+
+    def test_projection_cannot_be_missing(self):
+        self.qualified_fixture()
+        self.usage = None
+        self.fails("Missing current CMake private header-usage projection")
+
+    def test_unknown_usage_target_refuses(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json_probe"]["direct"] = ["missing"]
+        self.fails("unknown compile-usage dependency")
+
+    def test_compile_only_false_guard_does_not_add_dependency(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json_probe"]["direct"] = []
+        self.write("tests/native/json_probe.cpp", '#ifdef DISKED_FIXTURE_GUARD\n#include "runtime/command/json.h"\n#endif\n')
+        self.assertEqual(self.inspect()["status"], "PASS")
+        self.targets[1]["compileGroups"][0]["defines"] = [{"define": "DISKED_FIXTURE_GUARD=1"}]
+        self.fails("undeclared header dependency")
+
+    def test_unknown_guard_stays_conservative(self):
+        self.qualified_fixture()
+        self.usage["targets"]["json_probe"]["direct"] = []
+        self.write("tests/native/json_probe.cpp", '#ifdef DISKED_UNDECLARED_GUARD\n#include "runtime/command/json.h"\n#endif\n')
+        self.fails("undeclared header dependency")
+
+    def test_compile_only_guard_cannot_be_redefined(self):
+        self.qualified_fixture()
+        self.write("tests/native/json_probe.cpp", '#define DISKED_FIXTURE_GUARD 1\n#ifdef DISKED_FIXTURE_GUARD\n#include "runtime/command/json.h"\n#endif\n')
+        with self.assertRaisesRegex(ValueError, "redefined in source"):
+            self.inspect()
 
 
 if __name__ == "__main__":
