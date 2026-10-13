@@ -106,6 +106,17 @@ typedef struct de_exfat_file_set {
     int encoding_valid, name_characters_valid, stream_valid, metadata_valid;
 } de_exfat_file_set;
 
+typedef struct de_exfat_bitmap {
+    de_view raw;
+    de_u32 issues, identifier, first_cluster;
+    de_u64 data_length, minimum_bytes, heap_bytes;
+    int valid;
+} de_exfat_bitmap;
+typedef struct de_exfat_bitmap_interval {
+    de_u32 first_cluster, cluster_count, available, unavailable;
+    de_u64 first_byte, last_byte;
+} de_exfat_bitmap_interval;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -121,6 +132,14 @@ int de_exfat_file_set_read(const de_view *records, de_u32 clusters, unsigned int
                            size_t budget, de_exfat_file_set *out);
 /* Exactly one supplied little-endian cell, never an allocation/free verdict. */
 int de_exfat_cell_read(const de_view *cell, de_u32 clusters, de_u32 index, de_exfat_cell *out);
+/* Supplied descriptor facts, never root cardinality/chain/source qualification. */
+int de_exfat_bitmap_read(const de_view *record, de_u32 clusters, unsigned int cluster_shift,
+                         unsigned int fat_count, de_exfat_bitmap *out);
+/* Exactly requested cluster bits within a bounded supplied bitmap window.
+   API/range/budget errors preserve output and input. No ownership reason. */
+int de_exfat_bitmap_count(const de_view *window, const de_u64 *byte_offset,
+                          const de_u64 *data_length, de_u32 clusters, de_u32 first_cluster,
+                          de_u32 count, de_u32 bit_budget, de_exfat_bitmap_interval *out);
 #ifdef __cplusplus
 }
 #endif

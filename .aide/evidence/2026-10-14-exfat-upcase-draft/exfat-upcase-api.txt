@@ -1,0 +1,24 @@
+#define DE_EXFAT_UPCASE_FORMAT 1UL
+#define DE_EXFAT_UPCASE_CHECKSUM 2UL
+#define DE_EXFAT_UPCASE_COUNT 4UL
+#define DE_EXFAT_UPCASE_ASCII 8UL
+typedef struct de_exfat_upcase {
+    de_u32 length, consumed, expected_checksum, checksum, mapped, pending_identity;
+    de_u32 issues;
+    unsigned int low_byte;
+    int compressed, half_word, need_count, final, valid;
+} de_exfat_upcase;
+typedef struct de_exfat_upcase_step {
+    de_u32 consumed_bytes, first_mapping, emitted_mappings;
+} de_exfat_upcase_step;
+int de_exfat_upcase_init(de_u32 length, de_u32 checksum, int compressed, de_exfat_upcase *out);
+int de_exfat_upcase_feed(de_exfat_upcase *state, const de_view *chunk, de_u32 offset,
+                         de_u32 byte_budget, de_u32 mapping_budget,
+                         unsigned short *mappings, size_t capacity,
+                         de_exfat_upcase_step *step);
+int de_exfat_upcase_finish(de_exfat_upcase *state);
+int de_exfat_name_hash(const unsigned short *mapping, size_t map_count,
+                       const unsigned short *units, size_t count, unsigned short *out);
+int de_exfat_name_equal(const unsigned short *mapping, size_t map_count,
+                        const unsigned short *left, size_t left_count,
+                        const unsigned short *right, size_t right_count, int *out);

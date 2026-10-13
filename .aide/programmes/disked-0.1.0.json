@@ -36,7 +36,7 @@
   ],
   "baseline_owner_accepted": false,
   "implementation_owner_accepted": false,
-  "current_work": "DE-W064",
+  "current_work": "DE-W065",
   "completed_development": [
     "DE-W010",
     "DE-W013",
@@ -53,10 +53,11 @@
     "DE-W063",
     "DE-W057",
     "DE-W058",
-    "DE-W064"
+    "DE-W064",
+    "DE-W065"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Integrate tested/reviewed W058 and W064 checkpoints with runtime/build difference audit, then implement fixed DE-W065 supplied-byte allocation bitmap contract. Full original0.1.0 remains.",
+  "next_action": "Retain tooling terminalresult, integrate reviewed bitmap checkpoint after unchangedsource/build audit, then implement fixedupcase contract and continue original full0.1.0.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1103,6 +1104,15 @@
       "review": ".aide/evidence/2026-10-14-exfat-directory-qualified/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Bitmap/upcase/source/tree/provider and all original platform/storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W065",
+      "scope": "Private supplied-byte exFAT bitmap descriptor and bounded interval availability",
+      "source_revision": "be410d9566ac0ad2b04fa25353a7f5808732ef6d",
+      "evidence": ".aide/evidence/2026-10-14-exfat-allocation-qualified/summary.json",
+      "review": ".aide/evidence/2026-10-14-exfat-allocation-qualified/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Upcase/source/root/activeFAT/tree/provider/host/writer and every original0.1.0gate."
     }
   ],
   "runner_status_observation": {
@@ -1159,21 +1169,27 @@
     "next_action": "Resume incomplete DE-W044 retention patch, then qualify exact native artifacts and continue original programme."
   },
   "last_integration": {
-    "work_id": "DE-W057",
-    "tested_source_revision": "087f95b464670fa03de185d6e98a15e83eaa71dd",
-    "qualification_commit": "548152f679a67b54dbcdf67a4de9d88a76c255d2",
-    "merge_revision": "ed5a091b724c9a4886108af1242b2fbf612192d8",
-    "remote_main": "ed5a091b724c9a4886108af1242b2fbf612192d8",
-    "remote_dev": "548152f679a67b54dbcdf67a4de9d88a76c255d2",
-    "observed_at": "2026-10-13T22:12:55.567891+00:00",
-    "runtime_source_unchanged_from_tested_revision": true,
+    "work_ids": [
+      "DE-W058",
+      "DE-W064"
+    ],
+    "tested_source_revisions": [
+      "1e93836989ea2a9a4e163d0c9644511877455d0e",
+      "44c8b090b709a76b44ad0e349f647950629c447c"
+    ],
+    "qualification_commit": "7d9c1d3857af1dbff12d13b216c09220192a6bee",
+    "merge_revision": "885e62b769b962e8ae2631fa3ccef935eb060193",
+    "remote_main": "885e62b769b962e8ae2631fa3ccef935eb060193",
+    "remote_dev": "7d9c1d3857af1dbff12d13b216c09220192a6bee",
+    "observed_at": "2026-10-13T23:32:05.960836+00:00",
+    "runtime_test_build_unchanged_from_directory_tested_revision": true,
     "owner_accepted": false,
     "release_published": false
   },
   "in_progress_slice": {
-    "work_id": "DE-W064",
-    "base_revision": "f9105a572395729e6081ac1770870ace7d21a2c3",
-    "state": "W058 final qualification and W064 exact focused qualification/agent review retained; original failures and current applicability distinguished. Next bitmap contract planned.",
+    "work_id": "DE-W065",
+    "base_revision": "7d9c1d3857af1dbff12d13b216c09220192a6bee",
+    "state": "W065exactclean2554cases/13groups/1header/C90/import/source/context/localreview pass;242tooling run had2concurrentfreshnessfailures, both passfixed53f5eaa4followup. Bitmapintegration ready; upcasecontract/scratch prepared.",
     "owner_accepted": false
   },
   "w058_final_qualification": {

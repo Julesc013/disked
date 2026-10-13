@@ -6009,7 +6009,7 @@
       "id": "DE-W065",
       "title": "Observe bounded supplied-byte exFAT allocation bitmaps",
       "phase": "M2",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W064"
@@ -6085,6 +6085,98 @@
         "spec/catalog/exfat-reader-prototype.json",
         "source/portable/exfat/exfat.h",
         "source/portable/exfat/boot.c",
+        "source/portable/exfat/directory.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/portable/exfat/allocation.c",
+        "tests/unit/exfat_allocation_probe.cpp",
+        "tests/property/test_exfat_allocation.py"
+      ]
+    },
+    {
+      "id": "DE-W066",
+      "title": "Validate volume-specific exFAT upcase mappings and name comparison",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W065"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "source/portable/exfat/**",
+        "tests/images/**",
+        "tests/legacy/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tools/check-build-boundaries.py",
+        "spec/catalog/source-maintenance-prototype.json",
+        "tests/tools/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 supplied-byte upcase descriptor, streaming checksum/mapping decoder and exact volume-mapped name hash/comparison. Preserve the original full platform/storage0.1.0 programme; no hostIO, root/chain/source authority, normalization, mount or writer admission.",
+        "Existing portable/exfat/exfat.h and new upcase.c, reusing checked/view. Caller-owned bounded state and optional map output; no host locale or duplicated universal name framework.",
+        "Exactly32borrowed bytes decode in-use82entry, raw TableChecksum, FirstCluster and DataLength with supplied clusterCount1..2^32-11 and clusterbyteshift9..25. Validate nonzero evenlength within heap and format mapping bound, valid firstcluster2..clusterCount+1; preserve reserved bytes as advisory. No root uniqueness or backing-chain claim.",
+        "Caller initializes decoder with exact declared byte length, expected32bit checksum and explicit compressed or uncompressed representation. Bound input to131072rawbytes, enough for all65536uncompressed16bit mappings. Feed borrowed chunks at exact monotonic offsets with per-call byte work budget, carrying split16bitword and compressed-run state across chunks. Reject invalid/capacity/budget/offset calls without changing state/output/input. Malformed content latches explicit issues without inventing mappings. Finalize only at exactlength; verify rotate-right/add modulo2^32checksum over every original byte and exactly65536codeunit mappings. No format selection from ambiguous content; caller selects and records representation.",
+        "In compressed mode, FFFF followed by a nonzero16bitcount describes that many identity mappings when current codeunit is belowFFFF. LiteralFFFFat final codeunit is a mapping, not a marker requiring another word. Missing/zero/runoverflow/extra/short mappings are issues. In uncompressed mode everyword, includingFFFF, is a literal mapping. Verify mandatory0..127mappings: lowercaseASCII maps to uppercase and otherASCII maps to itself. Every other mapping comes from supplied volume bytes, never the host Unicode version.",
+        "Caller may supply an array of65536unsignedshort mapping slots or request validation-only. The map is unpublished/untrusted until final checksum, exactlength/count and mandatory mappings pass. Streaming output is provisional and may include prefixes on media failure; API errors preserve state and output. Each feed checks remaining output capacity before changing it. Preserve original compressed bytes separately; decoded map is not serialized ABI, source freshness or writer authority.",
+        "After valid final mapping, hash originalUTF16unit names1..255 by upcasing eachunit with that exactmap and applying16bit rotate/add over lowbyte then highbyte. Compare every mappedunit after checking equal lengths; a matching hash never substitutes for full comparison. Preserve original units; no surrogate interpretation, trimming, NFC, path conversion or output normalization. Caller binds map/descriptor/source/epoch externally and cannot claim current lookup or directory uniqueness from this purecomparison alone."
+      ],
+      "acceptance": [
+        "Independent Python descriptor/checksum/mapping oracle for uncompressed and compressed customtables, mandatoryASCII, all65536codeunits and finalFFFFliteral; exact raw byte/count/length bounds.",
+        "Every streaming split at word/run boundaries, onebytechunks, zero/missing/overflowruns, truncated/extra/ambiguousrepresentation, rehashed malformedtables and unchangedstate/output on API/offset/budget/capacityrefusal.",
+        "Independent namehash/fullcomparison for lengths1..255, nonASCIIvolume-specificmaps, surrogateunits, hashcollisionpairs and sameoriginal/differentmap cases; no normalization or hash-only equality.",
+        "Read-only/protectedtail chunks and caller-output capacity; strictC90/native/header/import/source/context/artifact and relevant exFAT/FAT/GPT regressions, exact fresh/prior evidence scope. No source-bound global lookup or writer/fullrelease admission."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-upcase-prototype.json",
+        "spec/catalog/exfat-directory-prototype.json",
+        "spec/catalog/exfat-allocation-prototype.json",
+        "source/portable/exfat/exfat.h",
         "source/portable/exfat/directory.c",
         "source/portable/primitives/checked.h",
         "source/portable/primitives/view.h",
