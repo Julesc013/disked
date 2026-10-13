@@ -367,4 +367,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W065 local exact qualificationbe410d95:2554oraclecases/4methods,13freshnativegroups,1header/C90/import/source/context and localreview. Toolingresult pending; upcase/source/tree/provider/fullrelease remain.
 
-- [ ] DE-W066 planned: exactvolume compressed/uncompressed upcase checksum/mapping and fullmapped name comparison; expected contract precedes implementation. Source/root/chain/namespace/provider/fullrelease gates remain.
+- [ ] DE-W066 active: privateC90 upcase descriptor/stream/mapping/hash/fullcomparison implemented;244scenarios/9methods and13focused nativegroups pass. Exactclean/tooling/import/review remain; source/root/chain/namespace/provider/fullrelease gates open.

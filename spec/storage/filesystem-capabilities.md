@@ -119,7 +119,11 @@ Compressed and uncompressed decoding remain explicitly selected representations;
 all names retain original units. NameHash narrows search but never establishes
 equality without comparing the full volume-mapped units. Root/chain/source/epoch
 binding and coherent directory uniqueness remain later runtime qualification.
-This expected contract precedes implementation; upcase/native tests are not_run.
+The private C90 descriptor/stream/mapping/hash/fullcomparison is implemented.
+Working checks pass244scenarios/9methods and13focusednativegroups, including
+independent complete-map/checksum/namecomparison and protected/read-only output
+capacity checks. Exactclean/source/import/context/tooling qualification and local
+review remain; these facts do not establish source-bound lookup or uniqueness.
 
 ## DE-W025 supplied-byte FAT allocation reader
 

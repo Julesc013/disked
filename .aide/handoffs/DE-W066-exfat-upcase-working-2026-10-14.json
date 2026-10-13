@@ -1,0 +1,165 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W066",
+  "base_revision": "d24b8af9eebcabc190744a001e89010c4aa0c197",
+  "spec_manifest_digest": "sha256:0ff3dc48606b48851afcb72c8d75e9d402db22e876bbf9392b1d6562af2a7956",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-upcase-prototype.json",
+    "source/portable/exfat/exfat.h",
+    "source/portable/primitives/checked.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-upcase-working/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/dependents.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/exfat-upcase-cases.json",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/headers.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/imports.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build-expanded.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build-final.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-c90.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-check-final.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-configure.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-context-final.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-index-final.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-expanded.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-final.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-first.log",
+    ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-verify-manifest.log",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/source-map.md",
+    "source/portable/exfat/exfat.h",
+    "source/portable/exfat/upcase.c",
+    "spec/catalog/exfat-upcase-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json",
+    "tests/property/test_exfat_upcase.py",
+    "tests/unit/exfat_upcase_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Privateupcase descriptor/stream/map/hash/fullcomparison implemented.244scenarios/13nativegroups,final2groups,C90/header/import/protected checks pass. Exactclean/tooling/localreview remains; workrecord stalebound reconciled with owningcontract.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.exfat_allocation|portable.exfat_allocation_guard|portable.exfat_upcase|portable.exfat_upcase_guard|portable.fat|portable.fat_guard|portable.gpt|portable.gpt_guard|build.boundaries)$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-expanded.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^portable.exfat_upcase(_guard)?$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-final.log"
+    },
+    {
+      "command": "DE-W066exactcleanqualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/dependents.log",
+      "sha256": "sha256:4ada3d5802a4170221d886a539311bb1ef9b7c9d6561fdf635d4223d3f381a6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/exfat-upcase-cases.json",
+      "sha256": "sha256:94e711b0a697fc44bd282cf27058654a20d5fe898123083177970e7114b439da"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/headers.log",
+      "sha256": "sha256:f73568142e4304e46b4d120e6d13270c7182620716dc383c66acb3965250065e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/imports.log",
+      "sha256": "sha256:7ea993645e00c8e1ae1af38c1980e7f1732dd965a7e3c80de56240da74336181"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/README.md",
+      "sha256": "sha256:337a486393c7da9a040e3240b3f56104ccd4e9689d89af82619542c53ab5bccf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/summary.json",
+      "sha256": "sha256:38f6d2f3029c7f1042bd823d1443add3e531a5e33d3153c65fd03eb576564971"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build-expanded.log",
+      "sha256": "sha256:4344ade6f642612e3fc758dd06b96e429f33c4bda306e0fbcf90f8e7ceb286f2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build-final.log",
+      "sha256": "sha256:a6b24faefcfe7fb90393445d5cb444d4285e5ac92e038d70362f169d67d451c2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-build.log",
+      "sha256": "sha256:c549874b4d1f44164542c9938bb85ff29634ec2da9e1c38c848b490cdbf2fc0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-check-final.log",
+      "sha256": "sha256:5ab5225cd737d09d3864208fb3cd13bea9d7ed9878c514c816c4e9a3a38c0e93"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-configure.log",
+      "sha256": "sha256:6ab2aab2eda2e46fe014a992fadef6a986fc0fe3c7df3ff63d98baeba2180464"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-context-final.log",
+      "sha256": "sha256:0dbef1415ede480d2e588dde2fff72ea6e7a0c0c2e3e6b17c2f2fb579a7f8a36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-index-final.log",
+      "sha256": "sha256:bc64a6c94299433e5576fb12c4e6b2ddac68a4d270d0d8b4b16a63807f665e36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-manifest.log",
+      "sha256": "sha256:e86dc0bb6d7e5e57b2d10c3aa14d3ed50020bb02aa82dd4f16e0e596e6ca462f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-expanded.log",
+      "sha256": "sha256:4dffea22a21fb5df6234e32e0c86824a52ad7b708946171d12685866a75c4382"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-final.log",
+      "sha256": "sha256:9e6baccd9b96b6f321dd05c625328c83986b2799783cab0a55c9682349117aab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-native-first.log",
+      "sha256": "sha256:4ec7f61f91d3b32aedcdaea4d6a22fddb6469fcb8d9f87dc489e300bcbe13de2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/upcase-verify-manifest.log",
+      "sha256": "sha256:78866b5284050ee15fcbcf41f70e9bfdc5d1f687dd84e0f71b31e5939aa9de50"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-upcase-working/working-inputs.json",
+      "sha256": "sha256:25190f14a941e9e01f7ea1f983595f14d3265ffcc3081eb86eb0596de7f4fd55"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit fixedsource checkpoint, run exactsourceupcase13+2regressions/header/import/context and requiredtooling withoutconcurrentinputedits; audit4criteria/localreview then integrate testedcheckpoint. Continue coherent source/root/chain/bitmap/tree/provider originalfull0.1.0 and separateauthoritygates.",
+  "performed_remote_writes": false
+}
