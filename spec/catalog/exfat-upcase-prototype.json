@@ -1,0 +1,28 @@
+{
+  "schema": "org.disked.exfat-upcase-profile/1",
+  "work_id": "DE-W066",
+  "status": "expected-before-implementation",
+  "base_revision": "be410d9566ac0ad2b04fa25353a7f5808732ef6d",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+  "scope": "Private C90 supplied-byte upcase descriptor, streaming checksum/mapping decoder and exact volume-mapped name hash/comparison. Preserve the original full platform/storage0.1.0 programme; no hostIO, root/chain/source authority, normalization, mount or writer admission.",
+  "ownership": "Existing portable/exfat/exfat.h and new upcase.c, reusing checked/view. Caller-owned bounded state and optional map output; no host locale or duplicated universal name framework.",
+  "descriptor": "Exactly32borrowed bytes decode in-use82entry, raw TableChecksum, FirstCluster and DataLength with supplied clusterCount1..2^32-11 and clusterbyteshift9..25. Validate nonzero evenlength within heap and format mapping bound, valid firstcluster2..clusterCount+1; preserve reserved bytes as advisory. No root uniqueness or backing-chain claim.",
+  "stream": "Caller initializes decoder with exact declared byte length, expected32bit checksum and explicit compressed or uncompressed representation. Uncompressed input is exactly131072bytes. Bound compressed input to262144rawbytes: each of65536mappings may use at most a marker/count pair, with no zero-length runs. Feed borrowed chunks at exact monotonic offsets with per-call byte work budget, carrying split16bitword and compressed-run state across chunks. Reject invalid/capacity/budget/offset calls without changing state/output/input. Malformed content latches explicit issues without inventing mappings. Finalize only at exactlength; verify rotate-right/add modulo2^32checksum over every original byte and exactly65536codeunit mappings. No format selection from ambiguous content; caller selects and records representation.",
+  "compression": "In compressed mode, FFFF followed by a nonzero16bitcount describes that many identity mappings when current codeunit is belowFFFF. LiteralFFFFat final codeunit is a mapping, not a marker requiring another word. Missing/zero/runoverflow/extra/short mappings are issues. In uncompressed mode everyword, includingFFFF, is a literal mapping. Verify mandatory0..127mappings: lowercaseASCII maps to uppercase and otherASCII maps to itself. Every other mapping comes from supplied volume bytes, never the host Unicode version.",
+  "outputs": "Caller may supply mapping output slots for each feed or request validation-only, consuming provisional prefixes into a bounded exact65536unit map. Per-call mapping work budget bounds identity-run expansion separately from input bytes; pending runs may drain with emptyinput. The map is unpublished/untrusted until final checksum, exactlength/count and mandatory mappings pass. Streaming output may include prefixes on media failure; API errors preserve state and output. Each feed preflights required output capacity/budgets before changing it. Preserve original compressed bytes separately; decoded map is not serialized ABI, source freshness or writer authority.",
+  "names": "After valid final mapping, hash originalUTF16unit names1..255 by upcasing eachunit with that exactmap and applying16bit rotate/add over lowbyte then highbyte. Compare every mappedunit after checking equal lengths; a matching hash never substitutes for full comparison. Preserve original units; no surrogate interpretation, trimming, NFC, path conversion or output normalization. Caller binds map/descriptor/source/epoch externally and cannot claim current lookup or directory uniqueness from this purecomparison alone.",
+  "acceptance": [
+    "Independent Python descriptor/checksum/mapping oracle for uncompressed and compressed customtables, mandatoryASCII, all65536codeunits and finalFFFFliteral; exact raw byte/count/length bounds.",
+    "Every streaming split at word/run boundaries, onebytechunks, zero/missing/overflowruns, truncated/extra/ambiguousrepresentation, rehashed malformedtables and unchangedstate/output on API/offset/budget/capacityrefusal.",
+    "Independent namehash/fullcomparison for lengths1..255, nonASCIIvolume-specificmaps, surrogateunits, hashcollisionpairs and sameoriginal/differentmap cases; no normalization or hash-only equality.",
+    "Read-only/protectedtail chunks and caller-output capacity; strictC90/native/header/import/source/context/artifact and relevant exFAT/FAT/GPT regressions, exact fresh/prior evidence scope. No source-bound global lookup or writer/fullrelease admission."
+  ],
+  "later_gates": [
+    "Root descriptor/cardinality, FAT bitmap/upcase chains, active source/capture/epoch and retained mapping identity before current name lookup.",
+    "Coherent paged directory/tree collection, namespace collision observation, filecontent mapping and ValidDataLength zero filling before extraction.",
+    "Provider/worker/frontend/consumer and all original platform/storage, production recovery/writer/privilege/release gates."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false
+}

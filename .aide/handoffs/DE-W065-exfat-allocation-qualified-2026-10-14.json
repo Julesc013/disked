@@ -1,0 +1,357 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W065",
+  "base_revision": "be410d9566ac0ad2b04fa25353a7f5808732ef6d",
+  "spec_manifest_digest": "sha256:305e6ecd0fecf97c1671081498f8a390e11c78cc0b11b27d574d8cb6be4a886b",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-allocation-prototype.json",
+    "source/portable/exfat/allocation.c"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/README.md",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/REVIEW.md",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/artifact-identities.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/build.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/c90.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/changes-from-prior-regression.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/checkout.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/clone.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/commands.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/configure.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/context.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/criteria-audit.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/current-stage.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/dependents.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-cases.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-tooling.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-check.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-index.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-verify-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-cases.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-directory-cases.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-upcase-contract-context.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/final-source-status.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/headers.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/imports.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/index.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/inventory.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/manifest.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/native.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/private-header-usage.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/reproduce.py",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-inputs.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-map.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-status.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/spec-check.log",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/summary.json",
+    ".aide/evidence/2026-10-14-exfat-allocation-qualified/verify-context.log",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-allocation-prototype.json",
+    "spec/catalog/exfat-upcase-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Exact bitmap13native/2554cases/1header/C90/import/context and localcriteria/review pass. Tooling242run/2skips failed2freshness/determinism checks while inputs changed concurrently; failures retained, fixed-source follow-up required. Upcase expectedcontract and scratch draft prepared without runtime promotion.",
+  "tests": [
+    {
+      "command": "git clone --local --no-hardlinks --no-checkout D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/clone.log"
+    },
+    {
+      "command": "git checkout --detach be410d9566ac0ad2b04fa25353a7f5808732ef6d",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/checkout.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-status.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build --config Release --target bootstrap_registry exfat_allocation_probe exfat_directory_probe exfat_probe disked_exfat_headers fat_directory_probe fat_probe gpt_probe --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/build.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build -C Release -R ^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.exfat_allocation|portable.exfat_allocation_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries)$ --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/native.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -std=c90 -pedantic-errors -Wall -Wextra -Werror -I source -fsyntax-only source/portable/exfat/allocation.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/c90.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/spec-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W065 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\context --byte-budget 950000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/verify-context.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/dependents.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/final-source-status.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/.gitattributes",
+      "sha256": "sha256:29e927e72eb85cfecbc3ae6b4639caed72e2c5660f5b55756473e6aba899d10b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/artifact-identities.json",
+      "sha256": "sha256:a076cba647cb893b7a976a69ad7a4309c9cf5008abb4e58e3c50f4103a5d4915"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/build.log",
+      "sha256": "sha256:df20405bf12fce2e6866cf2aafc67d0384368301ac6a30933ab468c14a9f1af8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/changes-from-prior-regression.json",
+      "sha256": "sha256:c622b74616e1f7f6e5da06f0ce903f890ea19c8116594636dd4039fc14db580f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/checkout.log",
+      "sha256": "sha256:4dd1077729218963cd46db40182cc9757dcf9e60b7f825e05c1f531367ad8008"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/clone.log",
+      "sha256": "sha256:c91691d3c1e9736cfab46a85e9b50f47636310a3aeb912316b701a876f8efe9f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/commands.json",
+      "sha256": "sha256:bbcbbe043fff46bd7e30235a8c49f6620d65df03a51571f1fa8cdadfaf98c408"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/configure.log",
+      "sha256": "sha256:8c9114f5995f00eeb4a5d2bcda6ab785ae86bbf2c23eb9a14e8d0a109835d5e2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/context-manifest.json",
+      "sha256": "sha256:5c323f43cbe8a0a264981642a52f54422f00d0e7d22cbc24b91ea122c491cd1b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/context.log",
+      "sha256": "sha256:14812d9d36c50e6f2901bc78d699d64ca043b2981e1272d385e2052941be5f6e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/criteria-audit.json",
+      "sha256": "sha256:eae5a484a2366e4fa9d9a27c802a61ec88214788a1e6f707cf35187271ef66f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/current-stage.json",
+      "sha256": "sha256:1b3c9fe64f995110d7b0cbcb33b827d523fdf0c7203de16a38b5b111d479776f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/dependents.log",
+      "sha256": "sha256:d04d74a8ad8a39d66eac167b3f1d7df499935bd151da16f20f0f7b93d3e7224e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-cases.json",
+      "sha256": "sha256:0cad3f816092415e5f954899dd2c015780098b758f122f2bf7f1fc09e64ff557"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-tooling.log",
+      "sha256": "sha256:6c4951c9fcf2b7b006f2ffa658a33f206725fc639a860183087092933cb4bff8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-check.log",
+      "sha256": "sha256:5ab5225cd737d09d3864208fb3cd13bea9d7ed9878c514c816c4e9a3a38c0e93"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-index.log",
+      "sha256": "sha256:bc64a6c94299433e5576fb12c4e6b2ddac68a4d270d0d8b4b16a63807f665e36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-manifest.log",
+      "sha256": "sha256:d2b744cfe09ef4c55d075af536e4d617d4c511d00cf7092301ccaed2f81c4e11"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-verify-manifest.log",
+      "sha256": "sha256:39476252018905683fb0e7a72e12f1a27cf5e252d6f11032bfe6f6c44cb33140"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-cases.json",
+      "sha256": "sha256:fd6907121398a6778a6dfbf3daf4366bd9a1c786f04dd37bcefd21e3270d179c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-directory-cases.json",
+      "sha256": "sha256:62dec10e093dde07be7e055fa74f549c824bd7ee125b45fa3654c89b9dfa4b36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-upcase-contract-context.log",
+      "sha256": "sha256:a1485cc91248f9210989ee841ebf7733ea16ab6df001d17fd5e0afbdfe9d053a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/final-source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/headers.log",
+      "sha256": "sha256:2c56550bef77b4812a704a7304a64d858be24c49c13df3bf46b913ecae4031ac"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/imports.log",
+      "sha256": "sha256:f6fc9690c7e6564fb76f749e4b937a3addcb31a592a97ec2556e9f5a82de5243"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/index.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/manifest.log",
+      "sha256": "sha256:7f0119a7cd31dae6828e6180921ccca71cf3751b1fe9a06f921f2a6bda9b9fd5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/native.log",
+      "sha256": "sha256:4fd04faba8820049b9f4916b3012165479b7fa9a5ffbbf04dcabd85abf073ffc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/private-header-usage.json",
+      "sha256": "sha256:7e298ec419dce67b43e1766b8520d3a63270a0dbb7770a8d9a2b9fdf92174470"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/README.md",
+      "sha256": "sha256:38db6f526b239db7fe176ce9fcbcd1b379ed2e5e5557ad290bb311c657d5f02b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/reproduce.py",
+      "sha256": "sha256:3b053c057c50066523070d63c8db42e7f4e595680a8050dab2b510dd552f06f2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/REVIEW.md",
+      "sha256": "sha256:1923902ea449c0f806688914563321676ecf9e0df920420f6480979c9f06d110"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-inputs.json",
+      "sha256": "sha256:38d6ace69c4a59cb8309bec9c047b067d29756ec3363299e91ad3163ef473a95"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-map.log",
+      "sha256": "sha256:8bc0607479358ca0cd9be640738bcfc573399fbc22856af3c5ea05ae96bf4f96"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/spec-check.log",
+      "sha256": "sha256:83260b178c6af503e78a679648d08cae28c1a21113da802bce1500c8f9097b23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/summary.json",
+      "sha256": "sha256:787d84f1f0647a916288e1e6f9c5ac49a82117bdef80924c39abe8eefd1475bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-allocation-qualified/verify-context.log",
+      "sha256": "sha256:93b4af4e0b50b93933944ec30688c04429e24f2adc09af48aeb716649f0667f6"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit fixedsource checkpoint and rerun the2affectedtooling checks in exactcheckout, preserving originalfailure. Then integrate reviewed unchanged bitmap runtime/tests/build to main; implement/test fixed volumeupcase contract and original full0.1.0 remains.",
+  "performed_remote_writes": false
+}

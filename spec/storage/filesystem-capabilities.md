@@ -106,8 +106,20 @@ ownership remain runtime gates; reserved tail bits do not enter interval counts.
 Upcase validation and full name comparison remain required before lookup claims.
 The private C90 descriptor/interval decoder is implemented. Working checks pass
 2554independent cases/4methods and11focused native groups, including read-only/
-protected bounds. Exact clean-source qualification and local review remain;
+protected bounds. Exact clean-source `be410d95` qualification passed13fresh
+native groups, oneheader and C90/import/source/context plus localreview. Tooling
+freshness checks need a fixed-source follow-up after concurrent specification edits;
 these supplied-byte counts do not establish current free-space or ownership.
+
+## DE-W066 volume-specific upcase and names
+
+The [upcase contract](../catalog/exfat-upcase-prototype.json) binds original
+table bytes/checksum, complete code-unit mappings and mandatory ASCII behavior.
+Compressed and uncompressed decoding remain explicitly selected representations;
+all names retain original units. NameHash narrows search but never establishes
+equality without comparing the full volume-mapped units. Root/chain/source/epoch
+binding and coherent directory uniqueness remain later runtime qualification.
+This expected contract precedes implementation; upcase/native tests are not_run.
 
 ## DE-W025 supplied-byte FAT allocation reader
 

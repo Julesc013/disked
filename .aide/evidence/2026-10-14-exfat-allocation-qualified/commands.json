@@ -1,0 +1,258 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.604,
+    "log": "clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "be410d9566ac0ad2b04fa25353a7f5808732ef6d"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 113.943,
+    "log": "checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.937,
+    "log": "source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 13.576,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build",
+      "--config",
+      "Release",
+      "--target",
+      "bootstrap_registry",
+      "exfat_allocation_probe",
+      "exfat_directory_probe",
+      "exfat_probe",
+      "disked_exfat_headers",
+      "fat_directory_probe",
+      "fat_probe",
+      "gpt_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 16.538,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build",
+      "-C",
+      "Release",
+      "-R",
+      "^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.exfat_allocation|portable.exfat_allocation_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries)$",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 36.853,
+    "log": "native.log"
+  },
+  {
+    "name": "c90",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-std=c90",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "source",
+      "-fsyntax-only",
+      "source/portable/exfat/allocation.c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.13,
+    "log": "c90.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 3.68,
+    "log": "spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.353,
+    "log": "index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.172,
+    "log": "manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.134,
+    "log": "source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W065",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\context",
+      "--byte-budget",
+      "950000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 3.543,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 5.178,
+    "log": "verify-context.log"
+  },
+  {
+    "name": "headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.095,
+    "log": "headers.log"
+  },
+  {
+    "name": "imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "imports.log"
+  },
+  {
+    "name": "dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\build\\Release\\exfat_allocation_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.178,
+    "log": "dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-allocation-exact-be410d95\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.103,
+    "log": "final-source-status.log"
+  }
+]
