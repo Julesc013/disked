@@ -17,6 +17,7 @@
 - [compositions.json](compositions.json)
 - [concepts.json](concepts.json)
 - [decisions.json](decisions.json)
+- [exfat-reader-prototype.json](exfat-reader-prototype.json)
 - [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
 - [fat-allocation-scan-prototype.json](fat-allocation-scan-prototype.json)

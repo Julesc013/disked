@@ -5818,6 +5818,85 @@
         "spec/tools/tests/test_recursive_event_semantics.py",
         "spec/schemas/fat-recursive-response-prototype.schema.json"
       ]
+    },
+    {
+      "id": "DE-W058",
+      "title": "Decode bounded supplied-byte exFAT boot and allocation metadata",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020",
+        "DE-W057"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "source/portable/exfat/**",
+        "tests/images/**",
+        "tests/legacy/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 borrowed supplied-byte exFAT1.00 boot region/geometry/allocation cells; no host IO, mount, traversal, repair, writer or product dispatch. Preserve full all-platform/storage0.1.0 programme.",
+        "Caller supplies one bounded12-sector region and separately available volume bytes. Decode exact raw fields, main/backup role, issues and usability. No native64 type, allocation proportional to geometry or host callback. Invalid call/overlong view preserves output; truncated metadata returns observation with explicit issues.",
+        "Recognize exact signature/jump/name/zero prefix; validate revision1.00 profile, one/two FAT structural flags without asserting TexFAT transactions, percent0..100/255, root/data/table ranges and checked u64 byte conversions. FAT length enough for clusterCount+2 four-byte cells; cluster count exactly min(floor((volumeLength-heapOffset)/clusterSectors),2^32-11). No usable geometry unless complete checksum and required field constraints pass. Backup flag/percent facts explicitly stale.",
+        "Independent32bit rotate-right-one/add byte modulo2^32 over11 sectors, omit byte106/107/112 only in boot sector. Every32bit word of sector11 must match. Extended-sector signatures and reserved-sector bytes have separate issues; undefined OEM/boot/excess bytes retain raw bytes and enter checksum.",
+        "Supplied4byte cells classify headers, next within cluster bounds, bad/end and raw invalid/free/unallocated observations. The allocation bitmap is authoritative for allocated/free state and remains unimplemented; a zero FAT cell alone proves no free allocation. No FAT-chain or NoFatChain support claim yet."
+      ],
+      "acceptance": [
+        "Independent Python integer/byte/checksum geometry oracle with sector512/1024/2048/4096, single/twoFAT, main/backup, min/max/u64overflow and exact region boundaries.",
+        "Truncation and inaccessible-tail/overlong views preserve output/bounds; mutations with recomputed checksum still reject contradictory geometry/version/flags/root/table.",
+        "All checksum words, excluded mutable fields, OEM/extended/reserved bytes and unchanged caller input verified; twoFAT does not qualify TexFAT switching.",
+        "Exact native compiler/header/import/artifact and regression evidence; no filesystem health, physical/provider/frontend/other-host/full0.1.0 qualification."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-reader-prototype.json",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/view.c",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

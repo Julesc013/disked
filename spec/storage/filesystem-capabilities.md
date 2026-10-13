@@ -53,6 +53,18 @@ Every filesystem/media capability MUST bind exact operation and feature predicat
 
 **Verification:** Present known format with an unknown critical feature, a tape target and a consumer-incompatible format request; refuse the affected action without hiding inspection.
 
+## DE-W058 supplied-byte exFAT metadata
+
+After local DE-W057 qualification, the [exFAT reader contract](../catalog/exfat-reader-prototype.json)
+defines the next bounded format capability. Its expected boot-region/geometry/
+checksum and allocation-cell observations use the existing C90 checked byte
+layer. Main/backup provenance, exact raw values and unsupported features remain
+separate. The official [Microsoft exFAT specification](https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification)
+owns format semantics; this private contract owns implementation limits and tests.
+Implementation and native tests are not yet run. Allocation bitmap, upcase table,
+directory sets, traversal, provider/frontend and actual host/storage qualification
+remain subsequent capabilities. No mount, TexFAT transaction or writer claim follows.
+
 ## DE-W025 supplied-byte FAT allocation reader
 
 The [private FAT profile](../catalog/fat-reader-prototype.json) defines bounded
