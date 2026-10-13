@@ -32,6 +32,9 @@ public:
     void launch();bool never_launched() const;
     json::Value observe(DWORD wait_ms=0);void release();void cancel();
     json::Value retire(DWORD wait_ms=2000);bool wait_entered(DWORD wait_ms);
+    // Immutable private launch binding for a compiled payload adapter. Its
+    // lifetime is this owned session; it grants no source or mutation authority.
+    const json::Value& binding() const;
 };
 int observation_worker_role(int,wchar_t**,const ObservationWorkerProfile&,const ObservationFactory&);
 int observation_worker_role(int,wchar_t**,const ObservationWorkerProfile&,const PayloadObservationFactory&);

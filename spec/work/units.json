@@ -5302,6 +5302,105 @@
         "tests/unit/fat_traversal_probe.cpp",
         "tools/build-inputs.json"
       ]
+    },
+    {
+      "id": "DE-W054",
+      "title": "Stream held-file FAT directory pages through an owned worker",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W053"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-031",
+        "DE-037",
+        "DE-103"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Held ordinary-local-file FAT tree paging and owned unprivileged process transport, reusing the qualified runtime traversal and existing ObservationWorker host. Complete large trees stream through bounded per-page memory rather than one enlarged final snapshot. No physical I/O, source writes, public dispatch, extraction or installation.",
+        "Reuse ObservationWorker process pinning, anonymous inheritance, startup gate, jobs, memory/shared worker budgets, cancellation and exit-only retirement. One compiled2MiB anonymous payload slot uses explicit producer/publication/consumer/acknowledgement states. Child cannot overwrite a page until the parent has copied and verified it. Total tree size is not capped by that slot. Parent retains bounded state and last immutable page; callers may retain their copies. Final publication binds page count and last digest; it is separate from actual exit."
+      ],
+      "acceptance": [
+        "Actual held ordinary FAT12/16/32 images with full source-byte preservation, lossless large-tree reconstruction beyond8MiB aggregate publication, nonzero/conflicting copy selection, page budgets and long-name continuity.",
+        "Actual owned normal/fault Windows children, independent parent replay, ordered page hashes/contexts, immutable retained pages, cancellation/hangs/late publication and confirmed process exit. No whole-tree payload cap or raised host budget.",
+        "Stale source/path/sharing/reparse/hardlink/resource and pre/post-spawn refusal; altered frame/page/regions/checks/digest/source/process/code/request/epoch claims rejected. Native reread and generation disagreement remain typed partial observations.",
+        "Exact clean native build, source-map/header/dependency/import/context/tooling/manifest and all existing native regressions. Owner/public/provider admission, physical/power-loss/other hosts and the unchanged full0.1.0 remain unqualified."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        ".aide/evidence/2026-10-13-fat-tree-file/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-tree-file/reproduce.py",
+        "AGENTS.md",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "docs/fat-tree-file.md",
+        "docs/source-map.md",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/storage/fat_tree_worker.cpp",
+        "source/platform/windows/storage/fat_tree_worker.h",
+        "source/platform/windows/storage/fat_worker.cpp",
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/worker_files.h",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_snapshot.cpp",
+        "source/providers/image/fat_snapshot.h",
+        "source/providers/image/fat_tree_file.cpp",
+        "source/providers/image/fat_tree_file.h",
+        "source/providers/image/fat_tree_snapshot.cpp",
+        "source/providers/image/fat_tree_snapshot.h",
+        "source/providers/image/local_file.cpp",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_traversal.cpp",
+        "source/runtime/capture/fat_traversal.h",
+        "spec/catalog/fat-traversal-prototype.json",
+        "spec/catalog/fat-tree-file-prototype.json",
+        "spec/catalog/fat-worker-prototype.json",
+        "tests/images/fat_tree_file_probe.cpp",
+        "tests/images/fat_worker_probe.cpp",
+        "tests/images/test_fat_traversal.py",
+        "tests/images/test_fat_tree_file.py",
+        "tests/images/test_fat_worker.py",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

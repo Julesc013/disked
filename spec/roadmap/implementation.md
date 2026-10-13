@@ -333,3 +333,10 @@ Qualify complete larger trees, cross-page lossless names, changed-scope refusals
 capture withdrawal and finite resources, then qualify held ordinary-file/worker
 integration and recursive extraction/metadata fidelity. The full all-platform/
 storage0.1.0 programme and its separate production/owner/release gates remain.
+
+
+DE-W054 qualifies source-bound pages through held ordinary files and the existing
+owned process host. Require actual larger aggregate streams, independent replay,
+source preservation, late/hung/cancelled workers and exit-only retirement before
+public tree traversal and recursive extraction/metadata restoration. Preserve
+the unchanged all-platform/storage 0.1.0 and separate owner/privilege/release gates.

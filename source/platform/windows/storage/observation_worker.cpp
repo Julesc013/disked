@@ -42,6 +42,7 @@ struct ObservationWorker::Impl {
 };
 ObservationWorker::ObservationWorker(std::unique_ptr<Impl> p):impl_(std::move(p)){}
 ObservationWorker::~ObservationWorker()=default;
+const V& ObservationWorker::binding() const{return impl_->binding;}
 std::unique_ptr<ObservationWorker> ObservationWorker::prepare(const V& r,const ObservationWorkerProfile& profile,HANDLE payload){
     request(r,profile);if(profile.input_mapping_bytes<sizeof(Input) || profile.input_mapping_bytes>278528 || profile.input_limits.bytes>profile.input_mapping_bytes-sizeof(Input) || profile.reply_limits.bytes>786432)invalid(profile,"profile");
     if(profile.payload_bytes>16U*1024U*1024U || ((payload && payload!=INVALID_HANDLE_VALUE)!=bool(profile.payload_bytes)))invalid(profile,"payload_profile");

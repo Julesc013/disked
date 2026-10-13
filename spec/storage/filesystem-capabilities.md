@@ -276,3 +276,15 @@ are part of this prototype. Pages are historical observations rather than a
 trusted serialized continuation, native source-opening right or extraction grant.
 Held native sources, contained workers and recursive destination metadata effects
 remain separate work. Existing capture/selector/plan versions remain unchanged.
+
+
+## DE-W054 held-file and contained tree pages
+
+The [native paging profile](../catalog/fat-tree-file-prototype.json) binds one
+ordinary read-only source and ancestor generation closure across pages. Native
+region rereads/checks, pure parent replay and actual owned process/code/request/
+epoch context are separate evidence layers. One bounded anonymous slot uses
+copy/validation/acknowledgement before reuse; aggregate tree size is not its cap.
+Cancellation/publication and confirmed process exit remain separate. Retained
+pages confer no present access, atomicity or mutation authority. Normal readers
+reject fixture controls; public traversal/recursive destination work remains.
