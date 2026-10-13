@@ -10,6 +10,12 @@ strict C90 syntax and protected/read-only input checks. Complete clean-source
 qualification is running; this is not mounted exFAT, provider, writer or release
 qualification. See [working evidence](../.aide/evidence/2026-10-14-exfat-working/README.md).
 
+The clean campaign subsequently exposed a TUI tree-session fixture failure. Its
+Tab wait accepted any render change, allowing stale focus/text to acknowledge the
+wrong step. A repair requires the actual focused label to change and the complete
+entered value to appear before continuing. The original campaign remains retained;
+the repair and W058 full qualification are pending actual frontend validation.
+
 The current file-by-file [source map](source-map.md) explains all 268 source files.
 CLI has its own folder, and `tui_model.*`, `shell_model.*` and `gui_model.*` use
 consistent private names. Future ownership is specified; future helper filenames
