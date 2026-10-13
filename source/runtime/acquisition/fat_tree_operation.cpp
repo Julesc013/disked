@@ -352,6 +352,35 @@ History read_history(const V &supplied, const std::string &bytes) {
     h.tail_digest = hash(bytes.substr(at));
     return h;
 }
+void validate_record(const V &header, const V &row) {
+    validate_header(header);
+    json::dump(row, record_limits());
+    keys(row, {"schema", "operation_id", "review_digest", "sequence", "previous", "payload"});
+    if (text(row, "schema") != "org.disked.fat-tree-state-record-prototype/1" ||
+        number(field(row, "sequence")) >= 64)
+        fail("fat_tree_operation_chain");
+    identity(text(row, "previous"), "sha256:", 64);
+    equal(field(row, "operation_id"), field(header, "operation_id"));
+    equal(field(row, "review_digest"), field(header, "review_digest"));
+    const auto &p = field(row, "payload");
+    keys(p, {"observed_at", "phase", "worker"});
+    if (!number(field(p, "observed_at")))
+        fail("fat_tree_operation_clock");
+    worker(field(p, "worker"), header);
+    const auto phase = text(p, "phase");
+    if (phase != "admitted" && phase != "dispatch_possible" && phase != "observing" &&
+        phase != "outcome_published" && phase != "exited" && phase != "admission_uncertain")
+        fail("fat_tree_operation_phase");
+    const auto &w = field(p, "worker");
+    const bool sent = boolean(field(w, "grant_sent"));
+    if (((phase == "admitted" || phase == "dispatch_possible") &&
+         (sent || field(w, "outcome").kind != V::Kind::null)) ||
+        (phase == "observing" && !sent))
+        fail("fat_tree_operation_phase");
+    if ((phase == "outcome_published" && field(w, "outcome").kind == V::Kind::null) ||
+        (phase == "exited" && text(field(w, "worker"), "observation") != "exited"))
+        fail("fat_tree_operation_phase");
+}
 json::Value History::view() const {
     const auto *out = last_worker.find("outcome");
     const bool has_outcome = out && out->kind != V::Kind::null;

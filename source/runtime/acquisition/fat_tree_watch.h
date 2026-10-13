@@ -19,5 +19,19 @@ class Watch final {
     bool project(const History &, const EventSink &);
     json::Value cursor() const;
 };
+// Compatible observational reader. Outer/payload additions stay with callers;
+// retained mutation-critical records and required features remain strict.
+class Reader final {
+    json::Value header_;
+    std::vector<json::Value> records_;
+    std::string header_digest_, digest_, observer_, request_;
+    std::size_t sequence_ = 0;
+    bool snapshot_allowed_ = false, snapshot_mode_ = false;
+
+  public:
+    explicit Reader(const json::Value &header, bool snapshot_allowed = false);
+    bool accept(const json::Value &event);
+    json::Value cursor() const;
+};
 } // namespace fat_tree_operation
 } // namespace disked

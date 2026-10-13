@@ -196,5 +196,104 @@ V Watch::cursor() const {
         .put("initialized", V::boolean_value(initialized_))
         .put("closed", V::boolean_value(closed_));
 }
+Reader::Reader(const V &header, bool snapshot_allowed)
+    : header_(validate_header(header)), header_digest_(hash(json::dump(header_, header_limits()))),
+      digest_("sha256:" + std::string(64, '0')), snapshot_allowed_(snapshot_allowed) {
+}
+bool Reader::accept(const V &event) {
+    json::dump(event, record_limits());
+    const auto required = [](const V &v) {
+        if (const auto *r = v.find("required_features"))
+            if (r->kind != V::Kind::array || !r->items.empty())
+                fail("fat_tree_reader_feature");
+    };
+    required(event);
+    const auto &p = field(event, "payload");
+    required(p);
+    if (text(event, "schema") != "org.disked.event/1" ||
+        text(p, "schema") != "org.disked.fat-tree-operation-event-prototype/1")
+        fail("fat_tree_reader_schema");
+    const auto type = text(event, "type");
+    const bool snapshot = type == "fat.tree.operation.snapshot";
+    if (!snapshot && type != "fat.tree.operation.record")
+        fail("fat_tree_reader_type");
+    if (text(event, "operation_id") != text(header_, "operation_id") ||
+        text(p, "header_digest") != header_digest_ ||
+        text(p, "review_digest") != text(header_, "review_digest") ||
+        text(p, "worker_epoch") != text(field(header_, "process_owner"), "worker_epoch") ||
+        text(p, "sequence_domain") != "fat-tree-control-record-index-plus-one")
+        fail("fat_tree_reader_binding");
+    const auto observer = text(p, "observer_epoch"), request = text(p, "request_id");
+    identity(observer, "watch:", 32);
+    if (request.empty() || request.size() > 128 || request.find('\0') != request.npos)
+        fail("fat_tree_reader_binding");
+    if (!observer_.empty() && (observer != observer_ || request != request_))
+        fail("fat_tree_reader_observer");
+    const auto next = number(text(event, "sequence"));
+    const auto &record = field(p, "record");
+    if (!next || next > 64 || text(record, "sequence") != std::to_string(next - 1) ||
+        text(record, "operation_id") != text(header_, "operation_id") ||
+        text(record, "review_digest") != text(header_, "review_digest"))
+        fail("fat_tree_reader_sequence");
+    const auto rd = record_digest(record);
+    if (text(p, "record_digest") != rd)
+        fail("fat_tree_reader_digest");
+    validate_record(header_, record);
+    if (next == sequence_) {
+        if (rd != digest_)
+            fail("fat_tree_reader_duplicate");
+        return false;
+    }
+    if (snapshot) {
+        if (!snapshot_allowed_ || sequence_)
+            fail("fat_tree_reader_snapshot");
+    } else if (snapshot_mode_ && !records_.empty()) {
+        const auto &old = field(field(records_.back(), "payload"), "worker");
+        const auto &current = field(field(record, "payload"), "worker");
+        if (text(field(records_.back(), "payload"), "phase") == "exited" ||
+            (text(field(old, "worker"), "observation") == "exited" &&
+             text(field(current, "worker"), "observation") != "exited") ||
+            (field(old, "grant_sent").boolean && !field(current, "grant_sent").boolean) ||
+            std::stoull(text(current, "progress_pulse")) < std::stoull(text(old, "progress_pulse")))
+            fail("fat_tree_reader_progress");
+        if (field(old, "outcome").kind != V::Kind::null &&
+            json::dump(field(old, "outcome"), header_limits()) !=
+                json::dump(field(current, "outcome"), header_limits()))
+            fail("fat_tree_reader_progress");
+    }
+    if (!snapshot && (next != sequence_ + 1 || text(record, "previous") != digest_))
+        fail("fat_tree_reader_gap");
+    auto candidate = records_;
+    if (snapshot || snapshot_mode_) {
+        // A snapshot cannot independently prove omitted transition history.
+        // Check the actual row without rewriting mutation-critical fields.
+        validate_record(header_, record);
+        candidate.clear();
+        candidate.push_back(record);
+    } else {
+        candidate.push_back(record);
+        std::string bytes;
+        for (const auto &r : candidate)
+            bytes += json::dump(r, record_limits()) + "\n";
+        read_history(header_, bytes);
+    }
+    auto new_observer = observer, new_request = request, new_digest = rd;
+    observer_.swap(new_observer);
+    request_.swap(new_request);
+    digest_.swap(new_digest);
+    records_ = std::move(candidate);
+    sequence_ = next;
+    snapshot_allowed_ = false;
+    snapshot_mode_ = snapshot_mode_ || snapshot;
+    return true;
+}
+V Reader::cursor() const {
+    return V::object()
+        .put("sequence", V::string(std::to_string(sequence_)))
+        .put("last_digest", V::string(digest_))
+        .put("header_digest", V::string(header_digest_))
+        .put("omitted_prefix_verified", V::boolean_value(!snapshot_mode_))
+        .put("authenticity", V::string("not_established"));
+}
 } // namespace fat_tree_operation
 } // namespace disked

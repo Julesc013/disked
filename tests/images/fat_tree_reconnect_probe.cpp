@@ -25,7 +25,21 @@ int main() {
                 };
         V result;
         if (const auto *h = input.find("header")) {
-            if (const auto *options = input.find("watch")) {
+            if (const auto *supplied_events = input.find("reader_events")) {
+                disked::fat_tree_operation::Reader reader(*h, input.find("snapshot") &&
+                                                                  input.find("snapshot")->boolean);
+                auto results = V::array();
+                for (const auto &event : supplied_events->items) {
+                    auto row = V::object();
+                    try {
+                        row.put("accepted", V::boolean_value(reader.accept(event)));
+                    } catch (const std::exception &e) {
+                        row.put("error", V::string(e.what()));
+                    }
+                    results.items.push_back(row.put("cursor", reader.cursor()));
+                }
+                result = V::object().put("results", results).put("cursor", reader.cursor());
+            } else if (const auto *options = input.find("watch")) {
                 disked::fat_tree_operation::Watch watcher(
                     get(*h, "operation_id").text, "probe-request", "watch:" + std::string(32, 'a'),
                     *options);

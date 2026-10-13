@@ -1,5 +1,20 @@
 # Source structure and release review follow-up
 
+## Recursive actual frontend development: 14 October 2026
+
+The gated disked_recursive_test composition now connects the shared service to
+actual CLI/protocol, Win32 GUI, TUI and shell. Generated FAT12/16/32 operations
+produce exact expected bytes and preserve sources. Actual GUI/TUI/shell review,
+submit and completed-operation watch pass; console restoration is retained.
+Normal disked still reports extraction unavailable and refuses the tree backend
+before paths. Native roles are gated to the development executable.
+
+Compatible reader11methods, finite response/form budgets, parser/request-channel
+and GUI/TUI/shared-model regressions pass. Source map266 files and236 dependency
+targets have no violations. These are development results. Broader failures,
+normal-composition admission and full clean-source qualification remain before
+DE-W057 review; complete all-platform/storage0.1.0 and release remain open.
+
 ## Recursive shared command service development: 14 October 2026
 
 Active DE-W057 now has canonical closed parameter/review schemas and shared

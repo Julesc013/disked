@@ -1,0 +1,14 @@
+PASS cli
+PASS cli
+PASS cli
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 111, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 66, in main
+    review=cli(arguments(p))['result'];untouched(root)
+           ~~~^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 32, in cli
+    assert r.returncode in exits and not r.stderr,(words[:3],r.returncode,r.stdout,r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (['filesystem', 'extract-tree', 'prepare'], 3, b'{"diagnostics":[{"code":"request_resource_limit","message_key":"disked.request_resource_limit","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')

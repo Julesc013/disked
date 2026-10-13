@@ -1,6 +1,7 @@
 #include "fat_tree_actions.h"
 #include "fat_tree_admission.h"
 #include "fat_tree_controller.h"
+#include "fat_tree_reconnect.h"
 
 namespace disked {
 namespace nt_inventory {
@@ -87,6 +88,48 @@ V execute(const FatTreeReview &r, const FatTreeReviewGrant &g) {
 } // namespace
 FatTreeCommandActions fat_tree_command_actions() {
     return {prepare, execute};
+}
+Outcome dispatch_fat_tree_operation(const Registry &registry, const std::string &request,
+                                    const std::string &command, const V &p,
+                                    const fat_tree_operation::EventSink &sink) {
+    if (command != "operation.inspect" && command != "operation.cancel.request" &&
+        command != "operation.watch")
+        return refused(request, "command_unavailable", 3);
+    const auto *descriptor = registry.command(command);
+    if (!descriptor)
+        return refused(request, "command_unavailable", 3);
+    const auto error = validate_parameters(registry, *descriptor, p);
+    if (!error.empty())
+        return refused(request, error);
+    const auto id = text(p, "operation_id");
+    if (id.size() != 40 || id.compare(0, 8, "tree-op:") ||
+        id.find_first_not_of("0123456789abcdef", 8) != id.npos)
+        return refused(request, "operation_unavailable", 3);
+    V value;
+    if (command == "operation.watch") {
+        auto options = p;
+        options.fields.erase("operation_id");
+        options.fields.erase("state_directory");
+        value = watch_fat_tree_operation(id, text(p, "state_directory"), options, sink, request);
+    } else
+        value = observe_fat_tree_operation(id, text(p, "state_directory"),
+                                           command == "operation.cancel.request");
+    value.put("scope", V::string("ordinary-local-fat-tree-extraction"))
+        .put("request_kind", V::string("operation-observation"));
+    auto out = completed(request, value);
+    out.response.put("operation_id", V::string(id));
+    const auto status = text(value, "status");
+    if (status == "following_boundary") {
+        out.exit_code = 5;
+        out.response.put("status", V::string("accepted_running"));
+    } else if (status != "observed" && status != "recorded_terminal") {
+        out.exit_code = 6;
+        out.response.put("status", V::string("unknown"));
+    }
+    if (const auto *d = value.find("diagnostic"))
+        if (d->kind == V::Kind::string)
+            out.response.fields["diagnostics"].items.push_back(diagnostic(d->text));
+    return out;
 }
 } // namespace nt_inventory
 } // namespace disked

@@ -67,6 +67,39 @@ class WatchTests(unittest.TestCase):
             self.assertLessEqual(len(canonical(event)),16384)
         self.assertEqual(sha(canonical(self.records[-1])+b'\n'),out['cursor']['last_digest'])
 
+    def test_compatible_reader_preserves_extensions_and_refuses_conflicts(self):
+        events=self.pure()['events']
+        extended=copy.deepcopy(events)
+        for e in extended:e['future_observation']={'retained':True};e['payload']['future_label']='data'
+        out=invoke(dict(header=self.header,reader_events=extended+[extended[-1]]))
+        self.assertTrue(all(r.get('accepted') for r in out['results'][:-1]))
+        self.assertFalse(out['results'][-1]['accepted'])
+        self.assertTrue(out['cursor']['omitted_prefix_verified'])
+        for change in ('digest','sequence','required','worker','observer'):
+            corrupt=copy.deepcopy(events[1])
+            if change=='digest':corrupt['payload']['record_digest']='sha256:'+'0'*64
+            if change=='sequence':corrupt['sequence']='18446744073709551616'
+            if change=='required':corrupt['required_features']=['unknown']
+            if change=='worker':corrupt['payload']['worker_epoch']='worker:'+'0'*32
+            if change=='observer':corrupt['payload']['observer_epoch']='watch:'+'0'*32
+            checked=invoke(dict(header=self.header,reader_events=[events[0],corrupt]))
+            self.assertIn('error',checked['results'][-1]);self.assertEqual('1',checked['cursor']['sequence'])
+        snap=self.pure(dict(snapshot=True))['events']
+        checked=invoke(dict(header=self.header,reader_events=snap,snapshot=True))
+        self.assertTrue(checked['results'][0]['accepted']);self.assertFalse(checked['cursor']['omitted_prefix_verified'])
+        projection=self.pure(dict(snapshot=True),batches=[dict(history=rechain(copy.deepcopy(self.records[:2]))),dict(history=self.history)])
+        followed=invoke(dict(header=self.header,reader_events=projection['events'],snapshot=True))
+        self.assertTrue(all(r.get('accepted') for r in followed['results']))
+        self.assertEqual(str(len(self.records)),followed['cursor']['sequence'])
+        changed=copy.deepcopy(snap[0]);changed['payload']['record']['payload']['worker']['outcome']['source_writes']=True
+        changed['payload']['record_digest']=sha(canonical(changed['payload']['record'])+b'\n')
+        checked=invoke(dict(header=self.header,reader_events=[changed],snapshot=True))
+        self.assertIn('error',checked['results'][0]);self.assertEqual('0',checked['cursor']['sequence'])
+        changed=copy.deepcopy(snap[0]);changed['payload']['record']['payload']['phase']='admitted'
+        changed['payload']['record_digest']=sha(canonical(changed['payload']['record'])+b'\n')
+        checked=invoke(dict(header=self.header,reader_events=[changed],snapshot=True))
+        self.assertIn('error',checked['results'][0]);self.assertEqual('0',checked['cursor']['sequence'])
+
     def test_resume_snapshot_and_same_prefix_do_not_duplicate(self):
         prefix=rechain(copy.deepcopy(self.records[:2]))
         out=self.pure(batches=[dict(history=prefix),dict(history=self.history),dict(history=self.history)])

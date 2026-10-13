@@ -47,7 +47,9 @@ Outcome unresolved(const std::string& request,const std::string& reason) {
 }
 RequestChannel::RequestChannel():state_(std::make_shared<State>()) {}
 Submission RequestChannel::submit(const std::string& request,std::function<Outcome()> callback,std::size_t response_bytes,Outcome fallback) {
-    if(!response_bytes || response_bytes>1048575)return refused(request,"request_resource_limit",3);
+    // Existing lanes retain their one-MiB ceiling. The recursive composition
+    // selects one exact larger lane for a bounded record batch plus observation.
+    if(!response_bytes || (response_bytes>1048575 && response_bytes!=2097151))return refused(request,"request_resource_limit",3);
     const auto state=state_;
     std::lock_guard<std::mutex> lock(state->mutex);
     if(state->busy)return refused(request,"request_resource_limit",3);

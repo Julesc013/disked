@@ -12,7 +12,7 @@ CliText cli_text(const Outcome& outcome,const ParseResult& parsed,const Invocati
     };
     if((background || fat_capture_response(outcome.response)) && parsed.kind!="help" && outcome.response.find("result")->kind!=Value::Kind::null)
     {
-        json::Limits limits;if(cached)limits=cached_observation_view_limits();else if(report_response(outcome.response) || verification_response(outcome.response) || fat_inspection_response(outcome.response) || fat_capture_response(outcome.response) || fat_tree_response(outcome.response) || acquisition_watch)limits=response_limits(outcome.response);
+        json::Limits limits;if(cached)limits=cached_observation_view_limits();else if(fat_recursive_response(outcome.response) || report_response(outcome.response) || verification_response(outcome.response) || fat_inspection_response(outcome.response) || fat_capture_response(outcome.response) || fat_tree_response(outcome.response) || acquisition_watch)limits=response_limits(outcome.response);
         if(!host.output_usable)return {};
         return {true,false,present(outcome.response,limits)};
     }

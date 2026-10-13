@@ -175,3 +175,35 @@ policy and shape errors before provider calls, stale source, duplicate execution
 reply/identity/exit constraints and independent schema agreement. These are
 shared-service development results; they are not actual product CLI, window,
 terminal, shell or release qualification.
+
+The gated `disked_recursive_test` development composition now connects that same
+service to actual CLI/protocol, native Win32 GUI, TUI and interactive shell.
+Normal `disked` still reports extraction unavailable and refuses a recursive
+operation selector before native paths. Only the development target registers
+the capability-bound same-executable controller/writer roles. No release or
+physical authority is added by that compile-time selection.
+
+Actual journeys prepare and execute generated FAT12/16/32 trees, preserve source
+bytes and verify exact output. Native GUI/TUI/shell journeys require separate
+review and submission, then watch the retained completed operation. Owned console
+fixtures verify restoration. Protocol watch negotiates
+`org.disked.fat-tree-operation-events/1`, emits exact record events, and ends with
+one response containing the final cursor and an empty event array. Wrong features
+and missing grants refuse without output.
+
+Recursive responses have an explicit two-MiB wire lane (including LF); existing
+response lanes retain their bounds. A separate request-channel regression sends
+an envelope larger than one MiB through that lane and verifies smaller/invalid
+lanes refuse. Object forms accept the declared 32KiB definition budget. Existing
+request/output timeouts and occupied-slot retention remain.
+
+The compatible event reader preserves outer/payload additions while checking
+required features, exact header/review/worker/request/observer bindings, raw
+record digests, contiguous sequences and transition consistency. Full replay
+checks the entire retained prefix. An explicitly requested snapshot validates
+its actual record and later continuity, but reports
+`omitted_prefix_verified: false`; it cannot prove omitted history or authenticity.
+
+These actual frontend results qualify the gated development journey only.
+Normal-composition admission, wider failure/compatibility coverage and full
+clean-source qualification remain before DE-W057's review boundary.

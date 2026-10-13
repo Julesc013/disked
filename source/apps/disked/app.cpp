@@ -18,6 +18,9 @@
 #include "providers/image/file_capture.h"
 #include "platform/windows/storage/fat_reader.h"
 #include "platform/windows/storage/fat_tree_sessions.h"
+#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#include "platform/windows/storage/fat_tree_actions.h"
+#endif
 #include <cstdio>
 #if defined(DISKED_IMAGE_COMMAND_TESTING) || defined(DISKED_REPORT_COMMAND_TESTING) || defined(DISKED_VERIFICATION_COMMAND_TESTING)
 #define WIN32_LEAN_AND_MEAN
@@ -75,6 +78,23 @@ Outcome image_action(const std::string& request,const std::string& command,const
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
 }
+bool recursive_identity(const Value& parameters) {
+    const auto *id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,8,"tree-op:")==0;
+}
+Outcome recursive_action(const std::string& request,const Value& parameters) {
+#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+    return dispatch_fat_tree_extraction(command_registry(),request,parameters,nt_inventory::fat_tree_command_actions());
+#else
+    (void)parameters;return refused(request,"command_unavailable",3);
+#endif
+}
+Outcome recursive_operation(const std::string& request,const std::string& command,const Value& parameters,const ResponseSink& sink={}) {
+#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+    return nt_inventory::dispatch_fat_tree_operation(command_registry(),request,command,parameters,sink);
+#else
+    (void)command;(void)parameters;(void)sink;return refused(request,"operation_unavailable",3);
+#endif
+}
 bool report_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,10,"report-op:")==0;
 }
@@ -120,18 +140,23 @@ Outcome verification_action(const std::string& request,const Value& parameters) 
     return out;
 }
 bool background_command(const std::string& command) {
-    return command=="filesystem.tree.inspect" || fake_worker_command(command) || image_command(command) || (command=="image.acquire" || command=="filesystem.extract") || command=="evidence.export" || command=="image.verify";
+    return command=="filesystem.tree.extract" || command=="filesystem.tree.inspect" || fake_worker_command(command) || image_command(command) || (command=="image.acquire" || command=="filesystem.extract") || command=="evidence.export" || command=="image.verify";
 }
 std::size_t request_bytes(const std::string& command,const Value& parameters) {
+    if(command=="filesystem.tree.extract" || recursive_identity(parameters))return 2097151;
     if(command=="filesystem.tree.inspect" || (command=="image.inspect" && fat_inspection_parameters(parameters)))return fat_inspection_response_bytes;
     return command=="evidence.export" || command=="image.verify" || verification_identity(parameters) || report_identity(parameters) || (command=="operation.watch" && acquisition_identity(parameters))?1048575:65536;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {
+    if(recursive_identity(parameters))return recursive_operation(request,command,parameters);
     if(verification_identity(parameters)) {verification_test_wait();return dispatch_verification_operation(request,command,parameters);}
     if(report_identity(parameters)) {report_test_wait();return dispatch_report_operation(request,command,parameters);}
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
+#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+    if(id=="filesystem.tree.extract")return true;
+#endif
     for(const auto& c:bootstrap::commands)if(id==c.id)return c.implemented;
     return false;
 }
@@ -180,6 +205,7 @@ Value discovery(const ParseResult* help=nullptr) {
 Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
     std::unique_ptr<FrontendSession>& session,const std::shared_ptr<ObservationServices>& observations,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
+    if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
     if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
             if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
     if(command=="evidence.export")return report_action(request,parameters);
@@ -213,6 +239,7 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
         return channel.submit(request,[request,command,parameters,observations]() {
+            if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
             if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
             if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
             if(command=="evidence.export")return report_action(request,parameters);
@@ -240,6 +267,7 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
         else if(command=="evidence.export" || report_identity(parameters))expired=export_unresolved_request(request,parameters);
         return calls->run(request,[request,command,parameters,observations]() {
+            if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
             if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
             if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
             if(command=="evidence.export")return report_action(request,parameters);
@@ -261,6 +289,7 @@ Outcome stream_watch(const std::string& request,const Value& parameters,std::uni
     if(verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
     else if(report_identity(parameters))expired=export_unresolved_request(request,parameters);
     return calls->run(request,[request,parameters,queue]() {
+        if(recursive_identity(parameters))return recursive_operation(request,"operation.watch",parameters,[queue](const Value& event){return queue->push(event);});
         if(verification_identity(parameters)) {verification_test_wait();return watch_verification_operation(request,parameters,queue);}
         if(report_identity(parameters)) {report_test_wait();return watch_report_worker(request,parameters,queue);}
         return acquisition_identity(parameters)?watch_acquisition_worker(request,parameters,queue):watch_fake_worker(request,parameters,queue);

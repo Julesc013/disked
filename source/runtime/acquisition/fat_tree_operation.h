@@ -18,6 +18,7 @@ struct History {
 };
 // Pure supplied-data validation. No path/process access and no execution grant.
 json::Value validate_header(const json::Value &);
+void validate_record(const json::Value &header, const json::Value &record);
 History read_history(const json::Value &header, const std::string &bytes);
 json::Limits header_limits();
 json::Limits record_limits();
