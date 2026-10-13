@@ -363,4 +363,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W058 active: private C90 supplied-byte exFAT boot/checksum/geometry/allocation-cell decoder implemented; working oracle2320cases and focused native/C90/boundary checks pass. Exact clean-source/header/import/full-regression qualification remains; bitmap/upcase/directory/tree/provider/host admission and full0.1.0 remain subsequent work.
 
-- [ ] DE-W064 planned: supplied-byte exFAT directory entries/sets, lossless names/timestamps and checked stream extents; expected contract recorded before implementation. Bitmap/upcase/source/tree/provider admission remain explicit later dependencies.
+- [ ] DE-W064 active: C90 supplied-byte directory entries/sets, lossless names/timestamps and checked stream extents implemented after W058 native-stage review; scratch2316cases pass, integrated qualification running. Bitmap/upcase/source/tree/provider admission remain explicit later dependencies.

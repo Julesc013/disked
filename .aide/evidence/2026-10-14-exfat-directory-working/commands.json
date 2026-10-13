@@ -1,0 +1,117 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 14.701,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build",
+      "--config",
+      "Release",
+      "--target",
+      "exfat_directory_probe",
+      "exfat_probe",
+      "disked_exfat_headers",
+      "fat_directory_probe",
+      "fat_probe",
+      "gpt_probe",
+      "--parallel",
+      "4"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 7.559,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build",
+      "-C",
+      "Release",
+      "-R",
+      "^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries)$",
+      "--output-on-failure"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 32.157,
+    "log": "native.log"
+  },
+  {
+    "name": "c90",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-std=c90",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "source",
+      "-fsyntax-only",
+      "source/portable/exfat/directory.c"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.091,
+    "log": "c90.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.122,
+    "log": "source-map.log"
+  },
+  {
+    "name": "headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build\\Release\\exfat_directory_probe.exe"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "headers.log"
+  },
+  {
+    "name": "imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build\\Release\\exfat_directory_probe.exe"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "imports.log"
+  },
+  {
+    "name": "dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build\\Release\\exfat_directory_probe.exe"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "dependents.log"
+  }
+]

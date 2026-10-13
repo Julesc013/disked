@@ -79,8 +79,11 @@ Stored name hashes do not establish equality without the volume's qualified
 upcase mapping, and stream extents do not establish allocation without a matching
 bitmap. Bitmap/upcase, coherent paging/source identity, public provider/frontend,
 ValidDataLength zero filling and all original storage/platform release gates
-remain separate required capabilities. Directory implementation and tests are
-not_run at this contract checkpoint.
+remain separate required capabilities. The private C90 decoder and independent
+native probe/oracle are now implemented after recorded W058 native-stage review.
+Scratch checks passed2316cases/9methods; integrated native/header/import/source
+qualification is running. Neither scratch success nor directory association
+establishes allocation, name equality, current source authority or public use.
 
 ## DE-W025 supplied-byte FAT allocation reader
 
