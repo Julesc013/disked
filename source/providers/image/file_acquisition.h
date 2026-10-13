@@ -9,6 +9,9 @@ struct FileAcquisitionRequest {
     bool resume=false,explicit_options=false;
     std::uint32_t chunk_bytes=65536,retries=0;
     std::string read_policy="ordinary",substitution="stop";
+    // Null keeps raw-file acquisition unchanged. A plan2 selector identifies a
+    // complete logical file while separately binding its backing image.
+    json::Value logical_source;
 };
 struct FileAcquisitionError : acquisition::Error {
     std::uint32_t platform_code;

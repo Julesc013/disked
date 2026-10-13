@@ -228,6 +228,7 @@ target_compile_options(disked_file_image_verification PRIVATE /W4 /WX /permissiv
 
 add_library(disked_file_acquisition STATIC source/providers/image/file_acquisition.cpp)
 target_link_libraries(disked_file_acquisition PUBLIC disked_acquisition disked_local_file)
+target_link_libraries(disked_file_acquisition PRIVATE disked_fat_file disked_fat_content_file)
 target_compile_definitions(disked_file_acquisition PRIVATE _WIN32_WINNT=0x0A00)
 set_target_properties(disked_file_acquisition PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_file_acquisition PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -672,9 +673,15 @@ if(BUILD_TESTING)
     --probe "$<TARGET_FILE:acquisition_worker_probe>" --fault "$<TARGET_FILE:acquisition_worker_fault>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.acquisition_worker PROPERTIES TIMEOUT 150 RESOURCE_LOCK disked_fake_workers)
   add_executable(file_acquisition_probe tests/images/file_acquisition_probe.cpp)
+  add_test(NAME image.fat_extraction COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_fat_extraction.py"
+    --file "$<TARGET_FILE:file_acquisition_probe>" --fault "$<TARGET_FILE:file_acquisition_fault>"
+    --worker "$<TARGET_FILE:acquisition_worker_probe>" --worker-fault "$<TARGET_FILE:acquisition_worker_fault>"
+    --fat "$<TARGET_FILE:fat_worker_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/fat-extraction-cases.json")
+  set_tests_properties(image.fat_extraction PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   target_link_libraries(file_acquisition_probe PRIVATE disked_file_acquisition)
   add_executable(file_acquisition_fault tests/images/file_acquisition_probe.cpp source/providers/image/file_acquisition.cpp)
   target_link_libraries(file_acquisition_fault PRIVATE disked_acquisition disked_local_file)
+  target_link_libraries(file_acquisition_fault PRIVATE disked_fat_file disked_fat_content_file)
   target_compile_definitions(file_acquisition_fault PRIVATE DISKED_FILE_ACQUISITION_TESTING=1 _WIN32_WINNT=0x0A00)
   foreach(target file_acquisition_probe file_acquisition_fault)
     set_target_properties(${target} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

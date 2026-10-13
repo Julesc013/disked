@@ -32,13 +32,17 @@ std::string digest(const V& v) {return "sha256:"+hash(json::dump(v));}
 std::uint64_t now() {FILETIME t{};GetSystemTimeAsFileTime(&t);return file_time(t);}
 json::Limits row_limits() {json::Limits l;l.bytes=record_limit;l.depth=20;l.values=2048;l.string_bytes=1024;return l;}
 V request_value(const FileAcquisitionRequest& r) {
-    return V::object().put("source",V::string(r.source)).put("destination",V::string(r.destination)).put("map",V::string(r.map))
+    auto out=V::object().put("source",V::string(r.source)).put("destination",V::string(r.destination)).put("map",V::string(r.map))
         .put("resume",V::boolean_value(r.resume)).put("explicit_options",V::boolean_value(r.explicit_options)).put("chunk_bytes",number(r.chunk_bytes))
         .put("retry_limit",number(r.retries)).put("read_policy",V::string(r.read_policy)).put("substitution",V::string(r.substitution));
+    if(r.logical_source.kind!=V::Kind::null)out.put("logical_source",r.logical_source);
+    return out;
 }
 FileAcquisitionRequest request_from(const V& v) {
-    keys(v,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution"});
+    if(v.find("logical_source"))keys(v,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution","logical_source"});
+    else keys(v,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution"});
     FileAcquisitionRequest r;r.source=text(v,"source");r.destination=text(v,"destination");r.map=text(v,"map");
+    if(const auto logical=v.find("logical_source"))r.logical_source=*logical;
     r.resume=boolean(field(v,"resume"));r.explicit_options=boolean(field(v,"explicit_options"));
     const auto n=integer(field(v,"chunk_bytes")),retry=integer(field(v,"retry_limit"));if(n>0xffffffffULL || retry>0xffffffffULL)reject("acquisition_worker_integer");
     r.chunk_bytes=static_cast<std::uint32_t>(n);r.retries=static_cast<std::uint32_t>(retry);r.read_policy=text(v,"read_policy");r.substitution=text(v,"substitution");return r;

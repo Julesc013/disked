@@ -24,6 +24,7 @@ MAX_FRONTMATTER = 64 * 1024
 SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
+SEMANTICS[SCHEMA_PREFIX+'acquisition-plan-logical-prototype:2']='acquisition-logical-plan'
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
     'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
@@ -249,7 +250,29 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'fat-capture-parameters':
+    if kind == 'acquisition-logical-plan':
+        count=bounded_u64(value['bytes'],'logical acquisition bytes')
+        chunk=bounded_u64(value['chunk_bytes'],'logical acquisition chunk')
+        source=value['logical_source'];backing=value['resources']['backing']
+        if count>0xffffffff or chunk not in (4096,65536,1048576):raise SpecError('Logical acquisition file/chunk outside bounds')
+        for role,binding in value['resources'].items():
+            start=bounded_u64(binding['start'],role+' start');end=bounded_u64(binding['end'],role+' end')
+            if start or end!=(count if role in ('source','destination') else end if role=='backing' else 0):raise SpecError('Logical acquisition footprint contradiction')
+        capacity=bounded_u64(backing['end'],'backing image bytes')
+        offset=bounded_u64(source['volume_offset'],'FAT volume offset');length=bounded_u64(source['volume_bytes'],'FAT volume bytes')
+        if not capacity or length<512 or offset>capacity or length>capacity-offset:raise SpecError('FAT volume outside backing image')
+        if bounded_u64(source['expected_file_bytes'],'FAT file bytes')!=count or bounded_u64(source['node_id'],'FAT node')>=128 or bounded_u64(source['fat_copy'],'FAT copy')>=16:raise SpecError('Logical FAT selection contradiction')
+        roles=value['resources']
+        if roles['source']['identity']==roles['backing']['identity']:raise SpecError('Logical and backing byte namespaces must differ')
+        written=set()
+        for role in ('destination','map'):
+            aliases=set(roles[role]['aliases'])
+            if written & aliases:raise SpecError('Logical acquisition output aliases overlap')
+            written.update(aliases)
+        for role,binding in roles.items():
+            if binding['identity'] not in binding['aliases']:raise SpecError('Resource identity missing from aliases')
+            if role not in ('destination','map') and written & set(binding['aliases']):raise SpecError('Logical acquisition write/read alias')
+    elif kind == 'fat-capture-parameters':
         if 'capture_id' in value and not bounded_u64(value['capture_id'].rsplit(':',1)[1],'FAT capture serial'):
             raise SpecError('FAT capture serial must be positive')
         if value.get('phase')=='read':

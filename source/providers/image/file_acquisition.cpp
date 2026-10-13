@@ -1,10 +1,13 @@
 #include "file_acquisition.h"
 #include "local_file.h"
+#include "fat_file.h"
+#include "fat_content_file.h"
 #include "portable/hash/sha256.h"
 #include <algorithm>
 #include <atomic>
 #include <functional>
 #include <cstdio>
+#include <deque>
 
 namespace disked {
 namespace {
@@ -23,8 +26,8 @@ std::string domain(const V& v) {return "observed-file-volume:"+field(v,"volume_i
 V binding(const char* role,const std::string& id,const std::string& epoch,const std::string& failure,std::uint64_t size,const std::string& location="") {
     auto aliases=V::array();aliases.items.push_back(V::string(id));if(!location.empty() && location!=id)aliases.items.push_back(V::string(location));
     const std::string r=role;
-    return V::object().put("identity",V::string(id)).put("epoch",V::string(epoch)).put("access",V::string(r=="source" || r=="executable"?"read":r=="destination"?"create-write":r=="map"?"create-append":"observe"))
-        .put("start",number(0)).put("end",number(r=="source" || r=="destination"?size:0)).put("aliases",aliases).put("failure_domain",V::string(failure))
+    return V::object().put("identity",V::string(id)).put("epoch",V::string(epoch)).put("access",V::string(r=="source" || r=="executable" || r=="backing"?"read":r=="destination"?"create-write":r=="map"?"create-append":"observe"))
+        .put("start",number(0)).put("end",number(r=="source" || r=="destination" || r=="backing"?size:0)).put("aliases",aliases).put("failure_domain",V::string(failure))
         .put("verification",V::string(r=="destination"?"readback-sha256":r=="map"?"ordered-hash-chain":"identity-epoch"));
 }
 bool exists(const std::wstring& path) {
@@ -73,7 +76,9 @@ class FileAcquisition::Impl final:public acquisition::Ports {
     FileAcquisitionRequest request_;Path source_path_,destination_path_,map_path_;
     Handle source_,code_,destination_,map_;std::unique_ptr<Path> code_path_;
     V source_metadata_,code_metadata_,base_,active_;std::string code_hash_;
-    std::uint64_t source_size_=0,map_size_=0,cursor_=0,last_complete_=0,checkpoint_=0;
+    std::uint64_t source_size_=0,image_size_=0,map_size_=0,cursor_=0,last_complete_=0,checkpoint_=0;
+    std::unique_ptr<FatContentMap> logical_;
+    std::vector<FatFileRegion> metadata_regions_;
     bool executed_=false,opened_=false,creation_attempted_=false;std::uint32_t platform_=0;
     acquisition::Plan plan_;
     FileAcquisitionHooks hooks_;V original_capture_;std::uint64_t started_=0,ticks_=0;
@@ -97,11 +102,79 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         source_path_.check();destination_path_.check();map_path_.check();code_path_->check();
         local_file::bind_path(source_.value,source_path_.value);local_file::bind_path(code_.value,code_path_->value);
         const auto source=local_file::metadata(source_.value),code=local_file::metadata(code_.value);
-        return V::object().put("source",binding("source",file_id(source.value),hash(json::dump(source.value)),domain(source.value),source.size))
+        auto out=V::object().put("source",binding("source",file_id(source.value),hash(json::dump(source.value)),domain(source.value),source.size))
             .put("host",binding("host",host(),"windows.nt10.x64.local-file-profile/1","host-observation",0))
             .put("executable",binding("executable",file_id(code.value),hash(json::dump(code.value)+code_hash_),domain(code.value),0))
             .put("provider",binding("provider","provider.image.acquire.raw.prototype/1",code_hash_,"linked-executable-generation",0));
+        if(logical_) {
+            const auto selector=json::dump(request_.logical_source);
+            auto source_binding=binding("source","fat-file:"+hash(file_id(source.value)+selector),
+                hash(json::dump(source.value)+selector),domain(source.value),source_size_);
+            source_binding.fields.at("aliases").items.push_back(V::string(source_path_.location()));
+            source_binding.fields.at("aliases").items.push_back(V::string(file_id(source.value)));
+            out.put("source",std::move(source_binding));
+            out.put("backing",binding("backing",file_id(source.value),hash(json::dump(source.value)),domain(source.value),source.size,source_path_.location()));
+            out.fields.at("provider").put("identity",V::string("provider.image.acquire.fat-file.prototype/1"));
+            out.fields.at("provider").fields.at("aliases").items[0]=V::string("provider.image.acquire.fat-file.prototype/1");
+        }
+        return out;
     }
+    void prepare_logical() {
+        const auto& s=request_.logical_source;
+        if(s.kind!=V::Kind::object || s.fields.size()!=7 || field(s,"kind").text!="fat-file")throw FileAcquisitionError("acquisition_logical_source");
+        auto integer=[&](const char* key) {const auto& v=field(s,key);if(v.kind!=V::Kind::string || !json::decimal_u64(v.text))throw FileAcquisitionError("acquisition_logical_source");return std::stoull(v.text);};
+        const auto offset=integer("volume_offset"),bytes=integer("volume_bytes"),copy=integer("fat_copy"),node=integer("node_id"),size=integer("expected_file_bytes");
+        const auto& digest=field(s,"metadata_digest");
+        if(copy>=16 || node>=128 || size>0xffffffffULL || bytes<512 || offset>image_size_ || bytes>image_size_-offset ||
+            digest.kind!=V::Kind::string || digest.text.size()!=71 || digest.text.substr(0,7)!="sha256:" || digest.text.find_first_not_of("0123456789abcdef",7)!=digest.text.npos ||
+            request_.read_policy!="ordinary" || request_.retries || request_.substitution!="stop")throw FileAcquisitionError("acquisition_logical_source");
+        auto captured=capture_fat_file_owned(request_.source,offset,bytes,static_cast<std::uint32_t>(copy),{},false,false,nullptr,{}, {},&source_metadata_);
+        const auto& observation=field(captured.result,"observation");
+        if(!field(field(captured.result,"capture"),"observed_stable").boolean || fat_content_metadata_digest(observation)!=digest.text)
+            throw FileAcquisitionError("acquisition_logical_metadata_changed");
+        const auto epoch=std::stoull(field(observation,"capture_epoch").text);
+        auto map=prepare_fat_content(observation,node,{field(observation,"source_id").text,epoch,image_size_,offset,bytes,static_cast<std::uint32_t>(copy)});
+        if(map.file_bytes()!=size)throw FileAcquisitionError("acquisition_logical_size_changed");
+        source_size_=size;logical_.reset(new FatContentMap(std::move(map)));metadata_regions_=std::move(captured.regions);
+    }
+    bool logical_metadata_equal() {
+        for(const auto& r:metadata_regions_) {
+            const auto value=read(source_.value,r.offset,static_cast<std::uint32_t>(r.requested));
+            if(!value.error.empty() || r.error || value.bytes!=r.bytes || value.bytes.size()!=r.requested)return false;
+        }
+        return true;
+    }
+    acquisition::Read logical_read(std::uint64_t offset,std::uint32_t count) {
+        acquisition::Read out;
+        if(offset>source_size_ || count>source_size_-offset)throw FileAcquisitionError("acquisition_logical_range");
+        if(!logical_metadata_equal()) {out.error="fat-metadata-changed";return out;}
+        auto window=[&](std::uint64_t at,std::size_t bytes) {
+            return logical_->read(at,bytes,[&](const de_byte_extent& range) {
+                char a[21],b[21];if(de_u64_format(&range.start,a,sizeof(a)) || de_u64_format(&range.end,b,sizeof(b)))throw FileAcquisitionError("acquisition_logical_range");
+                const auto start=std::stoull(a),end=std::stoull(b);
+                if(end<start || end-start>4096 || end>image_size_)throw FileAcquisitionError("acquisition_logical_range");
+                logical_buffers_.push_back(read(source_.value,start,static_cast<std::uint32_t>(end-start)));
+                const auto& r=logical_buffers_.back();if(!r.error.empty())throw FileAcquisitionError("acquisition_logical_read");
+                return de_view{r.bytes.data(),r.bytes.size()};
+            });
+        };
+        std::uint32_t done=0;
+        while(done<count) {
+            const auto bytes=std::min<std::uint32_t>(196608,count-done);logical_buffers_.clear();
+            const auto first=window(offset+done,bytes);
+            const auto& h=field(first,"data").text;
+            auto digit=[](char c) {return static_cast<unsigned>(c<='9'?c-'0':c-'a'+10);};
+            for(std::size_t i=0;i<h.size();i+=2)out.bytes.push_back(static_cast<unsigned char>(digit(h[i])*16+digit(h[i+1])));
+            if(field(first,"outcome").text!="complete") {out.error="fat-content-incomplete";break;}
+            logical_buffers_.clear();const auto again=window(offset+done,bytes);
+            if(field(again,"outcome").text!="complete" || field(again,"data").text!=h) {out.error="fat-content-reread-changed";break;}
+            done+=bytes;
+        }
+        logical_buffers_.clear();
+        if(!logical_metadata_equal())out.error="fat-metadata-changed";
+        return out;
+    }
+    std::deque<acquisition::Read> logical_buffers_;
     void capacity(std::uint64_t data_remaining,std::uint64_t map_remaining) const {
         ULARGE_INTEGER data{},records{};
         if(!GetDiskFreeSpaceExW(destination_path_.parent.c_str(),&data,nullptr,nullptr) ||
@@ -159,6 +232,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         if(field(payload,"plan_digest").text!=plan_.digest)throw FileAcquisitionError("acquisition_file_header");
         auto expected=observe_base();expected.put("destination",prospective("destination",destination_path_)).put("map",prospective("map",map_path_));
         if(plan_.bytes!=source_size_ || json::dump(field(plan_.definition,"resources"))!=json::dump(expected))throw FileAcquisitionError("acquisition_resume_binding");
+        if(logical_ && json::dump(field(plan_.definition,"logical_source"))!=json::dump(request_.logical_source))throw FileAcquisitionError("acquisition_resume_binding");
         if(request_.explicit_options && (request_.chunk_bytes!=plan_.chunk_bytes || request_.retries!=plan_.retries ||
             request_.read_policy!=field(plan_.definition,"read_policy").text || request_.substitution!=field(plan_.definition,"substitution").text))throw FileAcquisitionError("acquisition_resume_options");
         active_=observe_base();active_.put("destination",owned("destination",destination_path_,destination_.value)).put("map",owned("map",map_path_,map_.value));
@@ -170,7 +244,8 @@ public:
     explicit Impl(const FileAcquisitionRequest& request,const acquisition::Plan* reviewed):request_(request),source_path_(request.source),destination_path_(request.destination),map_path_(request.map) {
         if(destination_path_.location()==map_path_.location())throw FileAcquisitionError("acquisition_file_alias");
         source_=open(source_path_.value,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING,"image_source_open");
-        source_metadata_=local_file::metadata(source_.value).value;source_size_=local_file::metadata(source_.value).size;
+        source_metadata_=local_file::metadata(source_.value).value;source_size_=local_file::metadata(source_.value).size;image_size_=source_size_;
+        if(request_.logical_source.kind!=V::Kind::null)prepare_logical();
         wchar_t module[241];const auto length=GetModuleFileNameW(nullptr,module,241);if(!length || length>=241)throw FileAcquisitionError("acquisition_executable_path",GetLastError());
         code_path_.reset(new Path(local_file::utf8(std::wstring(module,length))));code_=open(code_path_->value,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING,"acquisition_executable_open");
         const auto info=local_file::metadata(code_.value);code_metadata_=info.value;
@@ -182,9 +257,11 @@ public:
             base_=observe_base();base_.put("destination",prospective("destination",destination_path_)).put("map",prospective("map",map_path_));
             FILETIME timestamp{};GetSystemTimeAsFileTime(&timestamp);static std::atomic<std::uint64_t> sequence{0};
             const auto origin=json::dump(source_metadata_)+std::to_string(timestamp.dwHighDateTime)+":"+std::to_string(timestamp.dwLowDateTime)+":"+std::to_string(GetCurrentProcessId())+":"+std::to_string(++sequence);
-            plan_=acquisition::prepare(V::object().put("schema",V::string("org.disked.acquisition-plan-prototype/1")).put("capture_epoch",reviewed?field(reviewed->definition,"capture_epoch"):V::string(hash(origin)))
+            auto definition=V::object().put("schema",V::string(logical_?"org.disked.acquisition-plan-prototype/2":"org.disked.acquisition-plan-prototype/1")).put("capture_epoch",reviewed?field(reviewed->definition,"capture_epoch"):V::string(hash(origin)))
                 .put("resources",base_).put("bytes",number(source_size_)).put("chunk_bytes",number(request.chunk_bytes)).put("read_policy",V::string(request.read_policy))
-                .put("retry_limit",number(request.retries)).put("substitution",V::string(request.substitution)));
+                .put("retry_limit",number(request.retries)).put("substitution",V::string(request.substitution));
+            if(logical_)definition.put("logical_source",request_.logical_source);
+            plan_=acquisition::prepare(definition);
         }
         if(reviewed && plan_.digest!=reviewed->digest)throw FileAcquisitionError("acquisition_reviewed_definition_changed");
     }
@@ -248,7 +325,7 @@ public:
         if(!FlushFileBuffers(map_.value))throw FileAcquisitionError("acquisition_map_flush",GetLastError());event("map-flushed");
     }); }
     acquisition::Read read_source(std::uint64_t offset,std::uint32_t size) override { return guarded([&] {
-        auto out=read(source_.value,offset,size);
+        auto out=logical_?logical_read(offset,size):read(source_.value,offset,size);
 #ifdef DISKED_FILE_ACQUISITION_TESTING
         if(GetEnvironmentVariableW(L"DISKED_ACQ_TEST_READ_ERROR",nullptr,0)) {out.bytes.clear();out.error="win32-read:30";}
         if(GetEnvironmentVariableW(L"DISKED_ACQ_TEST_SHORT_READ",nullptr,0) && !out.bytes.empty())out.bytes.pop_back();
@@ -294,7 +371,7 @@ public:
             catch(const local_file::Error& e) {observations.items.push_back(V::object().put("role",V::string(role)).put("diagnostic",V::string(e.what())).put("platform_code",number(e.platform_code)));}
         };
         size(map_.value,"map",map_bytes);size(destination_.value,"destination",destination_bytes);
-        auto receipt=V::object().put("profile",V::string("ordinary-windows-raw-file-prototype/1")).put("source_metadata",source_metadata_)
+        auto receipt=V::object().put("profile",V::string(logical_?"ordinary-windows-fat-file-extraction-prototype/1":"ordinary-windows-raw-file-prototype/1")).put("source_metadata",source_metadata_)
             .put("source_path",V::string(local_file::utf8(source_path_.value))).put("destination_path",V::string(local_file::utf8(destination_path_.value)))
             .put("map_path",V::string(local_file::utf8(map_path_.value))).put("map_bytes",map_bytes).put("expected_map_bytes",number(map_size_))
             .put("destination_bytes",destination_bytes).put("size_observation_errors",observations).put("opened_outputs",V::boolean_value(opened_))
@@ -304,6 +381,7 @@ public:
             .put("platform_code",number(platform_));
         receipt.put("original_capture",original_capture_).put("attempt_id",V::string(hooks_.attempt_id)).put("started_filetime",number(started_))
             .put("finished_filetime",number(finished)).put("elapsed_ms",number(GetTickCount64()-ticks_)).put("wall_clock_regressed",V::boolean_value(finished<started_));
+        if(logical_)receipt.put("logical_source",request_.logical_source).put("backing_image_bytes",number(image_size_)).put("extraction_scope",V::string("file-content-bytes"));
         return {outcome,receipt};
     }
 };

@@ -31,17 +31,20 @@ std::string hash(const std::string& s) {return hash(reinterpret_cast<const unsig
 std::string hash(const std::vector<unsigned char>& bytes) {return hash(bytes.data(),bytes.size());}
 json::Limits limits() {json::Limits out;out.bytes=16384;out.depth=10;out.values=512;out.string_bytes=512;return out;}
 std::string encode(const V& v) {return json::dump(v,limits());}
-const char* roles[]={"source","destination","map","host","executable","provider"};
+const char* roles[]={"source","destination","map","host","executable","provider","backing"};
 void resources(const V& value,std::uint64_t bytes) {
-    keys(value,{"source","destination","map","host","executable","provider"});
+    const bool logical=value.find("backing")!=nullptr;
+    if(logical)keys(value,{"source","destination","map","host","executable","provider","backing"});
+    else keys(value,{"source","destination","map","host","executable","provider"});
     std::set<std::string> written;
-    for(unsigned i=0;i<6;++i) {
+    const unsigned count=logical?7:6;
+    for(unsigned i=0;i<count;++i) {
         const auto& b=field(value,roles[i]);keys(b,{"identity","epoch","access","start","end","aliases","failure_domain","verification"});
         token(field(b,"identity"));token(field(b,"epoch"));token(field(b,"failure_domain"));
-        const char* access=i==0?"read":i==1?"create-write":i==2?"create-append":i==4?"read":"observe";
+        const char* access=i==0 || i==6?"read":i==1?"create-write":i==2?"create-append":i==4?"read":"observe";
         if(text(field(b,"access"))!=access)fail("acquisition_access");
         const auto start=integer(field(b,"start")),end=integer(field(b,"end"));
-        if(start!=0 || end!=(i<2?bytes:0))fail("acquisition_footprint");
+        if(start!=0 || (i==6?end==0:end!=(i<2?bytes:0)))fail("acquisition_footprint");
         const char* verification=i==0?"identity-epoch":i==1?"readback-sha256":i==2?"ordered-hash-chain":"identity-epoch";
         if(text(field(b,"verification"))!=verification)fail("acquisition_verification");
         const auto& aliases=field(b,"aliases");
@@ -51,13 +54,14 @@ void resources(const V& value,std::uint64_t bytes) {
         if(!has_identity)fail("acquisition_aliases_unknown");
         if(i==1 || i==2)for(const auto& a:unique)if(!written.insert(a).second)fail("acquisition_alias");
     }
-    for(unsigned i=0;i<6;++i)if(i!=1 && i!=2)
+    for(unsigned i=0;i<count;++i)if(i!=1 && i!=2)
         for(const auto& a:field(field(value,roles[i]),"aliases").items)
             if(written.count(text(a)))fail("acquisition_alias");
 }
 void stable_outputs(const V& planned,const V& active,std::uint64_t bytes) {
     resources(active,bytes);
-    for(const auto role:roles) {
+    for(unsigned i=0;i<(planned.find("backing")?7u:6u);++i) {
+        const auto role=roles[i];
         const auto& a=field(active,role);const auto& p=field(planned,role);
         if(std::string(role)!="destination" && std::string(role)!="map") {
             if(encode(a)!=encode(p))fail("acquisition_binding_changed");
@@ -150,8 +154,10 @@ void checkpoint(Ports& ports,Ledger& ledger,const Chunk& c,Outcome& out,const V&
 }
 }
 Plan prepare(const V& value) {
-    keys(value,{"schema","capture_epoch","resources","bytes","chunk_bytes","read_policy","retry_limit","substitution"});Plan p;
-    if(text(field(value,"schema"))!="org.disked.acquisition-plan-prototype/1")fail("acquisition_plan_version");
+    const auto schema=text(field(value,"schema"));const bool logical=schema=="org.disked.acquisition-plan-prototype/2";
+    if(logical)keys(value,{"schema","capture_epoch","resources","bytes","chunk_bytes","read_policy","retry_limit","substitution","logical_source"});
+    else keys(value,{"schema","capture_epoch","resources","bytes","chunk_bytes","read_policy","retry_limit","substitution"});Plan p;
+    if(!logical && schema!="org.disked.acquisition-plan-prototype/1")fail("acquisition_plan_version");
     token(field(value,"capture_epoch"));p.bytes=integer(field(value,"bytes"));
     if(p.bytes>static_cast<std::uint64_t>((std::numeric_limits<std::int64_t>::max)()))fail("acquisition_size");
     const auto n=integer(field(value,"chunk_bytes")),retry=integer(field(value,"retry_limit"));
@@ -163,6 +169,20 @@ Plan prepare(const V& value) {
     p.failing_media=policy=="failing-read-mostly";if(p.failing_media && retry)fail("acquisition_aggressive_reread_not_admitted");
     const auto substitution=text(field(value,"substitution"));if(substitution!="stop" && substitution!="zero-fill")fail("acquisition_substitution");
     p.substitute=substitution=="zero-fill";resources(field(value,"resources"),p.bytes);
+    if(bool(field(value,"resources").find("backing"))!=logical)fail("acquisition_backing");
+    if(logical) {
+        const auto& s=field(value,"logical_source");
+        keys(s,{"kind","volume_offset","volume_bytes","fat_copy","node_id","expected_file_bytes","metadata_digest"});
+        if(text(field(s,"kind"))!="fat-file" || integer(field(s,"node_id"))>=128 ||
+           integer(field(s,"fat_copy"))>=16 || integer(field(s,"expected_file_bytes"))!=p.bytes ||
+           p.bytes>0xffffffffULL || p.failing_media || p.retries || p.substitute)fail("acquisition_logical_source");
+        const auto offset=integer(field(s,"volume_offset")),length=integer(field(s,"volume_bytes"));
+        const auto backing=integer(field(field(field(value,"resources"),"backing"),"end"));
+        if(text(field(field(field(value,"resources"),"source"),"identity"))==text(field(field(field(value,"resources"),"backing"),"identity")))fail("acquisition_logical_namespace");
+        if(length<512 || offset>backing || length>backing-offset)fail("acquisition_backing");
+        const auto h=text(field(s,"metadata_digest"));
+        if(h.size()!=71 || h.substr(0,7)!="sha256:" || h.find_first_not_of("0123456789abcdef",7)!=h.npos)fail("acquisition_logical_source");
+    }
     p.definition=value;p.digest=hash(encode(value));return p;
 }
 Outcome execute(const Plan& input,const Grant& grant,Ports& ports,bool resume) {

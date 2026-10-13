@@ -13,9 +13,10 @@ int main() {
     try {
         std::string input;char block[4096];for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>65536)return 2;if(n<sizeof(block))break;}
         const auto value=disked::json::parse(input);if(value.kind!=V::Kind::object)throw disked::FileAcquisitionError("acquisition_probe_input");
-        for(const auto& f:value.fields)if(f.first!="source" && f.first!="destination" && f.first!="map" && f.first!="mode" && f.first!="options" && f.first!="grant")throw disked::FileAcquisitionError("acquisition_probe_input");
+        for(const auto& f:value.fields)if(f.first!="source" && f.first!="destination" && f.first!="map" && f.first!="mode" && f.first!="options" && f.first!="grant" && f.first!="logical_source")throw disked::FileAcquisitionError("acquisition_probe_input");
         const auto mode=text(field(value,"mode"));if(mode!="prepare" && mode!="start" && mode!="resume")throw disked::FileAcquisitionError("acquisition_probe_input");
         disked::FileAcquisitionRequest r;r.source=text(field(value,"source"));r.destination=text(field(value,"destination"));r.map=text(field(value,"map"));r.resume=mode=="resume";
+        if(const auto logical=value.find("logical_source"))r.logical_source=*logical;
         if(const auto options=value.find("options")) {
             if(options->kind!=V::Kind::object || options->fields.size()!=4)throw disked::FileAcquisitionError("acquisition_probe_input");r.explicit_options=true;
             r.chunk_bytes=number(field(*options,"chunk_bytes"));r.retries=number(field(*options,"retry_limit"));r.read_policy=text(field(*options,"read_policy"));r.substitution=text(field(*options,"substitution"));

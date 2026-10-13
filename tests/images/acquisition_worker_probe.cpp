@@ -11,8 +11,9 @@ int wmain(int argc,wchar_t** argv) {
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>65536)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         const auto v=disked::json::parse(input);const auto mode=text(v,"mode");V result;
         if(mode=="prepare") {
-            if(v.kind!=V::Kind::object || (v.fields.size()!=5 && v.fields.size()!=6))throw std::runtime_error("probe_input");
+            if(v.kind!=V::Kind::object || v.fields.size()<5 || v.fields.size()>7)throw std::runtime_error("probe_input");
             disked::FileAcquisitionRequest r;r.source=text(v,"source");r.destination=text(v,"destination");r.map=text(v,"map");
+            if(const auto logical=v.find("logical_source"))r.logical_source=*logical;
             if(const auto resume=v.find("resume")) {if(resume->kind!=V::Kind::boolean)throw std::runtime_error("probe_input");r.resume=resume->boolean;}
             result=disked::prepare_acquisition_worker(r,text(v,"state_directory"));
         } else if(mode=="start") {

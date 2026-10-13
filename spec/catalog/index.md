@@ -27,6 +27,7 @@
 - [fat-content-file-prototype.json](fat-content-file-prototype.json)
 - [fat-content-prototype.json](fat-content-prototype.json)
 - [fat-directory-prototype.json](fat-directory-prototype.json)
+- [fat-extraction-prototype.json](fat-extraction-prototype.json)
 - [fat-namespace-prototype.json](fat-namespace-prototype.json)
 - [fat-reader-prototype.json](fat-reader-prototype.json)
 - [fat-retention-prototype.json](fat-retention-prototype.json)

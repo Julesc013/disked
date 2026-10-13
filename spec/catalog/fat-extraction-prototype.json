@@ -1,0 +1,25 @@
+{
+  "schema": "org.disked.fat-extraction-profile/1",
+  "work_id": "DE-W047",
+  "status": "private-complete-file-extraction-contract",
+  "base_revision": "dc56b190409581af95ee7a765175acd8f3db5dfc",
+  "scope": "Copy the complete selected mapped FAT file into a new ordinary destination through the existing acquisition pipeline and contained acquisition worker. Reuse checkpoints, destination readback, no-clobber, exact grants and resume. This establishes the full-file extraction backend before public command admission; it is not another bounded-window substitute.",
+  "selection": "Bind explicit source path and immutable selector: kind fat-file, volume offset/length, FAT copy, captured node ID, expected logical file bytes and normalized basic FAT metadata digest. Basic means existing default metadata capture without auxiliary/global/name-consumer additions. Exact native source generation and alias/path/parent checks apply independently. No filename from disk is interpreted as a destination or instruction.",
+  "plan": "Keep raw acquisition plan1 unchanged. Private plan2 adds logical_source selector and a backing read resource with actual image extent/identity/epoch/aliases/failure domain. Source is an explicit logical FAT-file byte namespace with length equal to the selected file; backing declares the image bytes used to derive it. Source_read grant covers these two explicitly planned reads. Destination/map/host/code grants retain exact-definition and generation checks; no output is created during preparation.",
+  "execution": "Keep source and parents held through metadata capture and all output/checkpoint work. Verify basic metadata digest, complete selected chain/copy/extents and expected size before output creation. Reuse checked FAT maps; split acquisition chunks into <=196608 logical windows with <=4096 native pieces, never return slack. Recheck captured metadata before/after logical reads and verify repeated payload bytes; disagreement returns an explicit source error before committing that chunk. Whole mapped files, including empty files, are supported; metadata budgets bound mapping rather than reducing extraction to one window.",
+  "effects": "Create destination/map only after exact plan grant, with CREATE_NEW and source/destination/map/code/backing alias checks. Reuse capacity checks, flush ordering, readback hashes, pending/checkpoint/seal records and cancellation/error/uncertain-effect classifications. Stop/zero substitution semantics: FAT extraction permits ordinary policy, stop substitution and zero retries, preventing fabricated file bytes.",
+  "resume": "Bind selector, logical/backing identities, source generation, code, file parents and exact plan2 to the retained map. Reconstruct logical mapping and reverify covered source/destination chunks before repairing an interrupted tail or writing. Mapping, source, destination or record changes refuse without hiding prior effects. Old raw acquisition map/plan readers remain valid for plan1; unsupported plan2 readers must reject it.",
+  "claims": "Byte-content extraction only: preserve original metadata in observation/selector evidence, without claiming mounted-consumer fidelity, timestamps/ACL restoration, filesystem health or an atomic snapshot. Source is live-uncoordinated with ordinary read sharing held. Public command/frontends, recursive extraction, larger coherent maps, other filesystems/hosts, physical writers and full0.1.0 remain subsequent qualification.",
+  "qualification": [
+    "Independent FAT12/16/32 complete-file byte/hash/map oracles, fragmentation/slack/empty files, Unicode paths and files larger than one content window or acquisition chunk; source hashes unchanged.",
+    "Preparation produces no outputs; bad selector/digest/node/size, aliases, existing outputs, changed backing generation and refused exact grants preserve inputs and existing data.",
+    "Real normal/fault file and contained acquisition workers: pending/partial writes, stop, crash, flush/readback failures and resume with exact prior-data/source validation.",
+    "Plan2 logical/backing footprints and grants reject contradictory records; all old plan1/pipeline/worker/frontend/evidence regressions retain their semantics.",
+    "Exact clean compiler/SDK/import/header/dependency/context/manifest/tooling, artifact hashes and actual launches. No public extraction, power-loss/physical/owner or full-release qualification is inferred."
+  ],
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "owner_accepted": false,
+  "unit_complete": false,
+  "full_010_complete": false
+}

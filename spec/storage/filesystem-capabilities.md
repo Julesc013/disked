@@ -234,3 +234,13 @@ cases, 103 native groups and 20 standalone headers in
 `.aide/evidence/2026-10-13-fat-content-file/`. Measured held-source byte correctness does not establish future freshness,
 public extraction,
 other hosts and full product/storage/release admission.
+
+## DE-W047 complete mapped-file extraction
+
+The [extraction profile](../catalog/fat-extraction-prototype.json) defines full
+logical file copying through the existing ordinary-file acquisition engine.
+Private plan2 binds logical source bytes and an explicit read-only backing image;
+plan1 remains unchanged. Exact grants, no-clobber destination/map creation,
+checkpoint flush/readback and resume checks apply. This is byte-content backend
+work, not public command, recursive metadata-fidelity or physical writer admission.
+The full all-platform/storage 0.1.0 scope remains unchanged.

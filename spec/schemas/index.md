@@ -10,6 +10,7 @@
 - [acquisition-command-parameters.schema.json](acquisition-command-parameters.schema.json)
 - [acquisition-operation-event.schema.json](acquisition-operation-event.schema.json)
 - [acquisition-outcome-prototype.schema.json](acquisition-outcome-prototype.schema.json)
+- [acquisition-plan-logical-prototype.schema.json](acquisition-plan-logical-prototype.schema.json)
 - [acquisition-plan-prototype.schema.json](acquisition-plan-prototype.schema.json)
 - [acquisition-verification-export-definition.schema.json](acquisition-verification-export-definition.schema.json)
 - [acquisition-verification-export-outcome.schema.json](acquisition-verification-export-outcome.schema.json)
