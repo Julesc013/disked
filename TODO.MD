@@ -365,4 +365,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W064 local exact-source qualification44c8b090:2316cases/9methods,10parser/guardgroups+boundaryfollowup,1header/C90/import/context and agentreview. Prior130native evidence separate; bitmap/upcase/source/tree/provider/fullrelease remain unfinished.
 
-- [ ] DE-W065 planned: supplied-byte bitmap descriptor and bounded allocation-bit intervals, exact checked offsets and raw/advisory preservation; no source-bound free-space/ownership/writer claim.
+- [ ] DE-W065 active: C90 bitmap descriptor/window intervals implemented;2554oraclecases/4methods and11focused native groups pass. Exact clean/header/import/tooling qualification remains; no source-bound free-space/ownership/writer claim.

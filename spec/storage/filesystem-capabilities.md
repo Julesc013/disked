@@ -104,7 +104,10 @@ observes exactly requested cluster bits from a checked bounded supplied window.
 Root cardinality, active FAT/bitmap source pairing, present-source coherence and
 ownership remain runtime gates; reserved tail bits do not enter interval counts.
 Upcase validation and full name comparison remain required before lookup claims.
-Allocation implementation/tests are not_run at this contract checkpoint.
+The private C90 descriptor/interval decoder is implemented. Working checks pass
+2554independent cases/4methods and11focused native groups, including read-only/
+protected bounds. Exact clean-source qualification and local review remain;
+these supplied-byte counts do not establish current free-space or ownership.
 
 ## DE-W025 supplied-byte FAT allocation reader
 
