@@ -1,0 +1,326 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-extraction-clean-a40c7b43/build
+        Start   1: image.fat_content
+        Start   2: image.fat_retention_store
+        Start   3: image.fat_retention_commands
+        Start   4: build.boundaries
+  1/104 Test   #2: image.fat_retention_store .................   Passed    0.43 sec
+        Start   5: build.boundary_checker
+  2/104 Test   #5: build.boundary_checker ....................   Passed    0.49 sec
+        Start  11: operation.directory_pins
+  3/104 Test   #1: image.fat_content .........................   Passed    1.58 sec
+        Start  18: evidence.export_model
+  4/104 Test   #3: image.fat_retention_commands ..............***Failed    1.83 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_retention.py", line 225, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_retention.py", line 155, in main
+    observed=port.request('image.inspect',params(path,volume),4,'fat_source_changed')
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_retention.py", line 41, in request
+    assert response['status']=={0:'completed',2:'refused',3:'refused',4:'failed',6:'unknown'}[expected],(command,response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('image.inspect', {'diagnostics': [], 'evidence': [], 'operation_id': None, 'request_id': 'retention:1', 'result': {'authorizes_effects': False, 'capture': {'atomic_snapshot': False, 'capture_domain': 'sha256:5de80d98339e88b5744f2ddd4e48b7d97181acb4d7c5cec469644867abcccd6a', 'metadata_equal': True, 'observed_stable': True, 'overlaps_equal': True, 'path': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\.aide-local\\fat-retention-z3h18bn0\\quota.img', 'regions': {'items': [{'captured_bytes': '512', 'error': '0', 'matches': True, 'requested_bytes': '512', 'reread_bytes': '512', 'reread_error': '0', 'reread_sha256': 'sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e', 'sha256': 'sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e', 'source_offset': '0'}, {'captured_bytes': '2', 'error': '0', 'matches': True, 'requested_bytes': '2', 'reread_bytes': '2', 'reread_error': '0', 'reread_sha256': 'sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a', 'sha256': 'sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a', 'source_offset': '512'}, {'captured_bytes': '2', 'error': '0', 'matches': True, 'requested_bytes': '2', 'reread_bytes': '2', 'reread_error': '0', 'reread_sha256': 'sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a', 'sha256': 'sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a', 'source_offset': '5120'}, {'captured_bytes': '2', 'error': '0', 'matches': True, 'requested_bytes': '2', 'reread_bytes': '2', 'reread_error': '0', 'reread_sha256': 'sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb', 'sha256': 'sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb', 'source_offset': '513'}, {'captured_bytes': '2', 'error': '0', 'matches': True, 'requested_bytes': '2', 'reread_bytes': '2', 'reread_error': '0', 'reread_sha256': 'sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb', 'sha256': 'sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb', 'source_offset': '5121'}, {'captured_bytes': '512', 'error': '0', 'matches': True, 'requested_bytes': '512', 'reread_bytes': '512', 'reread_error': '0', 'reread_sha256': 'sha256:076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560', 'sha256': 'sha256:076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560', 'source_offset': '9728'}], 'omitted': '0', 'returned': '6', 'sha256': 'sha256:773075fd0ff95c2c1f6b844384f226b282b4cefc10ef6eb2cdf7ee4169a3a4ac', 'total': '6'}, 'regions_equal': True, 'reread_bytes': '1032', 'resolved_path': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout\\.aide-local\\fat-retention-z3h18bn0\\quota.img', 'source_after': {'attributes': '32', 'bytes': '1467904', 'changed': '134363383422382237', 'created': '134363383416192270', 'file_id': 'aa370d00000041000000000000000000', 'hardlinks': '1', 'volume_id': '3781016413010784355', 'written': '134363383422382237'}, 'source_before': {'attributes': '32', 'bytes': '1467904', 'changed': '134363383422382237', 'created': '134363383416192270', 'file_id': 'aa370d00000041000000000000000000', 'hardlinks': '1', 'volume_id': '3781016413010784355', 'written': '134363383422382237'}, 'source_consistency': 'live-uncoordinated', 'source_identity_digest': 'sha256:ac46d429e90dc4b814a883c7727c74d5f87fc87a397dcf8c17a43589766958d1', 'whole_file_hashed': False}, 'capture_retention': {'bytes': '9519', 'capture_id': 'fat-capture:eae2b4e7c9dc01ceb648b8f75cccc4ed:1', 'lifetime': 'current-process', 'sha256': 'sha256:61bbd14673fd2364506e88e5e90d5559c19fbcda5906031b86f48cc55defd361'}, 'capture_sha256': 'sha256:9535c926a2933fb0aa7b9c8267cc03f30e3fe6823c0078cc568a19de7ff4a735', 'command': 'image.inspect', 'context': {'attempt_id': 'fat-attempt:353956825601c8fe59ec587604b2ef4b', 'capture_epoch': '1', 'code_sha256': 'c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f', 'created': '134363383425574995', 'frame_sha256': 'sha256:979a044147aa3545d03510bbe86f5cb363d7095cc7479f05a601f368c96727f7', 'image_profile': 'ordinary-file-fat', 'observer_epoch': 'observer:525f9918350fbdfe730a905234a5901d', 'pid': '41208', 'request_digest': 'f087616923d11480dc3a8251160a8b8e0c5554bc824ff6cb51e49bc98b959e87', 'worker_epoch': 'worker:8a703b6ebb7f01924986913bbccbb909'}, 'observation': {'allocation_scope': 'observed-tree-only', 'authorizes_effects': False, 'capture_epoch': '1', 'cross_links': {'items': [], 'omitted': '0', 'returned': '0', 'sha256': 'sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945', 'total': '0'}, 'diagnostics': [], 'directory_records': '1', 'fat_copy': '0', 'filesystem_health_qualified': False, 'geometry': {'bits': '12', 'cluster_bytes': '512', 'clusters': '2847', 'fat_copies': '2', 'issues': '0', 'raw_boot': 'eb3c9000000000000000000002010100021000330bf8090000000000000000000000000000000000000000000000000000000000000046415431322020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055aa', 'sector_bytes': '512', 'usable_layout': True}, 'nodes': {'items': [{'allocated_bytes': '0', 'chain': 'fixed_root', 'chain_complete': True, 'depth': '0', 'detail_bindings': {'cells': {'count': '2', 'sha256': 'sha256:16404c85886d6885d39bcc7108ed4ba72b6204ad3f79bdd80da2830bf1fd011b'}, 'extents': {'count': '0', 'sha256': 'sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'}, 'orphan_records': {'count': '0', 'sha256': 'sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'}}, 'diagnostics': [], 'entries_complete': True, 'id': '0', 'kind': 'root'}], 'omitted': '0', 'returned': '1', 'sha256': 'sha256:d2b85db18fdbf702f0abc1fb78ef0f5cfe3e3632174eb1d5dd7a488f4cbdd480', 'total': '1'}, 'observed_clusters': '0', 'observed_metadata_consistent': True, 'omitted_nodes': '0', 'product_dispatch_admitted': False, 'reads': {'overlap_equal': True, 'regions': '6', 'requested_bytes': '1032', 'requests': '6'}, 'schema': 'org.disked.fat-volume-observation/1', 'selected_tree_complete': True, 'source_id': 'sha256:ac46d429e90dc4b814a883c7727c74d5f87fc87a397dcf8c17a43589766958d1', 'volume_bytes': '1467904', 'volume_offset': '0'}, 'observation_sha256': 'sha256:a5727d57ce193d33f6148c951d429fcf0273c37c6c57b6fd5d697083eb5e4ed3', 'provider': 'provider.image.fat.prototype/1', 'schema': 'org.disked.fat-image-observation/1', 'scope': 'ordinary-local-file-fat', 'storage_consumer_qualified': False, 'worker': {'admitted': True, 'attempt_id': 'fat-attempt:353956825601c8fe59ec587604b2ef4b', 'cancellation_requested': False, 'capture_epoch': '1', 'claims': {'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': 'c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f', 'diagnostic': None, 'observer_epoch': 'observer:525f9918350fbdfe730a905234a5901d', 'request_digest': 'f087616923d11480dc3a8251160a8b8e0c5554bc824ff6cb51e49bc98b959e87', 'result': {'claims': {'atomic_snapshot': False, 'mutation_authority': False, 'physical_admission': False, 'product_dispatch_admitted': False, 'storage_consumer_qualified': False}, 'diagnostic': None, 'payload_bytes': '7827', 'schema': 'org.disked.fat-worker-publication/1', 'sha256': 'sha256:979a044147aa3545d03510bbe86f5cb363d7095cc7479f05a601f368c96727f7', 'status': 'captured'}, 'retired': False, 'schema': 'org.disked.fat-worker-observation/1', 'status': 'completed', 'worker': {'created': '134363383425574995', 'exit_code': '0', 'observation': 'exited', 'pid': '41208'}, 'worker_epoch': 'worker:8a703b6ebb7f01924986913bbccbb909'}}, 'schema': 'org.disked.response/1', 'status': 'completed'})
+
+        Start   6: frontend.product_verification
+  5/104 Test  #11: operation.directory_pins ..................   Passed    1.81 sec
+        Start  19: evidence.file_export
+  6/104 Test  #18: evidence.export_model .....................   Passed    2.26 sec
+        Start  25: evidence.case_model
+  7/104 Test   #4: build.boundaries ..........................   Passed    5.00 sec
+        Start  26: health.observation_model
+  8/104 Test  #26: health.observation_model ..................   Passed    0.41 sec
+        Start  27: health.command
+  9/104 Test  #25: evidence.case_model .......................   Passed    4.62 sec
+        Start  28: journal.semantic_reader
+ 10/104 Test  #27: health.command ............................   Passed    4.48 sec
+        Start  29: journal.guarded_model
+ 11/104 Test  #29: journal.guarded_model .....................   Passed    2.41 sec
+        Start  30: journal.model_binary_producer
+ 12/104 Test  #30: journal.model_binary_producer .............   Passed    3.23 sec
+        Start  31: journal.repeated_crash_audit
+ 13/104 Test  #19: evidence.file_export ......................   Passed   15.63 sec
+        Start  32: journal.plan_definitions
+ 14/104 Test  #32: journal.plan_definitions ..................   Passed    0.51 sec
+        Start  33: journal.binary_codec
+ 15/104 Test  #33: journal.binary_codec ......................   Passed    0.34 sec
+        Start  42: image.acquisition_pipeline
+ 16/104 Test  #31: journal.repeated_crash_audit ..............   Passed    5.04 sec
+        Start  45: image.gpt_fixture_execution
+ 17/104 Test  #42: image.acquisition_pipeline ................   Passed    7.00 sec
+        Start  46: image.gpt_fixture_restoration
+ 18/104 Test  #28: journal.semantic_reader ...................   Passed   18.52 sec
+        Start  47: image.gpt_restoration_inspection
+ 19/104 Test  #47: image.gpt_restoration_inspection ..........   Passed   18.48 sec
+        Start  48: image.file_capture
+ 20/104 Test   #6: frontend.product_verification .............   Passed   49.96 sec
+        Start   7: frontend.product_export
+ 21/104 Test  #48: image.file_capture ........................   Passed    4.93 sec
+        Start  49: image.map_observation
+ 22/104 Test  #49: image.map_observation .....................   Passed    1.95 sec
+        Start  50: portable.gpt
+ 23/104 Test  #50: portable.gpt ..............................   Passed    4.13 sec
+        Start  51: portable.gpt_guard
+ 24/104 Test  #51: portable.gpt_guard ........................   Passed    0.03 sec
+        Start  52: portable.fat
+ 25/104 Test  #52: portable.fat ..............................   Passed    2.36 sec
+        Start  53: portable.fat_guard
+ 26/104 Test  #53: portable.fat_guard ........................   Passed    0.02 sec
+        Start  54: portable.fat_directory
+ 27/104 Test  #54: portable.fat_directory ....................   Passed    3.58 sec
+        Start  55: portable.fat_directory_guard
+ 28/104 Test  #55: portable.fat_directory_guard ..............   Passed    0.03 sec
+        Start  56: image.fat_capture
+ 29/104 Test  #56: image.fat_capture .........................   Passed    2.73 sec
+        Start  58: image.fat_allocation_scan
+ 30/104 Test  #58: image.fat_allocation_scan .................   Passed    6.18 sec
+        Start  59: image.fat_auxiliary
+ 31/104 Test   #7: frontend.product_export ...................   Passed   22.34 sec
+        Start   8: frontend.joined_report
+ 32/104 Test  #59: image.fat_auxiliary .......................   Passed   12.96 sec
+        Start  60: portable.fat_auxiliary_guard
+ 33/104 Test  #60: portable.fat_auxiliary_guard ..............   Passed    0.02 sec
+        Start  61: image.fat_namespace
+ 34/104 Test  #61: image.fat_namespace .......................   Passed    2.55 sec
+        Start  66: portable.fat_cell_guard
+ 35/104 Test  #66: portable.fat_cell_guard ...................   Passed    0.02 sec
+        Start  67: planner.gpt_repair
+ 36/104 Test  #67: planner.gpt_repair ........................   Passed    3.03 sec
+        Start  68: portable.mbr_ebr
+ 37/104 Test  #68: portable.mbr_ebr ..........................   Passed    1.48 sec
+        Start  69: portable.mbr_guard
+ 38/104 Test  #69: portable.mbr_guard ........................   Passed    0.02 sec
+        Start  70: portable.checked
+ 39/104 Test  #70: portable.checked ..........................   Passed    0.37 sec
+        Start  71: portable.c_cpp_linkage
+ 40/104 Test  #71: portable.c_cpp_linkage ....................   Passed    0.05 sec
+        Start  72: operation.watch_reader
+ 41/104 Test  #72: operation.watch_reader ....................   Passed    0.51 sec
+        Start  73: resilience.capture
+ 42/104 Test   #8: frontend.joined_report ....................   Passed   23.88 sec
+        Start   9: frontend.gui_capture
+ 43/104 Test   #9: frontend.gui_capture ......................   Passed    1.31 sec
+        Start  10: evidence.report_process_identity
+ 44/104 Test  #10: evidence.report_process_identity ..........   Passed    3.69 sec
+        Start  12: evidence.acquisition_export
+ 45/104 Test  #12: evidence.acquisition_export ...............   Passed    5.38 sec
+        Start  13: evidence.verification_case_export
+ 46/104 Test  #73: resilience.capture ........................   Passed   33.58 sec
+        Start  74: resilience.request_channel
+ 47/104 Test  #74: resilience.request_channel ................   Passed    1.32 sec
+        Start  75: shell.model
+ 48/104 Test  #75: shell.model ...............................   Passed    1.96 sec
+        Start  76: operation.reducer
+ 49/104 Test  #76: operation.reducer .........................   Passed    1.01 sec
+        Start  77: frontend.gui_model
+ 50/104 Test  #77: frontend.gui_model ........................   Passed    1.06 sec
+        Start  79: frontend.tui_model
+ 51/104 Test  #79: frontend.tui_model ........................   Passed    0.69 sec
+        Start  82: frontend.service
+ 52/104 Test  #82: frontend.service ..........................   Passed    0.42 sec
+        Start  83: frontend.transport
+ 53/104 Test  #83: frontend.transport ........................   Passed    1.94 sec
+        Start  84: frontend.shared_presentation
+ 54/104 Test  #84: frontend.shared_presentation ..............   Passed    1.46 sec
+        Start  85: invocation.policy
+ 55/104 Test  #85: invocation.policy .........................   Passed    7.64 sec
+        Start  86: protocol.compatible_reader
+ 56/104 Test  #86: protocol.compatible_reader ................   Passed    1.42 sec
+        Start  87: command.syntax
+ 57/104 Test  #87: command.syntax ............................   Passed   14.19 sec
+        Start  88: protocol.json_codec
+ 58/104 Test  #13: evidence.verification_case_export .........   Passed   57.57 sec
+        Start  14: evidence.report_worker
+ 59/104 Test  #88: protocol.json_codec .......................   Passed    3.93 sec
+        Start  99: disked.invocation
+ 60/104 Test  #99: disked.invocation .........................   Passed    2.00 sec
+        Start 100: disked.acceptance
+ 61/104 Test #100: disked.acceptance .........................   Passed    4.00 sec
+        Start 101: disked_provider_guard.invocation
+ 62/104 Test #101: disked_provider_guard.invocation ..........   Passed    2.00 sec
+        Start 102: disked_provider_guard.acceptance
+ 63/104 Test #102: disked_provider_guard.acceptance ..........   Passed    3.95 sec
+        Start 103: provider_guard.positive_control
+ 64/104 Test #103: provider_guard.positive_control ...........   Passed    0.15 sec
+        Start 104: artifacts.archive_completeness
+ 65/104 Test #104: artifacts.archive_completeness ............   Passed    1.79 sec
+ 66/104 Test  #14: evidence.report_worker ....................   Passed   23.10 sec
+        Start  15: evidence.export_commands
+ 67/104 Test  #45: image.gpt_fixture_execution ...............   Passed  172.35 sec
+ 68/104 Test  #15: evidence.export_commands ..................   Passed   14.23 sec
+        Start  16: evidence.report_watch
+ 69/104 Test  #16: evidence.report_watch .....................   Passed   22.16 sec
+        Start  17: evidence.acquisition_case
+ 70/104 Test  #46: image.gpt_fixture_restoration .............   Passed  207.58 sec
+ 71/104 Test  #17: evidence.acquisition_case .................   Passed    8.31 sec
+        Start  20: evidence.acquired_image_verification
+ 72/104 Test  #20: evidence.acquired_image_verification ......   Passed    3.62 sec
+        Start  21: evidence.image_verification_observation
+ 73/104 Test  #21: evidence.image_verification_observation ...   Passed    4.50 sec
+        Start  22: evidence.image_verification_collection
+ 74/104 Test  #22: evidence.image_verification_collection ....   Passed    6.60 sec
+        Start  23: evidence.verification_worker
+ 75/104 Test  #23: evidence.verification_worker ..............   Passed   31.63 sec
+        Start  24: evidence.verification_commands
+ 76/104 Test  #24: evidence.verification_commands ............   Passed   24.32 sec
+        Start  34: frontend.acquisition_forms
+ 77/104 Test  #34: frontend.acquisition_forms ................   Passed    2.69 sec
+        Start  35: frontend.acquisition_interactive
+ 78/104 Test  #35: frontend.acquisition_interactive ..........   Passed   32.94 sec
+        Start  36: image.acquisition_commands
+ 79/104 Test  #36: image.acquisition_commands ................   Passed   16.31 sec
+        Start  37: image.acquisition_operations
+ 80/104 Test  #37: image.acquisition_operations ..............   Passed   11.11 sec
+        Start  38: image.acquisition_worker
+ 81/104 Test  #38: image.acquisition_worker ..................   Passed   25.68 sec
+        Start  39: image.fat_extraction
+ 82/104 Test  #39: image.fat_extraction ......................   Passed   16.40 sec
+        Start  40: image.file_acquisition
+ 83/104 Test  #40: image.file_acquisition ....................   Passed   21.81 sec
+        Start  41: image.parent_pins
+ 84/104 Test  #41: image.parent_pins .........................   Passed    1.10 sec
+        Start  43: image.shared_commands
+ 85/104 Test  #43: image.shared_commands .....................   Passed   19.43 sec
+        Start  44: image.gpt_repair_command
+ 86/104 Test  #44: image.gpt_repair_command ..................   Passed    7.70 sec
+        Start  57: image.fat_content_file
+ 87/104 Test  #57: image.fat_content_file ....................   Passed    4.83 sec
+        Start  62: image.fat_worker
+ 88/104 Test  #62: image.fat_worker ..........................   Passed   11.05 sec
+        Start  63: image.fat_commands
+ 89/104 Test  #63: image.fat_commands ........................***Failed    6.68 sec
+CASE fat-12-512
+CASE stdio-12-512.img
+CASE fat-12-4096
+CASE stdio-12-4096.img
+CASE fat-16-512
+CASE stdio-16-512.img
+CASE fat-16-4096
+CASE stdio-16-4096.img
+CASE fat-32-512
+CASE stdio-32-512.img
+CASE fat-32-4096
+CASE stdio-32-4096.img
+CASE fat-base
+CASE option-placement
+CASE page-437
+CASE page-850
+CASE page-932
+CASE allocation-and-copy
+CASE invalid-format
+CASE chain-cycle
+CASE bounded-tree
+CASE detail-omissions
+CASE stdio-detail-omissions
+CASE large-detail-gui
+CASE invalid-before-source-0
+CASE invalid-before-source-1
+CASE invalid-before-source-2
+CASE invalid-before-source-3
+CASE invalid-before-source-4
+CASE invalid-before-source-5
+CASE invalid-before-source-6
+CASE invalid-before-source-7
+CASE invalid-before-source-8
+CASE invalid-before-source-9
+CASE invalid-before-source-10
+CASE inapplicable-logical-unit
+CASE essential-before-source
+CASE essential-before-source
+CASE essential-before-source
+CASE essential-before-source
+CASE unexpected-revision
+CASE missing-source
+CASE outside-source
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_commands.py", line 207, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_commands.py", line 152, in main
+    value=observe('fault-'+flag,path,valid,expected=4,diagnostic=code,exe=args.fault,settings={'DISKED_FAT_COMMAND_TEST_'+flag:'1'})
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_commands.py", line 54, in observe
+    def observe(name,path,fields,**kw):return launch(name,['--json','image','inspect',str(path),*options(fields)],**kw)[0]
+                                              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_commands.py", line 37, in launch
+    assert result.returncode==expected,(name,result.returncode,result.stdout,result.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('fault-VERIFY_CHANGED', 0, b'{"diagnostics":[],"evidence":[],"operation_id":null,"request_id":"cli","result":{"authorizes_effects":false,"capture":{"atomic_snapshot":false,"capture_domain":"sha256:bc43d422fc0fae8d36abc675caca1dce7483dc1a91989571af55c9cdfa7d5581","metadata_equal":true,"observed_stable":true,"overlaps_equal":true,"path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\owned-layout-clean-2c731a1c\\\\checkout\\\\.aide-local\\\\fat-command-j7npg7v1\\\\12-512.img","regions":{"items":[{"captured_bytes":"512","error":"0","matches":true,"requested_bytes":"512","reread_bytes":"512","reread_error":"0","reread_sha256":"sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e","sha256":"sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e","source_offset":"512"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","source_offset":"1024"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","source_offset":"5632"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","source_offset":"1025"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","source_offset":"5633"},{"captured_bytes":"512","error":"0","matches":true,"requested_bytes":"512","reread_bytes":"512","reread_error":"0","reread_sha256":"sha256:19157ef4d9760acb34a886e7d32cf747a4d1d7e5d1baaaae9db34e070b971ed1","sha256":"sha256:19157ef4d9760acb34a886e7d32cf747a4d1d7e5d1baaaae9db34e070b971ed1","source_offset":"10240"}],"omitted":"0","returned":"6","sha256":"sha256:1f68f49e95fd310c917f1430578e80b0794af9a552de917a12b698c6fab48e0f","total":"6"},"regions_equal":true,"reread_bytes":"1032","resolved_path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\owned-layout-clean-2c731a1c\\\\checkout\\\\.aide-local\\\\fat-command-j7npg7v1\\\\12-512.img","source_after":{"attributes":"32","bytes":"1468416","changed":"134363388164802241","created":"134363388164787236","file_id":"b3370d00000083000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134363388164802241"},"source_before":{"attributes":"32","bytes":"1468416","changed":"134363388164802241","created":"134363388164787236","file_id":"b3370d00000083000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134363388164802241"},"source_consistency":"live-uncoordinated","source_identity_digest":"sha256:fe1516a11c35b66c239f3d5d16ed887e0bfcc1b273a443365743e91f33b5b9c8","whole_file_hashed":false},"capture_sha256":"sha256:3cb1c796e297a1c532e49a97cdefd69e03d822c9a68870faf81c75d5b46a1cb1","command":"image.inspect","context":{"attempt_id":"fat-attempt:a49d88f6104c19461594ed90fff5ae40","capture_epoch":"1","code_sha256":"c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f","created":"134363388229034949","frame_sha256":"sha256:6a8cae768590c354a0e7ec270773bccee78616c725ac4d97be96417145c5961e","image_profile":"ordinary-file-fat","observer_epoch":"observer:cdb8165f75e6b6dde5f12d8c61e5b966","pid":"6356","request_digest":"4daff48ed75347f2e0b18908b586d74f34c5e79fdcf87879c1745685b2578c8f","worker_epoch":"worker:2e69bb61bcee76a839d0d7ed0e6eae07"},"observation":{"allocation_scope":"observed-tree-only","authorizes_effects":false,"capture_epoch":"1","cross_links":{"items":[],"omitted":"0","returned":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","total":"0"},"diagnostics":[],"directory_records":"4","fat_copy":"0","filesystem_health_qualified":false,"geometry":{"bits":"12","cluster_bytes":"512","clusters":"2847","fat_copies":"2","issues":"0","raw_boot":"eb3c9000000000000000000002010100021000330bf8090000000000000000000000000000000000000000000000000000000000000046415431322020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055aa","sector_bytes":"512","usable_layout":true},"nodes":{"items":[{"allocated_bytes":"0","chain":"fixed_root","chain_complete":true,"depth":"0","detail_bindings":{"cells":{"count":"2","sha256":"sha256:16404c85886d6885d39bcc7108ed4ba72b6204ad3f79bdd80da2830bf1fd011b"},"extents":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"orphan_records":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"}},"diagnostics":[],"entries_complete":true,"id":"0","kind":"root"},{"access_date":"0","allocated_bytes":"0","attributes":"32","case_flags":"0","chain":"empty","chain_complete":true,"cluster":"0","creation_date":"0","creation_fraction":"0","creation_time":"0","depth":"1","detail_bindings":{"cells":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"extents":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"orphan_records":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"}},"diagnostics":[],"directory_ordinal":"2","dot":"0","entries_complete":false,"file_bytes":"0","id":"1","issues":"0","kind":"file","lead_byte_escape":false,"long_name":{"associated":true,"canonical":true,"display":"A long name.txt","issues":"0","name_length":"15","raw_slots":"42780074000000ffffffff0f0019ffffffffffffffffffffffff0000ffffffff01410020006c006f006e000f0019670020006e0061006d00650000002e007400","source_offsets":["10240","10272"],"unicode_valid":true,"units":["65","32","108","111","110","103","32","110","97","109","101","46","116","120","116","0","65535","65535","65535","65535","65535","65535","65535","65535","65535","65535"]},"name_oem":"46494c4520202020545854","parent":"0","raw":"46494c4520202020545854200000000000000000000000000000000000000000","raw_cluster":"0","source_record_offset":"10304","volume_record_offset":"9792","write_date":"0","write_time":"0"}],"omitted":"0","returned":"2","sha256":"sha256:f7d45cb68908ba76a4ef9cf0271c03860e3d5b534bdb6120c838aa8655df6667","total":"2"},"observed_clusters":"0","observed_metadata_consistent":true,"omitted_nodes":"0","product_dispatch_admitted":false,"reads":{"overlap_equal":true,"regions":"6","requested_bytes":"1032","requests":"6"},"schema":"org.disked.fat-volume-observation/1","selected_tree_complete":true,"source_id":"sha256:fe1516a11c35b66c239f3d5d16ed887e0bfcc1b273a443365743e91f33b5b9c8","volume_bytes":"1467904","volume_offset":"512"},"observation_sha256":"sha256:5e146dbfe5b5ef730753a718633611d4867c1e8942a5fa8e52d5f8998b3bac2e","provider":"provider.image.fat.prototype/1","schema":"org.disked.fat-image-observation/1","scope":"ordinary-local-file-fat","storage_consumer_qualified":false,"worker":{"admitted":true,"attempt_id":"fat-attempt:a49d88f6104c19461594ed90fff5ae40","cancellation_requested":false,"capture_epoch":"1","claims":{"durable_reconnect":false,"live_namespace":false,"mutation_authority":false,"physical_admission":false},"code_sha256":"c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f","diagnostic":null,"observer_epoch":"observer:cdb8165f75e6b6dde5f12d8c61e5b966","request_digest":"4daff48ed75347f2e0b18908b586d74f34c5e79fdcf87879c1745685b2578c8f","result":{"claims":{"atomic_snapshot":false,"mutation_authority":false,"physical_admission":false,"product_dispatch_admitted":false,"storage_consumer_qualified":false},"diagnostic":null,"payload_bytes":"8961","schema":"org.disked.fat-worker-publication/1","sha256":"sha256:6a8cae768590c354a0e7ec270773bccee78616c725ac4d97be96417145c5961e","status":"captured"},"retired":false,"schema":"org.disked.fat-worker-observation/1","status":"completed","worker":{"created":"134363388229034949","exit_code":"0","observation":"exited","pid":"6356"},"worker_epoch":"worker:2e69bb61bcee76a839d0d7ed0e6eae07"}},"schema":"org.disked.response/1","status":"completed"}\n', b'')
+
+        Start  64: image.fat_allocation_windows
+ 90/104 Test  #64: image.fat_allocation_windows ..............   Passed    1.01 sec
+        Start  65: image.fat_window_commands
+ 91/104 Test  #65: image.fat_window_commands .................***Failed    7.06 sec
+CASE window-12-512
+CASE stdio-12-512
+CASE window-12-4096
+CASE stdio-12-4096
+CASE window-16-512
+CASE stdio-16-512
+CASE window-16-4096
+CASE stdio-16-4096
+CASE window-32-512
+CASE stdio-32-512
+CASE window-32-4096
+CASE stdio-32-4096
+CASE native-large-window
+CASE outside-geometry
+CASE window-does-not-qualify-fsinfo
+CASE invalid-before-open-0
+CASE invalid-before-open-1
+CASE invalid-before-open-2
+CASE invalid-before-open-3
+CASE invalid-before-open-4
+CASE invalid-before-open-5
+CASE invalid-before-open-6
+CASE invalid-before-open-7
+CASE conflict-before-open
+CASE map-window-before-open
+CASE whole-window
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_windows.py", line 142, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_windows.py", line 102, in main
+    value=observe('changed-withdraws-applicability',whole_path,whole_params,4,a.fault,{'DISKED_FAT_COMMAND_TEST_VERIFY_CHANGED':'1'})
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_windows.py", line 46, in observe
+    return execute(name,exe or a.exe,['image','inspect',str(path),*options(params),'--json'],expected,settings=settings)
+  File "D:\Projects\DiskEd\disked\.aide-local\owned-layout-clean-2c731a1c\checkout\tests\frontend\test_fat_windows.py", line 35, in execute
+    assert r.returncode==expected and not r.stderr,(name,r.returncode,r.stdout,r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('changed-withdraws-applicability', 0, b'{"diagnostics":[],"evidence":[],"operation_id":null,"request_id":"cli","result":{"authorizes_effects":false,"capture":{"atomic_snapshot":false,"capture_domain":"sha256:6414511a4aa5b710b9151cadd790e5c7d183d61c4457f214c352c546d275654b","metadata_equal":true,"observed_stable":true,"overlaps_equal":true,"path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\owned-layout-clean-2c731a1c\\\\checkout\\\\.aide-local\\\\fat-window-product-j4v044m2\\\\whole.img","regions":{"items":[{"captured_bytes":"512","error":"0","matches":true,"requested_bytes":"512","reread_bytes":"512","reread_error":"0","reread_sha256":"sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e","sha256":"sha256:3c6bdf80201909cf2cd6c6b5d0629b6c3c92d68b3e7309d6f0e84d2d68fc306e","source_offset":"17"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","source_offset":"529"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","sha256":"sha256:abc4b998a3a6e9ea57053e8feba47af7ea00b524264c6395bf269c60f03bfa9a","source_offset":"5137"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","source_offset":"530"},{"captured_bytes":"2","error":"0","matches":true,"requested_bytes":"2","reread_bytes":"2","reread_error":"0","reread_sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","sha256":"sha256:ca2fd00fa001190744c15c317643ab092e7048ce086a243e2be9437c898de1bb","source_offset":"5138"},{"captured_bytes":"512","error":"0","matches":true,"requested_bytes":"512","reread_bytes":"512","reread_error":"0","reread_sha256":"sha256:076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560","sha256":"sha256:076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560","source_offset":"9745"},{"captured_bytes":"4096","error":"0","matches":true,"requested_bytes":"4096","reread_bytes":"4096","reread_error":"0","reread_sha256":"sha256:528ce1b62d75b107203528ebccd3eaf4be41536f2bad96a2a3e81807297c8f6e","sha256":"sha256:528ce1b62d75b107203528ebccd3eaf4be41536f2bad96a2a3e81807297c8f6e","source_offset":"529"},{"captured_bytes":"4096","error":"0","matches":true,"requested_bytes":"4096","reread_bytes":"4096","reread_error":"0","reread_sha256":"sha256:528ce1b62d75b107203528ebccd3eaf4be41536f2bad96a2a3e81807297c8f6e","sha256":"sha256:528ce1b62d75b107203528ebccd3eaf4be41536f2bad96a2a3e81807297c8f6e","source_offset":"5137"}],"omitted":"2","returned":"8","sha256":"sha256:d46f706e131e349c2e9ffef083744c9c92fcbfee8b72893d2ca5fee5a7f73b42","total":"10"},"regions_equal":true,"reread_bytes":"10248","resolved_path":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\owned-layout-clean-2c731a1c\\\\checkout\\\\.aide-local\\\\fat-window-product-j4v044m2\\\\whole.img","source_after":{"attributes":"32","bytes":"1467921","changed":"134363388284322251","created":"134363388284307230","file_id":"c7370d00000034000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134363388284322251"},"source_before":{"attributes":"32","bytes":"1467921","changed":"134363388284322251","created":"134363388284307230","file_id":"c7370d00000034000000000000000000","hardlinks":"1","volume_id":"3781016413010784355","written":"134363388284322251"},"source_consistency":"live-uncoordinated","source_identity_digest":"sha256:419dd199e671327291e0b0e56043a3c0b951a32831378a0f70638d6a8556d3b0","whole_file_hashed":false},"capture_sha256":"sha256:e2d270a25ddcc9946513308c72ae48b99a8727fa21f2b9d0be8e712920bc318f","command":"image.inspect","context":{"attempt_id":"fat-attempt:ace7d27f3edac7fc1c2c99e5d57bfd68","capture_epoch":"1","code_sha256":"c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f","created":"134363388286164384","frame_sha256":"sha256:59e6c4d4a29daccabf2db5d88d996501e36984d29883d70fb9b716ac6cdda55a","image_profile":"ordinary-file-fat","observer_epoch":"observer:d59c024428a42b2685d4bc07838651eb","pid":"20868","request_digest":"3f9277a7397dfb60c69262f788d4448e5d9e0af5ba970d560cb4b6a3f679d8be","worker_epoch":"worker:b5f172e4c39fec833955048b1cca49be"},"observation":{"allocation_scope":"observed-tree-and-allocation-window","allocation_window":{"all_volume_coverage":true,"allocated_without_observed_owner":"0","categories":{"bad":"0","end":"0","free":"2847","next":"0","reserved":"0"},"compared_copies":"2","comparison_complete":true,"coverage_complete":true,"covered_end":"2849","cycle_components":"0","cyclic_clusters":"0","details_complete":true,"diagnostics":[],"different_cells":"0","expected_clusters":"2847","findings":{"items":[],"omitted":"0","returned":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","total":"0"},"first_cluster":"2","links_into_bad":"0","links_into_free":"0","links_into_reserved":"0","links_outside_coverage":"0","merge_points":"0","next_cluster":null,"omitted_findings":"0","prefix_analysis_complete":true,"prefix_graph_consistent":true,"raw_variant_cells":"0","scanned_clusters":"2847","scope":"explicit-cluster-window","total_findings":"0","tree_ownership_complete":true,"unreferenced_allocation_qualified":true,"volume_clusters":"2847"},"authorizes_effects":false,"capture_epoch":"1","cross_links":{"items":[],"omitted":"0","returned":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","total":"0"},"diagnostics":[],"directory_records":"1","fat_copy":"0","filesystem_health_qualified":false,"geometry":{"bits":"12","cluster_bytes":"512","clusters":"2847","fat_copies":"2","issues":"0","raw_boot":"eb3c9000000000000000000002010100021000330bf8090000000000000000000000000000000000000000000000000000000000000046415431322020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055aa","sector_bytes":"512","usable_layout":true},"nodes":{"items":[{"allocated_bytes":"0","chain":"fixed_root","chain_complete":true,"depth":"0","detail_bindings":{"cells":{"count":"2","sha256":"sha256:16404c85886d6885d39bcc7108ed4ba72b6204ad3f79bdd80da2830bf1fd011b"},"extents":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"orphan_records":{"count":"0","sha256":"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"}},"diagnostics":[],"entries_complete":true,"id":"0","kind":"root"}],"omitted":"0","returned":"1","sha256":"sha256:d2b85db18fdbf702f0abc1fb78ef0f5cfe3e3632174eb1d5dd7a488f4cbdd480","total":"1"},"observed_clusters":"0","observed_metadata_consistent":true,"omitted_nodes":"0","product_dispatch_admitted":false,"reads":{"overlap_equal":true,"regions":"10","requested_bytes":"10248","requests":"10"},"schema":"org.disked.fat-volume-observation/1","selected_tree_complete":true,"source_id":"sha256:419dd199e671327291e0b0e56043a3c0b951a32831378a0f70638d6a8556d3b0","tree_metadata_consistent":true,"volume_bytes":"1467904","volume_offset":"17"},"observation_sha256":"sha256:a4c5a09920a32b91c52abdb4f815ed072e7f58e825b1402c6d6155c692b51083","provider":"provider.image.fat.prototype/1","schema":"org.disked.fat-image-observation/1","scope":"ordinary-local-file-fat","storage_consumer_qualified":false,"worker":{"admitted":true,"attempt_id":"fat-attempt:ace7d27f3edac7fc1c2c99e5d57bfd68","cancellation_requested":false,"capture_epoch":"1","claims":{"durable_reconnect":false,"live_namespace":false,"mutation_authority":false,"physical_admission":false},"code_sha256":"c9a6b6fd0f584b185b76bca3c87802517c0b5386ad7cee6d043d235acc772e3f","diagnostic":null,"observer_epoch":"observer:d59c024428a42b2685d4bc07838651eb","request_digest":"3f9277a7397dfb60c69262f788d4448e5d9e0af5ba970d560cb4b6a3f679d8be","result":{"claims":{"atomic_snapshot":false,"mutation_authority":false,"physical_admission":false,"product_dispatch_admitted":false,"storage_consumer_qualified":false},"diagnostic":null,"payload_bytes":"28667","schema":"org.disked.fat-worker-publication/1","sha256":"sha256:59e6c4d4a29daccabf2db5d88d996501e36984d29883d70fb9b716ac6cdda55a","status":"captured"},"retired":false,"schema":"org.disked.fat-worker-observation/1","status":"completed","worker":{"created":"134363388286164384","exit_code":"0","observation":"exited","pid":"20868"},"worker_epoch":"worker:b5f172e4c39fec833955048b1cca49be"}},"schema":"org.disked.response/1","status":"completed"}\n', b'')
+
+        Start  78: frontend.gui_windows
+ 92/104 Test  #78: frontend.gui_windows ......................   Passed    2.47 sec
+        Start  80: frontend.tui_windows
+ 93/104 Test  #80: frontend.tui_windows ......................   Passed    4.26 sec
+        Start  81: shell.windows
+ 94/104 Test  #81: shell.windows .............................   Passed    6.69 sec
+        Start  89: operation.watch
+ 95/104 Test  #89: operation.watch ...........................   Passed   31.18 sec
+        Start  90: resilience.capture_campaign
+ 96/104 Test  #90: resilience.capture_campaign ...............   Passed    9.20 sec
+        Start  91: resilience.frontend_memory
+ 97/104 Test  #91: resilience.frontend_memory ................   Passed    8.61 sec
+        Start  92: resilience.store_failures
+ 98/104 Test  #92: resilience.store_failures .................   Passed   17.63 sec
+        Start  93: resilience.request_waiting
+ 99/104 Test  #93: resilience.request_waiting ................   Passed   19.54 sec
+        Start  94: resilience.output_waiting
+100/104 Test  #94: resilience.output_waiting .................   Passed   17.67 sec
+        Start  95: operation.worker
+101/104 Test  #95: operation.worker ..........................   Passed   20.95 sec
+        Start  96: resilience.gui_waiting
+102/104 Test  #96: resilience.gui_waiting ....................   Passed    6.35 sec
+        Start  97: resilience.console_waiting
+103/104 Test  #97: resilience.console_waiting ................   Passed   12.75 sec
+        Start  98: resilience.worker_budget
+104/104 Test  #98: resilience.worker_budget ..................   Passed    8.25 sec
+
+97% tests passed, 3 tests failed out of 104
+
+Total Test time (real) = 655.87 sec
+
+The following tests FAILED:
+	  3 - image.fat_retention_commands (Failed)
+	 63 - image.fat_commands (Failed)
+	 65 - image.fat_window_commands (Failed)
+Errors while running CTest

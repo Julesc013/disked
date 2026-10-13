@@ -99,6 +99,8 @@ def main():
     assert boundaries['status']=='PASS' and not boundaries['violations']
     assert {'disked_fat','disked_fat_reader','disked_fat_inspection','disked_fat_worker'} <= set(boundaries['targets']['disked']['build_closure'])
     assert not {'disked_gpt_fixture_execution','disked_gpt_fixture_restoration','disked_gpt_fixture_files','disked_journal_prototype','disked_fat_worker_fault','disked_fat_file_fault'} & set(boundaries['targets']['disked']['build_closure'])
+    assert not {'disked_fat_file','disked_fat_snapshot','disked_fat_worker'} & set(boundaries['targets']['disked_fat_test']['build_closure'])
+    assert 'disked_fat_file_fault' in boundaries['targets']['disked_fat_test']['build_closure']
     tests = json.loads(run('test-catalog',['ctest','--test-dir',build,'-C','Release','--show-only=json-v1']))
     save(output/'test-catalog.json',tests)
     assert len(tests['tests'])==104

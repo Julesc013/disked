@@ -1,4 +1,4 @@
-"""Verify retained held-file FAT-content campaign evidence; this does not rerun it."""
+"""Verify retained complete-file FAT extraction evidence; this does not rerun it."""
 import hashlib,json,subprocess
 from pathlib import Path
 def sha(data): return 'sha256:'+hashlib.sha256(data).hexdigest()
@@ -31,11 +31,21 @@ def main():
  boundary=json.loads((e/'build-boundaries.json').read_bytes())
  assert boundary['status']=='PASS' and not boundary['violations']
  assert {'disked_fat_content','disked_fat_content_file'} <= set(boundary['targets']['disked']['build_closure'])
+ assert not {'disked_fat_file','disked_fat_snapshot','disked_fat_worker'} & set(boundary['targets']['disked_fat_test']['build_closure'])
+ assert 'disked_fat_file_fault' in boundary['targets']['disked_fat_test']['build_closure']
  assert len(json.loads((e/'header-objects.json').read_bytes()))==20
  receipts=json.loads((e/'commands.json').read_bytes());assert all(r['exit_code']==0 for r in receipts)
  tests=json.loads((e/'test-catalog.json').read_bytes());assert len(tests['tests'])==104
  assert any(r['name']=='image.fat_content' for r in tests['tests'])
  log=(e/'logs/native-tests.log').read_text(encoding='utf-8');assert '100% tests passed' in log and 'out of 104' in log
+ failed=json.loads((e/'failed-a40c7b43/receipt.json').read_bytes())
+ assert failed['source_revision']=='a40c7b435eb1a150599014f2ecd72d51a47fc0dc' and failed['status']=='failed_validation'
+ assert failed['native_groups']==104 and failed['passed_groups']==101 and failed['exit_code']==8
+ assert failed['failed_groups']==['image.fat_retention_commands','image.fat_commands','image.fat_window_commands']
+ previous=json.loads((e/'failed-a40c7b43/commands.json').read_bytes())
+ assert previous[-1]['name']=='native-tests' and previous[-1]['exit_code']==8
+ previous_log=(e/'failed-a40c7b43/logs/native-tests.log').read_text(encoding='utf-8')
+ assert '3 tests failed out of 104' in previous_log
  inventory=json.loads((e/'retention.json').read_bytes())
  actual={p.relative_to(e).as_posix() for p in e.rglob('*') if p.is_file() and '__pycache__' not in p.parts}-{'retention.json'}
  assert actual==set(inventory['files']) and inventory['source_revision']==source

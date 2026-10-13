@@ -1,7 +1,7 @@
 #include "file_acquisition.h"
 #include "local_file.h"
-#include "fat_file.h"
 #include "fat_content_file.h"
+#include "runtime/capture/fat_capture.h"
 #include "portable/hash/sha256.h"
 #include <algorithm>
 #include <atomic>
@@ -78,7 +78,8 @@ class FileAcquisition::Impl final:public acquisition::Ports {
     V source_metadata_,code_metadata_,base_,active_;std::string code_hash_;
     std::uint64_t source_size_=0,image_size_=0,map_size_=0,cursor_=0,last_complete_=0,checkpoint_=0;
     std::unique_ptr<FatContentMap> logical_;
-    std::vector<FatFileRegion> metadata_regions_;
+    struct MetadataRegion {std::uint64_t offset;std::uint32_t requested;std::vector<unsigned char> bytes;};
+    std::vector<MetadataRegion> metadata_regions_;
     bool executed_=false,opened_=false,creation_attempted_=false;std::uint32_t platform_=0;
     acquisition::Plan plan_;
     FileAcquisitionHooks hooks_;V original_capture_;std::uint64_t started_=0,ticks_=0;
@@ -128,19 +129,31 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         if(copy>=16 || node>=128 || size>0xffffffffULL || bytes<512 || offset>image_size_ || bytes>image_size_-offset ||
             digest.kind!=V::Kind::string || digest.text.size()!=71 || digest.text.substr(0,7)!="sha256:" || digest.text.find_first_not_of("0123456789abcdef",7)!=digest.text.npos ||
             request_.read_policy!="ordinary" || request_.retries || request_.substitution!="stop")throw FileAcquisitionError("acquisition_logical_source");
-        auto captured=capture_fat_file_owned(request_.source,offset,bytes,static_cast<std::uint32_t>(copy),{},false,false,nullptr,{}, {},&source_metadata_);
-        const auto& observation=field(captured.result,"observation");
-        if(!field(field(captured.result,"capture"),"observed_stable").boolean || fat_content_metadata_digest(observation)!=digest.text)
+        FatCaptureRequest capture;
+        capture.source_id=hash(json::dump(source_metadata_));capture.epoch=1;capture.source_bytes=image_size_;
+        capture.volume_offset=offset;capture.volume_bytes=bytes;capture.fat_copy=static_cast<std::uint32_t>(copy);
+        const auto observation=observe_fat_volume(capture,[&](const de_byte_extent& range) {
+            char a[21],b[21];if(de_u64_format(&range.start,a,sizeof(a)) || de_u64_format(&range.end,b,sizeof(b)))throw FileAcquisitionError("acquisition_logical_range");
+            const auto start=std::stoull(a),end=std::stoull(b);
+            if(end<start || end-start>4096 || end>image_size_)throw FileAcquisitionError("acquisition_logical_range");
+            auto data=read(source_.value,start,static_cast<std::uint32_t>(end-start));
+            if(!data.error.empty())throw FileAcquisitionError("acquisition_logical_read");
+            metadata_regions_.push_back({start,static_cast<std::uint32_t>(end-start),std::move(data.bytes)});
+            const auto& stored=metadata_regions_.back().bytes;
+            return de_view{stored.data(),stored.size()};
+        });
+        if(!logical_metadata_equal() || json::dump(local_file::metadata(source_.value).value)!=json::dump(source_metadata_) ||
+            fat_content_metadata_digest(observation)!=digest.text)
             throw FileAcquisitionError("acquisition_logical_metadata_changed");
         const auto epoch=std::stoull(field(observation,"capture_epoch").text);
         auto map=prepare_fat_content(observation,node,{field(observation,"source_id").text,epoch,image_size_,offset,bytes,static_cast<std::uint32_t>(copy)});
         if(map.file_bytes()!=size)throw FileAcquisitionError("acquisition_logical_size_changed");
-        source_size_=size;logical_.reset(new FatContentMap(std::move(map)));metadata_regions_=std::move(captured.regions);
+        source_size_=size;logical_.reset(new FatContentMap(std::move(map)));
     }
     bool logical_metadata_equal() {
         for(const auto& r:metadata_regions_) {
             const auto value=read(source_.value,r.offset,static_cast<std::uint32_t>(r.requested));
-            if(!value.error.empty() || r.error || value.bytes!=r.bytes || value.bytes.size()!=r.requested)return false;
+            if(!value.error.empty() || value.bytes!=r.bytes || value.bytes.size()!=r.requested)return false;
         }
         return true;
     }

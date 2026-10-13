@@ -1,0 +1,15 @@
+{
+  "source_revision": "a40c7b435eb1a150599014f2ecd72d51a47fc0dc",
+  "status": "failed_validation",
+  "native_groups": 104,
+  "passed_groups": 101,
+  "exit_code": 8,
+  "failed_groups": [
+    "image.fat_retention_commands",
+    "image.fat_commands",
+    "image.fat_window_commands"
+  ],
+  "defect": "New acquisition adapter linked the normal FAT file provider into the fault-test composition. Static symbol selection bypassed injected FAT file faults.",
+  "repair": "Capture FAT metadata directly through the existing held acquisition source handle; exclude normal FAT file/snapshot/worker targets from the fault product using the existing closure checker.",
+  "remaining": "A fresh exact-source full campaign is required after repair; focused successes do not replace this failed result."
+}

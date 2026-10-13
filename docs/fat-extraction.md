@@ -7,8 +7,10 @@ step toward public extraction; no new public command is admitted here.
 
 The selector binds a basic/default FAT capture's metadata digest, node, file size,
 volume window and FAT copy. Source generation, code and parents remain independently
-bound. The acquisition provider keeps its source handle held while a metadata
-capture confirms the same native file, then builds a checked logical content map.
+bound. The acquisition provider captures metadata through its held source handle,
+rereads the captured regions and confirms the native generation before building
+a checked logical content map. It does not depend on a second concrete FAT file
+provider; normal and fault-test provider compositions remain separate.
 Names from disk never become paths. The destination and checkpoint-map paths are
 explicit inputs, with no-clobber creation after an exact execution grant.
 
