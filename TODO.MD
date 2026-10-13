@@ -355,4 +355,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - DE-W055: shared tree sessions and NDJSON streaming pass focused protocol/CLI/GUI/TUI/shell and worker-fault checks; Exact clean source `19aca432` passes113 native groups and26 selected headers. Recursive extraction, metadata restoration and broader platform/storage scope remain work.
 
-- DE-W056: the recursive backend and owned prepare/grant/execute process controller pass focused tests. Independent retained-history inspection and full clean-source qualification remain required before unit review or public/frontend admission. [Contract and progress](docs/fat-recursive-extraction.md).
+- DE-W056: the recursive backend, owned prepare/grant/execute controller and independent source-free retained-history inspector pass focused tests. Full clean-source qualification remains before whole-unit review/integration or public/frontend admission. [Contract and progress](docs/fat-recursive-extraction.md).

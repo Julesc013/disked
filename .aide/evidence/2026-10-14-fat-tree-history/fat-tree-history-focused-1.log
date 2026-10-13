@@ -1,0 +1,130 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-development-build
+    Start 5: evidence.fat_tree_history
+1/1 Test #5: evidence.fat_tree_history ........***Failed   54.59 sec
+test_actual_cancellation_and_abrupt_exit_histories (__main__.HistoryTests.test_actual_cancellation_and_abrupt_exit_histories) ... FAIL
+test_complete_original_native_history_without_source (__main__.HistoryTests.test_complete_original_native_history_without_source) ... FAIL
+test_directory_deferred_results (__main__.HistoryTests.test_directory_deferred_results) ... FAIL
+test_empty_prefix_and_incomplete_tail (__main__.HistoryTests.test_empty_prefix_and_incomplete_tail) ... FAIL
+test_finite_budgets_and_integer_bounds (__main__.HistoryTests.test_finite_budgets_and_integer_bounds) ... FAIL
+test_hash_canonical_and_version_errors (__main__.HistoryTests.test_hash_canonical_and_version_errors) ... ok
+test_large_noncontiguous_content (__main__.HistoryTests.test_large_noncontiguous_content) ... FAIL
+test_other_fat_variants_and_native_times (__main__.HistoryTests.test_other_fat_variants_and_native_times) ... FAIL
+test_partition_invariance (__main__.HistoryTests.test_partition_invariance) ... FAIL
+test_rehashed_cross_record_contradictions (__main__.HistoryTests.test_rehashed_cross_record_contradictions) ... ok
+test_rehashed_definition_and_completion_requirements (__main__.HistoryTests.test_rehashed_definition_and_completion_requirements) ... FAIL
+
+======================================================================
+FAIL: test_actual_cancellation_and_abrupt_exit_histories (__main__.HistoryTests.test_actual_cancellation_and_abrupt_exit_histories)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 142, in test_actual_cancellation_and_abrupt_exit_histories
+    value = inspect((folder / "metadata.ndjson").read_bytes())
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_complete_original_native_history_without_source (__main__.HistoryTests.test_complete_original_native_history_without_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 81, in test_complete_original_native_history_without_source
+    value = inspect(self.raw)
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_directory_deferred_results (__main__.HistoryTests.test_directory_deferred_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 132, in test_directory_deferred_results
+    value = inspect((folder / "metadata.ndjson").read_bytes())
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_empty_prefix_and_incomplete_tail (__main__.HistoryTests.test_empty_prefix_and_incomplete_tail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 155, in test_empty_prefix_and_incomplete_tail
+    self.assertEqual("unresolved", inspect(b"".join(lines[:count]))["state"])
+                                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_finite_budgets_and_integer_bounds (__main__.HistoryTests.test_finite_budgets_and_integer_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 228, in test_finite_budgets_and_integer_bounds
+    inspect(self.raw, ("--bytes", str(len(self.raw) - 1)), error="fat_tree_history_budget")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 60, in inspect
+    assert result.returncode == 20 and value.get("error", "").startswith(error), value
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'fat_tree_history_tree_digest'}
+
+======================================================================
+FAIL: test_large_noncontiguous_content (__main__.HistoryTests.test_large_noncontiguous_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 114, in test_large_noncontiguous_content
+    value = inspect((folder / "metadata.ndjson").read_bytes())
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_other_fat_variants_and_native_times (__main__.HistoryTests.test_other_fat_variants_and_native_times)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 102, in test_other_fat_variants_and_native_times
+    value = inspect((folder / "metadata.ndjson").read_bytes())
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_partition_invariance (__main__.HistoryTests.test_partition_invariance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 93, in test_partition_invariance
+    expected = inspect(self.raw)
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 45, in inspect
+    assert result.returncode == 0 and "error" not in value, (result.returncode, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_history_tree_digest'})
+
+======================================================================
+FAIL: test_rehashed_definition_and_completion_requirements (__main__.HistoryTests.test_rehashed_definition_and_completion_requirements)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 225, in test_rehashed_definition_and_completion_requirements
+    inspect(rechained(rows), error="fat_tree_history_after_outcome")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 60, in inspect
+    assert result.returncode == 20 and value.get("error", "").startswith(error), value
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'fat_tree_history_tree_digest'}
+
+----------------------------------------------------------------------
+Ran 11 tests in 54.284s
+
+FAILED (failures=9)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =  54.60 sec
+
+The following tests FAILED:
+	  5 - evidence.fat_tree_history (Failed)
+Errors while running CTest

@@ -1,5 +1,24 @@
 # Source structure and release review follow-up
 
+## Retained recursive history inspection: 14 October 2026
+
+The private supplied-byte inspector passes 78 cases/13 methods over 16 direct
+and three owned-worker histories. It distinguishes recorded complete/partial,
+unresolved prefixes and truncated tails. Complete source-free inspection after
+withdrawal of the recorded source path, actual interrupted process histories,
+FAT12/16/32, deep directories, a 33,000-cluster file, metadata results and
+independently rehashed contradictory records have actual retained results.
+
+The inspector belongs in the existing runtime evidence owner and depends only
+on JSON/hash targets. It opens no recorded path, authenticates no actor and
+grants no replay. The source map covers 248 files once; the generated dependency
+check passes. No new root, scheduler or public protocol is introduced.
+
+Tooling runs 238 tests: 236 pass and two skip. These are focused dirty development
+results. Full clean-source native/header/import/artifact qualification remains
+before whole-unit review and main integration. The full all-platform/storage
+0.1.0 and separate owner/storage/release gates remain unfinished.
+
 ## Partial contained-writer checkpoint: 14 October 2026
 
 The recursive controller now reuses the owned process host and existing quotas

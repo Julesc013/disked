@@ -96,8 +96,9 @@ this does not narrow the broader project scope.
 The private backend now establishes original source/tree membership, parent
 identities, selected-name collision checks, its immutable definition/grants,
 create-only effects, ordered original evidence and native application/readback.
-Contained writer admission, independent retained-history inspection and complete
-exact-source qualification remain. Candidate names/times or imported matching
+The contained bridge and the supplied-byte history inspector are private
+development implementations; complete exact-source qualification remains.
+Candidate names/times or imported matching
 hashes authorize no new effects. Existing raw/logical plans and selectors retain
 their versions.
 
@@ -106,3 +107,23 @@ development build, then run `acquisition.fat_metadata` with CTest. This group's
 independent expectations cover original name representations, malformed mappings,
 FAT calendar/precision and every byte of the two selected native code pages.
 It does not exercise destination creation, physical media or another platform.
+
+The private `runtime/evidence/fat_tree_history.*` inspector consumes supplied
+bytes incrementally. It checks canonical record boundaries and hashes, one
+definition/attempt, tree and metadata identities, create/write intents,
+checkpoint offsets/digests, metadata result consistency and complete outcome
+conservation. State is bounded by entries and one incomplete record; it does
+not retain the complete ledger or dereference any recorded path.
+
+Its states are `empty`, `unresolved`, `truncated`, `recorded_partial` and
+`recorded_complete`. An incomplete tail is hashed and counted separately;
+a contradictory complete record is an error. Directory creation intents are
+labelled as intents. The original content-page digest is retained rather than
+recomputed because the writer omits the data field from that page.
+
+Recorded completion establishes internal declaration consistency. It does not
+establish authenticity, current source/destination bytes or metadata, worker
+exit, power-loss persistence, operator acceptance or authority to resume.
+Current readback and actual process observations retain their separate evidence.
+Run `evidence.fat_tree_history` with CTest for source-free actual complete and
+interrupted histories plus independent tampering, framing and budget oracles.
