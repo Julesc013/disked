@@ -7,8 +7,9 @@ durable ordinary-file operation lifecycle. The qualified private
 This task preserves the original full platform/storage programme.
 
 The sole command registry records `filesystem.tree.extract`, with CLI spelling
-`filesystem extract-tree`, as planned and unavailable. Parameter bindings and
-public execution remain unfinished. Neither `filesystem extract tree` nor
+`filesystem extract-tree`, as planned and unavailable in the product composition.
+Its provisional parameter bindings and shared native command ports now exist;
+product frontend admission remains unfinished. Neither `filesystem extract tree` nor
 `filesystem tree extract` can be added without reinterpreting operands of an
 existing command. The existing file extraction and tree inspection keep their
 identities and grammar.
@@ -135,6 +136,42 @@ Focused tests cover exact event/digest domains, resumption/snapshot, cursor and
 header conflicts, malformed options before paths, torn histories, stopped sinks,
 event budgets, unchanged artifacts, actual detached cancellation/resumption and
 publication before recorded exit. These are private development prerequisites.
-Public command bindings, compatible protocol readers and actual CLI/protocol/
-GUI/TUI/shell journeys remain unfinished. The public command stays planned until
-those gates and the full clean-source campaign pass.
+Product dispatch, compatible protocol readers and actual CLI/protocol/GUI/TUI/
+shell journeys remain unfinished. The public command stays planned until those
+gates and the full clean-source campaign pass.
+
+The [canonical command schema](../spec/schemas/fat-recursive-command-parameters.schema.json)
+now binds `prepare` and `execute`. Preparation takes source/destination operands,
+an explicit ledger and existing operation store, selected volume offset/size/copy,
+capture epoch and explicit OEM code page 437 or 850. Defaults are
+`long_or_short`, `refuse`, `preserve_raw` and offset zero; `fixed_offset` requires
+an explicit offset. The review includes the resulting complete policy and finite
+backend budgets. Execution takes the immutable definition, exact digest and five
+separate grants. It accepts no preparation fields or unknown options.
+
+The digest preserves the private review1 domain: SHA-256 over UTF-8
+`disked:fat-tree-extraction-review:1`, LF, then canonical immutable review JSON.
+The [closed review schema](../spec/schemas/fat-tree-review-prototype.schema.json)
+covers structural fields; runtime review validation and native ownership checks
+also enforce resource hashes/aliases, ranges, counters, policies and freshness.
+This inline prototype binds at most 32KiB of definition inside the existing
+64KiB request frame. Oversized definitions are refused, never truncated. It is
+not a permanent storage ABI.
+
+`runtime/acquisition/fat_tree_commands.*` owns shared command checks and outcome
+translation. `platform/windows/storage/fat_tree_actions.*` binds the existing
+owned preparation and detached execution. Preparation succeeds only after actual
+preparator exit. The caller now allocates one proposed operation identity before
+dispatch; a delayed acknowledgement can return unknown with that ID for later
+inspection. The new controller input2 supplies the same ID to native admission.
+A proposed ID proves no claim or accepted operation; the retained request2 and
+admission acknowledgement supply those later facts. Existing review/header
+formats and unrelated commands retain their meanings.
+
+The private command probe executes the canonical CLI parser, shared form
+conversion and protocol handler against actual native ports. It tests generated
+FAT12/16/32 preparation/execution, exact destination/source bytes, every grant,
+policy and shape errors before provider calls, stale source, duplicate execution,
+reply/identity/exit constraints and independent schema agreement. These are
+shared-service development results; they are not actual product CLI, window,
+terminal, shell or release qualification.

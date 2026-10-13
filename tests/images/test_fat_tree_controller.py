@@ -104,6 +104,7 @@ class ControllerTests(unittest.TestCase):
             final = wait_history(root)
             self.assertEqual('recorded_complete',final['history']['state'],final)
             header = json.loads((root/'store/recursive-request.json').read_bytes())
+            self.assertEqual(row['observation']['operation_id'],header['operation_id'])
             self.assertEqual({k:identity[k] for k in ('pid','created')},header['controller'])
             self.assertEqual(source,(root/'source.img').read_bytes())
             for name,(data,attributes) in expected.items():

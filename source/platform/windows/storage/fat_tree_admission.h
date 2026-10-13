@@ -26,7 +26,8 @@ class FatTreeAdmission final {
     void launch();
     json::Value observe(DWORD wait_ms = 0);
     std::shared_ptr<const FatTreeReview> prepared_review() const;
-    void grant(const FatTreeReview &, const FatTreeReviewGrant &);
+    void grant(const FatTreeReview &, const FatTreeReviewGrant &,
+               const std::string &reserved_operation = {});
     void cancel();
     json::Value retire(DWORD wait_ms = 2000);
 };

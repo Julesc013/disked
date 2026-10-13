@@ -1,0 +1,117 @@
+test_bad_parameters_and_policy_fail_before_prepare_port (__main__.CommandTests.test_bad_parameters_and_policy_fail_before_prepare_port) ... FAIL
+test_closed_review_schema_matches_native_definition (__main__.CommandTests.test_closed_review_schema_matches_native_definition) ... FAIL
+test_each_grant_and_digest_refuse_without_provider_calls_or_outputs (__main__.CommandTests.test_each_grant_and_digest_refuse_without_provider_calls_or_outputs) ... FAIL
+test_preparation_receipt_binding_and_quiescence_are_checked (__main__.CommandTests.test_preparation_receipt_binding_and_quiescence_are_checked) ... FAIL
+test_real_prepare_execution_across_parser_form_and_protocol (__main__.CommandTests.test_real_prepare_execution_across_parser_form_and_protocol) ... FAIL
+test_running_requires_an_exact_bound_operation_identity (__main__.CommandTests.test_running_requires_an_exact_bound_operation_identity) ... FAIL
+test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays (__main__.CommandTests.test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays) ... FAIL
+
+======================================================================
+FAIL: test_bad_parameters_and_policy_fail_before_prepare_port (__main__.CommandTests.test_bad_parameters_and_policy_fail_before_prepare_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 76, in test_bad_parameters_and_policy_fail_before_prepare_port
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_closed_review_schema_matches_native_definition (__main__.CommandTests.test_closed_review_schema_matches_native_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 55, in test_closed_review_schema_matches_native_definition
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_each_grant_and_digest_refuse_without_provider_calls_or_outputs (__main__.CommandTests.test_each_grant_and_digest_refuse_without_provider_calls_or_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 65, in test_each_grant_and_digest_refuse_without_provider_calls_or_outputs
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_preparation_receipt_binding_and_quiescence_are_checked (__main__.CommandTests.test_preparation_receipt_binding_and_quiescence_are_checked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 86, in test_preparation_receipt_binding_and_quiescence_are_checked
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_real_prepare_execution_across_parser_form_and_protocol (__main__.CommandTests.test_real_prepare_execution_across_parser_form_and_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 40, in test_real_prepare_execution_across_parser_form_and_protocol
+    root,p,expected,prepared,execution=prepare(bits,mode)
+                                       ~~~~~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":{"command_id":"filesystem.tree.extract","controls":{},"help_requested":false,"kind":"command","named_options":{"--capture-epoch":"17","--fat-copy":"0","--ledger":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\metadata.ndjson","--oem-code-page":"437","--state-dir":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\store","--volume-bytes":"1500160","--volume-offset":"4096"},"operands":["prepare","C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\source.img","C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\output"],"parameters":{"capture_epoch":"17","destination":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\output","fat_copy":"0","ledger":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\metadata.ndjson","oem_code_page":"437","phase":"prepare","source":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\source.img","state_directory":"C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-native-admission-kctmknbm\\\\store","volume_bytes":"1500160","volume_offset":"4096"}},"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"probe","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_running_requires_an_exact_bound_operation_identity (__main__.CommandTests.test_running_requires_an_exact_bound_operation_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 98, in test_running_requires_an_exact_bound_operation_identity
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+======================================================================
+FAIL: test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays (__main__.CommandTests.test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 106, in test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays
+    root,p,expected,prepared,execution=prepare()
+                                       ~~~~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 29, in prepare
+    out=call(value)['response']['result']
+        ~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 16, in call
+    assert run.returncode==exit_code and not run.stderr,(run.returncode,run.stdout,run.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (3, b'{"execute_calls":"0","normalized":null,"prepare_calls":"0","response":{"diagnostics":[{"code":"fat_tree_preparation_shape","message_key":"disked.fat_tree_preparation_shape","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"tree-command","result":null,"schema":"org.disked.response/1","status":"refused"}}\r\n', b'')
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.826s
+
+FAILED (failures=7)

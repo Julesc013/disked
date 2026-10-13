@@ -190,7 +190,8 @@ struct FatTreeController::Impl {
             text(code, "sha256") != "sha256:" + image.digest)
             invalid("fat_tree_controller_code_changed");
         binding = V::object()
-                      .put("schema", V::string("org.disked.fat-tree-controller-input-prototype/1"))
+                      .put("schema", V::string("org.disked.fat-tree-controller-input-prototype/2"))
+                      .put("operation_id", V::string(security.identity("tree-op:")))
                       .put("review", r.definition)
                       .put("grant", grant_value(g))
                       .put("fixture", fixture)
@@ -296,7 +297,7 @@ V FatTreeController::observe(DWORD wait_ms) {
             .put("status",
                  V::string(p.dispatched ? wait == WAIT_TIMEOUT ? "dispatch_pending" : "unknown"
                                         : "not_dispatched"))
-            .put("operation_id", V{})
+            .put("operation_id", p.dispatched ? field(p.binding, "operation_id") : V{})
             .put("controller",
                  V::object()
                      .put("pid", V::string(std::to_string(p.pid)))
@@ -342,6 +343,8 @@ V FatTreeController::observe(DWORD wait_ms) {
                 id.text.compare(0, 8, "tree-op:") ||
                 id.text.find_first_not_of("0123456789abcdef", 8) != id.text.npos)
                 invalid("fat_tree_controller_reply_identity");
+            if (id.text != text(p.binding, "operation_id"))
+                invalid("fat_tree_controller_reply_identity");
         }
         out.put("operation_id", id)
             .put("reply", r)
@@ -386,8 +389,13 @@ int fat_tree_controller_role(int argc, wchar_t **argv) {
             invalid("fat_tree_controller_input_budget");
         const auto request =
             json::parse(std::string(in->bytes, in->length), fat_tree_review_limits());
-        keys(request, {"schema", "review", "grant", "fixture", "host_id", "code_sha256"});
-        if (text(request, "schema") != "org.disked.fat-tree-controller-input-prototype/1" ||
+        keys(request,
+             {"schema", "operation_id", "review", "grant", "fixture", "host_id", "code_sha256"});
+        const auto operation = text(request, "operation_id");
+        if (operation.size() != 40 || operation.compare(0, 8, "tree-op:") ||
+            operation.find_first_not_of("0123456789abcdef", 8) != operation.npos)
+            invalid("fat_tree_controller_operation_identity");
+        if (text(request, "schema") != "org.disked.fat-tree-controller-input-prototype/2" ||
             text(request, "host_id") != security.host_id ||
             text(request, "code_sha256") != image.digest)
             invalid("fat_tree_controller_input_binding");
@@ -417,7 +425,7 @@ int fat_tree_controller_role(int argc, wchar_t **argv) {
                 if (boolean(last, "admission_failed"))
                     throw std::runtime_error(text(last, "diagnostic"));
                 if (!sent && owner->prepared_review()) {
-                    owner->grant(review, grant);
+                    owner->grant(review, grant, operation);
                     sent = true;
                     last = owner->observe();
                     publish(published, reply(request, "admitted", last, {}));

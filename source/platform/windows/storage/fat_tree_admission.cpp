@@ -166,7 +166,8 @@ V FatTreeAdmission::observe(DWORD wait_ms) {
         .put("diagnostic", p.diagnostic.empty() ? V{} : V::string(p.diagnostic))
         .put("persistent_reconnect_qualified", V::boolean_value(false));
 }
-void FatTreeAdmission::grant(const FatTreeReview &review, const FatTreeReviewGrant &grant) {
+void FatTreeAdmission::grant(const FatTreeReview &review, const FatTreeReviewGrant &grant,
+                             const std::string &reserved_operation) {
     validate_fat_tree_review_grant(review, grant);
     auto &p = *impl_;
     if (p.failed || p.dispatched)
@@ -179,7 +180,11 @@ void FatTreeAdmission::grant(const FatTreeReview &review, const FatTreeReviewGra
     if (!same_fat_tree_review(review, prepared->definition(), p.store->observation()))
         throw FatTreeStoreError("fat_tree_admission_review_changed");
     worker_files::Security security;
-    p.operation = security.identity("tree-op:");
+    if (!reserved_operation.empty() &&
+        (reserved_operation.size() != 40 || reserved_operation.compare(0, 8, "tree-op:") ||
+         reserved_operation.find_first_not_of("0123456789abcdef", 8) != reserved_operation.npos))
+        throw FatTreeStoreError("fat_tree_admission_operation_identity");
+    p.operation = reserved_operation.empty() ? security.identity("tree-op:") : reserved_operation;
     try {
         p.store->bind_writer(field(state, "worker"));
         p.store->reserve(review, grant, p.operation, prepared->owner(), prepared->digest());

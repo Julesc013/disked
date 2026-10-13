@@ -1,5 +1,21 @@
 # Source structure and release review follow-up
 
+## Recursive shared command service development: 14 October 2026
+
+Active DE-W057 now has canonical closed parameter/review schemas and shared
+runtime command semantics, with native action ports in the existing Windows
+owner. Seven methods exercise CLI parsing, form conversion and protocol dispatch
+through a private probe using actual FAT12/16/32 preparation/detached execution.
+Exact outputs/source preservation, all grants, stale/duplicate execution,
+provider-call boundaries and independent schema/digest/receipt checks pass.
+
+The operation identity is allocated before dispatch and later bound by the same
+retained request. Pending acknowledgement preserves that proposed ID for inspect;
+it proves no admitted operation. Five focused groups pass across retained runs,
+tooling236pass/two skip, source map266 files and235 dependency targets. Actual
+product frontend admission, compatible readers and full exact-source qualification
+remain. The product command stays planned; full0.1.0 and release remain open.
+
 ## Recursive bounded wait/watch development: 14 October 2026
 
 Active DE-W057 now projects validated recursive control records into bounded
