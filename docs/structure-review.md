@@ -1,5 +1,206 @@
 # Source structure and release review follow-up
 
+## Qualified normal recursive commands: 14 October 2026
+
+Exact clean source `087f95b4` passes 128 native groups, 41 standalone header
+compilations, generated dependency checks and 242 tooling tests with two skips.
+The [whole-unit evidence](../.aide/evidence/2026-10-14-fat-recursive-command-qualification/README.md)
+maps all four DE-W057 local criteria to actual common frontend/operation/failure
+results and exact source/build/import/context/artifact identities. The ordinary-file
+Windows scope has reached implementing-agent review. Existing ownership accommodates
+the work; owner, physical/other-host and full0.1.0 release acceptance remain open.
+
+## Normal recursive composition development: 14 October 2026
+
+The normal Windows image prototype now selects recursive ordinary-file FAT
+extraction through existing runtime/native owners. Shared typed response schemas
+cover preparation, execution, unknown requests and operation observations. Actual
+CLI/protocol/GUI/TUI/shell journeys and isolated failure controls pass. A disabled
+composition verifies refusal; the former duplicate nonfault test composition is
+removed. There is no new source tree or scheduler. Full clean exact-source
+qualification remains before DE-W057 review/integration, separate from owner,
+physical, other-platform and full all-platform/storage0.1.0 release acceptance.
+
+## Recursive interruption and producer checkpoint: 14 October 2026
+
+Actual closed watch output preserves the independent operation and digest-bound
+resumption; unresponsive and abruptly exited writers preserve unresolved history
+without replacement. Strict emitted event shape/semantic validation is separate
+from compatible additive reader acceptance. A real exit race exposed contradictory
+worker/dependency observations; the worker now derives both from one snapshot.
+Original failure evidence stays intact. Existing source ownership accommodates
+these changes. Normal admission and full exact-source qualification remain before
+DE-W057 review; complete all-platform/storage0.1.0 and release remain open.
+
+## Current naming and release assessment: 14 October 2026
+
+Read-only GitHub checks at this assessment find DiskEd dev at
+`3df3732d6f8ee5ac30025bbf15dea645271b05e2` and main at
+`fed4a71b767a92db13b0fd0a1b692c937fdacd93`. These are observed bases, not floating
+claims about future heads. The supplied 12 October review describes an earlier
+revision and supplies recommendations, not execution authority or acceptance.
+
+Keep the source ownership tree and current names. TUI, GUI and shell retain
+interaction state and use qualified model basenames; CLI formats one invocation
+in its own folder. Shared command grammar belongs in runtime; concrete console
+input/rendering/restoration belongs in the Windows terminal host. The complete
+[source map](source-map.md) explains each current file; its growth table assigns
+future responsibility families without pretending to enumerate future files.
+Private filenames can evolve; admitted public interfaces and retained formats
+need explicit compatibility policy and tests. No layout guarantees zero future
+refactoring. Dependency enforcement and bounded responsibilities make changes local.
+
+The dated review's target split, qualified includes, shared request/view invariants,
+dependency checks and live work pointer have already been implemented with retained
+evidence. Command-specific application routing and test seams remain incremental
+maintenance work; no demonstrated requirement calls for a wholesale rewrite.
+
+Fresh checks find Universal Setup main at `c048f7f1ae2e5922c15a08ee572bdafc29027c63`
+and dev at `2b7a4d011a61992970601e8c174b5d9d0298a8cd`.
+[Draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) is open at
+`1de316e2617e1cbe5d907470d27b227dc3fcbc4a`;
+[run 38454057234](https://github.com/Julesc013/universal-setup/actions/runs/38454057234)
+reports six successful checks and a failing native-windows check. Its log reports
+an owned SYSTEM fixture failure and receipt archive count mismatches; these are
+observations, not a root-cause diagnosis. This follow-up has not run Setup's
+lifecycle. Both repositories'
+GitHub release collection queries return empty lists; that does not inventory
+private artifacts or all tags. DiskEd main is still reported unprotected.
+
+Development checkpoints can continue on dev. Integrate the current recursive
+command unit after its failure/cancellation/reconnect journeys, producer/reader
+contracts, normal composition admission, clean exact-source regression campaign
+and recorded agent review. Release additionally requires the selected composition's
+platform/storage evidence, licensing, packaging/inventory, required acceptance and
+publication authority. The all-platform/storage 0.1.0 objective is unfinished;
+there is no evidence-based release date. A smaller preview needs an explicit scope.
+
+## Recursive actual frontend development: 14 October 2026
+
+The gated disked_recursive_test composition now connects the shared service to
+actual CLI/protocol, Win32 GUI, TUI and shell. Generated FAT12/16/32 operations
+produce exact expected bytes and preserve sources. Actual GUI/TUI/shell review,
+submit and completed-operation watch pass; console restoration is retained.
+Normal disked still reports extraction unavailable and refuses the tree backend
+before paths. Native roles are gated to the development executable.
+
+Compatible reader11methods, finite response/form budgets, parser/request-channel
+and GUI/TUI/shared-model regressions pass. Source map266 files and236 dependency
+targets have no violations. These are development results. Broader failures,
+normal-composition admission and full clean-source qualification remain before
+DE-W057 review; complete all-platform/storage0.1.0 and release remain open.
+
+The following [failure checkpoint](../.aide/evidence/2026-10-14-fat-recursive-failures/README.md)
+adds actual cancellation after launcher exit through all five frontends, separate
+fault composition, retained full/short/flush failure without replay and explicit
+source/stale/foreign-resource refusals. Shared definitions stay in the existing
+owners; no new directory hierarchy is needed. Selected native tests and dependency
+checks pass. Strict producer contracts, broader interruption tests, normal admission
+and full clean-source qualification remain before the current work-unit review.
+
+## Recursive shared command service development: 14 October 2026
+
+Active DE-W057 now has canonical closed parameter/review schemas and shared
+runtime command semantics, with native action ports in the existing Windows
+owner. Seven methods exercise CLI parsing, form conversion and protocol dispatch
+through a private probe using actual FAT12/16/32 preparation/detached execution.
+Exact outputs/source preservation, all grants, stale/duplicate execution,
+provider-call boundaries and independent schema/digest/receipt checks pass.
+
+The operation identity is allocated before dispatch and later bound by the same
+retained request. Pending acknowledgement preserves that proposed ID for inspect;
+it proves no admitted operation. Five focused groups pass across retained runs,
+tooling236pass/two skip, source map266 files and235 dependency targets. Actual
+product frontend admission, compatible readers and full exact-source qualification
+remain. The product command stays planned; full0.1.0 and release remain open.
+
+## Recursive bounded wait/watch development: 14 October 2026
+
+Active DE-W057 now projects validated recursive control records into bounded
+events. Event sequences start at one; original control indices stay zero-based.
+Exact header/review/worker and raw-record digests bind resumption. Changed/shrunk
+prefixes, torn history, invalid options and rejected sinks preserve uncertainty
+and the last admitted cursor. Native wait/watch opens only the existing store;
+it neither reads extraction sources nor restarts/cancels the operation.
+
+Ten focused methods cover pure event/cursor budgets and actual detached
+following/cancellation/resumption. A live wait test observes its first snapshot
+before requesting cooperative stop and follows the same owner through exit.
+Three selected native groups pass; tooling236pass/two skip, source map262 files
+and dependency checks230 targets. These are development results. Shared public
+bindings, actual frontend journeys, compatible readers and full exact-source
+qualification remain. Full all-platform/storage0.1.0 and release remain open.
+
+## Detached recursive controller development: 14 October 2026
+
+Active DE-W057 now has an explicit same-executable dispatch handoff independent
+of caller lifetime. Actual FAT12/16/32 tests complete exact generated outputs
+after caller exit. Closed-gate abandonment, all five grants, stale source/code,
+separate-caller cancellation, owned hang retirement, repeated launch/dispatch,
+published-before-exit and unresolved controller exit pass ten test methods.
+The input/output channel and query-only job handles retain finite native owners;
+caller-handle closure does not kill a dispatched controller or start another.
+
+Three selected native groups pass: controller, reconnect and admission. Tooling
+runs238 tests:236 pass/two skip. The source map covers260 files and generated
+dependency checks cover228 targets without violations. These are focused
+development results. Native wait/watch, actual public frontend journeys and full
+clean-source qualification remain; full0.1.0 and release are unfinished.
+
+## Recursive retained-history and reconnect development: 14 October 2026
+
+Active DE-W057 now passes 38 focused cases/ten methods for bounded retained
+control histories and native cross-process inspection/cancellation. The pure
+reader stays under runtime/acquisition; actual NTFS/process/code observations
+stay under platform/windows/storage. Request1 remains readable; request2 binds
+controller/writer births. Consistency, current liveness and authority are
+separate facts. Torn or contradictory histories grant no cancellation/replay.
+Published outcomes before exit and a second live caller have actual evidence.
+
+Native admission regression passes 41 cases/eleven methods. Tooling runs 238
+tests: 236 pass and two skip. Source map covers 258 files and generated dependency
+checks cover 223 targets without violations. These are development results;
+detached controller ownership, native wait/watch, public command/frontends and
+full clean-source qualification remain. No full 0.1.0 or release claim follows.
+
+## Native recursive admission development: 14 October 2026
+
+Active DE-W057 now passes 41 native cases/11 methods over actual pinned stores,
+independent child IDs/hash chains/output bytes and separate preparation/execution
+processes. It compares fresh native source/store/code/namespace facts against
+immutable review before five exact grants and create-only store reservation.
+Dispatch intent is flushed before the old private-plan grant; publication and
+actual exit are separate observations. A 33,000-cluster file, missing/stale
+grants/reviews, foreign resources, cooperative cancellation, hangs, store-write
+failure and store pinning while a completed child remains alive have retained
+results. A failed state write/flush freezes the ledger; no uncertain-tail append.
+
+The store joins the existing worker dependency owner before launch, including
+unknown retirement. There is no new scheduler or retention subsystem. The source
+map covers 254 files; selected headers and normal/fault dependency checks pass.
+Three selected native groups and 236 tooling tests pass with two skips.
+These are focused development results. Independent retained-state/reconnect,
+actual common frontend commands and full exact-source qualification remain.
+The public command remains planned; full original 0.1.0/owner/storage/release
+acceptance is not implied.
+
+## Recursive effect review development: 14 October 2026
+
+Active DE-W057 begins common-command/durable-operation admission. Its immutable
+supplied-data review layer passes 45 cases/six methods, including two actual
+owned preparations whose process-bound identities change while intended effects
+remain equal. Source/store/code/policy/footprint changes withdraw equality;
+unknown mutation-critical fields, inconsistent identities and missing grants
+are refused. This layer opens no path and authorizes no native effects.
+
+The source map covers 250 files once. The new runtime target depends only on
+JSON/hash, with its standalone header and generated dependency check passing.
+The canonical command registry records filesystem.tree.extract as planned,
+spelled filesystem extract-tree; nesting under existing operand-taking commands
+was refused by the registry. No alternate parser or registry is introduced.
+Native store/admission, durable lifecycle, actual frontend journeys and full
+clean-source qualification remain before whole-unit review or main integration.
+
 ## Qualified recursive backend: 14 October 2026
 
 Clean source 243f748e passes 120 native groups, 32 selected standalone header
@@ -449,7 +650,7 @@ promise zero future refactoring or universally optimal filenames.
 
 ## Development, branches and releases
 
-The latest retained native campaign is source `543826fe`: **99 native groups**, 17
+At the 13 October review, the retained native campaign was source `543826fe`: **99 native groups**, 17
 standalone headers, 34 FAT allocation-window cases and 44 window command cases;
 tooling recorded **222 passes and two skips**. Those are
 [retained exact-source results](../.aide/evidence/2026-10-13-fat-window/summary.json),
@@ -481,6 +682,7 @@ packaged consumer and content-inventory checks, honest capability limits, licens
 and provenance, required acceptance and publication authority. A naming change
 does not supply these results.
 
-Continue DE-W044 and the existing programme. Preserve the current source owners;
+The review then selected DE-W044; subsequent work is recorded in the dated
+updates above and the current programme. Preserve the current source owners;
 address the remaining composition/test seams during implementation and qualify
 each capability against its actual contract.

@@ -1,0 +1,534 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 103.132,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "087f95b464670fa03de185d6e98a15e83eaa71dd"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 117.227,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.809,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$qualificationIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$qualificationPrincipal=[System.Security.Principal.WindowsPrincipal]::new($qualificationIdentity);$qualificationOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$qualificationIdentity.Name;elevated=$qualificationPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$qualificationOS.Caption;version=$qualificationOS.Version;architecture=$qualificationOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.327,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "cat-file",
+      "--batch-check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.199,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.132,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.184,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 12.451,
+    "log": "logs/configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 191.282,
+    "log": "logs/build.log"
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-build-boundaries.py",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build-boundaries.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 4.266,
+    "log": "logs/boundaries.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build",
+      "-C",
+      "Release",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 1.068,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build",
+      "-C",
+      "Release",
+      "--parallel",
+      "4",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 1052.916,
+    "log": "logs/native-tests.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 285.83,
+    "log": "logs/tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 3.086,
+    "log": "logs/spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 1.268,
+    "log": "logs/index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 1.269,
+    "log": "logs/manifest.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W057",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\context",
+      "--byte-budget",
+      "950000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 2.839,
+    "log": "logs/context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 5.243,
+    "log": "logs/verify-context.log"
+  },
+  {
+    "name": "product-launch",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked.exe",
+      "build",
+      "inspect",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.031,
+    "log": "logs/product-launch.log"
+  },
+  {
+    "name": "command-discovery",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked.exe",
+      "command",
+      "list",
+      "--json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.029,
+    "log": "logs/command-discovery.log"
+  },
+  {
+    "name": "disked-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.07,
+    "log": "logs/disked-headers.log"
+  },
+  {
+    "name": "disked-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "logs/disked-imports.log"
+  },
+  {
+    "name": "disked-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/disked-dependents.log"
+  },
+  {
+    "name": "disked_recursive_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "logs/disked_recursive_fault-headers.log"
+  },
+  {
+    "name": "disked_recursive_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/disked_recursive_fault-imports.log"
+  },
+  {
+    "name": "disked_recursive_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/disked_recursive_fault-dependents.log"
+  },
+  {
+    "name": "disked_recursive_disabled-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_disabled.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/disked_recursive_disabled-headers.log"
+  },
+  {
+    "name": "disked_recursive_disabled-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_disabled.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.067,
+    "log": "logs/disked_recursive_disabled-imports.log"
+  },
+  {
+    "name": "disked_recursive_disabled-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\disked_recursive_disabled.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "logs/disked_recursive_disabled-dependents.log"
+  },
+  {
+    "name": "fat_tree_command_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.099,
+    "log": "logs/fat_tree_command_probe-headers.log"
+  },
+  {
+    "name": "fat_tree_command_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.073,
+    "log": "logs/fat_tree_command_probe-imports.log"
+  },
+  {
+    "name": "fat_tree_command_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.073,
+    "log": "logs/fat_tree_command_probe-dependents.log"
+  },
+  {
+    "name": "fat_tree_controller_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_controller_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.189,
+    "log": "logs/fat_tree_controller_probe-headers.log"
+  },
+  {
+    "name": "fat_tree_controller_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_controller_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "logs/fat_tree_controller_probe-imports.log"
+  },
+  {
+    "name": "fat_tree_controller_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_controller_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/fat_tree_controller_probe-dependents.log"
+  },
+  {
+    "name": "fat_tree_reconnect_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_reconnect_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.069,
+    "log": "logs/fat_tree_reconnect_probe-headers.log"
+  },
+  {
+    "name": "fat_tree_reconnect_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_reconnect_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/fat_tree_reconnect_probe-imports.log"
+  },
+  {
+    "name": "fat_tree_reconnect_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-qualification-087f95b4\\build\\Release\\fat_tree_reconnect_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "logs/fat_tree_reconnect_probe-dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\recursive-normal-clean-087f95b4",
+    "exit_code": 0,
+    "elapsed_seconds": 0.109,
+    "log": "logs/final-source-status.log"
+  }
+]

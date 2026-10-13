@@ -5,9 +5,11 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.48 prototype selects 23 command identities, including read-only
-GPT repair previews, recorded
-acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
+The current dev.55 prototype selects 26 command identities, including read-only
+GPT repair previews, recorded acquisition support export, contained historical
+acquired-image verification and create-only ordinary-image recursive FAT extraction.
+The [recursive command guide](fat-recursive-command.md) describes its separate
+review/grants and retained operation lifecycle. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)

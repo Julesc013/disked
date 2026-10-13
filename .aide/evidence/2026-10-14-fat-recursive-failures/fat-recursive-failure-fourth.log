@@ -1,0 +1,26 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 5: frontend.fat_recursive_failures
+1/1 Test #5: frontend.fat_recursive_failures ...***Failed    4.49 sec
+PASS disconnected-launcher-and-cli-cancellation
+PASS disconnected-launcher-and-protocol-cancellation
+PASS disconnected-launcher-and-gui-cancellation
+PASS disconnected-launcher-and-tui-cancellation
+PASS disconnected-launcher-and-shell-cancellation
+PASS ordinary-development-composition-ignores-fault-controls
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 165, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 123, in main
+    assert response['status'] == 'unknown', response
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'diagnostics': [], 'evidence': [], 'operation_id': 'tree-op:a832527fb399727bd82cf19c4df76939', 'request_id': 'cli', 'result': {'controller': {'created': '134363986967738764', 'observation': 'running', 'pid': '46776'}, 'diagnostic': None, 'operation_id': 'tree-op:a832527fb399727bd82cf19c4df76939', 'reply': {'admission': {'admission_failed': False, 'diagnostic': None, 'operation_id': 'tree-op:a832527fb399727bd82cf19c4df76939', 'persistent_reconnect_qualified': False, 'review_digest': 'sha256:f3242b226a876f89506730cd151ceda48723b7440116971136bfa3a5704c503b', 'schema': 'org.disked.fat-tree-admission-observation-prototype/1', 'store_effects_possible': True, 'worker': {'admitted': True, 'attempt_id': 'fat-tree-write-attempt:d8943b2ff40c47dec8f281fe612f3b0c', 'cancellation_requested': False, 'capture_epoch': '17', 'claims': {'compiled_effects_capable': True, 'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '8efaec84b1d819810f4a72747e4cf3baf0df3b6249ff6b38c67c947b9da1fca0', 'dependencies_retained': True, 'diagnostic': None, 'effects_possible': True, 'grant_sent': True, 'observer_epoch': 'observer:65df8be0b4c0f934e1936687fe3d9110', 'outcome': None, 'phase': 'prepared', 'preparation': {'definition_digest': 'sha256:0d0fcc3f10aa4d6276107fbe766e86f6ff5a2b54fbd95fa7d32ca0c8e16f44f5'}, 'progress_pulse': '1', 'request_digest': '50f4b37cdb99d0fe090b52a24ee2c6dce7e7f24edad93357fc251012e7209835', 'result': None, 'retired': False, 'schema': 'org.disked.fat-tree-extraction-worker-observation/1', 'status': 'accepted_running', 'worker': {'created': '134363986968176015', 'exit_code': '259', 'observation': 'running', 'pid': '38212'}, 'worker_epoch': 'worker:c867e727f6c8f3cf570bf0d1c891702a'}}, 'code_sha256': '8efaec84b1d819810f4a72747e4cf3baf0df3b6249ff6b38c67c947b9da1fca0', 'controller': {'created': '134363986967738764', 'pid': '46776'}, 'diagnostic': None, 'host_id': 'ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7', 'input_digest': 'sha256:85f08a7c86ac17b5c760a6d14d7debca8babb62fe66a26a224dd39e3c86602bc', 'operation_id': 'tree-op:a832527fb399727bd82cf19c4df76939', 'phase': 'admitted', 'review_digest': 'sha256:f3242b226a876f89506730cd151ceda48723b7440116971136bfa3a5704c503b', 'schema': 'org.disked.fat-tree-controller-reply-prototype/1'}, 'request_kind': 'recursive-execution', 'schema': 'org.disked.fat-tree-controller-observation-prototype/1', 'scope': 'ordinary-local-fat-tree-extraction', 'status': 'accepted_running'}, 'schema': 'org.disked.response/1', 'status': 'accepted_running'}
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   4.50 sec
+
+The following tests FAILED:
+	  5 - frontend.fat_recursive_failures (Failed)
+Errors while running CTest

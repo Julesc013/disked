@@ -78,12 +78,23 @@ int main()try {
     },1048575).pending,"selected_value_submission");
     require(await(channel).exit_code==6,"selected_bound_weakened_value_limit");
     unsigned denied_calls=0;
-    for(const auto bytes:{std::size_t(0),std::size_t(1048576)}) {
+    for(const auto bytes:{std::size_t(0),std::size_t(1048576),std::size_t(2097152)}) {
         auto denied=channel.submit("invalid-bound",[&denied_calls] {++denied_calls;return completed("invalid-bound",Value{});},bytes);
         require(!denied.pending && denied.outcome.exit_code==3,"invalid_bound_admitted");
     }
     require(!denied_calls,"invalid_bound_dispatched_callback");
     report.put("explicit_finite_response_bound",Value::boolean_value(true));
+    auto recursive=[](const std::string& id) {
+        auto values=Value::array();for(unsigned i=0;i<60;++i)values.items.push_back(Value::string(std::string(20000,'r')));
+        return completed(id,Value::object().put("scope",Value::string("ordinary-local-fat-tree-extraction")).put("values",values));
+    };
+    require(channel.submit("recursive-small",[recursive]{return recursive("recursive-small");},1048575).pending,"recursive_small_submit");
+    require(await(channel).exit_code==6,"recursive_small_widened");
+    require(channel.submit("recursive-large",[recursive]{return recursive("recursive-large");},2097151).pending,"recursive_lane_submit");
+    result=await(channel);require(result.exit_code==0,"recursive_lane_failed");
+    const auto recursive_frame=response_frame(result.response);
+    require(recursive_frame.size()>1048576 && recursive_frame.size()<=2097152,"recursive_frame_bound");
+    report.put("recursive_finite_lane",Value::boolean_value(true));
     auto routing=[](const std::string& id) {
         auto out=completed(id,Value::object().put("state_directory",Value::string("owned-explicit-store")).put("definition_digest",Value::string("sha256:"+std::string(64,'a'))));
         out.response.put("status",Value::string("unknown"));out.exit_code=6;return out;

@@ -1,0 +1,1216 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "org.disked.fat-tree-extraction-review-prototype/1"
+    },
+    "backend": {
+      "$ref": "#/$defs/backend"
+    },
+    "operation_store": {
+      "$ref": "#/$defs/operation_store"
+    }
+  },
+  "required": [
+    "schema",
+    "backend",
+    "operation_store"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fat-tree-review-prototype:1",
+  "title": "Provisional immutable recursive extraction review; native semantic validation remains required",
+  "description": "Closed structural producer shape. Resource hashes/aliases, source ranges, counters, policy relationships and freshness are independently checked by validate_fat_tree_review and actual native admission. A schema-valid review grants no effects or authentication.",
+  "$defs": {
+    "generation": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "file_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "volume_id": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        }
+      },
+      "required": [
+        "created",
+        "file_id",
+        "volume_id"
+      ],
+      "additionalProperties": false
+    },
+    "file": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "file_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "volume_id": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "attributes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 4294967295
+        },
+        "bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "changed": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "written": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "hardlinks": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "created",
+        "file_id",
+        "volume_id",
+        "attributes",
+        "bytes",
+        "changed",
+        "written",
+        "hardlinks"
+      ],
+      "additionalProperties": false
+    },
+    "parents": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 240,
+      "items": {
+        "$ref": "#/$defs/generation"
+      }
+    },
+    "file_location": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/file"
+        },
+        "parents": {
+          "$ref": "#/$defs/parents"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960
+        }
+      },
+      "required": [
+        "file",
+        "parents",
+        "path"
+      ],
+      "additionalProperties": false
+    },
+    "new_location": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object",
+          "properties": {
+            "parent": {
+              "$ref": "#/$defs/generation"
+            },
+            "leaf": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "absence_required": {
+              "const": true
+            }
+          },
+          "required": [
+            "parent",
+            "leaf",
+            "absence_required"
+          ],
+          "additionalProperties": false
+        },
+        "parents": {
+          "$ref": "#/$defs/parents"
+        }
+      },
+      "required": [
+        "location",
+        "parents"
+      ],
+      "additionalProperties": false
+    },
+    "byte_range": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "byte-range"
+        },
+        "start": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "end": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        }
+      },
+      "required": [
+        "kind",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "code": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/file"
+        },
+        "parents": {
+          "$ref": "#/$defs/parents"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "minLength": 71,
+          "maxLength": 71
+        }
+      },
+      "required": [
+        "file",
+        "parents",
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "metadata_policy": {
+      "type": "object",
+      "properties": {
+        "name_selection": {
+          "type": "string",
+          "enum": [
+            "long_or_short",
+            "short",
+            "identity"
+          ]
+        },
+        "unrepresentable_name": {
+          "type": "string",
+          "enum": [
+            "refuse",
+            "identity"
+          ]
+        },
+        "oem_code_page": {
+          "type": "string",
+          "enum": [
+            "437",
+            "850"
+          ]
+        },
+        "time_interpretation": {
+          "type": "string",
+          "enum": [
+            "preserve_raw",
+            "fixed_offset"
+          ]
+        },
+        "utc_offset_minutes": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]{0,2})$",
+          "maxLength": 4
+        }
+      },
+      "required": [
+        "name_selection",
+        "unrepresentable_name",
+        "oem_code_page",
+        "time_interpretation",
+        "utc_offset_minutes"
+      ],
+      "additionalProperties": false
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 1024
+        },
+        "events": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 512
+        },
+        "reads": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 512
+        },
+        "read_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 4096,
+          "x-disked-maximum": 65536
+        },
+        "output_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 32768,
+          "x-disked-maximum": 65536
+        }
+      },
+      "required": [
+        "records",
+        "events",
+        "reads",
+        "read_bytes",
+        "output_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "traversal_resources": {
+      "type": "object",
+      "properties": {
+        "bitmap_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 67108864
+        },
+        "depth": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 1024
+        },
+        "queued_directories": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 65536
+        }
+      },
+      "required": [
+        "bitmap_bytes",
+        "depth",
+        "queued_directories"
+      ],
+      "additionalProperties": false
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "whole-live-tree"
+        },
+        "volume_offset": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "volume_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 512,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "fat_copy": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 4294967295
+        },
+        "capture_epoch": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "minLength": 71,
+          "maxLength": 71
+        },
+        "pages": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 65536
+        },
+        "entries": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 65536
+        },
+        "content_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 1099511627776
+        }
+      },
+      "required": [
+        "kind",
+        "volume_offset",
+        "volume_bytes",
+        "fat_copy",
+        "capture_epoch",
+        "tree_digest",
+        "pages",
+        "entries",
+        "content_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "budgets": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 65536
+        },
+        "directories": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 4096
+        },
+        "metadata_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 16384,
+          "x-disked-maximum": 67108864
+        },
+        "pages": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 65536
+        },
+        "content_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 1099511627776
+        },
+        "ledger_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1048576,
+          "x-disked-maximum": 1073741824
+        },
+        "record_bytes": {
+          "const": "262144"
+        },
+        "code_bytes": {
+          "const": "8388608"
+        },
+        "native_path_units": {
+          "const": "240"
+        }
+      },
+      "required": [
+        "entries",
+        "directories",
+        "metadata_bytes",
+        "pages",
+        "content_bytes",
+        "ledger_bytes",
+        "record_bytes",
+        "code_bytes",
+        "native_path_units"
+      ],
+      "additionalProperties": false
+    },
+    "backend_resources": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "$ref": "#/$defs/file_location"
+            },
+            "access": {
+              "const": "read"
+            },
+            "verification": {
+              "const": "held-identity-and-region-agreement"
+            },
+            "footprint": {
+              "$ref": "#/$defs/byte_range"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        },
+        "destination_tree": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "$ref": "#/$defs/new_location"
+            },
+            "access": {
+              "const": "create-tree"
+            },
+            "verification": {
+              "const": "file-id-and-content-readback"
+            },
+            "footprint": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "new-descendant-tree"
+                },
+                "entries": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "maxLength": 20,
+                  "x-disked-scalar": "decimal-u64",
+                  "x-disked-minimum": 0,
+                  "x-disked-maximum": 65536
+                },
+                "content_bytes": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "maxLength": 20,
+                  "x-disked-scalar": "decimal-u64",
+                  "x-disked-minimum": 0,
+                  "x-disked-maximum": 1099511627776
+                }
+              },
+              "required": [
+                "kind",
+                "entries",
+                "content_bytes"
+              ],
+              "additionalProperties": false
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        },
+        "metadata_ledger": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "$ref": "#/$defs/new_location"
+            },
+            "access": {
+              "const": "create-append"
+            },
+            "verification": {
+              "const": "ordered-hash-chain"
+            },
+            "footprint": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "bounded-new-file"
+                },
+                "bytes": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,19})$",
+                  "maxLength": 20,
+                  "x-disked-scalar": "decimal-u64",
+                  "x-disked-minimum": 1048576,
+                  "x-disked-maximum": 1073741824
+                }
+              },
+              "required": [
+                "kind",
+                "bytes"
+              ],
+              "additionalProperties": false
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        },
+        "executable": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "$ref": "#/$defs/code"
+            },
+            "access": {
+              "const": "read"
+            },
+            "verification": {
+              "const": "identity-and-code-sha256"
+            },
+            "footprint": {
+              "$ref": "#/$defs/byte_range"
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        },
+        "provider": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "const": "provider.image.fat-tree-extract.prototype/1"
+                },
+                "code_sha256": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "minLength": 71,
+                  "maxLength": 71
+                }
+              },
+              "required": [
+                "id",
+                "code_sha256"
+              ],
+              "additionalProperties": false
+            },
+            "access": {
+              "const": "execute-linked"
+            },
+            "verification": {
+              "const": "same-linked-generation"
+            },
+            "footprint": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "declared-provider-effects"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "additionalProperties": false
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        },
+        "host": {
+          "type": "object",
+          "properties": {
+            "identity": {
+              "type": "string",
+              "pattern": "^observed:sha256:[0-9a-f]{64}$"
+            },
+            "epoch": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "minLength": 71,
+              "maxLength": 71
+            },
+            "observed": {
+              "type": "object",
+              "properties": {
+                "identity": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "minLength": 71,
+                  "maxLength": 71
+                },
+                "profile": {
+                  "const": "windows.nt10.x64.local-ntfs.prototype/1"
+                }
+              },
+              "required": [
+                "identity",
+                "profile"
+              ],
+              "additionalProperties": false
+            },
+            "access": {
+              "const": "declared-host-effects"
+            },
+            "verification": {
+              "const": "selected-host-profile"
+            },
+            "footprint": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "ordinary-local-process-and-file-effects"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "additionalProperties": false
+            },
+            "aliases": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+              }
+            },
+            "failure_domain": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "identity",
+            "epoch",
+            "observed",
+            "access",
+            "verification",
+            "footprint",
+            "aliases",
+            "failure_domain"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "source",
+        "destination_tree",
+        "metadata_ledger",
+        "executable",
+        "provider",
+        "host"
+      ],
+      "additionalProperties": false
+    },
+    "prepared_input": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-input/1"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 960
+        },
+        "expected_source": {
+          "$ref": "#/$defs/file"
+        },
+        "volume_offset": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "volume_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 512,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "fat_copy": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 0,
+          "x-disked-maximum": 4294967295
+        },
+        "capture_epoch": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$",
+          "maxLength": 20,
+          "x-disked-scalar": "decimal-u64",
+          "x-disked-minimum": 1,
+          "x-disked-maximum": 18446744073709551615
+        },
+        "page": {
+          "$ref": "#/$defs/page"
+        },
+        "resources": {
+          "$ref": "#/$defs/traversal_resources"
+        }
+      },
+      "required": [
+        "schema",
+        "path",
+        "expected_source",
+        "volume_offset",
+        "volume_bytes",
+        "fat_copy",
+        "capture_epoch",
+        "page",
+        "resources"
+      ],
+      "additionalProperties": false
+    },
+    "backend": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-effects-prototype/1"
+        },
+        "selection": {
+          "$ref": "#/$defs/selection"
+        },
+        "prepared_input": {
+          "$ref": "#/$defs/prepared_input"
+        },
+        "paths": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 960
+            },
+            "destination": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 960
+            },
+            "ledger": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 960
+            }
+          },
+          "required": [
+            "source",
+            "destination",
+            "ledger"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "$ref": "#/$defs/backend_resources"
+        },
+        "metadata_policy": {
+          "$ref": "#/$defs/metadata_policy"
+        },
+        "budgets": {
+          "$ref": "#/$defs/budgets"
+        },
+        "effects": {
+          "const": "create-only-tree-and-independent-ordered-ledger"
+        },
+        "scratch_resources": {
+          "type": "array",
+          "maxItems": 0,
+          "const": []
+        },
+        "recovery_resources": {
+          "type": "array",
+          "maxItems": 0,
+          "const": []
+        },
+        "source_consistency": {
+          "const": "held-identity-and-read-agreement-not-atomic"
+        }
+      },
+      "required": [
+        "schema",
+        "selection",
+        "prepared_input",
+        "paths",
+        "resources",
+        "metadata_policy",
+        "budgets",
+        "effects",
+        "scratch_resources",
+        "recovery_resources",
+        "source_consistency"
+      ],
+      "additionalProperties": false
+    },
+    "operation_store": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "type": "string",
+          "pattern": "^observed:sha256:[0-9a-f]{64}$"
+        },
+        "epoch": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "minLength": 71,
+          "maxLength": 71
+        },
+        "observed": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "$ref": "#/$defs/generation"
+            },
+            "parents": {
+              "$ref": "#/$defs/parents"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 960
+            }
+          },
+          "required": [
+            "file",
+            "parents",
+            "path"
+          ],
+          "additionalProperties": false
+        },
+        "access": {
+          "const": "create-operation-state"
+        },
+        "verification": {
+          "const": "identity-epoch-and-ordered-state-history"
+        },
+        "footprint": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "finite-control-files"
+            },
+            "children": {
+              "const": [
+                "recursive-request.json",
+                "recursive-cancel",
+                "recursive-state.ndjson"
+              ]
+            },
+            "record_bytes": {
+              "const": "16384"
+            },
+            "total_bytes": {
+              "const": "1048576"
+            },
+            "records": {
+              "const": "64"
+            }
+          },
+          "required": [
+            "kind",
+            "children",
+            "record_bytes",
+            "total_bytes",
+            "records"
+          ],
+          "additionalProperties": false
+        },
+        "aliases": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(observed:|file:)sha256:[0-9a-f]{64}$"
+          }
+        },
+        "failure_domain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "identity",
+        "epoch",
+        "observed",
+        "access",
+        "verification",
+        "footprint",
+        "aliases",
+        "failure_domain"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -5,6 +5,7 @@
 namespace disked {
 namespace nt_inventory {
 class FatTreeExtractionWorker;
+class FatTreeStore;
 class FatTreeExtractionPreparation final {
     const json::Value definition_, owner_;
     const std::string digest_, publication_digest_;
@@ -40,6 +41,9 @@ class FatTreeExtractionWorker final {
     static std::unique_ptr<FatTreeExtractionWorker>
     prepare(const FatTreeExtractionRequest &, const json::Value &fixture = json::Value::object());
     void launch();
+    // Attach the observed store before launch. It remains in the same passive
+    // dependency closure if actual worker exit cannot be established.
+    void retain_store(std::shared_ptr<const FatTreeStore>);
     void release();
     void cancel();
     bool never_launched() const;

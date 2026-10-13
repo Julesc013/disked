@@ -85,6 +85,11 @@ class Parser(unittest.TestCase):
         self.assertEqual(['--json'],complete(['--j']))
         self.assertEqual('error',self.parse(['partition','res','x'])['kind'])
 
+    def test_exact_finite_object_form_budgets(self):
+        result=subprocess.run([ARGS.exe,'--form-budgets'],capture_output=True,timeout=5)
+        self.assertEqual(0,result.returncode,result.stderr)
+        self.assertEqual(dict(supported=5,unsupported_refused=True),json.loads(result.stdout))
+
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--exe',required=True);p.add_argument('--root',type=Path,required=True);ARGS=p.parse_args()

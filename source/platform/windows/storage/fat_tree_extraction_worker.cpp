@@ -396,6 +396,7 @@ struct FatTreeExtractionWorker::Impl {
     std::unique_ptr<View> view;
     std::unique_ptr<ObservationWorker> worker;
     std::shared_ptr<const FatTreeExtractionPreparation> preparation;
+    std::shared_ptr<const FatTreeStore> store;
     V outcome;
     std::string publication_digest, phase, diagnostic;
     bool grant_sent = false, failed = false;
@@ -495,6 +496,11 @@ FatTreeExtractionWorker::prepare(const FatTreeExtractionRequest &r, const V &fix
 void FatTreeExtractionWorker::launch() {
     impl_->check();
     impl_->worker->launch();
+}
+void FatTreeExtractionWorker::retain_store(std::shared_ptr<const FatTreeStore> store) {
+    if (!store || impl_->store || !never_launched())
+        invalid("fat_tree_writer_store_lifetime");
+    impl_->store = std::move(store);
 }
 void FatTreeExtractionWorker::release() {
     impl_->worker->release();
@@ -618,6 +624,7 @@ V FatTreeExtractionWorker::observe(DWORD wait_ms) {
         }
     }
     const auto pulse = InterlockedCompareExchange64(&channel->pulse, 0, 0);
+    const auto process_state = text(field(observed, "worker"), "observation");
     observed
         .put("preparation", p.preparation ? V::object().put("definition_digest",
                                                             V::string(p.preparation->digest()))
@@ -627,7 +634,10 @@ V FatTreeExtractionWorker::observe(DWORD wait_ms) {
         .put("phase", p.phase.empty() ? V{} : V::string(p.phase))
         .put("progress_pulse", number(static_cast<std::uint64_t>(pulse)))
         .put("outcome", p.failed ? V{} : p.outcome)
-        .put("dependencies_retained", V::boolean_value(!p.exited()));
+        // Derive both fields from this observation. A second process query can
+        // see exit after the first saw running and create a contradictory row.
+        .put("dependencies_retained",
+             V::boolean_value(process_state != "exited" && process_state != "not_started"));
     if (p.failed)
         observed.put("status", V::string("unknown"))
             .put("diagnostic", V::string(p.diagnostic))

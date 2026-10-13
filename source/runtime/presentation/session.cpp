@@ -203,12 +203,12 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
 }
 std::vector<std::string> observation_lines(const Value& value) {
     json::Limits limits;const bool cached=cached_observation_response(value);
-    const bool expanded=cached || acquisition_watch_response(value) || report_response(value) || verification_response(value) || fat_inspection_response(value) || fat_capture_response(value) || fat_tree_response(value);
+    const bool expanded=cached || fat_recursive_response(value) || acquisition_watch_response(value) || report_response(value) || verification_response(value) || fat_inspection_response(value) || fat_capture_response(value) || fat_tree_response(value);
     if(expanded)limits=cached?cached_observation_view_limits():response_limits(value);
     // A private inert review wraps one independently bounded parameter object.
     // It is not classified as a completed report or given report wire limits.
     const auto* command=value.find("command");
-    if(command && (command->text=="evidence.export" || command->text=="image.verify") && value.find("parameters")) {limits.bytes=65536+4096;limits.depth=33;}
+    if(command && (command->text=="filesystem.tree.extract" || command->text=="evidence.export" || command->text=="image.verify") && value.find("parameters")) {limits.bytes=65536+4096;limits.depth=33;}
     return presentation_lines(value,limits,expanded?4194304:1048576);
 }
 bool cached_observation_response(const Value& value) {

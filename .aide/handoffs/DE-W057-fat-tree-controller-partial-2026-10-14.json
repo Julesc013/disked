@@ -1,0 +1,281 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W057",
+  "base_revision": "7dba44bd7d09467266e4539e650b344ef7c8d038",
+  "spec_manifest_digest": "sha256:6ef7c6adf430a41e3e83ed3ebacf53d4774b20d43cca8607ed92af4daf494906",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "source/platform/windows/storage/fat_tree_admission.h",
+    "source/platform/windows/storage/fat_tree_admission.cpp",
+    "source/platform/windows/storage/fat_tree_extraction_worker.cpp",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/platform/windows/memory_budget.cpp",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-recursive-command.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/platform/windows/storage/fat_tree_controller.cpp",
+    "source/platform/windows/storage/fat_tree_controller.h",
+    "source/platform/windows/storage/fat_tree_reconnect.cpp",
+    "spec/bundle.json",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_tree_admission_probe.cpp",
+    "tests/images/test_fat_tree_controller.py",
+    "tools/build-inputs.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-tree-controller/admission-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/context-manifest.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/context.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/controller-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-boundaries-final.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-boundaries.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-3.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-exit.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-configure-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-configure.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-1-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-2-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-3-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-3.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-4-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-4.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-reconnect-regression-4-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-regression-build.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-tooling.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/header-objects.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/index.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/manifest.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/README.md",
+    ".aide/evidence/2026-10-14-fat-tree-controller/reconnect-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-tree-controller/source-map.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/spec-check.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/summary.json",
+    ".aide/evidence/2026-10-14-fat-tree-controller/verify-context.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/verify-manifest.log",
+    ".aide/evidence/2026-10-14-fat-tree-controller/working-inputs.json",
+    ".aide/handoffs/DE-W057-fat-tree-controller-partial-2026-10-14.json"
+  ],
+  "summary": "Detached controller passes ten methods; three selected native groups pass. Tooling236pass/two skip. Caller exit after dispatch preserves owned execution; wait/watch, public frontends and full qualification remain.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^image.fat_tree_(controller|admission|reconnect)$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-controller\\fat_tree_controller_probe.exe",
+      "sha256": "sha256:f36adcfdf4527acd2a345902d1525918b9c02fdb6072738e0c8883e5b6bba898"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-controller\\fat_tree_controller_fault.exe",
+      "sha256": "sha256:62ba86951e4f8b6ff214216bff4248048c7d5b0307fd843ec899ea291c8b3e0a"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-controller\\fat_tree_reconnect_probe.exe",
+      "sha256": "sha256:2a6fda16bc9d6d48a51cdb989683001a8261c2260c5783cb6b0958d963ff4d04"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-controller\\fat_tree_admission_probe.exe",
+      "sha256": "sha256:d9326a8f48be54de4eb81ced12e69b52a91e27a728ed4bf3a858e98f9ab30aac"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-controller\\fat_tree_admission_fault.exe",
+      "sha256": "sha256:468ba5e1b6f2f9dc7e6590555f6d5579936b2b510296ea9389ed092ca83f9d87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/admission-cases.json",
+      "sha256": "sha256:8cfe72c6d1f2e4f777fa80302384d58b540c52d14992f9a07b29793a7bcb222e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/artifacts.json",
+      "sha256": "sha256:45bd3de884c2c93412cea32c045acc6534da33ef4c657872867c0c472ca4f517"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/context-manifest.json",
+      "sha256": "sha256:269129db5bbcdd12ab7076e602644b7717e7afb3d42b7db5fd3143a1eb6b50c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/context.log",
+      "sha256": "sha256:f1dabb0c3b7df37fc6f02a1502655860dfb27765577639c4533c15766f0c18e3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/controller-cases.json",
+      "sha256": "sha256:000e75a76d825089ed2058f2210c7ac0faca307ebb0aad75e994a65d34832716"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-boundaries-final.json",
+      "sha256": "sha256:d34fbe8c162593d85819d7cfc0049bd11328d7ca5e4e1b8e3a914595c087e373"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-boundaries.json",
+      "sha256": "sha256:05434df89e94eb92e48e1b1d0d1cb648d7234df934df154d93c21effe631e66f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-1.log",
+      "sha256": "sha256:08018c3d387e8c256fff44ada0df115ef175f69c1c3a247b19694d757b0ec19d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-2.log",
+      "sha256": "sha256:75c3f848c555024da6f276911f2cd63850cb4b217fae90ac9ed7db474cd8056b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-3.log",
+      "sha256": "sha256:df77d805995eb0de8a2e545e939c3cbd10542a756900aa475d6ad133ad9c884b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-exit.log",
+      "sha256": "sha256:a8c42caf2e02ddfc965f95de4aaac4ee5d514dd619054955e2d9b51ad5e6f883"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-build-final.log",
+      "sha256": "sha256:0105e9b6e827e2754c40a8e4659a249e9d09276541aa6c9850e1fc259ecd9a0d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-configure-final.log",
+      "sha256": "sha256:693ea3f5a060d02506806578bd3b3e1a38d3fa8ee84e3c5c3927a3cbe914c178"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-configure.log",
+      "sha256": "sha256:b1a6d01165ae0d4bf554aaec1e3c46ef732a80abe54f49b514da9cb19e05efb4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-1-cases.json",
+      "sha256": "sha256:eeab4b37a75ff6db7726abd0adf77b975e76fae07e780d93bb89c33faf640f2c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-1.log",
+      "sha256": "sha256:2574e369dfef53f75365a08d5a2bf66902c0a0aa0f0082aae3c4649d32414b11"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-2-cases.json",
+      "sha256": "sha256:c9594dc3df1a41b1c0551e69bc4f1775d973c6787e1858cb9026724a66fb0afb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-2.log",
+      "sha256": "sha256:fb87fc97c672fb69c6e03fe1c1b45ddf12f2ae6677059c4ce497131e5eeb7160"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-3-cases.json",
+      "sha256": "sha256:d12c49edf3ff8339fac6c9e4b20c2ba034c4486be2ea3b8497787ba7aea28201"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-3.log",
+      "sha256": "sha256:e7056b80d9123ec8f6bc7176aae646abf2acf7bc1c04efa6ac52f967368cc063"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-4-cases.json",
+      "sha256": "sha256:23e09bcddbd4b9a26b0d593db62dafdb9a88cfed9baae301cc062321f5ad7ba5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-4.log",
+      "sha256": "sha256:6dd4c3cf969781cbdd966162d4ea36db7f7da6f79f852e33bb26cb1450990f7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-focused-final.log",
+      "sha256": "sha256:3f4cc1dc00f467eb7e62adcaff01591c34d5300cd4bb3ddb9c56b685e9dda7c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-reconnect-regression-4-cases.json",
+      "sha256": "sha256:6c7114a06c773e4df276eb0908c64e1224b760ec7b39384d8d9b7972eb23c686"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-regression-build.log",
+      "sha256": "sha256:fd03d55bdc62712a330970565d322951210ae8f4f681a2cf69076df63c88c87d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/fat-tree-controller-tooling.log",
+      "sha256": "sha256:9ca0bfac186d7c46994f36111ba665cc03df5551154f8f7e0bebc68d51b8452b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/header-objects.json",
+      "sha256": "sha256:91882c06e6bf3c0ef32d03a03f3f4c4e4b35e3836179ed8de03ba7c633689b10"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/manifest.log",
+      "sha256": "sha256:c947c78c117c3a7367fb3ccbd8da7b39fb3b05c84d9c95cb57e6a47de3a1ea06"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/README.md",
+      "sha256": "sha256:c101e72c402d459908063ad4d2f345cb686ce93186b1240e33fb6a2769febfd9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/reconnect-cases.json",
+      "sha256": "sha256:1859070be631acff40a6c9b2cdae1f7766f5cffcbf25796a527a45694e5bdbd4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/REVIEW.md",
+      "sha256": "sha256:3ffe228e579b30f94b1f37978557f7676dd757a9f26c2f55cf1ac87374eaea55"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/source-map.log",
+      "sha256": "sha256:c52769abf93b9c1481764f838385efcf8687bc0ea5237a6d94c1bee86818a2e4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/spec-check.log",
+      "sha256": "sha256:845e20ee89d0fedec6a8dee1402ed9ee981e36ea7702f51c971a4e73edc5c50b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/summary.json",
+      "sha256": "sha256:c3ec571e9b13e62678ec1e69cf6268dfa1215669ddc3a200c9c4b242db9b4fec"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/verify-context.log",
+      "sha256": "sha256:3100f9163b83249a38c380c0b0216afb605b1b698f38777858688a0a486a0494"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/verify-manifest.log",
+      "sha256": "sha256:28f22a1c7b4e69b8058d4c86db4bef012c89cc0cec95fdbbe5a43a5500fcf84d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-controller/working-inputs.json",
+      "sha256": "sha256:2537bde63e99f707a071daec1a92a2f28e269836be78c1809a7fb8eb0ae1eee2"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue active DE-W057 with bounded native operation wait/watch and descriptor-owned CLI/protocol/GUI/TUI/shell prepare/execute/inspect/cancel journeys, then full exact-source qualification. Detached explicit dispatch now survives caller exit; preserve old commands/private plans, the full all-platform/storage0.1.0 scope and separate owner/storage/release gates. Keep the public command planned until its complete contract is implemented and verified.",
+  "performed_remote_writes": false
+}

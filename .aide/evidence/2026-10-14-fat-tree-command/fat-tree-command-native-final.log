@@ -1,0 +1,47 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start  5: image.fat_tree_commands
+1/5 Test  #5: image.fat_tree_commands ..........***Failed    3.21 sec
+test_bad_parameters_and_policy_fail_before_prepare_port (__main__.CommandTests.test_bad_parameters_and_policy_fail_before_prepare_port) ... ok
+test_closed_review_schema_matches_native_definition (__main__.CommandTests.test_closed_review_schema_matches_native_definition) ... ERROR
+test_each_grant_and_digest_refuse_without_provider_calls_or_outputs (__main__.CommandTests.test_each_grant_and_digest_refuse_without_provider_calls_or_outputs) ... ok
+test_preparation_receipt_binding_and_quiescence_are_checked (__main__.CommandTests.test_preparation_receipt_binding_and_quiescence_are_checked) ... ok
+test_real_prepare_execution_across_parser_form_and_protocol (__main__.CommandTests.test_real_prepare_execution_across_parser_form_and_protocol) ... ok
+test_running_requires_an_exact_bound_operation_identity (__main__.CommandTests.test_running_requires_an_exact_bound_operation_identity) ... ok
+test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays (__main__.CommandTests.test_stale_source_rejects_before_outputs_and_repeated_execution_never_replays) ... ok
+
+======================================================================
+ERROR: test_closed_review_schema_matches_native_definition (__main__.CommandTests.test_closed_review_schema_matches_native_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_commands.py", line 55, in test_closed_review_schema_matches_native_definition
+    schema=json.loads(Path('spec/schemas/fat-tree-review-prototype.schema.json').read_bytes())
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'spec\\schemas\\fat-tree-review-prototype.schema.json'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.978s
+
+FAILED (errors=1)
+
+    Start  6: image.fat_tree_reconnect
+2/5 Test  #6: image.fat_tree_reconnect .........   Passed    3.45 sec
+    Start  7: image.fat_tree_watch
+3/5 Test  #7: image.fat_tree_watch .............   Passed    2.13 sec
+    Start 78: image.fat_tree_controller
+4/5 Test #78: image.fat_tree_controller ........   Passed   22.88 sec
+    Start 79: image.fat_tree_admission
+5/5 Test #79: image.fat_tree_admission .........   Passed   69.59 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) = 101.27 sec
+
+The following tests FAILED:
+	  5 - image.fat_tree_commands (Failed)
+Errors while running CTest

@@ -1,0 +1,39 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 6: image.fat_tree_watch
+1/1 Test #6: image.fat_tree_watch .............***Failed    2.36 sec
+test_actual_completed_wait_and_watch_preserve_all_artifacts (__main__.WatchTests.test_actual_completed_wait_and_watch_preserve_all_artifacts) ... ok
+test_actual_live_follow_boundary_then_cancel_and_resume (__main__.WatchTests.test_actual_live_follow_boundary_then_cancel_and_resume) ... FAIL
+test_actual_wait_follows_live_operation_until_recorded_exit (__main__.WatchTests.test_actual_wait_follows_live_operation_until_recorded_exit) ... ok
+test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor (__main__.WatchTests.test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor) ... ok
+test_event_budget_preserves_prior_cursor (__main__.WatchTests.test_event_budget_preserves_prior_cursor) ... ok
+test_exact_envelopes_include_admission_and_original_digest_domain (__main__.WatchTests.test_exact_envelopes_include_admission_and_original_digest_domain) ... ok
+test_invalid_options_are_rejected_before_native_paths (__main__.WatchTests.test_invalid_options_are_rejected_before_native_paths) ... ok
+test_resume_snapshot_and_same_prefix_do_not_duplicate (__main__.WatchTests.test_resume_snapshot_and_same_prefix_do_not_duplicate) ... ok
+test_torn_and_uncertain_histories_have_no_successful_empty_batch (__main__.WatchTests.test_torn_and_uncertain_histories_have_no_successful_empty_batch) ... ok
+test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor (__main__.WatchTests.test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor) ... ok
+
+======================================================================
+FAIL: test_actual_live_follow_boundary_then_cancel_and_resume (__main__.WatchTests.test_actual_live_follow_boundary_then_cancel_and_resume)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_watch.py", line 173, in test_actual_live_follow_boundary_then_cancel_and_resume
+    self.assertEqual('recorded_terminal',resumed['status'],resumed)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'recorded_terminal' != 'unknown'
+- recorded_terminal
++ unknown
+ : {'cursor': {'closed': False, 'event_bytes': '0', 'events': '0', 'header_digest': None, 'initialized': False, 'last_digest': 'sha256:c5b6b00b05c4d79aa9a8016d4b623a51cc98c8593344f4b923e253534aff86ff', 'observer_epoch': 'watch:fb275df05f5271b61304fac0f819ab6a', 'operation_id': 'tree-op:c6c393f9b027283de7e16027077623d0', 'review_digest': None, 'sequence': '4', 'worker_epoch': 'worker:6e649215255245d4994ff8b1cbb090b5'}, 'diagnostic': 'fat_tree_reconnect_process_unverified', 'events': [], 'observation': {'cancellation_request': 'not_requested', 'claims': {'authenticity': 'not_established', 'destination_access': False, 'mutation_authority': False, 'replay_authority': False, 'source_access': False}, 'controller': {'created': '134363938380134205', 'exit_code': None, 'observation': 'unavailable', 'pid': '50968'}, 'diagnostic': 'fat_tree_reconnect_process_unverified', 'history': {'admitted_bytes': '10314', 'claims': {'authenticity': 'not_established', 'current_destination_verification': 'not_performed', 'current_source_verification': 'not_performed', 'mutation_authority': False, 'replay_authority': False, 'worker_exit': 'recorded-declaration-only'}, 'last_digest': 'sha256:ef030a85ac49f117977f070011cab88a46239687631baa1ec40100bc5191a60a', 'last_worker': {'admitted': True, 'attempt_id': 'fat-tree-write-attempt:7b073cb8435154e647e094fbf68875d5', 'cancellation_requested': True, 'capture_epoch': '17', 'claims': {'compiled_effects_capable': True, 'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '62ba86951e4f8b6ff214216bff4248048c7d5b0307fd843ec899ea291c8b3e0a', 'dependencies_retained': False, 'diagnostic': None, 'effects_possible': True, 'grant_sent': True, 'observer_epoch': 'observer:ae9b7fc413671194c6ec6baffcf37517', 'outcome': {'atomic_snapshot': False, 'attempt_id': 'fat-tree-write-attempt:7b073cb8435154e647e094fbf68875d5', 'cancellation_observed': True, 'checkpointed_bytes': '0', 'contained_worker_qualified': False, 'definition_digest': 'sha256:390cda5362ae57e12ee18a0187a49db7ded93cef4d7969079bfced2bb8466cd9', 'diagnostic': 'fat_tree_extract_cancelled', 'directories_created': '1', 'effects_possible': True, 'files_complete': '0', 'last_record_digest': 'sha256:775064289af6889e392120efbb6e113531fa815f9238562e6289bd9c1b2b8844', 'ledger_bytes': '12393', 'ledger_records': '4', 'owner_accepted': False, 'platform_code': '0', 'platform_domain': 'win32', 'schema': 'org.disked.fat-tree-extraction-outcome-prototype/1', 'source_writes': False, 'status': 'partial', 'verified_bytes': '0'}, 'phase': 'outcome', 'preparation': {'definition_digest': 'sha256:390cda5362ae57e12ee18a0187a49db7ded93cef4d7969079bfced2bb8466cd9'}, 'progress_pulse': '7', 'request_digest': 'f89cdc9a35a6f343b8b308446319fd0d268bab32ddb7d589cb4e85ff982f9803', 'result': {'phase': 'outcome', 'publication_sha256': 'sha256:efc1c57e2b4bf0241d87fc4d8a8bc51d5a354a59348d0f6b4a5ffa79c52574db', 'schema': 'org.disked.fat-tree-extraction-worker-final/1'}, 'retired': False, 'schema': 'org.disked.fat-tree-extraction-worker-observation/1', 'status': 'completed', 'worker': {'created': '134363938380450389', 'exit_code': '0', 'observation': 'exited', 'pid': '41704'}, 'worker_epoch': 'worker:6e649215255245d4994ff8b1cbb090b5'}, 'operation_id': 'tree-op:c6c393f9b027283de7e16027077623d0', 'records': '6', 'review_digest': 'sha256:0b8de45fa0c81416ba7b060009570dc1a74faca516ae3a11f0c1c75ba2cab6f1', 'schema': 'org.disked.fat-tree-operation-history-prototype/1', 'state': 'recorded_partial', 'tail': {'admitted': False, 'bytes': '0', 'sha256': 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}}, 'operation_id': 'tree-op:c6c393f9b027283de7e16027077623d0', 'schema': 'org.disked.fat-tree-reconnect-observation-prototype/1', 'status': 'unknown', 'writer': {'created': '134363938380450389', 'exit_code': None, 'observation': 'not_present', 'pid': '41704'}}, 'operation_id': 'tree-op:c6c393f9b027283de7e16027077623d0', 'polls': '1', 'schema': 'org.disked.fat-tree-operation-watch-prototype/1', 'status': 'unknown'}
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.077s
+
+FAILED (failures=1)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   2.56 sec
+
+The following tests FAILED:
+	  6 - image.fat_tree_watch (Failed)
+Errors while running CTest

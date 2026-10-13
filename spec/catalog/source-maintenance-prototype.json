@@ -95,6 +95,50 @@
           "disked_json",
           "disked_hash"
         ]
+      },
+      "disked_fat_tree_review": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_review.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_operation": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_operation.cpp"
+        ],
+        "build_closure": [
+          "disked_fat_tree_review",
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_watch": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_watch.cpp"
+        ],
+        "build_closure": [
+          "disked_fat_tree_operation",
+          "disked_fat_tree_review",
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_commands": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_commands.cpp"
+        ],
+        "build_closure": [
+          "disked_command",
+          "disked_fat",
+          "disked_fat_metadata",
+          "disked_fat_tree_review",
+          "disked_hash",
+          "disked_json",
+          "disked_primitives"
+        ]
       }
     },
     "required_compile_flags": [
@@ -144,6 +188,12 @@
       "fat_tree_extraction_worker_fault": [
         "disked_fat_tree_extraction_worker",
         "disked_observation_worker"
+      ],
+      "fat_tree_admission_fault": [
+        "disked_fat_tree_store",
+        "disked_fat_tree_admission",
+        "disked_fat_tree_extraction_worker",
+        "disked_observation_worker"
       ]
     },
     "header_compile_checks": [
@@ -168,7 +218,9 @@
     "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result.",
     "qualified_includes": true,
     "compile_only_include_guards": [
-      "DISKED_MODEL_BINARY_PROJECTION"
+      "DISKED_MODEL_BINARY_PROJECTION",
+      "DISKED_FAT_TREE_CONTROLLER_PROBE",
+      "DISKED_RECURSIVE_DISABLED"
     ]
   },
   "shared_presentation": {

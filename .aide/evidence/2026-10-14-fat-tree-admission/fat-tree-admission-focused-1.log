@@ -1,0 +1,91 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 75: image.fat_tree_admission
+1/1 Test #75: image.fat_tree_admission .........***Failed    1.24 sec
+test_changed_source_store_code_or_namespace_refuse_no_control_writes (__main__.AdmissionTests.test_changed_source_store_code_or_namespace_refuse_no_control_writes) ... ERROR
+test_each_grant_and_wrong_digest_refuse_before_native_paths (__main__.AdmissionTests.test_each_grant_and_wrong_digest_refuse_before_native_paths) ... ERROR
+test_fresh_process_execution_and_retained_header_state_content (__main__.AdmissionTests.test_fresh_process_execution_and_retained_header_state_content) ... ERROR
+test_interrupted_control_creation_is_retained_before_backend_effects (__main__.AdmissionTests.test_interrupted_control_creation_is_retained_before_backend_effects) ... FAIL
+test_native_prepare_and_independent_store_identity_without_effects (__main__.AdmissionTests.test_native_prepare_and_independent_store_identity_without_effects) ... ERROR
+test_normal_store_ignores_fault_environment (__main__.AdmissionTests.test_normal_store_ignores_fault_environment) ... ERROR
+test_owned_hangs_partial_effects_and_real_exit_preserve_store (__main__.AdmissionTests.test_owned_hangs_partial_effects_and_real_exit_preserve_store) ... ERROR
+test_reserved_children_and_control_resource_aliases_preserve_foreign_files (__main__.AdmissionTests.test_reserved_children_and_control_resource_aliases_preserve_foreign_files) ... ok
+
+======================================================================
+ERROR: test_changed_source_store_code_or_namespace_refuse_no_control_writes (__main__.AdmissionTests.test_changed_source_store_code_or_namespace_refuse_no_control_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 165, in test_changed_source_store_code_or_namespace_refuse_no_control_writes
+    p = prepare(root, inputs)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 82, in prepare
+    p = next(row for row in rows if row["kind"] == "prepared")
+StopIteration
+
+======================================================================
+ERROR: test_each_grant_and_wrong_digest_refuse_before_native_paths (__main__.AdmissionTests.test_each_grant_and_wrong_digest_refuse_before_native_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 148, in test_each_grant_and_wrong_digest_refuse_before_native_paths
+    p = prepare(root, inputs)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 82, in prepare
+    p = next(row for row in rows if row["kind"] == "prepared")
+StopIteration
+
+======================================================================
+ERROR: test_fresh_process_execution_and_retained_header_state_content (__main__.AdmissionTests.test_fresh_process_execution_and_retained_header_state_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 131, in test_fresh_process_execution_and_retained_header_state_content
+    p = prepare(root, inputs)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 82, in prepare
+    p = next(row for row in rows if row["kind"] == "prepared")
+StopIteration
+
+======================================================================
+ERROR: test_native_prepare_and_independent_store_identity_without_effects (__main__.AdmissionTests.test_native_prepare_and_independent_store_identity_without_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 122, in test_native_prepare_and_independent_store_identity_without_effects
+    p = prepare(root, inputs)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 82, in prepare
+    p = next(row for row in rows if row["kind"] == "prepared")
+StopIteration
+
+======================================================================
+ERROR: test_normal_store_ignores_fault_environment (__main__.AdmissionTests.test_normal_store_ignores_fault_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 229, in test_normal_store_ignores_fault_environment
+    self.assertEqual("complete", rows[-1]["observation"]["worker"]["outcome"]["status"])
+                                 ~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'observation'
+
+======================================================================
+ERROR: test_owned_hangs_partial_effects_and_real_exit_preserve_store (__main__.AdmissionTests.test_owned_hangs_partial_effects_and_real_exit_preserve_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 205, in test_owned_hangs_partial_effects_and_real_exit_preserve_store
+    before = next(r for r in rows if r["kind"] == "before_retirement")
+StopIteration
+
+======================================================================
+FAIL: test_interrupted_control_creation_is_retained_before_backend_effects (__main__.AdmissionTests.test_interrupted_control_creation_is_retained_before_backend_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 223, in test_interrupted_control_creation_is_retained_before_backend_effects
+    self.assertTrue((root / "store" / "recursive-request.json").exists())
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.865s
+
+FAILED (failures=1, errors=6)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   1.26 sec
+
+The following tests FAILED:
+	 75 - image.fat_tree_admission (Failed)
+Errors while running CTest

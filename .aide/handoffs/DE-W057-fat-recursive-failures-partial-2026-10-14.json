@@ -1,0 +1,298 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W057",
+  "base_revision": "3df3732d6f8ee5ac30025bbf15dea645271b05e2",
+  "spec_manifest_digest": "sha256:5fdcaa128dc0113419d5b482764e6ef3f6611cf819aea42be712ba4cf3438384",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "docs/code-structure.md",
+    "docs/source-map.md",
+    "source/platform/windows/storage/fat_tree_actions.cpp",
+    "source/platform/windows/storage/fat_tree_controller.cpp",
+    "source/platform/windows/storage/fat_tree_extraction_worker.cpp",
+    "tests/frontend/test_fat_recursive_product.py",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-recursive-command.md",
+    "docs/structure-review.md",
+    "source/platform/windows/storage/fat_tree_actions.cpp",
+    "source/platform/windows/storage/fat_tree_controller.cpp",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/frontend/test_fat_recursive_failures.py",
+    "tools/build-inputs.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/boundaries.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/cases.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/context-manifest.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/context.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-artifact-build.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-artifact-test.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-boundaries.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-build.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-configure.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-context.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-fifth.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-final-build.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-first.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-fourth.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-index-final.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-index.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-manifest.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-rebuild.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-reconfigure.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-second.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-selected-build.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-selected.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-seventh.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-sixth.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-spec-check.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-spec-final.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-third.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-tooling.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-verify-context.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-verify-manifest.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/header-objects.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/index.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/manifest.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/README.md",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/source-map.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/spec-check.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/summary.json",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/usk-current-failed-check.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/verify-context.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/verify-manifest.log",
+    ".aide/evidence/2026-10-14-fat-recursive-failures/working-inputs.json",
+    ".aide/handoffs/DE-W057-fat-recursive-failures-partial-2026-10-14.json"
+  ],
+  "summary": "Actual cancellation across five frontends, detached launcher, fault isolation and retained failure/no replay pass. Normal admission/full unit/release remain open.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^(frontend.fat_recursive_failures|frontend.fat_recursive_product|image.fat_tree_controller|image.fat_tree_watch|build.boundaries)$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-selected.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-failures\\disked_recursive_test.exe",
+      "sha256": "sha256:10b7d73d6e8e9c387c7b8635bfe9f1ff9497658dc3e4ed572d4445925db5f483"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-failures\\disked_recursive_fault.exe",
+      "sha256": "sha256:246b221a69933324d556bd1c7f25fb8852ca632d9e3b298ad7317585e9c50cb6"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-failures\\disked.exe",
+      "sha256": "sha256:22e8ff57d3c6cd4440499e4e71e905cc7060ff0d5e9275d0ff25ca79cf06643c"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-failures\\fat_tree_controller_fault.exe",
+      "sha256": "sha256:9aa820c0183ce6a427284ba9898c252d3851197afa0a22f980b7114d0c081bc5"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-failures\\fat_tree_controller_probe.exe",
+      "sha256": "sha256:cc51a3966fa1241fa71b9ba23f1a277b170c240e881be23689d6904cd973aed5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/artifacts.json",
+      "sha256": "sha256:b2e0a58b0c4ec0c32df9aefa432233c1f724e34d8435b695d20cc80269222791"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/boundaries.json",
+      "sha256": "sha256:8aa3ee091110a2bc0ec3a06e6388941a672fab779e7a263405312b70235bb8a9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/cases.json",
+      "sha256": "sha256:d9081c90a8d3a635fa221448bbdfde9f5dc8ae09e8da4170fc187c16fdaf98dc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/context-manifest.json",
+      "sha256": "sha256:9bb6c1831ab86440121703cc0af55a419b08f979e3b48496a36689074301d184"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/context.log",
+      "sha256": "sha256:0c86ea1aa7504b83dfda862ddd986cd35cdb816853e34c5b8a8db5e24b2dcdde"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-artifact-build.log",
+      "sha256": "sha256:6f3ff9470ab1982fc2eda315cdfbdccc78845c0f8b5184274328aab66446e0a0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-artifact-test.log",
+      "sha256": "sha256:24f1ac7ddbf6c9bef14e360f0db3a2e4c970f6d78963697a1efd66122ad314c9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-boundaries.log",
+      "sha256": "sha256:427bf96f7b395671d40230ca98ab5e972255452e63945eb0648b74ad368ad72b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-build.log",
+      "sha256": "sha256:82036b07ce9731fe98e386d7f4be6cbdeaabcbee28735867ccee942813ffb7bd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-configure.log",
+      "sha256": "sha256:f5060b26b3de2f443c488637254f7609eeaa5f304ef7733e3a536bd8e922c3c6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-context.log",
+      "sha256": "sha256:0558583bc2b2167308332fb9081bad69a5c6fe1d585a931ed45bddb35c5c832e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-fifth.log",
+      "sha256": "sha256:d5ef74ae9d6453d54ef71f0f21f72aebbbdb02fa824a4eee1249e687236944a1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-final-build.log",
+      "sha256": "sha256:312c255b911e73b953472e3664fedee9b52a79c9d33410ef81e0d1687a8b9eee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-first.log",
+      "sha256": "sha256:6c584fa68fca2d63eecbaf71bd177c654e9d806ae8c302e191be7b4de86bbaed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-fourth.log",
+      "sha256": "sha256:5d5f8037d70742837f1a51c168b6544444edb0b3f2bbd7e3aa30ade1046d71b0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-index-final.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-manifest.log",
+      "sha256": "sha256:d7e0ea6e0a500fd639e13923c8bca337f5be4823046df990eae71e60ee4c7c5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-rebuild.log",
+      "sha256": "sha256:f7308403ea3b52dda654e1786cb3bf4f877673c0f3a80e88f26a92f14fe7ebc4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-reconfigure.log",
+      "sha256": "sha256:f5060b26b3de2f443c488637254f7609eeaa5f304ef7733e3a536bd8e922c3c6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-second.log",
+      "sha256": "sha256:4d2dfabe394bac82c0c2a4d68a2c31a5381559d4315135555356f8c6e56a65a8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-selected-build.log",
+      "sha256": "sha256:3f73f003a2c4b6b2532db3c0d63db340dae0e6a1bb3235e535b3625b3a2bf15f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-selected.log",
+      "sha256": "sha256:ba99f6f304457b79cecc38c8cb608ef4ca1a3cbd242d93813969cacc768363cb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-seventh.log",
+      "sha256": "sha256:79b76ebaf831b0305ad4abd7bd76125f5bb49ed1280908a9fded13a12bc37562"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-sixth.log",
+      "sha256": "sha256:208999166afb056d1bfe9ad66ded5e105701b1997d64474723ec735b3a362c5f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-spec-check.log",
+      "sha256": "sha256:afa6bb921b811954dd169be7ba3c39795d34d2c514485104ed4df5bb2bfe9e01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-spec-final.log",
+      "sha256": "sha256:afa6bb921b811954dd169be7ba3c39795d34d2c514485104ed4df5bb2bfe9e01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-third.log",
+      "sha256": "sha256:637b94058ea1fa82deda93085be570c3a0219bd642f6c02208a03fa1a295bbf3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-tooling.log",
+      "sha256": "sha256:6ed46bf6e10d608454bbeb09693405d6476bf9d1161a50f2b9d535d5ecc5ef70"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-verify-context.log",
+      "sha256": "sha256:3100f9163b83249a38c380c0b0216afb605b1b698f38777858688a0a486a0494"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/fat-recursive-failure-verify-manifest.log",
+      "sha256": "sha256:9744934454ed5630b687357a7a91e51d4432733e2d9010f83f8a94ce030b4606"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/header-objects.json",
+      "sha256": "sha256:634a0bc56c23c82ac71533663b8bbf0222022a7178a68c592cf8340761720ea6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/manifest.log",
+      "sha256": "sha256:d7e0ea6e0a500fd639e13923c8bca337f5be4823046df990eae71e60ee4c7c5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/README.md",
+      "sha256": "sha256:fe5a14f0c262ea00a81f509caaa6b3a2daad08a43b0c67642c33fa1d539b4fc5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/REVIEW.md",
+      "sha256": "sha256:4be7c0a52f8a7be5d50d14e152c0722dace373005b680916f08b588d698684d1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/source-map.log",
+      "sha256": "sha256:cdaf2dd7e2460efdfcebe02a846770148a79fc4afbe4c652093a585b0043021b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/spec-check.log",
+      "sha256": "sha256:afa6bb921b811954dd169be7ba3c39795d34d2c514485104ed4df5bb2bfe9e01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/summary.json",
+      "sha256": "sha256:901be28c4bee2d83eb94fd04180c136219ca21b83a15bb21014af0466eea6581"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/usk-current-failed-check.log",
+      "sha256": "sha256:26d56850d386932c640cd262e26f4023456b0a5827e5f54b1ad2071d1bfa5bd4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/verify-context.log",
+      "sha256": "sha256:3100f9163b83249a38c380c0b0216afb605b1b698f38777858688a0a486a0494"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/verify-manifest.log",
+      "sha256": "sha256:9744934454ed5630b687357a7a91e51d4432733e2d9010f83f8a94ce030b4606"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-failures/working-inputs.json",
+      "sha256": "sha256:b696692efc35419c7b1c6cbd64e05f4c4749acda061294b9a676866eb48aca41"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue DE-W057 with interrupted watch/client and hang journeys, strict producer contracts, normal-composition admission and a full clean exact-source native/header/import/context/manifest campaign before work review/integration. Gated actual frontend success/cancellation and retained store failure tests pass. Preserve full all-platform/storage0.1.0 and separate owner/storage/release gates.",
+  "performed_remote_writes": false
+}

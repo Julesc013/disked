@@ -62,6 +62,7 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
         ((features.front().text=="org.disked.fake-operation-events/1" && operation->text.compare(0,8,"fake-op:")==0) ||
          (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0) ||
          (features.front().text=="org.disked.report-operation-events/1" && operation->text.compare(0,10,"report-op:")==0) ||
+         (features.front().text=="org.disked.fat-tree-operation-events/1" && operation->text.compare(0,8,"tree-op:")==0) ||
          (features.front().text=="org.disked.verification-operation-events/1" && operation->text.compare(0,10,"verify-op:")==0));
     const auto* phase=value.find("parameters")->find("phase");
     const bool tree_streaming=features.size()==1 && features.front().text=="org.disked.fat-tree-events/1" &&
@@ -114,6 +115,7 @@ bool verification_response(const Value& response) {
 }
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
+    if(fat_recursive_response(response)){limits.bytes=2097151;limits.values=131072;limits.depth=40;limits.string_bytes=65536;return limits;}
     if(fat_tree_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;limits.string_bytes=393216;return limits;}
     if(fat_capture_response(response)){limits.bytes=524288;limits.values=8192;limits.depth=40;limits.string_bytes=393216;return limits;}
     if(fat_inspection_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;return limits;}
@@ -130,6 +132,10 @@ bool fat_capture_response(const Value& response) {
 bool fat_tree_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
     const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-fat-tree";
+}
+bool fat_recursive_response(const Value& response) {
+    const auto *result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto *scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-fat-tree-extraction";
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;

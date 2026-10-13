@@ -1,0 +1,52 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 4: frontend.fat_recursive_product
+1/2 Test #4: frontend.fat_recursive_product ....***Failed    1.54 sec
+PASS cli
+PASS cli
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 141, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 72, in main
+    cli(['filesystem','extract-tree','--help'])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 38, in cli
+    bundle.validate('urn:disked:schema:fat-recursive-response-prototype:1',out)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 776, in validate
+    if errors: raise SpecError('; '.join(e.json_path+': '+e.message for e in errors[:8]))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+specctl.SpecError: $.result: {'commands': [{'aliases': [], 'argument_bindings': [{'completion': 'schema-enum', 'parameter': 'phase', 'position': 0}, {'completion': 'none', 'parameter': 'source', 'position': 1}, {'completion': 'none', 'parameter': 'destination', 'position': 2}, {'completion': 'none', 'option': '--ledger', 'option_aliases': [], 'parameter': 'ledger', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--state-dir', 'option_aliases': [], 'parameter': 'state_directory', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--volume-offset', 'option_aliases': [], 'parameter': 'volume_offset', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--volume-bytes', 'option_aliases': [], 'parameter': 'volume_bytes', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--fat-copy', 'option_aliases': [], 'parameter': 'fat_copy', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--capture-epoch', 'option_aliases': [], 'parameter': 'capture_epoch', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--oem-code-page', 'option_aliases': [], 'parameter': 'oem_code_page', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--name-selection', 'option_aliases': [], 'parameter': 'name_selection', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--unrepresentable-name', 'option_aliases': [], 'parameter': 'unrepresentable_name', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--time-interpretation', 'option_aliases': [], 'parameter': 'time_interpretation', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--utc-offset-minutes', 'option_aliases': [], 'parameter': 'utc_offset_minutes', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--definition', 'option_aliases': [], 'parameter': 'definition', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--definition-digest', 'option_aliases': [], 'parameter': 'definition_digest', 'repeatable': False, 'value_arity': 1}, {'completion': 'none', 'option': '--allow-source-read', 'option_aliases': [], 'parameter': 'allow_source_read', 'repeatable': False, 'value_arity': 0}, {'completion': 'none', 'option': '--allow-destination-write', 'option_aliases': [], 'parameter': 'allow_destination_write', 'repeatable': False, 'value_arity': 0}, {'completion': 'none', 'option': '--allow-ledger-write', 'option_aliases': [], 'parameter': 'allow_ledger_write', 'repeatable': False, 'value_arity': 0}, {'completion': 'none', 'option': '--allow-operation-write', 'option_aliases': [], 'parameter': 'allow_operation_write', 'repeatable': False, 'value_arity': 0}, {'completion': 'none', 'option': '--allow-host-effects', 'option_aliases': [], 'parameter': 'allow_host_effects', 'repeatable': False, 'value_arity': 0}], 'availability': 'available', 'completion_policy': 'static-only', 'contract_status': 'planned', 'effect': 'output-write', 'handler': None, 'id': 'filesystem.tree.extract', 'implementation_status': 'implemented', 'parameter_schema': 'urn:disked:schema:fat-recursive-command-parameters:1', 'privilege': 'none', 'reason': 'synchronous_native_subset', 'request_schema': 'urn:disked:schema:request:1', 'requires_plan': True, 'result_schema': 'urn:disked:schema:response:1', 'spec_ids': ['DE-021', 'DE-037', 'DE-043', 'DE-103'], 'summary': 'Prepare and explicitly grant create-only ordinary-image recursive FAT extraction with retained operation observation', 'syntax_status': 'defined', 'words': ['filesystem', 'extract-tree']}], 'global_options': [{'choices': ['auto', 'cli', 'tui', 'gui', 'plain'], 'field': 'frontend', 'id': 'frontend', 'repeatable': False, 'spellings': ['--frontend'], 'value_arity': 1}, {'choices': ['human', 'json', 'ndjson'], 'field': 'format', 'id': 'format', 'repeatable': False, 'spellings': ['--format'], 'value_arity': 1}, {'choices': ['auto', 'yes', 'no'], 'field': 'interactive', 'id': 'interactive', 'repeatable': False, 'spellings': ['--interactive'], 'value_arity': 1}, {'choices': ['auto', 'linear', 'screen'], 'field': 'terminal_presentation', 'id': 'terminal', 'repeatable': False, 'spellings': ['--terminal'], 'value_arity': 1}, {'id': 'cli', 'repeatable': False, 'sets': {'frontend': 'cli'}, 'spellings': ['--cli'], 'value_arity': 0}, {'id': 'tui', 'repeatable': False, 'sets': {'frontend': 'tui'}, 'spellings': ['--tui'], 'value_arity': 0}, {'id': 'gui', 'repeatable': False, 'sets': {'frontend': 'gui'}, 'spellings': ['--gui'], 'value_arity': 0}, {'id': 'json', 'repeatable': False, 'sets': {'format': 'json'}, 'spellings': ['--json', '-j'], 'value_arity': 0}, {'id': 'headless', 'repeatable': False, 'sets': {'frontend': 'cli', 'interactive': 'no'}, 'spellings': ['--headless'], 'value_arity': 0}, {'id': 'help', 'repeatable': False, 'sets': {'help': True}, 'spellings': ['--help', '-h'], 'value_arity': 0}], 'scope': 'filesystem.tree.extract', 'usage': 'disked <command-form> [operands] [options]'} is not valid under any of the given schemas
+
+    Start 5: frontend.fat_recursive_failures
+2/2 Test #5: frontend.fat_recursive_failures ...***Failed   36.99 sec
+PASS disconnected-launcher-and-cli-cancellation
+PASS disconnected-launcher-and-protocol-cancellation
+PASS disconnected-launcher-and-gui-cancellation
+PASS disconnected-launcher-and-tui-cancellation
+PASS disconnected-launcher-and-shell-cancellation
+PASS ordinary-development-composition-ignores-fault-controls
+PASS closed-watch-pipe-keeps-owner-live-and-cursor-resumable
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 268, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 190, in main
+    repeated = cli(arguments(execution),fault)
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 29, in cli
+    bundle.validate('urn:disked:schema:fat-recursive-response-prototype:1',value)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 776, in validate
+    if errors: raise SpecError('; '.join(e.json_path+': '+e.message for e in errors[:8]))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+specctl.SpecError: $.result: {'controller': {'created': '134364002528619808', 'observation': 'exited', 'pid': '43772'}, 'diagnostic': None, 'operation_id': None, 'reply': {'admission': None, 'code_sha256': '7fab1d24ca5eb50773546d1f417938e5e6dbc0e4f4041f612a45ec550270d471', 'controller': {'created': '134364002528619808', 'pid': '43772'}, 'diagnostic': 'fat_tree_store_reserved_exists', 'host_id': 'ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7', 'input_digest': 'sha256:48340f0c0247d51ddc41d00fdb12817574341cbeecf32f0464aca065bc0b9df4', 'operation_id': None, 'phase': 'refused', 'review_digest': 'sha256:889760afd055def7175e5eb720a0e2b5b18226d7025343c05871d169423b0dce', 'schema': 'org.disked.fat-tree-controller-reply-prototype/1'}, 'request_kind': 'recursive-execution', 'schema': 'org.disked.fat-tree-controller-observation-prototype/1', 'scope': 'ordinary-local-fat-tree-extraction', 'status': 'refused'} is not valid under any of the given schemas
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =  38.55 sec
+
+The following tests FAILED:
+	  4 - frontend.fat_recursive_product (Failed)
+	  5 - frontend.fat_recursive_failures (Failed)
+Errors while running CTest
