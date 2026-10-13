@@ -361,4 +361,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W057 local normal recursive command/operation qualification: exact clean source `087f95b4` passes full native/header/import/tooling and actual all-frontend/failure evidence; agent review retained. Owner, physical/other-host and full0.1.0 release acceptance remain open.
 
-- [ ] DE-W058 active: implement bounded supplied-byte exFAT boot/checksum/geometry/allocation metadata with independent vectors; bitmap/upcase/directory/tree/provider/host admission and full0.1.0 remain subsequent work.
+- [ ] DE-W058 active: private C90 supplied-byte exFAT boot/checksum/geometry/allocation-cell decoder implemented; working oracle2320cases and focused native/C90/boundary checks pass. Exact clean-source/header/import/full-regression qualification remains; bitmap/upcase/directory/tree/provider/host admission and full0.1.0 remain subsequent work.

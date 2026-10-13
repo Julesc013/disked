@@ -125,6 +125,28 @@ class BoundaryTests(unittest.TestCase):
         self.targets[0]["compileGroups"][0]["compileCommandFragments"] = [{"fragment": "/W4 /MT"}]
         self.fails("missing compile option /WX")
 
+    def c90_fixture(self):
+        self.contract["core_targets"]["json"].update(
+            language_standard="90", required_compile_flags=["/W4", "/WX", "/GS", "/MT"])
+        group = self.targets[0]["compileGroups"][0]
+        group["language"] = "C"
+        group["languageStandard"]["standard"] = "90"
+        group["compileCommandFragments"] = [{"fragment": "/W4 /WX /GS /MT"}]
+
+    def test_per_target_c90_contract(self):
+        self.c90_fixture()
+        self.assertEqual(self.inspect()["status"], "PASS")
+
+    def test_per_target_standard_cannot_be_changed(self):
+        self.c90_fixture()
+        self.targets[0]["compileGroups"][0]["languageStandard"]["standard"] = "99"
+        self.fails("language standard 90")
+
+    def test_per_target_options_cannot_be_weakened(self):
+        self.c90_fixture()
+        self.targets[0]["compileGroups"][0]["compileCommandFragments"] = [{"fragment": "/W4 /WX /MT"}]
+        self.fails("missing compile option /GS")
+
     def test_equivalent_msvc_dash_options(self):
         self.targets[0]["compileGroups"][0]["compileCommandFragments"] = [{"fragment": "-W4 -WX -MT"}]
         self.assertEqual(self.inspect()["status"], "PASS")

@@ -1,0 +1,792 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 16: build.boundaries
+1/7 Test #16: build.boundaries .................***Failed    4.19 sec
+{
+  "status": "FAIL",
+  "target_count": 241,
+  "compiled_source_entries": 587,
+  "quoted_include_edges": 6505,
+  "violations": [
+    "disked_exfat: C++14 not recorded",
+    "disked_exfat: missing compile option /permissive-",
+    "disked_exfat: missing compile option /utf-8",
+    "disked_exfat: undeclared header dependency source/portable/exfat/boot.c -> source/portable/exfat/exfat.h",
+    "disked_exfat_headers: undeclared header dependency .aide-local/fat-recursive-command-development-build/header-checks/disked_exfat/exfat.h.cpp -> source/portable/exfat/exfat.h",
+    "exfat_probe: undeclared header dependency tests/unit/exfat_probe.cpp -> source/portable/exfat/exfat.h"
+  ]
+}
+
+    Start 65: portable.gpt
+2/7 Test #65: portable.gpt .....................***Failed    0.21 sec
+test_synthetic_and_encoding_cases (__main__.Gpt.test_synthetic_and_encoding_cases) ... ERROR
+
+======================================================================
+ERROR: test_synthetic_and_encoding_cases (__main__.Gpt.test_synthetic_and_encoding_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_gpt.py", line 200, in test_synthetic_and_encoding_cases
+    result=subprocess.run([ARGS.probe],input=wire,text=True,encoding='utf-8',capture_output=True,timeout=30)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+----------------------------------------------------------------------
+Ran 1 test in 0.049s
+
+FAILED (errors=1)
+
+    Start 66: portable.gpt_guard
+Could not find executable D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe
+Looked in the following places:
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/Release/gpt_probe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/Release/gpt_probe.exe.exe
+Release/D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe
+Release/D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe.exe
+3/7 Test #66: portable.gpt_guard ...............***Not Run   0.00 sec
+Unable to find executable: D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/gpt_probe.exe
+    Start 67: portable.exfat
+4/7 Test #67: portable.exfat ...................***Failed    1.82 sec
+test_cells_do_not_claim_bitmap_allocation (__main__.ExfatTests.test_cells_do_not_claim_bitmap_allocation) ... ok
+test_checksum_every_word_and_excluded_fields (__main__.ExfatTests.test_checksum_every_word_and_excluded_fields) ... ok
+test_extended_reserved_and_undefined_metadata (__main__.ExfatTests.test_extended_reserved_and_undefined_metadata) ... ok
+test_geometry_profiles_and_high_address_counts (__main__.ExfatTests.test_geometry_profiles_and_high_address_counts) ... ok
+test_invalid_shifts_truncation_and_overlong_output_conservation (__main__.ExfatTests.test_invalid_shifts_truncation_and_overlong_output_conservation) ... ok
+test_rehashed_structural_mutations_and_u64_overflow (__main__.ExfatTests.test_rehashed_structural_mutations_and_u64_overflow) ... ok
+test_seeded_valid_geometry_and_data_boundaries (__main__.ExfatTests.test_seeded_valid_geometry_and_data_boundaries) ... FAIL
+
+======================================================================
+FAIL: test_seeded_valid_geometry_and_data_boundaries (__main__.ExfatTests.test_seeded_valid_geometry_and_data_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_exfat.py", line 134, in test_seeded_valid_geometry_and_data_boundaries
+    for i,out in enumerate(values):self.assertEqual(i%2==0,out['usable_geometry'])
+                                   ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True != False
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.677s
+
+FAILED (failures=1)
+
+    Start 68: portable.exfat_guard
+5/7 Test #68: portable.exfat_guard .............   Passed    0.02 sec
+    Start 69: portable.fat
+6/7 Test #69: portable.fat .....................***Failed    0.18 sec
+test_all_entry_marker_classes_and_high_nibble (__main__.FatTests.test_all_entry_marker_classes_and_high_nibble) ... ERROR
+test_capacity_and_budget_errors (__main__.FatTests.test_capacity_and_budget_errors) ... ERROR
+test_chain_cycle_precedes_unseen_budget_and_truncation (__main__.FatTests.test_chain_cycle_precedes_unseen_budget_and_truncation) ... ERROR
+test_chain_terminal_and_start_dispositions (__main__.FatTests.test_chain_terminal_and_start_dispositions) ... ERROR
+test_cluster_thresholds_all_sector_and_cluster_units (__main__.FatTests.test_cluster_thresholds_all_sector_and_cluster_units) ... ERROR
+test_conflicting_fat_copies_remain_explicit_observations (__main__.FatTests.test_conflicting_fat_copies_remain_explicit_observations) ... ERROR
+test_counter_and_type_shape_conflicts (__main__.FatTests.test_counter_and_type_shape_conflicts) ... ERROR
+test_entry_shape_index_and_truncation_errors_preserve_output (__main__.FatTests.test_entry_shape_index_and_truncation_errors_preserve_output) ... ERROR
+test_fat32_extended_features_and_auxiliary_references (__main__.FatTests.test_fat32_extended_features_and_auxiliary_references) ... ERROR
+test_invalid_common_geometry_and_insufficient_capacity (__main__.FatTests.test_invalid_common_geometry_and_insufficient_capacity) ... ERROR
+test_labels_hidden_sectors_and_padding_do_not_select_geometry (__main__.FatTests.test_labels_hidden_sectors_and_padding_do_not_select_geometry) ... ERROR
+test_large_byte_extents_and_trailing_partial_cluster (__main__.FatTests.test_large_byte_extents_and_trailing_partial_cluster) ... ERROR
+test_nonstandard_copy_count_preserved_without_automatic_selection (__main__.FatTests.test_nonstandard_copy_count_preserved_without_automatic_selection) ... ERROR
+test_packed_neighbors_and_cross_sector_cell (__main__.FatTests.test_packed_neighbors_and_cross_sector_cell) ... ERROR
+test_random_chain_oracle (__main__.FatTests.test_random_chain_oracle) ... ERROR
+test_random_geometry_oracle (__main__.FatTests.test_random_geometry_oracle) ... ERROR
+test_regions_and_table_capacity_use_wide_arithmetic (__main__.FatTests.test_regions_and_table_capacity_use_wide_arithmetic) ... ERROR
+test_reserved_header_entries_are_not_chain_data (__main__.FatTests.test_reserved_header_entries_are_not_chain_data) ... ERROR
+test_short_and_overlong_boot_views (__main__.FatTests.test_short_and_overlong_boot_views) ... ERROR
+
+======================================================================
+ERROR: test_all_entry_marker_classes_and_high_nibble (__main__.FatTests.test_all_entry_marker_classes_and_high_nibble)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 225, in test_all_entry_marker_classes_and_high_nibble
+    for row, (value, kind) in zip(run(requests), expected):
+                                  ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_capacity_and_budget_errors (__main__.FatTests.test_capacity_and_budget_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 291, in test_capacity_and_budget_errors
+    self.assertEqual(run([request])[0], {'status': status})
+                     ~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_chain_cycle_precedes_unseen_budget_and_truncation (__main__.FatTests.test_chain_cycle_precedes_unseen_budget_and_truncation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 281, in test_chain_cycle_precedes_unseen_budget_and_truncation
+    row = run([chain(bits, packed(bits, mapping), budget=len(prefix))])[0]
+          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_chain_terminal_and_start_dispositions (__main__.FatTests.test_chain_terminal_and_start_dispositions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 269, in test_chain_terminal_and_start_dispositions
+    row = run([chain(bits, packed(bits, {2: 3, 3: value}))])[0]
+          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_cluster_thresholds_all_sector_and_cluster_units (__main__.FatTests.test_cluster_thresholds_all_sector_and_cluster_units)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 98, in test_cluster_thresholds_all_sector_and_cluster_units
+    for row, e in zip(run(requests), expected):
+                      ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_conflicting_fat_copies_remain_explicit_observations (__main__.FatTests.test_conflicting_fat_copies_remain_explicit_observations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 240, in test_conflicting_fat_copies_remain_explicit_observations
+    rows = run([chain(bits, left), chain(bits, right)])
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_counter_and_type_shape_conflicts (__main__.FatTests.test_counter_and_type_shape_conflicts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 166, in test_counter_and_type_shape_conflicts
+    for row, (_, issue) in zip(run([volume(raw, 2**64-1) for raw, _ in cases]), cases):
+                               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_entry_shape_index_and_truncation_errors_preserve_output (__main__.FatTests.test_entry_shape_index_and_truncation_errors_preserve_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 257, in test_entry_shape_index_and_truncation_errors_preserve_output
+    for row in run([entry(bits, 2, data[:n]) for n in range(len(data))]):
+               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_fat32_extended_features_and_auxiliary_references (__main__.FatTests.test_fat32_extended_features_and_auxiliary_references)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 192, in test_fat32_extended_features_and_auxiliary_references
+    for row, (_, issue) in zip(run([volume(raw) for raw, _ in cases]), cases):
+                               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_invalid_common_geometry_and_insufficient_capacity (__main__.FatTests.test_invalid_common_geometry_and_insufficient_capacity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 153, in test_invalid_common_geometry_and_insufficient_capacity
+    for row, (_, issue) in zip(run([x[0] for x in cases]), cases):
+                               ~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_labels_hidden_sectors_and_padding_do_not_select_geometry (__main__.FatTests.test_labels_hidden_sectors_and_padding_do_not_select_geometry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 132, in test_labels_hidden_sectors_and_padding_do_not_select_geometry
+    self.assertEqual([r['bits'] for r in run(requests)], [12, 16, 32])
+                                         ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_large_byte_extents_and_trailing_partial_cluster (__main__.FatTests.test_large_byte_extents_and_trailing_partial_cluster)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 110, in test_large_byte_extents_and_trailing_partial_cluster
+    row = run([volume(raw)])[0]
+          ~~~^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_nonstandard_copy_count_preserved_without_automatic_selection (__main__.FatTests.test_nonstandard_copy_count_preserved_without_automatic_selection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 118, in test_nonstandard_copy_count_preserved_without_automatic_selection
+    for row, n in zip(run(requests), (1, 3, 16, 255)):
+                      ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_packed_neighbors_and_cross_sector_cell (__main__.FatTests.test_packed_neighbors_and_cross_sector_cell)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 247, in test_packed_neighbors_and_cross_sector_cell
+    for row, index in zip(run([entry(12, n, data) for n in range(2, 400)]), range(2, 400)):
+                          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_random_chain_oracle (__main__.FatTests.test_random_chain_oracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 314, in test_random_chain_oracle
+    for row, e in zip(run(requests), expected):
+                      ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_random_geometry_oracle (__main__.FatTests.test_random_geometry_oracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 210, in test_random_geometry_oracle
+    for row, values in zip(run(requests), expected):
+                           ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_regions_and_table_capacity_use_wide_arithmetic (__main__.FatTests.test_regions_and_table_capacity_use_wide_arithmetic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 172, in test_regions_and_table_capacity_use_wide_arithmetic
+    result = run([volume(raw, 2**64-1)])[0]
+             ~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_reserved_header_entries_are_not_chain_data (__main__.FatTests.test_reserved_header_entries_are_not_chain_data)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 233, in test_reserved_header_entries_are_not_chain_data
+    for row in run([entry(bits, i, data) for i in (0, 1)]):
+               ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+======================================================================
+ERROR: test_short_and_overlong_boot_views (__main__.FatTests.test_short_and_overlong_boot_views)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 137, in test_short_and_overlong_boot_views
+    for row in run(requests):
+               ~~~^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\property\test_fat.py", line 81, in run
+    result = subprocess.run([str(PROBE)], input=data, capture_output=True, timeout=60)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.034s
+
+FAILED (errors=19)
+FAT supplied-byte cases executed: 0
+
+    Start 70: portable.fat_guard
+Could not find executable D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe
+Looked in the following places:
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/Release/fat_probe.exe
+D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/Release/fat_probe.exe.exe
+Release/D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe
+Release/D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe.exe
+Unable to find executable: D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build/Release/fat_probe.exe
+7/7 Test #70: portable.fat_guard ...............***Not Run   0.00 sec
+
+14% tests passed, 6 tests failed out of 7
+
+Total Test time (real) =   6.43 sec
+
+The following tests FAILED:
+	 16 - build.boundaries (Failed)
+	 65 - portable.gpt (Failed)
+	 66 - portable.gpt_guard (Not Run)
+	 67 - portable.exfat (Failed)
+	 69 - portable.fat (Failed)
+	 70 - portable.fat_guard (Not Run)
+Errors while running CTest
