@@ -1,5 +1,56 @@
 # Source structure and release review follow-up
 
+## Current checkpoint: 13 October 2026
+
+Rechecked at `f8a3eb842b68fe0666d01711ce95b5dbc5a6a70f`. Remote `dev` and
+`main` both name that revision. The assessment below is retained at its original
+base; its references to unfinished DE-W044 and the then-latest native campaign
+describe that earlier checkpoint.
+
+GitHub still reports `main` as unprotected. Repository-side enforcement of the
+intended protected-main/check policy remains governance work; this documentation
+pass does not change repository settings.
+
+The current source map covers **220 source files**. The frontend names and CLI
+folder are already consistent. JSON, command and invocation have distinct build
+targets; module-qualified includes, generated header visibility checks and shared
+GUI/TUI request invariants are implemented. Remaining composition-policy/test-seam
+work is SR-05 below. These facts support keeping the ownership tree and improving
+individual responsibilities as needed; they do not establish an optimal design
+for every future requirement or complete API/ABI portability.
+
+DE-W044 now has retained, implementing-agent-reviewed results at source
+`4d3dc0a3cb1597289926cb6e010c57f7156b285d`: **101 native test groups**, 18
+standalone header compilations, 68 capture command/frontend cases and 91 store
+checks; the tooling suite ran 226 tests, with 224 passes and two skips. See the
+[exact-source evidence](../.aide/evidence/2026-10-13-fat-retention/README.md).
+Those native results were audited here rather than rerun. The first full native
+campaign failed five groups; retained serial diagnostics and a subsequent full
+campaign passed with the same source and criteria. The initial failures remain
+in the evidence; their underlying cause has not been established.
+
+This adds bounded retrieval of retained FAT metadata in the current process.
+It does not implement file-payload extraction, qualify physical writers or
+production recovery, or complete the owner-selected all-platform/storage 0.1.0.
+The programme's next work remains coherent larger traversal, extraction and
+further platform/storage implementation.
+
+Fresh read-only GitHub checks still find Universal Setup main at `c048f7f1` and
+dev at `2b7a4d01`. [Draft PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+remains open at `0fc1f90d`, with `native-windows` failing and six checks passing
+in [run 38252891691](https://github.com/Julesc013/universal-setup/actions/runs/38252891691).
+Both repositories' GitHub release collections are empty. Setup runtime/installation
+was not tested in this follow-up.
+
+The authorized `dev` to `main` workflow has already integrated the qualified
+checkpoint. A release has a separate finish line: exact candidate composition,
+applicable platform/operation evidence, packaging and content-inventory checks,
+licensing/provenance, required acceptance and publication authority. There is no
+evidence-based date for the complete 0.1.0 scope. A smaller preview requires an
+explicitly selected scope and version; branch synchronization does not select it.
+
+## Earlier assessment at 607d68a7
+
 Assessment: 13 October 2026, against local `dev` at
 `607d68a7c6edefeea93bf17218c2685e787683e2`. Keep the five source owners and make
 changes at demonstrated responsibility boundaries. The supplied 12 October review

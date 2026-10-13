@@ -20,6 +20,27 @@ GUI owns graphical interaction state. These frontends share the command/action
 system. CLI therefore has a folder but does not need an artificial `cli_model`
 class. The TUI filename correction has already landed; do not repeat it.
 
+The repository roots have different lifetimes and consumers:
+
+| Root | Contents and ownership |
+|---|---|
+| `spec/` | Authored requirements, stable IDs, schemas, catalogs, work definitions and decisions |
+| `docs/` | Explanations, contributor guides and reviewed publications derived from those owners |
+| `source/` | Private implementation grouped by the responsibilities above |
+| `tests/` | Independent fixtures, expected behaviours and native/tooling qualification harnesses |
+| `tools/` | Development, build, generation and verification utilities |
+| Future `targets/` | Implementation target/toolchain profiles when needed; canonical target declarations currently live in `spec/catalog/targets.json` |
+| `release/` | Product packaging/carrier bindings and content-inventory checks |
+| `external/` | Pinned upstream dependencies and provenance; upstream lifecycle ownership stays separate |
+| `.aide/` | Durable programme state, handoffs and revision-bound evidence |
+| `.aide-local/` | Disposable builds, scratch data, context packs and local artifacts |
+| Future `include/`, `sdk/` | Only admitted public headers, bindings and examples when actual consumers require them |
+
+Root CMake files compose the selected build; README introduces the product;
+`TODO.MD` and the programme route outstanding work. These do not replace canonical
+command/target definitions. Empty future roots and private headers are not a public
+SDK. Build output and generated image fixtures stay outside the authored source.
+
 The terminal owns native console input, rendering mechanics, handle lifetime and
 mode restoration. Both TUI and shell consume it. Putting it under either frontend
 would give a shared mechanism to one consumer. The GUI model similarly stays apart
@@ -39,6 +60,15 @@ its admitted project prefix and ABI contract. Keep subsystem namespaces, explici
 units, bounded quantities, ownership/lifetime and distinguishable outcomes. A
 boolean must not conflate dispatch, completion, verification and effect certainty.
 Do not export STL, exceptions or toolkit/private types as the public C ABI.
+
+Keep format algorithms separate from acquiring their bytes. Runtime services
+consume explicit ports; concrete providers and host adapters implement those
+ports, and `app.*` selects them. Pass dependencies and resource ownership explicitly
+instead of using a global service locator. Keep parsing, validation, planning and
+effects distinguishable, with validation before effects. Preserve exact source
+values separately from display text, and use checked arithmetic for byte/sector
+offsets. Split functions or files when distinct contracts or lifetimes make review
+and tests clearer. Naming consistency alone does not justify a new abstraction.
 
 Use [.editorconfig](../.editorconfig) for text conventions and
 [.clang-format](../.clang-format) for C/C++ formatting on a modern coordinator.

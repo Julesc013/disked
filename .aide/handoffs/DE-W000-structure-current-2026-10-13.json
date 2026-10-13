@@ -1,0 +1,291 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W000",
+  "base_revision": "f8a3eb842b68fe0666d01711ce95b5dbc5a6a70f",
+  "spec_manifest_digest": "sha256:ff4a7f655826d6662924206a4360b9e66043cfe9a038f0fd61919031bc4d0e64",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/bundle.json",
+    "spec/architecture/repository.md",
+    "spec/roadmap/implementation.md",
+    "spec/delivery/universal-setup.md",
+    "spec/catalog/source-maintenance-prototype.json",
+    "docs/code-structure.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "docs/development-plan.md",
+    "README.md",
+    "TODO.MD",
+    "CMakeLists.txt",
+    "tools/check-source-map.py",
+    "tools/check-build-boundaries.py",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/evidence/2026-10-13-fat-retention/summary.json",
+    ".aide/evidence/2026-10-13-fat-retention/README.md",
+    ".aide/evidence/2026-10-13-fat-retention/REVIEW.md",
+    ".aide/evidence/2026-10-13-fat-retention/audit_retention.py",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.md",
+    ".aide/evidence/2026-10-12-structure-review/inputs/review.json",
+    ".aide/evidence/2026-10-12-structure-review/inputs/ui-conversation.txt",
+    ".aide/evidence/2026-10-12-structure-review/inputs/structure-conversation.txt"
+  ],
+  "files_changed": [
+    "TODO.MD",
+    "docs/code-structure.md",
+    "docs/development-plan.md",
+    "docs/structure-review.md",
+    ".aide/evidence/2026-10-13-structure-current/.gitattributes",
+    ".aide/evidence/2026-10-13-structure-current/advisory-inputs.json",
+    ".aide/evidence/2026-10-13-structure-current/commands.json",
+    ".aide/evidence/2026-10-13-structure-current/disked-branches.json",
+    ".aide/evidence/2026-10-13-structure-current/disked-releases.json",
+    ".aide/evidence/2026-10-13-structure-current/inventory.json",
+    ".aide/evidence/2026-10-13-structure-current/logs/check.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/context.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/diff-check.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/disked-branches.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/disked-releases.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/index.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/manifest.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/retained-native-audit.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/setup-pr237.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/source-map.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/spec-tools.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-branches.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-releases.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/verify-context.log",
+    ".aide/evidence/2026-10-13-structure-current/logs/verify-manifest.log",
+    ".aide/evidence/2026-10-13-structure-current/README.md",
+    ".aide/evidence/2026-10-13-structure-current/setup-pr237.json",
+    ".aide/evidence/2026-10-13-structure-current/source-paths.json",
+    ".aide/evidence/2026-10-13-structure-current/universal-setup-branches.json",
+    ".aide/evidence/2026-10-13-structure-current/universal-setup-releases.json",
+    ".aide/evidence/2026-10-13-structure-current/validation.json",
+    ".aide/handoffs/DE-W000-structure-current-2026-10-13.json"
+  ],
+  "summary": "Current contributor structure/release explanation against f8a3eb84: keep existing five source owners, explicit frontend names and dedicated CLI owner; explain all repository roots and distinguish planned roots. Retain earlier assessment at its original revision and append current native/branch/Setup observations. 220-file map and source-path checks; 1134 structural checks; 226 tooling tests with 224 passes/two skips; retained exact-source 101-group native evidence audited, not rerun. No product code or canonical API changes, baseline/owner acceptance or full 0.1.0 completion.",
+  "tests": [
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/structure-current-f8a3eb84 --byte-budget 512000",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-context .aide-local/context/structure-current-f8a3eb84",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/verify-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/spec-tools.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 .aide/evidence/2026-10-13-fat-retention/audit_retention.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/retained-native-audit.log"
+    },
+    {
+      "command": "git diff --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/diff-check.log"
+    },
+    {
+      "command": "gh api repos/Julesc013/disked/branches",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/disked-branches.log"
+    },
+    {
+      "command": "gh api repos/Julesc013/disked/releases",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/disked-releases.log"
+    },
+    {
+      "command": "gh api repos/Julesc013/universal-setup/branches",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-branches.log"
+    },
+    {
+      "command": "gh api repos/Julesc013/universal-setup/releases",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-releases.log"
+    },
+    {
+      "command": "gh pr view 237 --repo Julesc013/universal-setup --json number,state,isDraft,headRefOid,statusCheckRollup,url",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-structure-current/logs/setup-pr237.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/.gitattributes",
+      "sha256": "sha256:3916887d1f39726e40dde11ffb7f9017b1fe5389c24cf472814cb6d0b7df009f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/advisory-inputs.json",
+      "sha256": "sha256:ff865b3b0b64ad3f182cfaf4ae0cacaff0afcb64a406998bade920ff7ed5746c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/commands.json",
+      "sha256": "sha256:a8471736e105dfb573ddd3934a8f825e2deba8dc45a972b6f4eded7427caf68f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/disked-branches.json",
+      "sha256": "sha256:5b52d69992c52ca598c66bad9cc086167b7947c951509504f5462db4aff1c076"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/disked-releases.json",
+      "sha256": "sha256:37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/inventory.json",
+      "sha256": "sha256:f8472bafaeb215620130ddf82f2b00fb986c10beff4c8b6457a8e29b556bae43"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/check.log",
+      "sha256": "sha256:b2de08f73c9c70be86b7d4e28e8941fe88ccda1d31d0f678986096b4ce809286"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/context.log",
+      "sha256": "sha256:2c26718e5df0f9815d8f89329f24a5fd5c5dc13bac41b8c1bb3912596a42d810"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/diff-check.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/disked-branches.log",
+      "sha256": "sha256:65eccbef587af6e6af0534fc29320c87934797e4628d98bc93a4bd722a16a82b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/disked-releases.log",
+      "sha256": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/manifest.log",
+      "sha256": "sha256:e98617abecbdd909571e5355e3b97763d4d36934e01a5be70c0446eded53fb72"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/retained-native-audit.log",
+      "sha256": "sha256:fb830a97de342cbddaa3422b23ec36c7e4d1dd3e1c57475e147f77806a224cd1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/setup-pr237.log",
+      "sha256": "sha256:515cf9a365fb84704f548ec4df14d26f7b9f946f5f27339036196678566bb552"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/source-map.log",
+      "sha256": "sha256:e1a7b5e6f93bdc6b6ae8a5b869cc34fa8d7394288c85b5935690629d12519d5a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/spec-tools.log",
+      "sha256": "sha256:35d27169c9118fb8e349c7c2d96e263c03dbb708c0e0649efee1106b32d514d2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-branches.log",
+      "sha256": "sha256:dc18412ff38c2715c60cce288a1634ba91acfc97dada525179d6b023a8bbb2bd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/universal-setup-releases.log",
+      "sha256": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/verify-context.log",
+      "sha256": "sha256:198790a57fae336d7e49f7171a56855c6ee8f726994f2bb1d5ac9f9e17900802"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/logs/verify-manifest.log",
+      "sha256": "sha256:43678236e0c11427bc02c5fa74b1e2d70bb4e38a1884fc67c1d51eba88cdb035"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/README.md",
+      "sha256": "sha256:48c7293831df2b16ddfa6e717d5785ff63979e1cba1ffb234992a237752d0246"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/setup-pr237.json",
+      "sha256": "sha256:95901a110fa2223633469c181f76e49b81d8f8fd1dadc8bb0f430bf476551031"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/source-paths.json",
+      "sha256": "sha256:512631dadfc5a01bf5fd199c666c84b9d9cdde56a778fcd29252156439cfaf23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/universal-setup-branches.json",
+      "sha256": "sha256:6f5f9ce279020cf9829885da2d61c6a1f6fec7c12285207ceda8fc0ef5c36d1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/universal-setup-releases.json",
+      "sha256": "sha256:37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-structure-current/validation.json",
+      "sha256": "sha256:371284eb8c4514e12c37ec75e9a55bc44abfdda67b5596da3bf1e1de0a1cc34b"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Continue the active full 0.1.0 programme: bounded coherent FAT traversal/extraction and further platform/storage implementation after exact contract and tests. Keep remaining composition/test-seam, production journal/recovery, target, owner and release gates separate. Commit/push this verified documentation checkpoint via dev to main under the existing explicit grant.",
+  "performed_remote_writes": false
+}
