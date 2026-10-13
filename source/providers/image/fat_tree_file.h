@@ -27,6 +27,9 @@ class FatTreeFile {
     // Returns mapping candidates and source receipts, never destination effects.
     json::Value metadata_candidates(const std::string &key, const FatMetadataPolicy &,
                                     const std::function<bool()> &stop = {});
+    // Explicit reinspection after a completed phase on the same held source.
+    // Mints a fresh capture identity; never resumes an unfinished/uncertain read.
+    void begin_reinspection();
 };
 json::Limits fat_tree_content_json_limits();
 } // namespace disked

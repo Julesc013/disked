@@ -1,5 +1,24 @@
 # Source structure and release review follow-up
 
+## Partial recursive-writer checkpoint: 14 October 2026
+
+The private ordinary-image/local-NTFS backend now prepares a complete namespace,
+requires exact effect grants, creates children atomically under held parents,
+copies and reads back content, and records original versus applied native
+metadata in a flushed hash chain. [Development evidence](../.aide/evidence/2026-10-14-fat-tree-extraction/README.md)
+records 46 cases/11 methods, seven selected native groups and 236 tooling
+passes/two skips. Cases include 300-file FAT12/16/32 trees, a 33,000-cluster
+noncontiguous file, deep parents, distinct Unicode forms, collisions, actual
+process exits and durable completion despite a later notification failure.
+
+The [source map](source-map.md) covers 244 current files. Two new files stay in
+the existing image-provider owner; completed source reinspection gets a fresh
+capture identity. No source-root overhaul, new public recursive command or
+production ABI is introduced. This synchronous dev checkpoint still requires
+contained writer/controller admission, hangs/late-response dependency and actual
+exit qualification, independent history inspection and a complete clean-source
+campaign. DE-W056 and the full original 0.1.0 programme remain active.
+
 ## Partial metadata-preparation checkpoint: 14 October 2026
 
 DE-W056 now maps original FAT names/times/attributes explicitly and reobserves

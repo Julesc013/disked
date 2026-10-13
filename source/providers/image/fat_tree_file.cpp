@@ -36,6 +36,24 @@ struct Read {
     std::vector<unsigned char> bytes;
     DWORD error = 0;
 };
+V capture_context() {
+    static std::atomic<std::uint64_t> sequence{0};
+    auto previous = sequence.load();
+    for (;;) {
+        if (previous == std::numeric_limits<std::uint64_t>::max())
+            throw std::runtime_error("fat_tree_sequence_exhausted");
+        if (sequence.compare_exchange_weak(previous, previous + 1))
+            break;
+    }
+    FILETIME created{}, exited{}, kernel{}, user{};
+    if (!GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user))
+        throw f::Error("fat_tree_process", GetLastError());
+    return V::object()
+        .put("process_id", number(GetCurrentProcessId()))
+        .put("process_created", number((static_cast<std::uint64_t>(created.dwHighDateTime) << 32) |
+                                       created.dwLowDateTime))
+        .put("capture_sequence", number(previous + 1));
+}
 Read read(HANDLE file, std::uint64_t offset, std::size_t bytes) {
     Read out;
     if (offset > static_cast<std::uint64_t>(MAXLONGLONG) || bytes > 4096)
@@ -89,23 +107,7 @@ struct FatTreeFile::Impl {
         source_before = f::metadata(file.value).value;
         if (!equal(source_before, input.expected_source))
             throw f::Error("fat_tree_source_changed");
-        static std::atomic<std::uint64_t> sequence{0};
-        auto previous = sequence.load();
-        for (;;) {
-            if (previous == std::numeric_limits<std::uint64_t>::max())
-                throw std::runtime_error("fat_tree_sequence_exhausted");
-            if (sequence.compare_exchange_weak(previous, previous + 1))
-                break;
-        }
-        FILETIME created{}, exited{}, kernel{}, user{};
-        if (!GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user))
-            throw f::Error("fat_tree_process", GetLastError());
-        context = V::object()
-                      .put("process_id", number(GetCurrentProcessId()))
-                      .put("process_created",
-                           number((static_cast<std::uint64_t>(created.dwHighDateTime) << 32) |
-                                  created.dwLowDateTime))
-                      .put("capture_sequence", number(previous + 1));
+        context = capture_context();
         binding = fat_tree_binding(input, context);
         FatTraversalPort port;
         port.read = [this](const de_byte_extent &e) { return region(e); };
@@ -225,6 +227,28 @@ struct FatTreeFile::Impl {
                          .put("checks", checks);
         json::dump(frame, fat_tree_json_limits());
         return frame;
+    }
+    void begin_reinspection() {
+        if (!traversal->finished() || (content && !content->finished()))
+            throw std::invalid_argument("fat_tree_reinspection_busy");
+        stop = {};
+        if (!applicable())
+            throw std::invalid_argument("fat_tree_reinspection_source_changed");
+        auto next_context = capture_context();
+        auto next_binding = fat_tree_binding(input, next_context);
+        FatTraversalPort port;
+        port.read = [this](const de_byte_extent &e) { return region(e); };
+        port.applicable = [this](const FatTraversalBinding &) { return applicable(); };
+        std::unique_ptr<FatTraversal> next(new FatTraversal(next_binding, port, input.resources));
+        traversal = std::move(next);
+        context = std::move(next_context);
+        binding = std::move(next_binding);
+        content.reset();
+        content_record = V{};
+        last_page = V{};
+        observed_bits = 0;
+        regions = V::array();
+        checks = V::array();
     }
     void start_content(const std::string &key) {
         if (key.empty() || key.size() > 26)
@@ -440,6 +464,9 @@ bool FatTreeFile::content_finished() const {
 V FatTreeFile::metadata_candidates(const std::string &key, const FatMetadataPolicy &policy,
                                    const std::function<bool()> &stop) {
     return impl_->metadata_candidates(key, policy, stop);
+}
+void FatTreeFile::begin_reinspection() {
+    impl_->begin_reinspection();
 }
 json::Limits fat_tree_content_json_limits() {
     auto limits = fat_tree_json_limits();

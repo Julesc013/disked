@@ -6,6 +6,39 @@ effect grants, original metadata evidence, native mapping/readback and contained
 worker qualification. The current content and metadata primitives do not complete
 that contract or expose a new public recursive-extraction command.
 
+The private `providers/image/fat_tree_extraction.*` backend now prepares a
+complete namespace without creating output, then requires a one-use grant for
+its exact immutable definition digest. It binds source/code identities, selected
+volume/copy, metadata policy, parent/entry commitments, prospective destination
+and ledger locations, and explicit footprints/budgets. Preparation refuses
+incomplete coverage, collisions, invalid mappings and unsupported paths.
+
+Execution uses a new capture identity on the same held source and compares
+original event/metadata commitments. It creates children atomically relative to
+held parents using Microsoft's [NtCreateFile](https://learn.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntcreatefile)
+`FILE_CREATE` contract. It opens no existing child as a creation fallback. Each
+effect has a preceding flushed ledger intention; copied chunks are flushed and
+read back before their checkpoints. Original records, slots, parents, allocation
+and chunk observations remain in the ordered hash chain.
+
+Valid explicitly interpreted metadata candidates are applied to new owned
+objects and read back. Directory metadata waits until descendants finish;
+file-ID ownership remains checked when creation time changes. Unspecified,
+invalid and raw-only fields remain unapplied. The native timestamp handling
+uses the [SetFileTime](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfiletime)
+contract, with automatic access/write updates disabled on the copy handle.
+
+Cancellation, faults and process interruption retain partial output and ledger
+evidence. Existing resources remain untouched on collision. A flushed final
+completion record remains completed when a later notification fails. The result
+separates observed verified bytes from durable checkpointed bytes; ledger outcome
+payloads label their counters before that outcome record to avoid circular hashes.
+
+This synchronous ordinary-image/local-NTFS backend is still private. Contained
+worker admission, actual-exit ownership through hangs/late responses, independent
+history inspection and the complete exact-source native campaign remain required
+before DE-W056 can finish or a frontend can invoke recursive mutation.
+
 `runtime/capture/fat_content_stream.*` continues one observed file's allocation
 and content in bounded pages. `providers/image/fat_tree_file.*` admits content
 only from its own latest held-source traversal page. Those preserve the existing
@@ -47,11 +80,13 @@ and [WideCharToMultiByte](https://learn.microsoft.com/en-us/windows/win32/api/st
 contracts. Other encoding profiles need their own implementation/evidence;
 this does not narrow the broader project scope.
 
-The native backend still must establish original source/tree membership, parent
-and sibling identities, path/name collisions, the immutable effect definition,
-grants, create-only effects, original ordered evidence, actual application and
-independent readback. Candidate names/times and matching hashes authorize none
-of those effects. Existing raw/logical plans and selectors retain their versions.
+The private backend now establishes original source/tree membership, parent
+identities, selected-name collision checks, its immutable definition/grants,
+create-only effects, ordered original evidence and native application/readback.
+Contained writer admission, independent retained-history inspection and complete
+exact-source qualification remain. Candidate names/times or imported matching
+hashes authorize no new effects. Existing raw/logical plans and selectors retain
+their versions.
 
 Build the private probes and selected standalone headers in the recorded Windows
 development build, then run `acquisition.fat_metadata` with CTest. This group's
