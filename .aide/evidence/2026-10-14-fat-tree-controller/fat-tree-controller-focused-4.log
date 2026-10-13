@@ -1,0 +1,68 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start  5: image.fat_tree_reconnect
+1/3 Test  #5: image.fat_tree_reconnect .........***Failed    3.57 sec
+test_actual_live_cross_process_observation_and_cooperative_cancel (__main__.ReconnectTests.test_actual_live_cross_process_observation_and_cooperative_cancel) ... ok
+test_exact_completed_history_and_actual_native_store_read (__main__.ReconnectTests.test_exact_completed_history_and_actual_native_store_read) ... FAIL
+test_header_shapes_code_review_and_process_limits_are_strict (__main__.ReconnectTests.test_header_shapes_code_review_and_process_limits_are_strict) ... ok
+test_native_child_header_and_operation_mismatch_leave_artifacts_unchanged (__main__.ReconnectTests.test_native_child_header_and_operation_mismatch_leave_artifacts_unchanged) ... ok
+test_native_torn_history_does_not_authorize_cancel_or_repair (__main__.ReconnectTests.test_native_torn_history_does_not_authorize_cancel_or_repair) ... ok
+test_old_header_is_readable_as_historical_declarations (__main__.ReconnectTests.test_old_header_is_readable_as_historical_declarations) ... ok
+test_prefixes_and_truncated_tail_keep_separate_claims (__main__.ReconnectTests.test_prefixes_and_truncated_tail_keep_separate_claims) ... ok
+test_published_completion_is_independent_of_current_running_child (__main__.ReconnectTests.test_published_completion_is_independent_of_current_running_child) ... ok
+test_published_outcome_cannot_change_in_later_record (__main__.ReconnectTests.test_published_outcome_cannot_change_in_later_record) ... ok
+test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected (__main__.ReconnectTests.test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected) ... ok
+
+======================================================================
+FAIL: test_exact_completed_history_and_actual_native_store_read (__main__.ReconnectTests.test_exact_completed_history_and_actual_native_store_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_reconnect.py", line 68, in test_exact_completed_history_and_actual_native_store_read
+    self.assertEqual("observed", native["status"], native)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'observed' != 'unknown'
+- observed
++ unknown
+ : {'cancellation_request': 'not_requested', 'claims': {'authenticity': 'not_established', 'destination_access': False, 'mutation_authority': False, 'replay_authority': False, 'source_access': False}, 'controller': {'created': '134363922050832166', 'exit_code': None, 'observation': 'not_present', 'pid': '22436'}, 'diagnostic': 'fat_tree_reconnect_process_unverified', 'history': {'admitted_bytes': '13188', 'claims': {'authenticity': 'not_established', 'current_destination_verification': 'not_performed', 'current_source_verification': 'not_performed', 'mutation_authority': False, 'replay_authority': False, 'worker_exit': 'recorded-declaration-only'}, 'last_digest': 'sha256:b7cc0c43aef0138de59b0b7271912bba421822e352a0391bdb3f9745942a6571', 'last_worker': {'admitted': True, 'attempt_id': 'fat-tree-write-attempt:7b232370aa9c0cc9df4210fc81378e53', 'cancellation_requested': False, 'capture_epoch': '17', 'claims': {'compiled_effects_capable': True, 'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '0bf4b609d0a5b8738fee8dbd391eeb6ba03dfead6fe701c0c4208214177b0178', 'dependencies_retained': False, 'diagnostic': None, 'effects_possible': True, 'grant_sent': True, 'observer_epoch': 'observer:eb5f3be4c9b2cf2bd0d817e558a6208a', 'outcome': {'atomic_snapshot': False, 'attempt_id': 'fat-tree-write-attempt:7b232370aa9c0cc9df4210fc81378e53', 'cancellation_observed': False, 'checkpointed_bytes': '95', 'contained_worker_qualified': False, 'definition_digest': 'sha256:d1c92ad2352f7159950cbe8853c57661dc4d1b5a6ee28f4e0a252ee1a12fcf26', 'diagnostic': None, 'directories_created': '1', 'effects_possible': True, 'files_complete': '3', 'last_record_digest': 'sha256:f9650ce3559b7c0e428a2332a9ff9697bb636409bea72fc48e399cdc26c0ead0', 'ledger_bytes': '51077', 'ledger_records': '27', 'notification_diagnostic': None, 'owner_accepted': False, 'platform_code': '0', 'platform_domain': None, 'schema': 'org.disked.fat-tree-extraction-outcome-prototype/1', 'source_writes': False, 'status': 'complete', 'verified_bytes': '95'}, 'phase': 'outcome', 'preparation': {'definition_digest': 'sha256:d1c92ad2352f7159950cbe8853c57661dc4d1b5a6ee28f4e0a252ee1a12fcf26'}, 'progress_pulse': '43', 'request_digest': '0333d2d29126e826ed0f15f89b81587bb2011aeb12015e509c059812a0c40772', 'result': {'phase': 'outcome', 'publication_sha256': 'sha256:08c3b46bc2147499661c19c9eee44f0bae17245589764f6e8e1fff89b7c62ac0', 'schema': 'org.disked.fat-tree-extraction-worker-final/1'}, 'retired': False, 'schema': 'org.disked.fat-tree-extraction-worker-observation/1', 'status': 'completed', 'worker': {'created': '134363922051400131', 'exit_code': '0', 'observation': 'exited', 'pid': '23536'}, 'worker_epoch': 'worker:36918527843821b32ed6ebae597901ce'}, 'operation_id': 'tree-op:8537b80be53e0e15174a14f624482e31', 'records': '8', 'review_digest': 'sha256:73ecd6e43ec01db8f2c7b0fc21620b153bdb34d416b9faed6cf3d028f8462f14', 'schema': 'org.disked.fat-tree-operation-history-prototype/1', 'state': 'recorded_complete', 'tail': {'admitted': False, 'bytes': '0', 'sha256': 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}}, 'operation_id': 'tree-op:8537b80be53e0e15174a14f624482e31', 'schema': 'org.disked.fat-tree-reconnect-observation-prototype/1', 'status': 'unknown', 'writer': {'created': '134363922051400131', 'exit_code': None, 'observation': 'unavailable', 'pid': '23536'}}
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.410s
+
+FAILED (failures=1)
+
+    Start 76: image.fat_tree_controller
+2/3 Test #76: image.fat_tree_controller ........***Failed   20.35 sec
+test_abandoned_closed_gate_has_no_resource_effects (__main__.ControllerTests.test_abandoned_closed_gate_has_no_resource_effects) ... ok
+test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion) ... ok
+test_detached_cooperative_cancellation_by_another_process (__main__.ControllerTests.test_detached_cooperative_cancellation_by_another_process) ... ok
+test_each_missing_grant_and_wrong_digest_refuse_before_spawn (__main__.ControllerTests.test_each_missing_grant_and_wrong_digest_refuse_before_spawn) ... ok
+test_launch_cannot_be_reused_and_dispatch_cannot_be_replayed (__main__.ControllerTests.test_launch_cannot_be_reused_and_dispatch_cannot_be_replayed) ... ok
+test_owned_hang_budget_preserves_unresolved_history_without_replacement (__main__.ControllerTests.test_owned_hang_budget_preserves_unresolved_history_without_replacement) ... ok
+test_published_outcome_does_not_prove_exit (__main__.ControllerTests.test_published_outcome_does_not_prove_exit) ... ok
+test_role_and_normal_fixture_invocation_are_not_authority (__main__.ControllerTests.test_role_and_normal_fixture_invocation_are_not_authority) ... ok
+test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs) ... ERROR
+
+======================================================================
+ERROR: test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 150, in test_stale_source_and_code_do_not_create_outputs
+    changed['backend']['provider']['code_sha256']='sha256:'+'0'*64
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'provider'
+
+----------------------------------------------------------------------
+Ran 9 tests in 20.184s
+
+FAILED (errors=1)
+
+    Start 77: image.fat_tree_admission
+3/3 Test #77: image.fat_tree_admission .........   Passed   61.12 sec
+
+33% tests passed, 2 tests failed out of 3
+
+Total Test time (real) =  85.05 sec
+
+The following tests FAILED:
+	  5 - image.fat_tree_reconnect (Failed)
+	 76 - image.fat_tree_controller (Failed)
+Errors while running CTest

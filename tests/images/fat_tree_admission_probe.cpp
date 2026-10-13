@@ -1,4 +1,7 @@
 #include "platform/windows/storage/fat_tree_admission.h"
+#ifdef DISKED_FAT_TREE_CONTROLLER_PROBE
+#include "platform/windows/storage/fat_tree_controller.h"
+#endif
 #include "platform/windows/memory_budget.h"
 #include "providers/image/local_file.h"
 #include <iostream>
@@ -29,6 +32,10 @@ static void emit(V v) {
     std::cout << disked::json::dump(v, disked::fat_tree_review_limits()) << '\n' << std::flush;
 }
 int wmain(int argc, wchar_t **argv) {
+#ifdef DISKED_FAT_TREE_CONTROLLER_PROBE
+    if (argc > 1 && std::wcscmp(argv[1], L"__disked_fat_tree_controller") == 0)
+        return n::fat_tree_controller_role(argc, argv);
+#endif
     if (argc > 1 && std::wcscmp(argv[1], L"__disked_fat_tree_extraction_worker") == 0)
         return n::fat_tree_extraction_worker_role(argc, argv);
     std::unique_ptr<n::FatTreeAdmission> owner;
@@ -54,6 +61,44 @@ int wmain(int argc, wchar_t **argv) {
                 grant.operation_write = false;
             if (missing == "host")
                 grant.host_effects = false;
+#ifdef DISKED_FAT_TREE_CONTROLLER_PROBE
+            const auto controller_mode = text(input, "controller_mode");
+            if (!controller_mode.empty()) {
+                auto controller = n::FatTreeController::prepare(checked, grant, fixture);
+                controller->launch();
+                if (controller_mode == "abandon") {
+                    emit(V::object()
+                             .put("kind", V::string("controller_abandoned"))
+                             .put("observation", controller->observe()));
+                    return 0;
+                }
+                if (controller_mode == "launch_reused") {
+                    controller->launch();
+                    throw std::runtime_error("controller_probe_expected_rejection");
+                }
+                controller->dispatch();
+                if (controller_mode == "dispatch_reused") {
+                    controller->dispatch();
+                    throw std::runtime_error("controller_probe_expected_rejection");
+                }
+                const auto until = GetTickCount64() + number(input, "wait_ms", 10000);
+                for (;;) {
+                    auto observed = controller->observe();
+                    const auto status = text(observed, "status");
+                    const bool observe_exit = controller_mode == "observe_exit";
+                    const bool exited =
+                        text(field(observed, "controller"), "observation") == "exited";
+                    if ((!observe_exit && status != "dispatch_pending") ||
+                        (observe_exit && exited) || GetTickCount64() >= until) {
+                        emit(V::object()
+                                 .put("kind", V::string("controller_handoff"))
+                                 .put("observation", observed));
+                        return 0;
+                    }
+                    Sleep(10);
+                }
+            }
+#endif
             owner = n::FatTreeAdmission::for_execution(checked, grant, fixture);
         } else {
             disked::FatTreeExtractionRequest request;

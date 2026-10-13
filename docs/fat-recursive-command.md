@@ -90,7 +90,30 @@ existing admission group also passes 41 cases in eleven methods. Two selected
 new headers and generated dependency checks pass. These are development results
 on the current Windows host, not full work-unit or release qualification.
 
-The controller still belongs to its caller. Detached operation ownership,
-native wait/watch, public command bindings and actual CLI/protocol/GUI/TUI/shell
-journeys remain unfinished. The public command stays planned until those gates
-and the full clean-source campaign are satisfied.
+The private Windows `fat_tree_controller.*` now hands execution to a detached
+same-executable controller. The caller validates the exact review and all five
+grants, launches behind a closed gate, then explicitly dispatches. Abandonment
+before dispatch admits no source/store/output work. After dispatch, caller exit
+does not cancel the controller or its existing admission/store/worker owner.
+Only bounded input/output mappings, gate/abandonment events, a parent wait handle
+and query-only job handles are inherited. Standard input/output/error are absent.
+
+The controller retains the existing aggregate worker budget and a two-process
+job without kill-on-caller-handle-close. Preparation is bounded to ten seconds;
+execution has a 30-second progress-stall and one-hour absolute budget. A reached
+budget stops and retires the existing owned worker, preserves partial/uncertain
+evidence and never dispatches a replacement. An unresolved exit keeps its
+dependency owner alive. Test-only shortened stalls and controller-exit injection
+are excluded from the normal binary.
+
+Focused native controller tests pass ten methods. They cover actual caller exit
+and exact FAT12/16/32 output, closed-gate abandonment, every grant, stale source
+and code, repeated launch/dispatch, separate-caller cancellation, hung-worker
+retirement, published-before-exit and controller exit after admission. Retained
+observations and current process facts remain separate. A matching exited handle
+can establish process exit even when Windows no longer exposes its image path;
+only a live matching code generation can authorize cancellation.
+
+These are development prerequisites. Native wait/watch, public command bindings
+and actual CLI/protocol/GUI/TUI/shell journeys remain unfinished. The public
+command stays planned until those gates and the full clean-source campaign pass.

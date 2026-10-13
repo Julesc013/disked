@@ -1,0 +1,46 @@
+test_abandoned_closed_gate_has_no_resource_effects (__main__.ControllerTests.test_abandoned_closed_gate_has_no_resource_effects) ... ok
+test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion) ... FAIL
+test_detached_cooperative_cancellation_by_another_process (__main__.ControllerTests.test_detached_cooperative_cancellation_by_another_process) ... ok
+test_each_missing_grant_and_wrong_digest_refuse_before_spawn (__main__.ControllerTests.test_each_missing_grant_and_wrong_digest_refuse_before_spawn) ... FAIL
+test_owned_hang_budget_preserves_unresolved_history_without_replacement (__main__.ControllerTests.test_owned_hang_budget_preserves_unresolved_history_without_replacement) ... ok
+test_role_and_normal_fixture_invocation_are_not_authority (__main__.ControllerTests.test_role_and_normal_fixture_invocation_are_not_authority) ... ok
+test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs) ... ERROR
+
+======================================================================
+ERROR: test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 147, in test_stale_source_and_code_do_not_create_outputs
+    changed=rebind(changed)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 37, in rebind
+    out = resource(value["observed"], value["access"], value["footprint"],
+                   ~~~~~^^^^^^^^^^^^
+KeyError: 'observed'
+
+======================================================================
+FAIL: test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 104, in test_actual_caller_exit_does_not_end_completion
+    final = wait_history(root)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 62, in wait_history
+    raise AssertionError(('existing controller not replaced', root, last))
+AssertionError: ('existing controller not replaced', WindowsPath('C:/Users/Jules/AppData/Local/Temp/disked-native-admission-z_y0e_c8'), None)
+
+======================================================================
+FAIL: test_each_missing_grant_and_wrong_digest_refuse_before_spawn (__main__.ControllerTests.test_each_missing_grant_and_wrong_digest_refuse_before_spawn)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 128, in test_each_missing_grant_and_wrong_digest_refuse_before_spawn
+    self.assertEqual('fat_tree_review_grant_missing',row['code'],row)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'fat_tree_review_grant_missing' != 'fat_tree_review_grant'
+- fat_tree_review_grant_missing
+?                      --------
++ fat_tree_review_grant
+ : {'code': 'fat_tree_review_grant', 'kind': 'error'}
+
+----------------------------------------------------------------------
+Ran 7 tests in 18.465s
+
+FAILED (failures=2, errors=1)

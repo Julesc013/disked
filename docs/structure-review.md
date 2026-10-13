@@ -1,5 +1,21 @@
 # Source structure and release review follow-up
 
+## Detached recursive controller development: 14 October 2026
+
+Active DE-W057 now has an explicit same-executable dispatch handoff independent
+of caller lifetime. Actual FAT12/16/32 tests complete exact generated outputs
+after caller exit. Closed-gate abandonment, all five grants, stale source/code,
+separate-caller cancellation, owned hang retirement, repeated launch/dispatch,
+published-before-exit and unresolved controller exit pass ten test methods.
+The input/output channel and query-only job handles retain finite native owners;
+caller-handle closure does not kill a dispatched controller or start another.
+
+Three selected native groups pass: controller, reconnect and admission. Tooling
+runs238 tests:236 pass/two skip. The source map covers260 files and generated
+dependency checks cover228 targets without violations. These are focused
+development results. Native wait/watch, actual public frontend journeys and full
+clean-source qualification remain; full0.1.0 and release are unfinished.
+
 ## Recursive retained-history and reconnect development: 14 October 2026
 
 Active DE-W057 now passes 38 focused cases/ten methods for bounded retained

@@ -43,6 +43,16 @@ V pid_facts(const V &identity, const V &code) {
     }
     if (w::process_created(process.value) != text(identity, "created"))
         return result.put("observation", V::string("reused_identity"));
+    // An exited process can retain a queryable birth/exit handle after Windows
+    // stops exposing its image path. This establishes exit, not current code
+    // applicability; only the running branch can authorize cancellation.
+    if (WaitForSingleObject(process.value, 0) == WAIT_OBJECT_0) {
+        DWORD exit = 0;
+        if (!GetExitCodeProcess(process.value, &exit))
+            return result;
+        return result.put("exit_code", V::string(std::to_string(exit)))
+            .put("observation", V::string("exited"));
+    }
     wchar_t path[32768];
     DWORD size = 32768;
     if (!QueryFullProcessImageNameW(process.value, 0, path, &size))

@@ -1,0 +1,33 @@
+test_abandoned_closed_gate_has_no_resource_effects (__main__.ControllerTests.test_abandoned_closed_gate_has_no_resource_effects) ... ok
+test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion) ... FAIL
+test_detached_cooperative_cancellation_by_another_process (__main__.ControllerTests.test_detached_cooperative_cancellation_by_another_process) ... ok
+test_each_missing_grant_and_wrong_digest_refuse_before_spawn (__main__.ControllerTests.test_each_missing_grant_and_wrong_digest_refuse_before_spawn) ... ok
+test_owned_hang_budget_preserves_unresolved_history_without_replacement (__main__.ControllerTests.test_owned_hang_budget_preserves_unresolved_history_without_replacement) ... ok
+test_role_and_normal_fixture_invocation_are_not_authority (__main__.ControllerTests.test_role_and_normal_fixture_invocation_are_not_authority) ... ok
+test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs) ... FAIL
+
+======================================================================
+FAIL: test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 110, in test_actual_caller_exit_does_not_end_completion
+    self.assertEqual(data,(root/'output'/name).read_bytes())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (b'', 0) != b''
+
+======================================================================
+FAIL: test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 149, in test_stale_source_and_code_do_not_create_outputs
+    self.assertEqual('fat_tree_controller_code_changed',row.get('code'),row)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'fat_tree_controller_code_changed' != 'fat_tree_review_code'
+- fat_tree_controller_code_changed
++ fat_tree_review_code
+ : {'code': 'fat_tree_review_code', 'kind': 'error'}
+
+----------------------------------------------------------------------
+Ran 7 tests in 7.660s
+
+FAILED (failures=2)
