@@ -4575,6 +4575,117 @@
         "tests/property/test_fat_directory.py",
         "tools/build-inputs.json"
       ]
+    },
+    {
+      "id": "DE-W046",
+      "title": "Bind FAT content to held ordinary files and owned reader processes",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W037",
+        "DE-W045"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Extend the existing ordinary-file FAT capture and owned FAT worker with an optional bounded content window. Hold the same read-only source/parent handles through metadata capture, payload reads and recapture; independently reconstruct copied payload in the parent. No new public command, destination extraction or physical-device access.",
+        "Source-bound actual native process/content/recapture evidence."
+      ],
+      "acceptance": [
+        "Real normal/fault Windows FAT workers over generated FAT12/16/32 ordinary files: fragmented exact bytes, EOF/slack, large windows, Unicode source paths and preserved source hashes.",
+        "Independent copied metadata/payload reconstruction; tampered digest/node/size/window/regions/errors/recapture/result/frame/actual process must not construct owned snapshots.",
+        "Before-open/spawn scalar and budget refusals, source generation mismatches, sharing/reparse/hardlink/path rules, metadata disagreement before payload, payload short/errors and late recapture disagreement with truthful prefixes.",
+        "Actual held write/delete sharing checks, process cancellation/late/hang retirement and normal fixture rejection; no output file creation, mount, elevation or device access.",
+        "Exact clean compiler/SDK/import/header/dependency/context/manifest/tooling and prior native regressions. Public extraction, destination effects, other hosts and full0.1.0 remain unverified."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        ".aide/evidence/2026-10-13-fat-content-file/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-content-file/reproduce.py",
+        ".aide/evidence/2026-10-13-fat-content/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-content/reproduce.py",
+        "CMakeLists.txt",
+        "docs/fat-content-file.md",
+        "docs/fat-content.md",
+        "docs/source-map.md",
+        "source/platform/windows/storage/fat_worker.cpp",
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/providers/image/fat_content_file.cpp",
+        "source/providers/image/fat_content_file.h",
+        "source/providers/image/fat_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/fat_snapshot.cpp",
+        "source/providers/image/fat_snapshot.h",
+        "source/providers/image/local_file.cpp",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/fat_content.cpp",
+        "source/runtime/capture/fat_content.h",
+        "source/runtime/capture/region_reader.h",
+        "source/runtime/command/json.h",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-content-file-prototype.json",
+        "spec/catalog/fat-content-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "spec/catalog/fat-worker-prototype.json",
+        "tests/images/fat_content_probe.cpp",
+        "tests/images/fat_worker_probe.cpp",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_content.py",
+        "tests/images/test_fat_content_file.py",
+        "tests/images/test_fat_worker.py",
+        "tests/property/test_fat.py",
+        "tests/property/test_fat_directory.py",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

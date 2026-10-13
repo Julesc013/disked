@@ -45,7 +45,8 @@ V exercise(const V &input) {
     disked::FatSnapshotInput r;
     r.capture_epoch = 1;
     r.path = text(input, "path");
-    r.expected_source = metadata(r.path);
+    r.expected_source =
+        input.find("expected_source") ? *input.find("expected_source") : metadata(r.path);
     r.volume_offset = integer(input, "offset");
     r.volume_bytes = integer(input, "length");
     if (const auto *value = input.find("capture_epoch"))
@@ -96,6 +97,21 @@ V exercise(const V &input) {
     if (const auto *l = input.find("namespace_limits"))
         for (const auto &p : l->fields)
             value.fields.at("namespace_limits").put(p.first, p.second);
+    if (const auto *content = input.find("content")) {
+        auto selected = *content;
+        if (text(selected, "metadata_digest") == "auto") {
+            const auto primed = disked::read_fat_snapshot_frame(r);
+            const auto &observation = get(get(primed, "result"), "observation");
+            selected.put("metadata_digest",
+                         V::string(disked::fat_content_metadata_digest(observation)));
+            if (text(selected, "expected_file_bytes") == "auto") {
+                const auto node = static_cast<std::size_t>(integer(selected, "node_id"));
+                selected.put("expected_file_bytes",
+                             get(get(observation, "nodes").items.at(node), "file_bytes"));
+            }
+        }
+        value.put("content", std::move(selected));
+    }
     if (const auto *fixture = input.find("fixture"))
         value.put("fixture", *fixture);
     for (const auto key : {"startup_fault", "reply_fault"})
@@ -184,6 +200,25 @@ V exercise(const V &input) {
     if (input.find("cancel"))
         worker->cancel();
     worker->release();
+    if (mode == "held-content") {
+        // Fault provider holds its ordinary source during the first payload read.
+        // We require actual sharing violations; elapsed time alone is not proof.
+        Sleep(1000);
+        const auto path = f::path_for(r.path);
+        auto access = [&](DWORD rights) {
+            f::Handle attempted(CreateFileW(
+                path.c_str(), rights, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                nullptr, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT, nullptr));
+            return attempted.value == INVALID_HANDLE_VALUE ? GetLastError() : 0;
+        };
+        out.put("write_error", V::string(std::to_string(access(GENERIC_WRITE))))
+            .put("delete_error", V::string(std::to_string(access(DELETE))));
+        out.put("before_cancel", worker->observe());
+        worker->cancel();
+        out.put("retirement", worker->retire(2000));
+        out.put("has_snapshot", V::boolean_value(bool(worker->snapshot())));
+        return out;
+    }
     auto samples = V::array();
     if (mode == "publication") {
         const auto deadline = GetTickCount64() + 2000;
@@ -197,13 +232,15 @@ V exercise(const V &input) {
         const auto snapshot = worker->snapshot();
         out.put("before", before).put("has_snapshot", V::boolean_value(bool(snapshot)));
         const auto bytes =
-            snapshot ? disked::json::dump(snapshot->result(), disked::fat_snapshot_json_limits())
+            snapshot ? disked::json::dump(snapshot->result(),
+                                          disked::fat_snapshot_json_limits(r.content_enabled))
                      : std::string{};
         out.put("retirement", worker->retire());
         out.put("retained_unchanged",
-                V::boolean_value(snapshot &&
-                                 bytes == disked::json::dump(snapshot->result(),
-                                                             disked::fat_snapshot_json_limits())));
+                V::boolean_value(
+                    snapshot && bytes == disked::json::dump(
+                                             snapshot->result(),
+                                             disked::fat_snapshot_json_limits(r.content_enabled))));
         return out;
     }
     if (mode == "pending") {
@@ -226,11 +263,12 @@ V exercise(const V &input) {
     const auto snapshot = worker->snapshot();
     out.put("samples", samples).put("has_snapshot", V::boolean_value(bool(snapshot)));
     if (snapshot) {
-        const auto before =
-            disked::json::dump(snapshot->result(), disked::fat_snapshot_json_limits());
+        const auto before = disked::json::dump(snapshot->result(),
+                                               disked::fat_snapshot_json_limits(r.content_enabled));
         out.put("result", snapshot->result()).put("context", snapshot->context());
         out.put("retirement", worker->retire());
-        if (before != disked::json::dump(snapshot->result(), disked::fat_snapshot_json_limits()))
+        if (before != disked::json::dump(snapshot->result(),
+                                         disked::fat_snapshot_json_limits(r.content_enabled)))
             throw std::runtime_error("fat_probe_retained_changed");
         out.put("retained_unchanged", V::boolean_value(true));
     }
@@ -247,7 +285,7 @@ int wmain(int argc, wchar_t **argv) {
         disked::WindowsMemoryBudget budget;
         if (!budget.ready())
             throw std::runtime_error(budget.error());
-        auto limits = disked::fat_snapshot_json_limits();
+        auto limits = disked::fat_snapshot_json_limits(true);
         limits.bytes = 8 * 1024 * 1024;
         std::string line;
         while (std::getline(std::cin, line)) {

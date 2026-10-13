@@ -217,3 +217,14 @@ cases, 102 native groups and 19 standalone headers in
 `.aide/evidence/2026-10-13-fat-content/`. Supplied-reader byte correctness is
 separate from current source identity/freshness, contained public extraction,
 other hosts and full product/storage/release admission.
+
+## DE-W046 held ordinary-file content and owned readers
+
+The [held-content profile](../catalog/fat-content-file-prototype.json) binds the
+selected window to expected native source metadata and an exact metadata comparison
+digest. Capture, payload and recapture share the held ordinary-file handle. The
+parent reconstructs payload from ordered copied regions; actual owned worker
+context remains necessary for snapshot provenance. Preserve partial prefixes and
+late recapture disagreement without a future-freshness or atomic-snapshot claim.
+Public extraction, destination effects, other hosts and the full all-platform/
+storage 0.1.0 programme remain unverified.

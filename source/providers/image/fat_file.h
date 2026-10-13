@@ -3,6 +3,7 @@
 #include <functional>
 
 namespace disked {
+struct FatFileContentRequest;
 struct FatFileRegion {
     std::uint64_t offset = 0;
     std::size_t requested = 0;
@@ -12,6 +13,7 @@ struct FatFileRegion {
 struct FatFileRead {
     json::Value result;
     std::vector<FatFileRegion> regions;
+    std::vector<FatFileRegion> content_regions;
     std::uint64_t process_id = 0, process_created = 0;
 };
 FatFileRead capture_fat_file_owned(const std::string &path, std::uint64_t volume_offset,
@@ -22,7 +24,8 @@ FatFileRead capture_fat_file_owned(const std::string &path, std::uint64_t volume
                                    const FatNamespaceLimits &namespace_limits,
                                    const json::Value *expected_source = nullptr,
                                    const std::function<bool()> &stop = {},
-                                   const FatAllocationWindow &allocation_window = {});
+                                   const FatAllocationWindow &allocation_window = {},
+                                   const FatFileContentRequest *content = nullptr);
 // Private Windows ordinary-image adapter. Read-only; synchronous waits require
 // external containment before frontend admission. Does not mount or extract files.
 json::Value capture_fat_file(const std::string &path, std::uint64_t volume_offset,

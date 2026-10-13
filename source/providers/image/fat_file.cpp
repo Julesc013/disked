@@ -1,4 +1,5 @@
 #include "fat_file.h"
+#include "fat_content_file.h"
 #include "local_file.h"
 #include "portable/hash/sha256.h"
 #include <algorithm>
@@ -71,7 +72,13 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
                                    const std::vector<FatNameQuery> &namespace_queries,
                                    const FatNamespaceLimits &namespace_limits,
                                    const V *expected_source, const std::function<bool()> &stop,
-                                   const FatAllocationWindow &allocation_window) {
+                                   const FatAllocationWindow &allocation_window,
+                                   const FatFileContentRequest *content) {
+    if (content) {
+        validate_fat_file_content_request(*content);
+        if (!expected_source)
+            throw std::invalid_argument("fat_file_content_source_required");
+    }
     const auto path = local_file::path_for(input);
     auto ancestors = local_file::pin_parents(path);
     const auto generations = local_file::parent_generations(ancestors);
@@ -203,6 +210,116 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
 #endif
     const bool same = json::dump(before.value) == json::dump(after.value);
     const bool stable = !regions.empty() && equal && same;
+    V content_result;
+    std::deque<Region> payload;
+    if (content) {
+        if (!stable)
+            throw local_file::Error("fat_file_content_metadata_unstable");
+        if (fat_content_metadata_digest(observation) != content->metadata_digest)
+            throw local_file::Error("fat_file_content_metadata_changed");
+        auto map = prepare_fat_content(observation, content->node_id,
+                                       {label, serial, before.size, offset, bytes, copy});
+        if (map.file_bytes() != content->expected_file_bytes)
+            throw local_file::Error("fat_file_content_size_changed");
+        auto window = map.read(
+            content->offset, content->count,
+            [&](const de_byte_extent &extent) {
+                check();
+                const auto start = native(extent.start), end = native(extent.end);
+                if (end < start || end - start > 4096 || end > before.size)
+                    throw local_file::Error("fat_file_content_extent");
+                Region region{start, static_cast<std::size_t>(end - start),
+                              read(file.value, start, static_cast<std::size_t>(end - start))};
+#ifdef DISKED_FAT_FILE_TESTING
+                if (payload.empty() &&
+                    GetEnvironmentVariableW(L"DISKED_FAT_TEST_CONTENT_HOLD", nullptr, 0))
+                    for (unsigned i = 0; i < 800; ++i) {
+                        check();
+                        Sleep(10);
+                    }
+                if (payload.empty() &&
+                    GetEnvironmentVariableW(L"DISKED_FAT_TEST_CONTENT_ERROR", nullptr, 0)) {
+                    region.first.error = ERROR_READ_FAULT;
+                    region.first.bytes.clear();
+                }
+                if (payload.empty() &&
+                    GetEnvironmentVariableW(L"DISKED_FAT_TEST_CONTENT_SHORT", nullptr, 0) &&
+                    !region.first.bytes.empty())
+                    region.first.bytes.pop_back();
+#endif
+                payload.push_back(std::move(region));
+                const auto &r = payload.back();
+                if (r.first.error)
+                    throw local_file::Error("fat_file_content_read", r.first.error);
+                return de_view{r.first.bytes.data(), r.first.bytes.size()};
+            },
+            content->limits);
+        auto payload_manifest = V::array(), metadata_manifest = V::array();
+        auto recapture = [&](const std::deque<Region> &ranges, V &rows, bool is_payload) {
+            bool agrees = true;
+            for (const auto &region : ranges) {
+                check();
+                auto again = read(file.value, region.start, region.count);
+#ifdef DISKED_FAT_FILE_TESTING
+                if (&region == &ranges.front() && !again.bytes.empty() &&
+                    GetEnvironmentVariableW(is_payload
+                                                ? L"DISKED_FAT_TEST_CONTENT_VERIFY_CHANGED"
+                                                : L"DISKED_FAT_TEST_CONTENT_METADATA_CHANGED",
+                                            nullptr, 0))
+                    again.bytes[0] ^= 1;
+#else
+                (void)is_payload;
+#endif
+                const bool matches = !region.first.error && !again.error &&
+                                     region.first.bytes.size() == region.count &&
+                                     region.first.bytes == again.bytes;
+                agrees = agrees && matches;
+                rows.items.push_back(
+                    V::object()
+                        .put("source_offset", exact(region.start))
+                        .put("requested_bytes", exact(region.count))
+                        .put("captured_bytes", exact(region.first.bytes.size()))
+                        .put("error", exact(region.first.error))
+                        .put("sha256", V::string(digest(region.first.bytes.data(),
+                                                        region.first.bytes.size())))
+                        .put("reread_bytes", exact(again.bytes.size()))
+                        .put("reread_error", exact(again.error))
+                        .put("reread_sha256",
+                             V::string(digest(again.bytes.data(), again.bytes.size())))
+                        .put("matches", V::boolean_value(matches)));
+            }
+            return agrees;
+        };
+        const bool payload_equal = recapture(payload, payload_manifest, true);
+        const bool metadata_equal = recapture(regions, metadata_manifest, false);
+        check();
+        auto final_source = local_file::metadata(file.value);
+#ifdef DISKED_FAT_FILE_TESTING
+        if (GetEnvironmentVariableW(L"DISKED_FAT_TEST_CONTENT_SOURCE_CHANGED", nullptr, 0))
+            final_source.value.put("written", V::string("1"));
+#endif
+        const bool source_equal = json::dump(before.value) == json::dump(final_source.value);
+        content_result = V::object()
+                             .put("schema", V::string("org.disked.fat-held-content/1"))
+                             .put("request", fat_file_content_request_value(*content))
+                             .put("metadata_digest", V::string(content->metadata_digest))
+                             .put("source_before", before.value)
+                             .put("source_after", final_source.value)
+                             .put("window", std::move(window))
+                             .put("payload_rereads", std::move(payload_manifest))
+                             .put("metadata_rereads", std::move(metadata_manifest))
+                             .put("payload_equal", V::boolean_value(payload_equal))
+                             .put("metadata_equal", V::boolean_value(metadata_equal))
+                             .put("source_equal", V::boolean_value(source_equal))
+                             .put("source_consistency", V::string("live-uncoordinated"))
+                             .put("source_freshness_verified", V::boolean_value(false))
+                             .put("atomic_snapshot", V::boolean_value(false));
+        content_result.put(
+            "observed_stable",
+            V::boolean_value(payload_equal && metadata_equal && source_equal &&
+                             content_result.fields.at("window").fields.at("outcome").text ==
+                                 "complete"));
+    }
     if (!stable && observation.find("allocation_window"))
         withdraw_fat_allocation_window_applicability(observation.fields.at("allocation_window"));
     if (!stable && namespace_consumer) {
@@ -244,6 +361,12 @@ FatFileRead capture_fat_file_owned(const std::string &input, std::uint64_t offse
                        .put("capture", std::move(receipt))
                        .put("authorizes_effects", V::boolean_value(false))
                        .put("product_dispatch_admitted", V::boolean_value(false));
+    if (content) {
+        owned.result.put("content", std::move(content_result));
+        for (auto &region : payload)
+            owned.content_regions.push_back(
+                {region.start, region.count, region.first.error, std::move(region.first.bytes)});
+    }
     return owned;
 }
 json::Value capture_fat_file(const std::string &path, std::uint64_t offset, std::uint64_t bytes,

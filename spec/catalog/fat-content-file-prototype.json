@@ -1,0 +1,25 @@
+{
+  "schema": "org.disked.fat-content-file-profile/1",
+  "work_id": "DE-W046",
+  "status": "private-held-file-and-contained-content-contract",
+  "base_revision": "106525fb7c7d4ae6afa644948bd5ec455e469169",
+  "scope": "Extend the existing ordinary-file FAT capture and owned FAT worker with an optional bounded content window. Hold the same read-only source/parent handles through metadata capture, payload reads and recapture; independently reconstruct copied payload in the parent. No new public command, destination extraction or physical-device access.",
+  "request": "Optional content request binds positive reference_capture_epoch, SHA256 of the exact prior observation with only capture_epoch replaced by canonical0, expected_file_bytes<=u32, node_id0..127, unsigned64 offset, count1..196608 and existing content byte/read/chunk limits. Expected native source metadata, original path, volume/copy, capture/model policies and actual new process/capture domains remain independently bound. The digest is comparison evidence, not source-opening authority or process authentication.",
+  "admission": "Validate static shapes, scalars, range and limits before opening/spawning. Compare opened metadata to expected_source before metadata reads. Recapture with the supplied policy; match its exact normalized metadata digest and selected file size before payload reads. Require metadata overlap/recapture agreement before payload. Prepare and preflight the fresh content map. Metadata-only input/result/frame format and default behavior remain unchanged.",
+  "held_source": "Reuse local_file path, parent generation, ordinary/single-link file and same-path checks. Open GENERIC_READ with FILE_SHARE_READ only, denying write/delete sharing while held. Payload never opens another source or derives a path from disk names. Preserve source bytes, attributes and namespace. Metadata agreement and exclusive ordinary sharing are not an atomic filesystem snapshot or physical-media fencing.",
+  "verification": "Retain ordered first payload regions with native errors and bytes. Reread all payload pieces and originally captured metadata regions before release; retain requested/actual/error/hash/equality facts plus source_after. Parent reruns the content map/window through copied regions and compares the entire window, bindings, region order, hashes, prefix/error outcomes, recapture aggregates and declared applicability. Copied valid JSON authenticates no worker by itself; only the existing actual FatWorker may construct the immutable snapshot.",
+  "outcomes": "Keep exact complete/short/reader-error prefixes even if later verification disagrees. observed_stable requires complete requested content, complete equal payload rereads, equal complete metadata rereads and unchanged source metadata. A mismatch withdraws applicability without relabelling actual captured bytes. Source_freshness_verified remains false: observations apply to the held attempt, not future use. Stop checks, uncertain cancellation and actual-exit retirement retain the existing worker semantics.",
+  "bounds": "Keep the existing131072-byte input mapping,131068-byte request,8MiB FAT payload,16MiB anonymous channel,128MiB child/256MiB parent and shared worker limits. Content digest/request stays small; no full prior observation enters the request. Content payload strings admit at most393216 hex characters only for content-enabled frames. Metadata-only string bound32768 stays unchanged. Read caps512 calls,196608 first bytes and4096-byte pieces; two metadata and payload recapture passes remain bounded and do not silently raise existing capture limits.",
+  "qualification": [
+    "Real normal/fault Windows FAT workers over generated FAT12/16/32 ordinary files: fragmented exact bytes, EOF/slack, large windows, Unicode source paths and preserved source hashes.",
+    "Independent copied metadata/payload reconstruction; tampered digest/node/size/window/regions/errors/recapture/result/frame/actual process must not construct owned snapshots.",
+    "Before-open/spawn scalar and budget refusals, source generation mismatches, sharing/reparse/hardlink/path rules, metadata disagreement before payload, payload short/errors and late recapture disagreement with truthful prefixes.",
+    "Actual held write/delete sharing checks, process cancellation/late/hang retirement and normal fixture rejection; no output file creation, mount, elevation or device access.",
+    "Exact clean compiler/SDK/import/header/dependency/context/manifest/tooling and prior native regressions. Public extraction, destination effects, other hosts and full0.1.0 remain unverified."
+  ],
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "owner_accepted": false,
+  "unit_complete": false,
+  "full_010_complete": false
+}

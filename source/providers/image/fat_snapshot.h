@@ -1,5 +1,6 @@
 #pragma once
 #include "fat_file.h"
+#include "fat_content_file.h"
 #include <memory>
 
 namespace disked {
@@ -16,10 +17,12 @@ struct FatSnapshotInput {
     FatCaptureLimits limits;
     std::vector<FatNameQuery> queries;
     FatNamespaceLimits namespace_limits;
+    bool content_enabled = false;
+    FatFileContentRequest content;
     json::Value fixture = json::Value::object();
 };
 constexpr std::size_t fat_snapshot_payload_bytes = 8U * 1024U * 1024U;
-json::Limits fat_snapshot_json_limits();
+json::Limits fat_snapshot_json_limits(bool content_enabled = false);
 void validate_fat_snapshot_input(const FatSnapshotInput &);
 json::Value fat_snapshot_input_value(const FatSnapshotInput &);
 FatSnapshotInput fat_snapshot_input_from(const json::Value &);
@@ -42,6 +45,8 @@ class FatFileSnapshot final {
     const json::Value &context() const {
         return context_;
     }
-    const json::Value &frame() const {return frame_;}
+    const json::Value &frame() const {
+        return frame_;
+    }
 };
 } // namespace disked

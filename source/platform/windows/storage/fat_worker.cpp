@@ -90,7 +90,7 @@ V frame(const V &value, const FatSnapshotInput &input, const void *view) {
     const std::string copied(static_cast<const char *>(view), static_cast<std::size_t>(bytes));
     if (text(value, "sha256") != "sha256:" + w::hash(copied))
         throw std::invalid_argument("fat_worker_payload_digest");
-    auto out = json::parse(copied, fat_snapshot_json_limits());
+    auto out = json::parse(copied, fat_snapshot_json_limits(input.content_enabled));
     verify_fat_snapshot_frame(out, input);
     return out;
 }
@@ -220,8 +220,8 @@ std::shared_ptr<const FatFileSnapshot> FatWorker::snapshot(bool retain_frame) {
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
         .put("image_profile", V::string("ordinary-file-fat"));
     // C++14 does not sequence constructor arguments: copy result before moving frame.
-    auto result=field(captured,"result");
-    auto retained=retain_frame?std::move(captured):V{};
+    auto result = field(captured, "result");
+    auto retained = retain_frame ? std::move(captured) : V{};
     return std::shared_ptr<const FatFileSnapshot>(
         new FatFileSnapshot(std::move(result), std::move(context), std::move(retained)));
 }
@@ -250,12 +250,36 @@ int fat_worker_role(int argc, wchar_t **argv) {
                             : c->text == "metadata_changed" ? L"DISKED_FAT_TEST_METADATA_CHANGED"
                             : c->text == "read_error"       ? L"DISKED_FAT_TEST_CAPTURE_ERROR"
                             : c->text == "short_read"       ? L"DISKED_FAT_TEST_CAPTURE_SHORT"
-                                                            : L"DISKED_FAT_TEST_OVERLAP_CHANGED";
+                            : c->text == "content_error"    ? L"DISKED_FAT_TEST_CONTENT_ERROR"
+                            : c->text == "content_short"    ? L"DISKED_FAT_TEST_CONTENT_SHORT"
+                            : c->text == "content_verify_changed"
+                                ? L"DISKED_FAT_TEST_CONTENT_VERIFY_CHANGED"
+                            : c->text == "content_metadata_changed"
+                                ? L"DISKED_FAT_TEST_CONTENT_METADATA_CHANGED"
+                            : c->text == "content_source_changed"
+                                ? L"DISKED_FAT_TEST_CONTENT_SOURCE_CHANGED"
+                            : c->text == "content_hold" ? L"DISKED_FAT_TEST_CONTENT_HOLD"
+                                                        : L"DISKED_FAT_TEST_OVERLAP_CHANGED";
                         if (!SetEnvironmentVariableW(name, L"1"))
                             throw std::runtime_error("fat_worker_test_environment");
                     }
 #endif
                     auto captured = read_fat_snapshot_frame(input, stop);
+#ifdef DISKED_FAT_WORKER_TESTING
+                    if (fault == "content_changed")
+                        captured.fields.at("result").fields.at("content").fields.at("window").put(
+                            "data", V::string("00"));
+                    if (fault == "content_region_changed")
+                        captured.fields.at("content_regions")
+                            .items.at(0)
+                            .put("bytes", V::string("00"));
+                    if (fault == "content_receipt_changed")
+                        captured.fields.at("result")
+                            .fields.at("content")
+                            .fields.at("payload_rereads")
+                            .items.at(0)
+                            .put("matches", V::boolean_value(false));
+#endif
 #ifdef DISKED_FAT_WORKER_TESTING
                     if (fault == "result_changed")
                         captured.fields["result"].fields["observation"].fields["geometry"].put(
@@ -282,7 +306,8 @@ int fat_worker_role(int argc, wchar_t **argv) {
                     if (fault == "row_changed")
                         captured.fields["regions"].items[0].put("offset", V::string("1"));
 #endif
-                    const auto bytes = json::dump(captured, fat_snapshot_json_limits());
+                    const auto bytes =
+                        json::dump(captured, fat_snapshot_json_limits(input.content_enabled));
                     std::memcpy(view->value, bytes.data(), bytes.size());
                     MemoryBarrier();
                     auto value = publication("captured", bytes.size(),

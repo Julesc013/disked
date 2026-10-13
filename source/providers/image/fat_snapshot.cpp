@@ -136,12 +136,12 @@ std::uint64_t native(const de_u64 &n) {
     return std::stoull(s);
 }
 } // namespace
-json::Limits fat_snapshot_json_limits() {
+json::Limits fat_snapshot_json_limits(bool content_enabled) {
     json::Limits l;
     l.bytes = fat_snapshot_payload_bytes;
     l.values = 524288;
     l.depth = 40;
-    l.string_bytes = 32768;
+    l.string_bytes = content_enabled ? 393216 : 32768;
     return l;
 }
 V fat_snapshot_claims() {
@@ -158,6 +158,8 @@ void validate_fat_snapshot_input(const FatSnapshotInput &input) {
         throw std::invalid_argument("fat_snapshot_input");
     local_file::path_for(input.path);
     metadata(input.expected_source);
+    if (input.content_enabled)
+        validate_fat_file_content_request(input.content);
     if (!input.namespace_limits.comparisons || input.namespace_limits.comparisons > 65536 ||
         !input.namespace_limits.findings || input.namespace_limits.findings > 128 ||
         input.namespace_limits.output_bytes < 16384 || input.namespace_limits.output_bytes > 524288)
@@ -171,10 +173,22 @@ void validate_fat_snapshot_input(const FatSnapshotInput &input) {
         throw std::invalid_argument("fat_snapshot_fixture");
     for (const auto &p : input.fixture.fields) {
 #ifdef DISKED_FAT_WORKER_TESTING
-        const std::set<std::string> captures = {"verify_changed",   "verify_error",
-                                                "metadata_changed", "read_error",
-                                                "short_read",       "overlap_changed"};
+        const std::set<std::string> captures = {"verify_changed",
+                                                "verify_error",
+                                                "metadata_changed",
+                                                "read_error",
+                                                "short_read",
+                                                "overlap_changed",
+                                                "content_error",
+                                                "content_short",
+                                                "content_verify_changed",
+                                                "content_metadata_changed",
+                                                "content_source_changed",
+                                                "content_hold"};
         const std::set<std::string> workers = {"hang",
+                                               "content_changed",
+                                               "content_region_changed",
+                                               "content_receipt_changed",
                                                "late",
                                                "payload_changed",
                                                "result_changed",
@@ -235,6 +249,8 @@ V fat_snapshot_input_value(const FatSnapshotInput &input) {
                   V::object()
                       .put("first_cluster", number(input.allocation_window.first_cluster))
                       .put("clusters", number(input.allocation_window.clusters)));
+    if (input.content_enabled)
+        value.put("content", fat_file_content_request_value(input.content));
     return value;
 }
 FatSnapshotInput fat_snapshot_input_from(const V &header) {
@@ -246,12 +262,16 @@ FatSnapshotInput fat_snapshot_input_from(const V &header) {
         std::set<std::string>{"path",     "expected_source", "volume_offset",    "volume_bytes",
                               "fat_copy", "name_code_page",  "allocation_scan",  "auxiliary_checks",
                               "limits",   "queries",         "namespace_limits", "fixture"};
-    for (const auto key : {"startup_fault", "reply_fault", "allocation_window"})
+    for (const auto key : {"startup_fault", "reply_fault", "allocation_window", "content"})
         if (v.find(key))
             keys.insert(key);
     exact(v, keys);
     input.path = text(v, "path");
     input.expected_source = field(v, "expected_source");
+    if (const auto *content = v.find("content")) {
+        input.content_enabled = true;
+        input.content = fat_file_content_request_from(*content);
+    }
     input.volume_offset = integer(v, "volume_offset");
     input.volume_bytes = integer(v, "volume_bytes");
     const auto copy = integer(v, "fat_copy"), page = integer(v, "name_code_page");
@@ -341,7 +361,7 @@ V read_fat_snapshot_frame(const FatSnapshotInput &input, const std::function<boo
         input.path, input.volume_offset, input.volume_bytes, input.fat_copy, input.limits,
         input.allocation_scan, input.auxiliary_checks, input.name_code_page ? &consumer : nullptr,
         input.queries, input.namespace_limits, &input.expected_source, stop,
-        input.allocation_window);
+        input.allocation_window, input.content_enabled ? &input.content : nullptr);
     auto regions = V::array();
     for (const auto &r : captured.regions)
         regions.items.push_back(V::object()
@@ -356,20 +376,38 @@ V read_fat_snapshot_frame(const FatSnapshotInput &input, const std::function<boo
                      .put("process_created", number(captured.process_created))
                      .put("result", std::move(captured.result))
                      .put("regions", std::move(regions));
-    json::dump(frame, fat_snapshot_json_limits());
+    if (input.content_enabled) {
+        auto payload = V::array();
+        for (const auto &r : captured.content_regions)
+            payload.items.push_back(
+                V::object()
+                    .put("offset", number(r.offset))
+                    .put("requested", number(r.requested))
+                    .put("error", number(r.error))
+                    .put("bytes", V::string(hex(r.bytes.data(), r.bytes.size()))));
+        frame.put("content_regions", std::move(payload));
+    }
+    json::dump(frame, fat_snapshot_json_limits(input.content_enabled));
     return frame;
 }
 V verify_fat_snapshot_frame(const V &frame, const FatSnapshotInput &input) {
     validate_fat_snapshot_input(input);
-    exact(frame, {"schema", "capture_epoch", "process_id", "process_created", "result", "regions"});
-    json::dump(frame, fat_snapshot_json_limits());
+    auto frame_keys = std::set<std::string>{"schema",          "capture_epoch", "process_id",
+                                            "process_created", "result",        "regions"};
+    if (input.content_enabled)
+        frame_keys.insert("content_regions");
+    exact(frame, frame_keys);
+    json::dump(frame, fat_snapshot_json_limits(input.content_enabled));
     if (text(frame, "schema") != "org.disked.fat-region-frame/1" ||
         integer(frame, "capture_epoch") != input.capture_epoch || !integer(frame, "process_id") ||
         integer(frame, "process_id") > 0xffffffffULL || !integer(frame, "process_created"))
         throw std::invalid_argument("fat_snapshot_binding");
     const auto &result = field(frame, "result");
-    exact(result,
-          {"schema", "observation", "capture", "authorizes_effects", "product_dispatch_admitted"});
+    auto result_keys = std::set<std::string>{"schema", "observation", "capture",
+                                             "authorizes_effects", "product_dispatch_admitted"};
+    if (input.content_enabled)
+        result_keys.insert("content");
+    exact(result, result_keys);
     if (text(result, "schema") != "org.disked.fat-file-capture/1" ||
         boolean(result, "authorizes_effects") || boolean(result, "product_dispatch_admitted"))
         throw std::invalid_argument("fat_snapshot_claims");
@@ -491,6 +529,111 @@ V verify_fat_snapshot_frame(const V &frame, const FatSnapshotInput &input) {
         withdraw_fat_allocation_window_applicability(reconstructed.fields.at("allocation_window"));
     if (!same(reconstructed, observation))
         throw std::invalid_argument("fat_snapshot_reconstruction");
+    if (input.content_enabled) {
+        const auto &content = field(result, "content");
+        exact(content, {"schema", "request", "metadata_digest", "source_before", "source_after",
+                        "window", "payload_rereads", "metadata_rereads", "payload_equal",
+                        "metadata_equal", "source_equal", "source_consistency",
+                        "source_freshness_verified", "atomic_snapshot", "observed_stable"});
+        if (!stable || text(content, "schema") != "org.disked.fat-held-content/1" ||
+            !same(field(content, "request"), fat_file_content_request_value(input.content)) ||
+            text(content, "metadata_digest") != input.content.metadata_digest ||
+            fat_content_metadata_digest(reconstructed) != input.content.metadata_digest ||
+            !same(field(content, "source_before"), input.expected_source) ||
+            text(content, "source_consistency") != "live-uncoordinated" ||
+            boolean(content, "source_freshness_verified") || boolean(content, "atomic_snapshot"))
+            throw std::invalid_argument("fat_content_snapshot_binding");
+        metadata(field(content, "source_after"));
+        const auto &payload_rows = field(frame, "content_regions");
+        if (payload_rows.kind != V::Kind::array ||
+            payload_rows.items.size() > input.content.limits.read_requests)
+            throw std::invalid_argument("fat_content_snapshot_budget");
+        std::vector<FatFileRegion> payload;
+        std::size_t requested = 0;
+        for (const auto &row : payload_rows.items) {
+            exact(row, {"offset", "requested", "error", "bytes"});
+            const auto at = integer(row, "offset"), want = integer(row, "requested"),
+                       error = integer(row, "error");
+            if (!want || want > input.content.limits.read_chunk || error > 0xffffffffULL ||
+                at < input.volume_offset || at > size || want > size - at ||
+                at - input.volume_offset > input.volume_bytes ||
+                want > input.volume_bytes - (at - input.volume_offset) ||
+                want > input.content.limits.bytes - requested)
+                throw std::invalid_argument("fat_content_snapshot_extent");
+            requested += static_cast<std::size_t>(want);
+            auto bytes = unhex(text(row, "bytes"), static_cast<std::size_t>(want));
+            if (error && !bytes.empty())
+                throw std::invalid_argument("fat_content_snapshot_read");
+            payload.push_back({at, static_cast<std::size_t>(want),
+                               static_cast<std::uint32_t>(error), std::move(bytes)});
+        }
+        auto map = prepare_fat_content(reconstructed, input.content.node_id,
+                                       {hash(input.expected_source), serial, size,
+                                        input.volume_offset, input.volume_bytes, input.fat_copy});
+        if (map.file_bytes() != input.content.expected_file_bytes)
+            throw std::invalid_argument("fat_content_snapshot_size");
+        std::size_t used = 0;
+        bool ordered = true;
+        auto window = map.read(
+            input.content.offset, input.content.count,
+            [&](const de_byte_extent &range) {
+                const auto at = native(range.start), end = native(range.end);
+                if (used == payload.size() || end < at || payload[used].offset != at ||
+                    payload[used].requested != end - at) {
+                    ordered = false;
+                    throw std::invalid_argument("fat_content_snapshot_order");
+                }
+                const auto &r = payload[used++];
+                if (r.error)
+                    throw std::runtime_error("recorded content reader error");
+                return de_view{r.bytes.data(), r.bytes.size()};
+            },
+            input.content.limits);
+        if (!ordered || used != payload.size() ||
+            json::dump(window, fat_snapshot_json_limits(true)) !=
+                json::dump(field(content, "window"), fat_snapshot_json_limits(true)))
+            throw std::invalid_argument("fat_content_snapshot_reconstruction");
+        auto verify_recap = [&](const std::vector<FatFileRegion> &first, const V &rows) {
+            if (rows.kind != V::Kind::array || rows.items.size() != first.size())
+                throw std::invalid_argument("fat_content_snapshot_recapture");
+            bool all = true;
+            for (std::size_t i = 0; i < first.size(); ++i) {
+                const auto &r = first[i];
+                const auto &m = rows.items[i];
+                exact(m, {"source_offset", "requested_bytes", "captured_bytes", "error", "sha256",
+                          "reread_bytes", "reread_error", "reread_sha256", "matches"});
+                const auto again = integer(m, "reread_bytes"), error = integer(m, "reread_error");
+                if (integer(m, "source_offset") != r.offset ||
+                    integer(m, "requested_bytes") != r.requested ||
+                    integer(m, "captured_bytes") != r.bytes.size() ||
+                    integer(m, "error") != r.error ||
+                    text(m, "sha256") != hash(r.bytes.data(), r.bytes.size()) ||
+                    again > r.requested || error > 0xffffffffULL || (error && again) ||
+                    !digest(text(m, "reread_sha256")) ||
+                    (!again && text(m, "reread_sha256") != hash(nullptr, 0)))
+                    throw std::invalid_argument("fat_content_snapshot_recapture_binding");
+                const bool agrees = !r.error && !error && r.bytes.size() == r.requested &&
+                                    again == r.requested &&
+                                    text(m, "sha256") == text(m, "reread_sha256");
+                if (boolean(m, "matches") != agrees)
+                    throw std::invalid_argument("fat_content_snapshot_recapture_agreement");
+                all = all && agrees;
+            }
+            return all;
+        };
+        const bool payload_equal = verify_recap(payload, field(content, "payload_rereads"));
+        const bool recaptured_metadata_equal =
+            verify_recap(regions, field(content, "metadata_rereads"));
+        const bool source_equal =
+            same(field(content, "source_before"), field(content, "source_after"));
+        if (boolean(content, "payload_equal") != payload_equal ||
+            boolean(content, "metadata_equal") != recaptured_metadata_equal ||
+            boolean(content, "source_equal") != source_equal ||
+            boolean(content, "observed_stable") !=
+                (payload_equal && recaptured_metadata_equal && source_equal &&
+                 text(window, "outcome") == "complete"))
+            throw std::invalid_argument("fat_content_snapshot_applicability");
+    }
     return result;
 }
 } // namespace disked

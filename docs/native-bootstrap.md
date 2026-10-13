@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.46 prototype selects 23 command identities, including read-only
+The current dev.47 prototype selects 23 command identities, including read-only
 GPT repair previews, recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
@@ -911,3 +911,7 @@ DE-W045 adds a [private supplied-reader FAT content component](fat-content.md)
 and independent native probe. It does not add a public command or change the 23
 implemented identities. Native source/worker/extraction admission follows after
 this payload algorithm's qualification.
+
+DE-W046 extends the existing owned FAT reader with [held-source content](fat-content-file.md).
+Metadata-only requests keep their format; optional payload windows remain private.
+No public extraction command is admitted by this source checkpoint.

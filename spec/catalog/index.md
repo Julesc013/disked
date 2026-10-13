@@ -24,6 +24,7 @@
 - [fat-auxiliary-prototype.json](fat-auxiliary-prototype.json)
 - [fat-capture-prototype.json](fat-capture-prototype.json)
 - [fat-command-prototype.json](fat-command-prototype.json)
+- [fat-content-file-prototype.json](fat-content-file-prototype.json)
 - [fat-content-prototype.json](fat-content-prototype.json)
 - [fat-directory-prototype.json](fat-directory-prototype.json)
 - [fat-namespace-prototype.json](fat-namespace-prototype.json)
