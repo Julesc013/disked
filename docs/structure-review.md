@@ -1,5 +1,45 @@
 # Source structure and release review follow-up
 
+## Qualified held-file tree checkpoint: 13 October 2026
+
+Source `54376be5` connects directory pages to a held ordinary file and the existing
+owned observation-process host. [Exact-source evidence](../.aide/evidence/2026-10-13-fat-tree-file/README.md)
+records **111 native groups**, **24 selected headers**, **232 tooling passes**
+and **2 skips**. Nine methods cover 57 actual file/process cases. Larger complete
+trees publish **12351932 bytes** across up to **138 pages** through one
+2 MiB slot, with independent parent replay and actual process/code/request/epoch
+binding. Source hashes stay unchanged; sharing, cancellation, late/hung children,
+retirement and changed page/reply refusals have retained results.
+
+The [source map](source-map.md) covers **232 current files**. Six new files own
+native source lifetime, pure page/input replay and the concrete page channel.
+They reuse the runtime traversal and existing process host. The latter gains
+only an immutable private binding accessor; no new scheduler, root hierarchy or
+raised host limit is introduced. Normal and fault libraries remain separate.
+
+This is prototype contained observation. Public traversal, recursive extraction
+and destination metadata restoration remain subsequent work. Retained pages are
+historical; source agreement supplies no atomic snapshot, future access or
+mutation authority. The full all-platform/storage 0.1.0 remains active and
+incomplete, with owner/production/physical/elevation/customer/install/sign/release
+gates separate. Tested reviewed dev checkpoints may be synchronized to main
+under the existing user grant; synchronization does not accept or publish a release.
+
+The first candidate at `8548b1f2` failed four native groups. Its original results
+remain retained. The repaired probe restores the existing parent memory-budget
+admission; progressing logical-copy tests use the established finite 90-second
+total/30-second no-progress policy, retaining byte, hash, outcome and actual-exit
+assertions. The complete passing campaign above belongs to the repaired source.
+
+A read-only GitHub check on 13 October found Universal Setup main `c048f7f1`
+and dev `2b7a4d01` unchanged. Draft [PR237](https://github.com/Julesc013/universal-setup/pull/237)
+has head `b7db8469`. [Its head's CI](https://github.com/Julesc013/universal-setup/actions/runs/38381202008)
+fails `native-windows`; the other six jobs pass. Both public release queries
+returned zero entries. These are dated hosted observations, not local Setup
+qualification or a diagnosis of its failure. The exact responses are retained
+with this checkpoint. No full-release date is supported by the current evidence.
+
+
 ## Qualified directory-paging checkpoint: 13 October 2026
 
 Source `b770b3fe` adds private source-bound directory pages in the existing runtime

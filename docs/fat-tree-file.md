@@ -37,7 +37,7 @@ retirement. They grant no present source access or mutation authority.
 
 Focused development passes 57 cases, including a full 17,601-entry tree exceeding
 8 MiB aggregate publication, nonzero/conflicting FAT copies and long-name page
-continuity. Exact clean source qualification is pending. This private path opens
+continuity. [Exact source qualification](../.aide/evidence/2026-10-13-fat-tree-file/README.md) at `54376be5` passes 111 native groups and 24 selected headers in the recorded Windows lane. This private path opens
 ordinary files without mounting or creating output files. Public traversal,
 recursive extraction, metadata restoration, other hosts, owner/physical/production
 recovery and full 0.1.0 remain separate work.
