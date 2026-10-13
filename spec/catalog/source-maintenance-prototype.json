@@ -86,6 +86,15 @@
         "build_closure": [
           "disked_json"
         ]
+      },
+      "disked_fat_tree_history": {
+        "sources": [
+          "source/runtime/evidence/fat_tree_history.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_hash"
+        ]
       }
     },
     "required_compile_flags": [
@@ -127,6 +136,14 @@
         "disked_fat_tree_worker",
         "disked_fat_tree_file",
         "disked_fat_tree_snapshot"
+      ],
+      "fat_tree_content_fault": [
+        "disked_fat_tree_file",
+        "disked_fat_tree_snapshot"
+      ],
+      "fat_tree_extraction_worker_fault": [
+        "disked_fat_tree_extraction_worker",
+        "disked_observation_worker"
       ]
     },
     "header_compile_checks": [

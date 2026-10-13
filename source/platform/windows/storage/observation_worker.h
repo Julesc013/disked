@@ -8,7 +8,7 @@
 #include <memory>
 
 namespace disked { namespace nt_inventory {
-// Compiled private reader policy, never selected from an external role/schema.
+// Compiled private process policy, never selected from an external role/schema.
 struct ObservationWorkerProfile {
     const char* prefix;const char* scope;const char* input_schema;const char* reply_schema;const char* observation_schema;
     const wchar_t* role;const char* attempt_prefix;const char* records_field;
@@ -17,6 +17,8 @@ struct ObservationWorkerProfile {
     std::function<void(const json::Value&,const json::Value&)> validate_result;
     // Optional compiled ordinary-image byte channel; never JSON-selected.
     std::size_t payload_bytes=0;
+    // Capability of the compiled provider; this host still grants no effects.
+    bool compiled_effects_capable=false;
 };
 using ObservationCollector=std::function<json::Value(const std::function<bool()>&)>;
 using ObservationFactory=std::function<ObservationCollector(const json::Value&,const std::function<void()>&)>;

@@ -1,0 +1,61 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-development-build
+    Start 1: capture.fat_content_stream
+1/1 Test #1: capture.fat_content_stream .......***Failed    4.35 sec
+test_bitmap_geometry_and_record_failures (__main__.ContentStreams.test_bitmap_geometry_and_record_failures) ... ok
+test_bytes_page_partition_and_noncontiguous_chains (__main__.ContentStreams.test_bytes_page_partition_and_noncontiguous_chains) ... ERROR
+test_declared_sector_recheck_and_time_issues_preserved (__main__.ContentStreams.test_declared_sector_recheck_and_time_issues_preserved) ... ok
+test_empty_and_excess_allocation_exclude_slack (__main__.ContentStreams.test_empty_and_excess_allocation_exclude_slack) ... FAIL
+test_invalid_terminal_short_chain_and_cycle_keep_unique_prefix (__main__.ContentStreams.test_invalid_terminal_short_chain_and_cycle_keep_unique_prefix) ... ok
+test_large_file_beyond_resident_chain_cap (__main__.ContentStreams.test_large_file_beyond_resident_chain_cap) ... ok
+test_metadata_rechecks_and_source_withdrawal (__main__.ContentStreams.test_metadata_rechecks_and_source_withdrawal) ... ERROR
+test_nonzero_copy_and_conflicting_unselected_table (__main__.ContentStreams.test_nonzero_copy_and_conflicting_unselected_table) ... ok
+
+======================================================================
+ERROR: test_bytes_page_partition_and_noncontiguous_chains (__main__.ContentStreams.test_bytes_page_partition_and_noncontiguous_chains)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 59, in test_bytes_page_partition_and_noncontiguous_chains
+    v=copy.deepcopy(request);v['budget']={k:str(x) for k,x in budget.items()};data,cells,pages=run(v,original)
+                                                                                               ~~~^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 38, in run
+    assert p['file_offset']==str(len(data));part=bytes.fromhex(p['data']);assert sha(part)==p['data_sha256'] and len(part)==int(p['returned_bytes'])<=default['bytes']
+                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'str'
+
+======================================================================
+ERROR: test_metadata_rechecks_and_source_withdrawal (__main__.ContentStreams.test_metadata_rechecks_and_source_withdrawal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 80, in test_metadata_rechecks_and_source_withdrawal
+    v=copy.deepcopy(request);v['budget']=dict(bytes='113',reads='4',read_bytes='4096',cells='1');v['fault']=dict(mode=mode,at=str(at));run(v,complete=False)
+                                                                                                                                       ~~~^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 38, in run
+    assert p['file_offset']==str(len(data));part=bytes.fromhex(p['data']);assert sha(part)==p['data_sha256'] and len(part)==int(p['returned_bytes'])<=default['bytes']
+                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'int' and 'str'
+
+======================================================================
+FAIL: test_empty_and_excess_allocation_exclude_slack (__main__.ContentStreams.test_empty_and_excess_allocation_exclude_slack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 66, in test_empty_and_excess_allocation_exclude_slack
+    v,original,_,_=fixture(nodes=nodes,size=size);data,cells,pages=run(v,original)
+                                                                   ~~~^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_stream.py", line 48, in run
+    assert pages[-1]['status']=='complete' and pages[-1]['diagnostic'] is None and bytes(data)==expected
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.195s
+
+FAILED (failures=1, errors=2)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   4.36 sec
+
+The following tests FAILED:
+	  1 - capture.fat_content_stream (Failed)
+Errors while running CTest

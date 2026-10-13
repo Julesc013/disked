@@ -1,0 +1,40 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-development-build
+    Start 5: evidence.fat_tree_history
+1/1 Test #5: evidence.fat_tree_history ........***Failed   67.27 sec
+test_actual_cancellation_and_abrupt_exit_histories (__main__.HistoryTests.test_actual_cancellation_and_abrupt_exit_histories) ... ok
+test_complete_original_native_history_without_source (__main__.HistoryTests.test_complete_original_native_history_without_source) ... ok
+test_directory_deferred_results (__main__.HistoryTests.test_directory_deferred_results) ... ok
+test_empty_prefix_and_incomplete_tail (__main__.HistoryTests.test_empty_prefix_and_incomplete_tail) ... ok
+test_finite_budgets_and_integer_bounds (__main__.HistoryTests.test_finite_budgets_and_integer_bounds) ... ok
+test_hash_canonical_and_version_errors (__main__.HistoryTests.test_hash_canonical_and_version_errors) ... FAIL
+test_large_noncontiguous_content (__main__.HistoryTests.test_large_noncontiguous_content) ... ok
+test_other_fat_variants_and_native_times (__main__.HistoryTests.test_other_fat_variants_and_native_times) ... ok
+test_partition_invariance (__main__.HistoryTests.test_partition_invariance) ... ok
+test_rehashed_cross_record_contradictions (__main__.HistoryTests.test_rehashed_cross_record_contradictions) ... ok
+test_rehashed_definition_and_completion_requirements (__main__.HistoryTests.test_rehashed_definition_and_completion_requirements) ... ok
+
+======================================================================
+FAIL: test_hash_canonical_and_version_errors (__main__.HistoryTests.test_hash_canonical_and_version_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 168, in test_hash_canonical_and_version_errors
+    inspect(data, error="")
+    ~~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_fat_tree_history.py", line 60, in inspect
+    assert result.returncode == 20 and value.get("error", "").startswith(error), value
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'admitted_bytes': '1792953', 'attempt_id': 'generated-fixture-attempt:1', 'checkpointed_bytes_recorded': '33696', 'claims': {'authenticity': 'not_established', 'content_page_digest': 'retained-not-recomputed-data-omitted', 'current_destination_verification': 'not_performed', 'current_source_verification': 'not_performed', 'mutation_authority': False, 'origin': 'validated-supplied-record-declarations', 'owner_accepted': False, 'physical_admission': False, 'power_loss_persistence': 'not_established', 'replay_authority': False, 'worker_exit': 'not_observed'}, 'definition_digest': 'sha256:ebd7a27fef2a5658a4968d320f8d839abcad1720c6331dcc8fbf46e03b812d3b', 'directory_create_intents': '0', 'files_complete_recorded': '150', 'input_bytes': '1792953', 'last_record_digest': 'sha256:99bb227e49e5d8067d4fb4e1137a6dbd8cfaf7d539bc59b90bd7e2ef8740c210', 'metadata_fields_applied_recorded': '150', 'metadata_fields_unapplied_recorded': '450', 'outcome': {'atomic_snapshot': False, 'attempt_id': 'generated-fixture-attempt:1', 'cancellation_observed': False, 'checkpointed_bytes': '33696', 'contained_worker_qualified': False, 'definition_digest': 'sha256:ebd7a27fef2a5658a4968d320f8d839abcad1720c6331dcc8fbf46e03b812d3b', 'diagnostic': None, 'directories_created': '1', 'effects_possible': True, 'files_complete': '150', 'last_digest_before_outcome': 'sha256:d32d52615208a408c14407ee36797281c192e9608ca602ed61c6c1d077042e20', 'ledger_bytes_before_outcome': '1791898', 'ledger_records_before_outcome': '1171', 'owner_accepted': False, 'platform_code': '0', 'platform_domain': None, 'schema': 'org.disked.fat-tree-extraction-outcome-prototype/1', 'source_writes': False, 'status': 'complete', 'verified_bytes': '33696'}, 'records': '1172', 'schema': 'org.disked.fat-tree-history-inspection-prototype/1', 'state': 'recorded_complete', 'tail': {'admitted': False, 'bytes': '0', 'sha256': 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}, 'tree_entries_observed': '150'}
+
+----------------------------------------------------------------------
+Ran 11 tests in 67.058s
+
+FAILED (failures=1)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =  67.28 sec
+
+The following tests FAILED:
+	  5 - evidence.fat_tree_history (Failed)
+Errors while running CTest

@@ -31,6 +31,7 @@
 - [fat-extraction-prototype.json](fat-extraction-prototype.json)
 - [fat-namespace-prototype.json](fat-namespace-prototype.json)
 - [fat-reader-prototype.json](fat-reader-prototype.json)
+- [fat-recursive-extraction-prototype.json](fat-recursive-extraction-prototype.json)
 - [fat-retention-prototype.json](fat-retention-prototype.json)
 - [fat-traversal-prototype.json](fat-traversal-prototype.json)
 - [fat-tree-file-prototype.json](fat-tree-file-prototype.json)

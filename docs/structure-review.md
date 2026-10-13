@@ -1,5 +1,117 @@
 # Source structure and release review follow-up
 
+## Qualified recursive backend: 14 October 2026
+
+Clean source 243f748e passes 120 native groups, 32 selected standalone header
+compilations, generated dependency checks and 236 tooling tests with two skips.
+The [whole-unit evidence](../.aide/evidence/2026-10-14-fat-recursive-qualification/README.md)
+maps all five DE-W056 criteria to actual results, launch/configuration/import
+observations, exact source/blob/artifact identities and context/manifest freshness.
+The private recursive backend, owned controller and independent history reader
+have reached their agent review boundary in the recorded ordinary-file Windows
+lane. Existing source ownership remains; no further restructuring is justified.
+
+DE-W056 remains pending owner acceptance. Public recursive commands and their
+operation lifecycle, other host/provider profiles and production/storage/release
+gates remain work within the full original 0.1.0 goal. A tested agent-reviewed
+repository merge is authorized separately from release publication.
+
+## Retained recursive history inspection: 14 October 2026
+
+The private supplied-byte inspector passes 78 cases/13 methods over 16 direct
+and three owned-worker histories. It distinguishes recorded complete/partial,
+unresolved prefixes and truncated tails. Complete source-free inspection after
+withdrawal of the recorded source path, actual interrupted process histories,
+FAT12/16/32, deep directories, a 33,000-cluster file, metadata results and
+independently rehashed contradictory records have actual retained results.
+
+The inspector belongs in the existing runtime evidence owner and depends only
+on JSON/hash targets. It opens no recorded path, authenticates no actor and
+grants no replay. The source map covers 248 files once; the generated dependency
+check passes. No new root, scheduler or public protocol is introduced.
+
+Tooling runs 238 tests: 236 pass and two skip. These are focused dirty development
+results. Full clean-source native/header/import/artifact qualification remains
+before whole-unit review and main integration. The full all-platform/storage
+0.1.0 and separate owner/storage/release gates remain unfinished.
+
+## Partial contained-writer checkpoint: 14 October 2026
+
+The recursive controller now reuses the owned process host and existing quotas
+for separate preparation, exact grant and execution. [Development evidence](../.aide/evidence/2026-10-14-fat-tree-extraction-worker/README.md)
+records 29 cases/11 methods, eight selected native groups and 236 tooling
+passes/two skips. Actual child/code/request/capture identities bind copied
+definitions/results. Hangs and late publications retain dependencies until exit;
+cooperative cancellation, startup failures and four-worker launch limits pass.
+
+Two files stay under the existing Windows storage host owner. The [source map](source-map.md)
+covers 246 files. No scheduler, new public command or root restructuring is
+introduced. Independent retained-history inspection and a complete clean-source
+native/import/artifact campaign remain in active DE-W056; full 0.1.0 and separate
+owner/storage/release gates remain open.
+
+## Partial recursive-writer checkpoint: 14 October 2026
+
+The private ordinary-image/local-NTFS backend now prepares a complete namespace,
+requires exact effect grants, creates children atomically under held parents,
+copies and reads back content, and records original versus applied native
+metadata in a flushed hash chain. [Development evidence](../.aide/evidence/2026-10-14-fat-tree-extraction/README.md)
+records 46 cases/11 methods, seven selected native groups and 236 tooling
+passes/two skips. Cases include 300-file FAT12/16/32 trees, a 33,000-cluster
+noncontiguous file, deep parents, distinct Unicode forms, collisions, actual
+process exits and durable completion despite a later notification failure.
+
+The [source map](source-map.md) covers 244 current files. Two new files stay in
+the existing image-provider owner; completed source reinspection gets a fresh
+capture identity. No source-root overhaul, new public recursive command or
+production ABI is introduced. This synchronous dev checkpoint still requires
+contained writer/controller admission, hangs/late-response dependency and actual
+exit qualification, independent history inspection and a complete clean-source
+campaign. DE-W056 and the full original 0.1.0 programme remain active.
+
+## Partial metadata-preparation checkpoint: 14 October 2026
+
+DE-W056 now maps original FAT names/times/attributes explicitly and reobserves
+metadata from its own held-source traversal. [Development evidence](../.aide/evidence/2026-10-14-fat-metadata/README.md)
+records 631 mapping/Windows-code-page cases, 12 actual-file cases retaining 980
+metadata frames, six selected native groups and 236 tooling passes/two skips.
+The [source map](source-map.md) covers 242 current files. Original representations
+stay separate from output candidates and actual future metadata application.
+
+The existing runtime/acquisition and image-provider owners suffice. Preparation
+creates no destination effects. This partial dev checkpoint does not qualify the
+unfinished recursive writer or full 0.1.0. Immutable effect grants, destination
+creation, ordered metadata evidence, native application/readback, contained
+writer lifetime and complete exact-source qualification remain in active DE-W056.
+
+## Partial recursive-content checkpoint: 14 October 2026
+
+DE-W056 now has a supplied-reader file-content continuation and an adapter that
+selects content only from its own held-source directory traversal. The existing
+runtime capture and image-provider owners remain appropriate; no new repository
+root or frontend abstraction is needed. The [source map](source-map.md) describes
+all 238 current source files and their responsibilities.
+
+[Development evidence](../.aide/evidence/2026-10-14-fat-recursive/README.md) records
+39 supplied-byte cases, eight held-file cases and passing existing tree-worker
+and frontend regressions. These are working-tree observations, not a clean full
+native qualification. DE-W056 remains active: recursive destination creation,
+immutable effect grants, original metadata preservation and explicit native
+restoration policies still need implementation and qualification.
+
+This partial checkpoint belongs on `dev`. The previous qualified checkpoint is
+already integrated into `main`; merging this unfinished work or publishing 0.1.0
+would overstate the evidence. The full original platform/storage programme and
+the separate owner, physical-storage and release gates remain open.
+
+A read-only hosted check on 14 October found Universal Setup main `c048f7f1`
+and dev `2b7a4d01` unchanged. Draft
+[PR #237](https://github.com/Julesc013/universal-setup/pull/237) now has head
+`f4442867`; [run 38386640408](https://github.com/Julesc013/universal-setup/actions/runs/38386640408)
+fails `native-windows` while the other six jobs pass. Both public release queries
+still return zero entries. [Retained responses](../.aide/evidence/2026-10-14-fat-recursive/hosted-setup-status.json)
+are hosted observations, not a local diagnosis or Setup integration qualification.
+
 ## Qualified tree-session checkpoint: 13 October 2026
 
 Source `19aca432` qualifies process-lifetime FAT tree sessions and explicitly

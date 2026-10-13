@@ -1,5 +1,8 @@
 #include "fat_tree_file.h"
 #include "local_file.h"
+#include "fat_native_metadata.h"
+#include "portable/fat/fat.h"
+#include <algorithm>
 #include <atomic>
 #include <limits>
 
@@ -33,6 +36,24 @@ struct Read {
     std::vector<unsigned char> bytes;
     DWORD error = 0;
 };
+V capture_context() {
+    static std::atomic<std::uint64_t> sequence{0};
+    auto previous = sequence.load();
+    for (;;) {
+        if (previous == std::numeric_limits<std::uint64_t>::max())
+            throw std::runtime_error("fat_tree_sequence_exhausted");
+        if (sequence.compare_exchange_weak(previous, previous + 1))
+            break;
+    }
+    FILETIME created{}, exited{}, kernel{}, user{};
+    if (!GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user))
+        throw f::Error("fat_tree_process", GetLastError());
+    return V::object()
+        .put("process_id", number(GetCurrentProcessId()))
+        .put("process_created", number((static_cast<std::uint64_t>(created.dwHighDateTime) << 32) |
+                                       created.dwLowDateTime))
+        .put("capture_sequence", number(previous + 1));
+}
 Read read(HANDLE file, std::uint64_t offset, std::size_t bytes) {
     Read out;
     if (offset > static_cast<std::uint64_t>(MAXLONGLONG) || bytes > 4096)
@@ -59,10 +80,13 @@ struct FatTreeFile::Impl {
     f::Handle file;
     FatTraversalBinding binding;
     std::unique_ptr<FatTraversal> traversal;
+    std::unique_ptr<FatContentStream> content;
+    V last_page, content_record;
     std::vector<unsigned char> borrowed;
     std::function<bool()> stop;
     bool read_consistent = true;
     std::uint64_t calls = 0, total_reads = 0;
+    int observed_bits = 0;
     std::string fault;
     explicit Impl(const FatTreeInput &v) : input(v) {
         validate_fat_tree_input(input);
@@ -83,23 +107,7 @@ struct FatTreeFile::Impl {
         source_before = f::metadata(file.value).value;
         if (!equal(source_before, input.expected_source))
             throw f::Error("fat_tree_source_changed");
-        static std::atomic<std::uint64_t> sequence{0};
-        auto previous = sequence.load();
-        for (;;) {
-            if (previous == std::numeric_limits<std::uint64_t>::max())
-                throw std::runtime_error("fat_tree_sequence_exhausted");
-            if (sequence.compare_exchange_weak(previous, previous + 1))
-                break;
-        }
-        FILETIME created{}, exited{}, kernel{}, user{};
-        if (!GetProcessTimes(GetCurrentProcess(), &created, &exited, &kernel, &user))
-            throw f::Error("fat_tree_process", GetLastError());
-        context = V::object()
-                      .put("process_id", number(GetCurrentProcessId()))
-                      .put("process_created",
-                           number((static_cast<std::uint64_t>(created.dwHighDateTime) << 32) |
-                                  created.dwLowDateTime))
-                      .put("capture_sequence", number(previous + 1));
+        context = capture_context();
         binding = fat_tree_binding(input, context);
         FatTraversalPort port;
         port.read = [this](const de_byte_extent &e) { return region(e); };
@@ -186,13 +194,27 @@ struct FatTreeFile::Impl {
         return de_view{borrowed.data(), borrowed.size()};
     }
     V next(const std::function<bool()> &cancel) {
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
         if (traversal->finished())
             throw std::invalid_argument("fat_tree_finished");
         regions = V::array();
         checks = V::array();
         stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
         ++calls;
         auto page = traversal->next(binding, input.page);
+        for (const auto &value : page.fields.at("events").items) {
+            const auto *type = value.find("type");
+            if (type && type->text == "volume")
+                observed_bits = std::stoi(value.fields.at("bits").text);
+        }
+        last_page = page;
         stop = {};
         auto frame = V::object()
                          .put("schema", V::string("org.disked.fat-tree-frame/1"))
@@ -206,6 +228,220 @@ struct FatTreeFile::Impl {
         json::dump(frame, fat_tree_json_limits());
         return frame;
     }
+    void begin_reinspection() {
+        if (!traversal->finished() || (content && !content->finished()))
+            throw std::invalid_argument("fat_tree_reinspection_busy");
+        stop = {};
+        if (!applicable())
+            throw std::invalid_argument("fat_tree_reinspection_source_changed");
+        auto next_context = capture_context();
+        auto next_binding = fat_tree_binding(input, next_context);
+        FatTraversalPort port;
+        port.read = [this](const de_byte_extent &e) { return region(e); };
+        port.applicable = [this](const FatTraversalBinding &) { return applicable(); };
+        std::unique_ptr<FatTraversal> next(new FatTraversal(next_binding, port, input.resources));
+        traversal = std::move(next);
+        context = std::move(next_context);
+        binding = std::move(next_binding);
+        content.reset();
+        content_record = V{};
+        last_page = V{};
+        observed_bits = 0;
+        regions = V::array();
+        checks = V::array();
+    }
+    void start_content(const std::string &key) {
+        if (key.empty() || key.size() > 26)
+            throw std::invalid_argument("fat_tree_content_key");
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
+        const auto *applies = last_page.find("applicable"), *events = last_page.find("events");
+        if (!applies || applies->kind != V::Kind::boolean || !applies->boolean || !events ||
+            events->kind != V::Kind::array)
+            throw std::invalid_argument("fat_tree_content_view_unavailable");
+        const V *record = nullptr;
+        for (const auto &value : events->items) {
+            const auto *kind = value.find("type"), *id = value.find("key"),
+                       *type = value.find("kind");
+            if (kind && kind->text == "record" && id && id->text == key && type &&
+                type->kind == V::Kind::string && type->text == std::to_string(DE_FAT_DIRENT_FILE)) {
+                if (record)
+                    throw std::invalid_argument("fat_tree_content_key");
+                record = &value;
+            }
+        }
+        if (!record)
+            throw std::invalid_argument("fat_tree_content_not_observed");
+        const auto *raw = record->find("raw"), *offset = record->find("source_offset");
+        if (!raw || raw->kind != V::Kind::string || raw->text.size() != 64 ||
+            raw->text.find_first_not_of("0123456789abcdef") != raw->text.npos || !offset ||
+            offset->kind != V::Kind::string || !json::decimal_u64(offset->text))
+            throw std::invalid_argument("fat_tree_content_record");
+        stop = {};
+        if (!applicable())
+            throw std::invalid_argument("fat_tree_content_source_changed");
+        FatContentStreamSelection selected;
+        selected.binding = binding;
+        selected.record_source_offset = std::stoull(offset->text);
+        auto digit = [](char c) {
+            return static_cast<unsigned>(c <= '9' ? c - '0' : c - 'a' + 10);
+        };
+        for (std::size_t i = 0; i < selected.record.size(); ++i)
+            selected.record[i] = static_cast<unsigned char>(digit(raw->text[i * 2]) * 16 +
+                                                            digit(raw->text[i * 2 + 1]));
+        FatTraversalPort port;
+        port.read = [this](const de_byte_extent &e) { return region(e); };
+        port.applicable = [this](const FatTraversalBinding &) { return applicable(); };
+        content.reset(new FatContentStream(selected, port, input.resources.bitmap_bytes));
+        content_record = *record;
+    }
+    V next_content(const FatContentStreamBudget &budget, const std::function<bool()> &cancel) {
+        if (!content || content->finished())
+            throw std::invalid_argument("fat_tree_content_finished");
+        if (budget.bytes > 65536 || budget.reads > 256 || budget.read_bytes > 196608 ||
+            budget.cells > 256 || budget.output_bytes > 1048576)
+            throw std::invalid_argument("fat_tree_content_budget");
+        regions = V::array();
+        checks = V::array();
+        stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
+        FatContentStreamSelection selected;
+        selected.binding = binding;
+        selected.record_source_offset = std::stoull(content_record.fields.at("source_offset").text);
+        const auto &raw = content_record.fields.at("raw").text;
+        for (std::size_t i = 0; i < selected.record.size(); ++i) {
+            const auto digit = [](char c) {
+                return static_cast<unsigned>(c <= '9' ? c - '0' : c - 'a' + 10);
+            };
+            selected.record[i] =
+                static_cast<unsigned char>(digit(raw[i * 2]) * 16 + digit(raw[i * 2 + 1]));
+        }
+        auto page = content->next(selected, budget);
+        stop = {};
+        auto frame = V::object()
+                         .put("schema", V::string("org.disked.fat-tree-content-frame/1"))
+                         .put("context", context)
+                         .put("source_before", source_before)
+                         .put("source_after", last_metadata)
+                         .put("record", content_record)
+                         .put("page", std::move(page))
+                         .put("regions", regions)
+                         .put("checks", checks)
+                         .put("directory_membership", V::string("held-source-traversal"));
+        json::dump(frame, fat_tree_content_json_limits());
+        return frame;
+    }
+    void check_metadata_applicable() {
+        if (applicable())
+            return;
+        if (!checks.items.empty() && checks.items.back().fields.at("cancelled").boolean)
+            throw std::invalid_argument("fat_tree_metadata_cancelled");
+        throw std::invalid_argument("fat_tree_metadata_source_changed");
+    }
+    V metadata_candidates(const std::string &key, const FatMetadataPolicy &policy,
+                          const std::function<bool()> &cancel) {
+        fat_metadata_policy_value(policy); // Refuse invalid policy before read callbacks.
+        if (key.empty() || key.size() > 26 || !observed_bits)
+            throw std::invalid_argument("fat_tree_metadata_key");
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
+        const auto *applies = last_page.find("applicable"), *events = last_page.find("events");
+        if (!applies || applies->kind != V::Kind::boolean || !applies->boolean || !events ||
+            events->kind != V::Kind::array)
+            throw std::invalid_argument("fat_tree_metadata_view_unavailable");
+        const V *record = nullptr;
+        for (const auto &value : events->items) {
+            const auto *type = value.find("type"), *id = value.find("key"),
+                       *kind = value.find("kind");
+            if (type && type->text == "record" && id && id->text == key && kind &&
+                (kind->text == "3" || kind->text == "4")) {
+                if (record)
+                    throw std::invalid_argument("fat_tree_metadata_key");
+                record = &value;
+            }
+        }
+        if (!record)
+            throw std::invalid_argument("fat_tree_metadata_not_observed");
+        regions = V::array();
+        checks = V::array();
+        stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
+        auto reobserve = [this](const std::string &raw, const std::string &offset) {
+            if (raw.size() != 64 || raw.find_first_not_of("0123456789abcdef") != raw.npos ||
+                !json::decimal_u64(offset))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            const auto at = std::stoull(offset);
+            if (at < binding.volume_offset || at - binding.volume_offset > binding.volume_bytes ||
+                32 > binding.volume_bytes - (at - binding.volume_offset))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            check_metadata_applicable();
+            de_u64 begin{}, size{};
+            if (de_u64_parse(offset.data(), offset.size(), &begin) || de_u64_parse("32", 2, &size))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            de_block_space space{};
+            const auto extent_text = std::to_string(binding.source_bytes);
+            de_u64 extent{};
+            if (de_u64_parse(extent_text.data(), extent_text.size(), &extent) ||
+                de_space_init(binding.source_id.data(), binding.source_id.size(), &extent, 1,
+                              &space))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            de_block_extent blocks{};
+            de_byte_extent bytes{};
+            if (de_extent_make(&space, &begin, &size, &blocks) ||
+                de_extent_to_bytes(&blocks, &bytes))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            const auto view = region(bytes);
+            std::vector<unsigned char> observed;
+            if (view.size)
+                observed.assign(view.data, view.data + view.size);
+            check_metadata_applicable();
+            if (hex(observed) != raw)
+                throw std::invalid_argument("fat_tree_metadata_record_changed");
+            return observed;
+        };
+        FatMetadataInput selected;
+        selected.bits = observed_bits;
+        selected.source_offset = std::stoull(record->fields.at("source_offset").text);
+        const auto raw =
+            reobserve(record->fields.at("raw").text, record->fields.at("source_offset").text);
+        std::copy(raw.begin(), raw.end(), selected.record.begin());
+        if (const auto *long_name = record->find("long_name")) {
+            const auto &stored = long_name->fields.at("raw_slots").text;
+            const auto &offsets = long_name->fields.at("source_offsets").items;
+            if (offsets.size() > 20 || stored.size() != offsets.size() * 64)
+                throw std::invalid_argument("fat_tree_metadata_slots");
+            for (std::size_t i = 0; i < offsets.size(); ++i) {
+                auto slot = reobserve(stored.substr(i * 64, 64), offsets[i].text);
+                selected.long_slots.insert(selected.long_slots.end(), slot.begin(), slot.end());
+            }
+        }
+        auto mapping = fat_native_metadata_candidates(selected, policy);
+        check_metadata_applicable();
+        auto frame = V::object()
+                         .put("schema", V::string("org.disked.fat-tree-metadata-frame/1"))
+                         .put("context", context)
+                         .put("binding", fat_tree_binding_value(binding))
+                         .put("source_before", source_before)
+                         .put("source_after", last_metadata)
+                         .put("record", *record)
+                         .put("mapping", std::move(mapping))
+                         .put("regions", regions)
+                         .put("checks", checks)
+                         .put("directory_membership", V::string("held-source-traversal"))
+                         .put("authorizes_effects", V::boolean_value(false));
+        json::dump(frame, fat_tree_content_json_limits());
+        return frame;
+    }
 };
 FatTreeFile::FatTreeFile(const FatTreeInput &input) : impl_(new Impl(input)) {
 }
@@ -215,5 +451,27 @@ V FatTreeFile::next(const std::function<bool()> &stop) {
 }
 bool FatTreeFile::finished() const {
     return impl_->traversal->finished();
+}
+void FatTreeFile::start_content(const std::string &key) {
+    impl_->start_content(key);
+}
+V FatTreeFile::next_content(const FatContentStreamBudget &b, const std::function<bool()> &stop) {
+    return impl_->next_content(b, stop);
+}
+bool FatTreeFile::content_finished() const {
+    return !impl_->content || impl_->content->finished();
+}
+V FatTreeFile::metadata_candidates(const std::string &key, const FatMetadataPolicy &policy,
+                                   const std::function<bool()> &stop) {
+    return impl_->metadata_candidates(key, policy, stop);
+}
+void FatTreeFile::begin_reinspection() {
+    impl_->begin_reinspection();
+}
+json::Limits fat_tree_content_json_limits() {
+    auto limits = fat_tree_json_limits();
+    limits.values = 131072;
+    limits.string_bytes = 393216;
+    return limits;
 }
 } // namespace disked

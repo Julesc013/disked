@@ -1,0 +1,212 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W056",
+  "base_revision": "4905ae036ac3564f1d682f7970e621b1fc9c7e65",
+  "spec_manifest_digest": "sha256:1dd8c551d494040d5c27198a402f5941781b841706294568eef17777cb663412",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "source/portable/fat/fat.h",
+    "source/portable/fat/allocation.c",
+    "source/portable/fat/directory.c",
+    "source/runtime/capture/fat_content.cpp",
+    "source/runtime/capture/fat_traversal.cpp",
+    "source/runtime/capture/region_reader.h",
+    "source/providers/image/fat_tree_file.cpp",
+    "source/providers/image/file_acquisition.cpp",
+    "source/providers/image/fat_content_file.cpp",
+    "tests/unit/fat_traversal_probe.cpp",
+    "tests/images/test_fat_traversal.py",
+    "CMakeLists.txt",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-fat-recursive/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-recursive/README.md",
+    ".aide/evidence/2026-10-14-fat-recursive/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-recursive/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-build-1.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-build-2.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-cases.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-1-cases.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-2-cases.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-2.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-3.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-bootstrap-registry.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-development-boundaries.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-regression-build.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-regressions.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-tooling.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-build-1.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-build-2.log",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-cases.json",
+    ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-recursive/hosted-setup-status.json",
+    ".aide/evidence/2026-10-14-fat-recursive/working-inputs.json",
+    ".aide/handoffs/DE-W056-fat-recursive-partial-2026-10-14.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/providers/image/fat_tree_file.cpp",
+    "source/providers/image/fat_tree_file.h",
+    "source/runtime/capture/fat_content_stream.cpp",
+    "source/runtime/capture/fat_content_stream.h",
+    "spec/bundle.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_tree_content_probe.cpp",
+    "tests/images/test_fat_content_stream.py",
+    "tests/images/test_fat_tree_content.py",
+    "tests/unit/fat_content_stream_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "The content prerequisites for recursive extraction are implemented and pass focused development tests. 39 supplied-byte and 8 native held-file cases plus relevant existing tree/frontend regressions pass. No destination backend or full recursive/full-platform qualification is claimed. DE-W056 stays active.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-development-build -C Release -R \"^(capture.fat_content_stream|image.fat_tree_content)$\" --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-focused-1.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-development-build -C Release -R \"^(image.fat_tree_file|frontend.fat_tree_sessions)$\" --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-regressions.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-development-build\\Release\\fat_content_stream_probe.exe",
+      "sha256": "sha256:9fcb17e539dca70fa9a9aec45ae645a9af4b21b74e8e1cd061e3984f2f7c8553"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-development-build\\Release\\fat_tree_content_probe.exe",
+      "sha256": "sha256:6c53cd5004962ddef28e6967aa476334b4e12296cdfe36a77bfcc7cf49c9a7c0"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-development-build\\Release\\fat_tree_content_fault.exe",
+      "sha256": "sha256:70b9261934624ea90d0cadab404e4879436f29c197137070b17424546edd98dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/artifacts.json",
+      "sha256": "sha256:640f37e0c1486c11a355b7171f2887723a525034d15a505b8b5fe6e22625229f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-build-1.log",
+      "sha256": "sha256:a05a064a731a3698dfc18496471bf3092fc94dbd4ce92bb00f800d5a1299e7f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-build-2.log",
+      "sha256": "sha256:a8ba56007abdf152ef18ed8f2c4436ee2b31d5e7a4a28d44d1a321a02adec45b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-cases.json",
+      "sha256": "sha256:319d3c55027cadba3c48cdaea75b9fd06e8df10cfb20376f3d76e03036ec3b8e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-1-cases.json",
+      "sha256": "sha256:83f93851d9b38b3c387549a6ee17c723d5c67a3b4323cccdb093cdf8020a310c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-1.log",
+      "sha256": "sha256:79060c24bfb0f087c790d789e4c9b0d96716bd72ce16b1652b23e9cd78f58fbe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-2-cases.json",
+      "sha256": "sha256:758d31ef1a5d11e0647cced8bc6c035fd375b8d3b6b640d65e03438215f37b11"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-2.log",
+      "sha256": "sha256:59b7435ef9fd3e52d358244cedff482ac287c984bdd5483c6abfea48e5931c49"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-content-stream-focused-3.log",
+      "sha256": "sha256:e947969a7d05ea3457c9bfe63d4c9384974ad1f4ff5f09e9f7bc6290adb06165"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-bootstrap-registry.log",
+      "sha256": "sha256:502c046313836787e31b4be200f6729d9e56044e25f649d33b0f51bf62117bd1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-development-boundaries.json",
+      "sha256": "sha256:b8e0189b1c7fd650ee6c24a492650dc7960c3a41f6fb4549f1a072b447c9759f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-regression-build.log",
+      "sha256": "sha256:4cfaf8670c8fc1361e42bb8f2c673fc3d6e18d9d7d1c6f8229697dbe388a2f1c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-regressions.log",
+      "sha256": "sha256:5657d369bc7296ca16ed57ef831b4b662894f10be8a57e6a8a0ae430a435010a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-recursive-tooling.log",
+      "sha256": "sha256:196082809317975b3f64a6fe24c080af499008997639a4cf0826d0e874aec874"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-build-1.log",
+      "sha256": "sha256:3b1cf9a79f3af16dcd7be19bfd33b22cb5e3b92dd58f32ed672ed56d3754cf68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-build-2.log",
+      "sha256": "sha256:cb8933b6be27f74c912afa1722c2aa02b7c4a70775bc82bac2d4044914c6abbc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-cases.json",
+      "sha256": "sha256:cbe4a95a06b2a6ca3031278724e2c8eebb49d823d59676e8365ea79c4fab6c93"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/fat-tree-content-focused-1.log",
+      "sha256": "sha256:42293d510c4266cb9e48d254945e83a49dbdcb7c9f6940b62c79fa03b5a83838"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/hosted-setup-status.json",
+      "sha256": "sha256:dca30e2d48f3113957a3f8dbc5bd9960098702fc349032cd0ad04bb8e3caaf63"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/README.md",
+      "sha256": "sha256:9391b5ed39d770ae0b7a6efaa7276ca17942d49416aed5a18b985c117463bde0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/REVIEW.md",
+      "sha256": "sha256:0c2ca355ff6ddbbcc7d28fb8652f3b02b15af2253b1b308974b6d30bb172f3e5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive/working-inputs.json",
+      "sha256": "sha256:369eea303105f21a9adf18c503ab33733da2fee471e0cf9f3c40db0f499ed23d"
+    }
+  ],
+  "blockers": [
+    "The remaining DE-W056 destination/metadata/effects backend and complete exact-source qualification are unfinished; no external blocker prevents further local implementation.",
+    "Full original platform/storage 0.1.0 and separate owner/production/storage/release gates remain."
+  ],
+  "next_safe_step": "Continue DE-W056 with the create-only recursive destination adapter, explicit immutable definition/grants and original metadata/native-restoration ledger. Keep source/backend identity and exit ownership. Do not mark the unit needs_review until all backend criteria pass.",
+  "performed_remote_writes": false
+}

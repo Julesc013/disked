@@ -1,0 +1,213 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W056",
+  "base_revision": "af4818195a7938dfbbb9ca10827ad0b9672bf74b",
+  "spec_manifest_digest": "sha256:34522fc2e558ecbdd837f492cc511584e6bffd822110c7742694011fbe412c72",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/platform/windows/storage/observation_worker.h",
+    "source/platform/windows/storage/fat_tree_worker.cpp",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/platform/windows/memory_budget.h",
+    "source/providers/image/fat_tree_extraction.h",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/README.md",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/context-manifest.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-boundaries.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-3.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-4.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-5.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-configure-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-configure.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-final-selected.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-1-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-2-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-3.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-regression-build.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-smoke-1.json",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-tooling.log",
+    ".aide/evidence/2026-10-14-fat-tree-extraction-worker/summary.json",
+    ".aide/handoffs/DE-W056-fat-tree-extraction-worker-partial-2026-10-14.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-recursive-extraction.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/platform/windows/storage/fat_tree_extraction_worker.cpp",
+    "source/platform/windows/storage/fat_tree_extraction_worker.h",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/platform/windows/storage/observation_worker.h",
+    "source/providers/image/fat_tree_extraction.cpp",
+    "source/providers/image/fat_tree_extraction.h",
+    "spec/bundle.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_tree_extraction_worker_probe.cpp",
+    "tests/images/test_fat_tree_extraction_worker.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Owned prepare/grant/execute recursive sessions pass 29 cases/11 methods, eight selected native groups and 236 tooling passes/two skips. Independent retained-history inspection and complete exact-source qualification remain; DE-W056 and the original full platform/storage goal stay active.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-development-build -C Release -R \"^(image.fat_tree_extraction_worker|image.fat_tree_extraction|acquisition.fat_metadata|image.fat_tree_metadata|image.fat_tree_content|capture.fat_content_stream|image.fat_tree_file|frontend.fat_tree_sessions)$\" --parallel 2 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-final-selected.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-extraction-worker\\fat_tree_extraction_worker_probe.exe",
+      "sha256": "sha256:26c3ef998a0b6f1392edd6033e648dde8af9cd1bc821df980d959df3d686e0da"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-extraction-worker\\fat_tree_extraction_worker_fault.exe",
+      "sha256": "sha256:01c17d29e68e69f8c903c5a622f84f87bdf3390bbe93eb6759c25966afec722c"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-extraction-worker\\fat_tree_extraction_probe.exe",
+      "sha256": "sha256:7e9194bfe02c8782397fca504bace550dbd17a4f7dfb34490db81de52b2f1eda"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-extraction-worker\\disked.exe",
+      "sha256": "sha256:46d77e5f10fea36ce83ffd1f52910887863bb9a597e76fb1ab5ed2460cdcf688"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/.gitattributes",
+      "sha256": "sha256:8d9718a1884a9737743a947afffc5ad1f72cbb3aa8887ec188c6861177c37e68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/artifacts.json",
+      "sha256": "sha256:b35a95b48ed3c4834ed2f43564a703c6c10b96d1fe3a99c72f588a70da0d2e65"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/cases.json",
+      "sha256": "sha256:2840ec96f04763524a22c85a8cc2eb46b0e1b1da8386f76ecfdc75d75e97d4eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/context-manifest.json",
+      "sha256": "sha256:7f3069ed86b563b0c3d269eca66d2ad893d5846e04238cd30b19b41fdfb1973b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-boundaries.json",
+      "sha256": "sha256:dfd4f01731be65e0f4b866306ac65c8b28474e369a9b80f3dc8fc48f7a4cf217"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-1.log",
+      "sha256": "sha256:9cd5faa86d777d93d414156a59df8bd38fb0767d1fbd28823364f9f6d69a2900"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-2.log",
+      "sha256": "sha256:ca379e35cfa8e6bf2b420f4005f812cd728c4e91deb56fa3ccda2809540f0fca"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-3.log",
+      "sha256": "sha256:8f1d9e39f8ba822fc68582da2f86744895140a8de2a191893300adc7e81d8568"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-4.log",
+      "sha256": "sha256:219e3a461630a33a235e53f78eded06faf5d20f663ce10833f5ed4889f39780b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-build-5.log",
+      "sha256": "sha256:c57245481233737f33dfcdf3a2add1fbc95ac69b54c28de61e7e97941c22a523"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-configure-2.log",
+      "sha256": "sha256:c7ed64e6d5c92be0b0d85e6cfbce105b7616f04338eb4cd8e183273c5ca685fa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-configure.log",
+      "sha256": "sha256:6eccbe906af163554eabff143d314962c7b8c3192a856cb28e28680069af4679"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-final-selected.log",
+      "sha256": "sha256:31e8ecfd11cfc265b971f33a98dab3d491f8cab79990a39c2202b4d79229afd5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-1-cases.json",
+      "sha256": "sha256:b2d463d4ec4734d52a5546c483be62d54b2a66a97fd5a3d699a6ecb0c80c04d3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-1.log",
+      "sha256": "sha256:26eb4405000dda3416cccd05a32a9917a575498d10a92a0326b5abb4a8d1c386"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-2-cases.json",
+      "sha256": "sha256:88493f1ca0acf81f2eed930106b0ecb3d0af41a2c1de42fb79a9d453d90d1104"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-2.log",
+      "sha256": "sha256:4b1fa9030811a4dd020eafa6d41f53bd61098079cc32b8c4d32f9dd35ff28983"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-focused-3.log",
+      "sha256": "sha256:1a822594cbdd7b1ddd233e69ff9345cdd97f5d4376e363f05249dcc359d7fe11"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-regression-build.log",
+      "sha256": "sha256:5b83ec66774b947c9a98327ed42b276ff90347141c55549f823092169c020e1b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-smoke-1.json",
+      "sha256": "sha256:5a8b43040e1cd755237d6d0746e36d5580d2cefeea45beadc62d15cdbb117c71"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/fat-tree-extraction-worker-tooling.log",
+      "sha256": "sha256:a0854effe03e9331b569e10935242bb0f3f74b029e7620b9e91ee00fe5e1c17e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/README.md",
+      "sha256": "sha256:cf0ace6b25bb3c9526928a837f0ee157528ba55b9f53cbf3d05caebf05ecea63"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/REVIEW.md",
+      "sha256": "sha256:3e3091cbd1d397c58f12d04721e2f65b53e0159eaa521edccbe6599b30336f99"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/summary.json",
+      "sha256": "sha256:161659cb7bb134eeb3634d83ccdcd4eafd7069718207913b3d2f66498012848f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-extraction-worker/working-inputs.json",
+      "sha256": "sha256:3072cf92247d3225d2d82e5917254eda633269291b9d643da238483a8df7284c"
+    }
+  ],
+  "blockers": [
+    "Independent retained-history inspection and full clean-source native/header/import/artifact qualification remain unfinished; local progress can continue.",
+    "Full original platform/storage scope and separate owner/physical/elevation/customer/install/sign/publication gates remain."
+  ],
+  "next_safe_step": "Finish active DE-W056 with independent source-free inspection of complete/partial recursive ledgers and evidence applicability, then freeze source and run the full native/header/import/artifact/context/manifest/tooling campaign. The synchronous backend and owned prepare/grant/execute controller now pass focused tests. Preserve separate frontend/public-command, owner/physical/elevation/customer/install/sign/publication gates and the full original platform/storage 0.1.0 scope.",
+  "performed_remote_writes": false
+}
