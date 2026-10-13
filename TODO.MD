@@ -363,6 +363,6 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full0.1.0 remain unfinished.
 
-- [ ] DE-W064 active: C90 supplied-byte directory entries/sets, lossless names/timestamps and checked stream extents implemented after W058 native-stage review; scratch2316cases pass, integrated qualification running. Bitmap/upcase/source/tree/provider admission remain explicit later dependencies.
+- [x] DE-W064 local exact-source qualification44c8b090:2316cases/9methods,10parser/guardgroups+boundaryfollowup,1header/C90/import/context and agentreview. Prior130native evidence separate; bitmap/upcase/source/tree/provider/fullrelease remain unfinished.
 
 - [ ] DE-W065 planned: supplied-byte bitmap descriptor and bounded allocation-bit intervals, exact checked offsets and raw/advisory preservation; no source-bound free-space/ownership/writer claim.

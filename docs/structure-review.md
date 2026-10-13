@@ -1,5 +1,18 @@
 # Source structure and release review follow-up
 
+## Qualified private exFAT metadata: 14 October 2026
+
+W058 at `1e938369` passes130native groups,42selected headers,242tooling tests with
+2skips and all four local criteria. W064 at `44c8b090` passes2316directory cases,
+tenfreshparser/guardgroups plus a boundaryfollowup, oneheader and C90/import/
+source/context checks. The selective directory build initially omitted its
+generated registry; its failed check and passing generator follow-up are retained.
+Prior fullregression results apply to unchanged source and are separately labeled.
+See [boot/allocation review](../.aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md)
+and [directory review](../.aide/evidence/2026-10-14-exfat-directory-qualified/REVIEW.md).
+The existing source owners accommodate this work; there is no mountedexFAT,
+bitmap/upcase/source/tree/provider/writer/otherhost or full0.1.0 release claim.
+
 ## exFAT development and Setup status: 14 October 2026
 
 Dev checkpoint `38b6683a` adds a private C90 supplied-byte exFAT boot/checksum,

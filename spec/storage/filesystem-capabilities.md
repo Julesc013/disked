@@ -88,7 +88,12 @@ ValidDataLength zero filling and all original storage/platform release gates
 remain separate required capabilities. The private C90 decoder and independent
 native probe/oracle are now implemented after recorded W058 native-stage review.
 Scratch checks passed2316cases/9methods; integrated native/header/import/source
-qualification is running. Neither scratch success nor directory association
+qualification at `44c8b090` passed2316cases/9methods, tenparser/guardgroups,
+oneboundaryfollowup, oneprivateheader and C90/import/context/source checks. The
+initial missing-generated-registry failure and separate repair are retained in
+`.aide/evidence/2026-10-14-exfat-directory-qualified/`. Prior130native results at
+`1e938369` apply only to unchanged sources; this is not a freshfullsuite claim.
+Neither scratch success nor directory association
 establishes allocation, name equality, current source authority or public use.
 
 ## DE-W065 supplied-byte exFAT bitmap intervals
