@@ -1,0 +1,170 @@
+Merge made by the 'ort' strategy.
+ .../.gitattributes                                 |    3 +
+ .../README.md                                      |    1 +
+ .../REVIEW.md                                      |   15 +
+ .../artifact-identities.json                       |   12 +
+ .../build.log                                      |  Bin 0 -> 6037 bytes
+ .../2026-10-14-exfat-allocation-qualified/c90.log  |  Bin
+ .../changes-from-prior-regression.json             |   66 +
+ .../checkout.log                                   |  Bin 0 -> 93 bytes
+ .../clone.log                                      |  Bin 0 -> 101 bytes
+ .../commands.json                                  |  258 +
+ .../configure.log                                  |  Bin 0 -> 1128 bytes
+ .../context-manifest.json                          | 5976 ++++++++++++++++++++
+ .../context.log                                    |  Bin 0 -> 571 bytes
+ .../criteria-audit.json                            |   40 +
+ .../current-stage.json                             |    5 +
+ .../dependents.log                                 |  Bin 0 -> 473 bytes
+ .../exfat-allocation-cases.json                    |   27 +
+ .../exfat-allocation-tooling.log                   |  Bin 0 -> 32912 bytes
+ .../exfat-bitmap-qualified-check.log               |  Bin 0 -> 492 bytes
+ .../exfat-bitmap-qualified-index.log               |  Bin 0 -> 96 bytes
+ .../exfat-bitmap-qualified-manifest.log            |  Bin 0 -> 87 bytes
+ .../exfat-bitmap-qualified-verify-manifest.log     |  Bin 0 -> 85 bytes
+ .../exfat-cases.json                               |  372 ++
+ .../exfat-directory-cases.json                     |   87 +
+ .../exfat-upcase-contract-context.log              |  Bin 0 -> 682 bytes
+ .../final-source-status.log                        |  Bin
+ .../headers.log                                    |  Bin 0 -> 5760 bytes
+ .../imports.log                                    |  Bin 0 -> 4490 bytes
+ .../index.log                                      |  Bin 0 -> 59 bytes
+ .../inventory.json                                 |   41 +
+ .../manifest.log                                   |  Bin 0 -> 85 bytes
+ .../native.log                                     |  Bin 0 -> 1611 bytes
+ .../private-header-usage.json                      |  Bin 0 -> 94024 bytes
+ .../reproduce.py                                   |   49 +
+ .../source-inputs.json                             |  692 +++
+ .../source-map.log                                 |  Bin 0 -> 106 bytes
+ .../source-status.log                              |  Bin
+ .../spec-check.log                                 |  Bin 0 -> 492 bytes
+ .../summary.json                                   |   14 +
+ .../bitmap-tooling-fixed-checkout.log              |  Bin 0 -> 8456 bytes
+ .../bitmap-tooling-fixed-followup.log              |  Bin 0 -> 301 bytes
+ .../bitmap-tooling-fixed-wrong-cwd.log             |  Bin 0 -> 1228 bytes
+ .../tooling-followup/summary.json                  |   24 +
+ .../verify-context.log                             |  Bin 0 -> 151 bytes
+ .../.gitattributes                                 |    2 +
+ .../2026-10-14-exfat-allocation-working/README.md  |   10 +
+ .../exfat-allocation-build.log                     |  Bin 0 -> 2621 bytes
+ .../exfat-allocation-c90.log                       |  Bin
+ .../exfat-allocation-cases-expanded.json           |   27 +
+ .../exfat-allocation-cases-initial.json            |   27 +
+ .../exfat-allocation-check-final.log               |  Bin 0 -> 492 bytes
+ .../exfat-allocation-configure.log                 |  Bin 0 -> 344 bytes
+ .../exfat-allocation-context.log                   |  Bin 0 -> 683 bytes
+ .../exfat-allocation-expanded.log                  |  Bin 0 -> 569 bytes
+ .../exfat-allocation-index-final.log               |  Bin 0 -> 96 bytes
+ .../exfat-allocation-manifest.log                  |  Bin 0 -> 87 bytes
+ .../exfat-allocation-native.log                    |  Bin 0 -> 1410 bytes
+ .../exfat-allocation-verify-manifest.log           |  Bin 0 -> 85 bytes
+ .../summary.json                                   |   13 +
+ .../working-inputs.json                            |   18 +
+ .../2026-10-14-exfat-upcase-draft/.gitattributes   |    2 +
+ .../2026-10-14-exfat-upcase-draft/README.md        |    8 +
+ .../check-upcase-draft.py                          |    4 +
+ .../exfat-upcase-api.txt                           |   24 +
+ .../exfat-upcase-c90-draft.log                     |  Bin
+ .../2026-10-14-exfat-upcase-draft/exfat-upcase.c   |  101 +
+ .../2026-10-14-exfat-upcase-draft/summary.json     |   23 +
+ .../upcase-smoke-build-final.log                   |  Bin
+ .../upcase-smoke-final.log                         |  Bin 0 -> 76 bytes
+ .../upcase-smoke-initial-failed.log                |  Bin 0 -> 41 bytes
+ .../2026-10-14-exfat-upcase-draft/upcase-smoke.c   |   55 +
+ ...W065-exfat-allocation-qualified-2026-10-14.json |  357 ++
+ ...E-W065-exfat-allocation-working-2026-10-14.json |  140 +
+ .aide/programmes/disked-0.1.0.json                 |   44 +-
+ CMakeLists.txt                                     |    9 +-
+ TODO.MD                                            |    4 +-
+ docs/source-map.md                                 |    1 +
+ source/portable/exfat/allocation.c                 |   92 +
+ source/portable/exfat/exfat.h                      |   19 +
+ spec/catalog/exfat-allocation-prototype.json       |    2 +-
+ spec/catalog/exfat-upcase-prototype.json           |   28 +
+ spec/catalog/index.md                              |    1 +
+ spec/catalog/input-dependencies.json               |   57 +
+ spec/catalog/source-maintenance-prototype.json     |    3 +-
+ spec/generated/index.json                          |    4 +-
+ spec/manifest.json                                 |   31 +-
+ spec/storage/filesystem-capabilities.md            |   17 +-
+ spec/work/units.json                               |   94 +-
+ tests/property/test_exfat_allocation.py            |   74 +
+ tests/unit/exfat_allocation_probe.cpp              |  163 +
+ tools/build-inputs.json                            |    4 +
+ 91 files changed, 9105 insertions(+), 35 deletions(-)
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/.gitattributes
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/README.md
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/REVIEW.md
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/artifact-identities.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/build.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/c90.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/changes-from-prior-regression.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/checkout.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/clone.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/commands.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/configure.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/context-manifest.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/context.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/criteria-audit.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/current-stage.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/dependents.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-cases.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-allocation-tooling.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-check.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-index.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-manifest.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-bitmap-qualified-verify-manifest.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-cases.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-directory-cases.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/exfat-upcase-contract-context.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/final-source-status.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/headers.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/imports.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/index.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/inventory.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/manifest.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/native.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/private-header-usage.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/reproduce.py
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/source-inputs.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/source-map.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/source-status.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/spec-check.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/summary.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/tooling-followup/bitmap-tooling-fixed-checkout.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/tooling-followup/bitmap-tooling-fixed-followup.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/tooling-followup/bitmap-tooling-fixed-wrong-cwd.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/tooling-followup/summary.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-qualified/verify-context.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/.gitattributes
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/README.md
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-build.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-c90.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-cases-expanded.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-cases-initial.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-check-final.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-configure.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-context.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-expanded.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-index-final.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-manifest.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-native.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/exfat-allocation-verify-manifest.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/summary.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-allocation-working/working-inputs.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/.gitattributes
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/README.md
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/check-upcase-draft.py
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/exfat-upcase-api.txt
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/exfat-upcase-c90-draft.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/exfat-upcase.c
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/summary.json
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/upcase-smoke-build-final.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/upcase-smoke-final.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/upcase-smoke-initial-failed.log
+ create mode 100644 .aide/evidence/2026-10-14-exfat-upcase-draft/upcase-smoke.c
+ create mode 100644 .aide/handoffs/DE-W065-exfat-allocation-qualified-2026-10-14.json
+ create mode 100644 .aide/handoffs/DE-W065-exfat-allocation-working-2026-10-14.json
+ create mode 100644 source/portable/exfat/allocation.c
+ create mode 100644 spec/catalog/exfat-upcase-prototype.json
+ create mode 100644 tests/property/test_exfat_allocation.py
+ create mode 100644 tests/unit/exfat_allocation_probe.cpp
