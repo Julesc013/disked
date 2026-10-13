@@ -9,6 +9,7 @@
 #include "verification_worker.h"
 #include "output.h"
 #include "platform/windows/storage/fat_worker.h"
+#include "platform/windows/storage/fat_tree_worker.h"
 #include <cwchar>
 #include <cstdio>
 namespace disked {
@@ -16,6 +17,7 @@ namespace disked {
 int run_capture_campaign_producer(int argc,wchar_t** argv);
 #endif
 int windows_entry(int argc,wchar_t** argv) {
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_tree_reader_worker")==0)return nt_inventory::fat_tree_worker_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_reader_worker")==0)return nt_inventory::fat_worker_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_verification_worker")==0)return run_verification_worker(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_report_worker")==0)return run_report_worker(argc,argv);

@@ -70,6 +70,11 @@ std::string validate_scalar(const Value& shape,const Value& value) {
             value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
         const auto scalar=text(shape,"x-disked-scalar");
         if(scalar=="fat-capture-id" && !valid_fat_capture_id(value.text))return "invalid_parameter";
+        if(scalar=="fat-tree-session-id") {
+            if(value.text.size()<43 || value.text.size()>62 || value.text.compare(0,9,"fat-tree:") ||
+               value.text[41]!=':' || value.text.substr(9,32).find_first_not_of("0123456789abcdef")!=std::string::npos ||
+               !json::decimal_u64(value.text.substr(42)) || value.text.substr(42)=="0")return "invalid_parameter";
+        }
         if((scalar=="decimal-u64" || scalar=="watch-follow-ms") && (!json::decimal_u64(value.text) ||
             (scalar=="watch-follow-ms" && std::stoull(value.text)>2000)))return "invalid_parameter";
         if(scalar=="decimal-u64")for(const auto key:{"x-disked-minimum","x-disked-maximum"}) {

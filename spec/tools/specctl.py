@@ -39,6 +39,7 @@ SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-verific
 SEMANTICS[SCHEMA_PREFIX+'report-worker-definition:2']='joined-report-worker-definition'
 SEMANTICS[SCHEMA_PREFIX+'export-command-parameters:1']='export-command-parameters'
 SEMANTICS[SCHEMA_PREFIX+'command-image-inspect-parameters:1']='fat-inspect-parameters'
+SEMANTICS[SCHEMA_PREFIX+'command-fat-tree-parameters:1']='fat-tree-parameters'
 for _name in ('command-capture-inspect-parameters','command-capture-release-parameters'):
     SEMANTICS[SCHEMA_PREFIX+_name+':1']='fat-capture-parameters'
 for _version in ('1','2'):
@@ -277,6 +278,20 @@ def semantic_validate(kind: str | None, value: dict):
         for role,binding in roles.items():
             if binding['identity'] not in binding['aliases']:raise SpecError('Resource identity missing from aliases')
             if role not in ('destination','map') and written & set(binding['aliases']):raise SpecError('Logical acquisition write/read alias')
+    elif kind == 'fat-tree-parameters':
+        bounds={'volume_offset':(0,U64_MAX),'volume_bytes':(512,U64_MAX),'fat_copy':(0,0xffffffff),
+            'page_sequence':(1,U64_MAX),'byte_offset':(0,U64_MAX),'byte_count':(1,196608),
+            'page_records':(1,1024),'page_events':(1,512),'page_reads':(1,512),
+            'page_read_bytes':(4096,65536),'page_output_bytes':(32768,65536),
+            'bitmap_bytes':(1,67108864),'queued_directories':(1,65536),'depth':(1,1024),
+            'max_pages':(1,65536),'idle_ms':(1,30000)}
+        for key,(low,high) in bounds.items():
+            if key in value and not low<=bounded_u64(value[key],key)<=high:
+                raise SpecError('Tree session quantity outside bounds: '+key)
+        if 'session_id' in value and not bounded_u64(value['session_id'].rsplit(':',1)[1],'tree session serial'):
+            raise SpecError('Tree session serial must be positive')
+        if value.get('phase') in ('open','scan') and int(value['volume_offset'])>U64_MAX-int(value['volume_bytes']):
+            raise SpecError('Tree volume range overflows')
     elif kind == 'fat-capture-parameters':
         if 'capture_id' in value and not bounded_u64(value['capture_id'].rsplit(':',1)[1],'FAT capture serial'):
             raise SpecError('FAT capture serial must be positive')

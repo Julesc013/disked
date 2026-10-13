@@ -34,6 +34,7 @@
 - [fat-retention-prototype.json](fat-retention-prototype.json)
 - [fat-traversal-prototype.json](fat-traversal-prototype.json)
 - [fat-tree-file-prototype.json](fat-tree-file-prototype.json)
+- [fat-tree-session-prototype.json](fat-tree-session-prototype.json)
 - [fat-walk-prototype.json](fat-walk-prototype.json)
 - [fat-worker-prototype.json](fat-worker-prototype.json)
 - [frontend-job-coexistence-prototype.json](frontend-job-coexistence-prototype.json)

@@ -9,6 +9,7 @@ This is the publication layer for people using and developing DiskEd. The normat
 | [Development plan](development-plan.md) | Follow the amended roadmap, review boundaries and AIDE cadence. |
 | [Architecture](architecture.md) | Understand the product and process boundaries. |
 | [Source file map](source-map.md) | Find every current source file and planned ownership boundary. |
+| [Paged FAT tree sessions](fat-tree-sessions.md) | Inspect bounded process-lifetime pages and the provisional NDJSON stream. |
 | [Contributing](contributing.md) | Work safely with humans, agents and evidence. |
 | [Command and terminal experience](command-experience.md) | Understand planned CLI prompts, shell, aliases and terminal fallbacks. |
 | [Compatibility](compatibility.md) | Read target and capability claims correctly. |

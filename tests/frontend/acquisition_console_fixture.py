@@ -9,7 +9,7 @@ from image_console_fixture import current_text
 from console_tui_fixture import k,w,Callback,checked,configure,snapshot,key,active,info,Coord
 
 
-def run(exe,params,report,frontend='tui',command_override=None):
+def run(exe,params,report,frontend='tui',command_override=None,followup=None):
     watch='operation_id' in params
     configure(k.GetStdHandle(-11),240,25)
     if watch:checked(k.SetConsoleScreenBufferSize(k.GetStdHandle(-11),Coord(240,12000)))
@@ -67,6 +67,7 @@ def run(exe,params,report,frontend='tui',command_override=None):
         assert response(observe_text()) is None
         if frontend=='shell':assert '"expected_revision": null' in observe_text()
         key(0x78);value=wait(response);report.update(frontend=frontend,response=value,display=observe_text(),inert_review=True)
+        if followup:followup(value,wait,report,observe_text)
         key(0x79);assert process.wait(timeout=8)==0
         after=snapshot();report['restored']={f:before[f]==after[f] for f in ('handles','modes','codepages','buffer','attributes','cursor_style')}
         assert all(report['restored'].values())

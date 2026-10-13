@@ -286,3 +286,22 @@ Retry and cancellation MUST preserve operation/attempt identities and distinguis
 
 - [DE-021](commands.md)
 - [DE-010](../architecture/system.md)
+
+
+## Provisional paged FAT tree stream (DE-W055)
+
+The [session profile](../catalog/fat-tree-session-prototype.json) adds explicit
+`org.disked.fat-tree-events/1` negotiation for `filesystem.tree.inspect` with
+`phase=scan` over NDJSON. It preserves the existing request/input-session caps.
+Opened/page/record-chunk observations use bounded response envelopes with
+`request_kind=tree-stream-event`; the final `tree-stream-outcome` carries
+`final=true`. The negotiated consumer expects multiple envelopes for that one
+request. These are private observational stream records, not durable operation
+events or a frozen API. An unnegotiated or non-NDJSON scan refuses before source
+access. The one-shot CLI admits scan only with `--format=ndjson`.
+
+Finite page and no-page-progress budgets, channel failure and cancellation do
+not establish quiescence. The owning session retains its worker/source until
+actual exit. Exact page/record/chunk hashing, coverage and final publication are
+separate facts. This contract is pending native qualification, not release
+admission or a change to mutation-request compatibility.

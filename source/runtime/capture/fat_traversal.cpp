@@ -621,6 +621,7 @@ FatTraversal::FatTraversal(const FatTraversalBinding &b, const FatTraversalPort 
                            const FatTraversalResources &r)
     : impl_(new Impl(b, p, r)) {
 }
+std::string fat_traversal_page_digest(const V &page_body) { return digest(page_body); }
 FatTraversal::~FatTraversal() = default;
 FatTraversal::FatTraversal(FatTraversal &&) noexcept = default;
 FatTraversal &FatTraversal::operator=(FatTraversal &&) noexcept = default;

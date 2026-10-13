@@ -63,7 +63,10 @@ Outcome process_request(const Registry& registry,const std::string& frame,const 
          (features.front().text=="org.disked.acquisition-operation-events/1" && operation->text.compare(0,9,"image-op:")==0) ||
          (features.front().text=="org.disked.report-operation-events/1" && operation->text.compare(0,10,"report-op:")==0) ||
          (features.front().text=="org.disked.verification-operation-events/1" && operation->text.compare(0,10,"verify-op:")==0));
-    const bool streaming=matching_profile && command->text=="operation.watch" && events;
+    const auto* phase=value.find("parameters")->find("phase");
+    const bool tree_streaming=features.size()==1 && features.front().text=="org.disked.fat-tree-events/1" &&
+        command->text=="filesystem.tree.inspect" && string(phase) && phase->text=="scan" && events;
+    const bool streaming=(matching_profile && command->text=="operation.watch" && events) || tree_streaming;
     if(!features.empty() && !streaming)return refused(id->text,"unsupported_feature",3);
     const auto* descriptor=registry.command(command->text);
     if(!descriptor || command->text=="protocol.serve")return refused(id->text,"command_unavailable",3);
@@ -111,6 +114,7 @@ bool verification_response(const Value& response) {
 }
 json::Limits response_limits(const Value& response) {
     json::Limits limits;limits.bytes=1048575; // LF is inside the one MiB wire bound.
+    if(fat_tree_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;limits.string_bytes=393216;return limits;}
     if(fat_capture_response(response)){limits.bytes=524288;limits.values=8192;limits.depth=40;limits.string_bytes=393216;return limits;}
     if(fat_inspection_response(response)){limits.bytes=524288;limits.values=65536;limits.depth=40;return limits;}
     if(report_response(response) || verification_response(response))limits.values=131072;return limits;
@@ -122,6 +126,10 @@ bool fat_inspection_response(const Value& response) {
 bool fat_capture_response(const Value& response) {
     const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
     const auto* scope=result->find("scope");return string(scope) && scope->text=="retained-fat-capture";
+}
+bool fat_tree_response(const Value& response) {
+    const auto* result=response.find("result");if(!kind(result,Value::Kind::object))return false;
+    const auto* scope=result->find("scope");return string(scope) && scope->text=="ordinary-local-file-fat-tree";
 }
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events) {
     std::size_t total=0,count=0;int exit_code=0;std::string frame;

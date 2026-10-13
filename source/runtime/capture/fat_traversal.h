@@ -29,6 +29,9 @@ struct FatTraversalError : std::runtime_error {
     explicit FatTraversalError(const char *code) : std::runtime_error(code) {
     }
 };
+// Hash the canonical page body without its page_digest, in the established
+// private traversal domain. This does not authenticate source or process data.
+std::string fat_traversal_page_digest(const json::Value &page_body);
 // Private supplied-region directory traversal. This never opens a source or
 // interprets a path. Owns continuation and copied metadata; no borrowed views
 // escape. No trusted serialized continuation or extraction grant is produced.

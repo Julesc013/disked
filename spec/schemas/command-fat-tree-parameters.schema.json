@@ -1,0 +1,432 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:command-fat-tree-parameters:1",
+  "title": "command-fat-tree-parameters",
+  "type": "object",
+  "properties": {
+    "phase": {
+      "type": "string",
+      "enum": [
+        "open",
+        "next",
+        "read",
+        "status",
+        "cancel",
+        "close",
+        "list",
+        "scan"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768
+    },
+    "volume_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 0,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "volume_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 512,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "fat_copy": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 0,
+      "x-disked-maximum": 4294967295
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 62,
+      "pattern": "^fat-tree:[0-9a-f]{32}:[1-9][0-9]{0,19}$",
+      "x-disked-scalar": "fat-tree-session-id"
+    },
+    "page_sequence": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "byte_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 0,
+      "x-disked-maximum": 18446744073709551615
+    },
+    "byte_count": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 196608
+    },
+    "page_records": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 1024
+    },
+    "page_events": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 512
+    },
+    "page_reads": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 512
+    },
+    "page_read_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 4096,
+      "x-disked-maximum": 65536
+    },
+    "page_output_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 32768,
+      "x-disked-maximum": 65536
+    },
+    "bitmap_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 67108864
+    },
+    "queued_directories": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 65536
+    },
+    "depth": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 1024
+    },
+    "max_pages": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 65536
+    },
+    "idle_ms": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$",
+      "maxLength": 20,
+      "x-disked-scalar": "decimal-u64",
+      "x-disked-minimum": 1,
+      "x-disked-maximum": 30000
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "open"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "path",
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "session_id": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "next"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "session_id"
+        ],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "read"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "session_id",
+          "page_sequence",
+          "byte_offset",
+          "byte_count"
+        ],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "status"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "session_id"
+        ],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "cancel"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "session_id"
+        ],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "close"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "session_id"
+        ],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "list"
+          }
+        }
+      },
+      "then": {
+        "required": [],
+        "properties": {
+          "path": false,
+          "volume_offset": false,
+          "volume_bytes": false,
+          "fat_copy": false,
+          "session_id": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false,
+          "page_records": false,
+          "page_events": false,
+          "page_reads": false,
+          "page_read_bytes": false,
+          "page_output_bytes": false,
+          "bitmap_bytes": false,
+          "queued_directories": false,
+          "depth": false,
+          "max_pages": false,
+          "idle_ms": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "scan"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "path",
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "session_id": false,
+          "page_sequence": false,
+          "byte_offset": false,
+          "byte_count": false
+        }
+      }
+    }
+  ],
+  "x-disked-form-discriminator": "phase",
+  "x-disked-form-default": "list",
+  "x-disked-byte-budget": 65536,
+  "x-disked-string-budget": 32768
+}

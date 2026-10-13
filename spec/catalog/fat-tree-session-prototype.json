@@ -1,0 +1,40 @@
+{
+  "schema": "org.disked.fat-tree-session-profile/1",
+  "work_id": "DE-W055",
+  "status": "expected-contract-before-implementation",
+  "base_revision": "3dac96a745db8a3efd5c6326a6b21a291f7b38df",
+  "scope": "Process-lifetime ordinary-file FAT tree sessions shared by protocol, shell, TUI and GUI, with an explicitly negotiated bounded page/frame stream for protocol and one-shot NDJSON CLI. No whole-tree residency or source/destination writes.",
+  "command": {
+    "id": "filesystem.tree.inspect",
+    "words": [
+      "filesystem",
+      "tree"
+    ],
+    "phases": [
+      "open",
+      "next",
+      "read",
+      "status",
+      "cancel",
+      "close",
+      "list",
+      "scan"
+    ],
+    "default_phase": "list"
+  },
+  "lifetime": "Four reserved/owned sessions maximum. A fresh random process domain and monotonic nonzero sequence identify sessions. Open validates every parameter before provider/source access. One held source/ancestor closure and owned worker are reused across all pages. A bounded poll returns pending when no page is published; it neither replaces nor restarts a worker. Opening calls retain their reservation while outstanding. Requests on a busy session refuse independently; no global lock spans provider I/O.",
+  "pages": "Each next returns the complete bounded semantic page and its exact owned context, plus a receipt for the latest copied frame/context record. Only the latest record is retained per session, up to2MiB, with chunk reads <=196608bytes encoded as hex. Reads require exact session and page sequence; advancing invalidates old chunk selectors explicitly. This is not a whole-tree cap. Complete streams and original raw regions can be reconstructed by the consumer before advancing. Hashes bind copied bytes and do not authenticate imported records.",
+  "cancellation": "Cancel requests stop without discarding the last historical page. Close cancels/retires an owned child but removes the session only after actual exited observation. A closing/unknown/live worker retains its slot and dependencies. Session status, final publication, cancellation request and actual process exit stay separate. Teardown retains owned handles through termination/exit observation. No timeout supplies quiescence or writer authority.",
+  "compatibility": "Old captures, selectors, raw/logical plans and command identities keep their meaning. New private session result schemas are provisional observational contracts. No generic scheduler, larger host budget, source write, mount, destination effect or public production ABI is added.",
+  "qualification": [
+    "Generated ordinary FAT12/16/32 images reconstruct complete17,601-entry trees and >8MiB frame streams through real product sessions, without source-byte changes or whole-tree residency.",
+    "Exact page/sequence/hash/chunk/EOF behavior, stale and cross-process selectors, capacity/busy reservations and input failures before source access. Retained historical bytes remain available after cancellation and worker exit until close.",
+    "Actual protocol, one-shot NDJSON stream and shell/TUI/GUI session journeys use common dispatch and static discovery/forms. A stream reconstructs >256 event envelopes from one request without changing existing transport input limits. Non-NDJSON/unnegotiated scan requests refuse before source access.",
+    "Actual normal/fault worker ownership, late/hung/startup/changed-reply observations and confirmed retirement. Existing host bounds and isolated fault targets remain enforced.",
+    "Fresh exact-source native build, all existing regressions, standalone headers, dependency/import/context/manifest/tooling and artifact evidence. Owner/production/physical/other-host/full0.1.0 gates remain separate."
+  ],
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "release_ready": false,
+  "stream": "Scan uses required feature org.disked.fat-tree-events/1 over NDJSON protocol, or filesystem tree --phase=scan --format=ndjson. Nonstreaming requests refuse before source access. One input envelope carries ordered standard response envelopes whose result request_kind is tree-stream-event and event_kind is opened/page/record-chunk; the final envelope has request_kind tree-stream-outcome and final=true. Every envelope remains <=524288 bytes. Page/frame hashes and chunk offsets bind the same latest copied record. Existing256-request/four-MiB input-session limits remain unchanged. Default4096/max65536 pages and default/max30000ms no-page progress wait are explicit finite budgets. Reaching a budget or channel failure cancels/retires the current reader without restart. Coverage complete/partial, final publication and actual exit remain distinct. A successful stream must observe validated final publication and actual exit before close; unresolved retirement retains owned dependencies."
+}

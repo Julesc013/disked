@@ -175,8 +175,9 @@ std::string GuiModel::detail_text() const {
     // presentation limits do not enlarge the public protocol frame contract.
     json::Limits limits;limits.bytes=2*65536+1024;limits.values=2*8192+16;limits.depth=33;
     const bool structured_form=form_ && (command_=="evidence.export" || command_=="image.verify");
-    const bool fat=fat_inspection_response(outcome_.response) || fat_inspection_response(earlier_);
-    const bool capture=fat_capture_response(outcome_.response) || fat_capture_response(earlier_);
+    const bool tree=fat_tree_response(outcome_.response) || fat_tree_response(earlier_);
+    const bool fat=tree || fat_inspection_response(outcome_.response) || fat_inspection_response(earlier_);
+    const bool capture=tree || fat_capture_response(outcome_.response) || fat_capture_response(earlier_);
     const bool expanded=capture || fat || structured_form || acquisition_watch_response(outcome_.response) || acquisition_watch_response(earlier_) || report_response(outcome_.response) || report_response(earlier_) || verification_response(outcome_.response) || verification_response(earlier_);
     if(expanded)limits.bytes=2*1048575+1024;
     if(fat) {limits.values=2*65536+16;limits.depth=40;}
