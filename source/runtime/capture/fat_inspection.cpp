@@ -98,7 +98,7 @@ bool decode_fat_inspection(const V &params, FatInspectionRequest &output) {
                                             "allocation_window",
                                             "auxiliary_checks",
                                             "name_code_page",
-                                            "lookup"};
+                                            "lookup", "retain_capture"};
         if (params.kind != V::Kind::object)
             return false;
         for (const auto &p : params.fields)
@@ -120,12 +120,13 @@ bool decode_fat_inspection(const V &params, FatInspectionRequest &output) {
                 return false;
             r.fat_copy = static_cast<std::uint32_t>(copy);
         }
-        for (const auto key : {"allocation_scan", "auxiliary_checks"})
+        for (const auto key : {"allocation_scan", "auxiliary_checks", "retain_capture"})
             if (const auto *p = params.find(key)) {
                 if (p->kind != V::Kind::string || (p->text != "yes" && p->text != "no"))
                     return false;
-                (std::string(key) == "allocation_scan" ? r.allocation_scan : r.auxiliary_checks) =
-                    p->text == "yes";
+                if (std::string(key) == "allocation_scan") r.allocation_scan = p->text == "yes";
+                else if (std::string(key) == "auxiliary_checks") r.auxiliary_checks = p->text == "yes";
+                else r.retain_capture = p->text == "yes";
             }
         if (params.find("name_code_page")) {
             const auto page = integer(params, "name_code_page");
@@ -236,13 +237,22 @@ V project_fat_inspection(const FatInspectionRead &read) {
     return out;
 }
 Outcome dispatch_fat_inspection(const std::string &request, const V &parameters,
-                                const FatInspectionPort &port) {
+                                const FatInspectionPort &port, FatCaptureStore *store) {
     FatInspectionRequest input;
     if (!decode_fat_inspection(parameters, input))
         return refused(request, "invalid_parameter", 2);
     if (!port)
         return refused(request, "command_unavailable", 3);
+    struct Reservation {
+        FatCaptureStore *store;
+        std::string id;
+        ~Reservation() {if (store && !id.empty()) store->abandon(id);}
+    } reservation{store, {}};
     try {
+        if (input.retain_capture) {
+            if (!store) return refused(request, "command_unavailable", 3);
+            reservation.id = store->reserve(request);
+        }
         const auto read = port(input);
         if (read.status != FatInspectionRead::Status::Captured) {
             const auto code = read.diagnostic.empty() ? "fat_reader_unresolved" : read.diagnostic;
@@ -296,8 +306,29 @@ Outcome dispatch_fat_inspection(const std::string &request, const V &parameters,
                 out.response.fields["diagnostics"].items.push_back(
                     diagnostic("fat_source_changed"));
         }
-        json::dump(out.response, output_limits());
+        if (input.retain_capture) {
+            // The concrete port supplies the already independently verified frame.
+            // Check its retained-result/context binding; these hashes alone grant no
+            // process authenticity or current-source authority to external records.
+            if (field(read.frame, "schema").text != "org.disked.fat-region-frame/1" ||
+                hash(field(read.frame, "result")) != hash(read.file) ||
+                hash(read.frame) != field(read.context, "frame_sha256").text)
+                throw std::invalid_argument("fat_retention_binding");
+            auto &result = out.response.fields.at("result");
+            result.put("capture_retention", V::object()
+                .put("capture_id", V::string(reservation.id))
+                .put("bytes", number(FatCaptureStore::record_bytes))
+                .put("sha256", V::string("sha256:" + std::string(64, '0')))
+                .put("lifetime", V::string("current-process")));
+            // Preflight the largest receipt before committing immutable bytes.
+            json::dump(out.response, output_limits());
+            auto record = V::object().put("schema", V::string("org.disked.retained-fat-capture/1"))
+                .put("frame", read.frame).put("context", read.context).put("worker", read.worker);
+            result.fields.at("capture_retention") = store->commit(reservation.id, record);
+        } else json::dump(out.response, output_limits());
         return out;
+    } catch (const FatRetentionError &error) {
+        return refused(request, error.what(), std::string(error.what()) == "invalid_parameter" ? 2 : 3);
     } catch (const json::Error &) {
         return refused(request, "fat_report_limit", 3);
     } catch (const std::exception &) {

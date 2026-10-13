@@ -20,7 +20,7 @@ def current_text():
         return '\n'.join(buffer[i:min(i+value.size.X,got.value)].rstrip() for i in range(0,got.value,value.size.X))
     finally:k.CloseHandle(handle)
 
-def run(exe,frontend,command,path,unit,report,options=None):
+def run(exe,frontend,command,path,unit,report,options=None,followup=None):
     configure(k.GetStdHandle(-11),240,25);before=snapshot();process=None
     handler=Callback(lambda _:True);checked(k.SetConsoleCtrlHandler(handler,True))
     unit_options=[] if unit=='-' else ['--logical-block-bytes',unit]
@@ -64,6 +64,7 @@ def run(exe,frontend,command,path,unit,report,options=None):
             key(0x78);wait(lambda t:'REQUEST REVIEW' in t)
         assert response(current_text()) is None,'Review executed the source'
         key(0x78);value=wait(response);report.update(frontend=frontend,command=command,response=value,display=current_text())
+        if followup:followup(value,wait,report)
         key(0x79);assert process.wait(timeout=8)==0
         after=snapshot();report['restored']={field:before[field]==after[field] for field in ['handles','modes','codepages','buffer','attributes','cursor_style']}
         assert all(report['restored'].values()),report['restored']

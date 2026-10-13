@@ -203,7 +203,7 @@ std::vector<std::string> presentation_lines(const Value& value,json::Limits limi
 }
 std::vector<std::string> observation_lines(const Value& value) {
     json::Limits limits;const bool cached=cached_observation_response(value);
-    const bool expanded=cached || acquisition_watch_response(value) || report_response(value) || verification_response(value) || fat_inspection_response(value);
+    const bool expanded=cached || acquisition_watch_response(value) || report_response(value) || verification_response(value) || fat_inspection_response(value) || fat_capture_response(value);
     if(expanded)limits=cached?cached_observation_view_limits():response_limits(value);
     // A private inert review wraps one independently bounded parameter object.
     // It is not classified as a completed report or given report wire limits.

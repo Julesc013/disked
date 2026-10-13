@@ -203,11 +203,11 @@ V FatWorker::retire(DWORD n) {
     impl_->worker->retire(n);
     return observe();
 }
-std::shared_ptr<const FatFileSnapshot> FatWorker::snapshot() {
+std::shared_ptr<const FatFileSnapshot> FatWorker::snapshot(bool retain_frame) {
     const auto observed = observe();
     if (text(observed, "status") != "completed")
         return {};
-    const auto captured = frame(field(observed, "result"), impl_->input, impl_->view);
+    auto captured = frame(field(observed, "result"), impl_->input, impl_->view);
     if (captured.kind == V::Kind::null)
         return {};
     auto context = V::object();
@@ -219,8 +219,11 @@ std::shared_ptr<const FatFileSnapshot> FatWorker::snapshot() {
         .put("created", field(process, "created"))
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
         .put("image_profile", V::string("ordinary-file-fat"));
+    // C++14 does not sequence constructor arguments: copy result before moving frame.
+    auto result=field(captured,"result");
+    auto retained=retain_frame?std::move(captured):V{};
     return std::shared_ptr<const FatFileSnapshot>(
-        new FatFileSnapshot(field(captured, "result"), std::move(context)));
+        new FatFileSnapshot(std::move(result), std::move(context), std::move(retained)));
 }
 int fat_worker_role(int argc, wchar_t **argv) {
     return observation_worker_role(

@@ -33,6 +33,8 @@ SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-verific
 SEMANTICS[SCHEMA_PREFIX+'report-worker-definition:2']='joined-report-worker-definition'
 SEMANTICS[SCHEMA_PREFIX+'export-command-parameters:1']='export-command-parameters'
 SEMANTICS[SCHEMA_PREFIX+'command-image-inspect-parameters:1']='fat-inspect-parameters'
+for _name in ('command-capture-inspect-parameters','command-capture-release-parameters'):
+    SEMANTICS[SCHEMA_PREFIX+_name+':1']='fat-capture-parameters'
 for _version in ('1','2'):
     for _name in ('export-preparation-result','export-operation-result'):
         SEMANTICS[SCHEMA_PREFIX+_name+':'+_version]=_name
@@ -247,7 +249,14 @@ def report_record_limits(value,byte_bound,value_bound=8192,depth_bound=28):
     if len(acquisition_record_bytes(value))>byte_bound:raise SpecError('Report record exceeds byte bound')
 
 def semantic_validate(kind: str | None, value: dict):
-    if kind == 'fat-inspect-parameters':
+    if kind == 'fat-capture-parameters':
+        if 'capture_id' in value and not bounded_u64(value['capture_id'].rsplit(':',1)[1],'FAT capture serial'):
+            raise SpecError('FAT capture serial must be positive')
+        if value.get('phase')=='read':
+            bounded_u64(value['byte_offset'],'FAT retained byte offset')
+            count=bounded_u64(value['byte_count'],'FAT retained byte count')
+            if not 1<=count<=196608:raise SpecError('FAT retained chunk outside bounds')
+    elif kind == 'fat-inspect-parameters':
         if 'allocation_window' in value:
             window=value['allocation_window']
             first=bounded_u64(window['first_cluster'],'FAT allocation first cluster')

@@ -29,9 +29,9 @@ json::Value read_fat_snapshot_frame(const FatSnapshotInput &,
 json::Value verify_fat_snapshot_frame(const json::Value &, const FatSnapshotInput &);
 json::Value fat_snapshot_claims();
 class FatFileSnapshot final {
-    const json::Value result_, context_;
-    FatFileSnapshot(json::Value result, json::Value context)
-        : result_(std::move(result)), context_(std::move(context)) {
+    const json::Value result_, context_, frame_;
+    FatFileSnapshot(json::Value result, json::Value context, json::Value frame)
+        : result_(std::move(result)), context_(std::move(context)), frame_(std::move(frame)) {
     }
     friend class nt_inventory::FatWorker;
 
@@ -42,5 +42,6 @@ class FatFileSnapshot final {
     const json::Value &context() const {
         return context_;
     }
+    const json::Value &frame() const {return frame_;}
 };
 } // namespace disked

@@ -259,8 +259,12 @@ set_target_properties(disked_image_capture PROPERTIES CXX_STANDARD 14 CXX_STANDA
 target_compile_options(disked_image_capture PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
 add_library(disked_image_actions STATIC source/runtime/capture/image_commands.cpp)
+add_library(disked_fat_retention STATIC source/runtime/capture/fat_retention.cpp)
+target_link_libraries(disked_fat_retention PUBLIC disked_command PRIVATE disked_hash)
+set_target_properties(disked_fat_retention PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_fat_retention PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 add_library(disked_fat_inspection STATIC source/runtime/capture/fat_inspection.cpp)
-target_link_libraries(disked_fat_inspection PUBLIC disked_command disked_fat_namespace disked_fat_capture PRIVATE disked_hash)
+target_link_libraries(disked_fat_inspection PUBLIC disked_fat_retention disked_command disked_fat_namespace disked_fat_capture PRIVATE disked_hash)
 add_library(disked_fat_reader STATIC source/platform/windows/storage/fat_reader.cpp)
 target_link_libraries(disked_fat_reader PUBLIC disked_fat_worker disked_fat_inspection PRIVATE disked_local_file)
 foreach(target disked_fat_inspection disked_fat_reader)
@@ -358,6 +362,16 @@ if(BUILD_TESTING)
   private_header_check(disked_observation_worker platform/windows/storage/observation_worker.h)
   private_header_check(disked_fat_worker platform/windows/storage/fat_worker.h)
   private_header_check(disked_fat_inspection runtime/capture/fat_inspection.h)
+  private_header_check(disked_fat_retention runtime/capture/fat_retention.h)
+  add_executable(fat_retention_probe tests/images/fat_retention_probe.cpp)
+  target_link_libraries(fat_retention_probe PRIVATE disked_fat_retention disked_fat_inspection disked_hash)
+  set_target_properties(fat_retention_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(fat_retention_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  add_test(NAME image.fat_retention_store COMMAND fat_retention_probe)
+  add_test(NAME image.fat_retention_commands COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_retention.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_fat_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/fat-retention-command-cases.json")
+  set_tests_properties(image.fat_retention_commands PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   private_header_check(disked_fat_reader platform/windows/storage/fat_reader.h)
   add_test(NAME build.boundaries COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/tools/check-build-boundaries.py"

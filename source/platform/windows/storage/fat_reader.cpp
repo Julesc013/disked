@@ -3,6 +3,7 @@
 #include "providers/image/local_file.h"
 #include <atomic>
 #include <limits>
+#include <cstring>
 
 namespace disked {
 namespace {
@@ -145,7 +146,7 @@ FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
                 FatInspectionRead::Status::Refused, text(diagnostic, "code"), result,
                 static_cast<std::uint32_t>(std::stoull(text(diagnostic, "platform_code"))));
         }
-        const auto snapshot = worker->snapshot();
+        const auto snapshot = worker->snapshot(request.retain_capture);
         if (!snapshot)
             return failure(FatInspectionRead::Status::Unresolved, "fat_reader_snapshot_unresolved",
                            finish_exit(*worker));
@@ -155,6 +156,7 @@ FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
         out.file = snapshot->result();
         out.context = snapshot->context();
         out.worker = retired;
+        if (request.retain_capture) out.frame = snapshot->frame();
         return out;
     } catch (const f::Error &error) {
         if (worker && !worker->never_launched())
@@ -172,5 +174,23 @@ FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
                            finish_exit(*worker));
         return failure(FatInspectionRead::Status::Refused, error.what());
     }
+}
+std::string new_fat_capture_domain() {
+    struct Library {
+        HMODULE value = LoadLibraryExW(L"advapi32.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+        ~Library() {if (value) FreeLibrary(value);}
+    } library;
+    if (!library.value) throw FatRetentionError("capture_retention_identity");
+    const auto address = GetProcAddress(library.value, "SystemFunction036");
+    using Random = BOOLEAN (WINAPI *)(void *, ULONG);
+    Random random = nullptr;
+    static_assert(sizeof(random) == sizeof(address), "native function pointer size");
+    std::memcpy(&random, &address, sizeof(random));
+    unsigned char bytes[16];
+    if (!random || !random(bytes, sizeof(bytes))) throw FatRetentionError("capture_retention_identity");
+    const char digits[] = "0123456789abcdef";
+    std::string out;out.reserve(32);
+    for (auto byte : bytes) {out += digits[byte >> 4];out += digits[byte & 15];}
+    return out;
 }
 } // namespace disked

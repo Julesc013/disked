@@ -6,6 +6,11 @@
 #include <sstream>
 
 namespace disked {
+bool valid_fat_capture_id(const std::string &id) {
+    if(id.size()<46 || id.size()>65 || id.compare(0,12,"fat-capture:") || id[44]!=':' ||
+        id.substr(12,32).find_first_not_of("0123456789abcdef")!=std::string::npos)return false;
+    const auto serial=id.substr(45);return json::decimal_u64(serial) && serial!="0";
+}
 using json::Value;
 namespace {
 std::string text(const Value& object,const std::string& key) {
@@ -64,6 +69,7 @@ std::string validate_scalar(const Value& shape,const Value& value) {
         if(text(shape,"x-disked-scalar")=="fake-operation-id" && (value.text.size()!=40 ||
             value.text.compare(0,8,"fake-op:")!=0 || value.text.find_first_not_of("0123456789abcdef",8)!=std::string::npos))return "invalid_parameter";
         const auto scalar=text(shape,"x-disked-scalar");
+        if(scalar=="fat-capture-id" && !valid_fat_capture_id(value.text))return "invalid_parameter";
         if((scalar=="decimal-u64" || scalar=="watch-follow-ms") && (!json::decimal_u64(value.text) ||
             (scalar=="watch-follow-ms" && std::stoull(value.text)>2000)))return "invalid_parameter";
         if(scalar=="decimal-u64")for(const auto key:{"x-disked-minimum","x-disked-maximum"}) {

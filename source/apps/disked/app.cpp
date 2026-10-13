@@ -53,18 +53,19 @@ void image_test_wait() {
 #endif
 // Composition binds the concrete provider. Runtime semantics depend only on
 // its inward-facing capture port; presentation models never call raw I/O.
-Outcome image_action(const std::string& request,const std::string& command,const Value& parameters) {
-#ifdef DISKED_FAT_COMMAND_TESTING
-    if(command=="image.inspect" && fat_inspection_parameters(parameters) && GetEnvironmentVariableW(L"DISKED_FAT_COMMAND_TEST_GATE",nullptr,0))
-        image_test_wait();
-#endif
+Outcome image_action(const std::string& request,const std::string& command,const Value& parameters,const std::shared_ptr<FatCaptureStore>& captures) {
     return dispatch_image(request,command,parameters,[](const std::string& path,std::uint32_t unit,bool repair) {
 #ifdef DISKED_IMAGE_COMMAND_TESTING
         if(path.find("test-wait-")!=std::string::npos)
             image_test_wait();
 #endif
         return capture_raw_image(path,unit,repair);
-    },bootstrap::image_provider_id,[](const FatInspectionRequest& input){return inspect_fat_image(input);});
+    },bootstrap::image_provider_id,[](const FatInspectionRequest& input){
+#ifdef DISKED_FAT_COMMAND_TESTING
+        if(GetEnvironmentVariableW(L"DISKED_FAT_COMMAND_TEST_GATE",nullptr,0))image_test_wait();
+#endif
+        return inspect_fat_image(input);
+    },captures.get());
 }
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
@@ -171,7 +172,7 @@ Value discovery(const ParseResult* help=nullptr) {
     return result;
 }
 Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
-    std::unique_ptr<FrontendSession>& session,const std::string& revision="") {
+    std::unique_ptr<FrontendSession>& session,const std::shared_ptr<FatCaptureStore>& captures,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
     if(command=="evidence.export")return report_action(request,parameters);
@@ -188,7 +189,8 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(command=="shell.open")return refused(request,"interactive_session_requires_terminal",3);
     if(command=="shell.close")return refused(request,"command_requires_shell",3);
     if(fake_worker_command(command))return operation_action(request,command,parameters);
-    if(image_command(command))return image_action(request,command,parameters);
+    if(command=="image.capture.inspect" || command=="image.capture.release")return dispatch_fat_capture(request,command,parameters,*captures);
+    if(image_command(command))return image_action(request,command,parameters,captures);
     if(FrontendSession::handles(command)) {
         if(!session)session=make_fake_session(command_registry());
         return session->dispatch(request,command,parameters,revision);
@@ -197,25 +199,25 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
 }
 Submission frontend_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
-    RequestChannel& channel,const std::string& revision) {
+    RequestChannel& channel,const std::shared_ptr<FatCaptureStore>& captures,const std::string& revision) {
     if(implemented(command) && background_command(command)) {
         // The background callback owns only immutable request data. It never
         // captures the frontend/session or performs UI work after disconnection.
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
-        return channel.submit(request,[request,command,parameters]() {
+        return channel.submit(request,[request,command,parameters,captures]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
-            return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
+            return image_command(command)?image_action(request,command,parameters,captures):operation_action(request,command,parameters);
         },request_bytes(command,parameters),command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):
             command=="evidence.export" || report_identity(parameters)?export_unresolved_request(request,parameters):Outcome{});
     }
-    return dispatch(request,command,parameters,host,inputs,session,revision);
+    return dispatch(request,command,parameters,host,inputs,session,captures,revision);
 }
 Outcome bounded_dispatch(const std::string& request,const std::string& command,const Value& parameters,
     const InvocationHost& host,const Value& inputs,std::unique_ptr<FrontendSession>& session,
-    std::unique_ptr<BoundedRequests>& calls,const std::string& revision="") {
+    std::unique_ptr<BoundedRequests>& calls,const std::shared_ptr<FatCaptureStore>& captures,const std::string& revision="") {
     if(implemented(command) && background_command(command)) {
         if(!calls)calls.reset(new BoundedRequests());
         auto unresolved=Value::object().put("request_state",Value::string("unresolved"));
@@ -229,15 +231,15 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
         if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
         else if(command=="evidence.export" || report_identity(parameters))expired=export_unresolved_request(request,parameters);
-        return calls->run(request,[request,command,parameters]() {
+        return calls->run(request,[request,command,parameters,captures]() {
             if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
-            return image_command(command)?image_action(request,command,parameters):operation_action(request,command,parameters);
+            return image_command(command)?image_action(request,command,parameters,captures):operation_action(request,command,parameters);
         },
             std::move(expired),std::chrono::milliseconds(4000),{},request_bytes(command,parameters));
     }
-    return dispatch(request,command,parameters,host,inputs,session,revision);
+    return dispatch(request,command,parameters,host,inputs,session,captures,revision);
 }
 Outcome stream_watch(const std::string& request,const Value& parameters,std::unique_ptr<BoundedRequests>& calls,const ResponseSink& output) {
     if(!calls)calls.reset(new BoundedRequests());
@@ -273,6 +275,7 @@ int run_disked(const std::vector<std::string>& arguments,const InvocationHost& h
         const auto inputs=invocation_inputs(host,controls,!parsed.command_id.empty());
         const auto selection=route_invocation(inputs);
         std::unique_ptr<FrontendSession> session;
+        const auto captures=std::make_shared<FatCaptureStore>(new_fat_capture_domain);
         std::unique_ptr<RequestChannel> channel;
         std::unique_ptr<BoundedRequests> calls;
         std::unique_ptr<WindowsMemoryBudget> memory;
@@ -302,7 +305,7 @@ int run_disked(const std::vector<std::string>& arguments,const InvocationHost& h
                 const auto* history=parsed.parameters.find("history");
                 return std::unique_ptr<ShellModel>(new ShellModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return frontend_dispatch(id,command,parameters,host,shell_inputs,session,*channel,revision);
+                        return frontend_dispatch(id,command,parameters,host,shell_inputs,session,*channel,captures,revision);
                     },history && history->text=="session",[&](Outcome& value) {return channel->poll(value);}));
             });
         }
@@ -315,7 +318,7 @@ int run_disked(const std::vector<std::string>& arguments,const InvocationHost& h
                 session=make_fake_session(registry);
                 auto model=std::unique_ptr<GuiModel>(new GuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return frontend_dispatch(id,command,parameters,gui_host,gui_inputs,session,*channel,revision);
+                        return frontend_dispatch(id,command,parameters,gui_host,gui_inputs,session,*channel,captures,revision);
                     },[&](Outcome& value) {return channel->poll(value);}));
                 if(!parsed.command_id.empty())model->stage(parsed.command_id,parsed.parameters);
                 return model;
@@ -328,7 +331,7 @@ int run_disked(const std::vector<std::string>& arguments,const InvocationHost& h
                 session=make_fake_session(registry);
                 auto model=std::unique_ptr<TuiModel>(new TuiModel(*session,registry,discovery(),
                     [&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                        return frontend_dispatch(id,command,parameters,host,inputs,session,*channel,revision);
+                        return frontend_dispatch(id,command,parameters,host,inputs,session,*channel,captures,revision);
                     },[&](Outcome& value) {return channel->poll(value);}));
                 if(!parsed.command_id.empty())model->stage(parsed.command_id,parsed.parameters);
                 return model;
@@ -342,13 +345,13 @@ int run_disked(const std::vector<std::string>& arguments,const InvocationHost& h
             else {
                 auto machine_inputs=inputs;machine_inputs.put("command",Value::boolean_value(true));
                 return serve(stdin,format=="ndjson",registry,[&](const std::string& id,const std::string& command,const Value& parameters,const std::string& revision) {
-                    return bounded_dispatch(id,command,parameters,host,machine_inputs,session,calls,revision);
+                    return bounded_dispatch(id,command,parameters,host,machine_inputs,session,calls,captures,revision);
                 },emit,[&](const std::string& id,const std::string&,const Value& parameters,const std::string&) {
                     return stream_watch(id,parameters,calls,emit);
                 });
             }
         } else if(parsed.command_id=="operation.watch" && format=="ndjson")outcome=stream_watch("cli",parsed.parameters,calls,emit);
-        else outcome=bounded_dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session,calls);
+        else outcome=bounded_dispatch("cli",parsed.command_id,parsed.parameters,host,inputs,session,calls,captures);
         if(machine) {if(!host.output_usable || !emit(outcome.response))return 4;}
         else if(!human(outcome,parsed,host,output,errors)) {if(host.error_usable)errors.write("disked: output_error\n");return 4;}
         return outcome.exit_code;

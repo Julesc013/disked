@@ -176,15 +176,15 @@ class Gui:
     def set_field(self,name,value):
         # Locate the rendered semantic label; schema mode controls can add pages.
         for _ in range(8):
-            if not U.IsWindowEnabled(self.child(114)):break
-            self.click(114)
+            if not U.IsWindowEnabled(self.child(113)):break
+            self.click(113)
         for _ in range(8):
             for index in range(2):
                 label=self.child(220+index)
                 if U.IsWindowVisible(label) and caption(label).split(' ',1)[-1]==name:
                     self.set(200+index,value);return
-            if not U.IsWindowEnabled(self.child(115)):break
-            self.click(115)
+            if not U.IsWindowEnabled(self.child(114)):break
+            self.click(114)
         raise AssertionError('No rendered field named '+name)
     def list_ids(self):
         child=self.child(100);count=send(child,0x18B);result=[]

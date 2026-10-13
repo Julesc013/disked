@@ -21,6 +21,7 @@ bool report_watch_response(const json::Value& response);
 bool report_response(const json::Value& response);
 bool verification_response(const json::Value& response);
 bool fat_inspection_response(const json::Value& response);
+bool fat_capture_response(const json::Value& response);
 json::Limits response_limits(const json::Value& response);
 int serve(FILE* input,bool ndjson,const Registry& registry,const Handler& handler,const ResponseSink& output,const Handler& events={});
 // Compatible observational reader. Retains the supplied value, including extensions.

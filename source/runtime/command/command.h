@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace disked {
+bool valid_fat_capture_id(const std::string &);
 struct Registry {
     json::Value commands, syntax, parameter_schemas;
     const json::Value* command(const std::string& id) const;

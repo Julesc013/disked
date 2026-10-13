@@ -21,7 +21,7 @@ class FatWorker final {
     bool wait_entered(DWORD);
     json::Value observe(DWORD wait_ms = 0);
     json::Value retire(DWORD wait_ms = 2000);
-    std::shared_ptr<const FatFileSnapshot> snapshot();
+    std::shared_ptr<const FatFileSnapshot> snapshot(bool retain_frame = false);
 };
 int fat_worker_role(int, wchar_t **);
 } // namespace nt_inventory
