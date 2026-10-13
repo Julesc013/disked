@@ -1,0 +1,63 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W056",
+  "base_revision": "e46e45a908dcbc71c359117ce344c067861a3a97",
+  "spec_manifest_digest": "sha256:267fde47e8da813a49b37775bd403dee8260c720d0d31586c792183437c29c07",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "source/providers/image/fat_tree_extraction.cpp",
+    "source/platform/windows/storage/fat_tree_extraction_worker.cpp",
+    "source/runtime/evidence/fat_tree_history.cpp"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide/handoffs/DE-W056-integration-2026-10-14.json"
+  ],
+  "summary": "Qualified DE-W056 integrated into main; dev synchronized at e46e45a9. Tested source remains 243f748e with source/CMake unchanged. Original full goal and owner/public-recursive/storage/release gates remain.",
+  "tests": [
+    {
+      "command": "git diff --exit-code 243f748e6a6af62469b184614d4d623b8ad239ea e46e45a908dcbc71c359117ce344c067861a3a97 -- source CMakeLists.txt",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-qualified\\disked.exe",
+      "sha256": "sha256:23de55249661ee3c4b0be58e6cbbeabf840d8982bfa0932bf244a4c7bb422a44"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-qualified\\fat_tree_history_probe.exe",
+      "sha256": "sha256:51a3e99c71262b5d7410a60c614dd4bf22964c784ea2f9596157e27645ff83cf"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-qualified\\fat_tree_extraction_probe.exe",
+      "sha256": "sha256:2aa1970f3b6cd6957fa167d750f4879263a443aab44a0e582dd745c8e6155584"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-qualified\\fat_tree_extraction_worker_probe.exe",
+      "sha256": "sha256:2c257d4a97985d46de3022cb3fb5d2fb5457b0b5bf7d15bab9f139d899d90b92"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-recursive-qualified\\fat_tree_extraction_worker_fault.exe",
+      "sha256": "sha256:15505acd0642c12edc3e0a602e44f4badfa5086458ec195beb78f4026e672128"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-recursive-qualification/retention.json",
+      "sha256": "sha256:a82ddcf3312a601b11dad1857919d4ea8ea21c875d1049663bf15eb6615075be"
+    }
+  ],
+  "blockers": [
+    "Public recursive lifecycle/frontend admission remains work; local progress is authorized.",
+    "Original all-platform/storage scope and separate owner/storage/release gates remain."
+  ],
+  "next_safe_step": "Define and implement bounded common-service/frontend recursive FAT extraction admission with exact observable command, authority and operation-lifecycle contracts. The private DE-W056 ordinary-file backend is qualified and integrated. Preserve old raw/logical plans and process-lifetime prototype semantics; continue the full original all-platform/storage 0.1.0 scope and separate owner/storage/release gates.",
+  "performed_remote_writes": true
+}
