@@ -36,7 +36,9 @@ class FatTreeExtraction final {
     std::unique_ptr<Impl> impl_;
 
   public:
-    explicit FatTreeExtraction(const FatTreeExtractionRequest &);
+    explicit FatTreeExtraction(const FatTreeExtractionRequest &,
+                               const std::function<bool()> &prepare_stop = {},
+                               const std::function<void()> &prepare_progress = {});
     ~FatTreeExtraction();
     FatTreeExtraction(const FatTreeExtraction &) = delete;
     FatTreeExtraction &operator=(const FatTreeExtraction &) = delete;

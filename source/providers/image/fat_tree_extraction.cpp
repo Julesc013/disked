@@ -311,7 +311,8 @@ struct FatTreeExtraction::Impl {
     FatTreeExtractionRequest request;
     Path source_path, destination_path, ledger_path, code_path;
     f::Handle source, code, ledger;
-    V source_metadata, code_metadata, definition, preparation_binding, ledger_identity;
+    V source_metadata, code_metadata, definition, preparation_binding, preparation_context,
+        ledger_identity;
     std::string code_hash, definition_digest, tree_digest;
     std::unique_ptr<FatTreeFile> tree;
     struct Node {
@@ -329,11 +330,16 @@ struct FatTreeExtraction::Impl {
     std::uint64_t files_done = 0, verified_bytes = 0, checkpointed_bytes = 0, directories_done = 0;
     std::string previous = "sha256:" + std::string(64, '0');
     FatTreeExtractionHooks hooks;
+    std::function<void()> preparation_progress;
     bool executed = false, effects_possible = false, completion_flushed = false,
          cancellation_seen = false;
-    explicit Impl(const FatTreeExtractionRequest &value)
+    explicit Impl(const FatTreeExtractionRequest &value, const std::function<bool()> &prepare_stop,
+                  const std::function<void()> &prepare_progress)
         : request(value), source_path(value.tree.path), destination_path(value.destination),
           ledger_path(value.ledger), code_path(f::utf8(executable_path())) {
+        hooks.stop = prepare_stop;
+        preparation_progress = prepare_progress;
+        stop();
         fat_metadata_policy_value(request.metadata);
         if (!request.entries || request.entries > 65536 || !request.directories ||
             request.directories > 4096 || request.metadata_bytes < 16384 ||
@@ -495,6 +501,7 @@ struct FatTreeExtraction::Impl {
                                       .put("fat_copy", exact(request.tree.fat_copy))
                                       .put("capture_epoch", exact(request.tree.capture_epoch))
                                       .put("preparation_binding", preparation_binding)
+                                      .put("preparation_context", preparation_context)
                                       .put("tree_digest", V::string(tree_digest))
                                       .put("pages", exact(page_events.size()))
                                       .put("entries", exact(nodes.size()))
@@ -555,12 +562,15 @@ struct FatTreeExtraction::Impl {
         while (!tree->finished()) {
             if (page_events.size() == request.pages)
                 fail("fat_tree_extract_page_budget");
-            const auto frame = tree->next();
+            stop();
+            const auto frame = tree->next(hooks.stop);
             const auto &page = field(frame, "page");
             if (!field(page, "applicable").boolean)
                 fail("fat_tree_extract_prepare_source");
-            if (page_events.empty())
+            if (page_events.empty()) {
                 preparation_binding = field(page, "binding");
+                preparation_context = field(frame, "context");
+            }
             page_events.push_back(hash(encode(field(page, "events"))));
             tree_digest = hash(tree_digest + ":" + page_events.back());
             for (const auto &record : field(page, "events").items) {
@@ -574,7 +584,7 @@ struct FatTreeExtraction::Impl {
                 const auto key = field(record, "key").text,
                            parent = field(record, "directory").text;
                 const auto mapping =
-                    field(tree->metadata_candidates(key, request.metadata), "mapping");
+                    field(tree->metadata_candidates(key, request.metadata, hooks.stop), "mapping");
                 if (field(mapping, "status").text != "candidate")
                     fail("fat_tree_extract_metadata_refused");
                 const auto encoded = encode(mapping);
@@ -611,6 +621,8 @@ struct FatTreeExtraction::Impl {
             }
             if (field(page, "status").text == "partial")
                 fail("fat_tree_extract_prepare_incomplete");
+            if (preparation_progress)
+                preparation_progress();
         }
     }
     void append(const char *kind, V payload) {
@@ -909,8 +921,10 @@ struct FatTreeExtraction::Impl {
             .put("owner_accepted", V::boolean_value(false));
     }
 };
-FatTreeExtraction::FatTreeExtraction(const FatTreeExtractionRequest &request)
-    : impl_(new Impl(request)) {
+FatTreeExtraction::FatTreeExtraction(const FatTreeExtractionRequest &request,
+                                     const std::function<bool()> &prepare_stop,
+                                     const std::function<void()> &prepare_progress)
+    : impl_(new Impl(request, prepare_stop, prepare_progress)) {
 }
 FatTreeExtraction::~FatTreeExtraction() = default;
 const V &FatTreeExtraction::definition() const {

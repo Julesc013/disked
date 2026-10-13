@@ -1,5 +1,20 @@
 # Source structure and release review follow-up
 
+## Partial contained-writer checkpoint: 14 October 2026
+
+The recursive controller now reuses the owned process host and existing quotas
+for separate preparation, exact grant and execution. [Development evidence](../.aide/evidence/2026-10-14-fat-tree-extraction-worker/README.md)
+records 29 cases/11 methods, eight selected native groups and 236 tooling
+passes/two skips. Actual child/code/request/capture identities bind copied
+definitions/results. Hangs and late publications retain dependencies until exit;
+cooperative cancellation, startup failures and four-worker launch limits pass.
+
+Two files stay under the existing Windows storage host owner. The [source map](source-map.md)
+covers 246 files. No scheduler, new public command or root restructuring is
+introduced. Independent retained-history inspection and a complete clean-source
+native/import/artifact campaign remain in active DE-W056; full 0.1.0 and separate
+owner/storage/release gates remain open.
+
 ## Partial recursive-writer checkpoint: 14 October 2026
 
 The private ordinary-image/local-NTFS backend now prepares a complete namespace,

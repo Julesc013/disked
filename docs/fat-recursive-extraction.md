@@ -34,10 +34,23 @@ completion record remains completed when a later notification fails. The result
 separates observed verified bytes from durable checkpointed bytes; ledger outcome
 payloads label their counters before that outcome record to avoid circular hashes.
 
-This synchronous ordinary-image/local-NTFS backend is still private. Contained
-worker admission, actual-exit ownership through hangs/late responses, independent
-history inspection and the complete exact-source native campaign remain required
-before DE-W056 can finish or a frontend can invoke recursive mutation.
+The backend remains private. The Windows process adapter now uses the shared
+owned host and existing worker limits for separate prepare/grant/execute phases.
+Copied definitions and outcomes bind the actual process/code/request epochs;
+prepared source and dependency handles persist in the same child while waiting
+for the exact grant. A bounded anonymous payload has disjoint publication/grant
+slots. Progress and result publication do not prove exit.
+
+The controller pins source and resource ancestors until actual exit. Cancellation
+and owned-job retirement do not drop a running owner's dependencies; an unresolved
+destructor transfers its preallocated owner to a passive retained list. Reaping
+requires observed exit. Old reader profiles retain their claims and limits; the
+compiled writer capability itself grants no mutation authority.
+
+Independent retained-history inspection and the complete exact-source native
+campaign still remain before DE-W056 can finish or a frontend can invoke
+recursive mutation. No persistent reconnect or production/storage privilege
+admission is supplied by this process-lifetime prototype.
 
 `runtime/capture/fat_content_stream.*` continues one observed file's allocation
 and content in bounded pages. `providers/image/fat_tree_file.*` admits content

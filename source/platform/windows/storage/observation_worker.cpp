@@ -32,7 +32,7 @@ void header(const V& h,const ObservationWorkerProfile& p){
 Handle section(const Security& s,std::size_t bytes){auto a=s.attributes;Handle h(CreateFileMappingW(INVALID_HANDLE_VALUE,&a,PAGE_READWRITE,0,static_cast<DWORD>(bytes),nullptr));if(!h.valid())fail("observation_mapping_create");return h;}
 Handle event(const Security& s){auto a=s.attributes;Handle h(CreateEventW(&a,TRUE,FALSE,nullptr));if(!h.valid())fail("observation_event_create");return h;}
 void signal(HANDLE h){if(!SetEvent(h))fail("observation_event_signal");}
-V permissions(){return V::object().put("live_namespace",V::boolean_value(false)).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false)).put("durable_reconnect",V::boolean_value(false));}
+V permissions(const ObservationWorkerProfile& profile){auto out=V::object().put("live_namespace",V::boolean_value(false)).put("physical_admission",V::boolean_value(false)).put("mutation_authority",V::boolean_value(false)).put("durable_reconnect",V::boolean_value(false));if(profile.compiled_effects_capable)out.put("compiled_effects_capable",V::boolean_value(true));return out;}
 }
 struct ObservationWorker::Impl {
     Security security;Image image;Directory code_parent;WorkerBudget aggregate;
@@ -106,7 +106,7 @@ V ObservationWorker::observe(DWORD ms){
         .put("worker_epoch",field(p.binding,"worker_epoch")).put("request_digest",V::string(p.input_digest)).put("code_sha256",field(p.binding,"code_sha256"))
         .put("worker",V::object().put("pid",number(p.pid)).put("created",V::string(p.created)).put("observation",V::string(state)).put("exit_code",number(exit)))
         .put("admitted",V::boolean_value(WaitForSingleObject(p.admission.value,0)==WAIT_OBJECT_0)).put("cancellation_requested",V::boolean_value(p.cancellation_requested))
-        .put("retired",V::boolean_value(p.retired)).put("result",V{}).put("diagnostic",identity_error.empty()?V{}:V::string(identity_error)).put("claims",permissions());
+        .put("retired",V::boolean_value(p.retired)).put("result",V{}).put("diagnostic",identity_error.empty()?V{}:V::string(identity_error)).put("claims",permissions(p.profile));
     try{
         const auto* value=static_cast<const Output*>(p.view->value);MemoryBarrier();const auto ready=value->ready;MemoryBarrier();
         if(!ready)return out;if(ready!=1 || !value->length || value->length>p.profile.reply_limits.bytes)invalid(p.profile,"publication");
