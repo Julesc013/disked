@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "fixture_source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
+  "binary_source_revision": "38b6683ab037a092d07375c1d6391033b3287306",
+  "observations": 469,
+  "complete_journeys": 4,
+  "source_hashes": {
+    "tests/frontend/tree_console_fixture.py": "sha256:18ed20018522557cccce79ed13dad3a05f160dcb965a5768e6c2cf88ba006b1b",
+    "tests/frontend/test_fat_tree_sessions.py": "sha256:31f62aa79f0dbf5031e082d4a7cd401fe4dc62144891da894ae416e0ad37f87d",
+    "tests/frontend/acquisition_console_fixture.py": "sha256:24a9bee2c2522374e24f327987eeaed9fe241aafef6574e2c054b6e8c720a2d7",
+    "tests/frontend/console_tui_fixture.py": "sha256:f6e068cd08d8180b81f20f077a96b6c5f2b9c1920d55a7a6108fa8a0c15957d1",
+    "spec/catalog/commands.json": "sha256:f563b11863b138b156a933a24ffa31b405db3ea130f74271f504b788a213a8a6"
+  },
+  "binaries": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build\\Release\\disked.exe",
+      "sha256": "sha256:1343b4fed3aaef64aadb5003577deafa526caefb2660aa299b3741743d84699b"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build\\Release\\disked_tree_test.exe",
+      "sha256": "sha256:2b17938421e37591ab883220f0f3b2d88b058deb42c8bb19791ade2d05ff5a18"
+    }
+  ],
+  "command": [
+    ".aide-local/venv/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "tests/frontend/test_fat_tree_sessions.py",
+    "--exe",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build\\Release\\disked.exe",
+    "--fault",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build\\Release\\disked_tree_test.exe",
+    "--root",
+    "D:\\Projects\\DiskEd\\disked",
+    "--output",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-fixture-repair-absolute-cases.json"
+  ],
+  "exit_code": 0,
+  "full_regression_requalified": false,
+  "owner_accepted": false
+}
