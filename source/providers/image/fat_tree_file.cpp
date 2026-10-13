@@ -1,5 +1,6 @@
 #include "fat_tree_file.h"
 #include "local_file.h"
+#include "portable/fat/fat.h"
 #include <atomic>
 #include <limits>
 
@@ -59,6 +60,8 @@ struct FatTreeFile::Impl {
     f::Handle file;
     FatTraversalBinding binding;
     std::unique_ptr<FatTraversal> traversal;
+    std::unique_ptr<FatContentStream> content;
+    V last_page, content_record;
     std::vector<unsigned char> borrowed;
     std::function<bool()> stop;
     bool read_consistent = true;
@@ -186,13 +189,22 @@ struct FatTreeFile::Impl {
         return de_view{borrowed.data(), borrowed.size()};
     }
     V next(const std::function<bool()> &cancel) {
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
         if (traversal->finished())
             throw std::invalid_argument("fat_tree_finished");
         regions = V::array();
         checks = V::array();
         stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
         ++calls;
         auto page = traversal->next(binding, input.page);
+        last_page = page;
         stop = {};
         auto frame = V::object()
                          .put("schema", V::string("org.disked.fat-tree-frame/1"))
@@ -206,6 +218,92 @@ struct FatTreeFile::Impl {
         json::dump(frame, fat_tree_json_limits());
         return frame;
     }
+    void start_content(const std::string &key) {
+        if (key.empty() || key.size() > 26)
+            throw std::invalid_argument("fat_tree_content_key");
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
+        const auto *applies = last_page.find("applicable"), *events = last_page.find("events");
+        if (!applies || applies->kind != V::Kind::boolean || !applies->boolean || !events ||
+            events->kind != V::Kind::array)
+            throw std::invalid_argument("fat_tree_content_view_unavailable");
+        const V *record = nullptr;
+        for (const auto &value : events->items) {
+            const auto *kind = value.find("type"), *id = value.find("key"),
+                       *type = value.find("kind");
+            if (kind && kind->text == "record" && id && id->text == key && type &&
+                type->kind == V::Kind::string && type->text == std::to_string(DE_FAT_DIRENT_FILE)) {
+                if (record)
+                    throw std::invalid_argument("fat_tree_content_key");
+                record = &value;
+            }
+        }
+        if (!record)
+            throw std::invalid_argument("fat_tree_content_not_observed");
+        const auto *raw = record->find("raw"), *offset = record->find("source_offset");
+        if (!raw || raw->kind != V::Kind::string || raw->text.size() != 64 ||
+            raw->text.find_first_not_of("0123456789abcdef") != raw->text.npos || !offset ||
+            offset->kind != V::Kind::string || !json::decimal_u64(offset->text))
+            throw std::invalid_argument("fat_tree_content_record");
+        stop = {};
+        if (!applicable())
+            throw std::invalid_argument("fat_tree_content_source_changed");
+        FatContentStreamSelection selected;
+        selected.binding = binding;
+        selected.record_source_offset = std::stoull(offset->text);
+        auto digit = [](char c) {
+            return static_cast<unsigned>(c <= '9' ? c - '0' : c - 'a' + 10);
+        };
+        for (std::size_t i = 0; i < selected.record.size(); ++i)
+            selected.record[i] = static_cast<unsigned char>(digit(raw->text[i * 2]) * 16 +
+                                                            digit(raw->text[i * 2 + 1]));
+        FatTraversalPort port;
+        port.read = [this](const de_byte_extent &e) { return region(e); };
+        port.applicable = [this](const FatTraversalBinding &) { return applicable(); };
+        content.reset(new FatContentStream(selected, port, input.resources.bitmap_bytes));
+        content_record = *record;
+    }
+    V next_content(const FatContentStreamBudget &budget, const std::function<bool()> &cancel) {
+        if (!content || content->finished())
+            throw std::invalid_argument("fat_tree_content_finished");
+        if (budget.bytes > 65536 || budget.reads > 256 || budget.read_bytes > 196608 ||
+            budget.cells > 256 || budget.output_bytes > 1048576)
+            throw std::invalid_argument("fat_tree_content_budget");
+        regions = V::array();
+        checks = V::array();
+        stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
+        FatContentStreamSelection selected;
+        selected.binding = binding;
+        selected.record_source_offset = std::stoull(content_record.fields.at("source_offset").text);
+        const auto &raw = content_record.fields.at("raw").text;
+        for (std::size_t i = 0; i < selected.record.size(); ++i) {
+            const auto digit = [](char c) {
+                return static_cast<unsigned>(c <= '9' ? c - '0' : c - 'a' + 10);
+            };
+            selected.record[i] =
+                static_cast<unsigned char>(digit(raw[i * 2]) * 16 + digit(raw[i * 2 + 1]));
+        }
+        auto page = content->next(selected, budget);
+        stop = {};
+        auto frame = V::object()
+                         .put("schema", V::string("org.disked.fat-tree-content-frame/1"))
+                         .put("context", context)
+                         .put("source_before", source_before)
+                         .put("source_after", last_metadata)
+                         .put("record", content_record)
+                         .put("page", std::move(page))
+                         .put("regions", regions)
+                         .put("checks", checks)
+                         .put("directory_membership", V::string("held-source-traversal"));
+        json::dump(frame, fat_tree_content_json_limits());
+        return frame;
+    }
 };
 FatTreeFile::FatTreeFile(const FatTreeInput &input) : impl_(new Impl(input)) {
 }
@@ -215,5 +313,20 @@ V FatTreeFile::next(const std::function<bool()> &stop) {
 }
 bool FatTreeFile::finished() const {
     return impl_->traversal->finished();
+}
+void FatTreeFile::start_content(const std::string &key) {
+    impl_->start_content(key);
+}
+V FatTreeFile::next_content(const FatContentStreamBudget &b, const std::function<bool()> &stop) {
+    return impl_->next_content(b, stop);
+}
+bool FatTreeFile::content_finished() const {
+    return !impl_->content || impl_->content->finished();
+}
+json::Limits fat_tree_content_json_limits() {
+    auto limits = fat_tree_json_limits();
+    limits.values = 131072;
+    limits.string_bytes = 393216;
+    return limits;
 }
 } // namespace disked

@@ -5517,6 +5517,110 @@
         "tools/build-bootstrap.py",
         "tools/build-inputs.json"
       ]
+    },
+    {
+      "id": "DE-W056",
+      "title": "Implement source-bound recursive FAT extraction and metadata evidence",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W055"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-036",
+        "DE-037",
+        "DE-043",
+        "DE-103"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Recursive FAT12/16/32 extraction from an ordinary held image to an explicitly granted create-only destination tree, with original name/metadata evidence and accurate native-restoration results. No physical media, source writes, overwrite/delete/force, installation or production writer admission. The unit remains active until the whole backend is qualified; a content cursor alone does not complete it.",
+        "Replace the old 128-node/1024-resident-chain assumption for this new path with a private source/capture/epoch/window/copy-bound content cursor over an exact observed 32-byte directory record and source offset. Reobserve boot/record bytes, use the qualified portable allocation continuation and one per-file visited bitmap across all pages. Validate applicability around reads and publication. Emit bounded content chunks with exact file/source offsets, cell observations, ordered page hashes and typed completion/partial/resource outcomes. No whole-file/chain residency; allocated slack is never file content. Caller-supplied records and hashes authenticate no native source or directory membership.",
+        "The native recursive adapter must establish tree membership through its own held-source traversal and bind the content cursor to that same source/window/copy/view. Imported pages/selectors do not grant source access. Immutable reviewed definitions bind source identity/epoch, tree selection and decoding policy, destination-parent absence/identity, exact execution generation and all scratch/evidence/recovery dependencies. Resolve the concrete observable definition before admitting output effects; existing raw/logical plan 1/2 and selectors keep their meaning.",
+        "Creation starts only after explicit source-read/destination-tree/metadata-ledger/host-effect grants. Destination is a new root under an observed ordinary local parent. Reject source/code/evidence aliasing, reparse points, hardlinks, traversal/dot paths, collisions and ungranted resource footprints. Hold native identities through execution; create each file/directory without clobbering another resource. An unknown writer retains its dependencies until actual exit. No automatic replay or cleanup on timeout.",
+        "Preserve raw short records, original OEM names, original UTF16 long-name units/slots, parent/source-offset identities, raw FAT attributes/timestamps and allocation observations in an ordered evidence ledger. Native output-name mapping and metadata application are separate facts. No implicit normalization, replacement character, guessed code page/timezone or invented Unix ownership. Unrepresentable names/metadata and invalid timestamps require the defined explicit policy and typed unapplied/refused result. Native times require an explicit source-time interpretation; preserving raw times does not claim they were applied. Keep archive/preservation and native-restoration claims separate."
+      ],
+      "acceptance": [
+        "Independent supplied-byte content cases include FAT12/16/32, nonzero copies, noncontiguous and >1024-cluster chains, a 33,000-cluster file, page partition equivalence, cycles, malformed geometry/records/cells, source/epoch changes, cancellation and finite work/bitmap bounds. Exact original file bytes and hashes exclude slack.",
+        "Actual native held-source recursive extraction exceeds 128 files and old depth/chain bounds; all independently generated file bytes and parent/name/metadata evidence match. Source bytes stay unchanged and no output appears during preparation or missing-grant/alias checks.",
+        "Native name collisions/invalid representations, metadata mapping and explicit time interpretation have independent expected outputs. Unsupported properties remain unapplied; preserved metadata is not called restored.",
+        "Owned contained workers, partial effects, interruption/cancellation/late results, independent destination readback, retained identities and actual process exit are tested without weakening the existing acquisition/recovery gates.",
+        "Fresh exact-source full native, header/dependency/import/context/manifest/tooling and artifact evidence qualifies only the recorded ordinary-file lane. No owner/physical/other-host/production or full 0.1.0 acceptance."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "AGENTS.md",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "docs/source-map.md",
+        "source/platform/windows/storage/fat_tree_sessions.cpp",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/fat.h",
+        "source/providers/image/fat_content_file.cpp",
+        "source/providers/image/fat_content_file.h",
+        "source/providers/image/fat_tree_file.cpp",
+        "source/providers/image/fat_tree_file.h",
+        "source/providers/image/file_acquisition.cpp",
+        "source/providers/image/local_file.h",
+        "source/runtime/capture/fat_content.cpp",
+        "source/runtime/capture/fat_content.h",
+        "source/runtime/capture/fat_content_stream.cpp",
+        "source/runtime/capture/fat_content_stream.h",
+        "source/runtime/capture/fat_traversal.cpp",
+        "source/runtime/capture/fat_traversal.h",
+        "source/runtime/capture/region_reader.h",
+        "spec/catalog/fat-extraction-prototype.json",
+        "spec/catalog/fat-recursive-extraction-prototype.json",
+        "spec/catalog/fat-tree-session-prototype.json",
+        "spec/schemas/fat-file-selector.schema.json",
+        "tests/frontend/test_fat_tree_sessions.py",
+        "tests/images/fat_tree_content_probe.cpp",
+        "tests/images/test_fat_content_stream.py",
+        "tests/images/test_fat_traversal.py",
+        "tests/images/test_fat_tree_content.py",
+        "tests/unit/fat_content_stream_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

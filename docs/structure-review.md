@@ -1,5 +1,33 @@
 # Source structure and release review follow-up
 
+## Partial recursive-content checkpoint: 14 October 2026
+
+DE-W056 now has a supplied-reader file-content continuation and an adapter that
+selects content only from its own held-source directory traversal. The existing
+runtime capture and image-provider owners remain appropriate; no new repository
+root or frontend abstraction is needed. The [source map](source-map.md) describes
+all 238 current source files and their responsibilities.
+
+[Development evidence](../.aide/evidence/2026-10-14-fat-recursive/README.md) records
+39 supplied-byte cases, eight held-file cases and passing existing tree-worker
+and frontend regressions. These are working-tree observations, not a clean full
+native qualification. DE-W056 remains active: recursive destination creation,
+immutable effect grants, original metadata preservation and explicit native
+restoration policies still need implementation and qualification.
+
+This partial checkpoint belongs on `dev`. The previous qualified checkpoint is
+already integrated into `main`; merging this unfinished work or publishing 0.1.0
+would overstate the evidence. The full original platform/storage programme and
+the separate owner, physical-storage and release gates remain open.
+
+A read-only hosted check on 14 October found Universal Setup main `c048f7f1`
+and dev `2b7a4d01` unchanged. Draft
+[PR #237](https://github.com/Julesc013/universal-setup/pull/237) now has head
+`f4442867`; [run 38386640408](https://github.com/Julesc013/universal-setup/actions/runs/38386640408)
+fails `native-windows` while the other six jobs pass. Both public release queries
+still return zero entries. [Retained responses](../.aide/evidence/2026-10-14-fat-recursive/hosted-setup-status.json)
+are hosted observations, not a local diagnosis or Setup integration qualification.
+
 ## Qualified tree-session checkpoint: 13 October 2026
 
 Source `19aca432` qualifies process-lifetime FAT tree sessions and explicitly

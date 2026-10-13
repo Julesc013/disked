@@ -354,3 +354,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W054: qualify held ordinary-file/owned worker tree paging. Focused development passes 57 cases and a stream over8MiB using one2MiB slot; Exact source `54376be5` passes 111 native groups and 24 selected headers. Public traversal/recursive metadata effects remain. [Contract](docs/fat-tree-file.md).
 
 - DE-W055: shared tree sessions and NDJSON streaming pass focused protocol/CLI/GUI/TUI/shell and worker-fault checks; Exact clean source `19aca432` passes113 native groups and26 selected headers. Recursive extraction, metadata restoration and broader platform/storage scope remain work.
+
+- DE-W056: source-bound paged file content and the same-handle native adapter are under test. The complete create-only recursive destination backend, metadata ledger/restoration policy and exact full qualification remain required.
