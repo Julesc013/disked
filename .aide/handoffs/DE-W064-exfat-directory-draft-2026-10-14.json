@@ -1,0 +1,164 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W064",
+  "base_revision": "f253621bba45066532543fa63e2af23e5366db4c",
+  "spec_manifest_digest": "sha256:a7f759a91c8d823b8d02d5930f0a7222f0ad0ec1eb345a1fbe6db50cb74b161d",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-directory-prototype.json",
+    "source/portable/exfat/exfat.h",
+    "source/portable/primitives/checked.h",
+    "tests/property/exfat_directory_vectors.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-directory-draft/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/README.md",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-contract-tooling.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-build.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-c90.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-cases-final.json",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-cases.json",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-guard-final.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-guard.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-tests-final.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-tests.log",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/build-exfat-directory-draft.py",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/check-exfat-directory-draft.py",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory-api.txt",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory-probe.cpp",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory.c",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat_directory_vectors.py",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/test_exfat_directory.py",
+    ".aide/evidence/2026-10-14-exfat-directory-draft/summary.json"
+  ],
+  "summary": "Scratch-only C90 directory decoder/API/native probe and independent oracle drafted;2316cases/9methods, protected/read-only guards and242tooling tests with2skips pass. Exact scratch inputs retained; runtime not promoted and W058 clean qualification still live.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 .aide-local/check-exfat-directory-draft.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-c90.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 .aide-local/build-exfat-directory-draft.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-build.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 .aide-local/test_exfat_directory.py --probe .aide-local/exfat-directory-draft-build/probe.exe --output .aide-local/exfat-directory-draft-cases-final.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-tests-final.log"
+    },
+    {
+      "command": ".aide-local/exfat-directory-draft-build/probe.exe --guard",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-guard-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-contract-tooling.log"
+    },
+    {
+      "command": "DE-W064 integrated clean native/header/import/full regression qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/.gitattributes",
+      "sha256": "sha256:a2d59723f871638f36178f2a7a2d5f1446e1f77c7bd40dfd433e22a16635e4d4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-contract-tooling.log",
+      "sha256": "sha256:0a8d62a3bdf2f8ace354b9e0b596a1e79ca3b2236bc8f338e4969ff9dcc3014d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-build.log",
+      "sha256": "sha256:d9171b96f280558ec1a7be806329c921c3c936a09147d32308b444094548692f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-cases-final.json",
+      "sha256": "sha256:62dec10e093dde07be7e055fa74f549c824bd7ee125b45fa3654c89b9dfa4b36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-cases.json",
+      "sha256": "sha256:f58224f3b19b1bf47be087c920e7884b553073bd1e01a5366940da9f2374bffe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-guard-final.log",
+      "sha256": "sha256:4ace8163ed8567301a8b451f1282f8c3ab59be667ac0b3e146cf51fbeca0e734"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-guard.log",
+      "sha256": "sha256:4ace8163ed8567301a8b451f1282f8c3ab59be667ac0b3e146cf51fbeca0e734"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-tests-final.log",
+      "sha256": "sha256:56396b0494c46d2c7f89c960c5fee93be2dee269142bf64cf92aa39d631e88bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/exfat-directory-draft-tests.log",
+      "sha256": "sha256:b4a6d115b800de143fd0b0da9672cfd28ba9b87d53fc0085ea1d972b8f516a5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/build-exfat-directory-draft.py",
+      "sha256": "sha256:1e3890fc504ef4bb9625dbab8cc4b304979ec2be1f132e91707bef21a2476938"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/check-exfat-directory-draft.py",
+      "sha256": "sha256:c3b44cd6468992c48227cabbb47e9468fe4918d2aa53418a11e46b8717e16661"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory-api.txt",
+      "sha256": "sha256:670991d73c4d1f47e93ce22cf228e141371ef1a6fb68e01a1af621bbe1c8fd9b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory-probe.cpp",
+      "sha256": "sha256:99d404b860f807d0b0346f011d530ea246b7d1f7a89125ab99943cbe7692d0a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat-directory.c",
+      "sha256": "sha256:2d173e03291fd61da78ff746a9a709a1adbfa9458ba4f82537a5a6e3e691e944"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/exfat_directory_vectors.py",
+      "sha256": "sha256:00817d882ac6c347973ed76ed50d3745b7e63723fc5695bb07e79f97104de8df"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/inputs/test_exfat_directory.py",
+      "sha256": "sha256:de13f1fd09e713f59efcb3a250f5eac85ac47ac9d2888bc92c39c9c9b1c64f87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/README.md",
+      "sha256": "sha256:7d1cfd9c8a31323913f551a48d6fb648a5e5595aafed9eac26c35d32526cdb42"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-draft/summary.json",
+      "sha256": "sha256:938784dad249f81f6429ef63bdc91c6d00c32bb29daf0366c9a23571e4b777d9"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Finish live W058 qualification session11413 and implementing-agent review; integrate tested W058 source. Then activate W064, promote retained draft inputs to intended source/tests, register native build/header/source/input ownership and qualify actual product artifacts. Preserve full original0.1.0 and separate owner/storage/release gates.",
+  "performed_remote_writes": false
+}
