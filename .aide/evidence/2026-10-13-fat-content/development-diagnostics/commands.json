@@ -1,0 +1,32 @@
+[
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_content_probe disked_fat_content_headers",
+    "exit_code": 1,
+    "log": "build.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_content_probe disked_fat_content_headers",
+    "exit_code": 0,
+    "log": "build-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content$ --output-on-failure",
+    "exit_code": 8,
+    "log": "content-tests.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_content_probe disked_fat_content_headers",
+    "exit_code": 0,
+    "log": "build-2.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content$ --output-on-failure",
+    "exit_code": 0,
+    "log": "content-tests-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure",
+    "exit_code": 0,
+    "log": "boundaries.log"
+  }
+]

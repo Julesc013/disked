@@ -38,3 +38,8 @@ positions, unchanged inputs and failures before callbacks. Native source identit
 held-handle freshness, contained payload workers, public commands/frontends and
 destination extraction remain subsequent work. Retained metadata is not itself
 a source-opening grant. Full all-platform/storage 0.1.0 remains unfinished.
+
+Exact source `b1a6772e` passes 209 independent content cases, 102 native groups
+and 19 standalone headers in the recorded Windows lane. [Retained evidence](../.aide/evidence/2026-10-13-fat-content/README.md). This is supplied-reader qualification;
+public extraction, native source freshness and full product/owner admission remain
+separate. Historical failures retain their actual outcomes.

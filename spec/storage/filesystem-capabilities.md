@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.11-proposed.1
+  version: 0.1.12-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-12T23:31:02.887528+00:00'
-  scope: DE-W044 exact in-process retention contract; native qualification pending
+  at: '2026-10-13T02:28:56.145925+00:00'
+  scope: DE-W045 supplied-reader content qualification at b1a6772e; native source extraction and owner gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -211,3 +211,9 @@ traversal remain observations, not source freshness or filesystem-health claims.
 This is the payload-reading algorithm needed for extraction; exact native source
 binding, containment, public commands and destination effects require their own
 subsequent qualification. The all-platform/storage 0.1.0 objective is unchanged.
+
+Source-bound DE-W045 qualification at `b1a6772e` retains 209 independent content
+cases, 102 native groups and 19 standalone headers in
+`.aide/evidence/2026-10-13-fat-content/`. Supplied-reader byte correctness is
+separate from current source identity/freshness, contained public extraction,
+other hosts and full product/storage/release admission.
