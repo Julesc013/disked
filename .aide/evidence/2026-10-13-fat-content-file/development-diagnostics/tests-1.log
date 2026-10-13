@@ -1,0 +1,38 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start  1: image.fat_content
+1/2 Test  #1: image.fat_content ................   Passed    1.23 sec
+    Start 56: image.fat_content_file
+2/2 Test #56: image.fat_content_file ...........***Failed    4.18 sec
+test_actual_native_files_and_fragmented_windows (__main__.ContentFileTests.test_actual_native_files_and_fragmented_windows) ... ok
+test_changed_initial_metadata_never_admits_payload (__main__.ContentFileTests.test_changed_initial_metadata_never_admits_payload) ... ok
+test_empty_and_excess_allocation (__main__.ContentFileTests.test_empty_and_excess_allocation) ... ok
+test_held_source_denies_write_delete_until_actual_retirement (__main__.ContentFileTests.test_held_source_denies_write_delete_until_actual_retirement) ... ERROR
+test_legacy_mode_and_normal_fixture_controls (__main__.ContentFileTests.test_legacy_mode_and_normal_fixture_controls) ... ok
+test_maximum_window_in_actual_owned_child (__main__.ContentFileTests.test_maximum_window_in_actual_owned_child) ... ok
+test_metadata_digest_size_and_dynamic_budget_refusals (__main__.ContentFileTests.test_metadata_digest_size_and_dynamic_budget_refusals) ... ok
+test_short_error_and_recapture_disagreement_keep_actual_prefix (__main__.ContentFileTests.test_short_error_and_recapture_disagreement_keep_actual_prefix) ... ok
+test_static_request_refusals_and_generation_binding (__main__.ContentFileTests.test_static_request_refusals_and_generation_binding) ... ok
+test_tampered_frames_fail_independent_reconstruction (__main__.ContentFileTests.test_tampered_frames_fail_independent_reconstruction) ... ok
+
+======================================================================
+ERROR: test_held_source_denies_write_delete_until_actual_retirement (__main__.ContentFileTests.test_held_source_denies_write_delete_until_actual_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_content_file.py", line 153, in test_held_source_denies_write_delete_until_actual_retirement
+    self.assertEqual(row['write_error'],'32',row);self.assertEqual(row['delete_error'],'32',row)
+                     ~~~^^^^^^^^^^^^^^^
+KeyError: 'write_error'
+
+----------------------------------------------------------------------
+Ran 10 tests in 4.020s
+
+FAILED (errors=1)
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   5.41 sec
+
+The following tests FAILED:
+	 56 - image.fat_content_file (Failed)
+Errors while running CTest

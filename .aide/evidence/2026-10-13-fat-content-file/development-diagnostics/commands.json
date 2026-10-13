@@ -1,0 +1,77 @@
+[
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_worker_probe fat_worker_fault disked_fat_content_file_headers fat_content_probe",
+    "exit_code": 1,
+    "log": "build.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_worker_probe fat_worker_fault disked_fat_content_file_headers fat_content_probe",
+    "exit_code": 0,
+    "log": "build-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content(_file)?$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "tests.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_worker$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "old-worker.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "boundaries.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_worker_probe fat_worker_fault disked_fat_content_file_headers fat_content_probe",
+    "exit_code": 0,
+    "log": "build-2.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content(_file)?$ --output-on-failure --no-tests=error",
+    "exit_code": 8,
+    "log": "tests-1.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_worker_probe fat_worker_fault disked_fat_content_file_headers fat_content_probe",
+    "exit_code": 0,
+    "log": "build-3.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content(_file)?$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "tests-2.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_worker$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "old-worker-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "boundaries-1.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target fat_worker_probe fat_worker_fault disked_fat_content_file_headers fat_content_probe",
+    "exit_code": 0,
+    "log": "build-4.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_content(_file)?$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "tests-3.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_worker$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "old-worker-2.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "boundaries-2.log"
+  }
+]

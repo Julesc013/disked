@@ -45,3 +45,8 @@ holds/recapture changes are test fixtures, not hardware interruption qualificati
 Public extraction, destination effects, coherent large traversal, mounted
 consumers, other hosts, production recovery and full all-platform/storage 0.1.0
 remain further work. Owner acceptance and release/storage privileges stay separate.
+
+Exact source `955e26f3` passes 59 held-file/worker cases and 209 independent map cases, 103 native groups
+and 20 standalone headers in the recorded Windows lane. [Retained evidence](../.aide/evidence/2026-10-13-fat-content-file/README.md). This is held-source/worker qualification;
+public extraction, future source freshness and full product/owner admission remain
+separate. Historical failures retain their actual outcomes.

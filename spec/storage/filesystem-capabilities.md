@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.12-proposed.1
+  version: 0.1.13-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-13T02:28:56.145925+00:00'
-  scope: DE-W045 supplied-reader content qualification at b1a6772e; native source extraction and owner gates remain open
+  at: '2026-10-13T03:25:16.523572+00:00'
+  scope: DE-W046 held-file/worker content qualification at 955e26f3; native source extraction and owner gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -228,3 +228,9 @@ context remains necessary for snapshot provenance. Preserve partial prefixes and
 late recapture disagreement without a future-freshness or atomic-snapshot claim.
 Public extraction, destination effects, other hosts and the full all-platform/
 storage 0.1.0 programme remain unverified.
+
+Source-bound DE-W046 qualification at `955e26f3` retains 59 native content and 209 independent map
+cases, 103 native groups and 20 standalone headers in
+`.aide/evidence/2026-10-13-fat-content-file/`. Measured held-source byte correctness does not establish future freshness,
+public extraction,
+other hosts and full product/storage/release admission.
