@@ -5,7 +5,7 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.45 prototype selects 23 command identities, including read-only
+The current dev.46 prototype selects 23 command identities, including read-only
 GPT repair previews, recorded
 acquisition support export and contained historical acquired-image verification. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
@@ -906,3 +906,8 @@ consumer/host/platform/storage and production writer/release work remain open.
 Exact DE-W039 source `543826fe` passes34 interval/44 command cases, 99 native groups, 17 headers and 222 tooling tests/two skips. [Retained reproduction/evidence](../.aide/evidence/2026-10-13-fat-window/README.md). Each result remains its observed interval; separate calls are not an atomic cross-window snapshot or complete graph proof.
 
 The in-process FAT capture retention prototype is described in [fat-retention.md](fat-retention.md); bounded exact-source qualification is retained under `.aide/evidence/2026-10-13-fat-retention/`, with owner/full-product qualification remaining open.
+
+DE-W045 adds a [private supplied-reader FAT content component](fat-content.md)
+and independent native probe. It does not add a public command or change the 23
+implemented identities. Native source/worker/extraction admission follows after
+this payload algorithm's qualification.

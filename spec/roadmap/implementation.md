@@ -312,3 +312,10 @@ DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd1
 DE-W039 explicit larger FAT allocation windows at 543826fe have 34 interval cases, 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Continue coherent multi-window and directory/namespace coverage, retrieval/extraction and further platform/storage work under the original full 0.1.0 goal.
 
 DE-W044 exact FAT frame retention/retrieval at `4d3dc0a3` has68 command/frontend cases and101 native groups. Evidence: `.aide/evidence/2026-10-13-fat-retention`. Continue coherent larger directory/namespace/multi-window coverage, extraction and the original full platform/storage programme; owner/production/release gates remain separate.
+
+DE-W045 implements the checked FAT file-content mapping/window algorithm through
+a supplied region port. Qualify its exact bytes, complete selected-chain/copy
+admission, finite callback budgets and short/error prefixes; then qualify held
+native sources, contained payload workers and public extraction. Supplied JSON
+does not prove source freshness, and metadata retention is not a source-opening
+grant. This step moves toward extraction without narrowing the full programme.

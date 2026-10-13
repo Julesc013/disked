@@ -200,3 +200,14 @@ DE-W044 defines explicit bounded in-process retention and byte retrieval of
 original verified FAT metadata frames in `catalog/fat-retention-prototype.json`.
 Retained observations grant no source freshness, authenticated custody or
 extraction/storage authority. Native implementation and qualification are pending.
+
+## DE-W045 supplied-reader file-content windows
+
+The [private content profile](../catalog/fat-content-prototype.json) defines expected
+file-record, geometry, chain/copy and extent validation before payload callbacks.
+A logical window returns exact owned content bytes and explicit short/error prefixes;
+slack and excess allocation are excluded. Cross-links and unrelated incomplete
+traversal remain observations, not source freshness or filesystem-health claims.
+This is the payload-reading algorithm needed for extraction; exact native source
+binding, containment, public commands and destination effects require their own
+subsequent qualification. The all-platform/storage 0.1.0 objective is unchanged.

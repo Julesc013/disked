@@ -1,0 +1,24 @@
+{
+  "schema": "org.disked.fat-content-profile/1",
+  "work_id": "DE-W045",
+  "status": "private-supplied-reader-contract",
+  "base_revision": "895c6c93bcb9c7407068593bbd65e36a99102a3e",
+  "scope": "Validate an owned FAT12/16/32 observation into an immutable file-content map, then read bounded logical windows through an explicitly supplied RegionReader. This is the payload algorithm needed for extraction; native source binding, contained worker/frontends and destination extraction follow separately.",
+  "binding": "Caller supplies expected source_id, capture_epoch, source_bytes, volume_offset, volume_bytes and fat_copy. Observation must match all fields it records. Neither supplied metadata, matching hashes nor this map authenticate the source or prove current freshness; the source_bytes and reader binding remain caller obligations.",
+  "admission": "Before callbacks, re-decode the exact 512..4096-byte raw boot sector and 32-byte live regular-file record with the portable FAT decoder. Compare declared geometry, size, first cluster and record offsets. Validate every selected chain cell and every unique FAT-copy raw variant; require full copy coverage and decoded value agreement. Require a complete end/empty chain, unique in-range clusters, coherent file offsets, derived source/volume offsets, per-cluster allocation/content lengths, total allocation and sufficient content coverage. Bound nodes128, extents1024, copies16 and diagnostics. Repeated-metadata overlap must agree. Malformed or contradictory records refuse without source I/O.",
+  "damage": "Reading bytes is not a filesystem-health or exclusive-ownership claim. Retain selected-tree completeness, observed-metadata consistency, known selected-file cross-links and excess allocation as observations. A complete selected chain can be read even when unrelated traversal is incomplete. Cross-links and excess allocated clusters do not expose slack. Incomplete/damaged/cyclic or copy-disagreeing selected chains refuse this normal-content reader; a future salvage mode requires an explicit contract.",
+  "windows": "Logical offset is unsigned64. Requested count is1..196608, further constrained by a caller byte limit1..196608. Offset greater than file size refuses; offset equal to EOF succeeds with zero bytes and no reads. Clamp the content window at EOF without adding potentially overflowing requested count. Fragmentation maps logical slices onto independently derived source extents. All source additions, ranges and multiplications are checked.",
+  "limits": "Caller read limit1..512 and chunk limit1..4096 bytes. Preflight the entire read-piece list before the first callback; a window exceeding the read-call budget refuses without I/O. No returned borrowed view escapes. Read requests never cover slack, another logical file extent or bytes outside the declared source/volume. All result data are owned.",
+  "outcomes": "A complete read returns exactly the selected logical bytes. A short read retains only its actual contiguous prefix, records requested/returned counts and stops with short_read. A callback exception records reader_error and stops without inventing bytes; do not expose exception text. A nonempty null view or overlong view records invalid_reader_view without dereference and stops. Each callback has a bounded source/file-offset receipt. No retries, implicit fill, writes or persistent I/O authority.",
+  "qualification": [
+    "Independent FAT12/16/32 byte fixtures and logical-content oracle: empty files, fragmented/nonmonotonic chains, partial last clusters, excess allocation, EOF and cross-extent windows; raw inputs remain unchanged.",
+    "Tampered source/epoch/copy/geometry/raw record/chain/extent/size/offset/coverage facts refuse before any reader call; FAT32 reserved high bits follow decoded-value comparison.",
+    "Short/throw/null/overlong reader cases preserve exact prefixes; finite byte/read-call/chunk limits are enforced before I/O; checked source offsets near unsigned64 maximum.",
+    "Actual recorded Windows native compile and launch results, standalone header/dependency checks, tooling and retained artifact identities. Untested hosts and full public extraction/storage/release remain explicitly unverified."
+  ],
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "owner_accepted": false,
+  "unit_complete": false,
+  "full_010_complete": false
+}

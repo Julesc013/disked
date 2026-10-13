@@ -4481,6 +4481,100 @@
         "tests/frontend/retention_console_fixture.py",
         "docs/fat-retention.md"
       ]
+    },
+    {
+      "id": "DE-W045",
+      "title": "Read bounded FAT file-content windows over checked supplied regions",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W027",
+        "DE-W044"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/fat/**",
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/images/**",
+        "CMakeLists.txt",
+        "tools/build*",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Validate an owned FAT12/16/32 observation into an immutable file-content map, then read bounded logical windows through an explicitly supplied RegionReader. This is the payload algorithm needed for extraction; native source binding, contained worker/frontends and destination extraction follow separately.",
+        "Independent expected-byte/admission/fault fixtures and exact native evidence."
+      ],
+      "acceptance": [
+        "Independent FAT12/16/32 byte fixtures and logical-content oracle: empty files, fragmented/nonmonotonic chains, partial last clusters, excess allocation, EOF and cross-extent windows; raw inputs remain unchanged.",
+        "Tampered source/epoch/copy/geometry/raw record/chain/extent/size/offset/coverage facts refuse before any reader call; FAT32 reserved high bits follow decoded-value comparison.",
+        "Short/throw/null/overlong reader cases preserve exact prefixes; finite byte/read-call/chunk limits are enforced before I/O; checked source offsets near unsigned64 maximum.",
+        "Actual recorded Windows native compile and launch results, standalone header/dependency checks, tooling and retained artifact identities. Untested hosts and full public extraction/storage/release remain explicitly unverified."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        ".aide/evidence/2026-10-13-fat-content/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-content/reproduce.py",
+        "CMakeLists.txt",
+        "docs/fat-content.md",
+        "docs/source-map.md",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/fat_content.cpp",
+        "source/runtime/capture/fat_content.h",
+        "source/runtime/capture/region_reader.h",
+        "source/runtime/command/json.h",
+        "spec/catalog/fat-capture-prototype.json",
+        "spec/catalog/fat-content-prototype.json",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-reader-prototype.json",
+        "tests/images/fat_content_probe.cpp",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_content.py",
+        "tests/property/test_fat.py",
+        "tests/property/test_fat_directory.py",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

@@ -336,3 +336,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full0.1.0 remain open.
 
 - [x] Recheck the structure/release assessment at `f8a3eb84`: 220-file map, existing frontend/core-target/header improvements, synchronized main/dev and current Setup CI limitations. [Current assessment](docs/structure-review.md#current-checkpoint-13-october-2026). Preserve earlier evidence and full 0.1.0 gates; no wholesale source rewrite is justified by the supplied review.
+
+- [ ] DE-W045: qualify the [checked FAT content map/window component](docs/fat-content.md), then implement exact native source binding and contained public extraction. Focused development probe currently passes 209 cases/14 methods; clean full native qualification remains pending. The original full platform/storage 0.1.0 scope is unchanged.
