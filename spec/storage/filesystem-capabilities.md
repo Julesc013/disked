@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-037
   profile: disked-spec/1
-  version: 0.1.13-proposed.1
+  version: 0.1.14-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -24,8 +24,8 @@ disked:
   - DE-REQ-037-01
 updated:
   by: codex
-  at: '2026-10-13T03:25:16.523572+00:00'
-  scope: DE-W046 held-file/worker content qualification at 955e26f3; native source extraction and owner gates remain open
+  at: '2026-10-13T04:52:33.524866+00:00'
+  scope: DE-W047 complete mapped-file backend at 20ecddbd; public extraction and owner gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -244,3 +244,9 @@ plan1 remains unchanged. Exact grants, no-clobber destination/map creation,
 checkpoint flush/readback and resume checks apply. This is byte-content backend
 work, not public command, recursive metadata-fidelity or physical writer admission.
 The full all-platform/storage 0.1.0 scope remains unchanged.
+
+Source-bound DE-W047 qualification at `20ecddbd` retains complete-file extraction and prior content/map
+cases, 104 native groups and 20 standalone headers in
+`.aide/evidence/2026-10-13-fat-extraction/`. Measured held-source byte correctness does not establish future freshness,
+public extraction,
+other hosts and full product/storage/release admission.

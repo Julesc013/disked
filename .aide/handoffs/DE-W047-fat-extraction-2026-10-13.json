@@ -1,0 +1,2432 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W047",
+  "base_revision": "dc56b190409581af95ee7a765175acd8f3db5dfc",
+  "spec_manifest_digest": "sha256:844283e7a29caa0b3987bc03fac378756532bad211e9acddc67fa758333a295c",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/architecture/repository.md",
+    "spec/catalog/source-maintenance-prototype.json",
+    "tools/check-build-boundaries.py",
+    "tests/tools/test_build_boundaries.py",
+    "docs/source-map.md",
+    "docs/code-structure.md",
+    "docs/structure-review.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/catalog/fat-capture-prototype.json",
+    "spec/catalog/fat-reader-prototype.json",
+    "spec/catalog/fat-directory-prototype.json",
+    "spec/catalog/fat-content-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/bundle.json",
+    "source/portable/primitives/extent.h",
+    "source/portable/primitives/checked.h",
+    "source/portable/fat/fat.h",
+    "source/portable/fat/volume.c",
+    "source/portable/fat/allocation.c",
+    "source/runtime/command/json.h",
+    "source/runtime/capture/region_reader.h",
+    "source/runtime/capture/fat_capture.h",
+    "source/runtime/capture/fat_capture.cpp",
+    "source/runtime/capture/fat_content.h",
+    "source/runtime/capture/fat_content.cpp",
+    "tests/unit/fat_capture_probe.cpp",
+    "tests/images/test_fat_capture.py",
+    "tests/property/test_fat.py",
+    "tests/property/test_fat_directory.py",
+    "tests/images/fat_content_probe.cpp",
+    "tests/images/test_fat_content.py",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "source/providers/image/fat_content_file.h",
+    "source/providers/image/fat_content_file.cpp",
+    "source/providers/image/fat_file.h",
+    "source/providers/image/fat_file.cpp",
+    "source/providers/image/fat_snapshot.h",
+    "source/providers/image/fat_snapshot.cpp",
+    "source/platform/windows/storage/fat_worker.cpp",
+    "source/platform/windows/storage/fat_worker.h",
+    "tests/images/fat_worker_probe.cpp",
+    "tests/images/test_fat_content_file.py",
+    "spec/catalog/fat-content-file-prototype.json",
+    "spec/catalog/fat-extraction-prototype.json",
+    "spec/schemas/acquisition-plan-logical-prototype.schema.json",
+    "spec/tools/tests/test_logical_acquisition.py",
+    "source/runtime/acquisition/pipeline.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/platform/windows/acquisition_worker.cpp",
+    "tests/images/test_fat_extraction.py",
+    "tests/images/file_acquisition_probe.cpp",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tools/build-inputs.json",
+    ".aide/programmes/disked-0.1.0.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-13-fat-extraction-development/.gitattributes",
+    ".aide/evidence/2026-10-13-fat-extraction-development/README.md",
+    ".aide/evidence/2026-10-13-fat-extraction-development/build-boundaries.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/build-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/extraction.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/initial-worker-harness-failure.md",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/regression.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/checkout.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/cmake-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/configure.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/existing-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/fetch.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-c90.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-description.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/host.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/origin.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/python-environment.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-map.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-tree.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/test-catalog.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/progress.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/retention.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/source-blob-bindings.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/source-inputs.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/test-catalog.json",
+    ".aide/evidence/2026-10-13-fat-extraction/.gitattributes",
+    ".aide/evidence/2026-10-13-fat-extraction/README.md",
+    ".aide/evidence/2026-10-13-fat-extraction/REVIEW.md",
+    ".aide/evidence/2026-10-13-fat-extraction/audit_retention.py",
+    ".aide/evidence/2026-10-13-fat-extraction/build-boundaries.json",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/CMakeCache.txt",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/acquisition_worker_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/acquisition_worker_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_acquisition.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_capture.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_file.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_file_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_file.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_file_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_inspection.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_inspection_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_namespace.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_namespace_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_reader.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_reader_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_retention.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_retention_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_test.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_file_acquisition.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_windows_file_names.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_windows_file_names_headers.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_capture_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_capture_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_content_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_directory_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_retention_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_worker_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_worker_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/file_acquisition_fault.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-configuration/file_acquisition_probe.vcxproj",
+    ".aide/evidence/2026-10-13-fat-extraction/build-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/codemodel-v2-5366de422dee0728272f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/directory-.-Release-f6f22219c74102c3da70.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/index-2026-10-13T04-32-45-0625.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-ALL_BUILD-Release-1837c5bf84033bdbb3c8.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Continuous-Release-fa38d5ee8ab258d6e305.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Experimental-Release-e09a8d5c5bf15c5b47e0.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Git__Git-Release-6777ed1008866a1839fa.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Nightly-Release-aab8a4b9ba5a96e3e392.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-NightlyMemoryCheck-Release-0b8f0f458d78d9b7a270.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Python3__Interpreter-Release-cf72e288fe07d16d9e31.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Python3__InterpreterMultiConfig-Release-e22d2b2c883ba8587440.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-ZERO_CHECK-Release-052494a729b4272f26fb.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquired_image_verification_probe-Release-aa1d8fae2807613f389b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_case_probe-Release-37b06369eddbf0138dd3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_command_probe-Release-3d58a4a0d33ab448e696.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_export_fault-Release-654e11bcfbdb882539d1.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_export_probe-Release-3f87a21e2c69218551c9.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_probe-Release-1b75ed7a2853367b82f3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_worker_fault-Release-c415e5f63986e41de626.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_worker_probe-Release-04b5b6e10016d9648bda.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-bootstrap_registry-Release-217874441c73668c71ad.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-capture_probe-Release-bd194c35a84c077c3ea9.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-case_evidence_probe-Release-5690af8c6f264298c04d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-command_parser_probe-Release-016c2b8845b91c83854a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked-Release-4c626f9009f95ec0614f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition-Release-69d538ac1460113d59e3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_commands-Release-ec02d847fda589f6023e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_observation-Release-1dea25ada12b5d6d6a8f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_verification-Release-3bf7f2d33cc61725c32d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_capture_campaign-Release-ae11ba73b69bf62dc724.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_case_evidence-Release-8eb1b5289d3ff45b3963.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_command-Release-99008c6695766718d0e3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_command_headers-Release-022c61879733cff2c0fa.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_export_commands-Release-12e842afecb979b401ae.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat-Release-02b38104d6905043aadf.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_capture-Release-0d891fcddcd7a61269a6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_capture_headers-Release-2fe1669b356651add1c8.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content-Release-dd3c4346cd52301e4d9f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_file-Release-5a5ff12e3725f2a91e83.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_file_headers-Release-d58312459559b7318d59.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_headers-Release-ecf12e636a32e4077903.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_file-Release-5a4afbc107674acc0a0c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_file_fault-Release-4c7507319ec437170f7a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_headers-Release-ab11a6af17a863f26959.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_inspection-Release-bb5d736850685466c9c5.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_inspection_headers-Release-5b675b2cb3d938302262.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_namespace-Release-1be672efa22dadf3d19e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_namespace_headers-Release-696faa2c7e58b204560f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_reader-Release-4c1013e401a1f9c3d2f8.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_reader_headers-Release-c53e638058910212bf22.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_retention-Release-00069597fa03e6ccb8b8.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_retention_headers-Release-60732070c7ce1b5d08df.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot-Release-1ab4ea4569f609f2b02d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot_fault-Release-eccc6dc0e959e40cbf61.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot_headers-Release-29f79015fa4a894435c3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_test-Release-c73301b07aabbf9b1458.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker-Release-9fb3254edfb1f7b2a23b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker_fault-Release-2a094c2e34ebdc6a5ead.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker_headers-Release-354b4c5268304fc942f2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_acquisition-Release-ae1c7324aeda8db5d21c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_acquisition_export-Release-acc659f61c6bc168cf7d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_case_source-Release-3486d7c2e5b52bbe094c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_image_verification-Release-72ee36a3fed4ff5326dc.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_report_export-Release-35a52a53ff168efb562a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_verification_case_export-Release-a778222ea71f00b02cf2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_wait-Release-a46c3508596635f02227.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt-Release-76234241768f32cce84c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_capture-Release-73a8970488929fdca8be.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_execution-Release-2dd2d8a5c3fb98769fae.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_files-Release-1dedebf8af7993dcab8b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_restoration-Release-43063d4278325cf65761.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_repair_planning-Release-0fb8207c75f0b2899737.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_guarded_model-Release-89e111ae8e731e4a6939.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gui-Release-26a64a4f7392b9746aa2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gui_unavailable-Release-19088714b0204ba1e69b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_hash-Release-fe53df2dda278976e37a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_health_observation-Release-402779d32ce03f8f3718.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_actions-Release-688b8a00ec14038e9671.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_capture-Release-586c1232b0cc7c6bdad2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_test-Release-32cd9b18f90fc7075412.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_invocation-Release-7fb1731ecc0a09afe92b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_invocation_headers-Release-ccfab45a7b93c3f6e279.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_journal_prototype-Release-7b53f88c3edc18861440.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_journal_semantics-Release-a42cfdf1c712cdef314b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_json-Release-7862a308a0277b0ed2ed.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_json_headers-Release-06affff9c5a151d315a6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_local_file-Release-7c64517fee0d42ec286a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_map_observation-Release-db1e6f4c3169a5d6d97b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_mbr-Release-1cf8ef7cfb5710c232f6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_memory_test-Release-bca08329745b42fcd653.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_model_journal_producer-Release-fbb9f9c40a126888d61b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker-Release-2e1c766e4b885002755b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker_fault-Release-01f341bc78269fb74662.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker_headers-Release-9826f10781ccbaed4c6e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_plan_prototype-Release-cc4cb59af454a674526a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_presentation-Release-4586ea0c3b4b77a293db.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_presentation_headers-Release-15f091d8a9d8479cf447.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_primitives-Release-34bde2b52518daef5547.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_provider_guard-Release-2689ce4d83e198822f74.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_region_reader-Release-d69dd345d40d42c2dd1a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_region_reader_headers-Release-56c99c3ef28d522372f6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_export-Release-ee04c978caa307ee6988.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_observation-Release-6c19647652b1d64f30ce.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_test-Release-c63c3cc5344ca9d728c4.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_shell-Release-5de55f13708bdaedd209.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_store_fault-Release-37f3b0b435b70e028cf6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_tui-Release-c470b5fb3f30627d389c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_tui_fault-Release-a6892905f2c4d38a1c7a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_commands-Release-ceec91a6a92310704779.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_observation-Release-0ab4ef622b1231c5e85f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_test-Release-067904eb55e316259a41.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_file_names-Release-490cea78c22fe7f7d3a1.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_file_names_headers-Release-166c2be1dbad62465b30.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_files-Release-ffe719d89befc4468203.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_worker_delayed-Release-6bf72acb76858fc228af.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_worker_memory_limit-Release-5edf386d22917b3a8026.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-export_command_fault-Release-fd640315b52eaab2ea43.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-export_command_probe-Release-56107a87ae6b78fe2fbf.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_capture_fault-Release-6664265454e199832fae.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_capture_probe-Release-d8621a0aa1ccd5145123.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_content_probe-Release-84fa5853d4b03eecbdf9.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_directory_probe-Release-f0674adb6008f9961c8f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_probe-Release-19776d9e9532a9b275fb.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_retention_probe-Release-34a7e618669f332f18fb.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_worker_fault-Release-de9985fff8efac095c2e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_worker_probe-Release-57ed9d348eca1bf516e3.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_acquisition_fault-Release-71ab2aca1d33b3c88d28.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_acquisition_probe-Release-f26741569a44dfab6864.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_report_export_fault-Release-7123a1f02c4bc1da1da6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_report_export_probe-Release-232fd418e9abcd04ad25.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-frontend_service_probe-Release-9aa1132b07348c255751.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_execution_probe-Release-0ae46dc516355556d352.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_probe-Release-3b07edaf671b4964313d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_repair_probe-Release-e2c083786920e3a582a5.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-guarded_journal_probe-Release-5a17dbda099c44ffb127.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gui_model_probe-Release-0afe0ca03fc892c38b87.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-health_observation_probe-Release-3697ad380eb1d45d1e80.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_file_capture_fault-Release-2ce48570801a6e4c95ee.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_file_capture_probe-Release-cdc4f4b98c60d9afe3d7.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_observation_probe-Release-f966c031e6482e2bed8b.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_verification_collection_probe-Release-43c417911578658abdf7.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_verification_observation_probe-Release-5e5474174e13dc9e9cd2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-invocation_policy_probe-Release-bcf22d663dad9a90801d.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-journal_codec_probe-Release-0c1a27a0a4551e18e92c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-journal_semantic_probe-Release-a60ddbb30473028401cf.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-json_codec_probe-Release-9dcfa56c4519bb3f2969.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-mbr_probe-Release-5dc7e2642afe3f522458.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-memory_budget_probe-Release-df5d1388d10c453d32f6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-model_journal_producer_probe-Release-e10b579a221289506c4f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-operation_reducer_probe-Release-ebca8843b32794d65276.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-plan_definition_probe-Release-44c72586cc93564fffd7.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-portable_cpp-Release-180a2a71ae551673cf39.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-portable_probe-Release-0cd61076005690be4fbe.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-presentation_rules_probe-Release-98848c92836078e81f2c.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-protocol_reader_probe-Release-8c28fbafe6f1f6972067.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-provider_guard_probe-Release-f19abd976b1d793b4931.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_export_probe-Release-09124d31e5ff390c02f6.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_worker_fault-Release-be9506ffe7b2483c4be0.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_worker_probe-Release-3116b974a9aaadb0fc0a.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-request_channel_probe-Release-2d4564afb46a5d313ac9.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-shell_model_probe-Release-9f7159445d9c25d8c93e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-tui_model_probe-Release-0b878dda2fd0f2b1df6e.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_case_fault-Release-4e27ca29ca42991c4221.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_case_probe-Release-14eb9b003521b6a05100.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_command_fault-Release-0a41d9952b7064be47ae.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_command_probe-Release-f9b09c2f2d2cf546e503.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_worker_fault-Release-aec5f96043dfa6d96042.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_worker_probe-Release-19a591fe9c15c4059570.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-watch_probe-Release-68622dbe18e80281855f.json",
+    ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-worker_directory_probe-Release-42b227217ccb46c79de2.json",
+    ".aide/evidence/2026-10-13-fat-extraction/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction/context-manifest.json",
+    ".aide/evidence/2026-10-13-fat-extraction/context.tar.gz",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/boundaries-1.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build-1.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build-fault-product.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/extraction-1.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/extraction.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/failed-source-audit.json",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/fault-regressions.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/fixed-boundaries.json",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/initial-worker-harness-failure.md",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/regression-1.log",
+    ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/regression.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/LastTest.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/LastTestsFailed.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/build-boundaries.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/build-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/fat-extraction-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/gcc-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/checkout.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/cmake-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/configure.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/existing-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/fetch.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-c90.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-description.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/host.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/native-tests.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/origin.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/python-environment.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-map.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-tree.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/test-catalog.log",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/receipt.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/source-blob-bindings.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/source-inputs.json",
+    ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/test-catalog.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-allocation-scan-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-auxiliary-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-capture-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-command-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-content-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-content-file-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-directory-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-extraction-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-namespace-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-retention-command-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-retention-store.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-window-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-window-command-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/fat-worker-cases.json",
+    ".aide/evidence/2026-10-13-fat-extraction/gcc-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction/header-objects.json",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/checkout.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/cmake-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/configure.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/context.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/existing-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat-retention-store.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/fetch.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-dependents.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-headers.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-imports.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/final-source-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-c90.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-description.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/host.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/index.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/manifest.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/native-tests.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/origin.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/product-launch.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/python-environment.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/source-map.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/source-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/source-tree.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/spec-check.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/test-catalog.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/tooling.log",
+    ".aide/evidence/2026-10-13-fat-extraction/logs/verify-context.log",
+    ".aide/evidence/2026-10-13-fat-extraction/native-details.log",
+    ".aide/evidence/2026-10-13-fat-extraction/private-header-usage.json",
+    ".aide/evidence/2026-10-13-fat-extraction/reproduce.py",
+    ".aide/evidence/2026-10-13-fat-extraction/retention.json",
+    ".aide/evidence/2026-10-13-fat-extraction/source-blob-bindings.json",
+    ".aide/evidence/2026-10-13-fat-extraction/source-inputs.json",
+    ".aide/evidence/2026-10-13-fat-extraction/summary.json",
+    ".aide/evidence/2026-10-13-fat-extraction/test-catalog.json",
+    ".aide/handoffs/DE-W047-fat-extraction-2026-10-13.json",
+    ".aide/handoffs/DE-W047-fat-extraction-development-2026-10-13.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-extraction.md",
+    "docs/native-bootstrap.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/providers/image/file_acquisition.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/runtime/acquisition/pipeline.cpp",
+    "spec/bundle.json",
+    "spec/catalog/fat-extraction-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/schemas/acquisition-plan-logical-prototype.schema.json",
+    "spec/schemas/index.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_logical_acquisition.py",
+    "spec/work/units.json",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tests/images/file_acquisition_probe.cpp",
+    "tests/images/test_fat_extraction.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Complete mapped FAT byte-content extraction through the existing ordinary-file/contained acquisition engine qualified at 20ecddbd153a2a016b02d8c49c4092ddedc99f9e: 56 recorded extraction observations/9 methods, 104 native groups,20 headers,226 tooling passes/2 skips and exact source/build/import/launch evidence. Plan2 binds logical source and actual backing image; raw plan1 semantics remain. Complete multi-window/chunk bytes, empty files, no-clobber/aliases/grants, flush/readback/checkpoints and resumed source/destination validation are tested. Initial completed-observation/finished-operation harness error retained and corrected with actual process-exit waiting. Initial full campaign failed101/104 because normal FAT provider linkage bypassed fault injections; same-handle capture and explicit fault composition isolation repaired, with failed source/logs retained separately. No public command, metadata-fidelity, owner or full0.1.0 completion. Source checkpoint successfully pushed to dev",
+  "tests": [
+    {
+      "command": "git remote get-url origin",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/origin.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/existing-status.log"
+    },
+    {
+      "command": "git fetch --no-tags origin 20ecddbd153a2a016b02d8c49c4092ddedc99f9e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fetch.log"
+    },
+    {
+      "command": "git checkout --detach 20ecddbd153a2a016b02d8c49c4092ddedc99f9e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/checkout.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-status.log"
+    },
+    {
+      "command": "powershell -NoProfile -Command \"$fatIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$fatPrincipal=[System.Security.Principal.WindowsPrincipal]::new($fatIdentity);$fatOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$fatIdentity.Name;elevated=$fatPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$fatOS.Caption;version=$fatOS.Version;architecture=$fatOS.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-map.log"
+    },
+    {
+      "command": "git ls-tree -r -z 20ecddbd153a2a016b02d8c49c4092ddedc99f9e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-tree.log"
+    },
+    {
+      "command": "cmake --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/cmake-version.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print('PyYAML='+m.version('PyYAML'));print('jsonschema='+m.version('jsonschema'))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/python-environment.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -dumpfullversion",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-version.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-description.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -std=c90 -pedantic-errors -Wall -Wextra -Werror -I source -fsyntax-only source/portable/fat/volume.c source/portable/fat/allocation.c source/portable/fat/directory.c source/portable/fat/auxiliary.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-c90.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/boundaries.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/test-catalog.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build -C Release --parallel 4 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_retention_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat-retention-store.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/spec-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W047 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\context --byte-budget 2200000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/verify-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/product-launch.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\file_acquisition_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\acquisition_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_content_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_content_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_content_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked_fat_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked_fat_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\disked_fat_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_retention_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_retention_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_retention_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_directory_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_directory_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_directory_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_capture_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-20ecddbd\\build\\Release\\fat_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-dependents.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction/logs/final-source-status.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/.gitattributes",
+      "sha256": "sha256:8cec743855d7253e26f52198d7de008fdb8ebaef71c862dae107fd0e4b98650e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/audit_retention.py",
+      "sha256": "sha256:5a2cfe12f979d0ed3a9d65a7d03061a9b55d5686e66e1e2ac78d7105e5f9da36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-boundaries.json",
+      "sha256": "sha256:4f1fdf532a9ea61b51b66317577b02e8e7d3f31b47958ed0f99d915d29fa9a40"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/acquisition_worker_fault.vcxproj",
+      "sha256": "sha256:979b67224b6773aed22a214c6752831db65ac59c28cffcb9ae97e9623ee19dc3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/acquisition_worker_probe.vcxproj",
+      "sha256": "sha256:f126f14dbf616d52fd4e092b058283de8ef4e2060f8a4fee6d76a4427a7adf8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/CMakeCache.txt",
+      "sha256": "sha256:4dae8d09a5d5ada55128510aeb02682ed30d11d3f56c595bf00ad79c72b7751d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked.vcxproj",
+      "sha256": "sha256:83f0f494722fb466802555f6c7e850533dbb04a0f48b0fb3cbf24ced08f1df39"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_acquisition.vcxproj",
+      "sha256": "sha256:aad6e4a488b4caa384e1ff7e070e4afec5266d4dc2c07be03ea41c5a4fb0475f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat.vcxproj",
+      "sha256": "sha256:a68d9780f1c791df04e057849ca6c5aaae081aadad02b270b43b1ee13147df1a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_capture.vcxproj",
+      "sha256": "sha256:6da2878c03f00b430e3a1ebbca4b724b7d6f8449a10f4dc82e3242da2f74e800"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content.vcxproj",
+      "sha256": "sha256:1cb60070d2954ed2a25577c22f487a20fba5b885358ba66dfb6fa947463597d9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_file.vcxproj",
+      "sha256": "sha256:bbba0292ca624eefc031e056cba40157539ae7ac82086028a0f8465293c41d75"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_file_headers.vcxproj",
+      "sha256": "sha256:69388b413369bebb1d8add8e8fa4716db65e346feb0df96d970b0d1c393a201e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_content_headers.vcxproj",
+      "sha256": "sha256:829ec7822f41d2c4d33bafd2bb5008d6e5f4b3c391c0bfc3f7d3b6e2bbc628f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_file.vcxproj",
+      "sha256": "sha256:c3776690280c5e2e8854b541ac4f260d26f17b0f37ae828590720964419a7549"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_file_fault.vcxproj",
+      "sha256": "sha256:645f51cf2af7fa20d5a29a57e3e360b05ff50de2e71427e690feb878e00dd105"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_headers.vcxproj",
+      "sha256": "sha256:f00b94d364c58e8e69e48d7cdf8d64416c800540a3a3b2884ebd30998260bee3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_inspection.vcxproj",
+      "sha256": "sha256:9a0230b16f677892c100f6071745e7ca27cc6c19d278b39da507e1ea50ee4d71"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_inspection_headers.vcxproj",
+      "sha256": "sha256:869a633d7d4d5676805cfb571dacb1799c94c3d924612f9e37d51c096913cb0b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_namespace.vcxproj",
+      "sha256": "sha256:6d543cfd9fa0ba30a60a1f6728eee6c3305a62ca3e56b73dc34df8c3e9d5730e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_namespace_headers.vcxproj",
+      "sha256": "sha256:a64db634bfbb56bd117b787c206cbd67907d19a8c9083df6d3d3b053f36c81e3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_reader.vcxproj",
+      "sha256": "sha256:52212feb39c57af0ca8a9dd71b513b05e56ba751e720175db54a543242569b9e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_reader_headers.vcxproj",
+      "sha256": "sha256:061e882466a73b31d04311e064a74fda57004b8d9c4ac75c5dfd39a92c354664"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_retention.vcxproj",
+      "sha256": "sha256:b92bad9c36c349264cb1d2212b8a319fbae593d08639c0d45487c21f3fb5817e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_retention_headers.vcxproj",
+      "sha256": "sha256:e24a571c917f7abe72d3827dd2433b44112b05ed8c6f76e19381940821f04838"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot.vcxproj",
+      "sha256": "sha256:1c493490da6987bd5204bf29b3c3d4ea0ef37e6e2f026183a05c5f9af7a7ecdc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot_fault.vcxproj",
+      "sha256": "sha256:405c60462c5b0159a4275e042fce01fc3088b210bdb9ca3e87a21e8611683b03"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_snapshot_headers.vcxproj",
+      "sha256": "sha256:420621e56fb024721d5f20753a020066a688ea5938dcaf22944a18af78a72b6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_test.vcxproj",
+      "sha256": "sha256:11a82a08f8cb4aa2261c9b3bfb9c2e5fab96de60a2392ca6d14eae6a04a0714f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker.vcxproj",
+      "sha256": "sha256:ed17400f124300633492d5a1e9e3fd9c79fa40c8fd8b9764986d797193ced317"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker_fault.vcxproj",
+      "sha256": "sha256:2ba8f11fd766681c63c3d942b6feec3b5cb6c3003002b3d282fc6fa5ee8847da"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_fat_worker_headers.vcxproj",
+      "sha256": "sha256:29360a85857a879ca6bb02f63b86e0f6397302d4c6b5f5a4ed1a24c8d7074c1a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_file_acquisition.vcxproj",
+      "sha256": "sha256:b3b5cb8d27bee4bff4c8788f67192f608e39cc87de7b5cb919f41185df3c9c8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker.vcxproj",
+      "sha256": "sha256:842df2323225f3c9a6979deb1be72f5a907bb2b3ef2610223e595e4809b8e5e5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker_fault.vcxproj",
+      "sha256": "sha256:8ee00a26b3615730038a8308147e89d152d03dcdd876b614df61da9415001fe3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_observation_worker_headers.vcxproj",
+      "sha256": "sha256:f36eec556680bbb6535170fbcb3e4b6d077e7612a9c3cec62b689d5c43c5be68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_windows_file_names.vcxproj",
+      "sha256": "sha256:a513c67a0e651fcf3bf0e8e08e38d748bb93c457365e0938c0d3a9585a03bbaa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/disked_windows_file_names_headers.vcxproj",
+      "sha256": "sha256:591ca915d9e1625a6379e848e70aa87230580f7af172f497718499929919eabb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_capture_fault.vcxproj",
+      "sha256": "sha256:38017ce13810370ab346e42d8e29e12f128052e22aac8843496e1008cbaf6c65"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_capture_probe.vcxproj",
+      "sha256": "sha256:c7ee3a8a5c04ac30e631e0e4d6399d7902b3a682265d7bfb47814aae9b51522b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_content_probe.vcxproj",
+      "sha256": "sha256:07bb0c0038da1000f4dc569c545dde7e24896ac81396ee4b5ed51686da76087e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_directory_probe.vcxproj",
+      "sha256": "sha256:703a08f0886607fa96062df3939a9648f1055435ca5407681a810ebaaea06f3b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_probe.vcxproj",
+      "sha256": "sha256:a7c0244d5865e6fe742ef48d65bbe0bf36b8282e46290f6c756bc3745d3882b0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_retention_probe.vcxproj",
+      "sha256": "sha256:50cb0805c3e666b46a25cc67b019bb11c997797139be96676d61f00a5ba17f46"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_worker_fault.vcxproj",
+      "sha256": "sha256:7e560dd3e440e6178fc84d81a48e74574468cee4690ba4b26ca7bafa1ed6ce6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/fat_worker_probe.vcxproj",
+      "sha256": "sha256:3eb9240f223ebb14377e99357be1749dcb034f3f53ee2e9a4f6c508809e9502f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/file_acquisition_fault.vcxproj",
+      "sha256": "sha256:d1124d8cebdc16341276b63c5c54fca9b2b53f75e1ee46099e4c27b03b86cf26"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-configuration/file_acquisition_probe.vcxproj",
+      "sha256": "sha256:e5c9e62b6d9efd5eae4f162642945707b412423b8ca48c275a5204b59c83d18c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/build-identity.json",
+      "sha256": "sha256:0f068aca4bfa905b94bb00cb010c5c262231f2cce4c4714ade149b9094487317"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/codemodel-v2-5366de422dee0728272f.json",
+      "sha256": "sha256:38e19cc7f33fa2e6176a42b4e36c568538cb910f82fc154b80c5711fca3c1070"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/directory-.-Release-f6f22219c74102c3da70.json",
+      "sha256": "sha256:7193599ed3c24c42a99d4bee83e6356a58d651f7a1b48a1cc245898255cf8a33"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/index-2026-10-13T04-32-45-0625.json",
+      "sha256": "sha256:f7e208a4475386a2fc575b9ba975a2f77b9b5f20d5d42cb2bb4a18e9c9b83bcf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquired_image_verification_probe-Release-aa1d8fae2807613f389b.json",
+      "sha256": "sha256:19c9574fc6521b327f0178dea09a59eedf8c8c9d4cf7738ceeedf6fb75042804"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_case_probe-Release-37b06369eddbf0138dd3.json",
+      "sha256": "sha256:109f9c1575990d7c1f79b9ce9858e3ede80ecd1d1bbe2399fde4df627eaf65f8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_command_probe-Release-3d58a4a0d33ab448e696.json",
+      "sha256": "sha256:ed0e47a003239714303b4212e40ee3a60028d86693a546568e6a5ff2460d16b7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_export_fault-Release-654e11bcfbdb882539d1.json",
+      "sha256": "sha256:98d9741a0391a73c8603cd6f7fb7c64ecaef83008fbf461974249e457a1aa236"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_export_probe-Release-3f87a21e2c69218551c9.json",
+      "sha256": "sha256:2f3f529012ca30238f2cb2c44b05ab70dd3085af7161939e2324990875deef01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_probe-Release-1b75ed7a2853367b82f3.json",
+      "sha256": "sha256:e7c68d4ed380fd74a2f3238b2d3fae78ed47d9060f315b0590ce2ff0d8e3c30b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_worker_fault-Release-c415e5f63986e41de626.json",
+      "sha256": "sha256:f1685450cb8e604107cbe4af4e825e0e28840c8a6608eb85a706f3881985950a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-acquisition_worker_probe-Release-04b5b6e10016d9648bda.json",
+      "sha256": "sha256:e11bb8c3448844bec6eea519c05e10d60064e2ae48bdb2a2264a39656705c0f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-ALL_BUILD-Release-1837c5bf84033bdbb3c8.json",
+      "sha256": "sha256:ecbe6e0cccadc67e6e3c0159e234f8176addcafbb1b7d651f31b606f14b107b7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-bootstrap_registry-Release-217874441c73668c71ad.json",
+      "sha256": "sha256:49cd919a126f4854560d099419fd0654e9cae45a6bdf8e8963a24c1b06d0eed7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-capture_probe-Release-bd194c35a84c077c3ea9.json",
+      "sha256": "sha256:d0390ced00b4ecfabbbb8cf27a5c3d0237d94977e11436e517c11cef632be885"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-case_evidence_probe-Release-5690af8c6f264298c04d.json",
+      "sha256": "sha256:acfbdf8dd94480fa99bc37135d05a1673747f93342d01a445ed9e57dbcc93077"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-command_parser_probe-Release-016c2b8845b91c83854a.json",
+      "sha256": "sha256:bd3c585791e02c9f57471ab5c6d95aa97c2b957d75c97aaac41777ac050747dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Continuous-Release-fa38d5ee8ab258d6e305.json",
+      "sha256": "sha256:f09a051c9d5ead53ecafe1e939ecbc130e82634efb2f521b21b878127f09e96d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked-Release-4c626f9009f95ec0614f.json",
+      "sha256": "sha256:732ccc5dabe73568620277721eb235fb737cb5da1eb83405c6a640187c1b2885"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition-Release-69d538ac1460113d59e3.json",
+      "sha256": "sha256:e98d0b306350388f032a1c2f55e24107d0661b875be28b713b4c1ad331c13d24"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_commands-Release-ec02d847fda589f6023e.json",
+      "sha256": "sha256:7375bef4c45ace36c65a503a4873633fab01b7dbd04b192955ace3ee034d278b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_observation-Release-1dea25ada12b5d6d6a8f.json",
+      "sha256": "sha256:ee78461d5c44d3be3cc9a75f1301244df167fc23cf71997e2aedbd55400be1e8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_acquisition_verification-Release-3bf7f2d33cc61725c32d.json",
+      "sha256": "sha256:79bf2baf221e60434cb7afc354283c10644e0be3dea2e9be677a591652d1c516"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_capture_campaign-Release-ae11ba73b69bf62dc724.json",
+      "sha256": "sha256:c03cef370d2656d421c03864d57b76496bbd9384db37db32904a331a01676bf5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_case_evidence-Release-8eb1b5289d3ff45b3963.json",
+      "sha256": "sha256:07921fb8c5903f31fb3f7b3874ab0738321c7048d00bea59b079de4a08012632"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_command-Release-99008c6695766718d0e3.json",
+      "sha256": "sha256:62723aeb0b97aa51518a515b88d9590c03bb521c0786756ab64d4266270f602a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_command_headers-Release-022c61879733cff2c0fa.json",
+      "sha256": "sha256:1bef6128f7e07c1d2dc5e3cd363f70b004f3386c3c5107334fd5f352fc303ee1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_export_commands-Release-12e842afecb979b401ae.json",
+      "sha256": "sha256:3e74e5bc172049282c34fbb733013dbc4b0c5f413b4a2bfe1e90f3d158f2947a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat-Release-02b38104d6905043aadf.json",
+      "sha256": "sha256:bedd385ffa6c4abcfadeda1edbf7015cd68445eb2039adf5e8dacfe417fbed3c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_capture-Release-0d891fcddcd7a61269a6.json",
+      "sha256": "sha256:67f58e35812c2f92dc9829752bcfe10790a13c3b2c0a60c1a4f5c596d5482c39"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_capture_headers-Release-2fe1669b356651add1c8.json",
+      "sha256": "sha256:38ec33f9e43c858d04c1f5fd48874d79905e5d5cfc622abb1c627c9119afffc8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content-Release-dd3c4346cd52301e4d9f.json",
+      "sha256": "sha256:10037e0350993b05a643a829f9ca60aec7f85473d3273b4aae3011ded4fabd67"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_file-Release-5a5ff12e3725f2a91e83.json",
+      "sha256": "sha256:ddea2d19b78535d078edcd4d4c59d9434b1b207507c68e9ba8498fe6d74ee607"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_file_headers-Release-d58312459559b7318d59.json",
+      "sha256": "sha256:11cf1d5bfb669419a8ba0800ea8c0b83cb8209e4858b56105399abef8b126c41"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_content_headers-Release-ecf12e636a32e4077903.json",
+      "sha256": "sha256:c7fe4ab5dad8e810897e460d4f5627e3132b09b8e634ad480cc9fbb1274e8848"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_file-Release-5a4afbc107674acc0a0c.json",
+      "sha256": "sha256:48963e8c565ac393b71ad8822b305f39bda6155c995d311923b68a79f05db1f8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_file_fault-Release-4c7507319ec437170f7a.json",
+      "sha256": "sha256:222a7f66a13e2e658a35bc46b3130650ee06f2a474bc9acffb0171f3476afb3b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_headers-Release-ab11a6af17a863f26959.json",
+      "sha256": "sha256:a267ec59643c3c85c2caf536d99a60172ca0b3ce755485d27a92d5b8ef413e74"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_inspection-Release-bb5d736850685466c9c5.json",
+      "sha256": "sha256:c8e3122b600f53d280993df7d72489915ccde89cbf9a023e595c4f7b0233a527"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_inspection_headers-Release-5b675b2cb3d938302262.json",
+      "sha256": "sha256:19dc423451fdc9fec77489fd9cbd08e0ce8cf89093516ff1bfd7d6795f3e600d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_namespace-Release-1be672efa22dadf3d19e.json",
+      "sha256": "sha256:511e5064d85d820d2db52af04e4081ec76808f068bc413f5d4630ad0557fb785"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_namespace_headers-Release-696faa2c7e58b204560f.json",
+      "sha256": "sha256:6227c25f57051622d55c3bcca6977685cb7c48ae61774a9cb4d02a2082147dde"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_reader-Release-4c1013e401a1f9c3d2f8.json",
+      "sha256": "sha256:cbefd6e74891224f339f169cbd5d5d16f37f9eac2a0f83fe4181e506a1bba12a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_reader_headers-Release-c53e638058910212bf22.json",
+      "sha256": "sha256:0ddb13cdf8ef1c690c9f20c7cdf6614c820ab3c5c7865111829ad0a70ba2ad6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_retention-Release-00069597fa03e6ccb8b8.json",
+      "sha256": "sha256:7e09bfbc230876a6ec60d7bd7af726794bb7358afc07cef67c182c2c43cb6269"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_retention_headers-Release-60732070c7ce1b5d08df.json",
+      "sha256": "sha256:3753097473e6d72a06a9ce81a2ea27fb555b216cd125b41a7cd76efd2c5a7fe3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot-Release-1ab4ea4569f609f2b02d.json",
+      "sha256": "sha256:fb48ad78f44949fed30aff51a8bb0a2afb1a62106b0342fbba3e67f6efd88a7a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot_fault-Release-eccc6dc0e959e40cbf61.json",
+      "sha256": "sha256:26bf8eca9a6dff25c52e9a564523a7303b4ae414f115a0afad402e45db1b8c85"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_snapshot_headers-Release-29f79015fa4a894435c3.json",
+      "sha256": "sha256:6bd6cf3bec19938d5a1b8db2c466f8f8bde8c52146ee78e4639c338651f3285f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_test-Release-c73301b07aabbf9b1458.json",
+      "sha256": "sha256:2f961905202fec289ef849cbe0f0956d6f0fe6f7128038ea66de4ec512362b91"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker-Release-9fb3254edfb1f7b2a23b.json",
+      "sha256": "sha256:351c4d1258ba1951edf0a262a37cccab52f07ed1f496925f4a4c4b58f01ec23f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker_fault-Release-2a094c2e34ebdc6a5ead.json",
+      "sha256": "sha256:f9d4916490b4960ed18daa7868426ef342dd56734121ad18824f0d58743ee71d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_fat_worker_headers-Release-354b4c5268304fc942f2.json",
+      "sha256": "sha256:dde45d97c0d33b51d845a479c264a3434c8219841582e34f8035064cdc1a93d8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_acquisition-Release-ae1c7324aeda8db5d21c.json",
+      "sha256": "sha256:df0f56f06625371b10d63f65c29b801e7c088926a17b03a13fc0eb6feaf695fe"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_acquisition_export-Release-acc659f61c6bc168cf7d.json",
+      "sha256": "sha256:a13e2ae64da35d2b976901b696baa8a0974b5c5ff8885294edbdd0a94c162bea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_case_source-Release-3486d7c2e5b52bbe094c.json",
+      "sha256": "sha256:d65cc86a0097b95b236880da379d3a42558aaa7fe5829af76a47e0212615fae2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_image_verification-Release-72ee36a3fed4ff5326dc.json",
+      "sha256": "sha256:f93086d9e787ce0ae45c44345056fc77bdccdc4b5a15d124424e4aa2316dea46"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_report_export-Release-35a52a53ff168efb562a.json",
+      "sha256": "sha256:ce174f43fd50f63c06d2c2948f545e2847fc2192118b4b3d788116f0768eac7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_verification_case_export-Release-a778222ea71f00b02cf2.json",
+      "sha256": "sha256:d37cf6b02b9c4fa749e9ccd318614e7d948a8430e62353c2c48940d6fa2d7823"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_file_wait-Release-a46c3508596635f02227.json",
+      "sha256": "sha256:50a456662a7192e00fe5850167c29b8337a475e043815a1531e2add07ebcdf2d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt-Release-76234241768f32cce84c.json",
+      "sha256": "sha256:0a1f070e1c8bf32e4dd06eef90b30a865d1217660fbb06e6dc16be769654d73c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_capture-Release-73a8970488929fdca8be.json",
+      "sha256": "sha256:9081092dc78bda4ab77ce1df0d4630eb5c497f4541441b4b8fe24451fd1c5680"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_execution-Release-2dd2d8a5c3fb98769fae.json",
+      "sha256": "sha256:d2aa69ef0621ed4d690a0cb624ee87f81da9585b47cf7ff254035333ffb5b091"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_files-Release-1dedebf8af7993dcab8b.json",
+      "sha256": "sha256:e176e6ed83b3e4c546eb28cf11328a14fbf3a00f89d49c727282816719563ff1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_fixture_restoration-Release-43063d4278325cf65761.json",
+      "sha256": "sha256:eba380d9950c0b55685cb104f7c4071393d5e5f8320dee11bc99776cdac4e6de"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gpt_repair_planning-Release-0fb8207c75f0b2899737.json",
+      "sha256": "sha256:f9044561a9c4f7f3d4eea796cb45f8f72eadfe66d3f68685819196cb3771b38e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_guarded_model-Release-89e111ae8e731e4a6939.json",
+      "sha256": "sha256:bcbdb399105c6a7f76cd4c1a24d3d3c6d8dca1302877a422d5217965f597ed8c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gui-Release-26a64a4f7392b9746aa2.json",
+      "sha256": "sha256:7719fd02a3897624436aa80bb205b2d4b21552fed54d0389d744679a2860976b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_gui_unavailable-Release-19088714b0204ba1e69b.json",
+      "sha256": "sha256:f8ea702c4c58654aa1fd27c611ca81f4815d8705d00e85a8c630b89bb0002e98"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_hash-Release-fe53df2dda278976e37a.json",
+      "sha256": "sha256:fbcdc6dc5e7a0b0aa51eba2fd1b128e0b1e5a013053a0eef89d7775088c3117d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_health_observation-Release-402779d32ce03f8f3718.json",
+      "sha256": "sha256:3745dc76d4139a4f912e31d823ea2ac9e5444410350cb7d614fcd6b8d23ebb21"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_actions-Release-688b8a00ec14038e9671.json",
+      "sha256": "sha256:467e2c92a468be863d5766918bbcf3fad9253cab86aaf61867703449aa035cc7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_capture-Release-586c1232b0cc7c6bdad2.json",
+      "sha256": "sha256:13e44d299f2087996a42a9c57c940d8fe49ca6fe6f07950091744360a1a13ac4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_image_test-Release-32cd9b18f90fc7075412.json",
+      "sha256": "sha256:5a314a2a24f7835b3bbab289075f9b5e4e245f0b6d6e82c7c5e322179ae7f8e3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_invocation-Release-7fb1731ecc0a09afe92b.json",
+      "sha256": "sha256:23fd414d4ed790dc6b3f468459762d8acb4f247fec0348935820eb18510c8c2c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_invocation_headers-Release-ccfab45a7b93c3f6e279.json",
+      "sha256": "sha256:b3f337f7dc2f27a669b3f1ec867eea1ba827ef3b3dc68ca41d4b4e9fb1a4b418"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_journal_prototype-Release-7b53f88c3edc18861440.json",
+      "sha256": "sha256:760ea1dd0f10c5f8f13a77b199ff4b8ff8b13a071f788eb51c4ffa5a8a9a10cc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_journal_semantics-Release-a42cfdf1c712cdef314b.json",
+      "sha256": "sha256:92dc8a1eb51e76ea5840363152fa22090a4f06aa2b7a2cd821d1c3070575336d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_json-Release-7862a308a0277b0ed2ed.json",
+      "sha256": "sha256:e3a6febb7c5fc95533e966b33c04123a4002e88975dfa9507d5c5e3e2e2b5f0a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_json_headers-Release-06affff9c5a151d315a6.json",
+      "sha256": "sha256:f5ca4fea633df61965e6d6cd9ed4e62b6e226d812384cfc77520fafd0cf81188"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_local_file-Release-7c64517fee0d42ec286a.json",
+      "sha256": "sha256:6b61ed0b58c8019b94714da5dbf9e977744781a325c13171819e3a3d2cc5dbcf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_map_observation-Release-db1e6f4c3169a5d6d97b.json",
+      "sha256": "sha256:5676925b857254a361ff27e4e5fedd3da2295e0ca42e45a11660485e6e63b2e0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_mbr-Release-1cf8ef7cfb5710c232f6.json",
+      "sha256": "sha256:38ce215adb800f7bbd9d6ae663b65cf29579370e0c0637469cb8e019496e9004"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_memory_test-Release-bca08329745b42fcd653.json",
+      "sha256": "sha256:017a1c9b42074594cb0a8cc736864c4ed429d3e28a82e18f3675aec73bbf80c0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_model_journal_producer-Release-fbb9f9c40a126888d61b.json",
+      "sha256": "sha256:afe77fa344b3561fb14159d3c0d8f3ad8708c755c6e9cfd2753828380723a765"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker-Release-2e1c766e4b885002755b.json",
+      "sha256": "sha256:7afc77c6127d2652fcdcb8656f43ff08f608906ae36ec0c218fb1e00d4f948e4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker_fault-Release-01f341bc78269fb74662.json",
+      "sha256": "sha256:c8c500019cb65d532fa1099e55cc2796ec4f85bd7de7a2807b5a9dba614746a1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_observation_worker_headers-Release-9826f10781ccbaed4c6e.json",
+      "sha256": "sha256:963e62f30b63dc2fb98a12b1b322903864ff27295922b074331d6f44900a89fb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_plan_prototype-Release-cc4cb59af454a674526a.json",
+      "sha256": "sha256:86f75d9cc1cde8e1869ab2c5940d6a4b927f08b5818ef8bfe6b724e5b9ce45bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_presentation-Release-4586ea0c3b4b77a293db.json",
+      "sha256": "sha256:757bca6a90f58a958842b597de1f3e0c3813e6d85e1eeb8e42339b21d481d57b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_presentation_headers-Release-15f091d8a9d8479cf447.json",
+      "sha256": "sha256:f3106f83e2ddc6b142f4eac4f939919fb0181a2ad414e6720be12e8831b4d6fa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_primitives-Release-34bde2b52518daef5547.json",
+      "sha256": "sha256:5ca6e9266bf503bc79c45ae936de5861c5d3e941f68c2a3857c574b496e7c587"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_provider_guard-Release-2689ce4d83e198822f74.json",
+      "sha256": "sha256:88133c68e028484d7f17b2a670cd5a1b123eb0ffda934a9946f9ff000963a311"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_region_reader-Release-d69dd345d40d42c2dd1a.json",
+      "sha256": "sha256:a8aeb231309525956cc00ba3cdbf9007acea6b2640d586927f1b5777686c4f2e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_region_reader_headers-Release-56c99c3ef28d522372f6.json",
+      "sha256": "sha256:a5499ef1d2199037b470b2d8338cdb1af35af974cee0766c603f112b92639380"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_export-Release-ee04c978caa307ee6988.json",
+      "sha256": "sha256:982f6f8202e595949be786233735d220de23d69f8f3805c518391c54e75928c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_observation-Release-6c19647652b1d64f30ce.json",
+      "sha256": "sha256:31ce04135bb509d36bb0be226a1be4cbceb08ddbd198a8d80e88552650910b10"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_report_test-Release-c63c3cc5344ca9d728c4.json",
+      "sha256": "sha256:29c801d986c46858c3c07802d75ae4a6f481ffe301d233a7e5047d3caaeb6537"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_shell-Release-5de55f13708bdaedd209.json",
+      "sha256": "sha256:eac3502809796269ebdedd66d12002959e68653701a002cfc5008279f3588cfc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_store_fault-Release-37f3b0b435b70e028cf6.json",
+      "sha256": "sha256:91d44c1667ba6783f518f203809f272700685131f50a91bc853295b75334b807"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_tui-Release-c470b5fb3f30627d389c.json",
+      "sha256": "sha256:6f9d52706dbb2caee68a6aaa0dc1aa1afea044f8eaeab291ce7203f613b828e4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_tui_fault-Release-a6892905f2c4d38a1c7a.json",
+      "sha256": "sha256:2a2037f42e3f0672241beb05772648d11a1954b4e4ba1bf39fc0cd0952d11846"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_commands-Release-ceec91a6a92310704779.json",
+      "sha256": "sha256:0c41f5779a5ee31e0c8f98d9372e92c8fd16c94e7314178ac9c535358a7f77b3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_observation-Release-0ab4ef622b1231c5e85f.json",
+      "sha256": "sha256:716e7db24ca77acc2e19d793f431119987c5e3d900f450d562a20b1f776b458c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_verification_test-Release-067904eb55e316259a41.json",
+      "sha256": "sha256:0948658ff26028907285cf2656247dc28cea58e982a2fb60727a9526c31a08af"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_file_names-Release-490cea78c22fe7f7d3a1.json",
+      "sha256": "sha256:838b9b597a9350a8e47ee17c65dd90e5078eb0128d787c0395dde168b37ec43e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_file_names_headers-Release-166c2be1dbad62465b30.json",
+      "sha256": "sha256:34039ae71683e5a02a656cf454454df8842e7bbd3f783a5bf90ffa9bfca748b8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_windows_files-Release-ffe719d89befc4468203.json",
+      "sha256": "sha256:f336340f5672ca41e127c3321b26a90185bc25ab5af5ff51d0fd9eb58f49b5b2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_worker_delayed-Release-6bf72acb76858fc228af.json",
+      "sha256": "sha256:dc18e5116b6fb9dd490616d4d8e67e2a29294ede5e3d49703e94fc375f929e20"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-disked_worker_memory_limit-Release-5edf386d22917b3a8026.json",
+      "sha256": "sha256:327fa9f0ff72cfda0bc6ed6867139d93def945d0d53447e71445ed8855ec97dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Experimental-Release-e09a8d5c5bf15c5b47e0.json",
+      "sha256": "sha256:afe42bf00135cf640adfecfc3eeca906a3d4cf6a4a6f3d0ee0b56e6419dff7cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-export_command_fault-Release-fd640315b52eaab2ea43.json",
+      "sha256": "sha256:d232d87240b99be60b32083763281a1a9eb9f017f0783c9b422cbd2fab8c2ec0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-export_command_probe-Release-56107a87ae6b78fe2fbf.json",
+      "sha256": "sha256:97c1229fb3f615b0cf5c7497ce2683bc74b4adaa1690142f7715d48db3acf5c3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_capture_fault-Release-6664265454e199832fae.json",
+      "sha256": "sha256:a47494b0d83098e6c4a4d44cd13c76ff050bd3a0ef5a233dce2ec3a208cef6ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_capture_probe-Release-d8621a0aa1ccd5145123.json",
+      "sha256": "sha256:4f99f409077a494881c9c38842af93d73429c306a98f1ec9117cbf50171d9403"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_content_probe-Release-84fa5853d4b03eecbdf9.json",
+      "sha256": "sha256:41c1239cb1339d9bcd76e19b4aa0d72fff8185912d04b9725996de3264a63d7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_directory_probe-Release-f0674adb6008f9961c8f.json",
+      "sha256": "sha256:30b8b66fd5546902cbebeedf5ebd430c7c227db0ef697b0ff9ca5682c20e02b3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_probe-Release-19776d9e9532a9b275fb.json",
+      "sha256": "sha256:0b764e0d714d7f7b041ab0835b1521b63238e88589ff0e88e4d3e682d3a3d185"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_retention_probe-Release-34a7e618669f332f18fb.json",
+      "sha256": "sha256:b3c7a19dd3dd08f549cac32a398885c956c5030887a2b0b08732b0ed75d24d4e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_worker_fault-Release-de9985fff8efac095c2e.json",
+      "sha256": "sha256:9c9fce038e3cf734e8679fc993637d7958da5dc03f663c986a3d7e04182660e5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-fat_worker_probe-Release-57ed9d348eca1bf516e3.json",
+      "sha256": "sha256:188d4af27ad4c194f46d2d2078a6a1c07e95e3d262df0aa88075723f8d519e7f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_acquisition_fault-Release-71ab2aca1d33b3c88d28.json",
+      "sha256": "sha256:ca275d6713cd2932369641199d7e0cb7a6566c8ac9f756d2bc78bbf5b65e53b6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_acquisition_probe-Release-f26741569a44dfab6864.json",
+      "sha256": "sha256:bbe263ef7cd2c612ecca3ddd1ec12af4ed1c37f3e25b84e749b1613962b2c398"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_report_export_fault-Release-7123a1f02c4bc1da1da6.json",
+      "sha256": "sha256:c8b00b4b29633631d58cb5ad2730c8635ac2d74312707c44db79d0d300965f23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-file_report_export_probe-Release-232fd418e9abcd04ad25.json",
+      "sha256": "sha256:12cee11edfda8072775c7ff72f21ab88a68758c4c0dd96abc94279ad78d5329d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-frontend_service_probe-Release-9aa1132b07348c255751.json",
+      "sha256": "sha256:12f4644d6ebea5d14f89b527d4bdb682025e38d085b802f0ff7eb0dea958eddd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Git__Git-Release-6777ed1008866a1839fa.json",
+      "sha256": "sha256:75f07f9c6ec307a270f4118ed7375c3a19aba917a879866b2928108f205f763d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_execution_probe-Release-0ae46dc516355556d352.json",
+      "sha256": "sha256:bf66da559c2ea1daec362edde714c6ace1d337576115fc5e739a6da15c3fc39a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_probe-Release-3b07edaf671b4964313d.json",
+      "sha256": "sha256:74907a3f0ec332d88deeb9a3b7195198561c1ba426d698630fde508de465ccc6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gpt_repair_probe-Release-e2c083786920e3a582a5.json",
+      "sha256": "sha256:04c1028a2b0e08217c189890bd286115cef6243450088a61c7fba4566667473b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-guarded_journal_probe-Release-5a17dbda099c44ffb127.json",
+      "sha256": "sha256:44e564ee7cfe2ee354bfa00e89f58db6007022e2a22646000e8dcc18f41ccfc2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-gui_model_probe-Release-0afe0ca03fc892c38b87.json",
+      "sha256": "sha256:0b9789816d67dd1c85e88203bb329d3d2074600ed0346ddd763b99bc5788aef2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-health_observation_probe-Release-3697ad380eb1d45d1e80.json",
+      "sha256": "sha256:c9a89e93d826b6231a873354a88cc5886dcea8fb6ace388ead1af0beca9014e1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_file_capture_fault-Release-2ce48570801a6e4c95ee.json",
+      "sha256": "sha256:8983e30d0362b10339b4fc755bbd5317cf5415fca6cb8bc2e3a730866983a33a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_file_capture_probe-Release-cdc4f4b98c60d9afe3d7.json",
+      "sha256": "sha256:ee95eff22d9c9219ede37be65f7860b22ef189178bc9940ed46099a9259b146d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_observation_probe-Release-f966c031e6482e2bed8b.json",
+      "sha256": "sha256:06310742f6b0b22e4c7c2055af15cdf3a052fcc652c13d3f574e0df6ec07eb5e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_verification_collection_probe-Release-43c417911578658abdf7.json",
+      "sha256": "sha256:04f92186a361f747658fec54671c6738631799781049cf36f980a72089a41a6f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-image_verification_observation_probe-Release-5e5474174e13dc9e9cd2.json",
+      "sha256": "sha256:26b62a3c7c496fa1c1765b765c36da28c12210b4bad05a57466347c2a5cb5754"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-invocation_policy_probe-Release-bcf22d663dad9a90801d.json",
+      "sha256": "sha256:e5de3a88683fd36acfba93e034b88c67b9beb461be432b9c4ffd47f61721dad6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-journal_codec_probe-Release-0c1a27a0a4551e18e92c.json",
+      "sha256": "sha256:85b278c265e8de318aa7e94bf68fcb8b36350207a5dbaba818519abb9e3322b6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-journal_semantic_probe-Release-a60ddbb30473028401cf.json",
+      "sha256": "sha256:40be600d5a0fceed23bc843cf97680cc738d10f8250cc7c405641c3ed63c4c51"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-json_codec_probe-Release-9dcfa56c4519bb3f2969.json",
+      "sha256": "sha256:936c167df68a83174ff99f14ded6c495a8905c5ece0601f57ad7cf3cf98e97c1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-mbr_probe-Release-5dc7e2642afe3f522458.json",
+      "sha256": "sha256:f241eb0792123854a96dc6257427dfebc3bf44e61e28f750b46977169a8885dd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-memory_budget_probe-Release-df5d1388d10c453d32f6.json",
+      "sha256": "sha256:75e28b080f3471415695c1eb1fc75ac919229e31a588b6d4107e8f8921a93130"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-model_journal_producer_probe-Release-e10b579a221289506c4f.json",
+      "sha256": "sha256:548567054b393882bbafe1fea6a8c73a330b46685b1f8bfaeb12f8ee5ec4c5ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Nightly-Release-aab8a4b9ba5a96e3e392.json",
+      "sha256": "sha256:7653bc2216778e966d33cd0404a1ad0ee236498e6c11074b2b5175283dfb4234"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-NightlyMemoryCheck-Release-0b8f0f458d78d9b7a270.json",
+      "sha256": "sha256:165030b05e4f32304770c4f1f499e96ba0374227b0987291a538109ff800a50b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-operation_reducer_probe-Release-ebca8843b32794d65276.json",
+      "sha256": "sha256:9893cacef370ea5a1650d6fdc0c5ab9a19e0f618f6aa8adce3b12928872a1e61"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-plan_definition_probe-Release-44c72586cc93564fffd7.json",
+      "sha256": "sha256:af880dda54236c7fc0a394d0bdb6ecfa202ada08675d40f6934bdcc22e45424c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-portable_cpp-Release-180a2a71ae551673cf39.json",
+      "sha256": "sha256:d5077d79d3875a71d8731efc2e37f0c57cded5aafb947ebbeed9d2ab27820140"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-portable_probe-Release-0cd61076005690be4fbe.json",
+      "sha256": "sha256:02fa2c1680bbd37baa71677fb6bfb8ac8ecf04730e24fcbefa67f93a58481f6c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-presentation_rules_probe-Release-98848c92836078e81f2c.json",
+      "sha256": "sha256:3f37ad60df008099219f76ad58acc7b6782c71e422298cd90ee4dd3cc053de8a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-protocol_reader_probe-Release-8c28fbafe6f1f6972067.json",
+      "sha256": "sha256:6bd9c3aed7fcf04937021ad5534d8a39d260eed79ab33520bd88f11d20c3a627"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-provider_guard_probe-Release-f19abd976b1d793b4931.json",
+      "sha256": "sha256:088a4f692cf6647ea7768611ba338d06c24ff9a85c385575bedcdad77e390f5d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Python3__Interpreter-Release-cf72e288fe07d16d9e31.json",
+      "sha256": "sha256:1a50dd25444bd641135d042eb144c0053975ad92d5dae700a0d58cd4bcc66cda"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-Python3__InterpreterMultiConfig-Release-e22d2b2c883ba8587440.json",
+      "sha256": "sha256:ae7445acd9e492ba1f59caa1d17ec17737e1d201125a9e91fb7f93c4d1fb280a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_export_probe-Release-09124d31e5ff390c02f6.json",
+      "sha256": "sha256:2fbce2d78f0818eb34cd926599500217c5ec700e71ceb791ee816b250b612d2d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_worker_fault-Release-be9506ffe7b2483c4be0.json",
+      "sha256": "sha256:67aff20de1df5ba1765cfada20f4a358f1077cdaa387f8e3c64a1b4999774a19"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-report_worker_probe-Release-3116b974a9aaadb0fc0a.json",
+      "sha256": "sha256:32bd03ad7d200766765c34f3dfc34b4ab408784e52272178e212bd1e5031ce2e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-request_channel_probe-Release-2d4564afb46a5d313ac9.json",
+      "sha256": "sha256:9223f6610161691649a89e60a09df278ac68b54bade0450d27896a3fb804fbaf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-shell_model_probe-Release-9f7159445d9c25d8c93e.json",
+      "sha256": "sha256:ece61331cef85f95ad82d19b1eb4098f51c14fa489277ca265e030a34740be6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-tui_model_probe-Release-0b878dda2fd0f2b1df6e.json",
+      "sha256": "sha256:9f2328743a746ffe43be48204ba8bff84427e811ed08ca5add0192de493f0a3d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_case_fault-Release-4e27ca29ca42991c4221.json",
+      "sha256": "sha256:933f4e486627240eced319f2ef83eccc269c43dc636d5c4d47976697ce6cbc27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_case_probe-Release-14eb9b003521b6a05100.json",
+      "sha256": "sha256:fe5a6eb3872b7d1eb8525671bd55460bdf133998004fadb6f8e761e005ce5981"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_command_fault-Release-0a41d9952b7064be47ae.json",
+      "sha256": "sha256:333a82df7f90e712e1944f54276781a2c7ba91a01462b7d2328df48859a51394"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_command_probe-Release-f9b09c2f2d2cf546e503.json",
+      "sha256": "sha256:99e5433bb6f8931940978a395a8e6e3d7523556a43eebc4b9ed156ee42dfa84e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_worker_fault-Release-aec5f96043dfa6d96042.json",
+      "sha256": "sha256:fb97b0ab2de5b7334e84a7bf68de6702e1a113beaa25b94da09fc22d6def2fcb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-verification_worker_probe-Release-19a591fe9c15c4059570.json",
+      "sha256": "sha256:80f5e2b75e1401c7b884d797e859d4a585b883a1a96ff4ab91663572cb9bcb9f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-watch_probe-Release-68622dbe18e80281855f.json",
+      "sha256": "sha256:45a6f8dce922582f5be822b30d70de803ad8f36fb4ecc051b8980b8f34622309"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-worker_directory_probe-Release-42b227217ccb46c79de2.json",
+      "sha256": "sha256:4bc174d388d41f4b747697e29bfd2678c9e6dc5a6f083b4579df6b99bdb3053c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/cmake-codemodel/target-ZERO_CHECK-Release-052494a729b4272f26fb.json",
+      "sha256": "sha256:8217931e0c6a1e85a8fd84b0a6035999dcf1077d8f52481d1c467f52c5a40b6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/commands.json",
+      "sha256": "sha256:9b8906b9a5ae73d03e06e6b8c6f53cd11ac1fc136ee1fa1ee4b8896faddeeab5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/context-manifest.json",
+      "sha256": "sha256:247c0f68f621a1bae578cf453d09de743df9308584b857443a9555bd2deb7aea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/context.tar.gz",
+      "sha256": "sha256:e1e81ccbbbbfb65a253438ca26c3787d4e4d2eaf3c90486304095f549f6d7b60"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/boundaries-1.log",
+      "sha256": "sha256:293a3baa82e37532902db0f8b809ec8729c360239e57aac8e763f831895b9062"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/boundaries.log",
+      "sha256": "sha256:6a1bd4027115f2f4f0ad1495856c06a0c9a7560ebaf3e692e87f80331decf9fd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build-1.log",
+      "sha256": "sha256:5276764fed0dfc5150d3a8cb0998028fe59b6b97a7a5e241ec082fc31fae45f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build-fault-product.log",
+      "sha256": "sha256:995e82636f84089d5b91e27444de137691d24d70628b42da7ecb900ba7a08e87"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/build.log",
+      "sha256": "sha256:0d86f821798b4ef0cbe297873e3a9f31b48b6b49021531ac0f7f20d56bc4b487"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/commands.json",
+      "sha256": "sha256:1682d90dfd89e93c2c38cbd06feceb003913c2238303772b4b27416707c30cf7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/extraction-1.log",
+      "sha256": "sha256:51025880e9506ef621c530156a8c8d474be064b93c57bb6ad0345d9590fe270a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/extraction.log",
+      "sha256": "sha256:27db3ae31d1ede228291ae78cdc5282b5408c79b35b7da22d54a822f2fb6f58d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/failed-source-audit.json",
+      "sha256": "sha256:ac4fb8b3eeb5004b5a8ac2e7fdef92fedb552a296e5d119e31be41f2d6ced97f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/fault-regressions.log",
+      "sha256": "sha256:ece67c3b9eafdbc02ee67983508a0adff017ed5534c7b39badbc4ebdd978d878"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/fixed-boundaries.json",
+      "sha256": "sha256:9ca9cc1b4c7fcc7c0fd56a210b2489f2ef35a7d6ebbc8bff24090e89126f50bf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/initial-worker-harness-failure.md",
+      "sha256": "sha256:a98a812add0c0ab265a17a1352b9d42c4710f8622bf9acda92b8265bcdbc79ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/regression-1.log",
+      "sha256": "sha256:f3fd150763650d235632da50d8186df8067949c7ada1e26c0e751760c166afc8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/development-diagnostics/regression.log",
+      "sha256": "sha256:17a6ac08e0643715b2d7e7920b1458ade48add0a10a64af63f1dbc6b15b753e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/build-boundaries.json",
+      "sha256": "sha256:79c504d419f09950b6534a427f6cfbbd0dce29582b58fa4850c8e3ef80db8e0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/build-identity.json",
+      "sha256": "sha256:e1693a5c838dd2174be131c9d3efe9e6bfae2e04a289340a2f8fb45415c66c2b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/commands.json",
+      "sha256": "sha256:e511c04518ae7eda84ef1997896028bf0ed4f7d48dddd37827bdb037f90ae44a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/fat-extraction-cases.json",
+      "sha256": "sha256:d2aef8ffc4821b0edd30db501bdde24b5187c7ccad6e2c61da6db9b8aa038c5f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/gcc-identity.json",
+      "sha256": "sha256:f488557c1bfc887e484ccd2cdbb2523b79540dfa15f979ee1c8efa2be4db8cde"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/LastTest.log",
+      "sha256": "sha256:0100becfacd519db626858cda4f3ddbf2bf9f3fd54d413f514e3c23b815cf4a4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/LastTestsFailed.log",
+      "sha256": "sha256:13cb982a05061a01f610508bf6a7bb495b1baa3f5179931bc606386f659002d1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/boundaries.log",
+      "sha256": "sha256:22809caeec5e13d7e336073c600015a8e8f2652bcc7092c83dc06e48d6d85e74"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/build.log",
+      "sha256": "sha256:7fe11b160b11b0d701fd601967b8d893f18b613273a4bdc4f6af34e79a369f83"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/checkout.log",
+      "sha256": "sha256:18bd7cfb600563a4157fee58fd175ad51832b92fae5f669d92a9c78513830c6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/cmake-version.log",
+      "sha256": "sha256:a24e1ae7f8f715ef1f0121cd749052d73c6a4315dba5bb885c584553d826eb79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/configure.log",
+      "sha256": "sha256:9f0fe9783f64ee041e0498feca88c708c2a6ce71136b746eb8b977ec05b493a8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/existing-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/fetch.log",
+      "sha256": "sha256:d4824f516c0b3b09c7db240f6d0e6da592345c39129618716c1f189d2a788dd6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-description.log",
+      "sha256": "sha256:fd626e040a24a44a2ee20f50cf1e74a9cecf6f13e40c06fad872e33f40365082"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/gcc-version.log",
+      "sha256": "sha256:59c0f787b86909ac93d78de10d4e15e1a0fbc262697d34b509d1923a8788603f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/host.log",
+      "sha256": "sha256:be1e1e3ba87c018db4f9aba962a78a4ba2f72b32bc2a5058fefb838eecf98830"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/native-tests.log",
+      "sha256": "sha256:edc4523f9535706583e5f613f873f78167607a3fa01ec0fe4e23ee6f3248c8c0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/origin.log",
+      "sha256": "sha256:cd242a714f25fa0a37a6f8740a3d42f6b8fe29f10caa92468b43c2caa2ee786c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-map.log",
+      "sha256": "sha256:b2e7403befd87eb7573d43447aa994d03b917377e18dfd652506624d05deddd0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/source-tree.log",
+      "sha256": "sha256:6943a90042fbde835c956a539d79a1b2cdff942ee8849e12791b4b3e3adcf23e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/logs/test-catalog.log",
+      "sha256": "sha256:49fd0ef2d6f89559f420f8c1951543b440c5afd9a31d37e5ac7856b12110aeba"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/receipt.json",
+      "sha256": "sha256:780a666730bebe039a66b5334e676d62b301e817efa798271653e78f63ed489d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/source-blob-bindings.json",
+      "sha256": "sha256:4508787c1f0dbccd00f0fa5e6e8a4d50d00b84ce2c73a1e457369c753bcc7e31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/source-inputs.json",
+      "sha256": "sha256:3031d4ed5e6311cab67e66f27d18f40b80c37881f35f4aac02598089c60b7984"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/failed-a40c7b43/test-catalog.json",
+      "sha256": "sha256:35742cf330337614bf8df57a470cf1adc8465e516ac1aed36f07639bd0a52d23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-allocation-scan-cases.json",
+      "sha256": "sha256:36141659666224b878924d3a2b09125ccf94d25032c7d1375362b11ed24f9df2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-auxiliary-cases.json",
+      "sha256": "sha256:8d168030d83b3200b06df570d8ace3df35b2efc9cfc85fd641b3de2f0725553a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-capture-cases.json",
+      "sha256": "sha256:9c8cf543b46bcfea16647aabde9355814fc2e2793399b1f8ccb0dd6480983854"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-cases.json",
+      "sha256": "sha256:ef49142e3f4703dee4b2290fd2af44493d8f513e00d6f7bef9d2f3c0d114dcb0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-command-cases.json",
+      "sha256": "sha256:b0b9b436d0434822a149005e77dd50ef26508410fb001fc2de7d4b75fb514e22"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-content-cases.json",
+      "sha256": "sha256:1f68fa0ea87778e639703598d6e83d4814bba86ca3ece2563be684a9afddb446"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-content-file-cases.json",
+      "sha256": "sha256:1aebbf551e03b0fc8394dafcb74f305436294bfec8a3a217a3e47e33d57f46b4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-directory-cases.json",
+      "sha256": "sha256:d5a5c03c0007896bf3492d6257800e16dfbead3d6d5798e7afb56af737e6e095"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-extraction-cases.json",
+      "sha256": "sha256:1002f05a2b77767ecbf18eed24a2dd25185fef8f17665f73d070e3318c2fbaf2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-namespace-cases.json",
+      "sha256": "sha256:67f013ba2e049fa78bba4c9c34385c82d5a4c5a21da55f8c44529c25cc92ab67"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-retention-command-cases.json",
+      "sha256": "sha256:2668e47957a3a6e3567ad88393bb2b7dcfe4d81ea919c8b0cb5f14dd153feced"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-retention-store.json",
+      "sha256": "sha256:756427fe705d318efc605b70a1f9cb109952719e97dd45dd209b34c6f5399fbf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-window-cases.json",
+      "sha256": "sha256:5b5bb2e0515384c4dc04613193941d5756f9c72274ac6b875b8bf800332f92e7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-window-command-cases.json",
+      "sha256": "sha256:8ee11ad28d47fb272ca2a65bb0e878cbafcdf6da4628d57eb632ea907e54453b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/fat-worker-cases.json",
+      "sha256": "sha256:4b8fc6b0f7ed239f0828396f5e593ac0c9571991e2a3fe43681de805509a0b5c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/gcc-identity.json",
+      "sha256": "sha256:f488557c1bfc887e484ccd2cdbb2523b79540dfa15f979ee1c8efa2be4db8cde"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/header-objects.json",
+      "sha256": "sha256:5f029ecd6288fce271fa7a2e3434d52c4242cb0112d6d68861087dcfba701749"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-dependents.log",
+      "sha256": "sha256:fa962bb747fbc5e21f29b5608771b4d053b0a924651346ce711cb0cdcabc45cd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-headers.log",
+      "sha256": "sha256:dc49393fa7ee784c85a26bfdb233308109d635b239d14f03047482167f6ee011"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_fault-imports.log",
+      "sha256": "sha256:69cee3497d4be82caf1f41e07d5ea3b031f54410f506f68fdfae58b8b50d8aa7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-dependents.log",
+      "sha256": "sha256:c935a71125f4a240f41059693a514cd33b7f1a03671ea99e8ea7cd6022cc5d82"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-headers.log",
+      "sha256": "sha256:d9782294055b93158fffbc57aa003bcf59f2e7b325a75dca43f7d328b5d0d054"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/acquisition_worker_probe-imports.log",
+      "sha256": "sha256:4cb4fdeb32b509532740c71555ba1a028d6ec087a117df1a9dab8501de655f8d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/boundaries.log",
+      "sha256": "sha256:26e415e3bfdc6ddc39887cc8149c82b795d10f24cce8a13d975ad897f4c6375f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/build.log",
+      "sha256": "sha256:aa30fe1b99a1719f76139fbbbaefbba583bf13337061c97f4c830acceec94060"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/checkout.log",
+      "sha256": "sha256:81844cbc2ba0f092fc4319a0dd4b97ff22ced57bce094df99a7a3695a36c45ee"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/cmake-version.log",
+      "sha256": "sha256:a24e1ae7f8f715ef1f0121cd749052d73c6a4315dba5bb885c584553d826eb79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/configure.log",
+      "sha256": "sha256:b5f7e11b57675d5494b691ffea422270803f97e752f9c8c2a2fcc1b1e5b44bb5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/context.log",
+      "sha256": "sha256:86db6feb026b74e5a9aea6aabe839b1812dc7c45b0414d3a1029f56ae1ef79b8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-dependents.log",
+      "sha256": "sha256:65d587aa7fc70c5e92e5771430ad9a5ac4186707eef97272422f4bf545b6c32c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-headers.log",
+      "sha256": "sha256:2a833c9ec36a1de48444ad7b479adb81c2d18b666ba3db0ac2c126fb5e7a1ad6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked-imports.log",
+      "sha256": "sha256:6d8610a520c395079b63c4016c2e8a4e3718ccf4a8bb6175d6261dc1641931a9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-dependents.log",
+      "sha256": "sha256:756b9a60913fd1d64eb6b1883debb096a524b507e34ce5c40ebb30effce69ecc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-headers.log",
+      "sha256": "sha256:5a27074ae2aca1ce2acad61f939488bac91e93415bac3d738bc0d91aa01659b2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/disked_fat_test-imports.log",
+      "sha256": "sha256:8fe9000d9bdbaf3c6ce70fd3cbc6c4fb81ccba0d69698f3fd6746e73438d7bfb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/existing-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat-retention-store.log",
+      "sha256": "sha256:e8031b141b9acad80bbe32b858ee66aad64f61408f3866c9e038204114d14039"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-dependents.log",
+      "sha256": "sha256:2eb7477c362def2680bcee55fad80d82810c13a35c663124816deb9a6274fa4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-headers.log",
+      "sha256": "sha256:966fecbbf92df2a0475a69b2e5ba1c1190d31518736c82a03eb0bf8bb775ad69"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_fault-imports.log",
+      "sha256": "sha256:f916c1846619ab9f957a990c04bf2321baa05db8c46377c5a8b063f88ff5c55f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-dependents.log",
+      "sha256": "sha256:8cb900819d684b5e1b6b8061c3153613f5fa9bc5b175fb68c5050e1814081a20"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-headers.log",
+      "sha256": "sha256:f451f6063141059bef7a4a1e225379f20958cc598047f2b3733ce60572c36a78"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_capture_probe-imports.log",
+      "sha256": "sha256:a42cd4a8603eac5c7056fb0be74c25ad545b50105245236f68abfee141dc0e65"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-dependents.log",
+      "sha256": "sha256:b929e8ca5283a604fe642b3b2877f434a3ff86a4525cd763e4a387bc5a3267d9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-headers.log",
+      "sha256": "sha256:f9ed14aa535d58ced5c936e5321eea55e6ed4a1ae60c16efd3ce85842a5b72cb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_content_probe-imports.log",
+      "sha256": "sha256:dbc891c8223f90ebfd7ccd3a5c0b0b444f0516c596ac4846debf0e95a848ef01"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-dependents.log",
+      "sha256": "sha256:2b6903b0246fb479d8e9fff2fba5a754680bcec7a32c9f6870aefe17ee2eae1f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-headers.log",
+      "sha256": "sha256:6ae4d72ef70ab21e1b95efe14f8471db4c40bccbac1b6a3def08895d3816ce06"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_directory_probe-imports.log",
+      "sha256": "sha256:a429f1a5b595a841981dc7093cf3b03b63f10a71a7104a992cac0598bdfb0ae1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-dependents.log",
+      "sha256": "sha256:8c388b413feb355a23c30d5e22cb7aa14f115d88550697b3a4b6e16c85fed1f7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-headers.log",
+      "sha256": "sha256:40cba0a2a18e9b67955f7aca8a4f4f01a646ff3eb10bad4ba92c79ce874f4bb2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_probe-imports.log",
+      "sha256": "sha256:143950b5a03f28baed8aa1369a43fbfa55eed4c473181a4f14425902267be725"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-dependents.log",
+      "sha256": "sha256:8030cebec132339df68c00c49e55733b2324e11d36c7131a6c1d056371525251"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-headers.log",
+      "sha256": "sha256:32cc6fb4ac1d3385ee8cbd2f6a89c657cad9ca3b691327803a156784aa2b272e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_retention_probe-imports.log",
+      "sha256": "sha256:28347f56a1fc2e3ce074e24de3ad5b1ef53434cebdc2b48b58532e8d23bb448f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-dependents.log",
+      "sha256": "sha256:31b8db5cacbe07c26b346b5677ecf422ebd8b518471dbc81ab27732b43c7cfc0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-headers.log",
+      "sha256": "sha256:a3198381584cbe40ad0454fe7d0eebbbcfbc59c9716eae0eb5dbd6310069291e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_fault-imports.log",
+      "sha256": "sha256:ab6eef944c252c9bc114b5d76dcd7d4c7ab6dd836ac3f2860a3d2d378a023ac1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-dependents.log",
+      "sha256": "sha256:1d5d06f7b697d841287a2dcaaad55c9a415cec28a9f749e59de6d98bfdcc33f9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-headers.log",
+      "sha256": "sha256:d11679417eaa99226410e153ac099d1a8d8484f8b427084f56c6ee504a8aea7b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fat_worker_probe-imports.log",
+      "sha256": "sha256:a365dfa1494ac7a869da493c27ed93f7beedeec3c62aa049f2a8176c01a13f0b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/fetch.log",
+      "sha256": "sha256:7fdfa0c4c6e695ada7a25b97a0c97ebba8aea01fa5af9b90f25a58d5ba42b7ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-dependents.log",
+      "sha256": "sha256:4bf53ff6210779b406565d34ed1366316dc1adfab839569ba3635156cc0d6aaf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-headers.log",
+      "sha256": "sha256:2f2d7972ae82eb73a7acda037685735f8f86d7ed74f7035203265c272ebe702e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_fault-imports.log",
+      "sha256": "sha256:08a1c680c9d78af21895d9d2cfa1adba12265ea4add56760339d83f20883b5e0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-dependents.log",
+      "sha256": "sha256:9320fd6c4d83b8f079c2a6dc757c99f2bf82b4f0699a05654fcfa3c891b6c1ab"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-headers.log",
+      "sha256": "sha256:1b55c445cb56d70c660a0b3c3382cd7919d2920eae40da53ec9231111a8356ae"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/file_acquisition_probe-imports.log",
+      "sha256": "sha256:b2487f22930e98d052777f0be291afbb47419ffbceaa79d7e12c3cd767723f32"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/final-source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-description.log",
+      "sha256": "sha256:fd626e040a24a44a2ee20f50cf1e74a9cecf6f13e40c06fad872e33f40365082"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/gcc-version.log",
+      "sha256": "sha256:59c0f787b86909ac93d78de10d4e15e1a0fbc262697d34b509d1923a8788603f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/host.log",
+      "sha256": "sha256:be1e1e3ba87c018db4f9aba962a78a4ba2f72b32bc2a5058fefb838eecf98830"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/index.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/manifest.log",
+      "sha256": "sha256:50fbe6552e62c9452b9e47b0ef600887a815c20993bf51b38ac0d92274e2e50b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/native-tests.log",
+      "sha256": "sha256:05b9626ac7cb7a66bf0bb3bb3e9d4af2ad49a9ea06e25ec086858b2fba5211b1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/origin.log",
+      "sha256": "sha256:cd242a714f25fa0a37a6f8740a3d42f6b8fe29f10caa92468b43c2caa2ee786c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/product-launch.log",
+      "sha256": "sha256:d43f57e70f9821dfd943d57cb8f957ef79acf0a43ed5ee8e0f0ea109f278d7b2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-map.log",
+      "sha256": "sha256:b2e7403befd87eb7573d43447aa994d03b917377e18dfd652506624d05deddd0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/source-tree.log",
+      "sha256": "sha256:890e44289b5486b7b4ddd83c148bb2d47b2f9e0d3eeb8ce19d766387701bd906"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/spec-check.log",
+      "sha256": "sha256:dcfb252e4b787f062175e4bd29dfe46f638f4b9b8582539ca3a37b5d20e4881b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/test-catalog.log",
+      "sha256": "sha256:ecbaf50d337590d937a35ff9f723746ee0b09e410a9a54b350c28d0be132ec84"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/tooling.log",
+      "sha256": "sha256:404d81b1604bf1e1f58f6a4066ce8f1f222d7c00a005f1c9cf885b35188248ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/logs/verify-context.log",
+      "sha256": "sha256:25c7c82a70179e5e4c1a114072349d0e66c5276ffc7b51ab970666b6f65d00bb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/native-details.log",
+      "sha256": "sha256:5679b27afbb6b546088eeeaece9f04951d0f2aecdda56d2acb55bf8e58ecb4bc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/private-header-usage.json",
+      "sha256": "sha256:20f93cf76f6a01b15e4ca6f61e6e9a95f77476054ead84897d93be498c532599"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/README.md",
+      "sha256": "sha256:351566a14c0b4513b4a80f483a16f095e1850628ebeb9fe08e0bc9f39fe6eb7c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/reproduce.py",
+      "sha256": "sha256:2732de277394ec8c054a2c901eab684944588339d7b434e751f05bc69596fe70"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/retention.json",
+      "sha256": "sha256:1cb33cbb0ec4316ccac300cd6648e498d14109821bd00d073ee43c1ca2930626"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/REVIEW.md",
+      "sha256": "sha256:7dc3887d2057e77eebe82168464a5d760d1993ba3159aeac99a5a2504dacb7e9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/source-blob-bindings.json",
+      "sha256": "sha256:81641ef0ae9f40bb9b7fe08b12eac1e707816ddbf2e59fb99cf1eba6ac7cab79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/source-inputs.json",
+      "sha256": "sha256:59bab0b8ff6f138d04721faf874ec45a1000723f1f8031dfd04d2bfb67d66ac8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/summary.json",
+      "sha256": "sha256:3334adcdf3080c851c092e3f88ea0c69bdcf651e799ed0da77ff92def27f8baa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction/test-catalog.json",
+      "sha256": "sha256:8d99fbba8ffd6247dab9ca8ad7e359ff6c6eda1a46fc5f82b352f6d8e6a01ecb"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Implement and qualify the public extraction command/frontends using the complete-file checkpointed backend. Keep coherent larger traversal, future targets and the unchanged full 0.1.0 scope; owner and production journal/recovery/physical/elevation/customer/install/sign/release gates remain separate.",
+  "performed_remote_writes": true
+}

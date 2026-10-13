@@ -39,3 +39,8 @@ filesystem metadata, recurse through trees, mount images, qualify an atomic
 snapshot or access physical devices. Larger coherent maps, public command/frontend
 admission, further filesystems/hosts, production recovery and the unchanged full
 all-platform/storage 0.1.0 remain subsequent work. Owner/release gates stay separate.
+
+Exact source `20ecddbd` passes complete mapped-file extraction cases, 104 native groups
+and 20 standalone headers in the recorded Windows lane. [Retained evidence](../.aide/evidence/2026-10-13-fat-extraction/README.md). This is complete-file backend qualification;
+public extraction, future source freshness and full product/owner admission remain
+separate. Historical failures retain their actual outcomes.

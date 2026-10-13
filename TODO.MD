@@ -341,4 +341,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes59 cases/11 methods, with the209 supplied-reader cases and109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full0.1.0 stay open.
 
-- [ ] DE-W047: qualify complete mapped FAT file extraction through checkpointed acquisition and native workers. Focused complete-file/resume/no-clobber/backing tests pass; clean full regression and public command admission remain pending. [Contract](docs/fat-extraction.md).
+- [ ] DE-W047: review the qualified complete mapped FAT file extraction backend. Complete mapped-file backend is qualified at `20ecddbd`: 104 native groups, 20 selected headers and full logical-file/destination/resume evidence; public command admission and full 0.1.0 remain open. [Contract](docs/fat-extraction.md).

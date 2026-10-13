@@ -1,0 +1,52 @@
+[
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target file_acquisition_probe file_acquisition_fault acquisition_worker_probe acquisition_worker_fault acquisition_probe",
+    "exit_code": 0,
+    "log": "build.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_extraction$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "extraction.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.(file_acquisition|acquisition_pipeline|acquisition_worker)$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "regression.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "boundaries.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target file_acquisition_probe file_acquisition_fault acquisition_worker_probe acquisition_worker_fault acquisition_probe",
+    "exit_code": 0,
+    "log": "build-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.fat_extraction$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "extraction-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.(file_acquisition|acquisition_pipeline|acquisition_worker)$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "regression-1.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^build.boundaries$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "boundaries-1.log"
+  },
+  {
+    "command": "cmake --build build/windows-bootstrap --config Release --parallel 4 --target disked_fat_test disked",
+    "exit_code": 0,
+    "log": "build-fault-product.log"
+  },
+  {
+    "command": "ctest --test-dir build/windows-bootstrap -C Release -R ^image.(fat_retention_commands|fat_commands|fat_window_commands)$ --output-on-failure --no-tests=error",
+    "exit_code": 0,
+    "log": "fault-regressions.log"
+  }
+]

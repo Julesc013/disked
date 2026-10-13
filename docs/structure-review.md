@@ -1,6 +1,34 @@
 # Source structure and release review follow-up
 
-## Current checkpoint: 13 October 2026
+## Qualified source checkpoint: 13 October 2026
+
+The [source map](source-map.md) covers **224 current source files**. CLI has its
+own folder; shell, TUI and GUI use their explicit model names. Keep the existing
+ownership tree and module-qualified includes. The new complete-file acquisition
+backend reuses existing owners rather than adding another source hierarchy.
+
+DE-W047 is qualified at source `20ecddbd`: **104 native groups**, **20 selected
+standalone headers**, 226 tooling passes and
+2 skips. [Exact-source commands, artifacts and evidence](../.aide/evidence/2026-10-13-fat-extraction/README.md)
+retain complete mapped FAT12/16/32 byte-content extraction, destination/checkpoint
+and resume results in the recorded Windows lane. This is a private backend;
+public command/frontend admission, larger coherent traversal and the unchanged
+all-platform/storage 0.1.0 remain unfinished. These results do not qualify
+metadata restoration, physical writers, production recovery or other hosts.
+
+The first full campaign at `a40c7b43` failed three groups because a normal FAT
+provider entered the fault-test executable through a new dependency. Same-handle
+metadata capture removed that dependency; the existing build checker now forbids
+normal file/snapshot/worker providers in that composition. Old failures retain
+their terminal outcomes; the repaired source has its own fresh full campaign.
+This is a concrete dependency correction, with no need to move the source owners.
+
+The authorized workflow integrates tested, agent-reviewed `dev` checkpoints into
+`main`. Integration is separate from owner acceptance and release. The earlier
+upstream observations below are dated; they do not constitute DiskEd/Setup
+installation qualification or an estimate for the full release.
+
+## Earlier checkpoint at f8a3eb84: 13 October 2026
 
 Rechecked at `f8a3eb842b68fe0666d01711ce95b5dbc5a6a70f`. Remote `dev` and
 `main` both name that revision. The assessment below is retained at its original
