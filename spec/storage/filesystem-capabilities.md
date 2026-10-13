@@ -70,6 +70,12 @@ remain subsequent capabilities. No mount, TexFAT transaction or writer claim fol
 
 ## DE-W064 supplied-byte exFAT directory metadata
 
+W058's final clean-source campaign at `1e938369` passed130native groups,
+42standalone header compilations,242tooling tests with2skips and all four local
+criteria. Exact source/build/import/context/artifact identities and local agent
+review are retained under `.aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/`.
+Original failed runs remain retained. Owner and full product acceptance remain separate.
+
 The [directory contract](../catalog/exfat-directory-prototype.json) follows local
 DE-W058 review. It binds fixed slots and complete entry sets, lossless original
 UTF-16 units, exact entry-set checksums, calendar/offset observations and checked
@@ -84,6 +90,16 @@ native probe/oracle are now implemented after recorded W058 native-stage review.
 Scratch checks passed2316cases/9methods; integrated native/header/import/source
 qualification is running. Neither scratch success nor directory association
 establishes allocation, name equality, current source authority or public use.
+
+## DE-W065 supplied-byte exFAT bitmap intervals
+
+The [allocation contract](../catalog/exfat-allocation-prototype.json) closes the
+next expected bitmap descriptor/interval behavior before implementation. It
+observes exactly requested cluster bits from a checked bounded supplied window.
+Root cardinality, active FAT/bitmap source pairing, present-source coherence and
+ownership remain runtime gates; reserved tail bits do not enter interval counts.
+Upcase validation and full name comparison remain required before lookup claims.
+Allocation implementation/tests are not_run at this contract checkpoint.
 
 ## DE-W025 supplied-byte FAT allocation reader
 

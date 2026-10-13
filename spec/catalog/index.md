@@ -17,6 +17,7 @@
 - [compositions.json](compositions.json)
 - [concepts.json](concepts.json)
 - [decisions.json](decisions.json)
+- [exfat-allocation-prototype.json](exfat-allocation-prototype.json)
 - [exfat-directory-prototype.json](exfat-directory-prototype.json)
 - [exfat-reader-prototype.json](exfat-reader-prototype.json)
 - [export-command-prototype.json](export-command-prototype.json)

@@ -5823,7 +5823,7 @@
       "id": "DE-W058",
       "title": "Decode bounded supplied-byte exFAT boot and allocation metadata",
       "phase": "M2",
-      "status": "active",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W020",
@@ -6003,6 +6003,94 @@
         "source/portable/exfat/directory.c",
         "tests/unit/exfat_directory_probe.cpp",
         "tests/property/test_exfat_directory.py"
+      ]
+    },
+    {
+      "id": "DE-W065",
+      "title": "Observe bounded supplied-byte exFAT allocation bitmaps",
+      "phase": "M2",
+      "status": "planned",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W064"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "source/portable/exfat/**",
+        "tests/images/**",
+        "tests/legacy/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tools/check-build-boundaries.py",
+        "spec/catalog/source-maintenance-prototype.json",
+        "tests/tools/**",
+        "tests/frontend/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 supplied-byte allocation bitmap descriptor and bounded bitmap interval observations. The original full0.1.0 platform/storage scope remains; no host IO, mount, allocator/writer, coherent directory traversal or present-source claim.",
+        "Extend the existing portable/exfat private API and add allocation.c; retain allocation cells in boot.c and checked/view primitives. No generic new scheduler or duplicate FAT owner.",
+        "Exactly32borrowed bytes decode in-use81bitmap entry, identifier0/1, FirstCluster and DataLength. Caller supplies clusterCount1..2^32-11, cluster byte shift9..25 and FATcount1/2. Validate bitmap identifier fits FATcount, valid cluster2..clusterCount+1, length at least ceil(clusterCount/8) and at most checked heap bytes. Reserved bytes/bits remain raw with advisory issues. Descriptor validity does not establish root location/cardinality, chain correctness or active selection.",
+        "Caller supplies at most8192borrowed bitmap bytes, their exact bitmap-relative u64byte offset, separately declared bitmap DataLength, clusterCount, first requested cluster and count, plus a requested-bit work budget. Refuse invalid API, oversized views, unavailable whole requested interval, offset+length overflow or exceeded budget without changing output/input. No proportional allocation. Checked interval must fit clusters2..clusterCount+1 and the declared bitmap length. Interpret bit(cluster-2) with lowbitfirst byte ordering; zero available_for_allocation, one unavailable, never assign ownership reason from bit alone. Report checked unavailable/available counts for exactly requested clusters; do not read beyond borrowed bytes or count reserved tail bits.",
+        "The algorithm observes supplied bitmap facts only. Runtime callers must bind the root descriptor, held source/capture/epoch, active mainFAT and corresponding bitmap identity. Stale backup flags, inactive copies, incomplete directory and root cardinality cannot authorize free-space, equality or mutation. No chain, bad-cluster cause or global filesystem health inferred."
+      ],
+      "acceptance": [
+        "Independent Python byte/integer descriptor oracle for one/twoFAT identifiers, min/maxcluster counts, exact bitmap lengths, firstcluster, heap capacities and advisory reserved raw values.",
+        "Independent interval bit/count oracle across all byte bit positions, windows at large offsets/maxcluster, partial final bytes, zero/full/mixed patterns and exact requested boundary counts; exclude reserved bits.",
+        "Checked u64 offset/range overflow, invalid cluster/count/budget/truncated/overlong/inaccessible views preserve output/input; actual read-only/end-of-page protected guards.",
+        "StrictC90/native/header/import/source/artifact/context evidence and relevant exFAT/FAT/GPT regressions, with prior unchanged-source full results explicitly distinguished from fresh tests. No global allocation/owner/provider/writer/fullrelease admission."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap",
+        "ctest --preset windows-bootstrap",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-allocation-prototype.json",
+        "spec/catalog/exfat-directory-prototype.json",
+        "spec/catalog/exfat-reader-prototype.json",
+        "source/portable/exfat/exfat.h",
+        "source/portable/exfat/boot.c",
+        "source/portable/exfat/directory.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json"
       ]
     }
   ]
