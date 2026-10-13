@@ -357,4 +357,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - DE-W056: private recursive FAT extraction/controller/history inspection qualified at clean source 243f748e: 120 native groups, 32 selected headers and 236 tooling passes/two skips. Agent review recorded; owner acceptance, public/frontend lifecycle and broader storage/platform admission remain. [Evidence](.aide/evidence/2026-10-14-fat-recursive-qualification/README.md).
 
-- DE-W057: implement shared recursive extraction commands and durable ordinary-file operations. Immutable effect-review semantics are under focused development; native admission, lifecycle and actual CLI/protocol/GUI/TUI/shell journeys remain. [Contract and progress](docs/fat-recursive-command.md).
+- DE-W057: immutable reviews and native owned-store/fresh-review/dispatch pass focused tests. Independent retained-state/reconnect and actual CLI/protocol/GUI/TUI/shell admission plus full clean-source qualification remain; the public command stays planned. [Contract and progress](docs/fat-recursive-command.md).

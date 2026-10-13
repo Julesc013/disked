@@ -1,5 +1,26 @@
 # Source structure and release review follow-up
 
+## Native recursive admission development: 14 October 2026
+
+Active DE-W057 now passes 41 native cases/11 methods over actual pinned stores,
+independent child IDs/hash chains/output bytes and separate preparation/execution
+processes. It compares fresh native source/store/code/namespace facts against
+immutable review before five exact grants and create-only store reservation.
+Dispatch intent is flushed before the old private-plan grant; publication and
+actual exit are separate observations. A 33,000-cluster file, missing/stale
+grants/reviews, foreign resources, cooperative cancellation, hangs, store-write
+failure and store pinning while a completed child remains alive have retained
+results. A failed state write/flush freezes the ledger; no uncertain-tail append.
+
+The store joins the existing worker dependency owner before launch, including
+unknown retirement. There is no new scheduler or retention subsystem. The source
+map covers 254 files; selected headers and normal/fault dependency checks pass.
+Three selected native groups and 236 tooling tests pass with two skips.
+These are focused development results. Independent retained-state/reconnect,
+actual common frontend commands and full exact-source qualification remain.
+The public command remains planned; full original 0.1.0/owner/storage/release
+acceptance is not implied.
+
 ## Recursive effect review development: 14 October 2026
 
 Active DE-W057 begins common-command/durable-operation admission. Its immutable

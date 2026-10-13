@@ -396,6 +396,7 @@ struct FatTreeExtractionWorker::Impl {
     std::unique_ptr<View> view;
     std::unique_ptr<ObservationWorker> worker;
     std::shared_ptr<const FatTreeExtractionPreparation> preparation;
+    std::shared_ptr<const FatTreeStore> store;
     V outcome;
     std::string publication_digest, phase, diagnostic;
     bool grant_sent = false, failed = false;
@@ -495,6 +496,11 @@ FatTreeExtractionWorker::prepare(const FatTreeExtractionRequest &r, const V &fix
 void FatTreeExtractionWorker::launch() {
     impl_->check();
     impl_->worker->launch();
+}
+void FatTreeExtractionWorker::retain_store(std::shared_ptr<const FatTreeStore> store) {
+    if (!store || impl_->store || !never_launched())
+        invalid("fat_tree_writer_store_lifetime");
+    impl_->store = std::move(store);
 }
 void FatTreeExtractionWorker::release() {
     impl_->worker->release();
