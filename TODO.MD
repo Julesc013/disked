@@ -348,3 +348,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W049: qualify logical extraction cases, independent destination/map verification and all-policy joined support. Focused native and actual interface journeys pass; Source-bound qualification at `a7041767` passes 107 native groups and 20 selected headers; further traversal/fidelity and full0.1.0 remain open. [Contract](docs/logical-extraction-evidence.md).
 
 - [ ] DE-W052: review the qualified private FAT allocation cursor at `112aa1e9`: 109 native groups, 20 selected headers and 188 independent cases, with chains to 33,000 clusters. Paged trees and recursive metadata fidelity remain open. [Contract](docs/fat-walk.md).
+
+- [ ] DE-W053: qualify source-bound FAT directory paging; focused development passes 103 cases, including 17,601 entries and a 1,100-cluster directory. Held native sources/workers, recursive extraction and metadata fidelity remain. [Contract](docs/fat-traversal.md).

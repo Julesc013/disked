@@ -5211,6 +5211,97 @@
         "tests/unit/fat_walk_probe.cpp",
         "tools/build-inputs.json"
       ]
+    },
+    {
+      "id": "DE-W053",
+      "title": "Traverse complete FAT directory trees through source-bound pages",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W052"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-031",
+        "DE-037",
+        "DE-103"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private source/epoch-bound paged FAT12/16/32 directory traversal through the existing checked supplied-region port. Traverse larger complete trees using the qualified allocation cursor and portable directory/LFN decoders; no physical I/O, public dispatch or recursive destination effects.",
+        "Private owned in-process state, not a trusted serialized cursor. Iterative breadth-first directory queue; one active allocation cursor and a global directory-storage visited bitmap. No fixed128-node result cap or1024-cluster chain cap. Per-page read/record/event/byte limits, total bitmap memory, queue capacity and depth are explicit. Resource exhaustion yields an incomplete terminal observation, never silent omission or damaged-filesystem classification."
+      ],
+      "acceptance": [
+        "Independent sparse FAT12/16/32 fixtures: complete trees beyond128 nodes, directory chains beyond1024, fixed/cluster roots, noncontiguous/deep directories, dot/reused/cyclic storage and every damaged chain marker.",
+        "Lossless names/metadata across page and cluster boundaries; malformed/orphan/deleted LFN and no normalized source values. Reassemble different page partitions into identical event streams and parent/source-offset relationships; independently recompute every chained page digest.",
+        "Exact binding refusal before I/O or advancement; applicability changes before/during/after reads; short/overlong/error readers; explicit bitmap/queue/depth/page budgets and unchanged programmer-error state. Held ordinary-file provider/worker integration remains separate unless actually run.",
+        "Clean exact-source native build, complete existing regressions, standalone header, source map/dependency/context/tooling/manifest and artifact/import evidence. No owner, real-media, full release or historical-host claim."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        ".aide/evidence/2026-10-13-fat-traversal/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-traversal/reproduce.py",
+        "AGENTS.md",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "docs/fat-traversal.md",
+        "docs/source-map.md",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/directory.c",
+        "source/portable/fat/fat.h",
+        "source/portable/fat/volume.c",
+        "source/portable/hash/sha256.h",
+        "source/runtime/capture/fat_capture.cpp",
+        "source/runtime/capture/fat_capture.h",
+        "source/runtime/capture/fat_namespace.h",
+        "source/runtime/capture/fat_traversal.cpp",
+        "source/runtime/capture/fat_traversal.h",
+        "source/runtime/capture/region_reader.h",
+        "source/runtime/command/json.h",
+        "spec/catalog/fat-directory-prototype.json",
+        "spec/catalog/fat-traversal-prototype.json",
+        "spec/catalog/fat-walk-prototype.json",
+        "tests/images/test_fat_capture.py",
+        "tests/images/test_fat_traversal.py",
+        "tests/property/test_fat_directory.py",
+        "tests/unit/fat_traversal_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }

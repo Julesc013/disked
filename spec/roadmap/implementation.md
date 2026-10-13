@@ -326,3 +326,10 @@ FAT owner, with explicit visited-memory and per-step supplied-cell boundaries.
 Qualify the exact source before integrating coherent directory pages, lossless
 name/metadata continuation and recursive extraction. Keep old capture/selector
 semantics versioned and retain the full all-platform/storage0.1.0 programme.
+
+
+DE-W053 integrates the allocation cursor into source-bound directory pages.
+Qualify complete larger trees, cross-page lossless names, changed-scope refusals,
+capture withdrawal and finite resources, then qualify held ordinary-file/worker
+integration and recursive extraction/metadata fidelity. The full all-platform/
+storage0.1.0 programme and its separate production/owner/release gates remain.

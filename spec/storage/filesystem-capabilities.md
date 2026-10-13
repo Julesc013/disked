@@ -263,3 +263,16 @@ I/O or trusted persisted continuation is introduced. Existing bounded capture,
 selectors and extraction formats remain unchanged. Source/capture binding, paged
 directory traversal and recursive extraction require subsequent integration;
 this primitive does not admit a filesystem, provider or historical host.
+
+
+## DE-W053 source-bound directory pages
+
+The [private traversal profile](../catalog/fat-traversal-prototype.json) uses the
+qualified allocation cursor and existing lossless directory/name decoders to
+traverse larger trees through bounded pages. Source/window/copy/capture/epoch
+binding, mandatory applicability observations, explicit memory/queue/depth and
+page budgets, unique source-offset identities and retained partial name records
+are part of this prototype. Pages are historical observations rather than a
+trusted serialized continuation, native source-opening right or extraction grant.
+Held native sources, contained workers and recursive destination metadata effects
+remain separate work. Existing capture/selector/plan versions remain unchanged.

@@ -1,0 +1,23 @@
+{
+  "schema": "org.disked.fat-traversal-profile/1",
+  "work_id": "DE-W053",
+  "status": "expected-contract-before-implementation",
+  "base_revision": "4adbb224294075c4301e9cf94e9681ec8bbe58b7",
+  "scope": "Private source/epoch-bound paged FAT12/16/32 directory traversal through the existing checked supplied-region port. Traverse larger complete trees using the qualified allocation cursor and portable directory/LFN decoders; no physical I/O, public dispatch or recursive destination effects.",
+  "identity": "Binding includes source ID, capture ID, nonzero epoch, source bytes, exact volume window and selected FAT copy. Every next call must supply that exact binding before work. The applicability callback is mandatory and checked before/after each read and before page publication. False/throwing callback permanently withdraws applicability; previous pages stay historical. These caller observations authenticate no source and do not imply an atomic snapshot.",
+  "continuation": "Private owned in-process state, not a trusted serialized cursor. Iterative breadth-first directory queue; one active allocation cursor and a global directory-storage visited bitmap. No fixed128-node result cap or1024-cluster chain cap. Per-page read/record/event/byte limits, total bitmap memory, queue capacity and depth are explicit. Resource exhaustion yields an incomplete terminal observation, never silent omission or damaged-filesystem classification.",
+  "data": "Every short record, original metadata/encoding bytes, associated long-name slots and original UTF-16 units retain source offsets and parent entry identity. Pending LFN slots survive pages/sectors/clusters; orphan/deleted/dot/volume/invalid records stay distinguishable. Display escapes original units rather than normalizing them. Directory storage reused by different entries and cycles must terminate without repeated content expansion. No global file-allocation/cross-link or namespace-consumer qualification is claimed.",
+  "pages": "Sequence and chained private page digests bind exact owned events and current applicability/outcome. Pending events are retained if output budget ends. Pages do not silently drop observations; short/overlong/throwing reads, unusable geometry, invalid selected copy, stale epoch and forbidden directory links produce distinct outcomes. Old capture/selector/extraction versions remain unchanged. No imported page grants extraction or proves freshness.",
+  "qualification": [
+    "Independent sparse FAT12/16/32 fixtures: complete trees beyond128 nodes, directory chains beyond1024, fixed/cluster roots, noncontiguous/deep directories, dot/reused/cyclic storage and every damaged chain marker.",
+    "Lossless names/metadata across page and cluster boundaries; malformed/orphan/deleted LFN and no normalized source values. Reassemble different page partitions into identical event streams and parent/source-offset relationships; independently recompute every chained page digest.",
+    "Exact binding refusal before I/O or advancement; applicability changes before/during/after reads; short/overlong/error readers; explicit bitmap/queue/depth/page budgets and unchanged programmer-error state. Held ordinary-file provider/worker integration remains separate unless actually run.",
+    "Clean exact-source native build, complete existing regressions, standalone header, source map/dependency/context/tooling/manifest and artifact/import evidence. No owner, real-media, full release or historical-host claim."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "owner_accepted": false,
+  "release_ready": false,
+  "directory_follow": "Dot/deleted/volume/invalid records are never descended. A directory with contradictory attribute, cluster-word or file-state issue bits remains lossless observed metadata but is explicitly not followed, and tree coverage stays incomplete. Bad starts and shared directory clusters remain separately observed."
+}
