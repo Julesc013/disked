@@ -61,7 +61,10 @@ checksum and allocation-cell observations use the existing C90 checked byte
 layer. Main/backup provenance, exact raw values and unsupported features remain
 separate. The official [Microsoft exFAT specification](https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification)
 owns format semantics; this private contract owns implementation limits and tests.
-Implementation and native tests are not yet run. Allocation bitmap, upcase table,
+Checkpoint `38b6683a` implements the private decoder; working independent
+oracle2320cases, protected/read-only input and focused native/C90/boundary checks
+pass. Exact clean-source full qualification is running; working evidence is
+retained under `.aide/evidence/2026-10-14-exfat-working/`. Allocation bitmap, upcase table,
 directory sets, traversal, provider/frontend and actual host/storage qualification
 remain subsequent capabilities. No mount, TexFAT transaction or writer claim follows.
 

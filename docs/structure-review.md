@@ -1,5 +1,32 @@
 # Source structure and release review follow-up
 
+## exFAT development and Setup status: 14 October 2026
+
+Dev checkpoint `38b6683a` adds a private C90 supplied-byte exFAT boot/checksum,
+geometry and allocation-cell decoder under `source/portable/exfat/`. The existing
+owners accommodate it without a repository restructure. Working checks passed
+2,320 independent cases, seven focused native groups, 32 build-checker fixtures,
+strict C90 syntax and protected/read-only input checks. Complete clean-source
+qualification is running; this is not mounted exFAT, provider, writer or release
+qualification. See [working evidence](../.aide/evidence/2026-10-14-exfat-working/README.md).
+
+The current file-by-file [source map](source-map.md) explains all 268 source files.
+CLI has its own folder, and `tui_model.*`, `shell_model.*` and `gui_model.*` use
+consistent private names. Future ownership is specified; future helper filenames
+are chosen when their responsibilities are known. Stable command/spec identities
+and admitted interfaces carry compatibility obligations independently of private
+paths. No naming scheme can guarantee that future implementation needs no refactoring.
+
+Fresh read-only GitHub checks found Universal Setup main `c048f7f1`, dev
+`2b7a4d01` and open draft [PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+at `1de316e2`. Its [exact-revision CI run](https://github.com/Julesc013/universal-setup/actions/runs/38454057234)
+failed `native-windows`; specification, fuzz-smoke, sanitizer, native-macos,
+native-windows-win32 and native-linux passed. This is an upstream CI observation,
+not an independent diagnosis or live DiskEd lifecycle test. Both GitHub release
+queries returned empty lists. The original full-platform/storage 0.1.0 scope,
+owner acceptance and release gates remain open. Continue tested dev checkpoints
+and reviewed main integration; do not infer release readiness from synchronization.
+
 ## Qualified normal recursive commands: 14 October 2026
 
 Exact clean source `087f95b4` passes 128 native groups, 41 standalone header
