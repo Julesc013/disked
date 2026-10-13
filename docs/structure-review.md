@@ -1,5 +1,22 @@
 # Source structure and release review follow-up
 
+## Recursive effect review development: 14 October 2026
+
+Active DE-W057 begins common-command/durable-operation admission. Its immutable
+supplied-data review layer passes 45 cases/six methods, including two actual
+owned preparations whose process-bound identities change while intended effects
+remain equal. Source/store/code/policy/footprint changes withdraw equality;
+unknown mutation-critical fields, inconsistent identities and missing grants
+are refused. This layer opens no path and authorizes no native effects.
+
+The source map covers 250 files once. The new runtime target depends only on
+JSON/hash, with its standalone header and generated dependency check passing.
+The canonical command registry records filesystem.tree.extract as planned,
+spelled filesystem extract-tree; nesting under existing operand-taking commands
+was refused by the registry. No alternate parser or registry is introduced.
+Native store/admission, durable lifecycle, actual frontend journeys and full
+clean-source qualification remain before whole-unit review or main integration.
+
 ## Qualified recursive backend: 14 October 2026
 
 Clean source 243f748e passes 120 native groups, 32 selected standalone header

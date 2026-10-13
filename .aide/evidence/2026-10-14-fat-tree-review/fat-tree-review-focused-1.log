@@ -1,0 +1,81 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 5: acquisition.fat_tree_review
+1/1 Test #5: acquisition.fat_tree_review ......***Failed    6.24 sec
+test_each_declared_effect_change_withdraws_the_match (__main__.ReviewTests.test_each_declared_effect_change_withdraws_the_match) ... FAIL
+test_fixtures_and_broken_process_receipts_are_not_effect_definitions (__main__.ReviewTests.test_fixtures_and_broken_process_receipts_are_not_effect_definitions) ... ok
+test_independent_hash_and_supplied_validation_grants_no_authority (__main__.ReviewTests.test_independent_hash_and_supplied_validation_grants_no_authority) ... FAIL
+test_process_capture_only_changes_leave_effect_identity_stable (__main__.ReviewTests.test_process_capture_only_changes_leave_effect_identity_stable) ... FAIL
+test_real_process_receipts_change_without_changing_intended_effects (__main__.ReviewTests.test_real_process_receipts_change_without_changing_intended_effects) ... FAIL
+test_rehashed_mutation_critical_shapes_and_claims_are_rejected (__main__.ReviewTests.test_rehashed_mutation_critical_shapes_and_claims_are_rejected) ... FAIL
+
+======================================================================
+FAIL: test_each_declared_effect_change_withdraws_the_match (__main__.ReviewTests.test_each_declared_effect_change_withdraws_the_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 174, in test_each_declared_effect_change_withdraws_the_match
+    out = invoke(dict(review=self.review, fresh_process_definition=process, fresh_operation_store=self.store))
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 69, in invoke
+    assert result.returncode == 0 and "error" not in out, (result.returncode, out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_review_shape'})
+
+======================================================================
+FAIL: test_independent_hash_and_supplied_validation_grants_no_authority (__main__.ReviewTests.test_independent_hash_and_supplied_validation_grants_no_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 125, in test_independent_hash_and_supplied_validation_grants_no_authority
+    a = invoke(dict(process_definition=self.process, operation_store=self.store))
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 69, in invoke
+    assert result.returncode == 0 and "error" not in out, (result.returncode, out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_review_shape'})
+
+======================================================================
+FAIL: test_process_capture_only_changes_leave_effect_identity_stable (__main__.ReviewTests.test_process_capture_only_changes_leave_effect_identity_stable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 143, in test_process_capture_only_changes_leave_effect_identity_stable
+    out = invoke(dict(process_definition=process, operation_store=self.store,
+                      fresh_process_definition=self.process, fresh_operation_store=self.store))
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 69, in invoke
+    assert result.returncode == 0 and "error" not in out, (result.returncode, out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_review_shape'})
+
+======================================================================
+FAIL: test_real_process_receipts_change_without_changing_intended_effects (__main__.ReviewTests.test_real_process_receipts_change_without_changing_intended_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 116, in test_real_process_receipts_change_without_changing_intended_effects
+    a = invoke(dict(process_definition=self.process, operation_store=self.store,
+                    fresh_process_definition=self.b["definition"], fresh_operation_store=self.store))
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 69, in invoke
+    assert result.returncode == 0 and "error" not in out, (result.returncode, out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (20, {'error': 'fat_tree_review_shape'})
+
+======================================================================
+FAIL: test_rehashed_mutation_critical_shapes_and_claims_are_rejected (__main__.ReviewTests.test_rehashed_mutation_critical_shapes_and_claims_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 203, in test_rehashed_mutation_critical_shapes_and_claims_are_rejected
+    invoke(dict(review=value), error=error)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_review.py", line 75, in invoke
+    assert result.returncode == 20 and out.get("error") == error, out
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'fat_tree_review_shape'}
+
+----------------------------------------------------------------------
+Ran 6 tests in 5.886s
+
+FAILED (failures=5)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   6.25 sec
+
+The following tests FAILED:
+	  5 - acquisition.fat_tree_review (Failed)
+Errors while running CTest

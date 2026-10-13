@@ -65,6 +65,12 @@ target_link_libraries(disked_fat_tree_history PUBLIC disked_json PRIVATE disked_
 set_target_properties(disked_fat_tree_history PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_fat_tree_history PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 
+# Stable intended effects, separate from process/capture admission receipts.
+add_library(disked_fat_tree_review STATIC source/runtime/acquisition/fat_tree_review.cpp)
+target_link_libraries(disked_fat_tree_review PUBLIC disked_json PRIVATE disked_hash)
+set_target_properties(disked_fat_tree_review PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_options(disked_fat_tree_review PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+
 # Pure supplied-capture planner; the image command service uses its preview only.
 add_library(disked_gpt_repair_planning STATIC source/runtime/planner/gpt_repair.cpp)
 target_link_libraries(disked_gpt_repair_planning PUBLIC disked_gpt disked_mbr disked_hash disked_json)
@@ -463,6 +469,15 @@ if(BUILD_TESTING)
   private_header_check(disked_fat_tree_extraction providers/image/fat_tree_extraction.h)
   private_header_check(disked_fat_tree_extraction_worker platform/windows/storage/fat_tree_extraction_worker.h)
   private_header_check(disked_fat_tree_history runtime/evidence/fat_tree_history.h)
+  private_header_check(disked_fat_tree_review runtime/acquisition/fat_tree_review.h)
+  add_executable(fat_tree_review_probe tests/unit/fat_tree_review_probe.cpp)
+  target_link_libraries(fat_tree_review_probe PRIVATE disked_fat_tree_review)
+  set_target_properties(fat_tree_review_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+  target_compile_options(fat_tree_review_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
+  add_test(NAME acquisition.fat_tree_review COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_fat_tree_review.py"
+    --probe "$<TARGET_FILE:fat_tree_review_probe>" --worker "$<TARGET_FILE:fat_tree_extraction_worker_probe>"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/fat-tree-review-cases.json")
+  set_tests_properties(acquisition.fat_tree_review PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
   add_executable(fat_tree_history_probe tests/evidence/fat_tree_history_probe.cpp)
   target_link_libraries(fat_tree_history_probe PRIVATE disked_fat_tree_history)
   set_target_properties(fat_tree_history_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

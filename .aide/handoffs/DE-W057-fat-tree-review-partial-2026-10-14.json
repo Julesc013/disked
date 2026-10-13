@@ -1,0 +1,264 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W057",
+  "base_revision": "fed4a71b767a92db13b0fd0a1b692c937fdacd93",
+  "spec_manifest_digest": "sha256:adcd9978f103d0f181e4cb1172fed5c04fd46eb8de55ad73d09565222c4e749c",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/commands.json",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/runtime/acquisition/commands.cpp",
+    "source/runtime/acquisition/operation.h",
+    "source/providers/image/fat_tree_extraction.cpp",
+    "source/platform/windows/storage/fat_tree_extraction_worker.h",
+    "CMakeLists.txt"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-recursive-command.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/runtime/acquisition/fat_tree_review.cpp",
+    "source/runtime/acquisition/fat_tree_review.h",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/test_fat_tree_review.py",
+    "tests/unit/fat_tree_review_probe.cpp",
+    "tools/build-inputs.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-tree-review/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/context-manifest.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/context.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries-final.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries-incomplete.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-cli-metadata-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-configure-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-configure.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-debug-build-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-debug-build.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-dependents.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-1-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-2-cases.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-2.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-build-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-build.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-final.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-tooling.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/header-object.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/index.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/manifest.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/README.md",
+    ".aide/evidence/2026-10-14-fat-tree-review/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-tree-review/source-map.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/spec-check.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/summary.json",
+    ".aide/evidence/2026-10-14-fat-tree-review/verify-context.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/verify-manifest.log",
+    ".aide/evidence/2026-10-14-fat-tree-review/working-inputs.json",
+    ".aide/handoffs/DE-W057-fat-tree-review-partial-2026-10-14.json"
+  ],
+  "summary": "DE-W057 immutable recursive review prerequisite passes 45 cases/six methods and two actual owned preparation identities; tooling236 pass/two skip. Native admission/store/lifecycle/actual frontends/full qualification remain; original full goal stays active.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^acquisition.fat_tree_review$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-final.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-review\\fat_tree_review_probe.exe",
+      "sha256": "sha256:cd06eb8684a62ada0eec473e7dcfa06b6db488949aa2bafaa3d49ead6e1c76e6"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-tree-review\\fat_tree_extraction_worker_probe.exe",
+      "sha256": "sha256:5adf79b4fb18e1d6b5ec1326ce3230266eebda94c4cfe4942970f5d62f6d8c8b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/artifacts.json",
+      "sha256": "sha256:d2f7da99357bf3b9d2302e8bf32bbdc6feae7a4548e9ad0a8b9723928743b040"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/cases.json",
+      "sha256": "sha256:0a3e0f6cb42fb869cd493f90a76a0e48cd10cde4a176762159bbde6a6c970d57"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/context-manifest.json",
+      "sha256": "sha256:51637cfce46a57f5a39b3952b5e8feda25555327f68e370accc5b3f63c9f8639"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/context.log",
+      "sha256": "sha256:c3745ce32c4a2b1eb03207cce9c0baa565fc65cc0ff524b10bca6f1b55e26c76"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries-final.json",
+      "sha256": "sha256:495e567e935c8b5c4c6e87d14bace4d260fb237eecac9bd18e4617b099789140"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries-incomplete.json",
+      "sha256": "sha256:9888ef95359410688d18310422e304c50ae3ac896ae8d477d28949d524f3868d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-boundaries.json",
+      "sha256": "sha256:9888ef95359410688d18310422e304c50ae3ac896ae8d477d28949d524f3868d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-1.log",
+      "sha256": "sha256:de84932b885e2e6a72401945fd4747d7630adf2e86fb8d8459941488b25caeb0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-2.log",
+      "sha256": "sha256:afe0ba34266c475370215536aeefbe0fd528ee2b3eb5a7f6aa90de0864916e9c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-build-final.log",
+      "sha256": "sha256:b3e6f12292f584eaadc78d75dc77f6229eca9dfd9964ef9ec109e0af56527ef3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-cli-metadata-final.log",
+      "sha256": "sha256:955c68bd386f551175da9e7b0a7fc9d92abda00f7eba7439120aee0a8a905451"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-configure-final.log",
+      "sha256": "sha256:2db90210bcb0c5ca81acd4de54219c0b073b8d18cf03f25f0919513128294069"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-configure.log",
+      "sha256": "sha256:883555ec6d7cf89f03b500f2839ff314ee8618ccda423ab53492e44f09ee3962"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-debug-build-2.log",
+      "sha256": "sha256:af96ce171982a3fe89aba8d8bc75059c05e85e02d03e88b427884f4118324d4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-debug-build.log",
+      "sha256": "sha256:af96ce171982a3fe89aba8d8bc75059c05e85e02d03e88b427884f4118324d4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-dependents.log",
+      "sha256": "sha256:3ecd5c00f8ed87c5081311f0caa816687748d65d8c613f5f3a64fa01d9158d5e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-1-cases.json",
+      "sha256": "sha256:3b96faa17849398b604578a8a5ee495bf800bb3601236564337afbc159c325be"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-1.log",
+      "sha256": "sha256:bc68914a7bcff24215a3f2d1d33c2c4e6da19db0d48a229d1a1efd2cb1c1f024"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-2-cases.json",
+      "sha256": "sha256:4ae28c45e66bb473b2c41c65c122cc8c8ca2f778ab5fbde8b30b872ffcac125b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-2.log",
+      "sha256": "sha256:2d69c9a62b8333165099a314cce1a867345b539dc6a056701032413956934190"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-focused-final.log",
+      "sha256": "sha256:c8b322f8cf2b266f6619da4884d82b8cf177d31dc3f1837b54c3aa91e52a9c19"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-build-final.log",
+      "sha256": "sha256:ced23b0ba26b8ee233a56649b14d5304eeec5b8701ca6980bdf169ae0d1131e2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-build.log",
+      "sha256": "sha256:502c046313836787e31b4be200f6729d9e56044e25f649d33b0f51bf62117bd1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-registry-final.log",
+      "sha256": "sha256:ced23b0ba26b8ee233a56649b14d5304eeec5b8701ca6980bdf169ae0d1131e2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/fat-tree-review-tooling.log",
+      "sha256": "sha256:2ffff2c052b177f736835f95c74abeb07c4d393684a5f11be140f261d03dc588"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/header-object.json",
+      "sha256": "sha256:5be1f0f9287c3ded625cc12a9307fc21474f8df9793978350edd6c36dd17748a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/manifest.log",
+      "sha256": "sha256:180ed2e8727ed6df2c39bb45f47529af662f8c692d817556634b8ea0f26c6fcb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/README.md",
+      "sha256": "sha256:91b35bd1609daabf8ed747efb89cd6b0ba6b05185580a0af7641a3d3ec4bbb2e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/REVIEW.md",
+      "sha256": "sha256:53c8bf1b9d7c9a9068cbeb6cd4b21bc4b7e940b795278ef4b57684efd59cc6d6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/source-map.log",
+      "sha256": "sha256:5b44e0dfe198561782a192af960e41718bae9896212793d12189ea6ac30840a7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/spec-check.log",
+      "sha256": "sha256:845e20ee89d0fedec6a8dee1402ed9ee981e36ea7702f51c971a4e73edc5c50b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/summary.json",
+      "sha256": "sha256:c3ecacc8b6c7b4c784a8a511e02b5e61b01170397624961e69393ba522e59e10"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/verify-context.log",
+      "sha256": "sha256:3100f9163b83249a38c380c0b0216afb605b1b698f38777858688a0a486a0494"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/verify-manifest.log",
+      "sha256": "sha256:0fa4aca2979bd327e7c5cae7291cd5ecbc43af6908a1240e6481dd4ec0eacb69"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-tree-review/working-inputs.json",
+      "sha256": "sha256:af74c7f9e0c2769075f476d1439c17ccc93fcd23d468383921d8c28c27ef0cfb"
+    }
+  ],
+  "blockers": [
+    "Native admission/store ownership, durable lifecycle, actual frontend/public-command and full clean-source qualification remain; local work can continue.",
+    "Original all-platform/storage scope and separate owner/storage/release gates remain."
+  ],
+  "next_safe_step": "Continue active DE-W057 with native operation-store ownership and fresh effect-review admission, then durable owned execution/reconnect/cancel/wait and common CLI/protocol/GUI/TUI/shell wiring. The pure immutable review model passes focused checks but authorizes no native effects. Keep the command planned until its full interface/clean-source campaign passes; preserve old raw/logical/process-bound plans and the full original platform/storage 0.1.0 scope and separate gates.",
+  "performed_remote_writes": false
+}
