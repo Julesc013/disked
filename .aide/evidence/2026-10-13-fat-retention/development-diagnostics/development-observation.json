@@ -1,0 +1,31 @@
+{
+  "schema": "org.disked.development-observation/1",
+  "work_id": "DE-W044",
+  "source_revision": "4d3dc0a3cb1597289926cb6e010c57f7156b285d",
+  "clean_build_passed": true,
+  "header_dependency_checks_passed": true,
+  "header_count": 18,
+  "focused_command_cases": 68,
+  "synthetic_store_checks": 91,
+  "concurrent_store_reads": 400,
+  "full_native_groups": 101,
+  "full_native_passed": 96,
+  "full_native_failed": 5,
+  "full_native_exit_code": 8,
+  "failed_groups": [
+    "frontend.product_verification",
+    "evidence.verification_case_export",
+    "evidence.report_worker",
+    "image.gpt_fixture_execution",
+    "image.gpt_fixture_restoration"
+  ],
+  "diagnosis": "Parallel run has two timeouts, a worker-spawn refusal and verification/admission failures. Underlying cause unproven. The unchanged-binary serial diagnostic run has passed its first three groups and remains live in exec session44721 on this machine.",
+  "tooling_tests": 226,
+  "tooling_passed": 224,
+  "tooling_skipped": 2,
+  "native_qualification_complete": false,
+  "owner_accepted": false,
+  "unit_complete": false,
+  "release_ready": false,
+  "next_action": "Poll existing session44721. Preserve its terminal result. Diagnose remaining failures; rerun the complete101-group campaign as needed at unchanged or repaired exact source. Do not run the success retainer until its actual summary exists and all checks pass. No main promotion yet."
+}

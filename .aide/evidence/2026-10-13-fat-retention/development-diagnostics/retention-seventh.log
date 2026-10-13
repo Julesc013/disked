@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_retention.py", line 190, in main
+    try:gui.set_field(key,value)
+        ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\gui_fixture.py", line 188, in set_field
+    raise AssertionError('No rendered field named '+name)
+AssertionError: No rendered field named byte_count
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_retention.py", line 225, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_retention.py", line 193, in main
+    labels=[gui.text(220),gui.text(221)],page=gui.text(116),
+                                              ~~~~~~~~^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\gui_fixture.py", line 171, in text
+    def text(self,id):return caption(self.child(id))
+                                     ~~~~~~~~~~^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\gui_fixture.py", line 169, in child
+    if not child:raise AssertionError('missing child '+str(id))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: missing child 116
