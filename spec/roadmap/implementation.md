@@ -310,3 +310,5 @@ remain separate; no partial reader means 0.1.0 completion.
 DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd113`, with 62 focused cases and 97 native groups. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Continue larger coverage, capture retrieval/extraction and further platform/storage work; full all-platform/storage 0.1.0 and owner/release gates are unfinished.
 
 DE-W039 explicit larger FAT allocation windows at 543826fe have 34 interval cases, 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Continue coherent multi-window and directory/namespace coverage, retrieval/extraction and further platform/storage work under the original full 0.1.0 goal.
+
+DE-W044 exact FAT frame retention/retrieval at `4d3dc0a3` has68 command/frontend cases and101 native groups. Evidence: `.aide/evidence/2026-10-13-fat-retention`. Continue coherent larger directory/namespace/multi-window coverage, extraction and the original full platform/storage programme; owner/production/release gates remain separate.

@@ -905,4 +905,4 @@ consumer/host/platform/storage and production writer/release work remain open.
 
 Exact DE-W039 source `543826fe` passes34 interval/44 command cases, 99 native groups, 17 headers and 222 tooling tests/two skips. [Retained reproduction/evidence](../.aide/evidence/2026-10-13-fat-window/README.md). Each result remains its observed interval; separate calls are not an atomic cross-window snapshot or complete graph proof.
 
-The in-process FAT capture retention prototype is described in [fat-retention.md](fat-retention.md); exact clean-source qualification remains pending.
+The in-process FAT capture retention prototype is described in [fat-retention.md](fat-retention.md); bounded exact-source qualification is retained under `.aide/evidence/2026-10-13-fat-retention/`, with owner/full-product qualification remaining open.

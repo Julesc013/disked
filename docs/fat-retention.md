@@ -1,7 +1,7 @@
 # Retained FAT metadata captures
 
 DE-W044 adds an in-process retention prototype to the Windows image/fake
-composition. Its native qualification is pending. The exact contract is
+composition. Its bounded native qualification is retained at source `4d3dc0a3`, with owner acceptance pending. The exact contract is
 [fat-retention-prototype.json](../spec/catalog/fat-retention-prototype.json).
 
 `image inspect --view fat --retain-capture yes` retains the independently verified
@@ -45,3 +45,5 @@ stdio response. The store is shared independently of frontend object lifetime.
 
 This prototype adds no physical-device access, installation, elevation, production
 writer/recovery admission or full 0.1.0 qualification.
+
+[Exact-source evidence](../.aide/evidence/2026-10-13-fat-retention/README.md).

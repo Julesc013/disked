@@ -332,3 +332,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W039 bounded FAT allocation-window slice at `543826fe`: 34 interval / 44 command cases, 99 native groups / 17 headers; partial windows cannot qualify global allocation or FSInfo counts. [Evidence](.aide/evidence/2026-10-13-fat-window/README.md). Larger coherent traversal, retrieval/extraction and full 0.1.0 remain open.
 
 - [x] 2026-10-13 structure review follow-up: retain existing owners and implemented CLI/TUI/shell names; reconcile review dispositions and correct stale header-count/parser-placement wording. [Assessment](docs/structure-review.md) links exact native evidence and fresh tooling/upstream observations. Composition/test seams, Setup Windows qualification and full product/release remain open.
+
+- [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full0.1.0 remain open.
