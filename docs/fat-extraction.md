@@ -49,7 +49,7 @@ separate. Historical failures retain their actual outcomes.
 
 DE-W048 adds the provisional `filesystem extract` command to the current native
 composition. Its [owning contract](../spec/catalog/fat-extraction-command-prototype.json)
-was recorded before implementation. Clean full qualification is pending.
+was recorded before implementation. [Exact-source qualification](../.aide/evidence/2026-10-13-fat-extraction-command/README.md) at `8d1905b9` passes 106 native groups and 20 selected headers in the recorded Windows lane. All 11 complete copies and native interface/cancellation/resume journeys are retained; production and other-host gates remain.
 
 Inspect an explicit FAT volume with `image inspect SOURCE --view fat
 --volume-offset OFFSET --volume-bytes LENGTH`. Each basic file row supplies an

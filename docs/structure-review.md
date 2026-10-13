@@ -1,6 +1,29 @@
 # Source structure and release review follow-up
 
-## Qualified source checkpoint: 13 October 2026
+## Qualified shared-command checkpoint: 13 October 2026
+
+Source `8d1905b9` qualifies `filesystem extract` through the shared CLI, protocol,
+native GUI/TUI/shell and existing acquisition worker. The [source-bound evidence](../.aide/evidence/2026-10-13-fat-extraction-command/README.md)
+records **106 native groups**, **20 selected headers**, **229 tooling
+passes** with **2 skips**, 11 complete verified files and real cancellation/resume.
+The initial full candidate failed two exact build-information comparisons; those
+expected fields were corrected from the declared logical-provider contract. The
+original failed source and terminal logs remain retained.
+
+The [source map](source-map.md) still covers **224 source files** with the existing
+owners. No new product directory or duplicate extraction engine was introduced.
+The metadata comparison helper moved to the runtime owner needed by inspection
+and native acquisition. Compiled catalogs now have a separate finite parsing
+budget; external wire request limits remain unchanged and have native boundary
+tests. These are demonstrated responsibility/dependency changes, not a wholesale
+reorganization or a guarantee against every future refactor.
+
+This qualifies the current prototype, not a frozen production API or full 0.1.0.
+Larger coherent traversal, recursive/metadata fidelity, logical evidence export,
+other formats/hosts and production/storage/release gates remain open. Branch
+integration remains distinct from owner acceptance and publication.
+
+## Earlier qualified backend checkpoint at20ecddbd: 13 October 2026
 
 The [source map](source-map.md) covers **224 current source files**. CLI has its
 own folder; shell, TUI and GUI use their explicit model names. Keep the existing

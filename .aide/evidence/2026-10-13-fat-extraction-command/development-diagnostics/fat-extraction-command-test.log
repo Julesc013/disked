@@ -1,0 +1,23 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 35: frontend.fat_extraction
+1/1 Test #35: frontend.fat_extraction ..........***Failed    0.30 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-s1macuvy
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_extraction_commands.py", line 145, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_extraction_commands.py", line 77, in main
+    listing=cli(['command','list']);assert any(x['id']=='filesystem.extract' and x['availability']=='available' for x in listing['result']['commands'])
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_extraction_commands.py", line 17, in cli
+    assert result.returncode in exits and not result.stderr,(name,result.returncode,result.stdout,result.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('cli', 4, b'', b'disked: internal_error\n')
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.34 sec
+
+The following tests FAILED:
+	 35 - frontend.fat_extraction (Failed)
+Errors while running CTest

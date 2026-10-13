@@ -343,4 +343,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W047: review the qualified complete mapped FAT file extraction backend. Complete mapped-file backend is qualified at `20ecddbd`: 104 native groups, 20 selected headers and full logical-file/destination/resume evidence; public command admission and full 0.1.0 remain open. [Contract](docs/fat-extraction.md).
 
-- [ ] DE-W048: qualify the shared `filesystem extract` prototype command. Focused complete FAT12/16/32, empty/large, actual CLI/protocol/GUI/TUI/shell, refusal and real cancellation/resume tests pass; clean full source regression is pending. [Command contract](spec/catalog/fat-extraction-command-prototype.json).
+- [ ] DE-W048: qualify the shared `filesystem extract` prototype command. Focused complete FAT12/16/32, empty/large, actual CLI/protocol/GUI/TUI/shell, refusal and real cancellation/resume tests pass; Source-bound qualification at `8d1905b9` passes 106 native groups and 20 selected headers; further traversal/fidelity and full 0.1.0 remain open. [Command contract](spec/catalog/fat-extraction-command-prototype.json).

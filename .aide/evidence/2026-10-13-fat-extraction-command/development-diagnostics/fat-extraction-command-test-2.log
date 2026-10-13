@@ -1,0 +1,118 @@
+Test project D:/Projects/DiskEd/disked/build/windows-bootstrap
+    Start 35: frontend.fat_extraction
+1/1 Test #35: frontend.fat_extraction ..........***Failed    7.38 sec
+PASS cli
+PASS static-help
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS cli
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-image.acquire
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS selection
+PASS protocol-filesystem.extract
+PASS selection
+PASS protocol-filesystem.extract
+PASS cli
+PASS cli
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-hyz74w_9
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_extraction_commands.py", line 145, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_extraction_commands.py", line 117, in main
+    assert values[-1]['state']['last_outcome']['result'] and values[-1]['state']['last_outcome']['result']['test_parameters']==params,values
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'details': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'graph': {'capture_id': 'fake:1', 'edges': [{'from': 'fake:alpha@1', 'kind': 'contains', 'to': 'fake:table@1'}, {'from': 'fake:table@1', 'kind': 'contains', 'to': 'fake:volume@1'}, {'from': 'fake:clone@1', 'kind': 'shared-observation', 'to': 'fake:volume@1'}, {'from': 'fake:volume@1', 'kind': 'backing-reference', 'to': 'fake:alpha@1'}], 'nodes': [{'id': 'fake:alpha@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/A/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-A:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:clone@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/B/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-B:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:denied@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun1', 'label': 'Denied observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'denied'}}, {'id': 'fake:stale@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '4096', 'identity': 'fixture:controller-A:lun2', 'label': 'Stale observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'stale'}}, {'id': 'fake:unknown@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun3', 'label': 'Unknown observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'unknown'}}, {'id': 'fake:table@1', 'kind': 'gpt', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '1073741824', 'identity': 'fixture:table-A', 'label': 'Synthetic GPT', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:volume@1', 'kind': 'volume', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '536870912', 'identity': 'fixture:volume-A', 'label': 'Label\x1b[31m\n\x7f\x9b\u202e\u78c1\u76d8\U0001f4be', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}], 'omissions': ['fake:denied@1:access_denied', 'fake:stale@1:observation_stale', 'fake:unknown@1:observation_unknown'], 'revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4', 'schema': 'org.disked.graph/1'}, 'rendered': '{\r\n  "diagnostics": [\r\n    {\r\n      "code": "form_unavailable",\r\n      "message_key": "disked.form_unavailable",\r\n      "parameters": {\r\n      },\r\n      "platform_code": null,\r\n      "remediation": [\r\n      ],\r\n      "severity": "error"\r\n    }\r\n  ],\r\n  "evidence": [\r\n  ],\r\n  "operation_id": null,\r\n  "request_id": "gui",\r\n  "result": null,\r\n  "schema": "org.disked.response/1",\r\n  "status": "refused"\r\n}\r\n', 'rows': [{'id': 'fake:alpha@1', 'state': 'current'}, {'id': 'fake:clone@1', 'state': 'current'}, {'id': 'fake:denied@1', 'state': 'denied'}, {'id': 'fake:stale@1', 'state': 'stale'}, {'id': 'fake:unknown@1', 'state': 'unknown'}, {'id': 'fake:table@1', 'state': 'current'}, {'id': 'fake:volume@1', 'state': 'current'}], 'state': {'command': 'filesystem.extract', 'commands': False, 'earlier_request': None, 'fields': ['phase', 'chunk_bytes', 'destination'], 'focus': 'fake:alpha@1', 'form': False, 'last_outcome': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'notice': 'Request refused or failed; inspect diagnostics', 'parameters': {'chunk_bytes': '4096', 'destination': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-hyz74w_9\\10\\\u8f93\u51fa.bin', 'phase': 'prepare'}, 'pending_request': '', 'requests': '0', 'reviewed': False, 'selection': {'state': 'none', 'target_id': None}, 'view_revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4'}}, {'details': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'graph': {'capture_id': 'fake:1', 'edges': [{'from': 'fake:alpha@1', 'kind': 'contains', 'to': 'fake:table@1'}, {'from': 'fake:table@1', 'kind': 'contains', 'to': 'fake:volume@1'}, {'from': 'fake:clone@1', 'kind': 'shared-observation', 'to': 'fake:volume@1'}, {'from': 'fake:volume@1', 'kind': 'backing-reference', 'to': 'fake:alpha@1'}], 'nodes': [{'id': 'fake:alpha@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/A/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-A:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:clone@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/B/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-B:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:denied@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun1', 'label': 'Denied observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'denied'}}, {'id': 'fake:stale@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '4096', 'identity': 'fixture:controller-A:lun2', 'label': 'Stale observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'stale'}}, {'id': 'fake:unknown@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun3', 'label': 'Unknown observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'unknown'}}, {'id': 'fake:table@1', 'kind': 'gpt', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '1073741824', 'identity': 'fixture:table-A', 'label': 'Synthetic GPT', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:volume@1', 'kind': 'volume', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '536870912', 'identity': 'fixture:volume-A', 'label': 'Label\x1b[31m\n\x7f\x9b\u202e\u78c1\u76d8\U0001f4be', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}], 'omissions': ['fake:denied@1:access_denied', 'fake:stale@1:observation_stale', 'fake:unknown@1:observation_unknown'], 'revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4', 'schema': 'org.disked.graph/1'}, 'rendered': '{\r\n  "diagnostics": [\r\n    {\r\n      "code": "form_unavailable",\r\n      "message_key": "disked.form_unavailable",\r\n      "parameters": {\r\n      },\r\n      "platform_code": null,\r\n      "remediation": [\r\n      ],\r\n      "severity": "error"\r\n    }\r\n  ],\r\n  "evidence": [\r\n  ],\r\n  "operation_id": null,\r\n  "request_id": "gui",\r\n  "result": null,\r\n  "schema": "org.disked.response/1",\r\n  "status": "refused"\r\n}\r\n', 'rows': [{'id': 'fake:alpha@1', 'state': 'current'}, {'id': 'fake:clone@1', 'state': 'current'}, {'id': 'fake:denied@1', 'state': 'denied'}, {'id': 'fake:stale@1', 'state': 'stale'}, {'id': 'fake:unknown@1', 'state': 'unknown'}, {'id': 'fake:table@1', 'state': 'current'}, {'id': 'fake:volume@1', 'state': 'current'}], 'state': {'command': 'filesystem.extract', 'commands': False, 'earlier_request': None, 'fields': ['phase', 'chunk_bytes', 'destination'], 'focus': 'fake:alpha@1', 'form': False, 'last_outcome': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'notice': 'Request refused or failed; inspect diagnostics', 'parameters': {'chunk_bytes': '4096', 'destination': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-hyz74w_9\\10\\\u8f93\u51fa.bin', 'phase': 'prepare'}, 'pending_request': '', 'requests': '0', 'reviewed': False, 'selection': {'state': 'none', 'target_id': None}, 'view_revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4'}}, {'details': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'graph': {'capture_id': 'fake:1', 'edges': [{'from': 'fake:alpha@1', 'kind': 'contains', 'to': 'fake:table@1'}, {'from': 'fake:table@1', 'kind': 'contains', 'to': 'fake:volume@1'}, {'from': 'fake:clone@1', 'kind': 'shared-observation', 'to': 'fake:volume@1'}, {'from': 'fake:volume@1', 'kind': 'backing-reference', 'to': 'fake:alpha@1'}], 'nodes': [{'id': 'fake:alpha@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/A/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-A:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:clone@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': ['fake:path/B/0', 'fake:serial/CLONED'], 'capacity_bytes': '1073741824', 'identity': 'fixture:controller-B:lun0', 'label': 'Workshop disk', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:denied@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun1', 'label': 'Denied observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'denied'}}, {'id': 'fake:stale@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '4096', 'identity': 'fixture:controller-A:lun2', 'label': 'Stale observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'stale'}}, {'id': 'fake:unknown@1', 'kind': 'block-device', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': None, 'identity': 'fixture:controller-A:lun3', 'label': 'Unknown observation', 'media_generation': '1', 'scope': 'fake-only', 'state': 'unknown'}}, {'id': 'fake:table@1', 'kind': 'gpt', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '1073741824', 'identity': 'fixture:table-A', 'label': 'Synthetic GPT', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}, {'id': 'fake:volume@1', 'kind': 'volume', 'observation_refs': [], 'properties': {'aliases': [], 'capacity_bytes': '536870912', 'identity': 'fixture:volume-A', 'label': 'Label\x1b[31m\n\x7f\x9b\u202e\u78c1\u76d8\U0001f4be', 'media_generation': '1', 'scope': 'fake-only', 'state': 'current'}}], 'omissions': ['fake:denied@1:access_denied', 'fake:stale@1:observation_stale', 'fake:unknown@1:observation_unknown'], 'revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4', 'schema': 'org.disked.graph/1'}, 'rendered': '{\r\n  "diagnostics": [\r\n    {\r\n      "code": "form_unavailable",\r\n      "message_key": "disked.form_unavailable",\r\n      "parameters": {\r\n      },\r\n      "platform_code": null,\r\n      "remediation": [\r\n      ],\r\n      "severity": "error"\r\n    }\r\n  ],\r\n  "evidence": [\r\n  ],\r\n  "operation_id": null,\r\n  "request_id": "gui",\r\n  "result": null,\r\n  "schema": "org.disked.response/1",\r\n  "status": "refused"\r\n}\r\n', 'rows': [{'id': 'fake:alpha@1', 'state': 'current'}, {'id': 'fake:clone@1', 'state': 'current'}, {'id': 'fake:denied@1', 'state': 'denied'}, {'id': 'fake:stale@1', 'state': 'stale'}, {'id': 'fake:unknown@1', 'state': 'unknown'}, {'id': 'fake:table@1', 'state': 'current'}, {'id': 'fake:volume@1', 'state': 'current'}], 'state': {'command': 'filesystem.extract', 'commands': False, 'earlier_request': None, 'fields': ['phase', 'chunk_bytes', 'destination'], 'focus': 'fake:alpha@1', 'form': False, 'last_outcome': {'diagnostics': [{'code': 'form_unavailable', 'message_key': 'disked.form_unavailable', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'gui', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'}, 'notice': 'Request refused or failed; inspect diagnostics', 'parameters': {'chunk_bytes': '4096', 'destination': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\disked-acq-worker-hyz74w_9\\10\\\u8f93\u51fa.bin', 'phase': 'prepare'}, 'pending_request': '', 'requests': '0', 'reviewed': False, 'selection': {'state': 'none', 'target_id': None}, 'view_revision': 'sha256:1be43f23d5cd6e385237902e41a1be66e9717d6ddc02d8f31ff341b0120de6f4'}}]
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   7.39 sec
+
+The following tests FAILED:
+	 35 - frontend.fat_extraction (Failed)
+Errors while running CTest
