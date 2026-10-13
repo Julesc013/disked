@@ -1,5 +1,16 @@
 # Source structure and release review follow-up
 
+## Normal recursive composition development: 14 October 2026
+
+The normal Windows image prototype now selects recursive ordinary-file FAT
+extraction through existing runtime/native owners. Shared typed response schemas
+cover preparation, execution, unknown requests and operation observations. Actual
+CLI/protocol/GUI/TUI/shell journeys and isolated failure controls pass. A disabled
+composition verifies refusal; the former duplicate nonfault test composition is
+removed. There is no new source tree or scheduler. Full clean exact-source
+qualification remains before DE-W057 review/integration, separate from owner,
+physical, other-platform and full all-platform/storage0.1.0 release acceptance.
+
 ## Recursive interruption and producer checkpoint: 14 October 2026
 
 Actual closed watch output preserves the independent operation and digest-bound

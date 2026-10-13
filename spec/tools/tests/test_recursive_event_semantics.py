@@ -64,5 +64,27 @@ class RecursiveEventSemantics(unittest.TestCase):
         v['payload']['record_digest']=digest(v['payload']['record'])
         with self.assertRaises(sc.SpecError):self.bundle.validate(URI,v)
 
+    def test_recursive_response_null_unknown_and_running_receipt_constraints(self):
+        uri='urn:disked:schema:fat-recursive-response-prototype:1'
+        base=dict(schema='org.disked.response/1',request_id='fixture',status='refused',
+                  operation_id=None,result=None,diagnostics=[],evidence=[])
+        self.bundle.validate(uri,base)
+        unresolved=copy.deepcopy(base);unresolved.update(status='unknown',result=dict(
+            scope='ordinary-local-fat-tree-extraction',request_kind='recursive-execution',
+            request_state='unresolved',state_directory='declared-store',definition_digest='sha256:'+'a'*64))
+        self.bundle.validate(uri,unresolved)
+        for status in ('completed','accepted_running'):
+            invalid=copy.deepcopy(base);invalid['status']=status
+            invalid['operation_id']='tree-op:'+'1'*32
+            with self.subTest(status=status),self.assertRaises(sc.SpecError):self.bundle.validate(uri,invalid)
+        running=copy.deepcopy(base);running.update(status='accepted_running',operation_id='tree-op:'+'1'*32,
+            result=dict(schema='org.disked.fat-tree-controller-observation-prototype/1',
+                status='accepted_running',operation_id='tree-op:'+'1'*32,
+                controller=dict(pid='123',created='1',observation='running'),reply=None,diagnostic=None,
+                scope='ordinary-local-fat-tree-extraction',request_kind='recursive-execution'))
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,running)
+        invalid=copy.deepcopy(unresolved);invalid['result']['extra_field']=True
+        with self.assertRaises(sc.SpecError):self.bundle.validate(uri,invalid)
+
 
 if __name__=='__main__':unittest.main()

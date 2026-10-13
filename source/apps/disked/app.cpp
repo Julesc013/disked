@@ -18,7 +18,7 @@
 #include "providers/image/file_capture.h"
 #include "platform/windows/storage/fat_reader.h"
 #include "platform/windows/storage/fat_tree_sessions.h"
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#ifndef DISKED_RECURSIVE_DISABLED
 #include "platform/windows/storage/fat_tree_actions.h"
 #endif
 #include <cstdio>
@@ -82,14 +82,14 @@ bool recursive_identity(const Value& parameters) {
     const auto *id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,8,"tree-op:")==0;
 }
 Outcome recursive_action(const std::string& request,const Value& parameters) {
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#ifndef DISKED_RECURSIVE_DISABLED
     return dispatch_fat_tree_extraction(command_registry(),request,parameters,nt_inventory::fat_tree_command_actions());
 #else
     (void)parameters;return refused(request,"command_unavailable",3);
 #endif
 }
 Outcome recursive_operation(const std::string& request,const std::string& command,const Value& parameters,const ResponseSink& sink={}) {
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#ifndef DISKED_RECURSIVE_DISABLED
     return nt_inventory::dispatch_fat_tree_operation(command_registry(),request,command,parameters,sink);
 #else
     (void)command;(void)parameters;(void)sink;return refused(request,"operation_unavailable",3);
@@ -154,8 +154,8 @@ Outcome operation_action(const std::string& request,const std::string& command,c
     return acquisition_identity(parameters)?dispatch_acquisition_operation(request,command,parameters):dispatch_fake_worker(request,command,parameters);
 }
 bool implemented(const std::string& id) {
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
-    if(id=="filesystem.tree.extract")return true;
+#ifdef DISKED_RECURSIVE_DISABLED
+    if(id=="filesystem.tree.extract")return false;
 #endif
     for(const auto& c:bootstrap::commands)if(id==c.id)return c.implemented;
     return false;

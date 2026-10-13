@@ -10,7 +10,7 @@
 #include "output.h"
 #include "platform/windows/storage/fat_worker.h"
 #include "platform/windows/storage/fat_tree_worker.h"
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#ifndef DISKED_RECURSIVE_DISABLED
 #include "platform/windows/storage/fat_tree_controller.h"
 #include "platform/windows/storage/fat_tree_extraction_worker.h"
 #endif
@@ -21,7 +21,7 @@ namespace disked {
 int run_capture_campaign_producer(int argc,wchar_t** argv);
 #endif
 int windows_entry(int argc,wchar_t** argv) {
-#ifdef DISKED_RECURSIVE_COMMAND_TESTING
+#ifndef DISKED_RECURSIVE_DISABLED
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_tree_controller")==0)return nt_inventory::fat_tree_controller_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_tree_extraction_worker")==0)return nt_inventory::fat_tree_extraction_worker_role(argc,argv);
 #endif

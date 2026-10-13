@@ -7,10 +7,10 @@ from test_fat_recursive_product import arguments, grants, admission, canonical, 
 
 def main():
     parser = argparse.ArgumentParser()
-    for name in ('exe', 'fault', 'normal', 'output'):
+    for name in ('exe', 'fault', 'disabled', 'output'):
         parser.add_argument('--'+name, type=Path, required=True)
     args = parser.parse_args()
-    exe, fault, normal = (str(getattr(args, key).resolve()) for key in ('exe', 'fault', 'normal'))
+    exe, fault, disabled = (str(getattr(args, key).resolve()) for key in ('exe', 'fault', 'disabled'))
     clean = {key: value for key, value in os.environ.items() if not key.startswith(
         ('DISKED_TEST_', 'DISKED_ACQ_', 'DISKED_FAT_'))}
     records, cases = [], []
@@ -25,7 +25,9 @@ def main():
         result = subprocess.run([binary, '--json', *words], env=dict(clean, **(controls or {})),
                                 capture_output=True, timeout=35)
         assert result.returncode in (0, 2, 3, 4, 5, 6) and not result.stderr, result
-        return json.loads(result.stdout)
+        value=json.loads(result.stdout)
+        bundle.validate('urn:disked:schema:fat-recursive-response-prototype:1',value)
+        return value
 
     def setup(binary=exe):
         root, inputs, expected = admission.fixture()
@@ -228,10 +230,10 @@ def main():
             rejected = cli(arguments(stale))
             assert rejected['status'] == 'refused', rejected
             assert not list((root/'store').iterdir()) and not (root/'output').exists()
-        rejected = cli(arguments(execution), normal, controls)
+        rejected = cli(arguments(execution), disabled, controls)
         assert rejected['status'] == 'refused'
         assert not list((root/'store').iterdir()) and (root/'source.img').read_bytes() == source
-        record('invalid-mutation-fields-stale-digests-and-disabled-normal-product')
+        record('invalid-mutation-fields-stale-digests-and-disabled-composition')
 
         root, params, execution, source, _ = setup()
         with (root/'source.img').open('r+b') as stream:
@@ -257,7 +259,7 @@ def main():
     finally:
         args.output.write_text(json.dumps(dict(passed=passed, checks=len(records), records=records,
             cases=cases, scope='Generated images and isolated fault composition; no physical access, '
-            'normal-product admission, other-host or release qualification'), indent=2)+'\n',
+            'other-host or release qualification'), indent=2)+'\n',
             encoding='utf-8', newline='\n')
     assert passed
 

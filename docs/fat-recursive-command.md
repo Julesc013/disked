@@ -6,10 +6,11 @@ durable ordinary-file operation lifecycle. The qualified private
 [DE-W056 backend](fat-recursive-extraction.md) supplies the create-only effects.
 This task preserves the original full platform/storage programme.
 
-The sole command registry records `filesystem.tree.extract`, with CLI spelling
-`filesystem extract-tree`, as planned and unavailable in the product composition.
-Its provisional parameter bindings and shared native command ports now exist;
-product frontend admission remains unfinished. Neither `filesystem extract tree` nor
+The sole proposed command registry records `filesystem.tree.extract`, with CLI
+spelling `filesystem extract-tree`. The Windows native image prototype composition
+now selects its implemented handler; global contract acceptance remains pending.
+Its provisional parameter bindings and shared native command ports serve all
+product frontends. Neither `filesystem extract tree` nor
 `filesystem tree extract` can be added without reinterpreting operands of an
 existing command. The existing file extraction and tree inspection keep their
 identities and grammar.
@@ -241,5 +242,24 @@ produce `worker.observation=running` with `dependencies_retained=false`. The wor
 now derives both facts from the same observation; the original contradictory ledger
 is retained and per-observation consistency has explicit native regression checks.
 
-These results qualify gated development journeys only. Normal-composition admission
-and full clean-source qualification remain before DE-W057's review boundary.
+The normal `disked` Windows image prototype now links those nonfault action,
+controller and worker implementations and selects recursive extraction in its
+build profile and generator allowlist. The separate disabled executable verifies
+unavailability before paths; the separate fault executable retains bounded fixture
+controls. There is no longer a duplicate nonfault recursive test composition.
+Historical gated reports above keep their original scope and revisions.
+
+The [strict response producer schema](../spec/schemas/fat-recursive-response-prototype.schema.json)
+defines preparation, controller execution, unresolved requests, inspection and
+watch results separately. It binds review hashes, response/receipt/admission IDs,
+controller births, process/grant/store facts, terminal worker outcomes and finite
+history/cursors. Refusal before admission may carry a null admission receipt;
+accepted and completed operations require the corresponding actual receipt.
+Help/discovery uses its own response contract and never initializes this backend.
+Native resource freshness/full-history verification and actor authority remain
+separate. No schema freezes this prototype as a production public or journal ABI.
+
+Actual normal CLI/protocol/GUI/TUI/shell success and fault journeys now pass typed
+response validation and independent mutated-response refusals. Full clean-source
+qualification remains before DE-W057's review boundary; full0.1.0 and owner,
+physical, other-platform and release qualification remain open.

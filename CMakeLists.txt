@@ -411,14 +411,15 @@ function(bootstrap_executable target)
     source/apps/disked/disked.manifest source/providers/fake/bootstrap.cpp source/providers/fake/graph.cpp source/providers/fake/health_observer.cpp
     source/platform/windows/entry.cpp source/platform/windows/invocation.cpp source/platform/windows/fake_worker.cpp source/platform/windows/output.cpp source/platform/windows/memory_budget.cpp source/platform/windows/console/terminal.cpp source/platform/windows/ui/gui.cpp)
   add_dependencies(${target} bootstrap_registry)
-  if(target STREQUAL "disked_recursive_test" OR target STREQUAL "disked_recursive_fault")
+  if(target STREQUAL "disked_recursive_disabled" OR target STREQUAL "disked_tree_test")
+    target_compile_definitions(${target} PRIVATE DISKED_RECURSIVE_DISABLED=1)
+  else()
     if(target STREQUAL "disked_recursive_fault")
       target_link_libraries(${target} PRIVATE disked_fat_tree_actions_fault disked_fat_tree_reconnect disked_fat_tree_controller_fault disked_fat_tree_extraction_worker_fault)
       target_compile_definitions(${target} PRIVATE DISKED_WORKER_TEST_STORE_FAULTS=1)
     else()
       target_link_libraries(${target} PRIVATE disked_fat_tree_actions disked_fat_tree_reconnect disked_fat_tree_controller disked_fat_tree_extraction_worker)
     endif()
-    target_compile_definitions(${target} PRIVATE DISKED_RECURSIVE_COMMAND_TESTING=1)
   endif()
   if(target STREQUAL "disked_tree_test")
     target_sources(${target} PRIVATE source/platform/windows/storage/fat_tree_sessions.cpp)
@@ -505,14 +506,14 @@ if(BUILD_TESTING)
   target_compile_options(fat_tree_session_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
   add_test(NAME capture.tree_session_rules COMMAND fat_tree_session_probe)
   bootstrap_executable(disked_tree_test)
-  bootstrap_executable(disked_recursive_test)
+  bootstrap_executable(disked_recursive_disabled)
   bootstrap_executable(disked_recursive_fault)
   add_test(NAME frontend.fat_recursive_product COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_recursive_product.py"
-    --exe "$<TARGET_FILE:disked_recursive_test>" --normal "$<TARGET_FILE:disked>"
+    --exe "$<TARGET_FILE:disked>" --disabled "$<TARGET_FILE:disked_recursive_disabled>"
     --output "${CMAKE_CURRENT_BINARY_DIR}/fat-recursive-product-cases.json")
   set_tests_properties(frontend.fat_recursive_product PROPERTIES TIMEOUT 300 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME frontend.fat_recursive_failures COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_recursive_failures.py"
-    --exe "$<TARGET_FILE:disked_recursive_test>" --fault "$<TARGET_FILE:disked_recursive_fault>" --normal "$<TARGET_FILE:disked>"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_recursive_fault>" --disabled "$<TARGET_FILE:disked_recursive_disabled>"
     --output "${CMAKE_CURRENT_BINARY_DIR}/fat-recursive-failure-cases.json")
   set_tests_properties(frontend.fat_recursive_failures PROPERTIES TIMEOUT 300 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME frontend.fat_tree_sessions COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_tree_sessions.py"

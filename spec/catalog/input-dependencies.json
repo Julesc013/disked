@@ -12278,7 +12278,8 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/schemas/fat-tree-operation-event-prototype.schema.json",
-        "spec/tools/specctl.py"
+        "spec/tools/specctl.py",
+        "spec/schemas/fat-recursive-response-prototype.schema.json"
       ],
       "spec_ids": [
         "DE-021",
@@ -12296,7 +12297,8 @@
       "depends_on": [
         "tests/frontend/test_fat_recursive_product.py",
         "spec/schemas/fat-tree-operation-event-prototype.schema.json",
-        "spec/tools/specctl.py"
+        "spec/tools/specctl.py",
+        "spec/schemas/fat-recursive-response-prototype.schema.json"
       ],
       "spec_ids": [
         "DE-021",
@@ -12326,9 +12328,26 @@
       "delivery": "artifact",
       "depends_on": [
         "spec/schemas/fat-tree-operation-event-prototype.schema.json",
-        "spec/tools/specctl.py"
+        "spec/tools/specctl.py",
+        "spec/schemas/fat-recursive-response-prototype.schema.json"
       ],
       "spec_ids": [
+        "DE-023",
+        "DE-103"
+      ]
+    },
+    {
+      "id": "spec/schemas/fat-recursive-response-prototype.schema.json",
+      "path": "spec/schemas/fat-recursive-response-prototype.schema.json",
+      "kind": "schema",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/schemas/response.schema.json",
+        "spec/schemas/fat-tree-review-prototype.schema.json",
+        "spec/schemas/fat-tree-operation-event-prototype.schema.json"
+      ],
+      "spec_ids": [
+        "DE-021",
         "DE-023",
         "DE-103"
       ]
