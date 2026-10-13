@@ -250,3 +250,16 @@ cases, 104 native groups and 20 standalone headers in
 `.aide/evidence/2026-10-13-fat-extraction/`. Measured held-source byte correctness does not establish future freshness,
 public extraction,
 other hosts and full product/storage/release admission.
+
+
+## DE-W052 resumable allocation-chain traversal
+
+The [private cursor profile](../catalog/fat-walk-prototype.json) extends the existing
+portable FAT owner with exact-cell request/feed continuation. Its caller-owned
+visited bitmap spans page boundaries; cycle detection emits unique clusters and
+does not reset when a page ends. The cursor has no whole-chain step cap, while
+bitmap addressability/capacity and caller work budgets remain explicit. No host
+I/O or trusted persisted continuation is introduced. Existing bounded capture,
+selectors and extraction formats remain unchanged. Source/capture binding, paged
+directory traversal and recursive extraction require subsequent integration;
+this primitive does not admit a filesystem, provider or historical host.

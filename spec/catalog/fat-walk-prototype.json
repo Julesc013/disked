@@ -1,0 +1,21 @@
+{
+  "schema": "org.disked.fat-walk-profile/1",
+  "work_id": "DE-W052",
+  "status": "expected-contract-before-implementation",
+  "base_revision": "83edbe735784accc7784bf528d210210cc66c4d6",
+  "scope": "Private resumable FAT12/16/32 allocation-chain cursor over supplied exact cells, as the first part of larger coherent traversal. No host reads, persisted continuation, public command, recursive extraction or provider admission.",
+  "ownership": "Reuse portable/fat/fat.h and allocation.c; allocation decoding and chain semantics have the same owner. No new source tree or parallel FAT decoder. Existing capped chain_read and capture/selector versions keep their contracts.",
+  "cursor": "Caller owns a cursor and disjoint visited bitmap for its lifetime. Type/count are independently established. Initialization clears only ceil(cluster_count/8) bytes and refuses insufficient or unaddressable capacity before changing caller data. Empty/invalid starts publish terminal observations without a bitmap. Cursor is private in-process state, not a trusted serialized token or source identity.",
+  "steps": "Request returns the exact table-relative cell for current cluster without advancing. Feed decodes exactly that cell using existing entry rules, publishes an ordered unique cluster observation and advances at most one link. Page boundaries are caller scheduling decisions; suspension needs no reset or reread. Cycle detection spans every page with O(1) lookup and no repeated cluster publication. There is no fixed1024-step whole-chain cap; resource capacity is explicit and finite.",
+  "outcomes": "Running is distinct from terminal empty/end/free/bad/reserved/invalid-start/cycle/truncated. Short cell terminates as truncated; overlong or invalid programmer arguments leave cursor, bitmap and result unchanged. Completed cursors cannot consume another cell. Raw FAT32 high bits stay observable. A chain result does not establish cross-links, namespace, file length, capture freshness, filesystem health or authority.",
+  "qualification": [
+    "Independent FAT12/16/32 byte/oracles: chains beyond1024, varied page sizes, cycles crossing page boundaries, every marker, empty/invalid starts, FAT12 packed boundaries and preserved FAT32 high bits.",
+    "Native guard checks for exact cells ending at a protected page, capacity refusal before inaccessible workspace, unchanged state on invalid/overlong feeds, untouched workspace tail and no repeated completion effects.",
+    "Record exact clean source/build/toolchain/import/header and actual native/tooling results. Existing allocation/capture/content/extraction/evidence tests remain required; no qualification claim for recursive extraction, other hosts or real media."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "product_dispatch_admitted": false,
+  "owner_accepted": false,
+  "release_ready": false
+}

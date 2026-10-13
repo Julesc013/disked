@@ -319,3 +319,10 @@ admission, finite callback budgets and short/error prefixes; then qualify held
 native sources, contained payload workers and public extraction. Supplied JSON
 does not prove source freshness, and metadata retention is not a source-opening
 grant. This step moves toward extraction without narrowing the full programme.
+
+
+DE-W052 establishes a resumable allocation-chain primitive under the existing
+FAT owner, with explicit visited-memory and per-step supplied-cell boundaries.
+Qualify the exact source before integrating coherent directory pages, lossless
+name/metadata continuation and recursive extraction. Keep old capture/selector
+semantics versioned and retain the full all-platform/storage0.1.0 programme.

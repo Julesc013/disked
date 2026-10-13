@@ -144,3 +144,103 @@ int de_fat_chain_read(const de_view *fat, int bits, de_u32 clusters, de_u32 star
     *out = value;
     return DE_OK;
 }
+
+int de_fat_walk_init(int bits, de_u32 clusters, de_u32 start,
+                     unsigned char *visited, size_t capacity, de_fat_walk *out) {
+    de_fat_walk value;
+    de_u32 needed;
+    de_u64 wide;
+    size_t addressable;
+    int status;
+    if (!out || !shape(bits, clusters))
+        return DE_INVALID;
+    memset(&value, 0, sizeof(value));
+    value.bits = bits;
+    value.cluster_count = clusters;
+    value.current = start;
+    if (!start)
+        value.disposition = DE_FAT_CHAIN_EMPTY;
+    else if (start < 2 || start > clusters + 1)
+        value.disposition = DE_FAT_CHAIN_INVALID_START;
+    else {
+        needed = clusters / 8 + (clusters % 8 != 0);
+        wide = de_u64_from_u32(needed);
+        status = de_u64_to_size(&wide, &addressable);
+        if (status)
+            return status;
+        if (capacity < addressable)
+            return DE_BUFFER;
+        if (!visited)
+            return DE_INVALID;
+        value.visited = visited;
+        value.visited_bytes = addressable;
+        value.running = 1;
+        value.disposition = DE_FAT_WALK_PENDING;
+        memset(visited, 0, value.visited_bytes);
+    }
+    *out = value;
+    return DE_OK;
+}
+
+int de_fat_walk_request(const de_fat_walk *walk, de_fat_cell_request *out) {
+    if (!walk || !out || !walk->running || !walk->visited ||
+        !shape(walk->bits, walk->cluster_count) || walk->current < 2 ||
+        walk->current > walk->cluster_count + 1 || walk->count >= walk->cluster_count ||
+        walk->visited_bytes != walk->cluster_count / 8 + (walk->cluster_count % 8 != 0))
+        return DE_INVALID;
+    return de_fat_entry_request(walk->bits, walk->cluster_count, walk->current, out);
+}
+
+int de_fat_walk_feed(de_fat_walk *walk, const de_view *cell, de_fat_walk_step *out) {
+    de_fat_cell_request request;
+    de_fat_walk value;
+    de_fat_walk_step step;
+    de_u32 bit, next_bit;
+    unsigned char mask;
+    int status;
+    if (!cell || !out || (!cell->data && cell->size))
+        return DE_INVALID;
+    status = de_fat_walk_request(walk, &request);
+    if (status)
+        return status;
+    if (cell->size > request.bytes)
+        return DE_BOUNDS;
+    bit = walk->current - 2;
+    mask = (unsigned char)(1U << (bit % 8));
+    if (walk->visited[bit / 8] & mask)
+        return DE_INVALID;
+    value = *walk;
+    memset(&step, 0, sizeof(step));
+    step.cluster = value.current;
+    step.ordinal = value.count;
+    if (cell->size < request.bytes) {
+        value.running = 0;
+        value.disposition = DE_FAT_CHAIN_TRUNCATED;
+    } else {
+        status = de_fat_cell_read(cell, value.bits, value.cluster_count, value.current,
+                                  &step.entry);
+        if (status)
+            return status;
+        step.entry_present = 1;
+        if (step.entry.kind == DE_FAT_ENTRY_NEXT) {
+            value.current = step.entry.value;
+            next_bit = value.current - 2;
+            if (value.current == step.cluster ||
+                (value.visited[next_bit / 8] & (unsigned char)(1U << (next_bit % 8)))) {
+                value.running = 0;
+                value.disposition = DE_FAT_CHAIN_CYCLE;
+            }
+        } else {
+            value.running = 0;
+            value.disposition = step.entry.kind == DE_FAT_ENTRY_END ? DE_FAT_CHAIN_END
+                                : step.entry.kind == DE_FAT_ENTRY_FREE ? DE_FAT_CHAIN_FREE
+                                : step.entry.kind == DE_FAT_ENTRY_BAD ? DE_FAT_CHAIN_BAD
+                                                                    : DE_FAT_CHAIN_RESERVED;
+        }
+    }
+    ++value.count;
+    value.visited[bit / 8] |= mask;
+    *walk = value;
+    *out = step;
+    return DE_OK;
+}

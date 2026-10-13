@@ -87,6 +87,21 @@ typedef struct de_fat_chain {
     int disposition, terminal_kind;
 } de_fat_chain;
 
+/* Private in-process continuation. Caller keeps this object and its disjoint
+   bitmap together, unmodified between calls. Not a serialized/source token. */
+#define DE_FAT_WALK_PENDING (-1)
+typedef struct de_fat_walk {
+    unsigned char *visited;
+    size_t visited_bytes;
+    de_u32 cluster_count, current, count;
+    int bits, running, disposition;
+} de_fat_walk;
+typedef struct de_fat_walk_step {
+    de_fat_entry entry;
+    de_u32 cluster, ordinal;
+    int entry_present;
+} de_fat_walk_step;
+
 #define DE_FAT_DIR_TRUNCATED 0x0001UL
 #define DE_FAT_DIR_ATTRIBUTES 0x0002UL
 #define DE_FAT_DIR_CASE 0x0004UL
@@ -162,6 +177,16 @@ int de_fat_cell_read(const de_view *cell, int bits, de_u32 cluster_count, de_u32
    Known cycles take precedence over a budget for the next unseen cluster. */
 int de_fat_chain_read(const de_view *fat, int bits, de_u32 cluster_count, de_u32 start,
                       de_u32 *workspace, size_t capacity, size_t budget, de_fat_chain *out);
+/* No whole-chain step cap. Nonempty valid starts need ceil(cluster_count/8)
+   addressable bitmap bytes; clear only that prefix. Refusal changes nothing. */
+int de_fat_walk_init(int bits, de_u32 cluster_count, de_u32 start,
+                     unsigned char *visited, size_t capacity, de_fat_walk *out);
+/* Request is repeatable and does not advance. Feed consumes just that cell.
+   A short cell publishes one terminal truncated observation; an overlong cell
+   or invalid argument changes nothing. Completed cursors refuse further feeds.
+   Each successful feed publishes a unique cluster; cycles span all pages. */
+int de_fat_walk_request(const de_fat_walk *walk, de_fat_cell_request *out);
+int de_fat_walk_feed(de_fat_walk *walk, const de_view *cell, de_fat_walk_step *out);
 /* Exactly one borrowed record; short content is an observation, not a live entry.
    Unknown OEM encoding stays raw; dot values 1/2 observe names, not path traversal. */
 int de_fat_dirent_read(const de_view *record, int bits, de_fat_dirent *out);

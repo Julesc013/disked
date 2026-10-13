@@ -5130,6 +5130,87 @@
         "tests/unit/compiled_registry_probe.cpp",
         "tools/build-inputs.json"
       ]
+    },
+    {
+      "id": "DE-W052",
+      "title": "Implement resumable allocation-chain traversal without a whole-chain step cap",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W049"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-031",
+        "DE-037",
+        "DE-103"
+      ],
+      "allowed_paths": [
+        "source/**",
+        "tests/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private resumable FAT12/16/32 allocation-chain cursor over supplied exact cells, as the first part of larger coherent traversal. No host reads, persisted continuation, public command, recursive extraction or provider admission.",
+        "Reuse portable/fat/fat.h and allocation.c; allocation decoding and chain semantics have the same owner. No new source tree or parallel FAT decoder. Existing capped chain_read and capture/selector versions keep their contracts."
+      ],
+      "acceptance": [
+        "Independent FAT12/16/32 byte/oracles: chains beyond1024, varied page sizes, cycles crossing page boundaries, every marker, empty/invalid starts, FAT12 packed boundaries and preserved FAT32 high bits.",
+        "Native guard checks for exact cells ending at a protected page, capacity refusal before inaccessible workspace, unchanged state on invalid/overlong feeds, untouched workspace tail and no repeated completion effects.",
+        "Record exact clean source/build/toolchain/import/header and actual native/tooling results. Existing allocation/capture/content/extraction/evidence tests remain required; no qualification claim for recursive extraction, other hosts or real media."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --parallel 4 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        ".aide/evidence/2026-10-13-fat-walk/audit_retention.py",
+        ".aide/evidence/2026-10-13-fat-walk/reproduce.py",
+        "AGENTS.md",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "docs/fat-walk.md",
+        "docs/source-map.md",
+        "source/portable/fat/allocation.c",
+        "source/portable/fat/fat.h",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "spec/catalog/fat-reader-prototype.json",
+        "spec/catalog/fat-walk-prototype.json",
+        "tests/property/test_fat.py",
+        "tests/property/test_fat_walk.py",
+        "tests/unit/fat_probe.cpp",
+        "tests/unit/fat_walk_probe.cpp",
+        "tools/build-inputs.json"
+      ]
     }
   ]
 }
