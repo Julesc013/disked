@@ -38,13 +38,19 @@ def main():
         assert not list(Path(p['state_directory']).iterdir())
     def finish(p,first,data):
         assert first['status'] in ('completed','accepted_running') and first['operation_id']
-        end=time.monotonic()+30
+        # Match the existing raw acquisition progress policy. A progressing
+        # durable copy is not a failed/stalled writer merely at total30s.
+        end=time.monotonic()+90;progress_end=time.monotonic()+30;checkpoint=-1
         while True:
             out=cli(['operation','inspect',first['operation_id'],'--state-dir',p['state_directory']],name='observe')
             assert out['result']['scope']=='ordinary-local-fat-file-extraction'
             state=out['result']['state']
             if state['phase']=='finished':break
-            assert time.monotonic()<end,out;time.sleep(.02)
+            current=int(state['checkpoint_bytes']);assert current>=checkpoint,state
+            now=time.monotonic()
+            if current>checkpoint:checkpoint=current;progress_end=now+30
+            assert now<end and now<progress_end,('retain unfinished worker dependencies',out)
+            time.sleep(.02)
         h=owned_process(state,exe)
         if h:
             try:assert K.WaitForSingleObject(h,2000)==0

@@ -173,6 +173,11 @@ int wmain(int argc, wchar_t **argv) {
     try {
         if (argc != 1)
             return 2;
+        // Use the same parent admission as product/other owned-reader probes.
+        // Shared worker jobs must have compatible caller job ancestry.
+        disked::WindowsMemoryBudget budget;
+        if (!budget.ready())
+            throw std::runtime_error(budget.error());
         _setmode(_fileno(stdin), _O_BINARY);
         _setmode(_fileno(stdout), _O_BINARY);
         auto limits = disked::fat_tree_json_limits();

@@ -1,0 +1,28 @@
+{
+  "source_revision": "8548b1f207f6f21909738a81504392936169c408",
+  "native_exit": 8,
+  "native_groups": 111,
+  "native_passed": 107,
+  "failures": [
+    "frontend.fat_extraction",
+    "evidence.logical_extraction",
+    "frontend.acquisition_interactive",
+    "resilience.request_waiting"
+  ],
+  "writer": {
+    "records": 33,
+    "elapsed_seconds": 60.0854984,
+    "max_observation_gap_seconds": 8.447001,
+    "final_phase": "finished",
+    "quiescent": true,
+    "outcome": "completed",
+    "checkpoint_bytes": "17039341"
+  },
+  "scope": "Failed full campaign; first fixed30-second wait expired despite progressing worker completion. Spawn/history and5-second elapsed assertions are observed, not yet independently diagnosed. No full qualification or owner acceptance.",
+  "subsequent_diagnostics": {
+    "before_admission_correction": "Three of three diagnostic groups failed.",
+    "after_admission_correction": "Same frozen binaries passed three of three groups after corrected probe admission.",
+    "repair": "New probe now applies the existing WindowsMemoryBudget parent admission, matching other worker probes; progress wait uses existing90s total/30s inactivity policy without weakening byte/exit/outcome checks.",
+    "qualification": "Full new-source campaign still required."
+  }
+}

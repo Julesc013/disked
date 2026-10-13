@@ -44,12 +44,21 @@ def main():
         assert r.returncode==exit_code and not r.stderr,(r.returncode,r.stdout[-1500:],r.stderr)
         note('native-probe',exit_code=r.returncode,input_sha256=digest(raw),output_sha256=digest(r.stdout));return json.loads(r.stdout)
     def finish(first,store,kind):
-        end=time.monotonic()+30
+        # Acquisition can legitimately progress past30s while retaining a
+        # bounded total and no-progress window. Other evidence writers retain
+        # their original finite30-second wait.
+        end=time.monotonic()+(90 if kind=='acquisition' else 30)
+        progress_end=time.monotonic()+30;checkpoint=-1
         while True:
             out=wire('operation.inspect',dict(operation_id=first['operation_id'],state_directory=str(store)))
             state=out['result']['state']
             if state['phase']=='finished':break
-            assert time.monotonic()<end;time.sleep(.02)
+            now=time.monotonic()
+            if kind=='acquisition':
+                current=int(state['checkpoint_bytes']);assert current>=checkpoint,state
+                if current>checkpoint:checkpoint=current;progress_end=now+30
+            assert now<end and now<progress_end,('retain unfinished worker dependencies',state)
+            time.sleep(.02)
         h=owned_process(state,exe) if kind=='acquisition' else report_process(state,Path(exe))
         if h:
             try:assert K.WaitForSingleObject(h,2000)==0
