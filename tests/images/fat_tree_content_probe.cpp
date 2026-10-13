@@ -46,13 +46,66 @@ int main() {
         input.expected_source = f::metadata(handle.value).value;
         if (const auto *fixture = value.find("fixture"))
             input.fixture = *fixture;
+        if (value.find("small_pages")) {
+            input.page.records = 1;
+            input.page.events = 1;
+        }
         disked::FatTreeFile source(input);
         std::uint64_t files = 0, pages = 0;
+        std::string previous_key;
         while (!source.finished()) {
             auto frame = source.next();
             const auto events = field(field(frame, "page"), "events");
             emit(V::object().put("kind", V::string("tree")).put("frame", std::move(frame)));
+            if (value.find("metadata_only") && !previous_key.empty()) {
+                try {
+                    source.metadata_candidates(previous_key, {});
+                    throw std::runtime_error("previous metadata page accepted");
+                } catch (const std::invalid_argument &error) {
+                    if (std::string(error.what()) != "fat_tree_metadata_not_observed")
+                        throw;
+                }
+                previous_key.clear();
+            }
             for (const auto &event : events.items) {
+                if (value.find("metadata_only")) {
+                    if (field(event, "type").text != "record" ||
+                        (field(event, "kind").text != "3" && field(event, "kind").text != "4") ||
+                        field(event, "dot").text != "0")
+                        continue;
+                    const auto key = field(event, "key").text;
+                    disked::FatMetadataPolicy policy;
+                    policy.oem_code_page = 437;
+                    if (value.find("identity_names"))
+                        policy.name_selection = "identity";
+                    try {
+                        source.metadata_candidates("entry:0", policy);
+                        throw std::runtime_error("unknown metadata membership accepted");
+                    } catch (const std::invalid_argument &error) {
+                        if (std::string(error.what()) != "fat_tree_metadata_not_observed")
+                            throw;
+                    }
+                    const bool cancelled = value.find("cancel_metadata") != nullptr;
+                    try {
+                        auto metadata = source.metadata_candidates(
+                            key, policy, [cancelled] { return cancelled; });
+                        if (cancelled)
+                            throw std::runtime_error("cancelled metadata accepted");
+                        emit(V::object()
+                                 .put("kind", V::string("metadata"))
+                                 .put("frame", std::move(metadata)));
+                        ++files;
+                    } catch (const std::invalid_argument &error) {
+                        if (!cancelled ||
+                            std::string(error.what()) != "fat_tree_metadata_cancelled")
+                            throw;
+                        emit(V::object()
+                                 .put("kind", V::string("metadata_refused"))
+                                 .put("code", V::string(error.what())));
+                    }
+                    previous_key = key;
+                    continue;
+                }
                 if (field(event, "type").text != "record" || field(event, "kind").text != "3")
                     continue;
                 const auto key = field(event, "key").text;

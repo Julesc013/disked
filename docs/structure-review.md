@@ -1,5 +1,20 @@
 # Source structure and release review follow-up
 
+## Partial metadata-preparation checkpoint: 14 October 2026
+
+DE-W056 now maps original FAT names/times/attributes explicitly and reobserves
+metadata from its own held-source traversal. [Development evidence](../.aide/evidence/2026-10-14-fat-metadata/README.md)
+records 631 mapping/Windows-code-page cases, 12 actual-file cases retaining 980
+metadata frames, six selected native groups and 236 tooling passes/two skips.
+The [source map](source-map.md) covers 242 current files. Original representations
+stay separate from output candidates and actual future metadata application.
+
+The existing runtime/acquisition and image-provider owners suffice. Preparation
+creates no destination effects. This partial dev checkpoint does not qualify the
+unfinished recursive writer or full 0.1.0. Immutable effect grants, destination
+creation, ordered metadata evidence, native application/readback, contained
+writer lifetime and complete exact-source qualification remain in active DE-W056.
+
 ## Partial recursive-content checkpoint: 14 October 2026
 
 DE-W056 now has a supplied-reader file-content continuation and an adapter that

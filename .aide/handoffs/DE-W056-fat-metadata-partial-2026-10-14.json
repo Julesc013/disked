@@ -1,0 +1,234 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W056",
+  "base_revision": "80b51ed6c9f0e8354e559a137cdfaf506450f5b4",
+  "spec_manifest_digest": "sha256:74d5f10b44730ba4577bd7e6ce1e3bc00ed7aff17d88b705d1e9cdfc40073658",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "source/runtime/capture/fat_traversal.cpp",
+    "source/portable/fat/directory.c",
+    "source/portable/fat/fat.h",
+    "source/providers/image/local_file.h",
+    "source/providers/image/local_file.cpp",
+    "source/providers/image/fat_tree_file.cpp",
+    "source/runtime/acquisition/pipeline.h",
+    "source/providers/image/file_acquisition.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/runtime/journal/definitions.h",
+    "CMakeLists.txt",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-fat-metadata/.gitattributes",
+    ".aide/evidence/2026-10-14-fat-metadata/README.md",
+    ".aide/evidence/2026-10-14-fat-metadata/REVIEW.md",
+    ".aide/evidence/2026-10-14-fat-metadata/artifacts.json",
+    ".aide/evidence/2026-10-14-fat-metadata/context-manifest.json",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-boundaries.json",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-build-1.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-build-2.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-cases.json",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-configure-2.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-configure.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-focused-2.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-registry.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-tooling-final.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-tooling.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-boundaries-final.json",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-build-2.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-build.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-cases.json",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-configure-2.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-configure.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-final-selected.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-focused-1.log",
+    ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-regression-build.log",
+    ".aide/evidence/2026-10-14-fat-metadata/summary.json",
+    ".aide/evidence/2026-10-14-fat-metadata/working-inputs.json",
+    ".aide/handoffs/DE-W056-fat-metadata-partial-2026-10-14.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-recursive-extraction.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/providers/image/fat_native_metadata.cpp",
+    "source/providers/image/fat_native_metadata.h",
+    "source/providers/image/fat_tree_file.cpp",
+    "source/providers/image/fat_tree_file.h",
+    "source/runtime/acquisition/fat_metadata.cpp",
+    "source/runtime/acquisition/fat_metadata.h",
+    "spec/bundle.json",
+    "spec/catalog/fat-recursive-extraction-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_native_metadata_probe.cpp",
+    "tests/images/fat_tree_content_probe.cpp",
+    "tests/images/test_fat_metadata.py",
+    "tests/images/test_fat_tree_metadata.py",
+    "tests/unit/fat_metadata_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Explicit original FAT metadata/native-candidate mapping and same-held-source preparation now pass focused tests. 631 mapping cases and 12 actual-file cases/980 frames, six selected native groups and 236 tooling passes/two skips. Complete recursive destination/effects backend and full qualification remain unfinished; DE-W056 and the original goal stay active.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-development-build -C Release -R \"^(acquisition.fat_metadata|image.fat_tree_metadata|image.fat_tree_content|capture.fat_content_stream|image.fat_tree_file|frontend.fat_tree_sessions)$\" --parallel 2 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-final-selected.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-tooling-final.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-metadata\\fat_metadata_probe.exe",
+      "sha256": "sha256:54f25371f8e261bfba36fd1f5e5e791e810859eb188598d288114b5660a13d7a"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-metadata\\fat_native_metadata_probe.exe",
+      "sha256": "sha256:c31ddcbae7e979e940a371d1b02a9a269f7e06bc6664a2922cc8d49d42db791b"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-metadata\\fat_tree_content_probe.exe",
+      "sha256": "sha256:8fdf4f68b25ce90587aed99b5779893391be772486b8dfb2afb9b6ad366e5f58"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-metadata\\fat_tree_content_fault.exe",
+      "sha256": "sha256:cb3a2302aae35d6b91826d14f4052cf012ef77d656de1d7bf518993abc47aa66"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\evidence-artifacts\\2026-10-14-fat-metadata\\disked.exe",
+      "sha256": "sha256:776da632a960eeeded3973d8258cd7dbfc39c59ea0d6cdc7d65a6c9cf022107d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/.gitattributes",
+      "sha256": "sha256:8d9718a1884a9737743a947afffc5ad1f72cbb3aa8887ec188c6861177c37e68"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/artifacts.json",
+      "sha256": "sha256:2ea50270fb36e63311f34e8ed13e47ee85bf12a3040461e16aeeeb40f822b1f0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/context-manifest.json",
+      "sha256": "sha256:bc850418a216730bc46cc91677e826638774aad139ac2bcf7fc05988a8445948"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-boundaries.json",
+      "sha256": "sha256:3e153a43bc45967d1d4c5c68ca017722d35a384c28f8387b67ea1dc558feda67"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-build-1.log",
+      "sha256": "sha256:9f6ce206c933487b55d7680af58e931726f561d2b93d5c00407effe52c9df3b1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-build-2.log",
+      "sha256": "sha256:db56e860f535521c0cd460b03911fda08d959c6e766c1dba486a0194c42b51d4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-cases.json",
+      "sha256": "sha256:630f54730862cf711e92d54490b0fec64a4fbde4512e455aedfd1f13d6b34a46"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-configure-2.log",
+      "sha256": "sha256:4020f41858d59c273a30c2f5615fa0d775aaa7db6c6809e70de113d8976a0f6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-configure.log",
+      "sha256": "sha256:0a61b034de9923ab77dd3b5f48a1b5f1b470a493f49cc912218a444bd8dd33fd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-focused-1.log",
+      "sha256": "sha256:58767b85485c53761747a23bf39519b586cd1da24d8a1ffabf354e18661035e5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-focused-2.log",
+      "sha256": "sha256:9b68dd19c59530719571d6ac5569017cc93e12baa339b913bc2237c7ad8daeeb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-registry.log",
+      "sha256": "sha256:ced23b0ba26b8ee233a56649b14d5304eeec5b8701ca6980bdf169ae0d1131e2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-tooling-final.log",
+      "sha256": "sha256:370385c08a2d5ee5ae1713d386175a87f1ed9d09bc179b7144c163878c329587"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-metadata-tooling.log",
+      "sha256": "sha256:0db8189e7aa7b5f0c4454ff5f023f237cf9e4db6c424627219a399bfc8b4421e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-boundaries-final.json",
+      "sha256": "sha256:95c9d85019cf4397ec22fb2abacc02f434d8009a69349d3e6a7bd0d5941333b9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-build-2.log",
+      "sha256": "sha256:cc669fc1d129c43753e077103e29e290331927280dada627394aee8f5e07e9ac"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-build.log",
+      "sha256": "sha256:a4620c12bd4cec5e268091ca313dedf2fc52933d2baba67f776047fc9dbc1d6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-cases.json",
+      "sha256": "sha256:fb3981b57121c9bef2d947fa44f298cb90a2b71bba2c139f8de271b7a28ec5f9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-configure-2.log",
+      "sha256": "sha256:327292bed37b64c1d35497d915cb5c7edcbd59851f52aa913744d1561ab7d64d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-configure.log",
+      "sha256": "sha256:5d2eb93ba1b9e5508eea67db2b7f1f3501f1329b0b812b5dbdaf77cec5309768"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-final-selected.log",
+      "sha256": "sha256:dbf0b002cc701b84555b2344fa6d5066fa74df4d58da786bf2f35d0f2da672c9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-focused-1.log",
+      "sha256": "sha256:da3f4a461c37a333cd966eb08606e1a632726f2017ad84d0e584aa8e78067e8b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/fat-tree-metadata-regression-build.log",
+      "sha256": "sha256:1543b3e50c19cadadc1524c43f8a036692b28e0ea223c825b14990b3bc7be549"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/README.md",
+      "sha256": "sha256:6b71f11b401e03d652943988c1ba5c7d8ebdb69552574d047aed1891cdbaf8d0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/REVIEW.md",
+      "sha256": "sha256:6c0a8ca52a2fbd77f82ceee03ddd7bf57d7b10ae64be51bac8582998e787c584"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/summary.json",
+      "sha256": "sha256:5d34df3485b7a99b02b8e40777300d5757b2bb8c9bed8d5215c0c68a5fd12c08"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-fat-metadata/working-inputs.json",
+      "sha256": "sha256:dc41ce92fe1a0df7bf1cc18a23dd53b55d91c1a54c1aac0dc95c018df0812578"
+    }
+  ],
+  "blockers": [
+    "Remaining destination/effects/ledger/native application/readback/contained writer implementation and complete exact-source qualification; no external blocker prevents local progress.",
+    "Original full platform/storage 0.1.0 and separate owner/physical/elevation/customer/install/sign/publication gates remain."
+  ],
+  "next_safe_step": "Complete DE-W056 immutable effect/resource definitions and explicit grants, create-only recursive destination tree, ordered original metadata ledger, native application/readback and contained writer interruption/exit qualification. Existing content and metadata preparation now have focused evidence; do not end the unit or narrow the original platform/storage goal.",
+  "performed_remote_writes": false
+}

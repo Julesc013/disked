@@ -1,6 +1,8 @@
 #include "fat_tree_file.h"
 #include "local_file.h"
+#include "fat_native_metadata.h"
 #include "portable/fat/fat.h"
+#include <algorithm>
 #include <atomic>
 #include <limits>
 
@@ -66,6 +68,7 @@ struct FatTreeFile::Impl {
     std::function<bool()> stop;
     bool read_consistent = true;
     std::uint64_t calls = 0, total_reads = 0;
+    int observed_bits = 0;
     std::string fault;
     explicit Impl(const FatTreeInput &v) : input(v) {
         validate_fat_tree_input(input);
@@ -204,6 +207,11 @@ struct FatTreeFile::Impl {
         } reset{stop};
         ++calls;
         auto page = traversal->next(binding, input.page);
+        for (const auto &value : page.fields.at("events").items) {
+            const auto *type = value.find("type");
+            if (type && type->text == "volume")
+                observed_bits = std::stoi(value.fields.at("bits").text);
+        }
         last_page = page;
         stop = {};
         auto frame = V::object()
@@ -304,6 +312,112 @@ struct FatTreeFile::Impl {
         json::dump(frame, fat_tree_content_json_limits());
         return frame;
     }
+    void check_metadata_applicable() {
+        if (applicable())
+            return;
+        if (!checks.items.empty() && checks.items.back().fields.at("cancelled").boolean)
+            throw std::invalid_argument("fat_tree_metadata_cancelled");
+        throw std::invalid_argument("fat_tree_metadata_source_changed");
+    }
+    V metadata_candidates(const std::string &key, const FatMetadataPolicy &policy,
+                          const std::function<bool()> &cancel) {
+        fat_metadata_policy_value(policy); // Refuse invalid policy before read callbacks.
+        if (key.empty() || key.size() > 26 || !observed_bits)
+            throw std::invalid_argument("fat_tree_metadata_key");
+        if (content && !content->finished())
+            throw std::invalid_argument("fat_tree_content_busy");
+        const auto *applies = last_page.find("applicable"), *events = last_page.find("events");
+        if (!applies || applies->kind != V::Kind::boolean || !applies->boolean || !events ||
+            events->kind != V::Kind::array)
+            throw std::invalid_argument("fat_tree_metadata_view_unavailable");
+        const V *record = nullptr;
+        for (const auto &value : events->items) {
+            const auto *type = value.find("type"), *id = value.find("key"),
+                       *kind = value.find("kind");
+            if (type && type->text == "record" && id && id->text == key && kind &&
+                (kind->text == "3" || kind->text == "4")) {
+                if (record)
+                    throw std::invalid_argument("fat_tree_metadata_key");
+                record = &value;
+            }
+        }
+        if (!record)
+            throw std::invalid_argument("fat_tree_metadata_not_observed");
+        regions = V::array();
+        checks = V::array();
+        stop = cancel;
+        struct ResetStop {
+            std::function<bool()> &value;
+            ~ResetStop() {
+                value = {};
+            }
+        } reset{stop};
+        auto reobserve = [this](const std::string &raw, const std::string &offset) {
+            if (raw.size() != 64 || raw.find_first_not_of("0123456789abcdef") != raw.npos ||
+                !json::decimal_u64(offset))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            const auto at = std::stoull(offset);
+            if (at < binding.volume_offset || at - binding.volume_offset > binding.volume_bytes ||
+                32 > binding.volume_bytes - (at - binding.volume_offset))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            check_metadata_applicable();
+            de_u64 begin{}, size{};
+            if (de_u64_parse(offset.data(), offset.size(), &begin) || de_u64_parse("32", 2, &size))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            de_block_space space{};
+            const auto extent_text = std::to_string(binding.source_bytes);
+            de_u64 extent{};
+            if (de_u64_parse(extent_text.data(), extent_text.size(), &extent) ||
+                de_space_init(binding.source_id.data(), binding.source_id.size(), &extent, 1,
+                              &space))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            de_block_extent blocks{};
+            de_byte_extent bytes{};
+            if (de_extent_make(&space, &begin, &size, &blocks) ||
+                de_extent_to_bytes(&blocks, &bytes))
+                throw std::invalid_argument("fat_tree_metadata_record");
+            const auto view = region(bytes);
+            std::vector<unsigned char> observed;
+            if (view.size)
+                observed.assign(view.data, view.data + view.size);
+            check_metadata_applicable();
+            if (hex(observed) != raw)
+                throw std::invalid_argument("fat_tree_metadata_record_changed");
+            return observed;
+        };
+        FatMetadataInput selected;
+        selected.bits = observed_bits;
+        selected.source_offset = std::stoull(record->fields.at("source_offset").text);
+        const auto raw =
+            reobserve(record->fields.at("raw").text, record->fields.at("source_offset").text);
+        std::copy(raw.begin(), raw.end(), selected.record.begin());
+        if (const auto *long_name = record->find("long_name")) {
+            const auto &stored = long_name->fields.at("raw_slots").text;
+            const auto &offsets = long_name->fields.at("source_offsets").items;
+            if (offsets.size() > 20 || stored.size() != offsets.size() * 64)
+                throw std::invalid_argument("fat_tree_metadata_slots");
+            for (std::size_t i = 0; i < offsets.size(); ++i) {
+                auto slot = reobserve(stored.substr(i * 64, 64), offsets[i].text);
+                selected.long_slots.insert(selected.long_slots.end(), slot.begin(), slot.end());
+            }
+        }
+        auto mapping = fat_native_metadata_candidates(selected, policy);
+        check_metadata_applicable();
+        auto frame = V::object()
+                         .put("schema", V::string("org.disked.fat-tree-metadata-frame/1"))
+                         .put("context", context)
+                         .put("binding", fat_tree_binding_value(binding))
+                         .put("source_before", source_before)
+                         .put("source_after", last_metadata)
+                         .put("record", *record)
+                         .put("mapping", std::move(mapping))
+                         .put("regions", regions)
+                         .put("checks", checks)
+                         .put("directory_membership", V::string("held-source-traversal"))
+                         .put("authorizes_effects", V::boolean_value(false));
+        json::dump(frame, fat_tree_content_json_limits());
+        return frame;
+    }
 };
 FatTreeFile::FatTreeFile(const FatTreeInput &input) : impl_(new Impl(input)) {
 }
@@ -322,6 +436,10 @@ V FatTreeFile::next_content(const FatContentStreamBudget &b, const std::function
 }
 bool FatTreeFile::content_finished() const {
     return !impl_->content || impl_->content->finished();
+}
+V FatTreeFile::metadata_candidates(const std::string &key, const FatMetadataPolicy &policy,
+                                   const std::function<bool()> &stop) {
+    return impl_->metadata_candidates(key, policy, stop);
 }
 json::Limits fat_tree_content_json_limits() {
     auto limits = fat_tree_json_limits();

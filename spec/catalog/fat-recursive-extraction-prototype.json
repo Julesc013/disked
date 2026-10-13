@@ -17,5 +17,31 @@
   ],
   "authorizes_effects": false,
   "owner_accepted": false,
-  "release_ready": false
+  "release_ready": false,
+  "native_metadata_policy": {
+    "status": "private-expected-behaviour-before-implementation",
+    "name_selection": [
+      "long_or_short",
+      "short",
+      "identity"
+    ],
+    "oem_encoding": "An explicit nonzero code-page identity and strict supplied decoder are required for short-name output. The native decoder must reject best-fit or replacement conversion; the runtime does not guess the host OEM page.",
+    "long_names": "Reparse original reverse-ordered slots and the exact short record using the portable decoder. long_or_short uses an associated canonical valid UTF16 long name when slots are present; malformed/unassociated slots do not silently become a short alias. short explicitly chooses the short alias and preserves original long slots separately.",
+    "short_names": "Trim fixed-field padding, restore the stored leading 05 escape to E5 and decode base/extension separately. Apply only specified ASCII lower-case flags; non-ASCII lower-case mapping is refused without a separately defined case mapping. Original stored bytes and flags remain retained.",
+    "unrepresentable_names": [
+      "refuse",
+      "identity"
+    ],
+    "identity_names": "entry_<decimal source offset>, explicitly marked synthetic. This is an opted-in output mapping, never a claim of original native-name restoration. No replacement, normalization, truncation or collision suffix is implicit.",
+    "native_component": "Reject empty, dot/dot-dot, invalid UTF16, controls, separators, colon, Windows forbidden characters, trailing dot/space, reserved DOS names (including superscript COM/LPT forms) and components over 255 UTF16 units. Native sibling collision detection and full path/host limits remain separate admission checks.",
+    "time_interpretation": [
+      "preserve_raw",
+      "fixed_offset"
+    ],
+    "fixed_offset": "Explicit source-local offset in minutes east of UTC, from -840 through 840. UTC candidates subtract that offset from valid FAT calendar fields. Creation retains 10 ms fractions; write uses 2 s precision and access is a date at source-local midnight. Zero date is unspecified. Invalid/unspecified fields stay unapplied; preserve_raw supplies no native time candidates. No DST/timezone guess.",
+    "attributes": "Only read-only/hidden/system/archive are native candidates; directory type follows the separately created object. Raw FAT attributes/case flags and original records/slots remain preserved. Unsupported properties and invalid metadata are explicit; candidates are never labelled applied.",
+    "effect_boundary": "This pure mapping opens no source, initializes no provider and writes no destination/ledger. Supplied records or decoder callbacks authenticate no membership or authority. The native backend must bind its own observed source/tree, immutable definition, grants, sibling collision checks and actual metadata application/readback.",
+    "windows_decoder_lane": "The private Windows adapter initially supplies explicit CP437/CP850 with invalid-input refusal and exact no-best-fit byte roundtrip. Other encoding profiles remain work within the original scope, not an implicit host-default fallback.",
+    "held_source_preparation": "A metadata candidate frame selects only a file/directory key in the adapter's latest applicable traversal page. It reobserves the exact 32-byte record and each original LFN slot at its observed source offset, bounded to 21 double-read regions, on the same held file/ancestor closure. Source/process/capture/parent and read/applicability facts are retained. Unknown/stale keys, source/record disagreement and observed cancellation cannot publish a frame. fat_tree_metadata_cancelled identifies actual observed cancellation, separately from source-generation withdrawal. This synchronous preparation grants no destination effects or contained-writer qualification."
+  }
 }
