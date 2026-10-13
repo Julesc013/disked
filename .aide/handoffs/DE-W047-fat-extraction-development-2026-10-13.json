@@ -1,0 +1,350 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W047",
+  "base_revision": "dc56b190409581af95ee7a765175acd8f3db5dfc",
+  "spec_manifest_digest": "sha256:1c2161f0ce4c633c7b3b8c6ba0b6df48e21e12d7db9d8426a48570f2d9ecb0d9",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/fat-extraction-prototype.json",
+    "source/runtime/acquisition/pipeline.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/providers/image/file_acquisition.cpp",
+    "source/platform/windows/acquisition_worker.cpp",
+    "tests/images/test_fat_extraction.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-13-fat-extraction-development/.gitattributes",
+    ".aide/evidence/2026-10-13-fat-extraction-development/README.md",
+    ".aide/evidence/2026-10-13-fat-extraction-development/build-boundaries.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/build-identity.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/commands.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/extraction.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/initial-worker-harness-failure.md",
+    ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/regression.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/boundaries.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/build.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/checkout.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/cmake-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/configure.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/existing-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/fetch.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-c90.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-description.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-version.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/host.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/origin.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/python-environment.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-map.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-status.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-tree.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/logs/test-catalog.log",
+    ".aide/evidence/2026-10-13-fat-extraction-development/progress.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/retention.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/source-blob-bindings.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/source-inputs.json",
+    ".aide/evidence/2026-10-13-fat-extraction-development/test-catalog.json",
+    ".aide/evidence/2026-10-13-fat-extraction/audit_retention.py",
+    ".aide/evidence/2026-10-13-fat-extraction/reproduce.py",
+    ".aide/handoffs/DE-W047-fat-extraction-development-2026-10-13.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-extraction.md",
+    "docs/native-bootstrap.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/providers/image/file_acquisition.cpp",
+    "source/providers/image/file_acquisition.h",
+    "source/runtime/acquisition/pipeline.cpp",
+    "spec/bundle.json",
+    "spec/catalog/fat-extraction-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/schemas/acquisition-plan-logical-prototype.schema.json",
+    "spec/schemas/index.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_logical_acquisition.py",
+    "spec/work/units.json",
+    "tests/images/acquisition_worker_probe.cpp",
+    "tests/images/file_acquisition_probe.cpp",
+    "tests/images/test_fat_extraction.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Complete mapped FAT file/destination/resume backend implemented and source checkpoint pushed to dev. Clean build and boundary/source bindings passed; full104 native/tooling campaign still running at the recorded live session. This receipt preserves resumable evidence without manufacturing full qualification, public extraction or full0.1.0 completion. Pending native test status not_run means no retained terminal result yet, not that no process was launched.",
+  "tests": [
+    {
+      "command": "git remote get-url origin",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/origin.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/existing-status.log"
+    },
+    {
+      "command": "git fetch --no-tags origin a40c7b435eb1a150599014f2ecd72d51a47fc0dc",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/fetch.log"
+    },
+    {
+      "command": "git checkout --detach a40c7b435eb1a150599014f2ecd72d51a47fc0dc",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/checkout.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-status.log"
+    },
+    {
+      "command": "powershell -NoProfile -Command \"$fatIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$fatPrincipal=[System.Security.Principal.WindowsPrincipal]::new($fatIdentity);$fatOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$fatIdentity.Name;elevated=$fatPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$fatOS.Caption;version=$fatOS.Version;architecture=$fatOS.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/host.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-map.log"
+    },
+    {
+      "command": "git ls-tree -r -z a40c7b435eb1a150599014f2ecd72d51a47fc0dc",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-tree.log"
+    },
+    {
+      "command": "cmake --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/cmake-version.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print('PyYAML='+m.version('PyYAML'));print('jsonschema='+m.version('jsonschema'))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/python-environment.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -dumpfullversion",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-version.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-description.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -std=c90 -pedantic-errors -Wall -Wextra -Werror -I source -fsyntax-only source/portable/fat/volume.c source/portable/fat/allocation.c source/portable/fat/directory.c source/portable/fat/auxiliary.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-c90.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-a40c7b43\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-a40c7b43\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-a40c7b43\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-a40c7b43\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/boundaries.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-clean-a40c7b43\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/test-catalog.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/fat-extraction-clean-a40c7b43/build -C Release --parallel 4 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/build-boundaries.json",
+      "sha256": "sha256:79c504d419f09950b6534a427f6cfbbd0dce29582b58fa4850c8e3ef80db8e0f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/build-identity.json",
+      "sha256": "sha256:e1693a5c838dd2174be131c9d3efe9e6bfae2e04a289340a2f8fb45415c66c2b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/commands.json",
+      "sha256": "sha256:6b732f615730268d366f5d5a492079fd145e6e57c15da8db3e8a7efb414ac98a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/boundaries.log",
+      "sha256": "sha256:6a1bd4027115f2f4f0ad1495856c06a0c9a7560ebaf3e692e87f80331decf9fd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/build.log",
+      "sha256": "sha256:0d86f821798b4ef0cbe297873e3a9f31b48b6b49021531ac0f7f20d56bc4b487"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/commands.json",
+      "sha256": "sha256:de875b4fa393bf6e5ae50b2df619b9ac191c95e650687e1e0603c7a75d9cfefc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/extraction.log",
+      "sha256": "sha256:27db3ae31d1ede228291ae78cdc5282b5408c79b35b7da22d54a822f2fb6f58d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/initial-worker-harness-failure.md",
+      "sha256": "sha256:a98a812add0c0ab265a17a1352b9d42c4710f8622bf9acda92b8265bcdbc79ef"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/focused-development/regression.log",
+      "sha256": "sha256:17a6ac08e0643715b2d7e7920b1458ade48add0a10a64af63f1dbc6b15b753e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/boundaries.log",
+      "sha256": "sha256:22809caeec5e13d7e336073c600015a8e8f2652bcc7092c83dc06e48d6d85e74"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/build.log",
+      "sha256": "sha256:7fe11b160b11b0d701fd601967b8d893f18b613273a4bdc4f6af34e79a369f83"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/checkout.log",
+      "sha256": "sha256:18bd7cfb600563a4157fee58fd175ad51832b92fae5f669d92a9c78513830c6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/cmake-version.log",
+      "sha256": "sha256:a24e1ae7f8f715ef1f0121cd749052d73c6a4315dba5bb885c584553d826eb79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/configure.log",
+      "sha256": "sha256:9f0fe9783f64ee041e0498feca88c708c2a6ce71136b746eb8b977ec05b493a8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/existing-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/fetch.log",
+      "sha256": "sha256:d4824f516c0b3b09c7db240f6d0e6da592345c39129618716c1f189d2a788dd6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-description.log",
+      "sha256": "sha256:fd626e040a24a44a2ee20f50cf1e74a9cecf6f13e40c06fad872e33f40365082"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/gcc-version.log",
+      "sha256": "sha256:59c0f787b86909ac93d78de10d4e15e1a0fbc262697d34b509d1923a8788603f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/host.log",
+      "sha256": "sha256:be1e1e3ba87c018db4f9aba962a78a4ba2f72b32bc2a5058fefb838eecf98830"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/origin.log",
+      "sha256": "sha256:cd242a714f25fa0a37a6f8740a3d42f6b8fe29f10caa92468b43c2caa2ee786c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-map.log",
+      "sha256": "sha256:b2e7403befd87eb7573d43447aa994d03b917377e18dfd652506624d05deddd0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/source-tree.log",
+      "sha256": "sha256:6943a90042fbde835c956a539d79a1b2cdff942ee8849e12791b4b3e3adcf23e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/logs/test-catalog.log",
+      "sha256": "sha256:49fd0ef2d6f89559f420f8c1951543b440c5afd9a31d37e5ac7856b12110aeba"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/progress.json",
+      "sha256": "sha256:8be7476b613b684a1a2507b932cc41412fd3300c9aa72daaecfbd3d538d4cfa4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/README.md",
+      "sha256": "sha256:3db4bfe9c8ad0d591618578e68243eb2fa6df2e19a1e77f836a340f046a1838f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/retention.json",
+      "sha256": "sha256:d162972e503b2d708186ae0d82e6fd0fc30acbb9cc7d6abf01dc64674ce6b905"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/source-blob-bindings.json",
+      "sha256": "sha256:4508787c1f0dbccd00f0fa5e6e8a4d50d00b84ce2c73a1e457369c753bcc7e31"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/source-inputs.json",
+      "sha256": "sha256:3031d4ed5e6311cab67e66f27d18f40b80c37881f35f4aac02598089c60b7984"
+    },
+    {
+      "path": ".aide/evidence/2026-10-13-fat-extraction-development/test-catalog.json",
+      "sha256": "sha256:35742cf330337614bf8df57a470cf1adc8465e516ac1aed36f07639bd0a52d23"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Poll session28143; never restart solely on an observation timeout. After terminal completion inspect actual commands/summary. If passing run the prepared retainer/audit/manifest/handoff/staged-hash checks and authorized dev-main promotion; otherwise retain failure and diagnose/repair.",
+  "performed_remote_writes": true
+}
