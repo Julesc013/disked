@@ -1,0 +1,24 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-tree-session-development-build
+    Start 1: capture.tree_session_rules
+1/2 Test #1: capture.tree_session_rules .......   Passed    0.07 sec
+    Start 2: frontend.fat_tree_sessions
+2/2 Test #2: frontend.fat_tree_sessions .......***Failed    1.53 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_tree_sessions.py", line 155, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_tree_sessions.py", line 79, in main
+    out=p.request(call('next',sid));assert not out['authorizes_effects'] and not out['current_source_authority']
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_tree_sessions.py", line 23, in request
+    assert response['status']=={0:'completed',2:'refused',3:'refused',4:'failed',6:'unknown'}[expected],response
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'diagnostics': [{'code': 'tree_session_page_digest', 'message_key': 'disked.tree_session_page_digest', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'tree-session:2', 'result': {'atomic_snapshot': 'not_established', 'authorizes_effects': False, 'current_source_authority': False, 'phase': 'next', 'process_lifetime_only': True, 'schema': 'org.disked.fat-tree-session/1', 'scope': 'ordinary-local-file-fat-tree', 'session_id': 'fat-tree:114b56d0a7c8271c6928c9ed4ab996c6:1', 'state': 'unknown', 'worker': {'admitted': True, 'attempt_id': 'fat-tree-attempt:56b5df8a103a547fb75175caa08ecdd4', 'cancellation_requested': True, 'capture_epoch': '1', 'claims': {'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '53f599bf0e90d7df1442d439c55b9d2a2989e04e8d7a84eb5b4aaf1584187307', 'diagnostic': None, 'last_page_digest': 'sha256:6b98e526bd348f4cff66efe69e4cc2edb3a71a8f6157109c108bf2b323fdfb5c', 'observer_epoch': 'observer:2c013d4139b8fbdb21878dea0c5f454b', 'pages_received': '1', 'request_digest': 'd9de25029a4cecc7ce7763393415a3f2f6fe952371c186d75a2cc34f6e4680b8', 'result': None, 'retired': False, 'schema': 'org.disked.fat-tree-worker-observation/1', 'status': 'accepted_running', 'worker': {'created': '134363626138000899', 'exit_code': '259', 'observation': 'running', 'pid': '54936'}, 'worker_epoch': 'worker:42ac39243e009b6c059cf1e1a01787bb'}}, 'schema': 'org.disked.response/1', 'status': 'unknown'}
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   1.65 sec
+
+The following tests FAILED:
+	  2 - frontend.fat_tree_sessions (Failed)
+Errors while running CTest

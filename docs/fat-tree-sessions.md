@@ -12,7 +12,7 @@ require explicit `org.disked.fat-tree-events/1` negotiation. Stream opened/page/
 record-chunk envelopes preserve the256-request/four-MiB input-session limits.
 Default4096/max65536 pages and default/max30000ms no-page-progress wait are
 finite configurable budgets. Final publication, coverage and exit stay distinct.
-Streaming qualification is in progress.
+The recorded Windows stream qualification passed.
 
 `open` requires an ordinary image path and exact volume offset/length. Optional
 copy, traversal and page limits are validated before source access. The source
@@ -38,6 +38,6 @@ Windows adapter owns actual file/ancestor/process lifetimes and delegates page
 transport to the existing contained worker. No physical access, mount, source
 write, extraction destination, production ABI or new scheduler is introduced.
 
-Implementation and qualification are in progress. The broader platform/storage
+[Exact-source qualification](../.aide/evidence/2026-10-13-fat-tree-sessions/README.md) at `19aca432` passes113 native groups and26 selected headers in the recorded Windows lane. The broader platform/storage
 0.1.0 scope, recursive extraction/metadata restoration and separate owner,
 production, privilege and release gates remain.

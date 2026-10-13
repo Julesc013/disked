@@ -1,5 +1,29 @@
 # Source structure and release review follow-up
 
+## Qualified tree-session checkpoint: 13 October 2026
+
+Source `19aca432` qualifies process-lifetime FAT tree sessions and explicitly
+negotiated NDJSON streaming through the common command system. [Exact-source
+evidence](../.aide/evidence/2026-10-13-fat-tree-sessions/README.md) records
+113 native groups, 26 selected standalone headers, 236 tooling passes and two
+skips. Actual CLI/protocol/GUI/TUI/shell journeys and contained worker faults
+pass. Complete 17,601-entry trees publish 12,346,398 frame bytes across 138 pages;
+one input request carries more than 256 output envelopes while the existing
+transport input caps stay unchanged. Four supplemental startup/late cases use
+the same frozen binaries and retain their precise observation limits.
+
+The [source map](source-map.md) covers 236 current files. The runtime session
+service owns reservation, copied page/record retrieval and stream semantics;
+the Windows adapter owns file/ancestor/process lifetimes. They reuse the
+traversal and existing contained worker, with normal/fault isolation checked.
+The application now groups its observation services explicitly. No new source
+root, competing command registry or universal frontend framework is introduced.
+
+This is a qualified ordinary-file prototype in the recorded Windows lane.
+Recursive extraction and destination metadata restoration, further formats and
+hosts, production/physical/owner/release gates and the full original 0.1.0 scope
+remain open. Integration into main is distinct from acceptance or publication.
+
 ## Qualified held-file tree checkpoint: 13 October 2026
 
 Source `54376be5` connects directory pages to a held ordinary file and the existing

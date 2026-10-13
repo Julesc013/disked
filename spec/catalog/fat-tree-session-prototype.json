@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.fat-tree-session-profile/1",
   "work_id": "DE-W055",
-  "status": "expected-contract-before-implementation",
+  "status": "prototype-qualified-in-recorded-windows-lane",
   "base_revision": "3dac96a745db8a3efd5c6326a6b21a291f7b38df",
   "scope": "Process-lifetime ordinary-file FAT tree sessions shared by protocol, shell, TUI and GUI, with an explicitly negotiated bounded page/frame stream for protocol and one-shot NDJSON CLI. No whole-tree residency or source/destination writes.",
   "command": {
@@ -36,5 +36,13 @@
   "authorizes_effects": false,
   "owner_accepted": false,
   "release_ready": false,
-  "stream": "Scan uses required feature org.disked.fat-tree-events/1 over NDJSON protocol, or filesystem tree --phase=scan --format=ndjson. Nonstreaming requests refuse before source access. One input envelope carries ordered standard response envelopes whose result request_kind is tree-stream-event and event_kind is opened/page/record-chunk; the final envelope has request_kind tree-stream-outcome and final=true. Every envelope remains <=524288 bytes. Page/frame hashes and chunk offsets bind the same latest copied record. Existing256-request/four-MiB input-session limits remain unchanged. Default4096/max65536 pages and default/max30000ms no-page progress wait are explicit finite budgets. Reaching a budget or channel failure cancels/retires the current reader without restart. Coverage complete/partial, final publication and actual exit remain distinct. A successful stream must observe validated final publication and actual exit before close; unresolved retirement retains owned dependencies."
+  "stream": "Scan uses required feature org.disked.fat-tree-events/1 over NDJSON protocol, or filesystem tree --phase=scan --format=ndjson. Nonstreaming requests refuse before source access. One input envelope carries ordered standard response envelopes whose result request_kind is tree-stream-event and event_kind is opened/page/record-chunk; the final envelope has request_kind tree-stream-outcome and final=true. Every envelope remains <=524288 bytes. Page/frame hashes and chunk offsets bind the same latest copied record. Existing256-request/four-MiB input-session limits remain unchanged. Default4096/max65536 pages and default/max30000ms no-page progress wait are explicit finite budgets. Reaching a budget or channel failure cancels/retires the current reader without restart. Coverage complete/partial, final publication and actual exit remain distinct. A successful stream must observe validated final publication and actual exit before close; unresolved retirement retains owned dependencies.",
+  "development_evidence": {
+    "source_revision": "19aca432a102682e80a66a50fb71b39ab4564d54",
+    "summary": ".aide/evidence/2026-10-13-fat-tree-sessions/summary.json",
+    "native_groups": 113,
+    "selected_headers": 26,
+    "session_observations": 444,
+    "maximum_publication_bytes": 12346398
+  }
 }
