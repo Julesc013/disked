@@ -2,8 +2,7 @@
 
 DE-W049 extends the existing evidence/export/verification services to complete
 FAT byte-content extraction. The [owning contract](../spec/catalog/logical-extraction-evidence-prototype.json)
-defines expected behaviour before evaluation. Focused development passes; clean
-full source qualification is pending.
+defines expected behaviour before evaluation. [Exact-source qualification](../.aide/evidence/2026-10-13-logical-extraction-evidence/README.md) at `a7041767` passes 107 native groups and 20 selected headers in the recorded Windows lane. All-policy, exact retained-original, negative backing-resource and actual interface journeys are retained; owner/production/other-host and full release gates remain.
 
 The exact extraction definition, request, grant and history form a recorded case.
 Logical case/support, verification definitions, observations, collections and

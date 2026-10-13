@@ -1,6 +1,27 @@
 # Source structure and release review follow-up
 
-## Qualified shared-command checkpoint: 13 October 2026
+## Qualified logical-evidence checkpoint: 13 October 2026
+
+Source `a7041767` qualifies logical extraction evidence/export, independent
+destination/map verification and historical joined support. [Exact-source evidence](../.aide/evidence/2026-10-13-logical-extraction-evidence/README.md)
+records **107 native groups**, **20 selected headers**, **232 tooling passes**
+and **2 skips**. Eight logical verification journeys include actual native
+GUI/TUI/shell. All 16 policies and joined exports are independently checked.
+Original-source changes do not invalidate the narrower destination/map claim;
+later mismatching output does not rewrite the earlier retained observation.
+
+The [source map](source-map.md) still covers 224 source files. Existing evidence,
+verification and export owners now explicitly distinguish raw version1 from
+logical version2. The verifier also compares backing-resource declarations.
+These changes reuse the existing engines and preserve raw formats; they add no
+product directory or competing canonical source tree.
+
+The unchanged all-platform/storage 0.1.0 remains incomplete. Larger coherent
+traversal, recursive/metadata fidelity, further formats/hosts and production,
+owner, physical and release gates remain. Repository integration is separate
+from acceptance or publication.
+
+## Earlier shared-command checkpoint at8d1905b9: 13 October 2026
 
 Source `8d1905b9` qualifies `filesystem extract` through the shared CLI, protocol,
 native GUI/TUI/shell and existing acquisition worker. The [source-bound evidence](../.aide/evidence/2026-10-13-fat-extraction-command/README.md)
