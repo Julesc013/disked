@@ -1,5 +1,31 @@
 # Source structure and release review follow-up
 
+## Qualified directory-paging checkpoint: 13 October 2026
+
+Source `b770b3fe` adds private source-bound directory pages in the existing runtime
+capture owner. [Exact-source evidence](../.aide/evidence/2026-10-13-fat-traversal/README.md)
+records **110 native groups**, **21 selected headers**, **232 tooling passes**
+and **2 skips**. Independent tests cover 17,601 entries, a 1,100-cluster
+directory chain, deep parents and lossless names across pages/sectors/clusters.
+All page digests and reassembled event streams are independently checked.
+
+The [source map](source-map.md) now covers **226 current source files**. The two
+new files own stateful paging, source applicability and resource outcomes;
+existing portable FAT allocation/directory decoders retain format ownership.
+No new root, competing decoder or artificial frontend hierarchy is introduced.
+Source-ID/epoch checks, malformed-directory refusal and output/queue/bitmap
+budgets stay explicit. Original deleted/name/boot fragments remain data.
+
+This qualifies a private supplied-region controller. Actual held ordinary files,
+contained paged workers, public tree operations and recursive destination metadata
+effects remain subsequent work. Old captures/selectors/plans keep their versions.
+Source callbacks and hashes prove neither identity authentication nor an atomic
+snapshot. The unchanged all-platform/storage 0.1.0 goal is active and incomplete;
+owner, production journal, physical/elevation/customer/install/sign/release gates
+remain separate. Tested dev checkpoints may be merged to main under the existing
+grant; integration does not publish or accept the full product.
+
+
 ## Qualified allocation-continuation checkpoint: 13 October 2026
 
 Source `112aa1e9` adds a private resumable FAT allocation cursor in the existing

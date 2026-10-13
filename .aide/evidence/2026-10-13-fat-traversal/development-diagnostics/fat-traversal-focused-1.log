@@ -1,0 +1,37 @@
+test_cycles_reused_storage_and_damaged_chains (__main__.TraversalTests.test_cycles_reused_storage_and_damaged_chains) ... ok
+test_directory_chain_beyond_1024_and_record_capacity (__main__.TraversalTests.test_directory_chain_beyond_1024_and_record_capacity) ... ok
+test_explicit_resource_bounds_and_large_sector_boot_coherence (__main__.TraversalTests.test_explicit_resource_bounds_and_large_sector_boot_coherence) ... ok
+test_large_trees_and_partition_equivalence (__main__.TraversalTests.test_large_trees_and_partition_equivalence) ... ok
+test_names_survive_pages_sectors_and_clusters_losslessly (__main__.TraversalTests.test_names_survive_pages_sectors_and_clusters_losslessly) ... ok
+test_orphans_deleted_invalid_and_volume_records (__main__.TraversalTests.test_orphans_deleted_invalid_and_volume_records) ... FAIL
+test_parent_identities_noncontiguous_and_deep_directories (__main__.TraversalTests.test_parent_identities_noncontiguous_and_deep_directories) ... ok
+test_source_epoch_and_read_failures (__main__.TraversalTests.test_source_epoch_and_read_failures) ... FAIL
+
+======================================================================
+FAIL: test_orphans_deleted_invalid_and_volume_records (__main__.TraversalTests.test_orphans_deleted_invalid_and_volume_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_traversal.py", line 216, in test_orphans_deleted_invalid_and_volume_records
+    events,pages,_=run(tree,{'records':1,'events':1});check_metadata(tree,events)
+                                                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_traversal.py", line 114, in check_metadata
+    assert e['attributes']==str(raw[11]) and e['case_flags']==str(raw[12])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+======================================================================
+FAIL: test_source_epoch_and_read_failures (__main__.TraversalTests.test_source_epoch_and_read_failures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_traversal.py", line 223, in test_source_epoch_and_read_failures
+    tree=Tree(bits);tree.directory(files(20),clusters=None if bits!=32 else [2],end=bits!=32)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_traversal.py", line 51, in directory
+    assert len(data)<=capacity
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.933s
+
+FAILED (failures=2)

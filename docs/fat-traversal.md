@@ -40,6 +40,7 @@ are detectable by an independent reader; hashes alone grant no authority.
 
 Focused native development tests pass, including a 17,601-entry tree with a
 1,100-cluster directory chain, deep parents, cross-page names, scope refusal,
-reader faults and independent page-hash reconstruction. Exact clean source
-qualification is pending. The [expected contract](../spec/catalog/fat-traversal-prototype.json)
+reader faults and independent page-hash reconstruction. [Exact clean source qualification](../.aide/evidence/2026-10-13-fat-traversal/README.md)
+at `b770b3fe` passes 110 native groups and 21 selected headers in the recorded
+Windows lane; native held-source/worker and recursive destination work remain. The [expected contract](../spec/catalog/fat-traversal-prototype.json)
 and [source map](source-map.md) retain the ownership and qualification boundaries.

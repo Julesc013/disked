@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.fat-traversal-profile/1",
   "work_id": "DE-W053",
-  "status": "expected-contract-before-implementation",
+  "status": "private-supplied-region-controller-qualified-in-recorded-windows-lane",
   "base_revision": "4adbb224294075c4301e9cf94e9681ec8bbe58b7",
   "scope": "Private source/epoch-bound paged FAT12/16/32 directory traversal through the existing checked supplied-region port. Traverse larger complete trees using the qualified allocation cursor and portable directory/LFN decoders; no physical I/O, public dispatch or recursive destination effects.",
   "identity": "Binding includes source ID, capture ID, nonzero epoch, source bytes, exact volume window and selected FAT copy. Every next call must supply that exact binding before work. The applicability callback is mandatory and checked before/after each read and before page publication. False/throwing callback permanently withdraws applicability; previous pages stay historical. These caller observations authenticate no source and do not imply an atomic snapshot.",
@@ -19,5 +19,13 @@
   "product_dispatch_admitted": false,
   "owner_accepted": false,
   "release_ready": false,
-  "directory_follow": "Dot/deleted/volume/invalid records are never descended. A directory with contradictory attribute, cluster-word or file-state issue bits remains lossless observed metadata but is explicitly not followed, and tree coverage stays incomplete. Bad starts and shared directory clusters remain separately observed."
+  "directory_follow": "Dot/deleted/volume/invalid records are never descended. A directory with contradictory attribute, cluster-word or file-state issue bits remains lossless observed metadata but is explicitly not followed, and tree coverage stays incomplete. Bad starts and shared directory clusters remain separately observed.",
+  "development_evidence": {
+    "source_revision": "b770b3feecb92532c6cc884ec2ea5dbb0455a1f9",
+    "summary": ".aide/evidence/2026-10-13-fat-traversal/summary.json",
+    "cases": 103,
+    "maximum_entries": 17601,
+    "directory_chain_clusters": 1100,
+    "native_groups": 110
+  }
 }
