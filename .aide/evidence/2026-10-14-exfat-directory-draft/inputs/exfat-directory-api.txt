@@ -1,0 +1,49 @@
+/* Private exFAT directory observations; raw views remain caller-owned. */
+#define DE_EXFAT_DIR_TRUNCATED 0x0001UL
+#define DE_EXFAT_DIR_TYPE 0x0002UL
+#define DE_EXFAT_DIR_ORDER 0x0004UL
+#define DE_EXFAT_DIR_CHECKSUM 0x0008UL
+#define DE_EXFAT_DIR_UNSUPPORTED 0x0010UL
+#define DE_EXFAT_DIR_LENGTH 0x0020UL
+#define DE_EXFAT_DIR_FLAGS 0x0040UL
+#define DE_EXFAT_DIR_CLUSTER 0x0080UL
+#define DE_EXFAT_DIR_CAPACITY 0x0100UL
+#define DE_EXFAT_DIR_TIME 0x0200UL
+#define DE_EXFAT_DIR_UTF16 0x0400UL
+#define DE_EXFAT_DIR_CHARACTERS 0x0800UL
+#define DE_EXFAT_DIR_DOT 0x1000UL
+#define DE_EXFAT_DIR_RESERVED 0x2000UL
+#define DE_EXFAT_DIR_PADDING 0x4000UL
+#define DE_EXFAT_DIR_MAX_SET 8192UL
+
+enum de_exfat_dir_kind {
+    DE_EXFAT_DIR_END, DE_EXFAT_DIR_UNUSED, DE_EXFAT_DIR_INVALID,
+    DE_EXFAT_DIR_BITMAP, DE_EXFAT_DIR_UPCASE, DE_EXFAT_DIR_LABEL,
+    DE_EXFAT_DIR_FILE, DE_EXFAT_DIR_STREAM, DE_EXFAT_DIR_NAME,
+    DE_EXFAT_DIR_UNKNOWN_PRIMARY, DE_EXFAT_DIR_UNKNOWN_SECONDARY
+};
+typedef struct de_exfat_slot {
+    de_view raw;
+    de_u32 issues, type, secondary_count, checksum, flags, first_cluster;
+    de_u64 data_length;
+    unsigned short units[15];
+    unsigned int unit_count;
+    int kind, in_use, secondary, benign;
+} de_exfat_slot;
+typedef struct de_exfat_time {
+    de_u32 raw;
+    unsigned int fraction, offset, year, month, day, hour, minute, second;
+    int valid, offset_known, offset_minutes;
+} de_exfat_time;
+typedef struct de_exfat_file_set {
+    de_view raw;
+    de_u32 issues, attributes, stream_flags, first_cluster;
+    unsigned int secondary_count, declared_bytes, present_bytes, name_length;
+    unsigned int name_units_present, benign_extensions, unsupported_extensions;
+    unsigned short stored_checksum, calculated_checksum, name_hash, units[255];
+    de_u64 valid_data_length, data_length;
+    de_exfat_time created, modified, accessed;
+    int primary_present, stream_present, complete, checksum_valid, associated;
+    int encoding_valid, name_characters_valid, stream_valid, metadata_valid;
+} de_exfat_file_set;
+
