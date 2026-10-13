@@ -39,7 +39,7 @@ V file_alias(const V &file) {
 struct FatTreeStore::Impl {
     w::Directory directory;
     w::Security security;
-    V observed, binding, child_ids;
+    V observed, binding, child_ids, writer;
     w::Handle files[3];
     std::string operation, review_digest, previous = "sha256:" + std::string(64, '0');
     std::size_t bytes = 0, records = 0;
@@ -186,6 +186,8 @@ void FatTreeStore::reserve(const FatTreeReview &review, const FatTreeReviewGrant
     if (p.effects || p.ready || operation.size() != 40 || operation.compare(0, 8, "tree-op:") ||
         operation.find_first_not_of("0123456789abcdef", 8) != operation.npos)
         fail("fat_tree_store_reservation");
+    if (p.writer.kind == V::Kind::null)
+        fail("fat_tree_store_writer_missing");
     p.unused();
     p.operation = operation;
     p.review_digest = review.digest;
@@ -209,16 +211,21 @@ void FatTreeStore::reserve(const FatTreeReview &review, const FatTreeReviewGrant
         p.child_ids.items.push_back(f::generation(p.files[i].value, false));
         p.check();
     }
+    const auto controller = V::object()
+                                .put("pid", number(GetCurrentProcessId()))
+                                .put("created", V::string(w::process_created(GetCurrentProcess())));
     const auto header =
         V::object()
-            .put("schema", V::string("org.disked.fat-tree-operation-request-prototype/1"))
+            .put("schema", V::string("org.disked.fat-tree-operation-request-prototype/2"))
             .put("operation_id", V::string(operation))
             .put("review", review.definition)
             .put("review_digest", V::string(review.digest))
             .put("process_owner", owner)
             .put("process_definition_digest", V::string(process_digest))
             .put("files", p.child_ids)
-            .put("controller_host", V::string(p.security.host_id));
+            .put("controller_host", V::string(p.security.host_id))
+            .put("controller", controller)
+            .put("writer", p.writer);
     const auto raw = encode(header);
     try {
         w::write_file(p.files[0].value, raw, "fat_tree_request");
@@ -252,6 +259,28 @@ void FatTreeStore::request_cancel() {
         throw;
     }
     p.check();
+}
+void FatTreeStore::bind_writer(const V &v) {
+    if (impl_->effects || impl_->writer.kind != V::Kind::null)
+        fail("fat_tree_store_writer_binding");
+    const auto *pid = v.find("pid"), *created = v.find("created");
+    if (!pid || !created || pid->kind != V::Kind::string || created->kind != V::Kind::string ||
+        !json::decimal_u64(pid->text) || !json::decimal_u64(created->text) ||
+        !std::stoull(pid->text) || std::stoull(pid->text) > UINT32_MAX ||
+        !std::stoull(created->text))
+        fail("fat_tree_store_writer_binding");
+    impl_->writer = V::object().put("pid", *pid).put("created", *created);
+}
+bool FatTreeStore::cancellation_requested() const {
+    const auto &p = *impl_;
+    if (!p.ready)
+        return false;
+    p.check();
+    const auto value = w::read_file(p.files[1].value, 1);
+    if (value != "0" && value != "1")
+        fail("fat_tree_store_cancel_changed");
+    p.check();
+    return value == "1";
 }
 } // namespace nt_inventory
 } // namespace disked

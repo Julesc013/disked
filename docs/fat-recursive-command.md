@@ -33,8 +33,8 @@ creating any output. No incidental state path is implicit.
 The pure review layer opens no path and grants no effects. A valid supplied
 store identity or matching hash is no proof of native ownership or operator
 authentication. Its comparison and grant checks are semantic prerequisites;
-they do not implement native admission, durable reconnect, cancellation or
-frontend exposure. Those remain required to finish this work unit.
+they do not themselves implement native admission, reconnect, cancellation or
+frontend exposure. The native prerequisites described below remain separate.
 
 The private Windows `fat_tree_store.*` and `fat_tree_admission.*` adapters now
 observe an actual pinned NTFS store and prepare a fresh owned backend. Execution
@@ -66,3 +66,31 @@ every grant, intended-effect changes, strict shapes, aliases and finite bounds.
 Run `acquisition.fat_tree_review` with CTest after building its probe, the
 owned preparation probe and selected standalone header. Full DE-W057 native,
 interface and clean-source qualification remain separate.
+
+The pure `runtime/acquisition/fat_tree_operation.*` reader now validates the
+retained request and canonical bounded state chain. It binds operation, review,
+attempt, worker identity and progress; checks grant ordering and outcome
+conservation; and preserves incomplete tails as uncertainty. It reads both the
+original request1 and the new request2, which records controller and writer
+process births. A hash chain is consistency evidence, not authentication.
+
+The Windows `fat_tree_reconnect.*` adapter independently opens an existing
+pinned NTFS store and checks actual control-file identities, host, process
+births and executable generation. It reports retained history separately from
+current controller/writer observations. It neither opens the acquisition source
+or destination nor restarts, replays or repairs an operation. Cancellation only
+writes the existing flag after an intact request2 history and matching live
+controller/writer are established. The owner forwards that request to its worker;
+the flag alone proves no acknowledgement or exit.
+
+Focused reconnect validation passes 38 cases in ten methods, including a live
+second caller, cooperative cancellation, published outcomes before child exit,
+torn histories, changed identities and contradictory rehashed records. The
+existing admission group also passes 41 cases in eleven methods. Two selected
+new headers and generated dependency checks pass. These are development results
+on the current Windows host, not full work-unit or release qualification.
+
+The controller still belongs to its caller. Detached operation ownership,
+native wait/watch, public command bindings and actual CLI/protocol/GUI/TUI/shell
+journeys remain unfinished. The public command stays planned until those gates
+and the full clean-source campaign are satisfied.

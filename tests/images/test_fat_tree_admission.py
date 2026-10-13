@@ -91,7 +91,7 @@ def prepare(root, inputs, fault=False):
 def controls(root, prepared=None):
     store = root / "store"
     header = json.loads((store / "recursive-request.json").read_bytes())
-    assert header["schema"] == "org.disked.fat-tree-operation-request-prototype/1"
+    assert header["schema"] == "org.disked.fat-tree-operation-request-prototype/2"
     assert (store / "recursive-request.json").read_bytes() == canonical(header)
     assert header["operation_id"].startswith("tree-op:") and len(header["operation_id"]) == 40
     assert header["review_digest"] == sha(b"disked:fat-tree-extraction-review:1\n" + canonical(header["review"]))

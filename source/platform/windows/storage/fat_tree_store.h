@@ -32,8 +32,11 @@ class FatTreeStore final {
     void check_unused() const;
     void reserve(const FatTreeReview &, const FatTreeReviewGrant &, const std::string &operation,
                  const json::Value &process_owner, const std::string &process_digest);
+    // Exact process observation is supplied by the existing owned worker.
+    void bind_writer(const json::Value &);
     void append_state(const char *phase, const json::Value &worker);
     void request_cancel();
+    bool cancellation_requested() const;
     bool effects_possible() const;
     bool reserved() const;
     const std::string &operation_id() const;

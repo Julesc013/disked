@@ -97,7 +97,8 @@ struct FatTreeAdmission::Impl {
         }
         const auto pulse = number(state, "progress_pulse");
         // Progress is observational and may coalesce. Preserve terminal slots.
-        if (dispatched && pulse >= next_progress && store->state_records() < 60) {
+        if (dispatched && !publication_recorded && pulse >= next_progress &&
+            store->state_records() < 60) {
             store->append_state("observing", state);
             next_progress =
                 pulse > UINT64_MAX / 2 ? UINT64_MAX : std::max<std::uint64_t>(2, pulse * 2);
@@ -138,6 +139,10 @@ V FatTreeAdmission::observe(DWORD wait_ms) {
     auto &p = *impl_;
     auto state = p.worker->observe(wait_ms);
     try {
+        if (p.store->cancellation_requested()) {
+            p.worker->cancel();
+            state = p.worker->observe();
+        }
         if (!p.store->effects_possible())
             p.store->check_unused();
         if (!p.review)
@@ -176,9 +181,14 @@ void FatTreeAdmission::grant(const FatTreeReview &review, const FatTreeReviewGra
     worker_files::Security security;
     p.operation = security.identity("tree-op:");
     try {
+        p.store->bind_writer(field(state, "worker"));
         p.store->reserve(review, grant, p.operation, prepared->owner(), prepared->digest());
         p.store->append_state("admitted", state);
         p.store->append_state("dispatch_possible", state);
+        if (p.store->cancellation_requested()) {
+            p.worker->cancel();
+            throw FatTreeStoreError("fat_tree_admission_cancel_before_dispatch");
+        }
         p.worker->grant({prepared->digest(), grant.source_read, grant.destination_write,
                          grant.ledger_write, grant.host_effects});
         p.dispatched = true;

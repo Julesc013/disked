@@ -1,5 +1,21 @@
 # Source structure and release review follow-up
 
+## Recursive retained-history and reconnect development: 14 October 2026
+
+Active DE-W057 now passes 38 focused cases/ten methods for bounded retained
+control histories and native cross-process inspection/cancellation. The pure
+reader stays under runtime/acquisition; actual NTFS/process/code observations
+stay under platform/windows/storage. Request1 remains readable; request2 binds
+controller/writer births. Consistency, current liveness and authority are
+separate facts. Torn or contradictory histories grant no cancellation/replay.
+Published outcomes before exit and a second live caller have actual evidence.
+
+Native admission regression passes 41 cases/eleven methods. Tooling runs 238
+tests: 236 pass and two skip. Source map covers 258 files and generated dependency
+checks cover 223 targets without violations. These are development results;
+detached controller ownership, native wait/watch, public command/frontends and
+full clean-source qualification remain. No full 0.1.0 or release claim follows.
+
 ## Native recursive admission development: 14 October 2026
 
 Active DE-W057 now passes 41 native cases/11 methods over actual pinned stores,
@@ -487,7 +503,7 @@ promise zero future refactoring or universally optimal filenames.
 
 ## Development, branches and releases
 
-The latest retained native campaign is source `543826fe`: **99 native groups**, 17
+At the 13 October review, the retained native campaign was source `543826fe`: **99 native groups**, 17
 standalone headers, 34 FAT allocation-window cases and 44 window command cases;
 tooling recorded **222 passes and two skips**. Those are
 [retained exact-source results](../.aide/evidence/2026-10-13-fat-window/summary.json),
@@ -519,6 +535,7 @@ packaged consumer and content-inventory checks, honest capability limits, licens
 and provenance, required acceptance and publication authority. A naming change
 does not supply these results.
 
-Continue DE-W044 and the existing programme. Preserve the current source owners;
+The review then selected DE-W044; subsequent work is recorded in the dated
+updates above and the current programme. Preserve the current source owners;
 address the remaining composition/test seams during implementation and qualify
 each capability against its actual contract.

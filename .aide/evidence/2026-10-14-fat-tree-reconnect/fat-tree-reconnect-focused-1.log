@@ -1,0 +1,58 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 5: image.fat_tree_reconnect
+1/1 Test #5: image.fat_tree_reconnect .........***Failed   29.93 sec
+test_actual_live_cross_process_observation_and_cooperative_cancel (__main__.ReconnectTests.test_actual_live_cross_process_observation_and_cooperative_cancel) ... ERROR
+test_exact_completed_history_and_actual_native_store_read (__main__.ReconnectTests.test_exact_completed_history_and_actual_native_store_read) ... ok
+test_header_shapes_code_review_and_process_limits_are_strict (__main__.ReconnectTests.test_header_shapes_code_review_and_process_limits_are_strict) ... ok
+test_native_child_header_and_operation_mismatch_leave_artifacts_unchanged (__main__.ReconnectTests.test_native_child_header_and_operation_mismatch_leave_artifacts_unchanged) ... ok
+test_old_header_is_readable_as_historical_declarations (__main__.ReconnectTests.test_old_header_is_readable_as_historical_declarations) ... ok
+test_prefixes_and_truncated_tail_keep_separate_claims (__main__.ReconnectTests.test_prefixes_and_truncated_tail_keep_separate_claims) ... ok
+test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected (__main__.ReconnectTests.test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected) ... FAIL
+
+======================================================================
+ERROR: test_actual_live_cross_process_observation_and_cooperative_cancel (__main__.ReconnectTests.test_actual_live_cross_process_observation_and_cooperative_cancel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_reconnect.py", line 165, in test_actual_live_cross_process_observation_and_cooperative_cancel
+    self.assertTrue(header and (root / "output").exists())
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None is not true
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_reconnect.py", line 180, in test_actual_live_cross_process_observation_and_cooperative_cancel
+    owner.wait(timeout=20)
+    ~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1279, in wait
+    return self._wait(timeout=timeout)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1608, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-recursive-command-development-build\\Release\\fat_tree_admission_fault.exe']' timed out after 20 seconds
+
+======================================================================
+FAIL: test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected (__main__.ReconnectTests.test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_reconnect.py", line 109, in test_rehashed_bindings_phases_and_contradictory_outcomes_are_rejected
+    invoke(dict(header=self.header, history=rechain(rows)), error=error)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_reconnect.py", line 26, in invoke
+    assert completed.returncode == 20 and out.get("error") == error, out
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'fat_tree_operation_status'}
+
+----------------------------------------------------------------------
+Ran 7 tests in 29.670s
+
+FAILED (failures=1, errors=1)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =  30.04 sec
+
+The following tests FAILED:
+	  5 - image.fat_tree_reconnect (Failed)
+Errors while running CTest
