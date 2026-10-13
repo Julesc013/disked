@@ -28,6 +28,18 @@ def main():
     assert summary['tooling_run']==242 and summary['tooling_skips']==2
     assert read(evidence/'build-boundaries.json')['status']=='PASS'
     assert len(read(evidence/'source-inputs.json'))==len(read(evidence/'source-blob-bindings.json'))
+    for artifact in summary['artifacts']:
+        path=Path(artifact['path'])
+        assert path.is_file() and sha(path)==artifact['sha256']
+        assert path.stat().st_size==artifact['bytes']
+        assert artifact['source_revision']==summary['source_revision']
+    for artifact in read(evidence/'header-objects.json'):
+        path=Path(artifact['path'])
+        assert path.is_file() and sha(path)==artifact['sha256']
+        assert path.stat().st_size==artifact['bytes']
+    native_log=(evidence/'logs/native-tests.log').read_text(encoding='utf-8')
+    assert '100% tests passed, 0 tests failed out of '+str(summary['native_test_groups']) in native_log
+    assert not (evidence/'failure.json').exists()
     criteria=[
         dict(criterion=1,status='pass',evidence=['exfat-cases.json','logs/gcc-c90.log'],scope='Independent byte/integer/checksum geometry oracle across512..4096 sectors, main/backup, one/twoFAT, min/max and u64conversion boundaries.'),
         dict(criterion=2,status='pass',evidence=['exfat-cases.json','native-details.log'],scope='Rehashed contradictions, truncation, inaccessible tails, invalid calls and preserved output/input; read-only memory guards.'),
