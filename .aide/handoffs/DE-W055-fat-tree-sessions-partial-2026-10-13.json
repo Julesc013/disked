@@ -1,0 +1,142 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W055",
+  "base_revision": "3dac96a745db8a3efd5c6326a6b21a291f7b38df",
+  "spec_manifest_digest": "sha256:d238cfd1eb103db7af94d8df3157862abdb50c40c8ad7b89e45c6eb459a27dfb",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/fat-tree-file-prototype.json",
+    "source/runtime/capture/fat_traversal.h",
+    "source/runtime/capture/fat_traversal.cpp",
+    "source/platform/windows/storage/fat_tree_worker.cpp",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/command.cpp",
+    "source/apps/disked/app.cpp",
+    "source/apps/disked/gui/gui_model.cpp",
+    "source/apps/disked/tui/tui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/retention_console_fixture.py",
+    "tests/frontend/gui_fixture.py",
+    "tests/images/test_fat_traversal.py",
+    "CMakeLists.txt",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-13-fat-tree-sessions/.gitattributes",
+    ".aide/evidence/2026-10-13-fat-tree-sessions/reproduce.py",
+    ".aide/handoffs/DE-W055-fat-tree-sessions-partial-2026-10-13.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/fat-tree-sessions.md",
+    "docs/index.md",
+    "docs/source-map.md",
+    "source/apps/disked/app.cpp",
+    "source/apps/disked/cli/cli.cpp",
+    "source/apps/disked/gui/gui_model.cpp",
+    "source/apps/disked/shell/shell_model.cpp",
+    "source/platform/windows/entry.cpp",
+    "source/platform/windows/storage/fat_tree_sessions.cpp",
+    "source/platform/windows/storage/fat_tree_sessions.h",
+    "source/runtime/capture/fat_traversal.cpp",
+    "source/runtime/capture/fat_traversal.h",
+    "source/runtime/capture/fat_tree_session.cpp",
+    "source/runtime/capture/fat_tree_session.h",
+    "source/runtime/command/command.cpp",
+    "source/runtime/command/protocol.cpp",
+    "source/runtime/command/protocol.h",
+    "source/runtime/presentation/session.cpp",
+    "spec/bundle.json",
+    "spec/catalog/commands.json",
+    "spec/catalog/fat-tree-session-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/command-reference.txt",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/interaction/protocol.md",
+    "spec/manifest.json",
+    "spec/schemas/command-fat-tree-parameters.schema.json",
+    "spec/schemas/index.md",
+    "spec/tools/specctl.py",
+    "spec/tools/tests/test_fat_tree_session.py",
+    "spec/work/units.json",
+    "tests/frontend/acquisition_console_fixture.py",
+    "tests/frontend/test_fat_tree_sessions.py",
+    "tests/frontend/tree_console_fixture.py",
+    "tests/unit/fat_tree_session_probe.cpp",
+    "tools/build-bootstrap.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Source 19aca432a102682e80a66a50fb71b39ab4564d54 pushed to dev. Shared process-lifetime FAT tree sessions and negotiated NDJSON stream are implemented. Working-tree native session/protocol/CLI/GUI/TUI/shell and hang/digest/claims fault journeys pass; full17,601-entry streams exceed8MiB without raising transport input limits.238 tooling tests ran, two skipped. Failed development attempts remain locally retained. These are dirty-development observations, not a full exact-source qualification. Clean113-group/26-header campaign is live in exec session93379 at .aide-local/fat-tree-session-clean-19aca432; main stays at the base. Goal remains active.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-tree-session-development-build -C Release -R ^(capture.tree_session_rules|frontend.fat_tree_sessions)$ --output-on-failure",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide-local/fat-tree-session-focused-7.log",
+      "cwd": "D:\\Projects\\DiskEd\\disked"
+    },
+    {
+      "command": "python -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide-local/fat-tree-session-tooling.log",
+      "cwd": "D:\\Projects\\DiskEd\\disked"
+    },
+    {
+      "command": "python tools/check-build-boundaries.py --build .aide-local/fat-tree-session-development-build",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide-local/fat-tree-session-development-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-focused-7.log",
+      "sha256": "sha256:3863aebd337254230863311861f1c5f10f79939b9f2df48f93a963184d5c1ff9"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-tooling.log",
+      "sha256": "sha256:cb6665213533a3e3964f5f36a276ef44d20a6caa0f1167cde84557b7048146b3"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-development-boundaries.json",
+      "sha256": "sha256:ccf37e3721e470c063d151b4df06b035a2cd7d49dce22450a3fb2c778d012092"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-development-build\\fat-tree-session-cases.json",
+      "sha256": "sha256:cf79a4b948485b6224ef8c0845cdc52385db67b8665388d5c45a449c2b8c7fbc"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-development-build\\generated\\build-identity.json",
+      "sha256": "sha256:1cdd36b65ec059dbf877dd21afec9eeac0460947ed121e6acb49ffc2beb39810"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-development-build\\Release\\disked.exe",
+      "sha256": "sha256:6576d4544913e03220b33b3ac8940393f7910d413ed9945bb0edb6b4a59e7db0"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-tree-session-development-build\\Release\\disked_tree_test.exe",
+      "sha256": "sha256:ba39ed1530014d522888b088eef7e4f5e20fde6a4a6368b6c9824635ab59a4bc"
+    }
+  ],
+  "blockers": [
+    "Full exact-source native/header/context/import/manifest/tooling campaign remains in progress, not passed. No blocker prevents continued local qualification.",
+    "The complete original platform/storage0.1.0 and separate owner/production/physical/elevation/customer/install/sign/release gates remain unfulfilled."
+  ],
+  "next_safe_step": "Poll the same live session93379; do not restart on an observation timeout. Preserve any terminal failure. After a terminal pass, retain exact evidence, perform implementing-agent review and synchronize dev/main under the existing grant. Then recursive extraction/metadata restoration and the full remaining original scope.",
+  "performed_remote_writes": true
+}
