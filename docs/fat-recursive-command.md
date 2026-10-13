@@ -204,6 +204,23 @@ checks the entire retained prefix. An explicitly requested snapshot validates
 its actual record and later continuity, but reports
 `omitted_prefix_verified: false`; it cannot prove omitted history or authenticity.
 
-These actual frontend results qualify the gated development journey only.
-Normal-composition admission, wider failure/compatibility coverage and full
-clean-source qualification remain before DE-W057's review boundary.
+The separate `disked_recursive_fault` fixture executable adds execution-only
+worker controls and three retained-store write/flush controls. They enter the
+bounded private controller fixture; public parameter schemas reject them. The
+ordinary development composition ignores those environment controls, and normal
+`disked` continues to refuse this backend. Shared inline file fault definitions
+must be consistent within the fixture composition; its controller transfers the
+selected store control explicitly rather than weakening the child environment.
+
+Actual CLI/protocol/GUI/TUI/shell callers now request cooperative cancellation
+after the launching client has exited. Tests require the same retained operation,
+recorded partial outcome, cancellation observation and unchanged source bytes.
+Store full/short/flush failures preserve created resources and refuse repeat
+execution. An intact prefix can be successfully inspected while the logical
+operation remains unresolved; request completion is not operation completion.
+Changed source generations, stale digests, injected public fields and foreign
+control resources refuse before extraction effects.
+
+These results qualify gated development journeys only. Broader interrupted-client
+stream/hang coverage, strict producer contracts, normal-composition admission and
+full clean-source qualification remain before DE-W057's review boundary.

@@ -1,5 +1,48 @@
 # Source structure and release review follow-up
 
+## Current naming and release assessment: 14 October 2026
+
+Read-only GitHub checks at this assessment find DiskEd dev at
+`3df3732d6f8ee5ac30025bbf15dea645271b05e2` and main at
+`fed4a71b767a92db13b0fd0a1b692c937fdacd93`. These are observed bases, not floating
+claims about future heads. The supplied 12 October review describes an earlier
+revision and supplies recommendations, not execution authority or acceptance.
+
+Keep the source ownership tree and current names. TUI, GUI and shell retain
+interaction state and use qualified model basenames; CLI formats one invocation
+in its own folder. Shared command grammar belongs in runtime; concrete console
+input/rendering/restoration belongs in the Windows terminal host. The complete
+[source map](source-map.md) explains each current file; its growth table assigns
+future responsibility families without pretending to enumerate future files.
+Private filenames can evolve; admitted public interfaces and retained formats
+need explicit compatibility policy and tests. No layout guarantees zero future
+refactoring. Dependency enforcement and bounded responsibilities make changes local.
+
+The dated review's target split, qualified includes, shared request/view invariants,
+dependency checks and live work pointer have already been implemented with retained
+evidence. Command-specific application routing and test seams remain incremental
+maintenance work; no demonstrated requirement calls for a wholesale rewrite.
+
+Fresh checks find Universal Setup main at `c048f7f1ae2e5922c15a08ee572bdafc29027c63`
+and dev at `2b7a4d011a61992970601e8c174b5d9d0298a8cd`.
+[Draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) is open at
+`1de316e2617e1cbe5d907470d27b227dc3fcbc4a`;
+[run 38454057234](https://github.com/Julesc013/universal-setup/actions/runs/38454057234)
+reports six successful checks and a failing native-windows check. Its log reports
+an owned SYSTEM fixture failure and receipt archive count mismatches; these are
+observations, not a root-cause diagnosis. This follow-up has not run Setup's
+lifecycle. Both repositories'
+GitHub release collection queries return empty lists; that does not inventory
+private artifacts or all tags. DiskEd main is still reported unprotected.
+
+Development checkpoints can continue on dev. Integrate the current recursive
+command unit after its failure/cancellation/reconnect journeys, producer/reader
+contracts, normal composition admission, clean exact-source regression campaign
+and recorded agent review. Release additionally requires the selected composition's
+platform/storage evidence, licensing, packaging/inventory, required acceptance and
+publication authority. The all-platform/storage 0.1.0 objective is unfinished;
+there is no evidence-based release date. A smaller preview needs an explicit scope.
+
 ## Recursive actual frontend development: 14 October 2026
 
 The gated disked_recursive_test composition now connects the shared service to
@@ -14,6 +57,14 @@ and GUI/TUI/shared-model regressions pass. Source map266 files and236 dependency
 targets have no violations. These are development results. Broader failures,
 normal-composition admission and full clean-source qualification remain before
 DE-W057 review; complete all-platform/storage0.1.0 and release remain open.
+
+The following [failure checkpoint](../.aide/evidence/2026-10-14-fat-recursive-failures/README.md)
+adds actual cancellation after launcher exit through all five frontends, separate
+fault composition, retained full/short/flush failure without replay and explicit
+source/stale/foreign-resource refusals. Shared definitions stay in the existing
+owners; no new directory hierarchy is needed. Selected native tests and dependency
+checks pass. Strict producer contracts, broader interruption tests, normal admission
+and full clean-source qualification remain before the current work-unit review.
 
 ## Recursive shared command service development: 14 October 2026
 

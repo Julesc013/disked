@@ -91,6 +91,11 @@ DWORD stall_budget(const V &fixture) {
             ms = static_cast<DWORD>(n);
         } else if (item.first == "controller_fault" && item.second.text == "exit_after_admitted") {
             continue;
+        } else if (item.first == "store_fault") {
+            if (item.second.text != "fat_tree_request.full" &&
+                item.second.text != "fat_tree_state.short" &&
+                item.second.text != "fat_tree_state.flush")
+                invalid("fat_tree_controller_fixture");
         } else if (item.first != "worker_fault" && item.first != "startup_fault")
             invalid("fat_tree_controller_fixture");
     }
@@ -413,6 +418,13 @@ int fat_tree_controller_role(int argc, wchar_t **argv) {
             auto fixture = field(request, "fixture");
             fixture.fields.erase("controller_stall_ms");
             fixture.fields.erase("controller_fault");
+#ifdef DISKED_FAT_TREE_CONTROLLER_TESTING
+            if (const auto *fault = fixture.find("store_fault")) {
+                if (!SetEnvironmentVariableA("DISKED_TEST_STORE_FAULT", fault->text.c_str()))
+                    invalid("fat_tree_controller_store_fixture");
+                fixture.fields.erase("store_fault");
+            }
+#endif
             owner = FatTreeAdmission::for_execution(review, grant, fixture);
             owner->launch();
             const auto start = GetTickCount64();

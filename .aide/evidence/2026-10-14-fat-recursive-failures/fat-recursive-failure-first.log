@@ -1,0 +1,20 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 5: frontend.fat_recursive_failures
+1/1 Test #5: frontend.fat_recursive_failures ...***Failed    0.61 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 165, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 92, in main
+    assert response['status'] == 'accepted_running', response
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'diagnostics': [{'code': 'fat_tree_execution_unresolved', 'message_key': 'disked.fat_tree_execution_unresolved', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'cli', 'result': {'definition_digest': 'sha256:80eae1f80647d53853badeab957e0e5e3c6665d59184bb04da7456ba5cd3374f', 'request_kind': 'recursive-execution', 'request_state': 'unresolved', 'scope': 'ordinary-local-fat-tree-extraction', 'state_directory': 'C:\\Users\\Jules\\AppData\\Local\\Temp\\disked-native-admission-d7ft_or8\\store'}, 'schema': 'org.disked.response/1', 'status': 'unknown'}
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.62 sec
+
+The following tests FAILED:
+	  5 - frontend.fat_recursive_failures (Failed)
+Errors while running CTest

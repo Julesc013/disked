@@ -7,6 +7,26 @@ namespace disked {
 namespace nt_inventory {
 namespace {
 using V = json::Value;
+V execution_fixture() {
+    auto value = V::object();
+#ifdef DISKED_RECURSIVE_ACTION_FAULTS
+    // Only the separate fixture composition reads this control. Public command
+    // parameters cannot select faults; the ordinary action library ignores it.
+    char mode[128] = {};
+    const auto length = GetEnvironmentVariableA("DISKED_TEST_RECURSIVE_WORKER", mode, sizeof(mode));
+    if (length >= sizeof(mode))
+        throw FatTreeStoreError("fat_tree_action_fixture_limit");
+    if (length)
+        value.put("worker_fault", V::string(mode));
+    const auto store_length =
+        GetEnvironmentVariableA("DISKED_TEST_STORE_FAULT", mode, sizeof(mode));
+    if (store_length >= sizeof(mode))
+        throw FatTreeStoreError("fat_tree_action_fixture_limit");
+    if (store_length)
+        value.put("store_fault", V::string(mode));
+#endif
+    return value;
+}
 const V &field(const V &v, const char *key) {
     const auto *p = v.find(key);
     if (!p)
@@ -68,7 +88,7 @@ V prepare(const V &p) {
         .put("preparation", last);
 }
 V execute(const FatTreeReview &r, const FatTreeReviewGrant &g) {
-    auto controller = FatTreeController::prepare(r, g);
+    auto controller = FatTreeController::prepare(r, g, execution_fixture());
     controller->launch();
     controller->dispatch();
     const auto start = GetTickCount64();
