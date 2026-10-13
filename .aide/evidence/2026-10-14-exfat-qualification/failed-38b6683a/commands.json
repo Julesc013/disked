@@ -1,0 +1,234 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 66.087,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "38b6683ab037a092d07375c1d6391033b3287306"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 95.846,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 1.135,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$qualificationIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$qualificationPrincipal=[System.Security.Principal.WindowsPrincipal]::new($qualificationIdentity);$qualificationOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$qualificationIdentity.Name;elevated=$qualificationPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$qualificationOS.Caption;version=$qualificationOS.Version;architecture=$qualificationOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.47,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "cat-file",
+      "--batch-check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.17,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.161,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print(\"PyYAML=\"+m.version(\"PyYAML\"));print(\"jsonschema=\"+m.version(\"jsonschema\"))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.125,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.057,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "gcc-version",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.029,
+    "log": "logs/gcc-version.log"
+  },
+  {
+    "name": "gcc-c90",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-std=c90",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "source",
+      "-fsyntax-only",
+      "source/portable/exfat/boot.c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.104,
+    "log": "logs/gcc-c90.log"
+  },
+  {
+    "name": "boundary-unit-tests",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests/tools",
+      "-p",
+      "test_build_boundaries.py",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.568,
+    "log": "logs/boundary-unit-tests.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 10.331,
+    "log": "logs/configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 186.941,
+    "log": "logs/build.log"
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-build-boundaries.py",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build-boundaries.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 4.383,
+    "log": "logs/boundaries.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build",
+      "-C",
+      "Release",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 0,
+    "elapsed_seconds": 0.818,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-38b6683a\\build",
+      "-C",
+      "Release",
+      "--parallel",
+      "4",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-38b6683a",
+    "exit_code": 8,
+    "elapsed_seconds": 1059.929,
+    "log": "logs/native-tests.log"
+  }
+]
