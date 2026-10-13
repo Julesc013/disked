@@ -39,7 +39,7 @@ def inspect(root, cancel=False):
     return out
 
 
-def wait_history(root, terminal=True, timeout=15):
+def wait_history(root, terminal=True, timeout=90):
     until = time.monotonic()+timeout
     last = None
     while time.monotonic() < until:

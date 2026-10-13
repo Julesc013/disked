@@ -2,6 +2,7 @@
 #include "runtime/acquisition/fat_tree_operation.h"
 #include "platform/windows/worker_files.h"
 #include <cstring>
+#include <memory>
 
 namespace disked {
 namespace nt_inventory {
@@ -43,6 +44,14 @@ V pid_facts(const V &identity, const V &code) {
     }
     if (w::process_created(process.value) != text(identity, "created"))
         return result.put("observation", V::string("reused_identity"));
+    const auto finish = [&](V value) {
+        DWORD exit = 0;
+        if (WaitForSingleObject(process.value, 25) == WAIT_OBJECT_0 &&
+            GetExitCodeProcess(process.value, &exit))
+            return value.put("exit_code", V::string(std::to_string(exit)))
+                .put("observation", V::string("exited"));
+        return value;
+    };
     // An exited process can retain a queryable birth/exit handle after Windows
     // stops exposing its image path. This establishes exit, not current code
     // applicability; only the running branch can authorize cancellation.
@@ -55,28 +64,34 @@ V pid_facts(const V &identity, const V &code) {
     }
     wchar_t path[32768];
     DWORD size = 32768;
-    if (!QueryFullProcessImageNameW(process.value, 0, path, &size))
-        return result;
+    if (!QueryFullProcessImageNameW(process.value, 0, path, &size)) {
+        DWORD exit = 0;
+        if (WaitForSingleObject(process.value, 0) == WAIT_OBJECT_0 &&
+            GetExitCodeProcess(process.value, &exit))
+            return result.put("exit_code", V::string(std::to_string(exit)))
+                .put("observation", V::string("exited"));
+        return finish(result);
+    }
     const auto expected = f::path_for(text(code, "path"));
     if (CompareStringOrdinal(expected.c_str(), -1, path, static_cast<int>(size), TRUE) !=
         CSTR_EQUAL)
-        return result.put("observation", V::string("code_mismatch"));
+        return finish(result.put("observation", V::string("code_mismatch")));
     f::Handle image(CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
                                 FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS,
                                 nullptr));
     if (image.value == INVALID_HANDLE_VALUE)
-        return result;
+        return finish(result);
     f::ordinary(image.value, false);
     const auto metadata = f::metadata(image.value);
     if (json::dump(metadata.value) != json::dump(field(code, "file")) || metadata.size > 8388608)
-        return result.put("observation", V::string("code_mismatch"));
+        return finish(result.put("observation", V::string("code_mismatch")));
     const auto raw = w::read_file(image.value, 8388608);
     if ("sha256:" + w::hash(raw) != text(code, "sha256"))
-        return result.put("observation", V::string("code_mismatch"));
+        return finish(result.put("observation", V::string("code_mismatch")));
     const auto wait = WaitForSingleObject(process.value, 0);
     DWORD exit = 0;
     if (!GetExitCodeProcess(process.value, &exit))
-        return result;
+        return finish(result);
     result.put("exit_code", V::string(std::to_string(exit)));
     result.put("observation", V::string(wait == WAIT_OBJECT_0  ? "exited"
                                         : wait == WAIT_TIMEOUT ? "running"
@@ -87,7 +102,8 @@ bool live(const V &v) {
     return text(v, "observation") == "running";
 }
 } // namespace
-V observe_fat_tree_operation(const std::string &id, const std::string &path, bool cancel) {
+V observe_fat_tree_operation(const std::string &id, const std::string &path, bool cancel,
+                             fat_tree_operation::History *retained) {
     auto out =
         V::object()
             .put("schema", V::string("org.disked.fat-tree-reconnect-observation-prototype/1"))
@@ -167,6 +183,8 @@ V observe_fat_tree_operation(const std::string &id, const std::string &path, boo
             writer_facts = pid_facts(writer, observed_code);
         out.put("controller", controller_facts).put("writer", writer_facts);
         check();
+        if (retained)
+            *retained = history;
         for (const auto *facts : {&controller_facts, &writer_facts})
             if (facts->kind != V::Kind::null) {
                 const auto status = text(*facts, "observation");
@@ -198,6 +216,92 @@ V observe_fat_tree_operation(const std::string &id, const std::string &path, boo
         out.put("status", V::string("unknown")).put("diagnostic", V::string(e.what()));
         return out;
     }
+}
+V watch_fat_tree_operation(const std::string &id, const std::string &store, const V &options,
+                           const fat_tree_operation::EventSink &sink, const std::string &request) {
+    auto result = V::object()
+                      .put("schema", V::string("org.disked.fat-tree-operation-watch-prototype/1"))
+                      .put("operation_id", V::string(id))
+                      .put("status", V::string("unknown"))
+                      .put("cursor", V{})
+                      .put("events", V::array())
+                      .put("observation", V{})
+                      .put("diagnostic", V{})
+                      .put("polls", V::string("0"));
+    std::unique_ptr<fat_tree_operation::Watch> cursor;
+    try {
+        fat_tree_operation::validate_watch_options(options);
+        w::Security security;
+        cursor.reset(
+            new fat_tree_operation::Watch(id, request, security.identity("watch:"), options));
+        const auto *follow = options.find("follow_ms");
+        const auto budget = follow ? std::stoull(follow->text) : 0;
+        const auto start = GetTickCount64();
+        for (std::size_t poll = 0; poll < 81; ++poll) {
+            fat_tree_operation::History history;
+            const auto observation = observe_fat_tree_operation(id, store, false, &history);
+            result.put("observation", observation)
+                .put("polls", V::string(std::to_string(poll + 1)));
+            if (history.header.kind == V::Kind::null || !history.complete) {
+                const auto &diagnostic = field(observation, "diagnostic");
+                result.put("diagnostic",
+                           diagnostic.kind == V::Kind::null
+                               ? V::string(history.header.kind != V::Kind::null && !history.complete
+                                               ? "fat_tree_watch_torn_history"
+                                               : "fat_tree_watch_observation_unresolved")
+                               : diagnostic);
+                break;
+            }
+            const bool admitted = cursor->project(history, [&](const V &event) {
+                if (sink)
+                    return sink(event);
+                result.fields["events"].items.push_back(event);
+                return true;
+            });
+            result.put("cursor", cursor->cursor());
+            if (!admitted) {
+                result.put("status", V::string("observer_closed"))
+                    .put("diagnostic", V::string("fat_tree_watch_observer_closed"));
+                break;
+            }
+            if (history.exited) {
+                result.put("status", V::string("recorded_terminal"))
+                    .put("diagnostic", field(observation, "diagnostic"));
+                break;
+            }
+            const auto &controller = field(observation, "controller"),
+                       &writer = field(observation, "writer");
+            if (controller.kind != V::Kind::object || writer.kind != V::Kind::object)
+                throw std::runtime_error("fat_tree_watch_owner_unresolved");
+            const auto worker_fact = text(writer, "observation");
+            const auto controller_fact = text(controller, "observation");
+            if (worker_fact == "reused_identity" || worker_fact == "code_mismatch" ||
+                controller_fact == "reused_identity" || controller_fact == "code_mismatch")
+                throw std::runtime_error("fat_tree_watch_owner_unresolved");
+            const bool active = live(controller) && live(writer);
+            result.put("status", V::string(active ? "following_boundary" : "unknown"))
+                .put("diagnostic",
+                     active ? V{} : V::string("fat_tree_watch_retained_exit_pending"));
+            const auto elapsed = GetTickCount64() - start;
+            if (elapsed >= budget)
+                break;
+            const auto remaining = budget - elapsed;
+            Sleep(static_cast<DWORD>(remaining < 25 ? remaining : 25));
+        }
+    } catch (const std::exception &e) {
+        result.put("status", V::string("unknown")).put("diagnostic", V::string(e.what()));
+    }
+    if (cursor)
+        result.put("cursor", cursor->cursor());
+    return result;
+}
+V wait_fat_tree_operation(const std::string &id, const std::string &store, std::uint32_t follow_ms,
+                          const fat_tree_operation::EventSink &sink) {
+    return watch_fat_tree_operation(id, store,
+                                    V::object()
+                                        .put("follow_ms", V::string(std::to_string(follow_ms)))
+                                        .put("snapshot", V::boolean_value(true)),
+                                    sink);
 }
 } // namespace nt_inventory
 } // namespace disked

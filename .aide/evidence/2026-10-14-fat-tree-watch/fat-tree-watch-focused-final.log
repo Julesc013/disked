@@ -1,0 +1,40 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start  5: image.fat_tree_reconnect
+1/3 Test  #5: image.fat_tree_reconnect .........   Passed    3.78 sec
+    Start  6: image.fat_tree_watch
+2/3 Test  #6: image.fat_tree_watch .............***Failed    5.35 sec
+test_actual_completed_wait_and_watch_preserve_all_artifacts (__main__.WatchTests.test_actual_completed_wait_and_watch_preserve_all_artifacts) ... ok
+test_actual_live_follow_boundary_then_cancel_and_resume (__main__.WatchTests.test_actual_live_follow_boundary_then_cancel_and_resume) ... ok
+test_actual_wait_follows_publication_until_recorded_exit (__main__.WatchTests.test_actual_wait_follows_publication_until_recorded_exit) ... FAIL
+test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor (__main__.WatchTests.test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor) ... ok
+test_event_budget_preserves_prior_cursor (__main__.WatchTests.test_event_budget_preserves_prior_cursor) ... ok
+test_exact_envelopes_include_admission_and_original_digest_domain (__main__.WatchTests.test_exact_envelopes_include_admission_and_original_digest_domain) ... ok
+test_invalid_options_are_rejected_before_native_paths (__main__.WatchTests.test_invalid_options_are_rejected_before_native_paths) ... ok
+test_resume_snapshot_and_same_prefix_do_not_duplicate (__main__.WatchTests.test_resume_snapshot_and_same_prefix_do_not_duplicate) ... ok
+test_torn_and_uncertain_histories_have_no_successful_empty_batch (__main__.WatchTests.test_torn_and_uncertain_histories_have_no_successful_empty_batch) ... ok
+test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor (__main__.WatchTests.test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor) ... ok
+
+======================================================================
+FAIL: test_actual_wait_follows_publication_until_recorded_exit (__main__.WatchTests.test_actual_wait_follows_publication_until_recorded_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_watch.py", line 184, in test_actual_wait_follows_publication_until_recorded_exit
+    self.assertGreater(int(out['polls']),1)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 not greater than 1
+
+----------------------------------------------------------------------
+Ran 10 tests in 5.152s
+
+FAILED (failures=1)
+
+    Start 77: image.fat_tree_controller
+3/3 Test #77: image.fat_tree_controller ........   Passed   28.71 sec
+
+67% tests passed, 1 tests failed out of 3
+
+Total Test time (real) =  37.87 sec
+
+The following tests FAILED:
+	  6 - image.fat_tree_watch (Failed)
+Errors while running CTest

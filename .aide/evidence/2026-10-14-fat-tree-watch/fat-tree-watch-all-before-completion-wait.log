@@ -1,0 +1,54 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start  5: image.fat_tree_reconnect
+1/3 Test  #5: image.fat_tree_reconnect .........   Passed    3.40 sec
+    Start  6: image.fat_tree_watch
+2/3 Test  #6: image.fat_tree_watch .............   Passed    2.10 sec
+    Start 77: image.fat_tree_controller
+3/3 Test #77: image.fat_tree_controller ........***Failed   18.93 sec
+test_abandoned_closed_gate_has_no_resource_effects (__main__.ControllerTests.test_abandoned_closed_gate_has_no_resource_effects) ... ok
+test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion) ... FAIL
+test_controller_exit_after_admission_stays_unresolved (__main__.ControllerTests.test_controller_exit_after_admission_stays_unresolved) ... ERROR
+test_detached_cooperative_cancellation_by_another_process (__main__.ControllerTests.test_detached_cooperative_cancellation_by_another_process) ... ok
+test_each_missing_grant_and_wrong_digest_refuse_before_spawn (__main__.ControllerTests.test_each_missing_grant_and_wrong_digest_refuse_before_spawn) ... ok
+test_launch_cannot_be_reused_and_dispatch_cannot_be_replayed (__main__.ControllerTests.test_launch_cannot_be_reused_and_dispatch_cannot_be_replayed) ... ok
+test_owned_hang_budget_preserves_unresolved_history_without_replacement (__main__.ControllerTests.test_owned_hang_budget_preserves_unresolved_history_without_replacement) ... ok
+test_published_outcome_does_not_prove_exit (__main__.ControllerTests.test_published_outcome_does_not_prove_exit) ... ok
+test_role_and_normal_fixture_invocation_are_not_authority (__main__.ControllerTests.test_role_and_normal_fixture_invocation_are_not_authority) ... ok
+test_stale_source_and_code_do_not_create_outputs (__main__.ControllerTests.test_stale_source_and_code_do_not_create_outputs) ... ok
+
+======================================================================
+ERROR: test_controller_exit_after_admission_stays_unresolved (__main__.ControllerTests.test_controller_exit_after_admission_stays_unresolved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 229, in test_controller_exit_after_admission_stays_unresolved
+    root,inputs,expected,review=prepared(fault=True)
+                                ~~~~~~~~^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 91, in prepared
+    row = admission.prepare(root,inputs,fault=fault)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_admission.py", line 84, in prepare
+    p = next(row for row in rows if row["kind"] == "prepared")
+StopIteration
+
+======================================================================
+FAIL: test_actual_caller_exit_does_not_end_completion (__main__.ControllerTests.test_actual_caller_exit_does_not_end_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 104, in test_actual_caller_exit_does_not_end_completion
+    final = wait_history(root)
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_controller.py", line 62, in wait_history
+    raise AssertionError(('existing controller not replaced', root, last))
+AssertionError: ('existing controller not replaced', WindowsPath('C:/Users/Jules/AppData/Local/Temp/disked-native-admission-hfeucu7l'), {'cancellation_request': 'not_requested', 'claims': {'authenticity': 'not_established', 'destination_access': False, 'mutation_authority': False, 'replay_authority': False, 'source_access': False}, 'controller': {'created': '134363941358154135', 'exit_code': '259', 'observation': 'running', 'pid': '2464'}, 'diagnostic': None, 'history': {'admitted_bytes': '15695', 'claims': {'authenticity': 'not_established', 'current_destination_verification': 'not_performed', 'current_source_verification': 'not_performed', 'mutation_authority': False, 'replay_authority': False, 'worker_exit': 'recorded-declaration-only'}, 'last_digest': 'sha256:264bce729d7d51b90666bbcc5b7c2c895df1efdd85340de8fa4b57cb1aa6448c', 'last_worker': {'admitted': True, 'attempt_id': 'fat-tree-write-attempt:02fb29d34b0635e79f0afc7c6b47fc61', 'cancellation_requested': False, 'capture_epoch': '17', 'claims': {'compiled_effects_capable': True, 'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': 'f36adcfdf4527acd2a345902d1525918b9c02fdb6072738e0c8883e5b6bba898', 'dependencies_retained': True, 'diagnostic': None, 'effects_possible': True, 'grant_sent': True, 'observer_epoch': 'observer:8dcb0edf26728229a7d3b095944773ab', 'outcome': None, 'phase': 'prepared', 'preparation': {'definition_digest': 'sha256:692f7d531cc4331881349cf16aa14e40ebfebf47dd11af38f9b25cea0014057d'}, 'progress_pulse': '1040', 'request_digest': 'cb49b1f8a30582d90646000caaf9837ba230804c1cd3fb294f732acf2550d1e2', 'result': None, 'retired': False, 'schema': 'org.disked.fat-tree-extraction-worker-observation/1', 'status': 'accepted_running', 'worker': {'created': '134363941459272208', 'exit_code': '259', 'observation': 'running', 'pid': '60472'}, 'worker_epoch': 'worker:0a40a7e146c527a396112e55782e1d5c'}, 'operation_id': 'tree-op:4e7fc6e66d72dae6d77ab1d63f925c5f', 'records': '11', 'review_digest': 'sha256:fd0f0d646db622f2c33a2059fecdb711fabcbf74b933d553cc7e52ec866daeb7', 'schema': 'org.disked.fat-tree-operation-history-prototype/1', 'state': 'recorded_active', 'tail': {'admitted': False, 'bytes': '0', 'sha256': 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}}, 'operation_id': 'tree-op:4e7fc6e66d72dae6d77ab1d63f925c5f', 'schema': 'org.disked.fat-tree-reconnect-observation-prototype/1', 'status': 'observed', 'writer': {'created': '134363941459272208', 'exit_code': '259', 'observation': 'running', 'pid': '60472'}})
+
+----------------------------------------------------------------------
+Ran 10 tests in 18.754s
+
+FAILED (failures=1, errors=1)
+
+
+67% tests passed, 1 tests failed out of 3
+
+Total Test time (real) =  24.46 sec
+
+The following tests FAILED:
+	 77 - image.fat_tree_controller (Failed)
+Errors while running CTest

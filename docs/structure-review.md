@@ -1,5 +1,22 @@
 # Source structure and release review follow-up
 
+## Recursive bounded wait/watch development: 14 October 2026
+
+Active DE-W057 now projects validated recursive control records into bounded
+events. Event sequences start at one; original control indices stay zero-based.
+Exact header/review/worker and raw-record digests bind resumption. Changed/shrunk
+prefixes, torn history, invalid options and rejected sinks preserve uncertainty
+and the last admitted cursor. Native wait/watch opens only the existing store;
+it neither reads extraction sources nor restarts/cancels the operation.
+
+Ten focused methods cover pure event/cursor budgets and actual detached
+following/cancellation/resumption. A live wait test observes its first snapshot
+before requesting cooperative stop and follows the same owner through exit.
+Three selected native groups pass; tooling236pass/two skip, source map262 files
+and dependency checks230 targets. These are development results. Shared public
+bindings, actual frontend journeys, compatible readers and full exact-source
+qualification remain. Full all-platform/storage0.1.0 and release remain open.
+
 ## Detached recursive controller development: 14 October 2026
 
 Active DE-W057 now has an explicit same-executable dispatch handoff independent

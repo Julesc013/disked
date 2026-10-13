@@ -114,6 +114,27 @@ observations and current process facts remain separate. A matching exited handle
 can establish process exit even when Windows no longer exposes its image path;
 only a live matching code generation can authorize cancellation.
 
-These are development prerequisites. Native wait/watch, public command bindings
-and actual CLI/protocol/GUI/TUI/shell journeys remain unfinished. The public
-command stays planned until those gates and the full clean-source campaign pass.
+The pure `fat_tree_watch.*` projection and native reconnect adapter now provide
+bounded wait/watch prerequisites. Cursor zero includes the admission record as
+event one; retained state records keep their existing zero-based indices. Every
+event carries the exact raw-record digest (canonical JSON plus LF), immutable
+header/review binding, worker epoch and one fresh observer identity. Resumption
+requires the exact prior sequence, digest and worker. A changed or shortened
+prefix is a conflict; a torn history is unknown and is never repaired.
+
+Observation admits at most 64 events, 16KiB per event and 1MiB total event bytes.
+A rejecting or throwing sink closes only that observer and preserves its last
+admitted cursor. Wait begins with a snapshot and follows subsequent records.
+Following permits 0–2000ms and at most 81 polls at 25ms intervals. This bounds
+following between native calls; public callers still need the existing request
+containment for a blocked OS API. A live controller can finish flushing an
+already exited worker's record within that budget. Until the retained exit
+appears, uncertainty remains explicit.
+
+Focused tests cover exact event/digest domains, resumption/snapshot, cursor and
+header conflicts, malformed options before paths, torn histories, stopped sinks,
+event budgets, unchanged artifacts, actual detached cancellation/resumption and
+publication before recorded exit. These are private development prerequisites.
+Public command bindings, compatible protocol readers and actual CLI/protocol/
+GUI/TUI/shell journeys remain unfinished. The public command stays planned until
+those gates and the full clean-source campaign pass.
