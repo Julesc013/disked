@@ -12,6 +12,6 @@ checksum-covered data without re-sealing. The expanded-checksum run mistakenly
 mixed valid mutable-field cases into invalid-checksum batches; batch separation
 repaired the fixture. A build command used an incorrect header target name and
 the first GCC command omitted the source include root. Decoder acceptance checks
-were retained. Complete build/tooling results and exact revision qualification
-remain pending; no owner acceptance, provider admission, mounted filesystem,
+were retained. The complete working native build passed;242tooling tests completed with2skips.
+Exact clean-revision qualification remains pending; no owner acceptance, provider admission, mounted filesystem,
 TexFAT transaction, physical device, writer, release or full0.1.0 claim follows.
