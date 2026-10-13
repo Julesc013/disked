@@ -28,6 +28,7 @@ SEMANTICS[SCHEMA_PREFIX+'acquisition-plan-logical-prototype:2']='acquisition-log
 SEMANTICS[SCHEMA_PREFIX+'acquisition-worker-definition:2']='acquisition-worker-definition'
 SEMANTICS[SCHEMA_PREFIX+'fat-extraction-command-parameters:1']='acquisition-command-parameters'
 SEMANTICS[SCHEMA_PREFIX+'fat-file-selector:1']='fat-file-selector'
+SEMANTICS[SCHEMA_PREFIX+'fat-tree-operation-event-prototype:1']='fat-tree-operation-event'
 for _name in ('verification-worker-definition','verification-definition-selection','verification-command-parameters','verification-preparation-result','verification-operation-result'):
     SEMANTICS[SCHEMA_PREFIX+_name+':2']='verification-worker-definition' if _name=='verification-definition-selection' else _name
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
@@ -498,6 +499,53 @@ def semantic_validate(kind: str | None, value: dict):
         unsigned={k:v for k,v in value.items() if k!='digest'}
         if hashlib.sha256(acquisition_record_bytes(unsigned)).hexdigest()!=value['digest']:
             raise SpecError('Acquisition record digest mismatch')
+    elif kind == 'fat-tree-operation-event':
+        semantic_validate('event',value)
+        count=0
+        def visit(node,depth=0):
+            nonlocal count
+            count+=1
+            if count>65536 or depth>=32:raise SpecError('Recursive event exceeds value/depth bound')
+            if isinstance(node,str) and len(node.encode('utf-8'))>32768:raise SpecError('Recursive event exceeds string bound')
+            if isinstance(node,dict):
+                for key,child in node.items():
+                    if len(key.encode('utf-8'))>32768:raise SpecError('Recursive event key exceeds string bound')
+                    visit(child,depth+1)
+            elif isinstance(node,list):
+                for child in node:visit(child,depth+1)
+        visit(value)
+        p=value['payload'];r=p['record'];w=r['payload']['worker'];phase=r['payload']['phase']
+        sequence=bounded_u64(value['sequence'],'recursive event sequence')
+        index=bounded_u64(r['sequence'],'recursive record index')
+        if not 1<=sequence<=64 or index+1!=sequence:raise SpecError('Recursive event sequence domain disagrees')
+        if value['operation_id']!=r['operation_id'] or p['review_digest']!=r['review_digest'] or p['worker_epoch']!=w['worker_epoch']:
+            raise SpecError('Recursive event record binding disagrees')
+        if '\0' in p['request_id'] or len(p['request_id'].encode('utf-8'))>128:
+            raise SpecError('Invalid recursive watch request identity')
+        raw=acquisition_record_bytes(r)+b'\n'
+        if p['record_digest']!='sha256:'+hashlib.sha256(raw).hexdigest():raise SpecError('Recursive event record digest disagrees')
+        if len(raw)>16384 or len(acquisition_record_bytes(value))+1>16384:raise SpecError('Recursive event exceeds frame bound')
+        if not bounded_u64(r['payload']['observed_at'],'recursive record clock'):raise SpecError('Recursive clock is zero')
+        for key in ('capture_epoch','progress_pulse'):bounded_u64(w[key],'recursive '+key)
+        facts=w['worker'];pid=bounded_u64(facts['pid'],'recursive process id')
+        if not pid or pid>0xffffffff or not bounded_u64(facts['created'],'recursive process birth') or bounded_u64(facts['exit_code'],'recursive exit code')>0xffffffff:
+            raise SpecError('Invalid recursive process facts')
+        if w['effects_possible']!=w['grant_sent'] or w['dependencies_retained']!=(facts['observation']=='running'):
+            raise SpecError('Recursive effect/dependency facts disagree')
+        if (phase in ('admitted','dispatch_possible') and (w['grant_sent'] or w['outcome'] is not None)) or (phase=='observing' and not w['grant_sent']) or (phase=='outcome_published' and w['outcome'] is None) or (phase=='exited' and facts['observation']!='exited'):
+            raise SpecError('Recursive record phase disagrees')
+        if w['status']=='awaiting_grant' and (w['grant_sent'] or facts['observation']!='running'):
+            raise SpecError('Recursive awaiting grant disagrees')
+        if w['outcome'] is not None:
+            outcome=w['outcome']
+            if not w['grant_sent'] or not outcome['effects_possible'] or outcome['attempt_id']!=w['attempt_id'] or outcome['definition_digest']!=w['preparation']['definition_digest']:
+                raise SpecError('Recursive outcome binding disagrees')
+            for key in ('files_complete','directories_created','verified_bytes','checkpointed_bytes','ledger_records','ledger_bytes','platform_code'):
+                bounded_u64(outcome[key],'recursive outcome '+key)
+            if int(outcome['verified_bytes'])<int(outcome['checkpointed_bytes']) or int(outcome['platform_code'])>0xffffffff:
+                raise SpecError('Recursive outcome counters disagree')
+            if outcome['status']=='complete' and (outcome['cancellation_observed'] or outcome['verified_bytes']!=outcome['checkpointed_bytes'] or outcome['diagnostic'] is not None):
+                raise SpecError('Recursive completion contradicts outcome')
     elif kind == 'acquisition-operation-event':
         semantic_validate('event',value);record=value['payload']['record'];semantic_validate('acquisition-worker-record',record)
         if value['operation_id']!=record['state']['binding']['operation_id'] or value['sequence']!=record['state']['sequence']:

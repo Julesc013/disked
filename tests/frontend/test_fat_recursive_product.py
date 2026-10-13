@@ -5,6 +5,8 @@ from gui_fixture import Gui,wait
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 import test_fat_tree_admission as admission
 from test_fat_tree_review import canonical
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'spec/tools'))
+import specctl as sc
 
 def sha(data):return 'sha256:'+hashlib.sha256(data).hexdigest()
 def arguments(p):
@@ -25,6 +27,7 @@ def main():
  ap=argparse.ArgumentParser()
  for name in ('exe','normal','output'):ap.add_argument('--'+name,type=Path,required=True)
  a=ap.parse_args();exe=str(a.exe.resolve());normal=str(a.normal.resolve());records=[];cases=[];passed=False
+ bundle=sc.Bundle(Path(__file__).resolve().parents[2]/'spec')
  env={k:v for k,v in os.environ.items() if not k.startswith(('DISKED_TEST_','DISKED_ACQ_','DISKED_FAT_'))}
  def record(name,**data):records.append(dict(name=name,**data));print('PASS '+name,flush=True)
  def cli(words,exits=(0,),binary=exe):
@@ -76,6 +79,7 @@ def main():
    watch=wire('operation.watch',op,features=['org.disked.fat-tree-operation-events/1'])
    events=[v for v in watch if v['schema']=='org.disked.event/1'];assert events
    for i,event in enumerate(events):
+    bundle.validate('urn:disked:schema:fat-tree-operation-event-prototype:1',event)
     assert event['sequence']==str(i+1)
     assert event['payload']['record_digest']==sha(canonical(event['payload']['record'])+b'\n')
    assert watch[-1]['status']=='completed' and not watch[-1]['result']['events']

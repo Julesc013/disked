@@ -221,6 +221,25 @@ operation remains unresolved; request completion is not operation completion.
 Changed source generations, stale digests, injected public fields and foreign
 control resources refuse before extraction effects.
 
-These results qualify gated development journeys only. Broader interrupted-client
-stream/hang coverage, strict producer contracts, normal-composition admission and
-full clean-source qualification remain before DE-W057's review boundary.
+Actual interrupted NDJSON output now proves that a closed watch pipe seals its
+caller, preserves the same live controller/writer and permits digest-bound cursor
+resumption without cancellation. Unresponsive and abruptly exited generated-image
+writers retain unresolved exit histories and refuse replacement execution. These
+are actual product composition journeys under the existing controller budget.
+
+The [strict event producer schema](../spec/schemas/fat-tree-operation-event-prototype.schema.json)
+closes emitted envelope, payload, record, worker and outcome fields. Automatic
+semantic dispatch checks bounded integers/frames, original-record SHA256 plus LF,
+sequence domains, process/dependency/grant/phase and outcome bindings. Native
+history validation additionally checks complete transitions, exact header/resource
+constraints and actual native facts. Compatible Reader acceptance remains separate:
+it can preserve additive outer/payload observations while rejecting unknown required
+features. A conforming event neither authenticates a producer nor grants replay.
+
+The actual frontend campaign exposed an exit race: two process observations could
+produce `worker.observation=running` with `dependencies_retained=false`. The worker
+now derives both facts from the same observation; the original contradictory ledger
+is retained and per-observation consistency has explicit native regression checks.
+
+These results qualify gated development journeys only. Normal-composition admission
+and full clean-source qualification remain before DE-W057's review boundary.

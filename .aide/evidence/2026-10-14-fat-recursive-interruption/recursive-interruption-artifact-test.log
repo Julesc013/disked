@@ -1,0 +1,44 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 4: frontend.fat_recursive_product
+1/2 Test #4: frontend.fat_recursive_product ....***Failed    1.38 sec
+PASS cli
+PASS cli
+PASS cli
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 133, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 69, in main
+    review=cli(arguments(p))['result'];untouched(root)
+           ~~~^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 35, in cli
+    assert r.returncode in exits and not r.stderr,(words[:3],r.returncode,r.stdout,r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (['filesystem', 'extract-tree', 'prepare'], 3, b'{"diagnostics":[{"code":"observation_spawn_failed","message_key":"disked.observation_spawn_failed","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"refused"}\n', b'')
+
+    Start 5: frontend.fat_recursive_failures
+2/2 Test #5: frontend.fat_recursive_failures ...***Failed    1.11 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 266, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 89, in main
+    root, params, execution, source, _ = setup(fault)
+                                         ~~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_failures.py", line 39, in setup
+    return root, params, grants(review), source, expected
+                         ~~~~~~^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_fat_recursive_product.py", line 23, in grants
+    def grants(p):return dict(phase='execute',definition=p['definition'],definition_digest=p['definition_digest'],
+                                                         ~^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   2.50 sec
+
+The following tests FAILED:
+	  4 - frontend.fat_recursive_product (Failed)
+	  5 - frontend.fat_recursive_failures (Failed)
+Errors while running CTest

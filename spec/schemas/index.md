@@ -56,6 +56,7 @@
 - [fat-extraction-command-parameters.schema.json](fat-extraction-command-parameters.schema.json)
 - [fat-file-selector.schema.json](fat-file-selector.schema.json)
 - [fat-recursive-command-parameters.schema.json](fat-recursive-command-parameters.schema.json)
+- [fat-tree-operation-event-prototype.schema.json](fat-tree-operation-event-prototype.schema.json)
 - [fat-tree-review-prototype.schema.json](fat-tree-review-prototype.schema.json)
 - [frontmatter.schema.json](frontmatter.schema.json)
 - [gpt-repair-command-result.schema.json](gpt-repair-command-result.schema.json)

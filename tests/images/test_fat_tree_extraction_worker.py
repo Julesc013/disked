@@ -32,6 +32,10 @@ def run(tree=None, request=None, extra=None, fault=False):
     assert completed.returncode == 0 and not completed.stderr, (completed.returncode, completed.stderr.decode())
     rows = [json.loads(line) for line in completed.stdout.splitlines()]
     assert rows
+    for row in rows:
+        state = row.get('value') or row.get('retirement')
+        if isinstance(state, dict) and 'dependencies_retained' in state:
+            assert state['dependencies_retained'] == (state['worker']['observation'] not in ('exited','not_started')), state
     final = rows[-1]
     if final["kind"] == "finished":
         state = final["value"]

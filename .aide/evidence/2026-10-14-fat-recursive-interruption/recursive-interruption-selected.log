@@ -1,0 +1,50 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start  4: frontend.fat_recursive_product
+1/6 Test  #4: frontend.fat_recursive_product .....   Passed    9.86 sec
+    Start  5: frontend.fat_recursive_failures
+2/6 Test  #5: frontend.fat_recursive_failures ....   Passed   39.44 sec
+    Start  9: image.fat_tree_watch
+3/6 Test  #9: image.fat_tree_watch ...............   Passed    4.46 sec
+    Start 16: build.boundaries
+4/6 Test #16: build.boundaries ...................   Passed    4.42 sec
+    Start 80: image.fat_tree_controller
+5/6 Test #80: image.fat_tree_controller ..........   Passed   21.07 sec
+    Start 82: image.fat_tree_extraction_worker
+6/6 Test #82: image.fat_tree_extraction_worker ...***Failed   75.31 sec
+test_actual_unexpected_exits_preserve_effects_and_ledger (__main__.WorkerTests.test_actual_unexpected_exits_preserve_effects_and_ledger) ... ok
+test_before_and_after_spawn_failure_ownership (__main__.WorkerTests.test_before_and_after_spawn_failure_ownership) ... FAIL
+test_complete_variants_in_actual_owned_child (__main__.WorkerTests.test_complete_variants_in_actual_owned_child) ... ok
+test_each_explicit_grant_and_cooperative_effect_cancellation (__main__.WorkerTests.test_each_explicit_grant_and_cooperative_effect_cancellation) ... ok
+test_hangs_keep_dependencies_until_owned_job_exit (__main__.WorkerTests.test_hangs_keep_dependencies_until_owned_job_exit) ... ok
+test_large_content_and_worker_budget (__main__.WorkerTests.test_large_content_and_worker_budget) ... ok
+test_late_outcome_publication_is_not_actual_exit (__main__.WorkerTests.test_late_outcome_publication_is_not_actual_exit) ... ok
+test_normal_image_rejects_fixture_controls (__main__.WorkerTests.test_normal_image_rejects_fixture_controls) ... ok
+test_poisoned_definitions_owners_process_and_hashes_never_get_grants (__main__.WorkerTests.test_poisoned_definitions_owners_process_and_hashes_never_get_grants) ... ok
+test_prepared_wait_and_invalid_grant_have_no_outputs (__main__.WorkerTests.test_prepared_wait_and_invalid_grant_have_no_outputs) ... ok
+test_shared_four_worker_quota (__main__.WorkerTests.test_shared_four_worker_quota) ... ok
+
+======================================================================
+FAIL: test_before_and_after_spawn_failure_ownership (__main__.WorkerTests.test_before_and_after_spawn_failure_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_extraction_worker.py", line 154, in test_before_and_after_spawn_failure_ownership
+    folder, rows, _ = run(tree, fault=True, extra={"fixture": {"startup_fault": mode}})
+                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_extraction_worker.py", line 52, in run
+    assert not final["retirement"]["dependencies_retained"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 11 tests in 75.094s
+
+FAILED (failures=1)
+
+
+83% tests passed, 1 tests failed out of 6
+
+Total Test time (real) = 154.58 sec
+
+The following tests FAILED:
+	 82 - image.fat_tree_extraction_worker (Failed)
+Errors while running CTest

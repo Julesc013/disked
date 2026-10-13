@@ -1,0 +1,41 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 9: image.fat_tree_watch
+1/1 Test #9: image.fat_tree_watch .............***Failed    2.35 sec
+test_actual_completed_wait_and_watch_preserve_all_artifacts (__main__.WatchTests.test_actual_completed_wait_and_watch_preserve_all_artifacts) ... ok
+test_actual_live_follow_boundary_then_cancel_and_resume (__main__.WatchTests.test_actual_live_follow_boundary_then_cancel_and_resume) ... ok
+test_actual_wait_follows_live_operation_until_recorded_exit (__main__.WatchTests.test_actual_wait_follows_live_operation_until_recorded_exit) ... ok
+test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor (__main__.WatchTests.test_closed_and_throwing_sinks_do_not_advance_unadmitted_cursor) ... ok
+test_compatible_reader_preserves_extensions_and_refuses_conflicts (__main__.WatchTests.test_compatible_reader_preserves_extensions_and_refuses_conflicts) ... ok
+test_event_budget_preserves_prior_cursor (__main__.WatchTests.test_event_budget_preserves_prior_cursor) ... ok
+test_exact_envelopes_include_admission_and_original_digest_domain (__main__.WatchTests.test_exact_envelopes_include_admission_and_original_digest_domain) ... ERROR
+test_invalid_options_are_rejected_before_native_paths (__main__.WatchTests.test_invalid_options_are_rejected_before_native_paths) ... ok
+test_resume_snapshot_and_same_prefix_do_not_duplicate (__main__.WatchTests.test_resume_snapshot_and_same_prefix_do_not_duplicate) ... ok
+test_torn_and_uncertain_histories_have_no_successful_empty_batch (__main__.WatchTests.test_torn_and_uncertain_histories_have_no_successful_empty_batch) ... ok
+test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor (__main__.WatchTests.test_wrong_digest_epoch_ahead_and_changed_prefix_keep_cursor) ... ok
+
+======================================================================
+ERROR: test_exact_envelopes_include_admission_and_original_digest_domain (__main__.WatchTests.test_exact_envelopes_include_admission_and_original_digest_domain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_fat_tree_watch.py", line 60, in test_exact_envelopes_include_admission_and_original_digest_domain
+    bundle=sc.Bundle(Path(__file__).resolve().parents[2])
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 684, in __init__
+    self.meta = read_json(safe_path(self.root, 'bundle.json', existing=True))
+                          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 112, in safe_path
+    raise SpecError('Missing regular file: '+relative)
+specctl.SpecError: Missing regular file: bundle.json
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.159s
+
+FAILED (errors=1)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   2.36 sec
+
+The following tests FAILED:
+	  9 - image.fat_tree_watch (Failed)
+Errors while running CTest

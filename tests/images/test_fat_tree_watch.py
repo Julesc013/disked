@@ -8,6 +8,9 @@ import subprocess
 import time
 import threading
 import unittest
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'spec/tools'))
+import specctl as sc
 import test_fat_tree_admission as admission
 import test_fat_tree_controller as controller
 from test_fat_tree_review import canonical
@@ -54,6 +57,9 @@ class WatchTests(unittest.TestCase):
 
     def test_exact_envelopes_include_admission_and_original_digest_domain(self):
         out=self.pure()
+        bundle=sc.Bundle(Path(__file__).resolve().parents[2]/'spec')
+        for event in out['events']:
+            bundle.validate('urn:disked:schema:fat-tree-operation-event-prototype:1',event)
         self.assertEqual(len(self.records),len(out['events']))
         for i,(event,record) in enumerate(zip(out['events'],self.records)):
             self.assertEqual(str(i+1),event['sequence'])
@@ -66,6 +72,45 @@ class WatchTests(unittest.TestCase):
             self.assertEqual(sha(canonical(self.header)),event['payload']['header_digest'])
             self.assertLessEqual(len(canonical(event)),16384)
         self.assertEqual(sha(canonical(self.records[-1])+b'\n'),out['cursor']['last_digest'])
+
+
+    def test_producer_is_closed_and_checks_rehashed_relationships(self):
+        bundle=sc.Bundle(Path(__file__).resolve().parents[2]/'spec')
+        uri='urn:disked:schema:fat-tree-operation-event-prototype:1'
+        events=self.pure()['events']
+        cases=[]
+        for path,value in [('extra_observation',True),('payload.extra_observation',True),
+            ('sequence','18446744073709551616'),('sequence','2'),
+            ('payload.worker_epoch','worker:'+'f'*32),('payload.record_digest','sha256:'+'0'*64),
+            ('payload.request_id','\u00e9'*100),('payload.request_id','bad\0id'),
+            ('payload.record.payload.worker.progress_pulse','18446744073709551616'),
+            ('payload.record.payload.worker.worker.pid','0'),
+            ('payload.record.payload.worker.worker.created','0'),
+            ('payload.record.payload.worker.worker.exit_code',str(2**32)),
+            ('payload.record.payload.worker.dependencies_retained',False),
+            ('payload.record.payload.worker.effects_possible',True),
+            ('payload.record.payload.phase','observing')]:
+            event=copy.deepcopy(events[0]);target=event;parts=path.split('.')
+            for key in parts[:-1]:target=target[key]
+            target[parts[-1]]=value
+            if path.startswith('payload.record.'):
+                event['payload']['record_digest']=sha(canonical(event['payload']['record'])+b'\n')
+            cases.append((path,event))
+        completed=next(e for e in events if e['payload']['record']['payload']['worker']['outcome'] is not None)
+        for key,value in [('attempt_id','fat-tree-write-attempt:'+'f'*32),('checkpointed_bytes',str(2**64)),
+                          ('source_writes',True),('cancellation_observed',True)]:
+            event=copy.deepcopy(completed)
+            event['payload']['record']['payload']['worker']['outcome'][key]=value
+            event['payload']['record_digest']=sha(canonical(event['payload']['record'])+b'\n')
+            cases.append(('outcome.'+key,event))
+        for name,event in cases:
+            with self.subTest(case=name),self.assertRaises(sc.SpecError):bundle.validate(uri,event)
+        # Reader compatibility still accepts additive outer/payload observations;
+        # they are outside the current producer's conformance schema.
+        additive=copy.deepcopy(events);additive[0]['extra_observation']=True
+        additive[0]['payload']['extra_observation']=True
+        read=invoke(dict(header=self.header,reader_events=additive))
+        self.assertTrue(all(r.get('accepted') for r in read['results']))
 
     def test_compatible_reader_preserves_extensions_and_refuses_conflicts(self):
         events=self.pure()['events']

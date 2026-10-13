@@ -1,0 +1,462 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fat-tree-operation-event-prototype:1",
+  "title": "Provisional recursive FAT operation event producer",
+  "description": "Strict emitted shape, distinct from compatible Reader acceptance. Semantic checks enforce decimal/frame/digest/record relationships. Full history, header/native freshness and authenticity remain separate; no effects or replay authority.",
+  "allOf": [
+    {
+      "$ref": "urn:disked:schema:event:1"
+    },
+    {
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "type": {
+          "enum": [
+            "fat.tree.operation.record",
+            "fat.tree.operation.snapshot"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "const": "org.disked.fat-tree-operation-event-prototype/1"
+            },
+            "request_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "observer_epoch": {
+              "type": "string",
+              "pattern": "^watch:[0-9a-f]{32}$"
+            },
+            "worker_epoch": {
+              "type": "string",
+              "pattern": "^worker:[0-9a-f]{32}$"
+            },
+            "review_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "header_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "sequence_domain": {
+              "const": "fat-tree-control-record-index-plus-one"
+            },
+            "record_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "record": {
+              "$ref": "#/$defs/record"
+            }
+          },
+          "required": [
+            "schema",
+            "request_id",
+            "observer_epoch",
+            "worker_epoch",
+            "review_digest",
+            "header_digest",
+            "sequence_domain",
+            "record_digest",
+            "record"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "record": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-state-record-prototype/1"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^tree-op:[0-9a-f]{32}$"
+        },
+        "review_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sequence": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "previous": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "observed_at": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "phase": {
+              "enum": [
+                "admitted",
+                "dispatch_possible",
+                "admission_uncertain",
+                "observing",
+                "outcome_published",
+                "exited"
+              ]
+            },
+            "worker": {
+              "$ref": "#/$defs/worker"
+            }
+          },
+          "required": [
+            "observed_at",
+            "phase",
+            "worker"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema",
+        "operation_id",
+        "review_digest",
+        "sequence",
+        "previous",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "worker": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-extraction-worker-observation/1"
+        },
+        "admitted": {
+          "type": "boolean"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^fat-tree-write-attempt:[0-9a-f]{32}$"
+        },
+        "cancellation_requested": {
+          "type": "boolean"
+        },
+        "capture_epoch": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "claims": {
+          "type": "object",
+          "properties": {
+            "compiled_effects_capable": {
+              "const": true
+            },
+            "durable_reconnect": {
+              "const": false
+            },
+            "live_namespace": {
+              "const": false
+            },
+            "mutation_authority": {
+              "const": false
+            },
+            "physical_admission": {
+              "const": false
+            }
+          },
+          "required": [
+            "compiled_effects_capable",
+            "durable_reconnect",
+            "live_namespace",
+            "mutation_authority",
+            "physical_admission"
+          ],
+          "additionalProperties": false
+        },
+        "code_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "dependencies_retained": {
+          "type": "boolean"
+        },
+        "diagnostic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effects_possible": {
+          "type": "boolean"
+        },
+        "grant_sent": {
+          "type": "boolean"
+        },
+        "observer_epoch": {
+          "type": "string",
+          "pattern": "^observer:[0-9a-f]{32}$"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/outcome"
+            }
+          ]
+        },
+        "phase": {
+          "enum": [
+            "prepared",
+            "outcome",
+            "cancelled",
+            "unavailable"
+          ]
+        },
+        "preparation": {
+          "type": "object",
+          "properties": {
+            "definition_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "definition_digest"
+          ],
+          "additionalProperties": false
+        },
+        "progress_pulse": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "request_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "const": "org.disked.fat-tree-extraction-worker-final/1"
+                },
+                "phase": {
+                  "enum": [
+                    "prepared",
+                    "outcome",
+                    "cancelled",
+                    "unavailable"
+                  ]
+                },
+                "publication_sha256": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "schema",
+                "phase",
+                "publication_sha256"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "awaiting_grant",
+            "accepted_running",
+            "completed",
+            "unknown"
+          ]
+        },
+        "worker": {
+          "type": "object",
+          "properties": {
+            "pid": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "created": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "exit_code": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "observation": {
+              "enum": [
+                "running",
+                "exited"
+              ]
+            }
+          },
+          "required": [
+            "pid",
+            "created",
+            "exit_code",
+            "observation"
+          ],
+          "additionalProperties": false
+        },
+        "worker_epoch": {
+          "type": "string",
+          "pattern": "^worker:[0-9a-f]{32}$"
+        }
+      },
+      "required": [
+        "schema",
+        "admitted",
+        "attempt_id",
+        "cancellation_requested",
+        "capture_epoch",
+        "claims",
+        "code_sha256",
+        "dependencies_retained",
+        "diagnostic",
+        "effects_possible",
+        "grant_sent",
+        "observer_epoch",
+        "outcome",
+        "phase",
+        "preparation",
+        "progress_pulse",
+        "request_digest",
+        "result",
+        "retired",
+        "status",
+        "worker",
+        "worker_epoch"
+      ],
+      "additionalProperties": false
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "org.disked.fat-tree-extraction-outcome-prototype/1"
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "partial_evidence_uncertain"
+          ]
+        },
+        "definition_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^fat-tree-write-attempt:[0-9a-f]{32}$"
+        },
+        "effects_possible": {
+          "type": "boolean"
+        },
+        "cancellation_observed": {
+          "type": "boolean"
+        },
+        "files_complete": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "directories_created": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "verified_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "checkpointed_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "ledger_records": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "ledger_bytes": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "last_record_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "diagnostic": {
+          "type": ["string", "null"]
+        },
+        "platform_code": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,19})$"
+        },
+        "platform_domain": {
+          "enum": ["win32", null]
+        },
+        "source_writes": {
+          "const": false
+        },
+        "atomic_snapshot": {
+          "const": false
+        },
+        "contained_worker_qualified": {
+          "const": false
+        },
+        "owner_accepted": {
+          "const": false
+        },
+        "notification_diagnostic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "status",
+        "definition_digest",
+        "attempt_id",
+        "effects_possible",
+        "cancellation_observed",
+        "files_complete",
+        "directories_created",
+        "verified_bytes",
+        "checkpointed_bytes",
+        "ledger_records",
+        "ledger_bytes",
+        "last_record_digest",
+        "diagnostic",
+        "platform_code",
+        "platform_domain",
+        "source_writes",
+        "atomic_snapshot",
+        "contained_worker_qualified",
+        "owner_accepted"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

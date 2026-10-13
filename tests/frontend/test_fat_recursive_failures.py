@@ -1,8 +1,8 @@
 """Actual recursive command failure, cancellation and disconnected-client journeys."""
-import argparse, copy, json, os, subprocess, sys, time
+import argparse, copy, json, os, subprocess, sys, time, threading
 from pathlib import Path
 from gui_fixture import Gui, wait
-from test_fat_recursive_product import arguments, grants, admission, canonical, sha
+from test_fat_recursive_product import arguments, grants, admission, canonical, sha, sc
 
 
 def main():
@@ -14,6 +14,7 @@ def main():
     clean = {key: value for key, value in os.environ.items() if not key.startswith(
         ('DISKED_TEST_', 'DISKED_ACQ_', 'DISKED_FAT_'))}
     records, cases = [], []
+    bundle = sc.Bundle(Path(__file__).resolve().parents[2]/'spec')
     passed = False
 
     def record(name, **data):
@@ -116,6 +117,78 @@ def main():
             assert (root/'output'/name).read_bytes() == data
         assert (root/'source.img').read_bytes() == source
         record('ordinary-development-composition-ignores-fault-controls')
+
+        root, params, execution, source, _ = setup(fault)
+        response = cli(arguments(execution), fault,
+                       {'DISKED_TEST_RECURSIVE_WORKER': 'execute_wait_cancel'})
+        operation = response['operation_id']
+        observe(params, operation, terminal=False)
+        frame = dict(schema='org.disked.request/1', request_id='disconnect:req',
+                     command='operation.watch', parameters=dict(operation_id=operation,
+                     state_directory=params['state_directory'], follow_ms='2000'),
+                     required_features=['org.disked.fat-tree-operation-events/1'])
+        watcher = subprocess.Popen([exe, 'protocol', 'serve', '--format', 'ndjson'],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=clean)
+        rows, arrived = [], threading.Event()
+        def first_event():
+            line = watcher.stdout.readline()
+            if line:
+                rows.append(json.loads(line))
+                arrived.set()
+        try:
+            watcher.stdin.write(canonical(frame)+b'\n')
+            watcher.stdin.close()
+            reader = threading.Thread(target=first_event, daemon=True)
+            reader.start()
+            assert arrived.wait(8), 'actual watch emitted no first event'
+            reader.join(timeout=2)
+            assert not reader.is_alive() and rows[0]['schema'] == 'org.disked.event/1'
+            bundle.validate('urn:disked:schema:fat-tree-operation-event-prototype:1', rows[0])
+            watcher.stdout.close()
+            code = watcher.wait(timeout=10)
+            assert not watcher.stderr.read()
+            assert code != 0, 'failed output channel was reported as success'
+            active = observe(params, operation, terminal=False)
+            assert active['controller']['observation'] == 'running'
+            assert active['history']['state'] == 'recorded_active'
+            assert not active['history']['last_worker']['cancellation_requested']
+            first = rows[0]
+            resume = dict(operation_id=operation,state_directory=params['state_directory'],
+                          after_sequence=first['sequence'],
+                          after_digest=first['payload']['record_digest'][7:],
+                          worker_epoch=first['payload']['worker_epoch'])
+            resumed = cli(['operation','watch',operation,'--state-dir',params['state_directory'],
+                           '--after-sequence',resume['after_sequence'],'--after-digest',resume['after_digest'],
+                           '--worker-epoch',resume['worker_epoch']])
+            for event in resumed['result']['events']:
+                assert int(event['sequence']) > int(first['sequence'])
+            record('closed-watch-pipe-keeps-owner-live-and-cursor-resumable', exit_code=code)
+        finally:
+            if watcher.poll() is None:
+                watcher.kill(); watcher.wait(timeout=5)
+            cli(['operation','cancel',operation,'--state-dir',params['state_directory']])
+            final = observe(params,operation)
+            assert final['history']['state'] == 'recorded_partial'
+            assert (root/'source.img').read_bytes() == source
+
+        for mode, expected_exit in (('execute_hang','31'),('exit_after_root','93')):
+            root, params, execution, source, _ = setup(fault)
+            response = cli(arguments(execution), fault, {'DISKED_TEST_RECURSIVE_WORKER':mode})
+            operation = response['operation_id']
+            if mode == 'execute_hang':
+                cancelled = cli(['operation','cancel',operation,'--state-dir',params['state_directory']])
+                assert cancelled['result']['cancellation_request'] == 'requested'
+            final = observe(params,operation)
+            assert final['history']['state'] == 'recorded_exit_unresolved', final
+            assert final['history']['last_worker']['worker']['exit_code'] == expected_exit, final
+            assert final['history']['last_worker']['outcome'] is None
+            assert (root/'source.img').read_bytes() == source
+            assert (root/'output').is_dir() and not list((root/'output').iterdir())
+            before = {p.name:p.read_bytes() for p in (root/'store').iterdir()}
+            repeated = cli(arguments(execution),fault)
+            assert repeated['status'] in ('refused','unknown'),repeated
+            assert before == {p.name:p.read_bytes() for p in (root/'store').iterdir()}
+            record('owned-unresponsive-or-exited-writer-no-replacement', fault=mode,exit_code=expected_exit)
 
         for mode in ('fat_tree_request.full', 'fat_tree_state.short', 'fat_tree_state.flush'):
             root, params, execution, source, _ = setup(fault)

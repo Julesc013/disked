@@ -1,5 +1,16 @@
 # Source structure and release review follow-up
 
+## Recursive interruption and producer checkpoint: 14 October 2026
+
+Actual closed watch output preserves the independent operation and digest-bound
+resumption; unresponsive and abruptly exited writers preserve unresolved history
+without replacement. Strict emitted event shape/semantic validation is separate
+from compatible additive reader acceptance. A real exit race exposed contradictory
+worker/dependency observations; the worker now derives both from one snapshot.
+Original failure evidence stays intact. Existing source ownership accommodates
+these changes. Normal admission and full exact-source qualification remain before
+DE-W057 review; complete all-platform/storage0.1.0 and release remain open.
+
 ## Current naming and release assessment: 14 October 2026
 
 Read-only GitHub checks at this assessment find DiskEd dev at
