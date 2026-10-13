@@ -11,7 +11,4 @@ struct FatFileContentRequest {
 void validate_fat_file_content_request(const FatFileContentRequest &);
 json::Value fat_file_content_request_value(const FatFileContentRequest &);
 FatFileContentRequest fat_file_content_request_from(const json::Value &);
-// Comparison digest of the exact metadata observation with only its capture
-// epoch replaced by zero. It authenticates no native source or process.
-std::string fat_content_metadata_digest(const json::Value &);
 } // namespace disked

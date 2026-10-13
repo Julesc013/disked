@@ -12,7 +12,7 @@ int wmain(int argc,wchar_t** argv) {
         if(argc!=1)throw std::runtime_error("probe_input");std::string input;char block[4096];
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>65536)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         const auto v=disked::json::parse(input);const auto mode=text(v,"mode");
-        const disked::Registry registry{disked::json::parse(bootstrap::command_catalog_json),disked::json::parse(bootstrap::syntax_json),disked::json::parse(bootstrap::parameter_schemas_json)};
+        const disked::Registry registry=disked::compiled_registry(bootstrap::command_catalog_json,bootstrap::syntax_json,bootstrap::parameter_schemas_json);
         auto ports=disked::acquisition_actions();
         unsigned prepare_calls=0,execute_calls=0;
         if(mode=="audit") {

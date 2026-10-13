@@ -219,7 +219,7 @@ public:
             }
         }
         const auto command=state.find("command");std::string summary=model->cached_observations()?"Current: cached observations | Proposed: none":"Current: cached fake observations | Proposed: none";
-        if(state.find("form")->boolean && command && command->text=="image.acquire") {
+        if(state.find("form")->boolean && command && (command->text=="image.acquire" || command->text=="filesystem.extract")) {
             const auto phase=state.find("parameters")->find("phase");
             summary=phase && phase->text=="prepare"?"Acquisition: metadata preparation; no copy admitted":
                 "Acquisition: execution request; inspect exact definition and effect grants";

@@ -12,14 +12,21 @@ std::string digest(const V& v) {
     const char alphabet[]="0123456789abcdef";std::string result="sha256:";for(const auto b:hash) {result+=alphabet[b>>4];result+=alphabet[b&15];}return result;
 }
 bool operation_id(const V& v) {return v.kind==V::Kind::string && v.text.size()==41 && v.text.compare(0,9,"image-op:")==0 && v.text.find_first_not_of("0123456789abcdef",9)==std::string::npos;}
-Outcome translate(const std::string& request,const V& reply,bool observation) {
+const char* scope(bool logical) {
+    return logical ? "ordinary-local-fat-file-extraction" : "ordinary-local-raw-file-acquisition";
+}
+bool logical_definition(const V& definition) {
+    return text(definition,"schema")=="org.disked.acquisition-worker-definition/2";
+}
+Outcome translate(const std::string& request,const V& reply,bool observation,bool logical=false) {
     if(reply.kind!=V::Kind::object || reply.fields.size()!=6 || text(reply,"schema")!="org.disked.acquisition-admission-prototype/1")throw AcquisitionCommandError("acquisition_reply_shape");
     const auto status=text(reply,"status"),code=text(reply,"diagnostic");const auto& id=get(reply,"operation_id");
     const auto platform=text(reply,"platform_code");if(!json::decimal_u64(platform) || std::stoull(platform)>0xffffffffULL)throw AcquisitionCommandError("acquisition_reply_shape");
     if(id.kind!=V::Kind::null && !operation_id(id))throw AcquisitionCommandError("acquisition_reply_identity");
     if(status=="accepted_running" && !operation_id(id))throw AcquisitionCommandError("acquisition_reply_identity");
     auto value=get(reply,"value");if(value.kind!=V::Kind::object)throw AcquisitionCommandError("acquisition_reply_shape");
-    value.put("scope",V::string("ordinary-local-raw-file-acquisition")).put("request_kind",V::string(observation?"operation-observation":"acquisition-execution"));
+    if(const auto d=value.find("definition"))logical=logical_definition(*d);
+    value.put("scope",V::string(observation && !value.find("definition") ? "ordinary-local-file-acquisition" : scope(logical))).put("request_kind",V::string(observation?"operation-observation":"acquisition-execution"));
     auto out=completed(request,value);out.response.put("operation_id",id);
     if(status=="accepted_running") {
         const auto& state=get(value,"state");
@@ -35,7 +42,7 @@ Outcome translate(const std::string& request,const V& reply,bool observation) {
     }
     else if(status!="completed")throw AcquisitionCommandError("acquisition_reply_status");
     else if(!observation) {
-        const auto& state=get(value,"state");const auto logical=text(get(state,"outcome"),"status");
+        const auto& state=get(value,"state");const auto completion_status=text(get(state,"outcome"),"status");
         if(text(state,"phase")!="finished" || get(state,"quiescent").kind!=V::Kind::boolean || !get(state,"quiescent").boolean)throw AcquisitionCommandError("acquisition_reply_state");
         const auto& binding=get(state,"binding");const auto& reviewed=get(value,"definition");const auto& outcome=get(state,"outcome");
         if(json::dump(get(binding,"operation_id"))!=json::dump(id) || text(binding,"definition_digest")!=digest(reviewed) ||
@@ -45,27 +52,29 @@ Outcome translate(const std::string& request,const V& reply,bool observation) {
         for(const auto name:{"checkpoint_bytes","source_bytes","substituted_bytes"})
             if(text(state,name)!=text(outcome,name))throw AcquisitionCommandError("acquisition_reply_coverage");
         const auto plan=acquisition::prepare(get(reviewed,"plan"));
-        if(logical=="completed" || logical=="completed_with_substitution") {
+        if(completion_status=="completed" || completion_status=="completed_with_substitution") {
             const auto covered=text(outcome,"checkpoint_bytes"),source=text(outcome,"source_bytes"),zeros=text(outcome,"substituted_bytes");
             if(!json::decimal_u64(covered) || !json::decimal_u64(source) || !json::decimal_u64(zeros) ||
                std::stoull(covered)!=plan.bytes || std::stoull(source)>plan.bytes || std::stoull(zeros)!=plan.bytes-std::stoull(source) ||
-               (logical=="completed")!=(std::stoull(zeros)==0) || get(outcome,"uncertain_effect").kind!=V::Kind::boolean || get(outcome,"uncertain_effect").boolean)
+               (completion_status=="completed")!=(std::stoull(zeros)==0) || get(outcome,"uncertain_effect").kind!=V::Kind::boolean || get(outcome,"uncertain_effect").boolean)
                 throw AcquisitionCommandError("acquisition_reply_coverage");
         }
-        if(logical!="completed" && logical!="completed_with_substitution") {
+        if(completion_status!="completed" && completion_status!="completed_with_substitution") {
             out.response.put("status",V::string("failed"));out.exit_code=4;
-            out.response.fields["diagnostics"].items.push_back(diagnostic(logical=="paused"?"acquisition_incomplete_paused":"acquisition_execution_not_completed"));
+            out.response.fields["diagnostics"].items.push_back(diagnostic(completion_status=="paused"?"acquisition_incomplete_paused":"acquisition_execution_not_completed"));
         }
     }
     if(!code.empty())out.response.fields["diagnostics"].items.push_back(diagnostic(code));
     if(platform!="0" && !out.response.fields["diagnostics"].items.empty())out.response.fields["diagnostics"].items.back().put("platform_code",V::string(platform));
     json::dump(out.response);return out;
 }
-void definition(const Registry& registry,const V& value) {
-    auto descriptor=V::object().put("syntax_status",V::string("defined")).put("parameter_schema",V::string("urn:disked:schema:acquisition-worker-definition:1"));
+void definition(const Registry& registry,const V& value,bool logical) {
+    auto descriptor=V::object().put("syntax_status",V::string("defined")).put("parameter_schema",V::string(logical?"urn:disked:schema:acquisition-worker-definition:2":"urn:disked:schema:acquisition-worker-definition:1"));
     const auto error=validate_parameters(registry,descriptor,value);if(!error.empty())throw AcquisitionCommandError("acquisition_definition_shape");
     acquisition::prepare(get(value,"plan"));
     const auto& request=get(value,"request");const auto& plan=get(value,"plan");
+    if(logical && json::dump(get(request,"logical_source"))!=json::dump(get(plan,"logical_source")))
+        throw AcquisitionCommandError("acquisition_definition_selection");
     if(text(request,"chunk_bytes")!=text(plan,"chunk_bytes") || text(request,"retry_limit")!=text(plan,"retry_limit") ||
        text(request,"read_policy")!=text(plan,"read_policy") || text(request,"substitution")!=text(plan,"substitution"))
         throw AcquisitionCommandError("acquisition_definition_options");
@@ -79,20 +88,22 @@ Outcome acquisition_observation(const std::string& request,const V& reply) {
         return out;
     }
 }
-Outcome dispatch_acquisition(const Registry& registry,const std::string& request,const V& parameters,const AcquisitionActions& actions) {
+Outcome dispatch_acquisition(const Registry& registry,const std::string& request,const V& parameters,const AcquisitionActions& actions,const std::string& command) {
     bool execution_invoked=false;V worker_reply;
     try {
-        const auto descriptor=registry.command("image.acquire");if(!descriptor)return refused(request,"command_unavailable",3);
+        if(command!="image.acquire" && command!="filesystem.extract")return refused(request,"command_unavailable",3);
+        const bool logical=command=="filesystem.extract";
+        const auto descriptor=registry.command(command);if(!descriptor)return refused(request,"command_unavailable",3);
         const auto error=validate_parameters(registry,*descriptor,parameters);if(!error.empty())return refused(request,error);
         if(text(parameters,"phase")=="prepare") {
             if(!actions.prepare)return refused(request,"acquisition_provider_unavailable",3);
             const auto prepared=actions.prepare(parameters);if(prepared.kind!=V::Kind::object || prepared.fields.size()!=2)throw AcquisitionCommandError("acquisition_preparation_shape");
-            definition(registry,get(prepared,"definition"));if(text(prepared,"definition_digest")!=digest(get(prepared,"definition")))throw AcquisitionCommandError("acquisition_preparation_digest");
+            definition(registry,get(prepared,"definition"),logical);if(text(prepared,"definition_digest")!=digest(get(prepared,"definition")))throw AcquisitionCommandError("acquisition_preparation_digest");
             auto report=prepared;report.put("phase",V::string("prepare")).put("execution_admitted",V::boolean_value(false))
-                .put("scope",V::string("ordinary-local-raw-file-acquisition")).put("source_consistency",V::string("live-uncoordinated"));
+                .put("scope",V::string(scope(logical))).put("source_consistency",V::string("live-uncoordinated"));
             return completed(request,report);
         }
-        const auto& reviewed=get(parameters,"definition");definition(registry,reviewed);
+        const auto& reviewed=get(parameters,"definition");definition(registry,reviewed,logical);
         if(text(parameters,"definition_digest")!=digest(reviewed))return refused(request,"acquisition_worker_grant",3);
         auto grant=V::object().put("definition_digest",get(parameters,"definition_digest"));
         for(const auto name:{"source_read","destination_write","map_write","host_effects"}) {
@@ -106,7 +117,7 @@ Outcome dispatch_acquisition(const Registry& registry,const std::string& request
             if(const auto returned=value->find("definition"))if(json::dump(*returned)!=json::dump(reviewed))throw AcquisitionCommandError("acquisition_reply_definition");
             if(const auto hash=value->find("definition_digest"))if(hash->kind!=V::Kind::string || hash->text!=digest(reviewed))throw AcquisitionCommandError("acquisition_reply_definition");
         }
-        return translate(request,worker_reply,false);
+        return translate(request,worker_reply,false,logical);
     } catch(const std::exception& error) {
         if(execution_invoked) {
             auto recovery=V::object().put("request_state",V::string("unresolved"));

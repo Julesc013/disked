@@ -183,7 +183,7 @@ std::vector<std::string> TuiModel::body() const {
             const auto typed=presentation_lines(typed_,limits);lines.insert(lines.end(),typed.begin(),typed.end());
         }
         if(FrontendSession::handles(command_))lines.push_back("Expected graph revision: "+review_revision_);
-        if(command_=="image.acquire")lines.push_back("Execution binds the exact acquisition definition and digest, with separate effect grants.");
+        if(command_=="image.acquire" || command_=="filesystem.extract")lines.push_back("Execution binds the exact acquisition definition and digest, with separate effect grants.");
         lines.push_back("No storage permission is granted by review.");
     } else lines=tui_json_lines(outcome_.response);
     if(!pending_.id().empty())lines.push_back("Pending request: "+pending_.id()+"; no outcome or permission to retry");

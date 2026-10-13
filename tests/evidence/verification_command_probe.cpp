@@ -14,7 +14,7 @@ int wmain(int argc,wchar_t** argv) {
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>4194304)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         auto limits=disked::verification_operation::definition_limits();limits.bytes=4194304;limits.string_bytes=3145728;limits.values=262144;
         const auto v=disked::json::parse(input,limits);const auto mode=text(v,"mode");
-        const disked::Registry registry{disked::json::parse(bootstrap::command_catalog_json),disked::json::parse(bootstrap::syntax_json),disked::json::parse(bootstrap::parameter_schemas_json)};
+        const disked::Registry registry=disked::compiled_registry(bootstrap::command_catalog_json,bootstrap::syntax_json,bootstrap::parameter_schemas_json);
         if(mode=="watch-reader") {
             const auto& header=get(v,"header");const auto p=v.find("snapshot");
             disked::WatchReader reader(text(header,"operation_id"),v.find("worker_epoch")?text(v,"worker_epoch"):"",v.find("sequence")?text(v,"sequence"):"0",v.find("digest")?text(v,"digest"):std::string(64,'0'),p && p->boolean,disked::verification_watch_profile(header));

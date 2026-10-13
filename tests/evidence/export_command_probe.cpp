@@ -31,7 +31,7 @@ int wmain(int argc,wchar_t** argv) {
         for(;;) {const auto n=std::fread(block,1,sizeof(block),stdin);input.append(block,n);if(input.size()>1048576)throw std::runtime_error("probe_input");if(n<sizeof(block))break;}
         auto limits=disked::report_operation::definition_limits();limits.bytes=1048576;limits.string_bytes=65536;limits.values=131072;limits.depth=32;
         const auto v=disked::json::parse(input,limits);const auto mode=text(v,"mode");
-        const disked::Registry registry{disked::json::parse(bootstrap::command_catalog_json),disked::json::parse(bootstrap::syntax_json),disked::json::parse(bootstrap::parameter_schemas_json)};
+        const disked::Registry registry=disked::compiled_registry(bootstrap::command_catalog_json,bootstrap::syntax_json,bootstrap::parameter_schemas_json);
         if(mode=="shape-audit") {const auto result=shape_error(registry,*registry.parameter_schemas.find("urn:disked:schema:export-command-parameters:1"),get(v,"parameters"),"");std::puts(disked::json::dump(result).c_str());return 0;}
         if(mode=="watch-reader") {
             const auto& header=get(v,"header");const auto profile=disked::report_watch_profile(header);const auto p=v.find("snapshot");

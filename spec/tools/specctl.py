@@ -25,6 +25,9 @@ SCHEMA_PREFIX = 'urn:disked:schema:'
 U64_MAX = 18446744073709551615
 SEMANTICS = {SCHEMA_PREFIX+name+':1':name for name in ('extent','graph','fake-graph','fake-operation','fake-operation-record','handoff','plan','event','fake-operation-event','command-watch-parameters','command-resize-proposal-parameters')}
 SEMANTICS[SCHEMA_PREFIX+'acquisition-plan-logical-prototype:2']='acquisition-logical-plan'
+SEMANTICS[SCHEMA_PREFIX+'acquisition-worker-definition:2']='acquisition-worker-definition'
+SEMANTICS[SCHEMA_PREFIX+'fat-extraction-command-parameters:1']='acquisition-command-parameters'
+SEMANTICS[SCHEMA_PREFIX+'fat-file-selector:1']='fat-file-selector'
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
     'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
@@ -424,7 +427,18 @@ def semantic_validate(kind: str | None, value: dict):
             raise SpecError('Joint case export completion lacks source/output evidence')
         if value['status']=='unknown' and (output['output_state']!='uncertain' or not output['uncertain_effect']):
             raise SpecError('Unknown case export lacks uncertain effect')
+    elif kind == 'fat-file-selector':
+        first=bounded_u64(value['volume_offset'],'FAT selection offset')
+        length=bounded_u64(value['volume_bytes'],'FAT selection length')
+        if length<512 or first>U64_MAX-length:raise SpecError('FAT selection window outside bounds')
+        for field,maximum in (('fat_copy',15),('node_id',127),('expected_file_bytes',0xffffffff)):
+            if bounded_u64(value[field],field)>maximum:raise SpecError('FAT selection quantity outside bounds: '+field)
     elif kind == 'acquisition-worker-definition':
+        if value['schema']=='org.disked.acquisition-worker-definition/2':
+            semantic_validate('acquisition-logical-plan',value['plan'])
+            semantic_validate('fat-file-selector',value['request']['logical_source'])
+            if value['request']['logical_source']!=value['plan']['logical_source']:
+                raise SpecError('Acquisition request/plan selection disagrees')
         for field in ('volume_id','created'):
             bounded_u64(value['store']['generation'][field],'acquisition directory '+field)
         for field in ('chunk_bytes','retry_limit','read_policy','substitution'):
@@ -439,6 +453,7 @@ def semantic_validate(kind: str | None, value: dict):
         strings(value)
     elif kind == 'acquisition-command-parameters':
         if value['phase']=='execute':semantic_validate('acquisition-worker-definition',value['definition'])
+        elif 'logical_source' in value:semantic_validate('fat-file-selector',value['logical_source'])
     elif kind == 'acquisition-worker-state':
         acquisition_record_limits(value,16384)
         sequence=bounded_u64(value['sequence'],'acquisition sequence')

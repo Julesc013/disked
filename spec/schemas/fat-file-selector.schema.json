@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "volume_offset": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "volume_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "fat_copy": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "expected_file_bytes": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,19})$"
+    },
+    "kind": {
+      "const": "fat-file"
+    },
+    "metadata_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "kind",
+    "volume_offset",
+    "volume_bytes",
+    "fat_copy",
+    "node_id",
+    "expected_file_bytes",
+    "metadata_digest"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:fat-file-selector:1",
+  "title": "Provisional exact basic FAT file selection; grants no source or destination authority"
+}

@@ -120,7 +120,7 @@ void ShellModel::review() {
         diagnostic(parsed.command_id=="shell.open" || parsed.command_id=="protocol.serve"?"shell_nested_session":"command_unavailable",0);return;
     }
     if(parsed.help_requested)parsed.kind="help";
-    if(rejected_input_ && (parsed.command_id=="image.acquire" || parsed.command_id=="evidence.export") && parsed.parameters.find("phase") && parsed.parameters.find("phase")->text=="execute") {
+    if(rejected_input_ && (parsed.command_id=="image.acquire" || parsed.command_id=="filesystem.extract" || parsed.command_id=="evidence.export") && parsed.parameters.find("phase") && parsed.parameters.find("phase")->text=="execute") {
         diagnostic("shell_rejected_definition_input",0);return;
     }
     reviewed_=std::move(parsed);review_revision_=snapshot_->revision();view_=View::Review;

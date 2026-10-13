@@ -25,6 +25,6 @@ bool fat_inspection_parameters(const json::Value &);
 bool decode_fat_inspection(const json::Value &, FatInspectionRequest &);
 Outcome dispatch_fat_inspection(const std::string &, const json::Value &,
                                 const FatInspectionPort &, FatCaptureStore *store = nullptr);
-json::Value project_fat_inspection(const FatInspectionRead &);
+json::Value project_fat_inspection(const FatInspectionRead &, bool basic_selection = false);
 constexpr std::size_t fat_inspection_response_bytes = 524288;
 } // namespace disked

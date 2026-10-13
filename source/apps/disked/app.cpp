@@ -115,7 +115,7 @@ Outcome verification_action(const std::string& request,const Value& parameters) 
     return out;
 }
 bool background_command(const std::string& command) {
-    return fake_worker_command(command) || image_command(command) || command=="image.acquire" || command=="evidence.export" || command=="image.verify";
+    return fake_worker_command(command) || image_command(command) || (command=="image.acquire" || command=="filesystem.extract") || command=="evidence.export" || command=="image.verify";
 }
 std::size_t request_bytes(const std::string& command,const Value& parameters) {
     if(command=="image.inspect" && fat_inspection_parameters(parameters))return fat_inspection_response_bytes;
@@ -144,6 +144,7 @@ Value build_information() {
         .put("image_provider",Value::string(bootstrap::image_provider_id))
         .put("fat_provider",Value::string(bootstrap::fat_provider_id))
         .put("acquisition_provider",Value::string(bootstrap::acquisition_provider_id))
+        .put("fat_extraction_provider",Value::string(bootstrap::fat_extraction_provider_id))
         .put("report_provider",Value::string(bootstrap::report_provider_id))
         .put("joined_report_provider",Value::string(bootstrap::joined_report_provider_id))
         .put("verification_provider",Value::string(bootstrap::verification_provider_id));
@@ -155,7 +156,7 @@ Value command_description(const Value& command) {
     out.put("availability",Value::string(available?"available":"unavailable"));
     const auto id=command.find("id")->text;
     out.put("reason",Value::string(!available?"not_implemented":id=="shell.open"?"interactive_console_required":
-        id=="shell.close"?"shell_session_only":id=="health.assess"?"compiled_fake_health_fixtures_only":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
+        id=="shell.close"?"shell_session_only":id=="health.assess"?"compiled_fake_health_fixtures_only":id=="filesystem.extract"?"ordinary_local_fat_file_extraction":id=="image.acquire"?"ordinary_local_raw_file_acquisition":image_command(id)?"ordinary_local_raw_file_subset":
         id=="image.verify"?"recorded_acquired_image_verification":id=="evidence.export"?"recorded_acquisition_case_support_export":fake_worker_command(id)?(id=="plan.simulate"?"fake_operation_subset":"ordinary_file_and_fake_operation_subset"):"synchronous_native_subset"));return out;
 }
 Value discovery(const ParseResult* help=nullptr) {
@@ -174,7 +175,7 @@ Value discovery(const ParseResult* help=nullptr) {
 Outcome dispatch(const std::string& request,const std::string& command,const Value& parameters,const InvocationHost& host,const Value& inputs,
     std::unique_ptr<FrontendSession>& session,const std::shared_ptr<FatCaptureStore>& captures,const std::string& revision="") {
     if(!implemented(command))return refused(request,"command_unavailable",3);
-    if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+    if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
     if(command=="evidence.export")return report_action(request,parameters);
     if(command=="image.verify")return verification_action(request,parameters);
     if(command=="build.inspect")return completed(request,build_information());
@@ -206,7 +207,7 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
         // A frontend graph/view revision is not a file-source precondition.
         // Stdio rejects expected_revision for image commands before dispatch.
         return channel.submit(request,[request,command,parameters,captures]() {
-            if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+            if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters,captures):operation_action(request,command,parameters);
@@ -232,7 +233,7 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
         else if(command=="evidence.export" || report_identity(parameters))expired=export_unresolved_request(request,parameters);
         return calls->run(request,[request,command,parameters,captures]() {
-            if(command=="image.acquire")return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions());
+            if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters,captures):operation_action(request,command,parameters);

@@ -45,4 +45,7 @@ class FatContentMap {
 };
 FatContentMap prepare_fat_content(const json::Value &observation, std::uint64_t node_id,
                                   const FatContentBinding &expected);
+// Comparison digest of the exact metadata observation with only its capture
+// epoch replaced by zero. It authenticates no native source or process.
+std::string fat_content_metadata_digest(const json::Value &);
 } // namespace disked

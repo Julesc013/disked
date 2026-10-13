@@ -12,7 +12,7 @@ int main(int argc,char**) {
     disked::FrontendSession session(registry,input,{},disked::fake_health_observation);Value discovery=Value::object(),commands=registry.commands;
     for(auto& c:commands.items) {
         bool available=false;for(const auto& row:bootstrap::commands)if(c.find("id")->text==row.id)available=row.implemented;
-        if(argc==2 && c.find("id")->text=="image.acquire")available=true;
+        if(argc==2 && (c.find("id")->text=="image.acquire" || c.find("id")->text=="filesystem.extract"))available=true;
         c.put("availability",Value::string(available?"available":"unavailable"));
     }
     discovery.put("commands",commands);
@@ -24,7 +24,7 @@ int main(int argc,char**) {
             return result;
         }
         if(disked::FrontendSession::handles(command))return session.dispatch(id,command,parameters,revision);
-        auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire")result.put("test_parameters",parameters);
+        auto result=Value::object().put("test_static",Value::string(command));if(command=="image.acquire" || command=="filesystem.extract")result.put("test_parameters",parameters);
         return disked::completed(id,result);
     },[&](disked::Outcome& result) {
         if(!ready)return false;ready=false;

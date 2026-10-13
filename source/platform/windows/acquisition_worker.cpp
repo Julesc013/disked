@@ -64,8 +64,15 @@ void no_store_alias(const Directory& directory,const FileAcquisitionRequest& r) 
 }
 void definition_valid(const V& d) {
     keys(d,{"schema","request","plan","store","host_id","image_digest","source_revision","input_digest","target_profile"});
-    if(text(d,"schema")!="org.disked.acquisition-worker-definition/1" || text(d,"target_profile")!="windows.nt10.x64.win32")reject("acquisition_worker_version");
-    if(!request_from(field(d,"request")).explicit_options)reject("acquisition_definition_options");
+    const auto request=request_from(field(d,"request"));
+    const bool logical=request.logical_source.kind!=V::Kind::null;
+    if(text(d,"schema")!=(logical?"org.disked.acquisition-worker-definition/2":"org.disked.acquisition-worker-definition/1") ||
+       text(d,"target_profile")!="windows.nt10.x64.win32" ||
+       text(field(d,"plan"),"schema")!=(logical?"org.disked.acquisition-plan-prototype/2":"org.disked.acquisition-plan-prototype/1"))reject("acquisition_worker_version");
+    if(!request.explicit_options)reject("acquisition_definition_options");
+    if(logical && json::dump(request.logical_source)!=json::dump(field(field(d,"plan"),"logical_source")))reject("acquisition_definition_selection");
+    for(const auto name:{"chunk_bytes","retry_limit","read_policy","substitution"})
+        if(json::dump(field(field(d,"request"),name))!=json::dump(field(field(d,"plan"),name)))reject("acquisition_definition_options");
     acquisition::prepare(field(d,"plan"));
     keys(field(d,"store"),{"path","generation","access","children","failure_domain"});
     identifier(text(d,"host_id"),"",64);identifier(text(d,"image_digest"),"",64);identifier(text(d,"source_revision"),"",40);identifier(text(d,"input_digest"),"sha256:",64);
@@ -132,7 +139,7 @@ struct Recorder {
 }
 V prepare_acquisition_worker(const FileAcquisitionRequest& request,const std::string& state_directory) {
     Directory directory(state_directory);directory.empty();Security security;Image image;no_store_alias(directory,request);FileAcquisition session(request);
-    auto definition=V::object().put("schema",V::string("org.disked.acquisition-worker-definition/1")).put("request",request_value(request)).put("plan",session.plan().definition)
+    auto definition=V::object().put("schema",V::string(request.logical_source.kind==V::Kind::null?"org.disked.acquisition-worker-definition/1":"org.disked.acquisition-worker-definition/2")).put("request",request_value(request)).put("plan",session.plan().definition)
         .put("store",store_binding(directory)).put("host_id",V::string(security.host_id)).put("image_digest",V::string(image.digest))
         .put("source_revision",V::string(bootstrap::source_revision)).put("input_digest",V::string(bootstrap::input_digest)).put("target_profile",V::string(bootstrap::target));
     auto resolved=request;resolved.explicit_options=true;resolved.chunk_bytes=session.plan().chunk_bytes;resolved.retries=session.plan().retries;
@@ -261,6 +268,7 @@ AcquisitionActions acquisition_actions() {
     AcquisitionActions ports;
     ports.prepare=[](const V& p) {
         FileAcquisitionRequest r;r.source=text(p,"source");r.destination=text(p,"destination");r.map=text(p,"map");
+        if(const auto selection=p.find("logical_source"))r.logical_source=*selection;
         if(const auto resume=p.find("resume"))r.resume=resume->boolean;
         if(const auto n=p.find("chunk_bytes"))r.chunk_bytes=static_cast<std::uint32_t>(std::stoul(n->text));
         if(const auto n=p.find("retry_limit"))r.retries=static_cast<std::uint32_t>(std::stoul(n->text));

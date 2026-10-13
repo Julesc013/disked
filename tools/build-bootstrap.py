@@ -86,7 +86,7 @@ def generate(args):
     if profile["fake_provider_id"] != "provider.fake.bootstrap/1":
         raise ValueError("Private fake graph profile requires an explicit provider identity change")
     if implemented != {"build.inspect", "command.list", "protocol.serve", "mode.explain", "target.list", "target.inspect", "topology.show", "capability.explain",
-                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire", "health.assess", "evidence.export", "image.verify", "table.gpt.repair.plan", "image.capture.inspect", "image.capture.release"}:
+                       "plan.simulate", "operation.inspect", "operation.cancel.request", "operation.watch", "shell.open", "shell.close", "image.inspect", "table.verify", "image.acquire", "health.assess", "evidence.export", "image.verify", "table.gpt.repair.plan", "image.capture.inspect", "image.capture.release", "filesystem.extract"}:
         raise ValueError("Bootstrap handlers require an explicit contract/code change")
     if args.compiler_version != profile["compiler_version"] or args.sdk != profile["sdk"] or args.configuration != "Release":
         raise ValueError("Actual build configuration differs from bootstrap profile")
@@ -95,6 +95,8 @@ def generate(args):
         raise ValueError("Image profile requires an explicit provider identity change")
     if profile.get("fat_provider_id") != "provider.image.fat.prototype/1":
         raise ValueError("FAT profile requires an explicit provider identity change")
+    if profile.get("fat_extraction_provider_id") != "provider.image.acquire.fat-file.prototype/1":
+        raise ValueError("Logical FAT extraction requires its explicit provider profile")
     if profile.get("acquisition_provider_id") != "provider.image.acquire.raw.prototype/1":
         raise ValueError("Acquisition profile requires an explicit provider identity change")
     if profile.get("report_provider_id") != "provider.report.acquisition-case.prototype/1":
@@ -107,7 +109,7 @@ def generate(args):
         raise ValueError("Wrong bootstrap composition")
     components = {c["id"]: c for c in read(root / "spec/catalog/components.json")["components"]}
     selected = set(composition["components"])
-    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.fat.prototype", "provider.image.acquire.raw.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
+    if selected != {"entry.disked.image.prototype", "provider.fake.bootstrap", "provider.image.raw.prototype", "provider.image.fat.prototype", "provider.image.acquire.raw.prototype", "provider.image.acquire.fat-file.prototype", "provider.report.acquisition-case.prototype", "provider.image.verify.recorded.prototype", "provider.report.acquisition-verification.prototype"}:
         raise ValueError("Image prototype closure is explicitly limited to entry, fake, raw-file/FAT observations, acquisition and recorded case report export/verification")
     for name in selected:
         if components[name]["storage_authority"] not in ("none", "fake", "image") or not set(components[name]["depends_on"]) <= selected:
@@ -161,6 +163,7 @@ def generate(args):
     header += ["static const char* const image_provider_id = " + cpp(profile["image_provider_id"]) + ";"]
     header += ["static const char* const fat_provider_id = " + cpp(profile["fat_provider_id"]) + ";"]
     header += ["static const char* const acquisition_provider_id = " + cpp(profile["acquisition_provider_id"]) + ";"]
+    header += ["static const char* const fat_extraction_provider_id = " + cpp(profile["fat_extraction_provider_id"]) + ";"]
     header += ["static const char* const report_provider_id = " + cpp(profile["report_provider_id"]) + ";"]
     header += ["static const char* const joined_report_provider_id = " + cpp(profile["joined_report_provider_id"]) + ";"]
     header += ["static const char* const verification_provider_id = " + cpp(profile["verification_provider_id"]) + ";"]
@@ -174,6 +177,8 @@ def generate(args):
     schemas = parameter_schema_closure(all_schemas, schema_ids, inputs, root)
     for name, value in [('command_catalog_json', commands), ('syntax_json', syntax), ('parameter_schemas_json', schemas)]:
         text = json.dumps(value, ensure_ascii=True, separators=(',', ':'))
+        if len(text.encode('utf-8'))>262144:
+            raise ValueError('Compiled catalog exceeds its separate 256KiB budget: '+name)
         header.append('static const char* const '+name+' =')
         header.extend(cpp(text[i:i+1024]) for i in range(0, len(text), 1024))
         header.append(';')

@@ -194,6 +194,10 @@ std::string decode_parameter(const Value& shape,const std::string& text_value,Va
 const Value* Registry::command(const std::string& id) const {
     for(const auto& c:commands.items)if(text(c,"id")==id)return &c;return nullptr;
 }
+Registry compiled_registry(const std::string& commands,const std::string& syntax,const std::string& schemas) {
+    json::Limits limits;limits.bytes=262144;limits.values=32768;
+    return {json::parse(commands,limits),json::parse(syntax,limits),json::parse(schemas,limits)};
+}
 void ParseResult::error(const std::string& code,std::size_t token) {
     diagnostics.items.push_back(Value::object().put("code",Value::string(code)).put("token",Value::number(std::to_string(token))));
 }
@@ -269,7 +273,7 @@ std::size_t form_field_limit(const Value& shape) {
     const auto type=text(shape,"type");
     if(type=="string" || type=="boolean")return 4096;
     const auto* budget=shape.find("x-disked-byte-budget");
-    if(type!="object" || !budget || budget->kind!=Value::Kind::number || (budget->text!="256" && budget->text!="16384" && budget->text!="65536"))throw std::invalid_argument("form_unavailable");
+    if(type!="object" || !budget || budget->kind!=Value::Kind::number || (budget->text!="256" && budget->text!="4096" && budget->text!="16384" && budget->text!="65536"))throw std::invalid_argument("form_unavailable");
     return parameter_limits(shape).bytes;
 }
 std::string form_field_text(const Value& shape,const Value& supplied) {

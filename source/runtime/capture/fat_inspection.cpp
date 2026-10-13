@@ -1,4 +1,5 @@
 #include "fat_inspection.h"
+#include "fat_content.h"
 #include "portable/hash/sha256.h"
 #include <set>
 
@@ -170,9 +171,10 @@ bool decode_fat_inspection(const V &params, FatInspectionRequest &output) {
         return false;
     }
 }
-V project_fat_inspection(const FatInspectionRead &read) {
+V project_fat_inspection(const FatInspectionRead &read, bool basic_selection) {
     const auto &original = field(read.file, "observation");
     auto observation = original;
+    const auto selection_digest = basic_selection ? fat_content_metadata_digest(original) : std::string();
     auto rows = V::array();
     for (const auto &original_row : field(original, "nodes").items) {
         auto row = original_row;
@@ -184,6 +186,16 @@ V project_fat_inspection(const FatInspectionRead &read) {
                                      .put("sha256", V::string(hash(*p))));
                 row.fields.erase(key);
             }
+        if (basic_selection && field(original_row, "kind").text == "file") {
+            row.put("extraction_selector", V::object()
+                .put("kind", V::string("fat-file"))
+                .put("volume_offset", field(original, "volume_offset"))
+                .put("volume_bytes", field(original, "volume_bytes"))
+                .put("fat_copy", field(original, "fat_copy"))
+                .put("node_id", field(original_row, "id"))
+                .put("expected_file_bytes", field(original_row, "file_bytes"))
+                .put("metadata_digest", V::string(selection_digest)));
+        }
         row.put("detail_bindings", std::move(details));
         rows.items.push_back(std::move(row));
     }
@@ -295,7 +307,9 @@ Outcome dispatch_fat_inspection(const std::string &request, const V &parameters,
                 incomplete = incomplete || !flag(directory, "model_complete");
         const bool changed =
             !flag(capture, "metadata_equal") || !flag(capture, "overlaps_equal") || reread_changed;
-        auto out = completed(request, project_fat_inspection(read));
+        const bool basic = !changed && !input.allocation_scan && !input.auxiliary_checks &&
+            !input.allocation_window.clusters && !input.name_code_page && input.queries.empty();
+        auto out = completed(request, project_fat_inspection(read, basic));
         if (incomplete || changed) {
             out.exit_code = 4;
             out.response.put("status", V::string("failed"));

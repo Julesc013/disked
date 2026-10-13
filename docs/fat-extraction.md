@@ -44,3 +44,34 @@ Exact source `20ecddbd` passes complete mapped-file extraction cases, 104 native
 and 20 standalone headers in the recorded Windows lane. [Retained evidence](../.aide/evidence/2026-10-13-fat-extraction/README.md). This is complete-file backend qualification;
 public extraction, future source freshness and full product/owner admission remain
 separate. Historical failures retain their actual outcomes.
+
+## Shared command development
+
+DE-W048 adds the provisional `filesystem extract` command to the current native
+composition. Its [owning contract](../spec/catalog/fat-extraction-command-prototype.json)
+was recorded before implementation. Clean full qualification is pending.
+
+Inspect an explicit FAT volume with `image inspect SOURCE --view fat
+--volume-offset OFFSET --volume-bytes LENGTH`. Each basic file row supplies an
+`extraction_selector` object. Auxiliary, allocation-window/scan and name-consumer
+views do not supply that basic selector. A selector is comparison evidence;
+preparation independently checks the current held source and complete mapping.
+
+Prepare with `filesystem extract prepare SOURCE DESTINATION --map MAP
+--state-dir EXISTING_EMPTY_DIRECTORY --selection-json SELECTOR_JSON`. Review the
+returned definition and digest. Execute with `filesystem extract execute
+--definition-json DEFINITION_JSON --definition-digest DIGEST --allow-source-read
+--allow-destination-write --allow-map-write --allow-host-effects`. Shell, TUI, GUI
+and machine requests use the same descriptor/service. Their review step does not
+grant effects without those explicit execution fields.
+
+Logical definition2 binds logical plan2; raw definition1 remains raw plan1.
+Logical requests retain ordinary/stop/zero-retry semantics. Existing outputs,
+aliases, stale selectors and contradictory definitions refuse. Reconnect, watch
+and cancellation use the common acquisition operation ID and explicit state root.
+An observation response is separate from the operation outcome and worker exit.
+
+Compiled read-only catalogs use a separate finite parsing budget of 256 KiB and
+32,768 values. External request framing remains 64 KiB; typed definitions remain
+16 KiB and selector editors are limited to 4 KiB. This does not broaden unknown
+mutation fields, grant storage privileges or freeze a production API.

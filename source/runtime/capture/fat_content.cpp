@@ -1,5 +1,6 @@
 #include "fat_content.h"
 #include "portable/fat/fat.h"
+#include "portable/hash/sha256.h"
 #include <algorithm>
 #include <array>
 #include <limits>
@@ -357,5 +358,23 @@ json::Value FatContentMap::read(std::uint64_t offset, std::size_t count, const R
         .put("filesystem_health_qualified", V::boolean_value(false))
         .put("product_dispatch_admitted", V::boolean_value(false))
         .put("authorizes_effects", V::boolean_value(false));
+}
+std::string fat_content_metadata_digest(const V &observation) {
+    const auto &schema = field(observation, "schema");
+    if (schema.kind != V::Kind::string || schema.text != "org.disked.fat-volume-observation/1" ||
+        !integer(observation, "capture_epoch"))
+        throw std::invalid_argument("fat_file_content_input");
+    auto value = observation;
+    value.put("capture_epoch", V::string("0"));
+    const auto bytes = json::dump(value, {1048576, 40, 262144, 32768});
+    unsigned char hash[32];
+    sha256(reinterpret_cast<const unsigned char *>(bytes.data()), bytes.size(), hash);
+    static const char hex[] = "0123456789abcdef";
+    std::string out = "sha256:";
+    for (auto b : hash) {
+        out += hex[b >> 4];
+        out += hex[b & 15];
+    }
+    return out;
 }
 } // namespace disked

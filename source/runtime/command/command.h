@@ -10,6 +10,8 @@ struct Registry {
     json::Value commands, syntax, parameter_schemas;
     const json::Value* command(const std::string& id) const;
 };
+// Compiled catalogs have a separate finite budget from external wire requests.
+Registry compiled_registry(const std::string& commands,const std::string& syntax,const std::string& schemas);
 struct ParseResult {
     std::string kind="command", command_id, domain;
     std::vector<std::string> operands;

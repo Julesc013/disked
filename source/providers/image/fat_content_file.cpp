@@ -79,22 +79,4 @@ FatFileContentRequest fat_file_content_request_from(const V &v) {
     validate_fat_file_content_request(r);
     return r;
 }
-std::string fat_content_metadata_digest(const V &observation) {
-    const auto &schema = field(observation, "schema");
-    if (schema.kind != V::Kind::string || schema.text != "org.disked.fat-volume-observation/1" ||
-        !integer(observation, "capture_epoch"))
-        fail();
-    auto value = observation;
-    value.put("capture_epoch", number(0));
-    const auto bytes = json::dump(value, {1048576, 40, 262144, 32768});
-    unsigned char hash[32];
-    sha256(reinterpret_cast<const unsigned char *>(bytes.data()), bytes.size(), hash);
-    static const char hex[] = "0123456789abcdef";
-    std::string out = "sha256:";
-    for (auto b : hash) {
-        out += hex[b >> 4];
-        out += hex[b & 15];
-    }
-    return out;
-}
 } // namespace disked

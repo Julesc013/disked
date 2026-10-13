@@ -87,7 +87,8 @@ bool acquisition_watch_response(const Value& response) {
     if(!string(id) || id->text.size()!=41 || id->text.compare(0,9,"image-op:")!=0 ||
        id->text.find_first_not_of("0123456789abcdef",9)!=std::string::npos || !kind(result,Value::Kind::object))return false;
     const auto* scope=result->find("scope"),*request=result->find("request_kind"),*events=result->find("events");
-    return string(scope) && scope->text=="ordinary-local-raw-file-acquisition" && string(request) &&
+    return string(scope) && (scope->text=="ordinary-local-raw-file-acquisition" ||
+        scope->text=="ordinary-local-fat-file-extraction" || scope->text=="ordinary-local-file-acquisition") && string(request) &&
         request->text=="operation-observation" && kind(events,Value::Kind::array);
 }
 bool report_watch_response(const Value& response) {
