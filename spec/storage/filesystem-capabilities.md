@@ -68,6 +68,20 @@ retained under `.aide/evidence/2026-10-14-exfat-working/`. Allocation bitmap, up
 directory sets, traversal, provider/frontend and actual host/storage qualification
 remain subsequent capabilities. No mount, TexFAT transaction or writer claim follows.
 
+## DE-W064 supplied-byte exFAT directory metadata
+
+The [directory contract](../catalog/exfat-directory-prototype.json) follows local
+DE-W058 review. It binds fixed slots and complete entry sets, lossless original
+UTF-16 units, exact entry-set checksums, calendar/offset observations and checked
+stream extents. Expected outputs precede implementation. Unknown critical members
+remain unsupported; benign secondary bytes and reserved fields remain preserved.
+Stored name hashes do not establish equality without the volume's qualified
+upcase mapping, and stream extents do not establish allocation without a matching
+bitmap. Bitmap/upcase, coherent paging/source identity, public provider/frontend,
+ValidDataLength zero filling and all original storage/platform release gates
+remain separate required capabilities. Directory implementation and tests are
+not_run at this contract checkpoint.
+
 ## DE-W025 supplied-byte FAT allocation reader
 
 The [private FAT profile](../catalog/fat-reader-prototype.json) defines bounded

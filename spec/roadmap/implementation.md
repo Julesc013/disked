@@ -349,3 +349,11 @@ under `.aide/evidence/2026-10-14-fat-recursive-command-qualification/`. This doe
 admit physical storage, other host profiles, production journal/broker or the full
 all-platform/storage0.1.0 release. Continue the remaining bounded capabilities and
 their actual qualification; owner acceptance remains separate.
+
+
+DE-W064 closes the expected supplied-byte exFAT directory metadata contract after
+DE-W058 local qualification. Preserve original entry/name/time representations
+and separate checksum association from name lookup, allocation and source
+coherence. Bitmap/upcase, paging/provider/frontend/extraction and the full
+original all-platform/storage0.1.0 programme remain required later work. This
+contract checkpoint does not claim directory implementation or tests.
