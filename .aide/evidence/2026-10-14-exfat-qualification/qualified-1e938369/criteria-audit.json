@@ -1,0 +1,47 @@
+{
+  "work_id": "DE-W058",
+  "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
+  "status": "pass",
+  "criteria": [
+    {
+      "criterion": 1,
+      "status": "pass",
+      "evidence": [
+        "exfat-cases.json",
+        "logs/gcc-c90.log"
+      ],
+      "scope": "Independent byte/integer/checksum geometry oracle across512..4096 sectors, main/backup, one/twoFAT, min/max and u64conversion boundaries."
+    },
+    {
+      "criterion": 2,
+      "status": "pass",
+      "evidence": [
+        "exfat-cases.json",
+        "native-details.log"
+      ],
+      "scope": "Rehashed contradictions, truncation, inaccessible tails, invalid calls and preserved output/input; read-only memory guards."
+    },
+    {
+      "criterion": 3,
+      "status": "pass",
+      "evidence": [
+        "exfat-cases.json"
+      ],
+      "scope": "Everychecksum word, excluded mutable fields, OEM/extended/reserved bytes. No bitmap allocation or TexFAT transaction claim."
+    },
+    {
+      "criterion": 4,
+      "status": "pass",
+      "evidence": [
+        "summary.json",
+        "build-identity.json",
+        "header-objects.json",
+        "logs/exfat_probe-imports.log",
+        "logs/native-tests.log"
+      ],
+      "scope": "Exact clean source, native build/header/import/artifact and full regression evidence; no host/provider/writer/fullrelease admission."
+    }
+  ],
+  "owner_accepted": false,
+  "independent_human_review": false
+}

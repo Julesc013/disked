@@ -38,14 +38,19 @@ def main():
                     key(13,'\r');wait(lambda text:'TYPED FORM' in active(text))
                     # Edit by rendered field labels; do not assume field ordering.
                     for name,value in fields.items():
+                        focused=re.compile(r'> ([a-z_]+) = "([^"\n]*)"')
                         for _ in range(20):
                             text=active(observe());match=re.search(r'> '+re.escape(name)+r' = "([^"\n]*)"',text)
                             if match:break
+                            prior=focused.search(text)
+                            assert prior,('missing focused field',text)
+                            prior_name=prior.group(1)
                             key(9,'\t')
-                            wait(lambda t:active(t)!=text)
+                            wait(lambda t:(m:=focused.search(active(t))) and m.group(1)!=prior_name)
                         assert match,(name,text)
                         for _ in range(len(match.group(1))):key(8,'\b')
                         for char in value:key(0,char)
+                        wait(lambda t:re.search(r'> '+re.escape(name)+r' = '+re.escape(json.dumps(value)),active(t)))
                 key(0x78)
                 wait(lambda text:('F9 submits:' in active(text)) if frontend=='shell' else ('REQUEST REVIEW' in active(text)))
                 key(0x78)

@@ -1,0 +1,100 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W058",
+  "base_revision": "548152f679a67b54dbcdf67a4de9d88a76c255d2",
+  "spec_manifest_digest": "sha256:92e8630a5afaf8d470c6b9ae79d941bfb332fae51274bc3b8536e494e3cfbe23",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/storage/filesystem-capabilities.md",
+    "source/portable/primitives/checked.h",
+    "source/portable/fat/volume.c"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-reader-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json",
+    ".aide/evidence/2026-10-14-exfat-start/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-check-final.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-check.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-context.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-index-final.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-index.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-start/exfat-start-verify-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-start/README.md",
+    ".aide/evidence/2026-10-14-exfat-start/working-inputs.json",
+    ".aide/handoffs/DE-W058-exfat-start-2026-10-14.json"
+  ],
+  "summary": "Qualified DE-W057 integrated; next bounded exFAT expected contract and required-input/context routing recorded. Native code/tests not_run.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-check-final.log"
+    },
+    {
+      "command": "DE-W058 native implementation tests",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/.gitattributes",
+      "sha256": "sha256:898fc2da01b20487ea0b1e7243ca918ee7538eaeb39a3f080b7d01193074e161"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-check-final.log",
+      "sha256": "sha256:ed197a698c8e4e6f9070873188da0359b058966512cc7e8c1510956f7112b112"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-check.log",
+      "sha256": "sha256:ed197a698c8e4e6f9070873188da0359b058966512cc7e8c1510956f7112b112"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-context.log",
+      "sha256": "sha256:7087325210ae11acb9c3f366fdbf34278ddcf4bb6d519972cbbcb77a77c528c9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-index-final.log",
+      "sha256": "sha256:bc64a6c94299433e5576fb12c4e6b2ddac68a4d270d0d8b4b16a63807f665e36"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-index.log",
+      "sha256": "sha256:f3fcd666db9a6c4e4c45a4135c93a0d27b83beb648f0a52d4ac8d928796b3a7c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-manifest.log",
+      "sha256": "sha256:eeafbfdc9dd8a3b0fb70afc968c778a11f0d0337d02f3239cdfa7615c2e2e21b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/exfat-start-verify-manifest.log",
+      "sha256": "sha256:40330230f46540011716af7831d50579082bd80713548062620432cfe3274553"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/README.md",
+      "sha256": "sha256:ae757ad5725cb33da3e057158fbd43e893095e8de90cf56104d7d5c99ffc7f95"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-start/working-inputs.json",
+      "sha256": "sha256:8cb97e841bdb2a142fd10c47bbafb77c9b2f22f030e0b6a5bf322d1049e1ed78"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Implement the fixed C90 exFAT boot/allocation decoder and independent Python byte/integer/checksum fixtures; no host/storage authority.",
+  "performed_remote_writes": false
+}

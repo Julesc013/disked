@@ -257,11 +257,12 @@ def inspect(root, build, targets, contract, usage=None):
             # MSVC accepts '/' and '-' option prefixes; CMake's codemodel uses
             # -MT for the runtime property although the project records /MT.
             options = {v[1:] for v in flags.split() if v.startswith(("/", "-"))}
-            for flag in contract["required_compile_flags"]:
+            for flag in expected.get("required_compile_flags", contract["required_compile_flags"]):
                 if flag[1:] not in options:
                     violations.append(f"{name}: missing compile option {flag}")
-            if group.get("languageStandard", {}).get("standard") != "14":
-                violations.append(f"{name}: C++14 not recorded")
+            standard = expected.get("language_standard", "14")
+            if group.get("languageStandard", {}).get("standard") != standard:
+                violations.append(f"{name}: language standard {standard} not recorded")
 
     for name, excluded in contract["isolated_consumers"].items():
         target = by_name.get(name)

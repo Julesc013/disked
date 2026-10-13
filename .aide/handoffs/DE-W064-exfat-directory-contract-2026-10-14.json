@@ -1,0 +1,94 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W064",
+  "base_revision": "d143d445013d23f8c3e4db1ef06b10e97ce75cf7",
+  "spec_manifest_digest": "sha256:44f8a15513bb05f10db67be7d2840fb04e4b701e8b9835ade0a531d727a8c9b6",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-reader-prototype.json",
+    "source/portable/exfat/exfat.h",
+    "source/portable/primitives/checked.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-directory-contract/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/README.md",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-check.log",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-context.log",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-index.log",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-verify-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-directory-contract/inputs.json",
+    "TODO.MD",
+    "spec/catalog/exfat-directory-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Record expected lossless exFAT directory metadata contract and dependency/context routing before code. W058 qualification running; W064 planned and implementation not_run.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-check.log"
+    },
+    {
+      "command": "DE-W064 directory implementation tests",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/context-manifest.json",
+      "sha256": "sha256:ac9a9cd32df159ab521b1c83cbc90b0c847480158269ebdfde3114810b2737ff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-check.log",
+      "sha256": "sha256:a89b4b26d6835feccba44646cc91ff8cbc534c6a273584f40ea9a608aceed3f7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-context.log",
+      "sha256": "sha256:3e82e10783ce74731e694b5586f972d0572d5174aca77eb1012650360e141f89"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-index.log",
+      "sha256": "sha256:2e9771601dfa63afa1e6751cae863623322f6f671cb84b364f1f3acdacacbd30"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-manifest.log",
+      "sha256": "sha256:777273175e4624c36bf3bcc762f8000397710d3625818844c70cc1137422e67d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/exfat-directory-contract-verify-manifest.log",
+      "sha256": "sha256:c310816c7b6d416dc0a6830550010a3f85f21fc5bbaa9241b562c2f38aeb760e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/inputs.json",
+      "sha256": "sha256:c7b960bd7dcd5e95d12c85a761d84dde851de3260295db3e56c7e6140e1e2005"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-directory-contract/README.md",
+      "sha256": "sha256:eeb81f74689b27e938990c6cb0300cb04da87e0b76871b57a0a88fe4e414ac41"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Finish W058 exact-source qualification/agent review, then implement the fixed directory contract and independent byte/integer fixtures within existing portable/exfat owner. Preserve original full0.1.0 scope and owner/storage/release gates.",
+  "performed_remote_writes": false
+}

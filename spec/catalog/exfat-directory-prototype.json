@@ -1,0 +1,31 @@
+{
+  "schema": "org.disked.exfat-directory-profile/1",
+  "work_id": "DE-W064",
+  "status": "locally-qualified-private-supplied-byte-decoder",
+  "base_revision": "d143d445013d23f8c3e4db1ef06b10e97ce75cf7",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+  "scope": "Private C90 supplied-byte directory slots and complete contiguous File entry sets. Preserve the full original platform/storage0.1.0 scope; no host IO, tree traversal, mount, extraction or mutation admission.",
+  "ownership": "Extend source/portable/exfat/exfat.h; implement directory.c in the same private format library. No duplicated FAT parser, normalization library or public ABI.",
+  "slot": "Exactly32borrowed bytes classify end00, unused01..7f, invalid80, bitmap81, upcase82, label83, file85, streamc0, namec1 and unknown primary/secondary critical/benign types. Preserve raw bytes/type/fields, including unsupported entries; do not interpret unused fields. Root-only bitmap/upcase/label cardinality is a future whole-directory claim, never inferred from one slot.",
+  "file_set": "Caller supplies a view of at most8192bytes and a byte work budget. Primary85 declares SecondaryCount0..255. Decode only the declared set; extra following bytes are not members. A partial set yields explicit truncation and only bounded present facts. Check16bit rotate-right/add modulo2^16 across all declared bytes excluding primary offsets2/3. Exactlyone streamc0 immediately follows primary, then ceil(NameLength/15) consecutive namec1 records. NameLength1..255. Remaining members must be in-use secondary; unknown critical secondary makes the set unsupported, while benign secondary extensions are preserved. No end/unused/primary records inside the set.",
+  "stream": "Retain raw attributes, timestamps, fractions, UTC offsets, streamflags, NameHash, ValidDataLength, FirstCluster and DataLength. Validate AllocationPossible=1; NoFatChain requires nonzero data/valid first cluster, and empty firstcluster requires zero length. Caller supplies clusterCount1..2^32-11 and cluster shift9..25. Checked heap capacity bounds DataLength; ValidDataLength<=DataLength. Directories require equal valid/data lengths, whole-cluster data length and<=256MiB. Contiguous NoFatChain extent must fit remaining heap clusters; no FAT-cell interpretation or allocation-bit claim for that extent. Chained stream metadata does not prove complete chain or allocation ownership.",
+  "names": "Retain exact original16bit units up to255, including malformed surrogate pairs. Separate structural association/checksum, encoding validity, illegal name characters, reserved dot names and nonzero unused padding observations. Preserve every raw record and unused unit; padding nonzero is advisory because zero initialization is a format recommendation. No trimming, NFC/case normalization, host path or uniqueness claim. Stored NameHash remains unverified until a qualified exact volume upcase mapping is supplied; matching hash alone never proves equal names.",
+  "timestamps": "Retain exact32bit local timestamps,10msfractions and8bit offset values. Validate1980..2107 calendar/leapday, seconds0..58in2secondunits, minute0..59/hour0..23 and fraction0..199. Decode OffsetValid and signed7bit15minute offset separately; when invalid, nonzero offsetbits are an issue. Unknown offset yields no invented UTC or assumed current host zone. No host date API or historical conversion claim.",
+  "compatibility": "Known reserved bytes/bits are retained with advisory issues; they do not erase otherwise established entry association. Unknown critical entries remain unsupported. Unknown benign secondary bytes remain included in checksum and preserved. This is a private observation model, not a permissive mutation contract or persisted ABI.",
+  "errors": "InvalidAPI/capacity/budget/overlong calls preserve output and input; no access before validating outer bounds. Malformed or truncated supplied media returns candidate facts and explicit issues, never fabricated missing fields. Fixed bounded caller-owned output and no allocation proportional to volume geometry.",
+  "acceptance": [
+    "Independent byte/entry-set checksum oracle for every name length1..255, all15unit boundaries, SecondaryCount0..255, ignored trailing directory bytes and exact8KiB/budget bounds.",
+    "Recomputed-checksum structural contradictions, missing/duplicate/reordered/deleted/orphan members, unknown critical/benign extensions and exact preservation of original units/reserved/unused bytes.",
+    "Independent checked stream/contiguous range model including empty/high64bit lengths, directory cluster alignment/256MiB bounds, ValidDataLength and all valid/invalid timestamp/UTC offset boundaries.",
+    "Read-only/protected-tail inputs and output conservation on invalid/overlong/budget calls; strictC90 syntax, isolated headers, actual native build/import/artifact and relevant regressions. No bitmap/upcase equality/tree/provider/host/storage qualification."
+  ],
+  "later_gates": [
+    "Allocation bitmap validation and matching activeFAT/bitmap source identity before allocation or free-space claims.",
+    "Compressed/uncompressed exact upcase checksum/mapping and name hash/full comparison before lookup/equality/uniqueness claims.",
+    "Paged coherent directory/tree collection, source/epoch/alias binding, provider/worker/frontend and consumer qualification before public use.",
+    "ValidDataLength zero filling before extraction; production recovery/writer/privilege and original full platform/storage release gates."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false
+}

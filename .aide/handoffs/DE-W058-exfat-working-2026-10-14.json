@@ -1,0 +1,217 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W058",
+  "base_revision": "6b3c51d5c646fd194c47c9a979f23599cc908185",
+  "spec_manifest_digest": "sha256:fbea4b62e28bd1c753e3fd163bec999b563a2055db7829096008fd079941fdae",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-reader-prototype.json",
+    "source/portable/primitives/checked.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-qualification/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-qualification/reproduce.py",
+    ".aide/evidence/2026-10-14-exfat-working/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-working/README.md",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-boundary-unit.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-build-final.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-build-first.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-build-regressions.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-c90-final.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-c90.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-cases.json",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-check-final.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-configure-2.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-configure.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-context-implementation.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-final-pointer-guard.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-header-build.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-index-final.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-native-expanded.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-native-final.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-native-first.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-native-second.log",
+    ".aide/evidence/2026-10-14-exfat-working/exfat-verify-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-working/summary.json",
+    ".aide/evidence/2026-10-14-exfat-working/working-source-hashes.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/source-map.md",
+    "source/portable/exfat/boot.c",
+    "source/portable/exfat/exfat.h",
+    "spec/catalog/exfat-reader-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/property/test_exfat.py",
+    "tests/tools/test_build_boundaries.py",
+    "tests/unit/exfat_probe.cpp",
+    "tools/build-inputs.json",
+    "tools/check-build-boundaries.py"
+  ],
+  "summary": "Private exFAT supplied-byte decoder implemented; working native build/focused/C90/boundary and242tooling checks with2skips pass; exact source38b6683a clean full qualification is running.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^(portable.exfat|portable.exfat_guard|portable.fat|portable.fat_guard|portable.gpt|portable.gpt_guard|build.boundaries)$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-native-expanded.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s tests/tools -p test_build_boundaries.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-boundary-unit.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -std=c90 -pedantic-errors -Wall -Wextra -Werror -I source -fsyntax-only source/portable/exfat/boot.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-c90-final.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R ^portable.exfat_guard$ --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-final-pointer-guard.log"
+    },
+    {
+      "command": "cmake --build .aide-local/fat-recursive-command-development-build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-complete-build.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-working/exfat-spec-tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-boundary-unit.log",
+      "sha256": "sha256:fa46e3dea209a05efc456171c4e0166c4a1a27d1f2b6041fc87fab0b0d7843f6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-build-final.log",
+      "sha256": "sha256:f0dae6d163cabf63200a1e615b1e6a7b118564e058c2267b569443b324993681"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-build-first.log",
+      "sha256": "sha256:0b5154bae521ca5af0bf0b8bfaf59b02006726f3fc6a0dbf547ce187d1243526"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-build-regressions.log",
+      "sha256": "sha256:cc7d34c9c5614b8335abcfd47681563b58497d43901ff39c1e5a27529517951c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-c90-final.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-c90.log",
+      "sha256": "sha256:8ce53a00a327f942d9992e2da8dae30dd7cc69163281bf3cf0c45c6f6a201040"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-cases.json",
+      "sha256": "sha256:fd6907121398a6778a6dfbf3daf4366bd9a1c786f04dd37bcefd21e3270d179c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-check-final.log",
+      "sha256": "sha256:ed197a698c8e4e6f9070873188da0359b058966512cc7e8c1510956f7112b112"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-complete-build.log",
+      "sha256": "sha256:74ba5e7f16bdc463b97962245d1c8548994c957e4e6d3f93b671c96f7153402d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-configure-2.log",
+      "sha256": "sha256:061578c4eacc586acbd8055df4126028744469984cb1883ea4b0fe66c9e53aac"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-configure.log",
+      "sha256": "sha256:c9d867bd99600c8e79fbe2ed34e3a10e1d3ec040a3d26c028b25e12bc3ffdfc3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-context-final.log",
+      "sha256": "sha256:16bb6a7d7802b4c8dff04fec98531024904a595fc4f6523b245b9208da3880e2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-context-implementation.log",
+      "sha256": "sha256:133dcdfd78fb2d4e38cad512721b9ff26ea2f77ad9b3c36b7689f286e6d45018"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-final-pointer-guard.log",
+      "sha256": "sha256:db004179a949d6a253c07127545f986e75f2a579d6bc7a2cd5ed379743182dbc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-header-build.log",
+      "sha256": "sha256:26c663a566ac5fc8eff0f4df7705d866c68063ae9cb12c0470e41780c8974db1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-index-final.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-manifest.log",
+      "sha256": "sha256:e3648fae78d55dedcd0da18fd6a825f0b78351d237c34bf98f7fbbef61388a0e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-native-expanded.log",
+      "sha256": "sha256:985265d00ef28e05f221ac3ab5a1726cced3d3c0860744a873ae191336dc8e7d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-native-final.log",
+      "sha256": "sha256:5a2c9748f6b674ae60f5a28bfff81518a96938fec8538fa96d97046fe09d4b6a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-native-first.log",
+      "sha256": "sha256:062ac9622c4cab97f28fae24a003b068aa0799d6ec82f945c5c813fb90fb05ba"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-native-second.log",
+      "sha256": "sha256:b4cca60e89603df64fce400e56881915ef8235f878cf8c512f37d9d9bb7cc80f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-spec-tooling.log",
+      "sha256": "sha256:afe89ab3aa53b1048cf4f6d57c5b276931848777282b67bacc926a691f69ad5b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/exfat-verify-manifest.log",
+      "sha256": "sha256:885ebf30570e0a845e90c1706be051e96b84a4eb38ee82f874b5646a5415f79b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/README.md",
+      "sha256": "sha256:ff687dcd4d7dd370fe576f4e7d93648a79de0cbfdc91a47f01406208d2251199"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/summary.json",
+      "sha256": "sha256:fac0a580ef7a998df8145190a73773847c3a0431427ad9bafe12652e0c934328"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-working/working-source-hashes.json",
+      "sha256": "sha256:2699146e678c66dfc84ba568ecf93acd521506dbf5314078f35435339bfc3718"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit source checkpoint, run retained exact-revision clean native/header/import/full regression runner, audit criteria and record agent review. Continue original programme; owner/storage/release gates separate.",
+  "performed_remote_writes": false
+}

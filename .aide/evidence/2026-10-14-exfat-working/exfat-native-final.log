@@ -1,0 +1,46 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/fat-recursive-command-development-build
+    Start 16: build.boundaries
+1/7 Test #16: build.boundaries .................   Passed    3.93 sec
+    Start 65: portable.gpt
+2/7 Test #65: portable.gpt .....................   Passed    3.50 sec
+    Start 66: portable.gpt_guard
+3/7 Test #66: portable.gpt_guard ...............   Passed    0.02 sec
+    Start 67: portable.exfat
+4/7 Test #67: portable.exfat ...................***Failed    2.28 sec
+test_cells_do_not_claim_bitmap_allocation (__main__.ExfatTests.test_cells_do_not_claim_bitmap_allocation) ... ok
+test_checksum_every_word_and_excluded_fields (__main__.ExfatTests.test_checksum_every_word_and_excluded_fields) ... FAIL
+test_extended_reserved_and_undefined_metadata (__main__.ExfatTests.test_extended_reserved_and_undefined_metadata) ... ok
+test_geometry_profiles_and_high_address_counts (__main__.ExfatTests.test_geometry_profiles_and_high_address_counts) ... ok
+test_invalid_shifts_truncation_and_overlong_output_conservation (__main__.ExfatTests.test_invalid_shifts_truncation_and_overlong_output_conservation) ... ok
+test_minimum_volume_and_maximum_byte_conversion (__main__.ExfatTests.test_minimum_volume_and_maximum_byte_conversion) ... ok
+test_rehashed_structural_mutations_and_u64_overflow (__main__.ExfatTests.test_rehashed_structural_mutations_and_u64_overflow) ... ok
+test_seeded_valid_geometry_and_data_boundaries (__main__.ExfatTests.test_seeded_valid_geometry_and_data_boundaries) ... ok
+
+======================================================================
+FAIL: test_checksum_every_word_and_excluded_fields (__main__.ExfatTests.test_checksum_every_word_and_excluded_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_exfat.py", line 122, in test_checksum_every_word_and_excluded_fields
+    self.assertFalse(out['checksum_valid']);self.assertEqual(1,out['checksum_mismatches'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.128s
+
+FAILED (failures=1)
+
+    Start 68: portable.exfat_guard
+5/7 Test #68: portable.exfat_guard .............   Passed    0.02 sec
+    Start 69: portable.fat
+6/7 Test #69: portable.fat .....................   Passed    1.85 sec
+    Start 70: portable.fat_guard
+7/7 Test #70: portable.fat_guard ...............   Passed    0.02 sec
+
+86% tests passed, 1 tests failed out of 7
+
+Total Test time (real) =  11.63 sec
+
+The following tests FAILED:
+	 67 - portable.exfat (Failed)
+Errors while running CTest

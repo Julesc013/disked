@@ -1,0 +1,98 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 5.757,
+    "log": "clone.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "44c8b090b709a76b44ad0e349f647950629c447c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 118.75,
+    "log": "checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.86,
+    "log": "source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 15.1,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\build",
+      "--config",
+      "Release",
+      "--target",
+      "exfat_directory_probe",
+      "exfat_probe",
+      "disked_exfat_headers",
+      "fat_directory_probe",
+      "fat_probe",
+      "gpt_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 13.503,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\build",
+      "-C",
+      "Release",
+      "-R",
+      "^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries)$",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-directory-exact-44c8b090\\source",
+    "exit_code": 8,
+    "elapsed_seconds": 29.06,
+    "log": "native.log"
+  }
+]

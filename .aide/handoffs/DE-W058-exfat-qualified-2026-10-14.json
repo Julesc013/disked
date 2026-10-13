@@ -1,0 +1,554 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W058",
+  "base_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
+  "spec_manifest_digest": "sha256:d8094131cc954d0ff88fdc6217a6d1e58e17002e2cf987268b3f600578727107",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-reader-prototype.json",
+    "source/portable/exfat/boot.c",
+    "source/portable/exfat/exfat.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/README.md",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/build-boundaries.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/build-identity.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/commands.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/criteria-audit.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/current-stage.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-check.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-index.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-verify-manifest.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-recursive-failure-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-recursive-product-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-admission-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-command-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-controller-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-reconnect-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-review-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-watch-cases.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/gcc-identity.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/header-objects.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/inventory.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundaries.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundary-unit-tests.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/build.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/checkout.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/clone.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/cmake-version.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/command-discovery.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/configure.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/context.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-headers.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-imports.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-headers.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-imports.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/final-source-status.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-c90.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-version.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/host.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/index.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/manifest.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/native-tests.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/product-launch.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/python-environment.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-map.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-status.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-tree.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/spec-check.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/test-catalog.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/tooling.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/verify-context.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/native-details.log",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/private-header-usage.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/source-blob-bindings.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/source-inputs.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/summary.json",
+    ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/test-catalog.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-allocation-prototype.json",
+    "spec/catalog/exfat-reader-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Exact clean-source W058 qualification complete:130native groups,42headers,242tooling tests/2skips,2320oracle cases/8methods, actual compiler/import/source/artifact/context identities and fourcriteria audit pass. Local agent review retained; original failures preserved. W064 directory exact qualification in progress; W065 bitmap contract recorded before implementation.",
+  "tests": [
+    {
+      "command": "git clone --local --no-hardlinks --no-checkout D:\\Projects\\DiskEd\\disked D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/clone.log"
+    },
+    {
+      "command": "git checkout --detach 1e93836989ea2a9a4e163d0c9644511877455d0e",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/checkout.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-status.log"
+    },
+    {
+      "command": "powershell -NoProfile -Command \"$qualificationIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$qualificationPrincipal=[System.Security.Principal.WindowsPrincipal]::new($qualificationIdentity);$qualificationOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$qualificationIdentity.Name;elevated=$qualificationPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$qualificationOS.Caption;version=$qualificationOS.Version;architecture=$qualificationOS.OSArchitecture}|ConvertTo-Json -Compress\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/host.log"
+    },
+    {
+      "command": "git cat-file --batch-check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-tree.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -c \"import sys,importlib.metadata as m;print(sys.version);print(\\\"PyYAML=\\\"+m.version(\\\"PyYAML\\\"));print(\\\"jsonschema=\\\"+m.version(\\\"jsonschema\\\"))\"",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/python-environment.log"
+    },
+    {
+      "command": "cmake --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/cmake-version.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-version.log"
+    },
+    {
+      "command": "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe -std=c90 -pedantic-errors -Wall -Wextra -Werror -I source -fsyntax-only source/portable/exfat/boot.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-c90.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/tools -p test_build_boundaries.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundary-unit-tests.log"
+    },
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/build.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundaries.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/test-catalog.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build -C Release --parallel 4 --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/native-tests.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/spec-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py context --work DE-W058 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\context --byte-budget 950000",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -X utf8 spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/verify-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\disked.exe build inspect --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/product-launch.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\disked.exe command list --json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/command-discovery.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-dependents.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\exfat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-headers.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\exfat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-imports.log"
+    },
+    {
+      "command": "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe\" /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-qualification-1e938369\\build\\Release\\exfat_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-dependents.log"
+    },
+    {
+      "command": "git status --porcelain",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-clean-1e938369",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/final-source-status.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/build-boundaries.json",
+      "sha256": "sha256:f6699680ff757adbaba5dd207f2c2d0b1e5396808bec0c50bef1523e979bab71"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/build-identity.json",
+      "sha256": "sha256:8e0f53588d3c9d1b92c87b9af7fb2672a091b9300cc04a5621619383b345c7e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/commands.json",
+      "sha256": "sha256:8add3fe4dfcb4203826a783aa4c4fab461526ac5992edd88653eb61bd70dffff"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/context-manifest.json",
+      "sha256": "sha256:a837201c48905c1fd89e534d46c3c891c69a35355cd02ca8ab92c6d549c0f419"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/criteria-audit.json",
+      "sha256": "sha256:3d680a7fb05fcf6d78f796c033d025a2304f3c0dd86d53331123960bf22a6fb0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/current-stage.json",
+      "sha256": "sha256:1a68a501e8f89f961ca883d1d2b68d298322e2bc51bb73e7f1ff07806422f254"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-cases.json",
+      "sha256": "sha256:fd6907121398a6778a6dfbf3daf4366bd9a1c786f04dd37bcefd21e3270d179c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-check.log",
+      "sha256": "sha256:83260b178c6af503e78a679648d08cae28c1a21113da802bce1500c8f9097b23"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-index.log",
+      "sha256": "sha256:2e9771601dfa63afa1e6751cae863623322f6f671cb84b364f1f3acdacacbd30"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-manifest.log",
+      "sha256": "sha256:bd2a7dda0847151e2879320ff097bb7fc7dd5cf717d37fcab9d57818951fbd40"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/exfat-qualified-verify-manifest.log",
+      "sha256": "sha256:53cf4ec9f8c9e91f7b88ef642ea9d6e0743ed447a003298e6a881c476c213294"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-recursive-failure-cases.json",
+      "sha256": "sha256:4ec012e2e50125aff01a5971532fa99f4f143fe81ebfdc1cbbce45872456216d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-recursive-product-cases.json",
+      "sha256": "sha256:8a765444f7279a5cd987642909b35ac1e70782f523a8bfccdc0376537e597178"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-admission-cases.json",
+      "sha256": "sha256:894344578412b0567d15f8d24f22086deac551df7ef138525585e2a1b66e70b5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-command-cases.json",
+      "sha256": "sha256:c8a5b139f6a094bebd287eb23b730328dd379b69bab3002fee20f07669674ae4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-controller-cases.json",
+      "sha256": "sha256:8f6a3d89a36d5826d0194533f83cab6926fd2a3a462f81db9979f6d21158f190"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-reconnect-cases.json",
+      "sha256": "sha256:dab2c3c0172de2e6786cd7750883cc77f012afd59d6373f95644ab7f15a7cd17"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-review-cases.json",
+      "sha256": "sha256:1561d5be189a16c752047a394bc00d8130f0a3d743da891739067a7c7ea1dcc7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/fat-tree-watch-cases.json",
+      "sha256": "sha256:553b9660b2c3ac7b3548217bbc47a54039a3c7f7122a49d7e0824ddcabd1ba90"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/gcc-identity.json",
+      "sha256": "sha256:f706d676b02f468bc055ca87c23f39ebea5da073fd5d10af3029a0e52ecface8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/header-objects.json",
+      "sha256": "sha256:23fdfd8bdb79d271f608ed87d1f0c9f574c9da8b4df6b49f243679ec844c1d27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundaries.log",
+      "sha256": "sha256:1fb1bd4121631e133625e6371b206d7caf6e11fca9ec708fe22f65b27b919091"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/boundary-unit-tests.log",
+      "sha256": "sha256:1c7e1066a15a8b3dc3f899c7caf76944cf5f87e0de318f07591bde689e938e30"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/build.log",
+      "sha256": "sha256:50559231e2725cf0edcb977258a8367f8baf7b2b960b42a9f658dccf0d0d2e5e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/checkout.log",
+      "sha256": "sha256:0da42ccdda6b96cb1e1d923f75ee19a5f497b8f44342c1bb71aed0b81c1fb176"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/clone.log",
+      "sha256": "sha256:ab33a0cfe548eb72b032a71e18725a11ebe5279c431e7c8ccc6c0613cd81c030"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/cmake-version.log",
+      "sha256": "sha256:a24e1ae7f8f715ef1f0121cd749052d73c6a4315dba5bb885c584553d826eb79"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/command-discovery.log",
+      "sha256": "sha256:7d8b8278ca325244e20ec47608f1e6a3de5a19f658ed3b18a0df39bd5c87d1a7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/configure.log",
+      "sha256": "sha256:995b8de258363bd725137ffdf5dfdd460b558d8b2ae1f3da32a3fb76b30b68ba"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/context.log",
+      "sha256": "sha256:adf058b2ba0b555f2b3aced75144c804b0ebd6d44f49d15517e51cdb3a0030d9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-dependents.log",
+      "sha256": "sha256:acfa28ddf37cc2498b0a928c61fd26824729e8b24b1e08ecf8b35b6e3f26e43c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-headers.log",
+      "sha256": "sha256:25637f2cfddf2bf51541d4418311cc4cde0b4309f520c64436a50a722a171598"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/disked-imports.log",
+      "sha256": "sha256:179844e1fb9847fc4ceb7d59eebec722cb426de3930118e50d0052c60b25e81c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-dependents.log",
+      "sha256": "sha256:043375f92ccc424e94b22140048f6913c3f6ba967752c0e1e1cec8dde9c435b5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-headers.log",
+      "sha256": "sha256:a3f9b430783b70a0199bb056b44971491f2bb322e66d5075c88c8150d17c9ac7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/exfat_probe-imports.log",
+      "sha256": "sha256:a89cca0523ba926b421348962a5e6a96752878cf2e7e259dfcc4f90a6a3df919"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/final-source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-c90.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/gcc-version.log",
+      "sha256": "sha256:fd626e040a24a44a2ee20f50cf1e74a9cecf6f13e40c06fad872e33f40365082"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/host.log",
+      "sha256": "sha256:be1e1e3ba87c018db4f9aba962a78a4ba2f72b32bc2a5058fefb838eecf98830"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/index.log",
+      "sha256": "sha256:89785eaded104271f96e4f4e0426eec2e1f13765913026bdcfab5470f2c08be9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/manifest.log",
+      "sha256": "sha256:680efa4928a2010fc543cb052d7a858f1e4c7fc92e62629fb507463b98550500"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/native-tests.log",
+      "sha256": "sha256:f3083dd29a5833ab5c2aaf64100cd08a2a990ed9ad786fa6f45f7fb81d36bd7b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/product-launch.log",
+      "sha256": "sha256:40e08e5de243cb689c135dea8692f55c964d9fcc41464967ca1afb07f4b7efc7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/python-environment.log",
+      "sha256": "sha256:8783a6cd9cfa8f1a4b8a4d1dc9ab3238d4b40b2073aee9f10d2b307d3b2e83eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-map.log",
+      "sha256": "sha256:03ed94ae9ab07314dfcd6988df531303e4e02780691710ef8c81e3862eb9cb6b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-status.log",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/source-tree.log",
+      "sha256": "sha256:c77c2b02f8eff28a6b88ffb9a84415fff47d212c6e55fee88e2bc413eb0f4f6d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/spec-check.log",
+      "sha256": "sha256:ed197a698c8e4e6f9070873188da0359b058966512cc7e8c1510956f7112b112"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/test-catalog.log",
+      "sha256": "sha256:87b18eed549f78a00a54363de72e33a426b3f9031b6a471113ad79ae9fdf0cc0"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/tooling.log",
+      "sha256": "sha256:b47af24a96231d567acdd9213f93fb067acf9d544ee22764f4055faf33db199f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/logs/verify-context.log",
+      "sha256": "sha256:c564dc8380e4f120868bebfc2a6c93e1b024a1b5c28f4530d6b698c8a84fd5bf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/native-details.log",
+      "sha256": "sha256:556f57756ae96967cfffba1b46d51764e26e374b7fbbdf4f883cc7c7006f8071"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/private-header-usage.json",
+      "sha256": "sha256:684124e202e832b2d0cf27e4301fdc3404de6a64374191fe9e03aa9e47d01076"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/README.md",
+      "sha256": "sha256:075afb42a4b17e151be99263a2fed13591d2ad04493ec182a65409c18025a822"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md",
+      "sha256": "sha256:4615df3fb9ff9a8426ca747efaec0ef4f1dcb3a0e4168df86c16ffb285849244"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/source-blob-bindings.json",
+      "sha256": "sha256:30af47f76eb5a9ef3e4c577a74efefebb383429d0ed7fa18e1e0d691cf98957e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/source-inputs.json",
+      "sha256": "sha256:d9848292a0bf2199e69ef71bc54bbf8675fb15ab0269b339a59fe8b408d33d4f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/summary.json",
+      "sha256": "sha256:0232c69f8ba202686964050a580036755c9179577b29a13b607946dd609f95c7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/test-catalog.json",
+      "sha256": "sha256:732be73d1c7000e4c7419a1db1088a9c2d75d1a6ab9411eb0da28078c60d29d3"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Finish W064 exact focused qualification; integrate qualified checkpoints with explicit runtime/test/build difference audit. Then implement fixed W065 bitmap contract and continue original full0.1.0 capabilities; owner/privilege/release gates separate.",
+  "performed_remote_writes": false
+}

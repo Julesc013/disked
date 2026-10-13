@@ -139,6 +139,24 @@
           "disked_json",
           "disked_primitives"
         ]
+      },
+      "disked_exfat": {
+        "sources": [
+          "source/portable/exfat/boot.c",
+          "source/portable/exfat/directory.c"
+        ],
+        "build_closure": [
+          "disked_primitives"
+        ],
+        "language_standard": "90",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
       }
     },
     "required_compile_flags": [

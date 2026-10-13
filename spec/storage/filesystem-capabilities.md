@@ -53,6 +53,59 @@ Every filesystem/media capability MUST bind exact operation and feature predicat
 
 **Verification:** Present known format with an unknown critical feature, a tape target and a consumer-incompatible format request; refuse the affected action without hiding inspection.
 
+## DE-W058 supplied-byte exFAT metadata
+
+After local DE-W057 qualification, the [exFAT reader contract](../catalog/exfat-reader-prototype.json)
+defines the next bounded format capability. Its expected boot-region/geometry/
+checksum and allocation-cell observations use the existing C90 checked byte
+layer. Main/backup provenance, exact raw values and unsupported features remain
+separate. The official [Microsoft exFAT specification](https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification)
+owns format semantics; this private contract owns implementation limits and tests.
+Checkpoint `38b6683a` implements the private decoder; working independent
+oracle2320cases, protected/read-only input and focused native/C90/boundary checks
+pass. Exact clean-source full qualification is running; working evidence is
+retained under `.aide/evidence/2026-10-14-exfat-working/`. Allocation bitmap, upcase table,
+directory sets, traversal, provider/frontend and actual host/storage qualification
+remain subsequent capabilities. No mount, TexFAT transaction or writer claim follows.
+
+## DE-W064 supplied-byte exFAT directory metadata
+
+W058's final clean-source campaign at `1e938369` passed130native groups,
+42standalone header compilations,242tooling tests with2skips and all four local
+criteria. Exact source/build/import/context/artifact identities and local agent
+review are retained under `.aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/`.
+Original failed runs remain retained. Owner and full product acceptance remain separate.
+
+The [directory contract](../catalog/exfat-directory-prototype.json) follows local
+DE-W058 review. It binds fixed slots and complete entry sets, lossless original
+UTF-16 units, exact entry-set checksums, calendar/offset observations and checked
+stream extents. Expected outputs precede implementation. Unknown critical members
+remain unsupported; benign secondary bytes and reserved fields remain preserved.
+Stored name hashes do not establish equality without the volume's qualified
+upcase mapping, and stream extents do not establish allocation without a matching
+bitmap. Bitmap/upcase, coherent paging/source identity, public provider/frontend,
+ValidDataLength zero filling and all original storage/platform release gates
+remain separate required capabilities. The private C90 decoder and independent
+native probe/oracle are now implemented after recorded W058 native-stage review.
+Scratch checks passed2316cases/9methods; integrated native/header/import/source
+qualification at `44c8b090` passed2316cases/9methods, tenparser/guardgroups,
+oneboundaryfollowup, oneprivateheader and C90/import/context/source checks. The
+initial missing-generated-registry failure and separate repair are retained in
+`.aide/evidence/2026-10-14-exfat-directory-qualified/`. Prior130native results at
+`1e938369` apply only to unchanged sources; this is not a freshfullsuite claim.
+Neither scratch success nor directory association
+establishes allocation, name equality, current source authority or public use.
+
+## DE-W065 supplied-byte exFAT bitmap intervals
+
+The [allocation contract](../catalog/exfat-allocation-prototype.json) closes the
+next expected bitmap descriptor/interval behavior before implementation. It
+observes exactly requested cluster bits from a checked bounded supplied window.
+Root cardinality, active FAT/bitmap source pairing, present-source coherence and
+ownership remain runtime gates; reserved tail bits do not enter interval counts.
+Upcase validation and full name comparison remain required before lookup claims.
+Allocation implementation/tests are not_run at this contract checkpoint.
+
 ## DE-W025 supplied-byte FAT allocation reader
 
 The [private FAT profile](../catalog/fat-reader-prototype.json) defines bounded

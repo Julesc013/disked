@@ -1,0 +1,38 @@
+{
+  "work_id": "DE-W064",
+  "source_revision": "44c8b090b709a76b44ad0e349f647950629c447c",
+  "status": "pass",
+  "criteria": [
+    {
+      "criterion": 1,
+      "status": "pass",
+      "evidence": "followup/exfat-directory-cases.json",
+      "scope": "All255name lengths/all256secondary counts, exact8192byte/ignoredtrailing/budget bounds and independent16bit checksum."
+    },
+    {
+      "criterion": 2,
+      "status": "pass",
+      "evidence": "followup/exfat-directory-cases.json",
+      "scope": "Rehashed ordering/unknowncritical/benign/rawUTF16/reserved/padding preservation."
+    },
+    {
+      "criterion": 3,
+      "status": "pass",
+      "evidence": "followup/exfat-directory-cases.json",
+      "scope": "Independent integer/calendar/offset models, stream capacity/contiguous/high64/directory bounds and all256offsetbytes."
+    },
+    {
+      "criterion": 4,
+      "status": "pass",
+      "evidence": [
+        "native.log",
+        "followup/boundaries.log",
+        "followup/c90.log",
+        "followup/artifact-identities.json",
+        "followup/imports.log"
+      ],
+      "scope": "Tenfresh parser/guardgroups plus repaired generatedregistry boundary group,1header,clean source/context/hash/C90/import checks. Prior130native evidence applies to unchanged sources; no freshfullsuite claim."
+    }
+  ],
+  "owner_accepted": false
+}

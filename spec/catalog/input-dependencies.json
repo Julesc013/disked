@@ -12351,6 +12351,159 @@
         "DE-023",
         "DE-103"
       ]
+    },
+    {
+      "id": "spec/catalog/exfat-reader-prototype.json",
+      "path": "spec/catalog/exfat-reader-prototype.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/portable/exfat/exfat.h",
+      "path": "source/portable/exfat/exfat.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/portable/exfat/boot.c",
+      "path": "source/portable/exfat/boot.c",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/unit/exfat_probe.cpp",
+      "path": "tests/unit/exfat_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/property/test_exfat.py",
+      "path": "tests/property/test_exfat.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/catalog/exfat-directory-prototype.json",
+      "path": "spec/catalog/exfat-directory-prototype.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/property/exfat_directory_vectors.py",
+      "path": "tests/property/exfat_directory_vectors.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "source/portable/exfat/directory.c",
+      "path": "source/portable/exfat/directory.c",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/unit/exfat_directory_probe.cpp",
+      "path": "tests/unit/exfat_directory_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "tests/property/test_exfat_directory.py",
+      "path": "tests/property/test_exfat_directory.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
+    },
+    {
+      "id": "spec/catalog/exfat-allocation-prototype.json",
+      "path": "spec/catalog/exfat-allocation-prototype.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-directory-prototype.json",
+        "spec/catalog/exfat-reader-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-037",
+        "DE-050"
+      ]
     }
   ]
 }

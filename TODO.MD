@@ -360,3 +360,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - DE-W057: actual CLI/protocol/GUI/TUI/shell prepare/execute/watch pass in the gated development composition, with exact generated-image output and console restoration; compatible reader and selected regressions pass. Actual cancellation from all five interfaces and retained full/short/flush failures now pass; interrupted watch/resume, owned hangs/exit and strict event producer coverage now pass with a repaired observation race; normal composition and typed responses are now implemented with actual frontend/failure checks; full clean-source qualification and work review remain. [Contract and progress](docs/fat-recursive-command.md).
 
 - [x] DE-W057 local normal recursive command/operation qualification: exact clean source `087f95b4` passes full native/header/import/tooling and actual all-frontend/failure evidence; agent review retained. Owner, physical/other-host and full0.1.0 release acceptance remain open.
+
+- [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full0.1.0 remain unfinished.
+
+- [x] DE-W064 local exact-source qualification44c8b090:2316cases/9methods,10parser/guardgroups+boundaryfollowup,1header/C90/import/context and agentreview. Prior130native evidence separate; bitmap/upcase/source/tree/provider/fullrelease remain unfinished.
+
+- [ ] DE-W065 planned: supplied-byte bitmap descriptor and bounded allocation-bit intervals, exact checked offsets and raw/advisory preservation; no source-bound free-space/ownership/writer claim.
