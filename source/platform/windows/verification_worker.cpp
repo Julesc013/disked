@@ -125,7 +125,7 @@ void delay(const wchar_t*) {}
 }
 V prepare_verification_worker(const std::string& id,const std::string& directory,const std::string& image_path,const std::string& map,const std::string& execution_directory) {
     Directory dir(execution_directory);dir.empty();Security security;Image image;Inputs inputs(id,directory,image_path,map);
-    auto d=V::object().put("schema",V::string("org.disked.verification-worker-definition-prototype/1")).put("case_operation_id",V::string(id))
+    auto d=V::object().put("schema",V::string(inputs.verification.definition().plan.definition.find("logical_source")?"org.disked.verification-worker-definition-prototype/2":"org.disked.verification-worker-definition-prototype/1")).put("case_operation_id",V::string(id))
         .put("case_source",inputs.source.binding()).put("request_raw",V::string(inputs.source.request_bytes())).put("verification",inputs.verification.definition().value)
         .put("verification_digest",V::string(inputs.verification.definition().digest)).put("image_binding",inputs.verification.binding()).put("store",store_binding(dir))
         .put("host_id",V::string(security.host_id)).put("verifier",code(image)).put("worker_image_path",V::string(narrow(image.path)));

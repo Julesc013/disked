@@ -101,7 +101,7 @@ ImageVerificationObservation::ImageVerificationObservation(const AcquisitionCase
     const auto applicable=case_state=="unavailable" || image_state=="unavailable"?"unavailable":case_state=="changed" || image_state=="changed"?"changed":"applicable";
     auto selected=V::object().put("id",get(report.view(),"case_id")).put("revision",V::string(report.revision()))
         .put("operation_id",get(before,"operation_id")).put("attempt_id",get(before,"attempt_id")).put("worker_epoch",get(before,"worker_epoch"));
-    view_=V::object().put("schema",V::string("org.disked.image-verification-observation-prototype/1")).put("case",selected)
+    view_=V::object().put("schema",V::string(report.logical()?"org.disked.image-verification-observation-prototype/2":"org.disked.image-verification-observation-prototype/1")).put("case",selected)
         .put("request_raw_digest",V::string(export_digest(raw))).put("request_semantic_digest",V::string(export_digest(encode(before))))
         .put("verifier",code(get(context,"verifier"))).put("clock",clock(get(context,"clock"))).put("definition",definition.value).put("definition_digest",V::string(definition.digest))
         .put("outcome",result.view()).put("case_source_before",source).put("case_source_after",get(context,"case_after")).put("case_revalidation",get(context,"case_revalidation"))
@@ -125,7 +125,7 @@ V ImageVerificationObservation::support(const V& policy) const {
     keys(policy,{"identifiers","raw_values","interpretations","customer_data"});for(const auto& entry:policy.fields)if(entry.second.kind!=V::Kind::boolean)fail("image_observation_policy");
     const auto& observed=get(view_,"outcome");auto summary=V::object().put("recorded_status",get(observed,"status")).put("resource_revalidation",get(observed,"resource_revalidation"))
         .put("sealed",get(observed,"sealed")).put("pending",get(observed,"pending"));
-    auto result=V::object().put("schema",V::string("org.disked.image-verification-support-prototype/1")).put("scope",get(view_,"scope")).put("policy",policy)
+    auto result=V::object().put("schema",V::string(get(view_,"schema").text=="org.disked.image-verification-observation-prototype/2"?"org.disked.image-verification-support-prototype/2":"org.disked.image-verification-support-prototype/1")).put("scope",get(view_,"scope")).put("policy",policy)
         .put("verification",summary).put("case_revalidation",get(view_,"case_revalidation")).put("image_binding_revalidation",get(view_,"image_binding_revalidation"))
         .put("attachment_applicability",get(view_,"attachment_applicability")).put("claims",claims());
     if(get(policy,"raw_values").boolean) {

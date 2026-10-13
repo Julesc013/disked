@@ -33,7 +33,8 @@ e::VerificationDefinition verification(const V& d) {
 }
 void validate_definition(const V& d) {
     keys(d,{"schema","case_operation_id","case_source","request_raw","verification","verification_digest","image_binding","store","host_id","verifier","worker_image_path"});
-    if(text(d,"schema")!="org.disked.verification-worker-definition-prototype/1")reject("verification_worker_version");
+    const bool logical=get(get(d,"verification"),"plan").find("logical_source")!=nullptr;
+    if(text(d,"schema")!=(logical?"org.disked.verification-worker-definition-prototype/2":"org.disked.verification-worker-definition-prototype/1"))reject("verification_worker_version");
     hex(text(d,"case_operation_id"),"image-op:",32);hex(text(d,"host_id"),"",64);e::validate_verifier_code(get(d,"verifier"));token(text(d,"worker_image_path"),960);
     const auto v=verification(d);if(!same(e::verification_image_resources(get(d,"image_binding")),v.resources))reject("verification_worker_image_binding");
     const auto& source=get(d,"case_source");e::validate_case_source(source);const auto raw=text(d,"request_raw");

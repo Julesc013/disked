@@ -32,7 +32,8 @@ void resources(const V& v) {
 }
 void active_resources(const V& planned,const V& active,const acquisition::Plan& p) {
     auto value=p.definition;value.put("resources",active);acquisition::prepare(value);
-    for(const auto role:{"source","destination","map","host","executable","provider"}) {
+    for(const auto role:{"source","destination","map","host","executable","provider","backing"}) {
+        if(std::string(role)=="backing" && !p.definition.find("logical_source"))continue;
         const auto& a=get(active,role);const auto& b=get(planned,role);
         if(std::string(role)!="destination" && std::string(role)!="map") {if(!equal(a,b))fail("verification_recorded_resources");}
         else for(const auto key:{"access","start","end","failure_domain","verification"})if(!equal(get(a,key),get(b,key)))fail("verification_recorded_resources");
@@ -65,7 +66,7 @@ V claims() {return V::object().put("source_preservation",V::string("not_establis
 VerificationDefinition prepare_verification(const acquisition::Plan& input,const V& observed) {
     VerificationDefinition d;d.plan=acquisition::prepare(input.definition);
     if(input.digest!=d.plan.digest)fail("verification_plan_digest");resources(observed);d.resources=observed;
-    d.value=V::object().put("schema",V::string("org.disked.acquired-image-verification-definition-prototype/1"))
+    d.value=V::object().put("schema",V::string(d.plan.definition.find("logical_source")?"org.disked.acquired-image-verification-definition-prototype/2":"org.disked.acquired-image-verification-definition-prototype/1"))
         .put("plan",d.plan.definition).put("plan_digest",V::string(d.plan.digest)).put("resources",observed);
     d.digest=hash(json::dump(d.value,definition_limits()));return d;
 }

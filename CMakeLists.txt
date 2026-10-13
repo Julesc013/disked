@@ -646,6 +646,9 @@ if(BUILD_TESTING)
   add_test(NAME frontend.fat_extraction COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_extraction_commands.py"
     --exe "$<TARGET_FILE:disked>" --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --fat "$<TARGET_FILE:fat_worker_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/fat-extraction-command-cases.json")
   set_tests_properties(frontend.fat_extraction PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME evidence.logical_extraction COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_logical_extraction_evidence.py"
+    --exe "$<TARGET_FILE:disked>" --case "$<TARGET_FILE:acquisition_case_probe>" --verify "$<TARGET_FILE:acquired_image_verification_probe>" --collection "$<TARGET_FILE:image_verification_collection_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/logical-extraction-evidence-cases.json")
+  set_tests_properties(evidence.logical_extraction PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   add_executable(compiled_registry_probe tests/unit/compiled_registry_probe.cpp)
   target_link_libraries(compiled_registry_probe PRIVATE disked_command)
   set_target_properties(compiled_registry_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)

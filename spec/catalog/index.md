@@ -50,6 +50,7 @@
 - [journal-producer-prototype.json](journal-producer-prototype.json)
 - [journal-prototype.json](journal-prototype.json)
 - [journal-semantics-prototype.json](journal-semantics-prototype.json)
+- [logical-extraction-evidence-prototype.json](logical-extraction-evidence-prototype.json)
 - [native-bootstrap.json](native-bootstrap.json)
 - [nt-capture-domain-prototype.json](nt-capture-domain-prototype.json)
 - [nt-composite-identity-prototype.json](nt-composite-identity-prototype.json)

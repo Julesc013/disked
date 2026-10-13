@@ -38,8 +38,13 @@ def duplicates(pairs):
     out={}
     for k,v in pairs:require(k not in out,'Duplicate raw request key');out[k]=v
     return out
-def definition(v,encode):
+def definition(v,encode,semantic=None):
     limits(v,encode);store=v['store'];source=v['case_source'];inner=v['verification'];plan=inner['plan'];resources=inner['resources']
+    logical=plan['schema']=='org.disked.acquisition-plan-prototype/2'
+    require(plan['schema']==('org.disked.acquisition-plan-prototype/2' if logical else 'org.disked.acquisition-plan-prototype/1'),'Verification plan version')
+    require(v['schema']==('org.disked.verification-worker-definition-prototype/2' if logical else 'org.disked.verification-worker-definition-prototype/1') and inner['schema']==('org.disked.acquired-image-verification-definition-prototype/2' if logical else 'org.disked.acquired-image-verification-definition-prototype/1'),'Verification namespace/version mismatch')
+    if logical and semantic is not None:semantic('acquisition-logical-plan',plan)
+
     require(v['verification_digest']==digest(inner,encode) and inner['plan_digest']==digest(plan,encode),'Verification definition digest disagrees')
     require(store['ancestors'][-1]==store['generation'] and store['generation']!=source['store']['generation'] and store['failure_domain']=='observed-file-volume:'+store['generation']['volume_id'],'Verification store generation/alias/failure domain disagrees')
     for p in store['ancestors']+[store['generation']]+source['ancestors']+[source['store']['generation']]:generation(p)
@@ -49,7 +54,10 @@ def definition(v,encode):
     require(source['ancestors'][-1]==source['store']['generation'] and source['store']['failure_domain']=='observed-file-volume:'+source['store']['generation']['volume_id'],'Case store generation/failure domain disagrees')
     require(number(source['files'][0]['metadata']['bytes'])<=32768 and number(source['files'][1]['metadata']['bytes'])<=1048576,'Case metadata byte bound exceeded')
     raw=v['request_raw'].encode('utf-8');h=json.loads(v['request_raw'],object_pairs_hook=duplicates);original=h['definition']
-    require(h['schema']=='org.disked.acquisition-worker-request/1' and original['schema']=='org.disked.acquisition-worker-definition/1' and h['operation_id']==v['case_operation_id'] and original['plan']==plan and original['store']==source['store'],'Raw case request selection disagrees')
+    require(h['schema']=='org.disked.acquisition-worker-request/1' and original['schema']==('org.disked.acquisition-worker-definition/2' if logical else 'org.disked.acquisition-worker-definition/1') and h['operation_id']==v['case_operation_id'] and original['plan']==plan and original['store']==source['store'],'Raw case request selection disagrees')
+    if logical:require(original['request']['logical_source']==plan['logical_source'],'Original logical selection disagrees')
+    else:require('logical_source' not in original['request'],'Raw request contains a logical selector')
+    require(all(original['request'][key]==plan[key] for key in ('chunk_bytes','retry_limit','read_policy','substitution')),'Original request/plan options disagree')
     require(len(raw)<=32768 and number(source['files'][0]['metadata']['bytes'])==len(raw) and source['files'][0]['digest']=='sha256:'+hashlib.sha256(raw).hexdigest(),'Raw case request bytes/hash disagree')
     require(h['definition_digest']==digest(original,encode)==h['grant']['definition_digest'] and all(h['grant'][k] is True for k in ['source_read','destination_write','map_write','host_effects']),'Original request/grant definition disagrees')
     require({k:file_resource(v['image_binding'][k],encode) for k in ['image','map']}==resources,'Current verification resource/binding disagrees')
@@ -100,8 +108,8 @@ def state(s,encode,d=None):
     if d:
         require(b['definition_digest']==digest(d,encode) and b['host_id']==d['host_id'] and b['verifier']==d['verifier'],'Verification state code/definition binding disagrees')
         require(n['covered_bytes']<=number(d['verification']['plan']['bytes']) and n['consumed_map_bytes']<=number(d['verification']['resources']['map']['bytes']),'Verification state exceeds resources')
-def validate(kind,v,encode):
-    if kind=='verification-worker-definition':definition(v,encode)
+def validate(kind,v,encode,semantic=None):
+    if kind=='verification-worker-definition':definition(v,encode,semantic)
     elif kind=='acquired-image-verification-outcome':outcome(v,encode)
     elif kind=='verification-worker-state':state(v,encode)
     elif kind=='verification-worker-record':
@@ -113,15 +121,15 @@ def validate(kind,v,encode):
         s=v['payload']['record']['state'];require(v['operation_id']==s['binding']['operation_id'] and v['sequence']==s['sequence'],'Verification event identity/sequence mismatch')
         require('\0' not in v['payload']['request_id'] and len(v['payload']['request_id'].encode('utf-8'))<=128,'Verification observer request identity')
     elif kind=='verification-command-parameters':
-        if v['phase']=='execute':definition(v['definition'],encode);limits(v['definition'],encode,65536,8192,32)
+        if v['phase']=='execute':definition(v['definition'],encode,semantic);limits(v['definition'],encode,65536,8192,32)
         # Actual request identity/envelope is validated by its owning transport.
         limits(v,encode,65535,8192,32)
     elif kind=='verification-preparation-result':
-        definition(v['definition'],encode);require(v['definition_digest']==digest(v['definition'],encode),'Verification preparation digest mismatch');limits(v['definition'],encode,65536,8192,32)
+        definition(v['definition'],encode,semantic);require(v['definition_digest']==digest(v['definition'],encode),'Verification preparation digest mismatch');limits(v['definition'],encode,65536,8192,32)
         public_request(dict(phase='execute',definition=v['definition'],definition_digest=v['definition_digest'],**{'allow_'+n:True for n in ['case_read','image_read','map_read','store_write','host_effects','private_metadata']}),encode)
     elif kind=='verification-operation-result':
         d=v.get('definition');s=v.get('state')
-        if d:definition(d,encode);require(v.get('definition_digest')==digest(d,encode),'Verification reply definition mismatch')
+        if d:definition(d,encode,semantic);require(v.get('definition_digest')==digest(d,encode),'Verification reply definition mismatch')
         if s:
             require(d is not None,'Verification state has no definition');state(s,encode,d)
             require(v.get('request_binding')=={k:x for k,x in s['binding'].items() if k not in ['process_id','process_created']},'Verification retained request binding disagrees')

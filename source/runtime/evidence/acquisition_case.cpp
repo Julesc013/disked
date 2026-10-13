@@ -31,10 +31,15 @@ void header_valid(const V& h) {
     if(text(h,"schema")!="org.disked.acquisition-worker-request/1")throw Error("acquisition_case_version");
     identity(text(h,"operation_id"),"image-op:",32);identity(text(h,"worker_epoch"),"worker:",32);identity(text(h,"attempt_id"),"attempt:",32);
     const auto& d=field(h,"definition");keys(d,{"schema","request","plan","store","host_id","image_digest","source_revision","input_digest","target_profile"});
-    if(text(d,"schema")!="org.disked.acquisition-worker-definition/1" || text(d,"target_profile")!="windows.nt10.x64.win32")throw Error("acquisition_case_version");
+    const bool logical=text(d,"schema")=="org.disked.acquisition-worker-definition/2";
+    if((!logical && text(d,"schema")!="org.disked.acquisition-worker-definition/1") || text(d,"target_profile")!="windows.nt10.x64.win32")throw Error("acquisition_case_version");
     identity(text(d,"host_id"),"",64);identity(text(d,"image_digest"),"",64);identity(text(d,"source_revision"),"",40);identity(text(d,"input_digest"),"sha256:",64);
     const auto plan=acquisition::prepare(field(d,"plan"));const auto& r=field(d,"request");
-    keys(r,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution"});
+    if(text(plan.definition,"schema")!=(logical?"org.disked.acquisition-plan-prototype/2":"org.disked.acquisition-plan-prototype/1"))throw Error("acquisition_case_version");
+    if(logical) {
+        keys(r,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution","logical_source"});
+        if(json::dump(field(r,"logical_source"))!=json::dump(field(plan.definition,"logical_source")))throw Error("acquisition_case_selection");
+    } else keys(r,{"source","destination","map","resume","explicit_options","chunk_bytes","retry_limit","read_policy","substitution"});
     for(const auto key:{"source","destination","map"}) {const auto s=text(r,key);if(s.empty() || s.size()>960 || s.find('\0')!=s.npos || !json::valid_utf8(s))throw Error("acquisition_case_path");}
     boolean(field(r,"resume"));
     if(!boolean(field(r,"explicit_options")) || integer(field(r,"chunk_bytes"))!=plan.chunk_bytes || integer(field(r,"retry_limit"))!=plan.retries ||
@@ -60,11 +65,12 @@ json::Limits acquisition_case_limits() {auto l=case_limits();l.bytes=2097152;l.v
 void validate_acquisition_case_request(const V& header) {header_valid(header);}
 AcquisitionCase::AcquisitionCase(const V& header,const std::string& raw):header_(header) {
     header_valid(header_);history_=acquisition_operation::read_history(raw,header_);
+    logical_=text(field(header_,"definition"),"schema")=="org.disked.acquisition-worker-definition/2";
     const auto& first=field(history_.records.front(),"state");
     if(text(first,"phase")!="active" || integer(field(first,"checkpoint_bytes"))!=0)throw Error("acquisition_case_missing_start");
     const bool terminal=history_.complete && text(history_.state,"phase")=="finished";
     auto records=V::array();records.items=history_.records;
-    view_=V::object().put("schema",V::string("org.disked.acquisition-case-prototype/1"))
+    view_=V::object().put("schema",V::string(logical_?"org.disked.acquisition-case-prototype/2":"org.disked.acquisition-case-prototype/1"))
         .put("case_id",V::string("case:"+text(header_,"operation_id").substr(9))).put("code_identity",code(field(header_,"definition")))
         .put("origin",V::string("validated-request-and-history-declarations"))
         .put("collection_state",V::string(!history_.complete?"unresolved":terminal?"closed":"open"))
@@ -72,6 +78,7 @@ AcquisitionCase::AcquisitionCase(const V& header,const std::string& raw):header_
         .put("history",V::object().put("complete",V::boolean_value(history_.complete)).put("bytes",V::string(std::to_string(raw.size())))
             .put("raw_digest",V::string(digest(raw))).put("last_record_digest",V::string("sha256:"+history_.previous)))
         .put("claims",claims());
+    if(logical_)view_.put("scope",V::string("recorded-ordinary-fat-file-extraction"));
     revision_=digest(json::dump(view_,acquisition_case_limits()));
 }
 V AcquisitionCase::support(const V& policy) const {
@@ -80,6 +87,12 @@ V AcquisitionCase::support(const V& policy) const {
     const auto& d=field(header_,"definition");const auto& p=field(d,"plan");
     auto before=V::object().put("phase",V::string("before")).put("kind",V::string("recorded-execution-definition"));
     if(raw)for(const auto key:{"bytes","chunk_bytes","retry_limit","read_policy","substitution"})before.put(key,field(p,key));
+    if(raw && logical_) {
+        const auto& original=field(p,"logical_source");auto selected=V::object().put("kind",field(original,"kind"));
+        for(const auto key:{"volume_offset","volume_bytes","fat_copy","expected_file_bytes"})selected.put(key,field(original,key));
+        if(identifiers)for(const auto key:{"node_id","metadata_digest"})selected.put(key,field(original,key));
+        before.put("logical_content",selected);
+    }
     auto after=V{};
     if(field(view_,"after").kind!=V::Kind::null) {
         const auto& out=field(history_.state,"outcome");after=V::object().put("phase",V::string("after"))
@@ -87,8 +100,8 @@ V AcquisitionCase::support(const V& policy) const {
             .put("uncertain_effect",field(out,"uncertain_effect"));
         if(raw)for(const auto key:{"checkpoint_bytes","source_bytes","substituted_bytes","attempt_read_bytes","attempt_written_bytes","attempt_verified_bytes","records"})after.put(key,field(out,key));
     }
-    auto v=V::object().put("schema",V::string("org.disked.acquisition-case-support-prototype/1"))
-        .put("scope",V::string("recorded-ordinary-file-acquisition")).put("policy",policy).put("collection_state",field(view_,"collection_state"))
+    auto v=V::object().put("schema",V::string(logical_?"org.disked.acquisition-case-support-prototype/2":"org.disked.acquisition-case-support-prototype/1"))
+        .put("scope",V::string(logical_?"recorded-ordinary-fat-file-extraction":"recorded-ordinary-file-acquisition")).put("policy",policy).put("collection_state",field(view_,"collection_state"))
         .put("before",before).put("after",after).put("accepted_records",V::string(std::to_string(history_.count)))
         .put("history_complete",V::boolean_value(history_.complete)).put("original_binding",V::string("omitted")).put("claims",claims());
     if(interpret)v.put("interpretation",V::object().put("kind",V::string("inference")).put("basis",V::string("validated-recorded-worker-statements"))

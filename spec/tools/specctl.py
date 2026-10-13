@@ -28,6 +28,8 @@ SEMANTICS[SCHEMA_PREFIX+'acquisition-plan-logical-prototype:2']='acquisition-log
 SEMANTICS[SCHEMA_PREFIX+'acquisition-worker-definition:2']='acquisition-worker-definition'
 SEMANTICS[SCHEMA_PREFIX+'fat-extraction-command-parameters:1']='acquisition-command-parameters'
 SEMANTICS[SCHEMA_PREFIX+'fat-file-selector:1']='fat-file-selector'
+for _name in ('verification-worker-definition','verification-definition-selection','verification-command-parameters','verification-preparation-result','verification-operation-result'):
+    SEMANTICS[SCHEMA_PREFIX+_name+':2']='verification-worker-definition' if _name=='verification-definition-selection' else _name
 SEMANTICS.update({SCHEMA_PREFIX+name+':1':name for name in ('acquisition-worker-definition','acquisition-command-parameters',
     'acquisition-worker-state','acquisition-worker-record','acquisition-operation-event',
     'acquisition-case-export-definition','acquisition-case-export-outcome','report-worker-definition')})
@@ -312,7 +314,7 @@ def semantic_validate(kind: str | None, value: dict):
         except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc
     elif kind in ('verification-worker-definition','acquired-image-verification-outcome','verification-worker-state','verification-worker-record','verification-operation-event','verification-command-parameters','verification-preparation-result','verification-operation-result'):
         from verification_contracts import validate
-        try:validate(kind,value,acquisition_record_bytes)
+        try:validate(kind,value,acquisition_record_bytes,semantic_validate)
         except (ValueError,KeyError,TypeError,OverflowError,RecursionError) as exc:raise SpecError(str(exc)) from exc
     elif kind == 'report-worker-state':
         report_record_limits(value,65536);sequence=bounded_u64(value['sequence'],'report sequence');binding=value['binding']

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:disked:schema:verification-definition-selection:2",
+  "title": "Compatible reader dispatch for exactly raw1 or logical2 definitions",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "enum": [
+        "org.disked.verification-worker-definition-prototype/1",
+        "org.disked.verification-worker-definition-prototype/2"
+      ]
+    }
+  },
+  "required": [
+    "schema"
+  ],
+  "if": {
+    "properties": {
+      "schema": {
+        "const": "org.disked.verification-worker-definition-prototype/1"
+      }
+    },
+    "required": [
+      "schema"
+    ]
+  },
+  "then": {
+    "$ref": "urn:disked:schema:verification-worker-definition:1"
+  },
+  "else": {
+    "$ref": "urn:disked:schema:verification-worker-definition:2"
+  }
+}

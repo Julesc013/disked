@@ -40,7 +40,7 @@ ImageVerificationCollection::ImageVerificationCollection(const std::string& coll
 }
 V ImageVerificationCollection::full() const {
     auto records=V::array();for(const auto& entry:entries_)records.items.push_back(entry.record);
-    return V::object().put("schema",V::string("org.disked.image-verification-collection-prototype/1")).put("collection_id",V::string(id_))
+    return V::object().put("schema",V::string(original_.logical()?"org.disked.image-verification-collection-prototype/2":"org.disked.image-verification-collection-prototype/1")).put("collection_id",V::string(id_))
         .put("case_revision",V::string(original_.revision())).put("request_raw",V::string(request_)).put("history_hex",V::string(image_collection_hex(history_))).put("original_case",original_.view())
         .put("context_digest",V::string(context_)).put("records",records).put("claims",claims());
 }
@@ -63,8 +63,9 @@ ImageVerificationCollection ImageVerificationCollection::with_observation(const 
 ImageVerificationCollection ImageVerificationCollection::restore(const std::string& bytes) {
     if(bytes.empty() || bytes.size()>1048577 || bytes.back()!='\n')fail("image_collection_retention_limit");const auto body=bytes.substr(0,bytes.size()-1);
     const auto value=json::parse(body,image_collection_limits());keys(value,{"schema","collection_id","case_revision","request_raw","history_hex","original_case","context_digest","records","claims"});
-    if(text(get(value,"schema"))!="org.disked.image-verification-collection-prototype/1")fail("image_collection_version");
+    if(text(get(value,"schema"))!="org.disked.image-verification-collection-prototype/1" && text(get(value,"schema"))!="org.disked.image-verification-collection-prototype/2")fail("image_collection_version");
     const auto raw=text(get(value,"request_raw")),history=image_collection_bytes(text(get(value,"history_hex")));const AcquisitionCase original(json::parse(raw,request_limits()),history);
+    if(text(get(value,"schema"))!=(original.logical()?"org.disked.image-verification-collection-prototype/2":"org.disked.image-verification-collection-prototype/1"))fail("image_collection_version");
     ImageVerificationCollection result(text(get(value,"collection_id")),original,raw,history);const auto& records=get(value,"records");
     if(records.kind!=V::Kind::array || records.items.size()>16)fail("image_collection_record_limit");
     for(const auto& row:records.items) {
@@ -78,7 +79,7 @@ V ImageVerificationCollection::support(const V& selected) const {
     keys(selected,{"identifiers","raw_values","interpretations","customer_data"});for(const auto& item:selected.fields)if(item.second.kind!=V::Kind::boolean)fail("image_collection_policy");
     auto records=V::array();for(const auto& entry:entries_) {auto row=V::object().put("sequence",get(entry.record,"sequence")).put("observation",entry.observation.support(selected));
         if(get(selected,"identifiers").boolean)row.put("observer",entry.observer);records.items.push_back(row);}
-    auto value=V::object().put("schema",V::string("org.disked.image-verification-collection-support-prototype/1")).put("scope",V::string("recorded-image-verification-collection"))
+    auto value=V::object().put("schema",V::string(original_.logical()?"org.disked.image-verification-collection-support-prototype/2":"org.disked.image-verification-collection-support-prototype/1")).put("scope",V::string("recorded-image-verification-collection"))
         .put("policy",selected).put("records",records).put("original_case_claims",get(original_.view(),"claims")).put("claims",claims());
     if(get(selected,"identifiers").boolean)value.put("collection_id",V::string(id_));json::dump(value,case_limits());return value;
 }

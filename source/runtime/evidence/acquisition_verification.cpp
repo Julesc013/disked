@@ -22,14 +22,14 @@ AcquisitionVerificationReport::AcquisitionVerificationReport(const AcquisitionCa
        json::dump(get(collection,"original_case"),acquisition_case_limits())!=selected ||
        get(collection,"case_revision").text!=acquisition_.revision() || get(collection,"request_raw").text!=request ||
        image_collection_bytes(get(collection,"history_hex").text)!=history)throw Error("verification_case_original_mismatch");
-    view_=V::object().put("schema",V::string("org.disked.acquisition-verification-report-prototype/1"))
+    view_=V::object().put("schema",V::string(acquisition_.logical()?"org.disked.acquisition-verification-report-prototype/2":"org.disked.acquisition-verification-report-prototype/1"))
         .put("acquisition",V::object().put("revision",V::string(acquisition_.revision())).put("view",acquisition_.view()))
         .put("verification",V::object().put("revision",V::string(verification_.revision())).put("view",collection)).put("claims",claims());
     revision_=export_digest(json::dump(view_,acquisition_verification_limits()));
     for(unsigned n=0;n<16;++n)json::dump(support(policy(n)),case_limits());
 }
 json::Value AcquisitionVerificationReport::support(const V& selected) const {
-    auto v=V::object().put("schema",V::string("org.disked.acquisition-verification-support-prototype/1"))
+    auto v=V::object().put("schema",V::string(acquisition_.logical()?"org.disked.acquisition-verification-support-prototype/2":"org.disked.acquisition-verification-support-prototype/1"))
         .put("scope",V::string("recorded-acquisition-verification")).put("policy",selected)
         .put("acquisition",acquisition_.support(selected)).put("verification",verification_.support(selected)).put("claims",claims());
     json::dump(v,case_limits());return v;

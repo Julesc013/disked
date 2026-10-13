@@ -10,10 +10,12 @@ class AcquisitionCase final {
     json::Value header_,view_;
     acquisition_operation::History history_;
     std::string revision_;
+    bool logical_ = false;
 public:
     AcquisitionCase(const json::Value& header,const std::string& records);
     const json::Value& view() const {return view_;}
     const std::string& revision() const {return revision_;}
+    bool logical() const {return logical_;}
     json::Value support(const json::Value& policy) const;
 };
 json::Limits acquisition_case_limits();
