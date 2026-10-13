@@ -1,5 +1,37 @@
 # Source structure and release review follow-up
 
+## Qualified allocation-continuation checkpoint: 13 October 2026
+
+Source `112aa1e9` adds a private resumable FAT allocation cursor in the existing
+`fat.h` and `allocation.c`. [Exact-source evidence](../.aide/evidence/2026-10-13-fat-walk/README.md)
+records 109 native groups, 20 selected headers, 232 tooling passes and
+2 skips. Independent cases walk 33,000-cluster chains with different page sizes;
+cross-page cycles emit no repeated cluster. Capacity/addressability and terminal
+versus pending outcomes remain explicit. No product directory or public command
+is added, and the source map still covers 224 source files.
+
+Keep the CLI folder and explicit `shell_model`, `tui_model` and `gui_model`
+names. Shared terminal/host mechanisms retain their platform owner; shared
+semantics retain their runtime owner. [The file map](source-map.md) explains
+every current file, and [the structure guide](code-structure.md) records future
+responsibility slots. Neither promises that all future private filenames are
+known or that no future decomposition will be needed.
+
+The unchanged all-platform/storage 0.1.0 goal remains active and incomplete.
+Source/epoch-bound directory pages, recursive extraction/metadata fidelity and
+further formats/hosts remain implementation work. Owner, production journal,
+physical/elevation/customer/install/sign/release gates remain separate. Tested
+agent-reviewed dev checkpoints can be integrated into main under the existing
+user grant; that integration does not publish or accept a release.
+
+The read-only GitHub recheck during this checkpoint found Universal Setup main
+`c048f7f1` and dev `2b7a4d01` unchanged. [Draft PR237](https://github.com/Julesc013/universal-setup/pull/237)
+still has head `0fc1f90d`; [its exact-head CI](https://github.com/Julesc013/universal-setup/actions/runs/38252891691)
+fails `native-windows`, with six other jobs passing. Both public release queries
+returned zero entries. This is hosted metadata, not a Setup build/install test
+or a diagnosis of that failing job. There is no justified full-release date.
+
+
 ## Qualified logical-evidence checkpoint: 13 October 2026
 
 Source `a7041767` qualifies logical extraction evidence/export, independent

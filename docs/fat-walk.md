@@ -31,8 +31,9 @@ in this step. Larger directory trees, lossless names across page boundaries,
 recursive extraction and metadata fidelity remain implementation work.
 
 The expected [contract](../spec/catalog/fat-walk-prototype.json) precedes the
-implementation. Focused development tests pass; exact-source full qualification
-is pending. Tests compare FAT12/16/32 byte oracles across different page sizes,
+implementation. [Exact-source qualification](../.aide/evidence/2026-10-13-fat-walk/README.md)
+at `112aa1e9` passes 109 native groups and 20 selected headers in the recorded
+Windows lane. Tests compare FAT12/16/32 byte oracles across different page sizes,
 chains up to 33,000 clusters, cross-page cycles and every terminal marker. Native
 protected-page tests check short/exact cells, unchanged errors and bitmap tails.
 These results qualify neither a complete filesystem nor physical operations.

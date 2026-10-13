@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.fat-walk-profile/1",
   "work_id": "DE-W052",
-  "status": "expected-contract-before-implementation",
+  "status": "private-cursor-qualified-in-recorded-windows-lane",
   "base_revision": "83edbe735784accc7784bf528d210210cc66c4d6",
   "scope": "Private resumable FAT12/16/32 allocation-chain cursor over supplied exact cells, as the first part of larger coherent traversal. No host reads, persisted continuation, public command, recursive extraction or provider admission.",
   "ownership": "Reuse portable/fat/fat.h and allocation.c; allocation decoding and chain semantics have the same owner. No new source tree or parallel FAT decoder. Existing capped chain_read and capture/selector versions keep their contracts.",
@@ -17,5 +17,12 @@
   "authorizes_effects": false,
   "product_dispatch_admitted": false,
   "owner_accepted": false,
-  "release_ready": false
+  "release_ready": false,
+  "development_evidence": {
+    "source_revision": "112aa1e980861c050f66fef8d9ea9000658e4cc8",
+    "summary": ".aide/evidence/2026-10-13-fat-walk/summary.json",
+    "cases": 188,
+    "maximum_chain": 33000,
+    "native_groups": 109
+  }
 }
