@@ -1,0 +1,253 @@
+[
+  {
+    "name": "origin",
+    "command": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "logs/origin.log"
+  },
+  {
+    "name": "existing-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.092,
+    "log": "logs/existing-status.log"
+  },
+  {
+    "name": "fetch",
+    "command": [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      "27499f20b578c152096c9d0d20b1a702340faf19"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 9.973,
+    "log": "logs/fetch.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "27499f20b578c152096c9d0d20b1a702340faf19"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.288,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.147,
+    "log": "logs/source-status.log"
+  },
+  {
+    "name": "host",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "$fatIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent();$fatPrincipal=[System.Security.Principal.WindowsPrincipal]::new($fatIdentity);$fatOS=Get-CimInstance Win32_OperatingSystem;[ordered]@{identity=$fatIdentity.Name;elevated=$fatPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator);os=$fatOS.Caption;version=$fatOS.Version;architecture=$fatOS.OSArchitecture}|ConvertTo-Json -Compress"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.482,
+    "log": "logs/host.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.123,
+    "log": "logs/source-map.log"
+  },
+  {
+    "name": "source-tree",
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-z",
+      "27499f20b578c152096c9d0d20b1a702340faf19"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.112,
+    "log": "logs/source-tree.log"
+  },
+  {
+    "name": "cmake-version",
+    "command": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "python-environment",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-c",
+      "import sys,importlib.metadata as m;print(sys.version);print('PyYAML='+m.version('PyYAML'));print('jsonschema='+m.version('jsonschema'))"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.116,
+    "log": "logs/python-environment.log"
+  },
+  {
+    "name": "gcc-version",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-dumpfullversion"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.021,
+    "log": "logs/gcc-version.log"
+  },
+  {
+    "name": "gcc-description",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.021,
+    "log": "logs/gcc-description.log"
+  },
+  {
+    "name": "gcc-c90",
+    "command": [
+      "C:\\Users\\Jules\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\gcc.exe",
+      "-std=c90",
+      "-pedantic-errors",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "source",
+      "-fsyntax-only",
+      "source/portable/fat/volume.c",
+      "source/portable/fat/allocation.c",
+      "source/portable/fat/directory.c",
+      "source/portable/fat/auxiliary.c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.16,
+    "log": "logs/gcc-c90.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 9.835,
+    "log": "logs/configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 143.305,
+    "log": "logs/build.log"
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-build-boundaries.py",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build-boundaries.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 3.029,
+    "log": "logs/boundaries.log"
+  },
+  {
+    "name": "test-catalog",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build",
+      "-C",
+      "Release",
+      "--show-only=json-v1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 0,
+    "elapsed_seconds": 0.451,
+    "log": "logs/test-catalog.log"
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\fat-extraction-command-clean-27499f20\\build",
+      "-C",
+      "Release",
+      "--parallel",
+      "4",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\owned-layout-clean-2c731a1c\\checkout",
+    "exit_code": 8,
+    "elapsed_seconds": 678.439,
+    "log": "logs/native-tests.log"
+  }
+]

@@ -19,6 +19,11 @@ for p,digest in inputs.items():
 identity=json.loads((e/'build-identity.json').read_bytes());assert identity['identity']['source_revision']==source and identity['identity']['source_state']=='clean'
 assert identity['inputs']=={p:inputs[p] for p in identity['inputs']}
 commands=json.loads((e/'commands.json').read_bytes());assert all(r['exit_code']==0 for r in commands)
+failed=json.loads((e/'failed-27499f20/receipt.json').read_bytes())
+assert failed['source_revision']=='27499f20b578c152096c9d0d20b1a702340faf19' and failed['status']=='failed_validation'
+assert failed['native_groups']==106 and failed['passed_groups']==104 and failed['exit_code']==8
+assert failed['failed_groups']==['disked.acceptance','disked_provider_guard.acceptance']
+assert json.loads((e/'failed-27499f20/commands.json').read_bytes())[-1]['exit_code']==8
 assert '100% tests passed' in (e/'logs/native-tests.log').read_text(encoding='utf-8')
 inventory=json.loads((e/'retention.json').read_bytes());assert inventory['source_revision']==source
 actual={p.relative_to(e).as_posix() for p in e.rglob('*') if p.is_file() and '__pycache__' not in p.parts}-{'retention.json'}
