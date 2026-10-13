@@ -340,3 +340,12 @@ owned process host. Require actual larger aggregate streams, independent replay,
 source preservation, late/hung/cancelled workers and exit-only retirement before
 public tree traversal and recursive extraction/metadata restoration. Preserve
 the unchanged all-platform/storage 0.1.0 and separate owner/privilege/release gates.
+
+DE-W057's normal ordinary-file recursive FAT command/operation service reaches
+local implementing-agent review at clean source `087f95b4`. Exact native
+CLI/protocol/GUI/TUI/shell and failure journeys, 128 regression groups, 41 selected
+headers, imports, context/manifest and 242 tooling tests with two skips are retained
+under `.aide/evidence/2026-10-14-fat-recursive-command-qualification/`. This does not
+admit physical storage, other host profiles, production journal/broker or the full
+all-platform/storage0.1.0 release. Continue the remaining bounded capabilities and
+their actual qualification; owner acceptance remains separate.

@@ -1,6 +1,7 @@
 # Recursive extraction command development
 
-DE-W057 is active. Its [expected contract](../spec/catalog/fat-recursive-command-prototype.json)
+DE-W057 has reached its local agent review boundary; owner acceptance remains
+pending. Its [contract](../spec/catalog/fat-recursive-command-prototype.json)
 requires common-service and actual CLI/protocol/GUI/TUI/shell admission plus a
 durable ordinary-file operation lifecycle. The qualified private
 [DE-W056 backend](fat-recursive-extraction.md) supplies the create-only effects.
@@ -259,7 +260,11 @@ Help/discovery uses its own response contract and never initializes this backend
 Native resource freshness/full-history verification and actor authority remain
 separate. No schema freezes this prototype as a production public or journal ABI.
 
-Actual normal CLI/protocol/GUI/TUI/shell success and fault journeys now pass typed
-response validation and independent mutated-response refusals. Full clean-source
-qualification remains before DE-W057's review boundary; full0.1.0 and owner,
-physical, other-platform and release qualification remain open.
+Actual normal CLI/protocol/GUI/TUI/shell success and fault journeys pass typed
+response validation and independent mutated-response refusals. Exact clean source
+`087f95b4` passes 128 native groups, 41 standalone headers and 242 tooling tests
+with two skips. The [qualification evidence](../.aide/evidence/2026-10-14-fat-recursive-command-qualification/README.md)
+retains all four criterion mappings, build/source/blob/artifact identities,
+launch/import observations and context/index/manifest freshness. This establishes
+the ordinary-file Windows development scope. Full0.1.0 and owner, physical,
+other-platform and release qualification remain open.

@@ -1,5 +1,15 @@
 # Source structure and release review follow-up
 
+## Qualified normal recursive commands: 14 October 2026
+
+Exact clean source `087f95b4` passes 128 native groups, 41 standalone header
+compilations, generated dependency checks and 242 tooling tests with two skips.
+The [whole-unit evidence](../.aide/evidence/2026-10-14-fat-recursive-command-qualification/README.md)
+maps all four DE-W057 local criteria to actual common frontend/operation/failure
+results and exact source/build/import/context/artifact identities. The ordinary-file
+Windows scope has reached implementing-agent review. Existing ownership accommodates
+the work; owner, physical/other-host and full0.1.0 release acceptance remain open.
+
 ## Normal recursive composition development: 14 October 2026
 
 The normal Windows image prototype now selects recursive ordinary-file FAT

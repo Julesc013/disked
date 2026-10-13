@@ -1,0 +1,79 @@
+{
+  "work_id": "DE-W057",
+  "source_revision": "087f95b464670fa03de185d6e98a15e83eaa71dd",
+  "status": "local-development-criteria-proven",
+  "criteria": [
+    {
+      "criterion": 0,
+      "claim": "Stable immutable review and explicit five-grant/resource/namespace policy",
+      "groups": [
+        "acquisition.fat_tree_review",
+        "image.fat_tree_commands",
+        "image.fat_tree_admission"
+      ],
+      "artifacts": [
+        "fat-tree-review-cases.json",
+        "fat-tree-command-cases.json",
+        "fat-tree-admission-cases.json"
+      ]
+    },
+    {
+      "criterion": 1,
+      "claim": "Owned prepare/execution, exact identities, reconnect/cancel/wait, hangs/late/exit, no replay and unchanged sources",
+      "groups": [
+        "image.fat_tree_controller",
+        "image.fat_tree_reconnect",
+        "image.fat_tree_watch",
+        "image.fat_tree_extraction_worker",
+        "frontend.fat_recursive_failures"
+      ],
+      "artifacts": [
+        "fat-tree-controller-cases.json",
+        "fat-tree-reconnect-cases.json",
+        "fat-tree-watch-cases.json",
+        "fat-recursive-failure-cases.json"
+      ]
+    },
+    {
+      "criterion": 2,
+      "claim": "Actual normal CLI/protocol/Win32GUI/TUI/shell exact output/source and finite response semantics",
+      "groups": [
+        "frontend.fat_recursive_product",
+        "frontend.fat_recursive_failures"
+      ],
+      "artifacts": [
+        "fat-recursive-product-cases.json",
+        "fat-recursive-failure-cases.json"
+      ]
+    },
+    {
+      "criterion": 3,
+      "claim": "Full clean exact-source native/header/dependency/import/context/manifest/tooling/artifact evidence and old command regressions",
+      "groups": [
+        "build.boundaries",
+        "frontend.fat_tree_sessions",
+        "acquisition.fat_metadata",
+        "capture.fat_content_stream"
+      ],
+      "artifacts": [
+        "summary.json",
+        "build-identity.json",
+        "source-inputs.json",
+        "source-blob-bindings.json",
+        "header-objects.json",
+        "private-header-usage.json",
+        "context-manifest.json",
+        "native-details.log"
+      ]
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "limits": [
+    "Recorded ordinary-file Windows10x64/MSVC lane only",
+    "No physical devices/elevation/customer data",
+    "No production broker/journal ABI",
+    "Other platforms/formats/storage operations remain",
+    "No independent owner acceptance or release qualification"
+  ]
+}
