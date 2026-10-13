@@ -1,5 +1,21 @@
 # Source structure and release review follow-up
 
+## Qualified recursive backend: 14 October 2026
+
+Clean source 243f748e passes 120 native groups, 32 selected standalone header
+compilations, generated dependency checks and 236 tooling tests with two skips.
+The [whole-unit evidence](../.aide/evidence/2026-10-14-fat-recursive-qualification/README.md)
+maps all five DE-W056 criteria to actual results, launch/configuration/import
+observations, exact source/blob/artifact identities and context/manifest freshness.
+The private recursive backend, owned controller and independent history reader
+have reached their agent review boundary in the recorded ordinary-file Windows
+lane. Existing source ownership remains; no further restructuring is justified.
+
+DE-W056 remains pending owner acceptance. Public recursive commands and their
+operation lifecycle, other host/provider profiles and production/storage/release
+gates remain work within the full original 0.1.0 goal. A tested agent-reviewed
+repository merge is authorized separately from release publication.
+
 ## Retained recursive history inspection: 14 October 2026
 
 The private supplied-byte inspector passes 78 cases/13 methods over 16 direct

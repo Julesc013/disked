@@ -1,0 +1,92 @@
+{
+  "source_revision": "243f748e6a6af62469b184614d4d623b8ad239ea",
+  "work_id": "DE-W056",
+  "criteria": [
+    {
+      "requirement": 1,
+      "outcome": "pass",
+      "scope": "Supplied-byte streamed content and exact no-slack bytes",
+      "tests": [
+        "capture.fat_content_stream",
+        "image.fat_tree_content"
+      ],
+      "evidence": [
+        "logs/native-tests.log",
+        "native-details.log"
+      ]
+    },
+    {
+      "requirement": 2,
+      "outcome": "pass",
+      "scope": "Native FAT12/16/32 recursion, >128 entries, deep directories and large chains",
+      "tests": [
+        "image.fat_tree_extraction",
+        "image.fat_tree_extraction_worker"
+      ],
+      "evidence": [
+        "fat-tree-extraction-cases.json",
+        "fat-tree-extraction-worker-cases.json"
+      ]
+    },
+    {
+      "requirement": 3,
+      "outcome": "pass",
+      "scope": "Lossless original metadata, explicit OEM/time policy and actual native readback",
+      "tests": [
+        "acquisition.fat_metadata",
+        "image.fat_tree_metadata",
+        "image.fat_tree_extraction"
+      ],
+      "evidence": [
+        "native-details.log",
+        "fat-tree-extraction-cases.json"
+      ]
+    },
+    {
+      "requirement": 4,
+      "outcome": "pass",
+      "scope": "Owned writer grants, faults, hangs, cancellation, actual exit and retained histories",
+      "tests": [
+        "image.fat_tree_extraction_worker",
+        "evidence.fat_tree_history"
+      ],
+      "evidence": [
+        "fat-tree-extraction-worker-cases.json",
+        "fat-tree-history-cases.json"
+      ]
+    },
+    {
+      "requirement": 5,
+      "outcome": "pass",
+      "scope": "Whole clean-source campaign in recorded ordinary-file Windows lane",
+      "tests": [
+        "all 120 registered native groups",
+        "32 selected standalone header compilations",
+        "238 tooling tests:236 pass/two skip"
+      ],
+      "evidence": [
+        "summary.json",
+        "commands.json",
+        "build-identity.json",
+        "source-blob-bindings.json",
+        "build-boundaries.json",
+        "header-objects.json",
+        "context-manifest.json",
+        "logs/product-launch.log",
+        "artifacts.json"
+      ]
+    }
+  ],
+  "agent_review": true,
+  "owner_accepted": false,
+  "baseline_accepted": false,
+  "release_ready": false,
+  "not_qualified": [
+    "physical devices",
+    "other hosts/platforms",
+    "production journal/writer",
+    "persistent reconnect",
+    "public recursive commands",
+    "operator authentication"
+  ]
+}

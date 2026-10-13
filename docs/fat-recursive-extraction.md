@@ -1,10 +1,10 @@
 # Recursive FAT extraction development
 
-DE-W056 is active. Its [expected contract](../spec/catalog/fat-recursive-extraction-prototype.json)
+DE-W056 has reached its agent review boundary. Its [expected contract](../spec/catalog/fat-recursive-extraction-prototype.json)
 requires a complete create-only ordinary-image destination backend, explicit
 effect grants, original metadata evidence, native mapping/readback and contained
-worker qualification. The current content and metadata primitives do not complete
-that contract or expose a new public recursive-extraction command.
+worker qualification. The private backend/controller/history reader is qualified in the recorded
+ordinary-file Windows lane. No public recursive-extraction command is exposed.
 
 The private `providers/image/fat_tree_extraction.*` backend now prepares a
 complete namespace without creating output, then requires a one-use grant for
@@ -47,9 +47,11 @@ destructor transfers its preallocated owner to a passive retained list. Reaping
 requires observed exit. Old reader profiles retain their claims and limits; the
 compiled writer capability itself grants no mutation authority.
 
-Independent retained-history inspection and the complete exact-source native
-campaign still remain before DE-W056 can finish or a frontend can invoke
-recursive mutation. No persistent reconnect or production/storage privilege
+Independent retained-history inspection and the full clean-source campaign
+pass at 243f748e: 120 native groups, 32 selected headers and 236 tooling passes
+with two skips. [Exact evidence](../.aide/evidence/2026-10-14-fat-recursive-qualification/README.md)
+qualifies the private backend at its agent review boundary. Public/frontend
+recursive admission remains a separate implementation step. No persistent reconnect or production/storage privilege
 admission is supplied by this process-lifetime prototype.
 
 `runtime/capture/fat_content_stream.*` continues one observed file's allocation
@@ -97,7 +99,7 @@ The private backend now establishes original source/tree membership, parent
 identities, selected-name collision checks, its immutable definition/grants,
 create-only effects, ordered original evidence and native application/readback.
 The contained bridge and the supplied-byte history inspector are private
-development implementations; complete exact-source qualification remains.
+implementations qualified in the recorded clean-source ordinary-file lane.
 Candidate names/times or imported matching
 hashes authorize no new effects. Existing raw/logical plans and selectors retain
 their versions.
