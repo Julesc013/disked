@@ -369,4 +369,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W066 local exact qualification at `e43f00fb`: 244 scenarios/9 methods, 15 selected native groups, one header, C90/import/context/source and 242 tooling tests with two skips. Four agent-review criteria pass; source/root/chain/namespace/provider/full release remain unfinished.
 
-- [ ] DE-W067 active: bounded supplied-region exFAT root/active-FAT/bitmap/upcase coherence; expected contract registered before runtime implementation. Held source/tree/content/provider/full release remain.
+- [ ] DE-W067 active: supplied-region root/active-FAT/bitmap/upcase observer implemented; 121 generated cases/9 methods, header and protected/read-only checks pass. Exact clean qualification/review and held source/tree/content/provider/full release remain.

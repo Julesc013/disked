@@ -1,0 +1,20 @@
+[
+  {
+    "stage": "guard-build",
+    "status": "fail",
+    "cause": "MSVC warning C4244 in deque vector construction promoted to error",
+    "repair": "Explicit unsigned-char zero; rebuilt probe and guard tests pass."
+  },
+  {
+    "stage": "guard-tests-before-successful-rebuild",
+    "status": "not_qualifying",
+    "cause": "The shell invoked tests after the failed build, using an older probe that ignored the new guard option.",
+    "repair": "Probe now reports protected-view count; tests require the actual count. Final rebuilt/native guarded tests pass."
+  },
+  {
+    "stage": "working-boundaries",
+    "status": "fail",
+    "cause": "Expected build closure incorrectly included header-only disked_region_reader. CMake correctly reports compiled dependencies only.",
+    "repair": "Removed interface-only target from compiled closure expectation; actual public header-use dependency remains. Failed log and passing boundary-only follow-up retained."
+  }
+]
