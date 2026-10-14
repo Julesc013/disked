@@ -6388,6 +6388,109 @@
         "tests/images/test_exfat_file.py",
         "docs/exfat-file.md"
       ]
+    },
+    {
+      "id": "DE-W069",
+      "title": "Verify exFAT frames through an actual owned contained reader",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W068"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-050",
+        "DE-015",
+        "DE-044",
+        "DE-045"
+      ],
+      "allowed_paths": [
+        "source/portable/exfat/**",
+        "tests/images/**",
+        "tests/legacy/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tools/check-build-boundaries.py",
+        "spec/catalog/source-maintenance-prototype.json",
+        "tests/tools/**",
+        "tests/frontend/**",
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "source/platform/windows/**",
+        "tests/windows/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Run the qualified read-only ordinary-file exFAT root/system capture through the existing owned ObservationWorker host, verify retained byte frames in the parent and publish immutable typed snapshots only for the exact owned attempt. No new scheduler, raw devices, tree/content/extraction or writer authority.",
+        "Private exfat_snapshot.h/.cpp under providers/image defines bounded input/frame/replay semantics; private exfat_worker.h/.cpp under platform/windows/storage binds the existing generic host. Product/test roles are compiled choices. Runtime/portable do not import concrete workers.",
+        "Exact capture epoch, ordinary image path, expected native source metadata, checked volume window, upcase representation and finite capture limits. Strict private input schema and target-specific source metadata shape; normal inputs reject fixture keys. Expected metadata is a binding to verify, not source-opening authority or proof of physical association.",
+        "Finite anonymous payload mapping contains exact selected input, actual process ID/creation, owned read-only capture receipt and ordered original region responses. Verify field relationships, exact window/budgets/request order, source binding, original raw bytes and independent W067 replay. Check aggregate flags/withdrawal instead of trusting a supplied applicable boolean. A valid hash or frame is not process authentication.",
+        "Reuse compiled ObservationWorkerProfile, code-generation pinning, request digest, explicit inherited handle set, job/process ownership and startup/reply controls. Allocate and validate before launch. Parent validates copied payload hash and frame, then binds actual owned PID/creation, attempt/worker/observer/capture epochs and code/request/payload identities before typed publication.",
+        "Observation completion, cancellation request and confirmed process exit remain separate. Hung, late, malformed or abruptly exited readers retain explicit partial/unavailable/unresolved states and dependencies. No replacement before required retirement proof. Snapshots own immutable copied results; retained evidence does not renew source access or future freshness."
+      ],
+      "acceptance": [
+        "Actual normal and separate fixture-owned process journeys over generated ordinary images: compressed/literal, one/two-FAT active pairing, fragmented roots/system chains and exact parent replay/source preservation.",
+        "Changed expected source, wrong window/input/epoch, forged receipt/process/domain/region/result/payload and incompatible claims cannot publish typed snapshots; normal roles reject fixture input. Actual owned context remains necessary beyond passive frame validation.",
+        "Actual startup/reply faults, hangs, cancellation, late results and abrupt exit preserve finite waits, unresolved observations, live dependencies and exit-only retirement. Report unavailable host fixtures and preserve failures without manufactured acceptance.",
+        "Exact native source/build/header/import/context/tooling/artifact and existing host/image/format regressions. No public frontend/tree/content/provider/other-platform/writer or original full0.1.0 release admission from this local worker."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-worker-prototype.json",
+        "spec/catalog/exfat-file-prototype.json",
+        "spec/catalog/exfat-capture-prototype.json",
+        "source/providers/image/exfat_file.h",
+        "source/providers/image/exfat_file.cpp",
+        "source/providers/image/fat_snapshot.h",
+        "source/providers/image/fat_snapshot.cpp",
+        "source/platform/windows/storage/observation_worker.h",
+        "source/platform/windows/storage/observation_worker.cpp",
+        "source/platform/windows/storage/fat_worker.h",
+        "source/platform/windows/storage/fat_worker.cpp",
+        "source/platform/windows/worker_files.h",
+        "source/platform/windows/entry.cpp",
+        "source/runtime/capture/exfat_capture.h",
+        "source/runtime/capture/exfat_capture.cpp",
+        "tests/images/test_exfat_file.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "tests/images/fat_worker_probe.cpp",
+        "tests/images/test_fat_worker.py"
+      ]
     }
   ]
 }

@@ -23,6 +23,7 @@
 - [exfat-file-prototype.json](exfat-file-prototype.json)
 - [exfat-reader-prototype.json](exfat-reader-prototype.json)
 - [exfat-upcase-prototype.json](exfat-upcase-prototype.json)
+- [exfat-worker-prototype.json](exfat-worker-prototype.json)
 - [export-command-prototype.json](export-command-prototype.json)
 - [fake-health-command.json](fake-health-command.json)
 - [fat-allocation-scan-prototype.json](fat-allocation-scan-prototype.json)

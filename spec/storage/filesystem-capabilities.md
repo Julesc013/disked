@@ -410,3 +410,11 @@ every registered/build input and current source/tests/spec/docs/tools/external
 files, excluding unused historical evidence. No fresh full native-suite or archive
 checkout claim. Repository evidence: `.aide/evidence/2026-10-14-exfat-file-qualified/`.
 Contained worker, coherent namespace/tree/content and original full0.1.0 remain.
+
+
+DE-W069 uses the [existing owned-reader host](../catalog/exfat-worker-prototype.json)
+for bounded exFAT frames and parent replay. Typed publication requires actual
+owned process/creation/attempt/code/request/capture binding, not passive schema
+or hash validity. Cancellation/completion and confirmed exit remain separate.
+This expected contract does not claim worker implementation; namespace/tree/content,
+other platforms/storage and original full release remain subsequent required work.

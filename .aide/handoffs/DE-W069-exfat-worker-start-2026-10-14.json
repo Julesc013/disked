@@ -1,0 +1,99 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W069",
+  "base_revision": "3e8d0654317b6e51cab33be6d5ecd734b8991cff",
+  "spec_manifest_digest": "sha256:0f7bca670d0fbcc38b30aae0e20f7960665e213963669ba2f6f7521acddf3ac6",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-worker-prototype.json",
+    "source/platform/windows/storage/observation_worker.h",
+    "source/platform/windows/storage/fat_worker.cpp",
+    "source/providers/image/fat_snapshot.cpp",
+    "source/providers/image/exfat_file.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-worker-start/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-worker-start/check.log",
+    ".aide/evidence/2026-10-14-exfat-worker-start/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-worker-start/context.log",
+    ".aide/evidence/2026-10-14-exfat-worker-start/initial-metadata-failure.json",
+    ".aide/evidence/2026-10-14-exfat-worker-start/manifest.log",
+    ".aide/evidence/2026-10-14-exfat-worker-start/summary.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-worker-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Recorded actual W068 reviewed main integration and expected W069 strict frame/parent replay/owned-process contract. Fixed nonexistent context reference with retained failure; structural/manifest/context now pass. Worker/header draft unbuilt; no contained/typed-snapshot or full release result claimed.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-worker-start/check.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-worker-start/manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-context .aide-local/context/exfat-worker-start",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-worker-start/context.log"
+    },
+    {
+      "command": "DE-W069 actual owned-process/snapshot qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/check.log",
+      "sha256": "sha256:5c7d49889049f23535058d41233b845a4c3f3faf13e8c241aecf1658bbebdc75"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/context-manifest.json",
+      "sha256": "sha256:4e9632c4362c31967bb56e9c64d527768d1e335a308aac911bfb13e5144843ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/context.log",
+      "sha256": "sha256:e89fef0ab2d88dabac944ccf4fe2c42510483e43f6b207b8a8d34d4ebceca724"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/initial-metadata-failure.json",
+      "sha256": "sha256:fd6ecdb6d0931fe4c5ec0e94f837bcd7c57ca15d3bb2ba599fbde2df79041d49"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/manifest.log",
+      "sha256": "sha256:10a64728603c77a469f3753c42cce106c394011f35479337c974ddf89c45fff5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-start/summary.json",
+      "sha256": "sha256:9f26341c5995c4ed87baad3edfdbf20e11d9637966d249157b6c4e35456a7244"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Implement strict exFAT snapshot input/metadata/ordered-region replay checks and existing ObservationWorker profile, then actual owned process/fault/cancellation/exit-only-retirement evidence and exact qualification. Preserve unavailable file-symlink coverage and all original platform/storage0.1.0 with separate owner/privilege/release gates.",
+  "performed_remote_writes": false
+}
