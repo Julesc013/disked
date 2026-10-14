@@ -1,0 +1,116 @@
+[
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "index.log"
+  },
+  {
+    "name": "check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "check.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "tooling.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "manifest.log"
+  },
+  {
+    "name": "verify-manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "verify-manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W072",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\exfat-auto-working",
+      "--byte-budget",
+      "1800000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\context\\exfat-auto-working"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "log": "verify-context.log"
+  }
+]

@@ -374,3 +374,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W068 local ordinary-file qualification at `c73c6870`: 60 native cases/7 methods, 20 selected native groups, one header, normal/fault import/context/source and 242 tooling tests with two skips. Actual file-symlink fixture remains unverified; worker/tree/content/full original release remain.
 
 - [x] DE-W069 local contained-reader qualification at `cce05d17`: all 139 native groups, 69 reader cases/6 methods, 63 file cases/8 methods, exact headers/import/context/source and 242 tooling tests with two skips. Shared retirement and pre-read binding fixes are covered; unavailable symlink, frontend/tree/content and original full release remain.
+
+- [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Automatic file/frame/worker binding and normal image.inspect/frontends remain; original full0.1.0 and owner/storage/release gates stay open.

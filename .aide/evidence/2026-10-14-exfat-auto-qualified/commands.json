@@ -1,0 +1,419 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 11.799,
+    "log": "clone.log"
+  },
+  {
+    "name": "sparse-selection",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "sparse-selection.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "6edabcc78ad35703c070a95df79b6bf1fd0379d9"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.914,
+    "log": "checkout.log"
+  },
+  {
+    "name": "initial-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.166,
+    "log": "initial-source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 7.171,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4",
+      "--target",
+      "bootstrap_registry",
+      "exfat_capture_probe",
+      "exfat_file_probe",
+      "exfat_file_fault",
+      "exfat_worker_probe",
+      "exfat_worker_fault",
+      "disked_exfat_capture_headers",
+      "disked_exfat_file_headers",
+      "disked_exfat_snapshot_headers",
+      "disked_exfat_worker_headers"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 27.938,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build",
+      "-C",
+      "Release",
+      "-R",
+      "^(build\\.boundaries|image\\.exfat_capture|image\\.exfat_file|image\\.exfat_worker)$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\native-junit.xml"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 24.713,
+    "log": "native.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 273.691,
+    "log": "tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 2.745,
+    "log": "spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.147,
+    "log": "index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.948,
+    "log": "manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.097,
+    "log": "source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W072",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\context",
+      "--byte-budget",
+      "1800000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.867,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 4.215,
+    "log": "verify-context.log"
+  },
+  {
+    "name": "exfat_capture_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "exfat_capture_probe-headers.log"
+  },
+  {
+    "name": "exfat_capture_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "exfat_capture_probe-imports.log"
+  },
+  {
+    "name": "exfat_capture_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.037,
+    "log": "exfat_capture_probe-dependents.log"
+  },
+  {
+    "name": "exfat_file_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_file_probe-headers.log"
+  },
+  {
+    "name": "exfat_file_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_file_probe-imports.log"
+  },
+  {
+    "name": "exfat_file_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "exfat_file_probe-dependents.log"
+  },
+  {
+    "name": "exfat_file_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "exfat_file_fault-headers.log"
+  },
+  {
+    "name": "exfat_file_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_file_fault-imports.log"
+  },
+  {
+    "name": "exfat_file_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "exfat_file_fault-dependents.log"
+  },
+  {
+    "name": "exfat_worker_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_worker_probe-headers.log"
+  },
+  {
+    "name": "exfat_worker_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_worker_probe-imports.log"
+  },
+  {
+    "name": "exfat_worker_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "exfat_worker_probe-dependents.log"
+  },
+  {
+    "name": "exfat_worker_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_worker_fault-headers.log"
+  },
+  {
+    "name": "exfat_worker_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "exfat_worker_fault-imports.log"
+  },
+  {
+    "name": "exfat_worker_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.038,
+    "log": "exfat_worker_fault-dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-auto-exact-6edabcc7\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.066,
+    "log": "final-source-status.log"
+  }
+]

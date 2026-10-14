@@ -83,8 +83,19 @@ static V observe(const V &input) {
     request.source_bytes = integer(field(input, "source_bytes"));
     request.volume_offset = integer(field(input, "offset"));
     request.volume_bytes = integer(field(input, "length"));
-    require(field(input, "compressed").kind == V::Kind::boolean);
-    request.compressed_upcase = field(input, "compressed").boolean;
+    if (const auto *format = input.find("upcase_format")) {
+        require(!input.find("compressed") && format->kind == V::Kind::string);
+        request.upcase_format =
+            format->text == "auto"         ? disked::ExfatUpcaseFormat::Automatic
+            : format->text == "compressed" ? disked::ExfatUpcaseFormat::Compressed
+            : format->text == "literal"    ? disked::ExfatUpcaseFormat::Literal
+                                           : static_cast<disked::ExfatUpcaseFormat>(99);
+    } else {
+        require(field(input, "compressed").kind == V::Kind::boolean);
+        request.upcase_format = field(input, "compressed").boolean
+                                    ? disked::ExfatUpcaseFormat::Compressed
+                                    : disked::ExfatUpcaseFormat::Literal;
+    }
     if (const auto *limits = input.find("limits")) {
         require(limits->kind == V::Kind::object);
 #define LOAD_LIMIT(name)                                                                           \
