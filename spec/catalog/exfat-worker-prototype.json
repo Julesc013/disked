@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-worker-profile/1",
   "work_id": "DE-W069",
-  "status": "implemented-working-native-checks-pass-exact-full-regression-pending",
+  "status": "locally-qualified-private-owned-contained-reader",
   "scope": "Run the qualified read-only ordinary-file exFAT root/system capture through the existing owned ObservationWorker host, verify retained byte frames in the parent and publish immutable typed snapshots only for the exact owned attempt. No new scheduler, raw devices, tree/content/extraction or writer authority.",
   "ownership": "Private exfat_snapshot.h/.cpp under providers/image defines bounded input/frame/replay semantics; private exfat_worker.h/.cpp under platform/windows/storage binds the existing generic host. Product/test roles are compiled choices. Runtime/portable do not import concrete workers.",
   "input": "Exact capture epoch, ordinary image path, expected native source metadata, checked volume window, upcase representation and finite capture limits. Strict private input schema and target-specific source metadata shape; normal inputs reject fixture keys. Expected metadata is a binding to verify, not source-opening authority or proof of physical association. The held file adapter must compare its actual native metadata with expected_source before its first content read; a mismatch produces no frame or content responses.",
@@ -16,5 +16,23 @@
   ],
   "authorizes_effects": false,
   "owner_accepted": false,
-  "base_revision": "3e8d0654317b6e51cab33be6d5ecd734b8991cff"
+  "base_revision": "3e8d0654317b6e51cab33be6d5ecd734b8991cff",
+  "qualification": {
+    "source_revision": "cce05d172c89f0a71dba5ee1cc0698307f8c686e",
+    "evidence": ".aide/evidence/2026-10-14-exfat-worker-qualified/summary.json",
+    "review": ".aide/evidence/2026-10-14-exfat-worker-qualified/REVIEW.md",
+    "native_groups_fresh": 139,
+    "header_compilations_fresh": 46,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "full_native_suite_fresh": true,
+    "source_state": "clean_full_checkout",
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-link.img'"
+      }
+    ],
+    "owner_accepted": false
+  }
 }

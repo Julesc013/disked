@@ -415,3 +415,15 @@ owned process/creation/attempt/code/request/capture binding, not passive schema
 or hash validity. Cancellation/completion and confirmed exit remain separate.
 This expected contract does not claim worker implementation; namespace/tree/content,
 other platforms/storage and original full release remain subsequent required work.
+
+
+DE-W069 reaches bounded local review at exact full clean `cce05d17`: all 139
+current native groups, 69 reader cases/six methods, 63 file cases/eight methods,
+46 standalone headers, imports/context/source hashes and
+242 tooling tests with two skips pass. The complete native regression covers
+the shared process-retirement change; previous working failures and their repairs
+remain retained. See `.aide/evidence/2026-10-14-exfat-worker-qualified/REVIEW.md`. An unavailable file-symlink fixture
+remains unverified. Next, bind the existing image.inspect exFAT view through the
+shared services/frontends, including both upcase representations and explicit
+ambiguity. Complete tree/content, other hosts, original full platform/storage0.1.0,
+physical writer/recovery, owner acceptance and release qualification remain.

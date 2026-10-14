@@ -24,9 +24,11 @@ timeout does not mark a running process retired. Publication and process exit
 remain distinct, and retained values can be inspected after retirement without
 renewing source access. Callers retain the owned session while exit is unresolved.
 
-Working tests measure actual process journeys, pure frame refusal/replay, source
-preservation and immutable retention. A shared-host change requires exact full
-native regression before integration; working tests are not that qualification.
+Exact full clean `cce05d17` passes all 139 current native groups, 69 reader
+cases/six methods, 63 file cases/eight methods, standalone headers/imports/
+context/source checks and 242 tooling tests with two skips.
+[Retained evidence and local review](../.aide/evidence/2026-10-14-exfat-worker-qualified/README.md)
+cover the shared retirement change; original failed working runs remain retained.
 The unavailable file-symlink fixture remains recorded separately. Frontend,
 paged namespace/tree/content, other-host, physical writer/recovery, owner and the
 full original platform/storage0.1.0 release remain separate and unfinished.
