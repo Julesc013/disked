@@ -368,3 +368,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W065 local exact qualificationbe410d95:2554oraclecases/4methods,13freshnativegroups,1header/C90/import/source/context and localreview. Toolingresult pending; upcase/source/tree/provider/fullrelease remain.
 
 - [x] DE-W066 local exact qualification at `e43f00fb`: 244 scenarios/9 methods, 15 selected native groups, one header, C90/import/context/source and 242 tooling tests with two skips. Four agent-review criteria pass; source/root/chain/namespace/provider/full release remain unfinished.
+
+- [ ] DE-W067 active: bounded supplied-region exFAT root/active-FAT/bitmap/upcase coherence; expected contract registered before runtime implementation. Held source/tree/content/provider/full release remain.
