@@ -73,6 +73,11 @@ while queue:
     visited.add(target_id)
     reference = targets[target_id]
     target = json.loads((reply / reference['jsonFile']).read_bytes())
+    # The codemodel also records CMake's regeneration order dependency.
+    # It has no compiled sources and is not part of the link closure.
+    if target['type'] == 'UTILITY' and target['name'] == 'ZERO_CHECK':
+        assert not target.get('compileGroups'), target
+        continue
     assert target['type'] == 'STATIC_LIBRARY', target['name']
     names = []
     for source in target.get('sources', []):
