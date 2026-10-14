@@ -14,16 +14,21 @@
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
     "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
     "latest_integration": {
-      "checkpoint_revision": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
-      "tested_source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
-      "recorded_at": "2026-10-14T10:18:47.383391+00:00",
+      "checkpoint_revision": "7b42c55efd01b219b3b9538f235356077c755f11",
+      "tested_source_revision": "2545d078b8dd6fc5335cf38314013be3d4c2fc7c",
+      "tested_probe_revision": "84d0c227eaaa1a76ac318aeb70e2da22a641698e",
+      "recorded_at": "2026-10-14T16:24:53.441638+00:00",
       "branches": {
-        "dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
-        "main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
-        "origin/dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
-        "origin/main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b"
+        "dev": "7b42c55efd01b219b3b9538f235356077c755f11",
+        "main": "7b42c55efd01b219b3b9538f235356077c755f11",
+        "origin/dev": "7b42c55efd01b219b3b9538f235356077c755f11",
+        "origin/main": "7b42c55efd01b219b3b9538f235356077c755f11"
       },
-      "source": "Successful authorized git push origin/dev and origin/main; fast-forward integration, no force push."
+      "source": "Successful authorized push to dev, fast-forward main and push to main; no force push.",
+      "evidence": ".aide/evidence/2026-10-15-exfat-namespace/README.md",
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "release_published": false
     }
   },
   "permitted": [
@@ -75,7 +80,7 @@
     "DE-W073"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Complete current metadata/tooling/context/hash checks; push reviewed qualification to dev and integrate main. Then define and implement coherent exFAT directory stream/tree and ValidDataLength content in existing owners, preserving the original complete scope and owner gates.",
+  "next_action": "Define the next DE-W074 execution contract, then implement coherent source-bound exFAT directory stream collection/tree and ValidDataLength-aware file content using the existing portable decoder, shared map, namespace model and RegionReader. Cover fragmented/NoFatChain allocation, active bitmap agreement, zero-length directories, crosslinks/cycles, changed/short/failed reads and finite budgets with independent oracles. Retain held-source/worker/frontend and owner/platform/storage/release gates; do not narrow original full0.1.0.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1255,25 +1260,26 @@
     "next_action": "Resume incomplete DE-W044 retention patch, then qualify exact native artifacts and continue original programme."
   },
   "last_integration": {
-    "work_id": "DE-W072",
-    "stage": "automatic-supplied-region-observer-only",
-    "tested_source_revision": "6edabcc78ad35703c070a95df79b6bf1fd0379d9",
-    "qualification_commit": "479b5f9f",
-    "merge_revision": "fa62376cbf8ce0c22891a2811a13060579c6655c",
-    "remote_main": "fa62376cbf8ce0c22891a2811a13060579c6655c",
-    "remote_dev": "fa62376cbf8ce0c22891a2811a13060579c6655c",
-    "observed_at": "2026-10-14T03:16:37.222311+00:00",
-    "runtime_test_build_unchanged_from_tested_revision": true,
+    "work_id": "DE-W073",
+    "checkpoint_revision": "7b42c55efd01b219b3b9538f235356077c755f11",
+    "tested_source_revision": "2545d078b8dd6fc5335cf38314013be3d4c2fc7c",
+    "tested_probe_revision": "84d0c227eaaa1a76ac318aeb70e2da22a641698e",
+    "recorded_at": "2026-10-14T16:24:53.441638+00:00",
+    "branches": {
+      "dev": "7b42c55efd01b219b3b9538f235356077c755f11",
+      "main": "7b42c55efd01b219b3b9538f235356077c755f11",
+      "origin/dev": "7b42c55efd01b219b3b9538f235356077c755f11",
+      "origin/main": "7b42c55efd01b219b3b9538f235356077c755f11"
+    },
+    "source": "Successful authorized push to dev, fast-forward main and push to main; no force push.",
+    "evidence": ".aide/evidence/2026-10-15-exfat-namespace/README.md",
     "owner_accepted": false,
-    "full_work_unit_accepted": false,
-    "release_published": false,
-    "unverified": [
-      "Actual file-symlink fixture unavailable without privilege; retained as unverified."
-    ]
+    "full_0_1_0_complete": false,
+    "release_published": false
   },
   "in_progress_slice": {
     "work_id": "DE-W073",
-    "state": "Locally verified, needs_review; all native handles terminal. Final metadata/tooling/context checks and development integration pending.",
+    "state": "Local DE-W073 qualified, reviewed, pushed and integrated at7b42c55e; all native/tooling sessions terminal. The forthcoming exFAT coherent stream/tree/content slice needs an expected contract before implementation. Owner and original full0.1.0 remain open.",
     "tested_source_revision": "2545d078b8dd6fc5335cf38314013be3d4c2fc7c",
     "probe_source_revision": "84d0c227eaaa1a76ac318aeb70e2da22a641698e",
     "evidence": ".aide/evidence/2026-10-15-exfat-namespace/README.md",
@@ -1301,6 +1307,18 @@
       ],
       "owner_accepted": false,
       "release_published": false
+    },
+    {
+      "checkpoint_revision": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+      "tested_source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
+      "recorded_at": "2026-10-14T10:18:47.383391+00:00",
+      "branches": {
+        "dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b"
+      },
+      "source": "Successful authorized git push origin/dev and origin/main; fast-forward integration, no force push."
     }
   ]
 }
