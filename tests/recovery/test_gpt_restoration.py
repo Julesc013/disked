@@ -1,24 +1,143 @@
 """Native interrupted-owned-image restoration; independent whole-byte oracles."""
-import argparse,copy,hashlib,json,queue,struct,subprocess,sys,tempfile,threading,uuid
+import argparse,contextlib,copy,hashlib,json,os,queue,shutil,struct,subprocess,sys,tempfile,threading,time,uuid
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_gpt_execution import canonical,sha,expected,receipts,fixture,change_array
 
 def request(case,source='primary',phase='create',**extra):
     v=dict(phase=phase,image_hex=case['raw'].hex(),logical_block_bytes=case['capture']['block_bytes'],authoritative_copy=source,expected_capture_digest=case['definition']['capture_digest'],expected_plan_digest=case['plan_digest']);v.update(extra);return v
-def reader(process):
-    rows=queue.Queue()
-    def read():
+class Replies:
+    """Drain both pipes; preserve diagnostics without extending reply deadlines."""
+
+    def __init__(self, process):
+        self.process = process
+        self.rows = queue.Queue()
+        self.error = None
+        self.frames = 0
+        self.last_phase = None
+        self.stderr_tail = b''
+        self.stderr_bytes = 0
+        self.started = time.monotonic()
+        self.out_thread = threading.Thread(target=self.read, daemon=True)
+        self.err_thread = threading.Thread(target=self.read_errors, daemon=True)
+        self.out_thread.start()
+        self.err_thread.start()
+
+    def read(self):
         try:
-            for line in process.stdout:rows.put(json.loads(line))
-        finally:rows.put(None)
-    thread=threading.Thread(target=read,daemon=True);thread.start();return rows,thread
-def send(process,value):process.stdin.write(canonical(value)+b'\n');process.stdin.flush()
-def close(process,thread):
-    if process.poll() is None:process.kill();process.wait(timeout=5)
-    thread.join(timeout=1)
-    if not process.stdin.closed:process.stdin.close()
-    process.stdout.close();process.stderr.close()
+            for line in self.process.stdout:
+                value = json.loads(line)
+                self.frames += 1
+                self.last_phase = value.get('phase') if isinstance(value, dict) else None
+                self.rows.put(value)
+        except Exception as error:
+            self.error = repr(error)
+        finally:
+            self.rows.put(None)
+
+    def read_errors(self):
+        try:
+            while block := self.process.stderr.read1(4096):
+                self.stderr_bytes += len(block)
+                self.stderr_tail = (self.stderr_tail + block)[-1048576:]
+        except Exception as error:
+            self.error = repr(error)
+
+    def snapshot(self, phase):
+        return dict(phase=phase, pid=self.process.pid, exit_code=self.process.poll(),
+            elapsed_seconds=round(time.monotonic() - self.started, 3),
+            frames=self.frames, last_reply_phase=self.last_phase, reader_error=self.error,
+            stdout_reader_alive=self.out_thread.is_alive(),
+            stderr_reader_alive=self.err_thread.is_alive(), stderr_bytes=self.stderr_bytes,
+            stderr_tail=self.stderr_tail.decode('utf8', errors='backslashreplace'))
+
+    def get(self, timeout=15, phase='reply'):
+        try:
+            return self.rows.get(timeout=timeout)
+        except queue.Empty as error:
+            raise TimeoutError(json.dumps(self.snapshot(phase), sort_keys=True)) from error
+
+    def wait(self, timeout=15, phase='exit'):
+        try:
+            return self.process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired as error:
+            raise TimeoutError(json.dumps(self.snapshot(phase), sort_keys=True)) from error
+
+    def join(self):
+        self.out_thread.join(timeout=1)
+        self.err_thread.join(timeout=1)
+
+    def assert_drained(self, trace=False):
+        self.join()
+        assert not self.out_thread.is_alive() and not self.err_thread.is_alive(), self.snapshot('pipe-retirement')
+        assert self.error is None, self.snapshot('reader-error')
+        if trace:
+            assert self.stderr_bytes == len(self.stderr_tail), 'Diagnostic trace exceeded retained bound'
+            assert all(line.startswith(b'GPT_FIXTURE ') for line in self.stderr_tail.splitlines()), self.snapshot('unexpected-stderr')
+        else:
+            assert not self.stderr_bytes, self.snapshot('unexpected-stderr')
+
+    def empty(self):
+        return self.rows.empty()
+
+    def get_nowait(self):
+        return self.rows.get_nowait()
+
+
+def send(process, value):
+    process.stdin.write(canonical(value) + b'\n')
+    process.stdin.flush()
+
+
+def close(process, replies, observations):
+    original_error = sys.exc_info()[1]
+    kill_requested = False
+    kill_error = None
+    if process.poll() is None:
+        try:
+            process.kill()
+            kill_requested = True
+            process.wait(timeout=5)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            kill_error = repr(error)
+    confirmed = process.poll() is not None
+    if confirmed:
+        replies.join()
+        if not process.stdin.closed:
+            process.stdin.close()
+        if not replies.out_thread.is_alive():
+            process.stdout.close()
+        if not replies.err_thread.is_alive():
+            process.stderr.close()
+    observation = replies.snapshot('retirement')
+    observation.update(kill_requested=kill_requested, kill_error=kill_error, exit_confirmed=confirmed)
+    observations.append(observation)
+    if not confirmed:
+        print('UNCONFIRMED_RETIREMENT ' + json.dumps(observation, sort_keys=True), file=sys.stderr, flush=True)
+        if original_error is not None:
+            original_error.add_note('Fixture dependencies retained; process exit unconfirmed: ' + json.dumps(observation, sort_keys=True))
+        else:
+            raise TimeoutError('Fixture process exit unconfirmed: ' + json.dumps(observation, sort_keys=True))
+
+
+@contextlib.contextmanager
+def fixture_parent(root, state, observations):
+    parent = (root / '.aide-local').resolve()
+    parent.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix='gpt-restore-', dir=parent)).resolve()
+    assert directory.is_relative_to(parent) and directory != parent
+    state['directory'] = str(directory)
+    try:
+        yield directory
+        assert all(row['exit_confirmed'] for row in observations), 'Cleanup requires confirmed process exit'
+        shutil.rmtree(directory)
+        state['retained'] = False
+    except BaseException as error:
+        state.update(retained=True, error=repr(error))
+        print('RETAINED_FIXTURE ' + str(directory), file=sys.stderr, flush=True)
+        raise
+
+
 def recovery_receipts(prepared):
     d=prepared['definition'];review=dict(schema='org.disked.gpt-restoration-review/1',restoration_digest=prepared['restoration_digest'],observed_image_digest=d['observed_image_digest'],reviewed=True,issuer='fixture-controller',evidence_digest=sha(b'independent-restoration-byte-oracle'))
     grant=dict(schema='org.disked.gpt-restoration-grant/1',restoration_digest=prepared['restoration_digest'],review_digest=sha(canonical(review)),original_manifest_digest=d['original_manifest_digest'],executor_digest=d['resources']['executor_digest'],patch_ids=[p['id'] for p in d['patches']],allow_fixture_restoration=True,allow_new_recovery_journal=True,acknowledge_nonatomic_same_volume=True);return review,grant
@@ -113,23 +232,25 @@ def inspect_fixture(probe,data,prepared,review,grant,store,before,old_journal,mu
     return result.returncode,output
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--probe',type=Path,required=True);ap.add_argument('--root',type=Path,required=True);ap.add_argument('--evidence',type=Path);a=ap.parse_args();a.probe=a.probe.resolve();a.root=a.root.resolve();records=[];passed=False;probe_sha=sha(a.probe.read_bytes())
+    ap=argparse.ArgumentParser();ap.add_argument('--probe',type=Path,required=True);ap.add_argument('--root',type=Path,required=True);ap.add_argument('--evidence',type=Path);ap.add_argument('--trace-io',action='store_true');a=ap.parse_args();a.probe=a.probe.resolve();a.root=a.root.resolve();records=[];passed=False;probe_sha=sha(a.probe.read_bytes());observations=[];fixture_state={}
+    probe_env=os.environ.copy();probe_env.pop('DISKED_GPT_FIXTURE_TRACE',None)
+    if a.trace_io:probe_env['DISKED_GPT_FIXTURE_TRACE']='1'
     def record(name,**data):records.append(dict(name=name,**data));print('CASE '+ascii(name),flush=True)
     def make(parent,name,case,source='primary',fault=None,cancel='none'):
-        folder=parent/name;folder.mkdir();process=subprocess.Popen([str(a.probe),'--fixture-parent',str(folder)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows,thread=reader(process)
+        folder=parent/name;folder.mkdir();process=subprocess.Popen([str(a.probe),'--fixture-parent',str(folder)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=probe_env);rows=Replies(process)
         try:
             v=request(case,source)
             if fault:v['fault']=fault
-            send(process,v);prepared=rows.get(timeout=15);assert prepared['phase']=='prepared' and prepared['definition']==case['definition'];review,grant=receipts(prepared);send(process,dict(phase='execute',review=review,grant=grant,cancel_at=cancel));process.stdin.close();finish=rows.get(timeout=15);code=process.wait(timeout=15);assert not process.stderr.read()
+            send(process,v);prepared=rows.get(timeout=15,phase=name+':preparation');assert prepared['phase']=='prepared' and prepared['definition']==case['definition'];review,grant=receipts(prepared);send(process,dict(phase='execute',review=review,grant=grant,cancel_at=cancel));process.stdin.close();finish=rows.get(timeout=15,phase=name+':execution');code=rows.wait(timeout=15,phase=name+':exit');rows.assert_drained(a.trace_io)
             assert code in (0,3,6,112),(code,finish);owned=Path(prepared['manifest']['directory']);assert owned.is_relative_to(folder);return dict(preparation=prepared,review=review,grant=grant,owned=owned,case=case,source=source,original_code=code)
-        finally:close(process,thread)
+        finally:close(process,rows,observations)
     def restore(name,fixture_data,fault=None,mutate=None,change_after_review=None,expect_refusal=None,attempt=None,expect_effect_refusal=None):
         case=fixture_data['case'];owned=fixture_data['owned'];image=owned/'image.bin';before=image.read_bytes();old_artifacts={p.name:p.read_bytes() for p in owned.iterdir() if p.name!='image.bin'};files_before=set(old_artifacts);attempt=attempt or uuid.uuid4().hex
         v=request(case,fixture_data['source'],'restore',manifest=fixture_data['preparation']['manifest'],review=fixture_data['review'],grant=fixture_data['grant'],attempt_id=attempt)
         if fault:v['fault']=fault
-        process=subprocess.Popen([str(a.probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows,thread=reader(process);prepared=store=finish=None;review=grant=None;fixture_added=set()
+        process=subprocess.Popen([str(a.probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=probe_env);rows=Replies(process);prepared=store=finish=None;review=grant=None;fixture_added=set()
         try:
-            send(process,v);first=rows.get(timeout=15)
+            send(process,v);first=rows.get(timeout=15,phase=name+':restoration-preparation')
             if first and first['phase']=='restoration_prepared':
                 prepared=first;d=prepared['definition'];assert d['patches']==expected_patches(case,before) and d['original_image_digest']==sha(case['raw']) and d['observed_image_digest']==sha(before) and d['backup_digest']==sha(old_artifacts['backup.bin']) and d['original_journal_digest']==sha(old_artifacts['journal.bin']) and d['resources']==fixture_data['preparation']['manifest'];assert prepared['restoration_digest']==sha(canonical(d));assert not prepared['execution_authorized'] and not any('.write.' in e['stage'] or '.flush.' in e['stage'] for e in prepared['events'])
                 assert set(p.name for p in owned.iterdir())==files_before|{'image.bin'}
@@ -137,11 +258,11 @@ def main():
                 if mutate:mutate(instruction)
                 if change_after_review:
                     change_after_review(owned);fixture_added={p.name for p in owned.iterdir()}-files_before-{'image.bin'}
-                send(process,instruction);process.stdin.close();next_row=rows.get(timeout=15)
-                if next_row and next_row['phase']=='restoration_store':store=next_row['store'];finish=rows.get(timeout=15)
+                send(process,instruction);process.stdin.close();next_row=rows.get(timeout=15,phase=name+':restoration-store')
+                if next_row and next_row['phase']=='restoration_store':store=next_row['store'];finish=rows.get(timeout=15,phase=name+':restoration-execution')
                 else:finish=next_row
             else:finish=first;process.stdin.close()
-            code=process.wait(timeout=15);assert not process.stderr.read();thread.join(timeout=1)
+            code=rows.wait(timeout=15,phase=name+':restoration-exit');rows.assert_drained(a.trace_io)
             while not rows.empty():assert rows.get_nowait() is None
             current=image.read_bytes();new_files={p.name for p in owned.iterdir()}-files_before-{'image.bin'}-fixture_added
             for file,data in old_artifacts.items():assert (owned/file).read_bytes()==data,'Changed retained artifact '+file
@@ -168,10 +289,10 @@ def main():
                 inspection_code,inspection=inspect_fixture(a.probe,fixture_data,prepared,review,grant,store,before,old_artifacts['journal.bin']);assert inspection_code==0
             record(name,exit_code=code,preparation=prepared,store=store,finish=finish,review=review,grant=grant,inspection=inspection,image_before_sha256=sha(before),image_after_sha256=sha(current),original_image_sha256=sha(case['raw']),journal_hex=raw.hex(),old_artifacts_sha256={n:sha(data) for n,data in old_artifacts.items()},fault=fault)
             return finish,prepared,store
-        finally:close(process,thread)
+        finally:close(process,rows,observations)
     try:
         parent=a.root/'.aide-local';parent.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix='gpt-restore-',dir=parent) as directory:
+        with fixture_parent(a.root,fixture_state,observations) as directory:
             parent=Path(directory);assert parent.resolve().is_relative_to((a.root/'.aide-local').resolve())
             def case_for(unit=512,source='primary'):
                 target='backup' if source=='primary' else 'primary';f=fixture(unit=unit);change_array(f,lambda b:b.__setitem__(0,b[0]^1),target,False)
@@ -218,6 +339,6 @@ def main():
                 restore('large-interruption-'+str(index),data,fault=dict(stage=stage,action='crash_after'));restore('large-restoration-'+str(index),data)
         passed=True
     finally:
-        if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(dict(passed=passed,cases=len(records),probe_sha256=probe_sha,records=records),indent=2)+'\n',encoding='utf8',newline='\n')
+        if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(dict(passed=passed,cases=len(records),probe_sha256=probe_sha,records=records,fixture=fixture_state,process_observations=observations,diagnostic_io=a.trace_io),indent=2)+'\n',encoding='utf8',newline='\n')
     print('Owned GPT restoration PASS '+str(len(records)),flush=True)
 if __name__=='__main__':main()

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="4"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="195"
+	timestamp="2026-10-15T05:24:02"
+	>
+	<testcase name="image.gpt_fixture_execution" classname="image.gpt_fixture_execution" time="91.6867" status="run">
+		<properties/>
+		<system-out>CASE '512-primary'
+CASE '512-backup'
+CASE '4096-primary'
+CASE '4096-backup'
+CASE 'fault-0-crash_before'
+CASE 'fault-0-crash_after'
+CASE 'fault-0-before_error'
+CASE 'fault-0-after_error'
+CASE 'fault-0-partial'
+CASE 'fault-1-crash_before'
+CASE 'fault-1-crash_after'
+CASE 'fault-1-before_error'
+CASE 'fault-1-after_error'
+CASE 'fault-2-crash_before'
+CASE 'fault-2-crash_after'
+CASE 'fault-2-before_error'
+CASE 'fault-2-after_error'
+CASE 'fault-2-partial'
+CASE 'fault-3-crash_before'
+CASE 'fault-3-crash_after'
+CASE 'fault-3-before_error'
+CASE 'fault-3-after_error'
+CASE 'fault-4-crash_before'
+CASE 'fault-4-crash_after'
+CASE 'fault-4-before_error'
+CASE 'fault-4-after_error'
+CASE 'fault-4-partial'
+CASE 'fault-5-crash_before'
+CASE 'fault-5-crash_after'
+CASE 'fault-5-before_error'
+CASE 'fault-5-after_error'
+CASE 'fault-6-crash_before'
+CASE 'fault-6-crash_after'
+CASE 'fault-6-before_error'
+CASE 'fault-6-after_error'
+CASE 'fault-6-partial'
+CASE 'fault-7-crash_before'
+CASE 'fault-7-crash_after'
+CASE 'fault-7-before_error'
+CAS...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="image.gpt_fixture_restoration" classname="image.gpt_fixture_restoration" time="103.459" status="run">
+		<properties/>
+		<system-out>CASE '512-primary'
+CASE '512-backup'
+CASE '4096-primary'
+CASE '4096-backup'
+CASE 'restore-0-crash_before'
+CASE 'restore-0-crash_after'
+CASE 'restore-0-before_error'
+CASE 'restore-0-after_error'
+CASE 'restore-0-partial'
+CASE 'restore-1-crash_before'
+CASE 'restore-1-crash_after'
+CASE 'restore-1-before_error'
+CASE 'restore-1-after_error'
+CASE 'restore-2-crash_before'
+CASE 'restore-2-crash_after'
+CASE 'restore-2-before_error'
+CASE 'restore-2-after_error'
+CASE 'restore-2-partial'
+CASE 'restore-3-crash_before'
+CASE 'restore-3-crash_after'
+CASE 'restore-3-before_error'
+CASE 'restore-3-after_error'
+CASE 'restore-4-crash_before'
+CASE 'restore-4-crash_after'
+CASE 'restore-4-before_error'
+CASE 'restore-4-after_error'
+CASE 'restore-4-partial'
+CASE 'restore-5-crash_before'
+CASE 'restore-5-crash_after'
+CASE 'restore-5-before_error'
+CASE 'restore-5-after_error'
+CASE 'restore-6-crash_before'
+CASE 'restore-6-crash_after'
+CASE 'restore-6-before_error'
+CASE 'restore-6-after_error'
+CASE 'restore-6-partial'
+CASE 'restore-7-crash_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="recovery.gpt_fixture_harness" classname="recovery.gpt_fixture_harness" time="0.326591" status="run">
+		<properties/>
+		<system-out>test_failed_fixture_retains_dependencies_and_unconfirmed_cleanup_fails (test_gpt_fixture_harness.FixtureHarnessTests.test_failed_fixture_retains_dependencies_and_unconfirmed_cleanup_fails) ... ok
+test_reader_reports_bad_json_and_drains_stderr (test_gpt_fixture_harness.FixtureHarnessTests.test_reader_reports_bad_json_and_drains_stderr) ... ok
+test_successful_fixture_cleanup_requires_confirmed_exit (test_gpt_fixture_harness.FixtureHarnessTests.test_successful_fixture_cleanup_requires_confirmed_exit) ... ok
+test_timeout_reports_named_phase_without_retiring_child (test_gpt_fixture_harness.FixtureHarnessTests.test_timeout_reports_named_phase_without_retiring_child) ... ok
+test_unconfirmed_exit_preserves_original_failure_and_pipes (test_gpt_fixture_harness.FixtureHarnessTests.test_unconfirmed_exit_preserves_original_failure_and_pipes) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.163s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="image.gpt_restoration_inspection" classname="image.gpt_restoration_inspection" time="0.169127" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\recovery\test_gpt_restoration_inspection.py", line 4, in &lt;module&gt;
+    from test_gpt_restoration import canonical,sha,expected,receipts,fixture,change_array,request,reader,send,close,recovery_receipts,inspect_fixture
+ImportError: cannot import name 'reader' from 'test_gpt_restoration' (D:\Projects\DiskEd\disked\tests\recovery\test_gpt_restoration.py)
+</system-out>
+	</testcase>
+</testsuite>

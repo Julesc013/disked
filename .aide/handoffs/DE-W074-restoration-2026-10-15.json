@@ -1,0 +1,87 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W074",
+  "base_revision": "04f2397ba8c5696014da48aae73342a5ff825fa1",
+  "spec_manifest_digest": "sha256:973e2db0912995a992fc56517c96f7cfc30859e494040b4cc6868049a7ce286b",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-tree-prototype.json",
+    "tests/recovery/test_gpt_restoration.py",
+    "tests/recovery/test_gpt_restoration_inspection.py",
+    "source/providers/image/fixture_repair.cpp",
+    "tests/images/gpt_execution_probe.cpp",
+    "source/runtime/capture/exfat_tree.cpp"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-15-exfat-tree/reproduce-qualified.py",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/exfat-tree.md",
+    "docs/structure-review.md",
+    "source/providers/image/fixture_repair.cpp",
+    "spec/catalog/exfat-tree-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/recovery/test_gpt_restoration.py",
+    "tests/recovery/test_gpt_restoration_inspection.py",
+    "tools/build-inputs.json",
+    "tests/recovery/test_gpt_fixture_harness.py",
+    ".aide/handoffs/DE-W074-restoration-2026-10-15.json"
+  ],
+  "summary": "DE-W024 restoration-harness regression correction during W074 qualification: concurrent pipe diagnostics, named timeouts and retained failed dependencies. Original full143 and rerun failures retained; cause unproven. Working138 diagnostic restoration cases, five lifecycle regressions and121 corrected inspection cases pass. Main remains at prior qualified checkpoint.",
+  "tests": [
+    {
+      "command": "python tests/recovery/test_gpt_restoration.py --trace-io --probe <working gpt_execution_probe> --root . --evidence <diagnostic-cases>",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-tree/restoration-diagnostics/gpt-restoration-diagnostic.log"
+    },
+    {
+      "command": "python -m unittest discover -s tests/recovery -p test_gpt_fixture_harness.py -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-tree/restoration-diagnostics/gpt-harness-tests-formatted.log"
+    },
+    {
+      "command": "ctest -C Release -R <four GPT execution/restoration/harness/inspection groups>",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-tree/restoration-diagnostics/gpt-restoration-default.log"
+    },
+    {
+      "command": "python tests/recovery/test_gpt_restoration_inspection.py --probe <working gpt_execution_probe> --root . --evidence <inspection-cases>",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-tree/restoration-diagnostics/gpt-inspection-lifecycle.log"
+    },
+    {
+      "command": "Fresh immutable full144 native,51 headers,242 tooling tests, imports/context/source campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-tree/restoration-diagnostics/summary.json",
+      "sha256": "sha256:5fa25b12d2cbdf88c6d01101c4117c370d83bd6b7bc3f467e8e138dc455f3a19"
+    }
+  ],
+  "blockers": [
+    "Immutable full qualification and implementing-agent review pending; earlier native delay cause remains unexplained.",
+    "Full original all-platform/storage0.1.0 and owner/release/storage gates unfinished."
+  ],
+  "next_safe_step": "Commit source/input/lifecycle changes on dev and run reproduce-qualified.py at that exact revision. Diagnose any real failure with preserved dependencies; no deadline increase. Integrate only an applicable passing and reviewed checkpoint.",
+  "performed_remote_writes": true
+}

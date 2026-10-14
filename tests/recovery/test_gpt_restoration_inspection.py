@@ -1,18 +1,18 @@
 """Independent readonly restoration-history framing/semantic/current-state fixtures."""
 import argparse,copy,json,os,struct,subprocess,tempfile
 from pathlib import Path
-from test_gpt_restoration import canonical,sha,expected,receipts,fixture,change_array,request,reader,send,close,recovery_receipts,inspect_fixture
+from test_gpt_restoration import canonical,sha,expected,receipts,fixture,change_array,request,Replies,send,close,fixture_parent,recovery_receipts,inspect_fixture
 
-def make_fixture(probe,parent,name,case,source='primary'):
-    folder=parent/name;folder.mkdir();process=subprocess.Popen([str(probe),'--fixture-parent',str(folder)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows,thread=reader(process)
+def make_fixture(probe,parent,name,case,observations,source='primary'):
+    folder=parent/name;folder.mkdir();process=subprocess.Popen([str(probe),'--fixture-parent',str(folder)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows=Replies(process)
     try:
-        send(process,request(case,source,fault=dict(stage='image.write.2',action='crash_after')));prepared=rows.get(timeout=15);review,grant=receipts(prepared);send(process,dict(phase='execute',review=review,grant=grant));process.stdin.close();assert rows.get(timeout=15) is None and process.wait(timeout=15)==112 and not process.stderr.read()
+        send(process,request(case,source,fault=dict(stage='image.write.2',action='crash_after')));prepared=rows.get(timeout=15,phase=name+':preparation');review,grant=receipts(prepared);send(process,dict(phase='execute',review=review,grant=grant));process.stdin.close();assert rows.get(timeout=15,phase=name+':execution') is None and rows.wait(timeout=15)==112;rows.assert_drained()
         data=dict(preparation=prepared,review=review,grant=grant,owned=Path(prepared['manifest']['directory']),case=case,source=source)
-    finally:close(process,thread)
-    before=(data['owned']/'image.bin').read_bytes();old_journal=(data['owned']/'journal.bin').read_bytes();process=subprocess.Popen([str(probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows,thread=reader(process)
+    finally:close(process,rows,observations)
+    before=(data['owned']/'image.bin').read_bytes();old_journal=(data['owned']/'journal.bin').read_bytes();process=subprocess.Popen([str(probe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE);rows=Replies(process)
     try:
-        send(process,request(case,source,'restore',manifest=prepared['manifest'],review=review,grant=grant,attempt_id=sha(name.encode())[7:39]));proposal=rows.get(timeout=15);assert proposal['phase']=='restoration_prepared';review,grant=recovery_receipts(proposal);send(process,dict(phase='restore-execute',review=review,grant=grant));process.stdin.close();store=rows.get(timeout=15)['store'];finish=rows.get(timeout=15);assert finish['restoration']['status']=='restored_original_basis' and process.wait(timeout=15)==0 and not process.stderr.read()
-    finally:close(process,thread)
+        send(process,request(case,source,'restore',manifest=prepared['manifest'],review=review,grant=grant,attempt_id=sha(name.encode())[7:39]));proposal=rows.get(timeout=15,phase=name+':restoration-preparation');assert proposal['phase']=='restoration_prepared';review,grant=recovery_receipts(proposal);send(process,dict(phase='restore-execute',review=review,grant=grant));process.stdin.close();store=rows.get(timeout=15,phase=name+':restoration-store')['store'];finish=rows.get(timeout=15,phase=name+':restoration-execution');assert finish['restoration']['status']=='restored_original_basis' and rows.wait(timeout=15)==0;rows.assert_drained()
+    finally:close(process,rows,observations)
     return data,proposal,review,grant,store,before,old_journal
 
 def decode_records(raw):
@@ -31,17 +31,17 @@ def rebuild(raw,mutate=None,header_mutate=None):
     return out
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--probe',type=Path,required=True);ap.add_argument('--root',type=Path,required=True);ap.add_argument('--evidence',type=Path);a=ap.parse_args();a.probe=a.probe.resolve();a.root=a.root.resolve();records=[];passed=False
+    ap=argparse.ArgumentParser();ap.add_argument('--probe',type=Path,required=True);ap.add_argument('--root',type=Path,required=True);ap.add_argument('--evidence',type=Path);a=ap.parse_args();a.probe=a.probe.resolve();a.root=a.root.resolve();records=[];passed=False;observations=[];fixture_state={}
     def record(name,code,output,raw,prepared,store):records.append(dict(name=name,exit_code=code,inspection=output,journal_hex=raw.hex(),definition=prepared['definition'],restoration_digest=prepared['restoration_digest'],store=store));print('CASE '+ascii(name),flush=True)
     try:
-        with tempfile.TemporaryDirectory(prefix='gpt-restoration-inspection-',dir=a.root/'.aide-local') as directory:
+        with fixture_parent(a.root,fixture_state,observations) as directory:
             parent=Path(directory);assert parent.resolve().is_relative_to((a.root/'.aide-local').resolve())
             def case_for(unit,source):
                 target='backup' if source=='primary' else 'primary';f=fixture(unit=unit);change_array(f,lambda b:b.__setitem__(0,b[0]^1),target,False);header=bytearray.fromhex(f[target]);header[16]^=1;f[target]=header.hex();return expected(f,source)
             context=None
             for unit in (512,4096):
                 for source in ('primary','backup'):
-                    values=make_fixture(a.probe,parent,str(unit)+'-'+source,case_for(unit,source),source);code,output=inspect_fixture(a.probe,*values);assert code==0 and output['inspection']['current_matches_seal'];data,prepared,review,grant,store,before,old_journal=values;record(str(unit)+'-'+source,code,output,(data['owned']/store['name']).read_bytes(),prepared,store)
+                    values=make_fixture(a.probe,parent,str(unit)+'-'+source,case_for(unit,source),observations,source);code,output=inspect_fixture(a.probe,*values);assert code==0 and output['inspection']['current_matches_seal'];data,prepared,review,grant,store,before,old_journal=values;record(str(unit)+'-'+source,code,output,(data['owned']/store['name']).read_bytes(),prepared,store)
                     if unit==512 and source=='primary':context=values
             data,prepared,review,grant,store,before,old_journal=context;path=data['owned']/store['name'];original=path.read_bytes();rows=decode_records(original)
             def inspect(name,raw=None,mutate=None,diagnostic=None,refusal=None,fault=None):
@@ -106,6 +106,6 @@ def main():
             raw=path.read_bytes();path.rename(data['owned']/'retired-recovery.bin');path.write_bytes(raw);inspect('replaced-store',refusal='fixture_restoration_store_changed')
         passed=True
     finally:
-        if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(dict(passed=passed,cases=len(records),probe_sha256=sha(a.probe.read_bytes()),records=records),indent=2)+'\n',encoding='utf8',newline='\n')
+        if a.evidence:a.evidence.parent.mkdir(parents=True,exist_ok=True);a.evidence.write_text(json.dumps(dict(passed=passed,cases=len(records),probe_sha256=sha(a.probe.read_bytes()),records=records,fixture=fixture_state,process_observations=observations),indent=2)+'\n',encoding='utf8',newline='\n')
     print('Read-only GPT restoration inspection PASS '+str(len(records)),flush=True)
 if __name__=='__main__':main()

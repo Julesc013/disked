@@ -1,5 +1,18 @@
 # Source structure and release review follow-up
 
+## Tree checkpoint awaiting qualification: 15 October 2026
+
+Keep the same source ownership and names; the map covers289 current files once.
+The bounded private tree/content implementation passes its40 working cases and11
+supplementary exact-artifact cases. The full `bf26a4a4` run passed142 of143 native
+groups and failed GPT restoration. A second restoration run timed out and attempted
+cleanup while termination remained unconfirmed. The
+[retained evidence](../.aide/evidence/2026-10-15-exfat-tree/README.md) distinguishes
+these failures from the working repair: retained dependencies, concurrent pipe
+diagnostics, five harness regressions and138 diagnostic restoration cases pass.
+The earlier delay is unresolved. A fresh full144 campaign is required before this
+checkpoint can move from `dev` to `main`; original0.1.0 and release gates stay open.
+
 ## Qualified namespace checkpoint: 15 October 2026
 
 The source map covers 287 files once. Exact `2545d078` passes all 142 native groups,

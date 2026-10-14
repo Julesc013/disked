@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <atomic>
 #include <cstdlib>
+#include <cstdio>
 #include <map>
 
 namespace disked { namespace image { namespace fixture {
@@ -41,6 +42,15 @@ void fault_shape(const Fault& f) {
     require((f.stage.empty() && f.action.empty()) || (!f.stage.empty() && f.stage.size()<=80 && f.stage.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789.-")==f.stage.npos),"fixture_fault_shape");
     require(f.action.empty() || f.action=="before_error" || f.action=="after_error" || f.action=="partial_error" || f.action=="crash_before" || f.action=="crash_after" || f.action=="short_read" || f.action=="alter_read","fixture_fault_shape");
 }
+// Opt-in diagnostics for this compile-guarded test adapter only. The controller
+// drains stderr concurrently; normal fixture output and all bindings stay intact.
+void diagnostic(const char* state,const std::string& stage) {
+    char enabled[2]{};
+    if(GetEnvironmentVariableA("DISKED_GPT_FIXTURE_TRACE",enabled,2)==1 && enabled[0]=='1') {
+        std::fprintf(stderr,"GPT_FIXTURE %llu %s %s\n",static_cast<unsigned long long>(GetTickCount64()),state,stage.c_str());
+        std::fflush(stderr);
+    }
+}
 }
 struct GptFiles::Impl {
     std::wstring directory,recovery_name;std::vector<Handle> parents;V parent_generations;Handle root,image,backup,journal,recovery_journal;V metadata,store,trace=V::array();
@@ -56,12 +66,12 @@ struct GptFiles::Impl {
         if(restoring) {local_file::ordinary(recovery_journal.value,false);local_file::bind_path(recovery_journal.value,directory+L"\\"+recovery_name);require(token(recovery_journal.value)==text(store,"identity"),"fixture_restoration_store_changed");}
     }
     std::string begin(const std::string& operation,std::uint64_t offset,std::size_t count,bool setup=false) {
-        check(!setup);const auto stage=operation+"."+std::to_string(++calls[operation]);require(trace.items.size()<2048,"fixture_trace_budget");
+        diagnostic("checking",operation);check(!setup);const auto stage=operation+"."+std::to_string(++calls[operation]);require(trace.items.size()<2048,"fixture_trace_budget");
         trace.items.push_back(V::object().put("stage",V::string(stage)).put("offset",exact(offset)).put("bytes",exact(count)).put("setup",V::boolean_value(setup)).put("returned",V::boolean_value(false)));
-        if(stage==fault.stage) {fired=true;if(fault.action=="crash_before")std::_Exit(112);if(fault.action=="before_error")fail("fixture_injected_before");}return stage;
+        if(stage==fault.stage) {fired=true;if(fault.action=="crash_before")std::_Exit(112);if(fault.action=="before_error")fail("fixture_injected_before");}diagnostic("dispatch",stage);return stage;
     }
     void finish(const std::string& stage,std::size_t actual) {
-        trace.items.back().put("actual_bytes",exact(actual)).put("returned",V::boolean_value(true));
+        diagnostic("returned",stage);trace.items.back().put("actual_bytes",exact(actual)).put("returned",V::boolean_value(true));
         if(stage==fault.stage) {if(fault.action=="crash_after")std::_Exit(112);if(fault.action=="after_error")fail("fixture_injected_after");}
     }
     Bytes read(HANDLE h,const std::string& label,std::uint64_t start,std::size_t count) {

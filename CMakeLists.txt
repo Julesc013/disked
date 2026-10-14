@@ -1015,6 +1015,9 @@ if(BUILD_TESTING)
   add_test(NAME image.gpt_fixture_restoration COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery/test_gpt_restoration.py"
     --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.gpt_fixture_restoration PROPERTIES TIMEOUT 300)
+  add_test(NAME recovery.gpt_fixture_harness COMMAND "${Python3_EXECUTABLE}" -m unittest
+    discover -s "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery" -p test_gpt_fixture_harness.py -v)
+  set_tests_properties(recovery.gpt_fixture_harness PROPERTIES TIMEOUT 30)
   add_test(NAME image.gpt_restoration_inspection COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/recovery/test_gpt_restoration_inspection.py"
     --probe "$<TARGET_FILE:gpt_execution_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(image.gpt_restoration_inspection PROPERTIES TIMEOUT 300)

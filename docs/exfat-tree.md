@@ -27,8 +27,15 @@ The working x64 Release build currently passes 40 independent cases in nine tree
 methods, all seven selected tree/namespace/root/file/worker/frontend/build-boundary
 groups and 51 standalone headers. The protected-view case also compares the original
 root API's result and exact read trace with the owned capture. Initial failed fixture
-addresses and corrected results are retained. Exact-source full143/tooling/import/
-context qualification is still pending; owner acceptance and full0.1.0 are open.
+addresses and corrected results are retained. The exact full143 campaign at
+`bf26a4a4` finished with142 passes and one failed GPT restoration group. Its isolated
+rerun also failed, including an unconfirmed termination and attempted cleanup of
+an in-use dependency. [Retained evidence](../.aide/evidence/2026-10-15-exfat-tree/README.md)
+includes those failures and eleven supplementary passing tree cases. The restoration
+harness now retains failed fixtures and captures process/reply diagnostics. Its five
+regressions and an opt-in diagnostic run of138 restoration cases pass; the earlier
+delay remains unexplained. A fresh full144 campaign, including the new harness
+group, is required. Owner acceptance and full0.1.0 remain open.
 
 Paged continuation, bounded stream delivery/backpressure, held-source and contained
 worker/frontend admission, other platforms/storage and production writer/recovery
