@@ -22,6 +22,9 @@ collector rereads root anchors and new regions and reports failures or withdrawa
 These checks qualify observed regions; they do not establish an atomic snapshot or
 current-source/mutation authority. Finite bounds produce incomplete results with
 diagnostics and retained directory-record prefixes.
+The collector copies the validated limits before invoking callbacks. A callback
+may withdraw source applicability; changing the caller's limits cannot enlarge
+the admitted budget for an in-flight collection.
 
 The working x64 Release build currently passes 40 independent cases in nine tree
 methods, all seven selected tree/namespace/root/file/worker/frontend/build-boundary

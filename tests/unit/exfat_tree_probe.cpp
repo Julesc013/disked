@@ -194,7 +194,15 @@ static V observe(const V &input) {
     }
     disked::ExfatTreePort port;
     port.read = reader;
+    bool limits_mutated = false;
     port.applicable = [&](const disked::ExfatCaptureRequest &binding) {
+        if (const auto *mutate = input.find("mutate_tree_limits")) {
+            require(mutate->kind == V::Kind::boolean);
+            if (mutate->boolean) {
+                tree_limits = disked::ExfatTreeLimits{};
+                limits_mutated = true;
+            }
+        }
         require(binding.source_id == request.source_id && binding.epoch == request.epoch &&
                 binding.volume_offset == request.volume_offset &&
                 binding.volume_bytes == request.volume_bytes);
@@ -230,6 +238,7 @@ static V observe(const V &input) {
         }
     }
     out.put("protected_views", exact(tree_pages));
+    out.put("caller_limits_mutated", V::boolean_value(limits_mutated));
     out.put("requests", std::move(requests)).put("source_unchanged", V::boolean_value(true));
     return out;
 }

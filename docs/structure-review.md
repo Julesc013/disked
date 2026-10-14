@@ -10,8 +10,19 @@ cleanup while termination remained unconfirmed. The
 [retained evidence](../.aide/evidence/2026-10-15-exfat-tree/README.md) distinguishes
 these failures from the working repair: retained dependencies, concurrent pipe
 diagnostics, five harness regressions and138 diagnostic restoration cases pass.
-The earlier delay is unresolved. A fresh full144 campaign is required before this
-checkpoint can move from `dev` to `main`; original0.1.0 and release gates stay open.
+The earlier delay is unresolved. The fresh full144 campaign at `e7e3297f` is in
+progress. Review subsequently reproduced four cases where callbacks enlarged
+validated tree limits. An owned copy fixes them, and44 working tree cases now
+pass. Before integration, retain the complete campaign and qualify this private
+correction at an exact revision on x64/Win32; describe their distinct coverage.
+Original0.1.0 and release gates stay open.
+
+The newest read-only Setup observation finds draft PR237 at `64b466be` and
+[run38605254417](https://github.com/Julesc013/universal-setup/actions/runs/38605254417)
+with six successful jobs and failed native-windows. This is hosted status,
+not an independently diagnosed cause or qualified DiskEd lifecycle integration.
+The [raw observations](../.aide/evidence/2026-10-15-setup-observation/summary.json)
+retain the checked revision and scope.
 
 ## Qualified namespace checkpoint: 15 October 2026
 

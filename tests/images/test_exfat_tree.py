@@ -183,6 +183,27 @@ class Tree(unittest.TestCase):
             # Depth one supports this one-level tree; everything else clips it.
             self.assertEqual(field == 'depth', tree['complete'], (field, tree))
 
+    def test_callback_cannot_enlarge_validated_limits(self):
+        _, baseline, _, _, _ = fixture()
+        for field, limit in [('directories', 1), ('records', 4),
+                             ('read_requests', 3), ('content_bytes', 10)]:
+            with self.subTest(field=field):
+                row = copy.deepcopy(baseline)
+                row['tree_limits'] = {field: str(limit)}
+                row['mutate_tree_limits'] = True
+                value, tree = self.observe(row)
+                self.assertTrue(value['caller_limits_mutated'])
+                self.assertFalse(tree['complete'], (field, tree))
+                self.assertTrue(tree['diagnostics'])
+                if field == 'directories':
+                    self.assertLessEqual(len(tree['directories']), limit)
+                elif field == 'records':
+                    self.assertLessEqual(int(tree['records']), limit)
+                elif field == 'read_requests':
+                    self.assertLessEqual(int(tree['read_requests']), limit)
+                else:
+                    self.assertLessEqual(int(tree['content_bytes']), limit)
+
     def test_ambiguous_names_and_unsupported_records_remain_observations(self):
         volume = Volume(fragmented=False)
         volume.records += [entry(volume, 'same'), entry(volume, 'SAME')]

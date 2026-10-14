@@ -106,7 +106,7 @@ assert ancestry['passed'] and ancestry['cases'] == 3
 command = json.loads((out / 'exfat-command-cases.json').read_bytes())
 namespace = json.loads((out / 'exfat-namespace-cases.json').read_bytes())
 tree = json.loads((out / 'exfat-tree-cases.json').read_bytes())
-assert tree['passed'] and tree['cases'] == 40 and tree['methods'] == 9
+assert tree['passed'] and tree['cases'] == 44 and tree['methods'] == 10
 assert namespace['passed'] and namespace['cases'] == 303 and namespace['methods'] == 12
 assert capture['passed'] and capture['cases'] == 146 and capture['methods'] == 13
 assert file['passed'] and file['cases'] == 89 and file['methods'] == 11
@@ -117,7 +117,7 @@ assert 'OK (skipped=2)' in (out / 'tooling.log').read_text(encoding='utf-8')
 assert not run('final-source-status', ['git', 'status', '--porcelain']).strip()
 assert all(sha(clone / p) == digest for p, digest in inputs.items())
 save(out / 'summary.json', dict(status='pass', source_revision=revision, source_state='clean_sparse',
-    native_groups_fresh=144, header_compilations_fresh=51, tree_cases=40, tree_methods=9, namespace_cases=303, namespace_methods=12, capture_cases=146, capture_methods=13,
+    native_groups_fresh=144, header_compilations_fresh=51, tree_cases=44, tree_methods=10, namespace_cases=303, namespace_methods=12, capture_cases=146, capture_methods=13,
     file_cases=89, file_methods=11, worker_cases=94, worker_methods=9, command_cases=33,
     tooling_tests_run=242, tooling_tests_skipped=2, full_native_suite_fresh=True,
     scope='Private supplied-reader coherent exFAT tree/logical contents, owned root capture and existing Windows ordinary-image prototype',

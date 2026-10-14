@@ -92,7 +92,7 @@ struct Directory {
 class Tree {
     const ExfatCaptureRequest request_;
     const ExfatTreePort &port_;
-    const ExfatTreeLimits &limits_;
+    const ExfatTreeLimits limits_;
     de_block_space space_{};
     std::unique_ptr<ExfatVolumeCapture> capture_;
     std::unique_ptr<ExfatUpcaseMap> map_;
