@@ -24,6 +24,7 @@
 - [exfat-file-prototype.json](exfat-file-prototype.json)
 - [exfat-namespace-prototype.json](exfat-namespace-prototype.json)
 - [exfat-reader-prototype.json](exfat-reader-prototype.json)
+- [exfat-tree-prototype.json](exfat-tree-prototype.json)
 - [exfat-upcase-prototype.json](exfat-upcase-prototype.json)
 - [exfat-worker-prototype.json](exfat-worker-prototype.json)
 - [export-command-prototype.json](export-command-prototype.json)

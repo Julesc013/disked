@@ -1,0 +1,34 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/exfat-tree-working/build
+    Start 77: image.exfat_tree
+1/2 Test #77: image.exfat_tree .................***Failed    1.15 sec
+test_chain_corruption_bitmap_and_crosslinks (__main__.Tree.test_chain_corruption_bitmap_and_crosslinks) ... FAIL
+test_contiguous_streams_ignore_fat_cells (__main__.Tree.test_contiguous_streams_ignore_fat_cells) ... ok
+test_nested_fragmented_and_contiguous_content (__main__.Tree.test_nested_fragmented_and_contiguous_content) ... ok
+test_resource_limits_remain_partial (__main__.Tree.test_resource_limits_remain_partial) ... ok
+test_source_change_failed_read_and_callback_withdrawal (__main__.Tree.test_source_change_failed_read_and_callback_withdrawal) ... ok
+test_valid_data_length_boundaries_and_empty_streams (__main__.Tree.test_valid_data_length_boundaries_and_empty_streams) ... ok
+
+======================================================================
+FAIL: test_chain_corruption_bitmap_and_crosslinks (__main__.Tree.test_chain_corruption_bitmap_and_crosslinks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_tree.py", line 148, in test_chain_corruption_bitmap_and_crosslinks
+    self.assertFalse(tree['complete'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.910s
+
+FAILED (failures=1)
+
+    Start 79: image.exfat_capture
+2/2 Test #79: image.exfat_capture ..............   Passed    8.87 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  10.05 sec
+
+The following tests FAILED:
+	 77 - image.exfat_tree (Failed)
+Errors while running CTest

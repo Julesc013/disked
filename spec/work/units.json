@@ -6785,6 +6785,103 @@
         ".aide/evidence/2026-10-15-exfat-namespace/word-bounds/namespace-size-cases.py",
         ".aide/evidence/2026-10-15-exfat-namespace/word-bounds/qualify-namespace-word-bounds.py"
       ]
+    },
+    {
+      "id": "DE-W074",
+      "title": "Collect coherent exFAT directory trees and logical file streams",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W073"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-044",
+        "DE-045",
+        "DE-050",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "source/portable/exfat/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/images/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Coherent bounded supplied-reader directory-tree and file-stream observations within an explicitly bound ordinary-image volume. This extends the original filesystem scope; complete paged/provider/worker/frontend/platform/storage admission still needs its own evidence.",
+        "Reuse the existing root observer to construct an opaque move-only owned ExfatVolumeCapture containing actual root/system metadata and reread anchors. Preserve its existing JSON observations/read sequence. exfat_tree owns tree/stream collection; namespace owns supplied-record name interpretation, portable/exfat owns decoding. No native opening, scheduler, second format parser or public ABI.",
+        "A root capture is constructed only by the existing reader/decoder/cardinality/active-bitmap/upcase/reread checks. Retain copied request, geometry, raw root report, root/system occupied clusters, original system bytes and actual read regions. Getters are immutable. The tree requires a mandatory applicable callback for the exact source_id/epoch/window and checks it before and after collection; reread all root anchors and every new observed region. This reports matched observed regions, not atomic snapshot or current-source/mutation authority.",
+        "Reparse associated entry-set bytes using portable helpers. Require valid stream metadata before traversal/content. Chained streams require exactly ceil(DataLength/clusterBytes) clusters, end marker after the last, no cycles/crosslinks, and active-bitmap allocation for every cluster. NoFatChain uses exactly the contiguous extent, checks heap bounds/allocation, and never interprets or reads FAT cells for that extent. Root/system clusters and every participating file/directory share one ownership set. Preserve unsupported/incomplete facts and diagnostics; no automatic repair.",
+        "Collect logical ordered32-byte records across fragmented or contiguous clusters, retaining actual source offsets. Entry sets may cross cluster boundaries. End markers delimit membership; later physical bytes do not become members. Directory DataLength is the entire allocation, whole-cluster, at most256MiB and may be zero; ValidDataLength equals DataLength. Reuse the namespace model and exact validated volume map for names; no host normalization/path opening. Unknown/invalid/orphan records and duplicate upcased names withdraw complete namespace claims. Bound breadth/depth/counts and report partial coverage rather than fabricated absence.",
+        "For ordinary files, observe the logical DataLength stream. Read source bytes only before ValidDataLength; bytes from that boundary to DataLength are defined zeroes and must not disclose on-media undefined bytes. Preserve read/zero provenance and digest of emitted logical bytes. Empty files/directories perform no data/FAT reads for an empty allocation. No output-file creation, extraction, writer or physical grant follows from a content observation."
+      ],
+      "acceptance": [
+        "Independent generated-image chains/bitmap/record-offset and logical-content oracles; nested, fragmented and NoFatChain directories/files, cross-cluster sets, custom names and case/hash collisions.",
+        "ValidDataLength boundaries, zero filling, zero-length directory/file, nonzero offsets, activeFAT/bitmap and non-read of poisoned FAT cells or undefined tail bytes.",
+        "Cycles/crosslinks, unallocated clusters, short/long/bad chains, invalid streams, unsupported records, changed/short/null/failed reads, callback withdrawal and finite budgets retain precise incomplete facts.",
+        "Actual native build/headers, original root/namespace/file/worker/frontend regressions, exact source/import/context/artifact evidence. Untested targets remain unverified."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-tree-prototype.json",
+        "spec/catalog/exfat-namespace-prototype.json",
+        "source/runtime/capture/exfat_capture.h",
+        "source/runtime/capture/exfat_capture.cpp",
+        "source/runtime/capture/exfat_namespace.h",
+        "source/runtime/capture/exfat_namespace.cpp",
+        "source/runtime/capture/exfat_upcase.h",
+        "source/runtime/capture/exfat_upcase.cpp",
+        "source/runtime/capture/region_reader.h",
+        "source/portable/exfat/exfat.h",
+        "source/portable/exfat/directory.c",
+        "source/runtime/capture/fat_traversal.h",
+        "tests/images/test_exfat_capture.py",
+        "tests/property/exfat_directory_vectors.py",
+        "tests/property/test_exfat_namespace.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "source/runtime/capture/exfat_tree.h",
+        "source/runtime/capture/exfat_tree.cpp",
+        "tests/unit/exfat_tree_probe.cpp",
+        "tests/images/test_exfat_tree.py",
+        "docs/exfat-tree.md"
+      ]
     }
   ]
 }

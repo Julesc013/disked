@@ -71,9 +71,13 @@ json::Limits output_limits() {
     limits.depth = 32;
     return limits;
 }
-struct Region {
-    std::uint64_t start;
-    Bytes bytes;
+using Region = ExfatCapturedRegion;
+struct CaptureParts {
+    de_exfat_boot boot{};
+    Bytes boot_bytes, bitmap, upcase;
+    unsigned long checksum = 0;
+    std::set<std::uint32_t> occupied;
+    std::vector<Region> regions;
 };
 struct Record {
     std::uint64_t start;
@@ -110,6 +114,9 @@ class Observer {
     bool boot_observed_ = false;
     V bitmap_descriptors_ = V::array(), upcase_descriptors_ = V::array();
     V bitmap_facts_ = V::object(), upcase_facts_ = V::object();
+    bool keep_materials_ = false;
+    Bytes bitmap_bytes_, upcase_bytes_;
+    unsigned long upcase_checksum_ = 0;
 
     void retain(std::size_t bytes) {
         if (bytes > request_.limits.retained_bytes - retained_)
@@ -330,7 +337,7 @@ class Observer {
     }
     void bitmap(const de_exfat_bitmap &descriptor) {
         const auto length = native(descriptor.data_length);
-        const auto bytes = system_bytes(bitmap_chain_, length);
+        auto bytes = system_bytes(bitmap_chain_, length);
         de_u32 available = 0, unavailable = 0;
         std::uint64_t bit = 0;
         for (std::size_t at = 0; bit < boot_.cluster_count; at += 8192) {
@@ -358,9 +365,11 @@ class Observer {
                 stop("exfat_system_cluster_available");
         }
         membership_ = true;
+        if (keep_materials_)
+            bitmap_bytes_ = std::move(bytes);
     }
     void upcase(const de_exfat_upcase_descriptor &descriptor) {
-        const auto bytes = system_bytes(upcase_chain_, native(descriptor.data_length));
+        auto bytes = system_bytes(upcase_chain_, native(descriptor.data_length));
         if (request_.upcase_format == ExfatUpcaseFormat::Automatic)
             output(2048);
         try {
@@ -368,6 +377,10 @@ class Observer {
                                  upcase_facts_, [this](std::size_t n) { retain(n); });
         } catch (const ExfatUpcaseError &error) { stop(error.what()); }
         upcase_valid_ = true;
+        if (keep_materials_) {
+            upcase_checksum_ = descriptor.table_checksum;
+            upcase_bytes_ = std::move(bytes);
+        }
     }
     void reread() {
         for (const auto &region : regions_) {
@@ -459,8 +472,8 @@ class Observer {
     }
 
   public:
-    Observer(const ExfatCaptureRequest &request, const RegionReader &reader)
-        : request_(request), reader_(reader) {
+    Observer(const ExfatCaptureRequest &request, const RegionReader &reader, bool keep = false)
+        : request_(request), reader_(reader), keep_materials_(keep) {
         validate_exfat_capture_request(request);
         if (!reader)
             throw std::invalid_argument("exfat_reader_required");
@@ -498,8 +511,78 @@ class Observer {
         }
         return result(failure);
     }
+    CaptureParts take() {
+        CaptureParts parts;
+        parts.boot = boot_;
+        parts.boot_bytes = std::move(boot_bytes_);
+        parts.bitmap = std::move(bitmap_bytes_);
+        parts.upcase = std::move(upcase_bytes_);
+        parts.checksum = upcase_checksum_;
+        parts.occupied = std::move(occupied_);
+        parts.regions = std::move(regions_);
+        return parts;
+    }
 };
 } // namespace
+struct ExfatVolumeCapture::Impl {
+    ExfatCaptureRequest request;
+    V report;
+    CaptureParts parts;
+    Impl(const ExfatCaptureRequest &r, V value, CaptureParts data)
+        : request(r), report(std::move(value)), parts(std::move(data)) {
+        parts.boot.raw = de_view{parts.boot_bytes.data(), parts.boot_bytes.size()};
+    }
+    void require_valid() const {
+        if (!report.fields.at("applicable").boolean)
+            throw std::runtime_error("exfat_capture_inapplicable");
+    }
+};
+ExfatVolumeCapture::ExfatVolumeCapture(std::unique_ptr<Impl> impl) : impl_(std::move(impl)) {
+}
+ExfatVolumeCapture::~ExfatVolumeCapture() = default;
+ExfatVolumeCapture::ExfatVolumeCapture(ExfatVolumeCapture &&) noexcept = default;
+ExfatVolumeCapture &ExfatVolumeCapture::operator=(ExfatVolumeCapture &&) noexcept = default;
+ExfatVolumeCapture ExfatVolumeCapture::read(const ExfatCaptureRequest &r,
+                                            const RegionReader &reader) {
+    const ExfatCaptureRequest held = r;
+    Observer observer(held, reader, true);
+    auto report = observer.run();
+    auto parts = observer.take();
+    return ExfatVolumeCapture(
+        std::unique_ptr<Impl>(new Impl(held, std::move(report), std::move(parts))));
+}
+bool ExfatVolumeCapture::valid() const {
+    return impl_ && impl_->report.fields.at("applicable").boolean;
+}
+const ExfatCaptureRequest &ExfatVolumeCapture::request() const {
+    return impl_->request;
+}
+const V &ExfatVolumeCapture::report() const {
+    return impl_->report;
+}
+const de_exfat_boot &ExfatVolumeCapture::boot() const {
+    impl_->require_valid();
+    return impl_->parts.boot;
+}
+const Bytes &ExfatVolumeCapture::bitmap() const {
+    impl_->require_valid();
+    return impl_->parts.bitmap;
+}
+const Bytes &ExfatVolumeCapture::upcase() const {
+    impl_->require_valid();
+    return impl_->parts.upcase;
+}
+unsigned long ExfatVolumeCapture::upcase_checksum() const {
+    impl_->require_valid();
+    return impl_->parts.checksum;
+}
+const std::set<std::uint32_t> &ExfatVolumeCapture::system_clusters() const {
+    impl_->require_valid();
+    return impl_->parts.occupied;
+}
+const std::vector<ExfatCapturedRegion> &ExfatVolumeCapture::regions() const {
+    return impl_->parts.regions;
+}
 void validate_exfat_capture_request(const ExfatCaptureRequest &r) {
     exfat_upcase_format_name(r.upcase_format);
     if (!r.epoch || !r.source_bytes || r.volume_bytes < 512 || r.source_id.empty() ||

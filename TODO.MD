@@ -397,3 +397,9 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
   Retained evidence and implementing-agent review govern local continuation; owner acceptance stays open.
 - [ ] Collect coherent exFAT directory streams/tree and file data with allocation/bitmap agreement,
   ValidDataLength zero filling and held-source/worker/frontend admission.
+
+## Current exFAT coherent-tree development
+
+- [x] DE-W074 working owned root capture and bounded tree/logical-content reader; 40 independent cases, seven selected native groups and 51 headers pass.
+- [ ] Qualify exact committed source with full143 native, tooling, import/context/source checks and review before main integration.
+- [ ] Complete paging/backpressure, held-source/worker/frontend and remaining original platform/storage/release gates.
