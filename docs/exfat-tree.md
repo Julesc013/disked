@@ -49,4 +49,11 @@ at `9c2d2b09`, plus related supplied-byte suites, four headers per architecture,
 242 tooling tests/two skips and imports/context/source freshness. The separate
 complete `e7e3297f` native run fails eight of144 groups. The
 [review](../.aide/evidence/2026-10-15-exfat-tree/REVIEW.md) keeps those scopes distinct;
-the work remains partial and `main` integration is withheld.
+that earlier campaign withheld integration.
+
+The fresh complete `2cd2e2e1` campaign now passes all144 native groups,51 headers,
+242 tooling tests/two skips and imports/context/source freshness. The private tree
+slice is reviewed for development integration. The old delay cause remains unproven;
+all original failures and diagnostic reruns remain retained. Actual symlink creation,
+held-source/worker/frontend tree admission, other platforms/storage, owner acceptance
+and full0.1.0 remain unqualified.

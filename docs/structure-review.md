@@ -1,5 +1,20 @@
 # Source structure and release review follow-up
 
+## Qualified supplied-reader tree: 15 October 2026
+
+Exact `2cd2e2e1` passes the fresh complete144-group native campaign,51 standalone
+headers and242 tooling tests/two skips, with imports and context/source freshness.
+The [retained qualification](../.aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json)
+and [implementing-agent review](../.aide/evidence/2026-10-15-exfat-tree/REVIEW.md)
+support development integration. Earlier failures and unchanged-deadline reruns
+remain retained; their original delay cause is unproven.
+
+Keep the289-file ownership map and frontend naming. This qualifies private
+supplied-reader trees and logical contents, plus the existing Windows prototype
+regressions. Actual symlink creation, full Win32 product, held-source/worker/frontend
+tree admission, other original platforms/storage, owner acceptance and release
+remain open. Integration records report actual pushes; no stable release follows.
+
 ## Current private correction and failed broad run: 15 October 2026
 
 Keep the same owners, consistent model names and289-file source map. The private

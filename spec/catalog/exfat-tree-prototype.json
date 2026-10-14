@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-tree-profile/1",
   "work_id": "DE-W074",
-  "status": "implemented-working-exact-campaign-failed-new-qualification-pending",
+  "status": "locally-qualified-private-supplied-reader-tree",
   "base_revision": "baeebb4c4676c49eafc09a289fd4162fd2150a60",
   "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
   "scope": "Coherent bounded supplied-reader directory-tree and file-stream observations within an explicitly bound ordinary-image volume. This extends the original filesystem scope; complete paged/provider/worker/frontend/platform/storage admission still needs its own evidence.",
@@ -50,7 +50,24 @@
     "methods": 10,
     "old_failed_subcases": 4,
     "evidence": ".aide/evidence/2026-10-15-exfat-tree/limit-copies/summary.json",
-    "qualification": "working; exact x64/Win32 delta and broad predecessor campaign pending",
+    "qualification": "Exact private x64/Win32 delta at9c2d2b09 and full144 x64 campaign at2cd2e2e1 both passed; full Win32 product remains unqualified.",
+    "owner_accepted": false
+  },
+  "qualification": {
+    "source_revision": "2cd2e2e1fefa09f3ef50625933a0d4bc652aeee3",
+    "evidence": ".aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json",
+    "review": ".aide/evidence/2026-10-15-exfat-tree/REVIEW.md",
+    "native_groups_fresh": 144,
+    "headers_fresh": 51,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "full_native_suite_fresh": true,
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-y4wiu26v\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-y4wiu26v\\\\owned-link.img'"
+      }
+    ],
     "owner_accepted": false
   }
 }
