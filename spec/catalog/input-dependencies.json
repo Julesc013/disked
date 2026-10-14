@@ -12603,6 +12603,81 @@
         "DE-037",
         "DE-050"
       ]
+    },
+    {
+      "id": "spec/catalog/exfat-capture-prototype.json",
+      "path": "spec/catalog/exfat-capture-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-reader-prototype.json",
+        "spec/catalog/exfat-directory-prototype.json",
+        "spec/catalog/exfat-allocation-prototype.json",
+        "spec/catalog/exfat-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/exfat_capture.cpp",
+      "path": "source/runtime/capture/exfat_capture.cpp",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/exfat_capture.h",
+      "path": "source/runtime/capture/exfat_capture.h",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/unit/exfat_capture_probe.cpp",
+      "path": "tests/unit/exfat_capture_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/test_exfat_capture.py",
+      "path": "tests/images/test_exfat_capture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/exfat-capture.md",
+      "path": "docs/exfat-capture.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/exfat-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-037"
+      ]
     }
   ]
 }

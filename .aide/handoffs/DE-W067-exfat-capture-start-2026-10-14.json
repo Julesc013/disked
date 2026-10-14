@@ -1,0 +1,95 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W067",
+  "base_revision": "fd00c35679b2c7e0a980679ad4c97162320d2e9d",
+  "spec_manifest_digest": "sha256:556ab068a5d63f6f15430cf4cdd53330c7ec3058180a429f6400d078e52ee7b8",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "source/runtime/capture/region_reader.h",
+    "source/runtime/capture/fat_capture.h",
+    "source/portable/exfat/exfat.h",
+    "spec/catalog/exfat-capture-prototype.json"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-capture-start/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-capture-start/check.log",
+    ".aide/evidence/2026-10-14-exfat-capture-start/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-capture-start/context.log",
+    ".aide/evidence/2026-10-14-exfat-capture-start/manifest.log",
+    ".aide/evidence/2026-10-14-exfat-capture-start/summary.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-capture-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Recorded actual W066 integration and expected W067 root/system source coherence before implementation. Context, structural check and manifest pass. Incomplete ignored scratch reader/chain skeleton is unbuilt and not source. Original full programme remains.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-capture-start/check.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-capture-start/manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-context .aide-local/context/exfat-capture-start",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-capture-start/context.log"
+    },
+    {
+      "command": "DE-W067 native implementation qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/check.log",
+      "sha256": "sha256:94eeab27d22f95e8c294b96643e36d90ab7f1dea8de9b72315b8f3ef767cda07"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/context-manifest.json",
+      "sha256": "sha256:7a304dc589cb1262f5804c12737cac3c85d4fa62327523f82f3941e5a647d190"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/context.log",
+      "sha256": "sha256:44aaca14144f8992a099472262aea15e5624bab147d36165227489ba81536092"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/manifest.log",
+      "sha256": "sha256:e83b2db71f3f1b3d8699331a6c23c8e26e35f645260281261e687e5f2cb6c3ad"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-capture-start/summary.json",
+      "sha256": "sha256:b5b6662cc97f69ad16d9f304e868173baedba757553124ef966b6cbb228c7ea6"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Implement bounded source/root/active FAT/bitmap/upcase observations in existing runtime/capture, with independent generated images and finite failure tests; qualify exact source before held native source/tree/content/frontend admission.",
+  "performed_remote_writes": false
+}

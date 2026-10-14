@@ -1,0 +1,42 @@
+{
+  "schema": "org.disked.exfat-capture-profile/1",
+  "work_id": "DE-W067",
+  "status": "locally-qualified-private-supplied-region-root-observer",
+  "scope": "Private bounded exFAT bootstrap observation through the existing supplied RegionReader. Decode the main boot region, traverse the root through the active FAT, collect root system descriptors, validate bitmap/upcase backing chains and build the exact volume mapping. No native source opening, public command, recursive extraction or writer admission.",
+  "ownership": "source/runtime/capture/exfat_capture.h/.cpp consumes the existing portable/exfat library and capture/region_reader.h. Concrete held-file and contained-worker adapters remain in existing provider/platform owners. No new source root or duplicated FAT format decoder.",
+  "request": "Explicit source_id, epoch, source byte length, volume offset and byte length, selected upcase representation and finite read-request/read-byte/cluster/record/retained-byte/output budgets. Validate all limits and checked source/window extents before invoking the reader. Source identifiers are caller-supplied bindings, not authenticated opening rights.",
+  "reads": "Request only checked nonempty extents within the explicit volume/source. Require exact response length, copy borrowed bytes, record source offsets and raw-content digests. Bound every callback and all aggregate retained bytes. Check reread/overlap agreement before applicability publication; contradiction withdraws applicability. Observed agreement is not atomicity, future freshness or physical identity.",
+  "boot": "Read a bounded 512-byte main-sector prefix to obtain the candidate sector shift, then the exact twelve-sector main boot region using the existing decoder. Reject unusable geometry or invalid boot checksum for interpretation. Main VolumeFlags selects the active FAT; never use backup mutable flags or silently fall back to an inactive copy. Preserve TexFAT structure as an observation and do not claim transaction recovery.",
+  "chains": "Use checked heap/FAT offsets and exact little-endian cells. Root always follows the active FAT. System bitmap/upcase extents follow that FAT to a terminal marker, with valid cluster range, finite visited history, cycle/bad/zero/invalid-cell refusal and exact declared length capacity. Do not publish system data from incomplete, cross-linked or excess-length chains. Record chain clusters and cell source offsets; this is bounded observation, not allocation or repair authority. Only the selected active bitmap chain is interpreted through the active FAT. Inactive bitmap descriptors are retained for cardinality and identity but their backing data is not interpreted as active state.",
+  "root": "Observe every 32-byte slot up to the end marker or chain end, carrying slots across bounded read chunks. Preserve raw records and source offsets. Require exactly FATcount in-use bitmap descriptors with distinct identifiers 0..FATcount-1 and exactly one in-use upcase descriptor in the root. Select the bitmap whose identifier equals the active FAT. Unknown critical records prevent complete interpretation; benign unknown records remain raw observations. A bound reached before root completion is partial and cannot establish cardinality.",
+  "system_coherence": "Read declared system bytes across validated chains. Upcase uses the explicit representation and existing streaming checksum/count/ASCII decoder; publish the map only after valid finish. Active bitmap observes exactly clusterCount bits and excludes reserved tail bits. Check every root and selected-system chain cluster against that bitmap and detect root/bitmap/upcase cross-links. Keep bitmap facts, upcase validity and aggregate applicability separate. Inactive bitmap observations never replace active bitmap facts.",
+  "output": "Owned JSON observations include exact request binding, boot facts, active-copy selection, root/system descriptors and chain facts, bounded failures/partial coverage, raw region hashes and upcase mapping identity. No borrowed view escapes. Invalid API is refused before reader calls; later media/reader/budget failures retain only accurately labeled prefixes and no coherent lookup claim.",
+  "acceptance": [
+    "Independent generated one/two-FAT images with inactive-copy disagreement, fragmented root/bitmap/upcase chains, custom compressed/literal maps and exact raw/source offsets.",
+    "Missing/duplicate/wrong bitmap identities, missing/duplicate upcase, invalid boot, bad/zero/out-of-range/cyclic/cross-linked/short/long chains, unknown critical root entries and hash-valid malformed maps cannot publish applicability.",
+    "Finite request/byte/cluster/record/retained/output limits, nonzero volume offsets, checked u64 overflow, short/oversized/throwing readers and reread/overlap contradictions; no unexpected source request or original-byte changes.",
+    "Exact clean native source, standalone private header, dependency/import/context/tooling/artifact evidence and relevant portable format plus existing capture regressions; owner, held-source, tree/content/provider and full release remain separate."
+  ],
+  "later_gates": [
+    "Coherent paged file/subdirectory streams, NoFatChain allocation membership, volume-specific NameHash and full namespace comparison.",
+    "File content mapping including ValidDataLength zero filling, held ordinary source/contained worker and common frontend integration.",
+    "All original platform/storage 0.1.0 capabilities, production journal/broker/writer, owner and release gates."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "base_revision": "fd00c35679b2c7e0a980679ad4c97162320d2e9d",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+  "resource_accounting": "Finite copied-byte accounting is conservative and cumulative for region copies, boot/system buffers, raw records, decoded map and digest encoding; metadata containers are separately bounded by request/cluster/record limits. No total process-memory or atomic snapshot claim.",
+  "qualification": {
+    "source_revision": "bba3d600001109ad4dd370d5320f9bcda2d06e6e",
+    "evidence": ".aide/evidence/2026-10-14-exfat-capture-qualified/summary.json",
+    "review": ".aide/evidence/2026-10-14-exfat-capture-qualified/REVIEW.md",
+    "native_groups_fresh": 19,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "full_native_suite_fresh": false,
+    "source_state": "clean_sparse",
+    "owner_accepted": false
+  }
+}

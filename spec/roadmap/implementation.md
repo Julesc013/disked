@@ -368,3 +368,23 @@ separates this result from the prior complete native suite.
 Continue bounded root/active-FAT/bitmap/upcase source coherence, then tree/content
 and native integration. The original full platform/storage 0.1.0 and owner,
 production writer/recovery, privilege and release gates remain unfinished.
+
+
+DE-W067 binds the existing exFAT decoders into bounded root/system observations
+through the existing RegionReader; [its expected profile](../catalog/exfat-capture-prototype.json)
+fixes main-boot/active-copy selection, root cardinality, checked system chains,
+bitmap membership and exact upcase mapping before implementation. Inactive bitmap
+descriptors are historical candidates, never substitutes for active bitmap data.
+Partial coverage or reread disagreement withdraws applicability. Held native
+source, recursive tree/content, frontend and original full release remain later work.
+
+
+DE-W067 reaches local implementing-agent review at exact `bba3d600`: 121 image
+cases in nine methods, 19 selected native groups, one private header, imports,
+context/input hashes and 242 tooling tests with two skips pass. The clean sparse
+checkout contains every registered/build input and all current implementation,
+tests, spec, docs, tools and external files; unused historical evidence is
+excluded. This is not a fresh full native suite or complete archive checkout.
+Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
+Continue actual held source/worker and coherent namespace/tree/content integration;
+owner, other-platform/storage, production and full original release remain.

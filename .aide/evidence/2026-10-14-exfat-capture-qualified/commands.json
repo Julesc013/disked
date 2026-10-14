@@ -1,0 +1,327 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.503,
+    "log": "clone.log"
+  },
+  {
+    "name": "tracked-files",
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "--name-only",
+      "bba3d600001109ad4dd370d5320f9bcda2d06e6e"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.077,
+    "log": "tracked-files.log"
+  },
+  {
+    "name": "input-registry",
+    "command": [
+      "git",
+      "show",
+      "bba3d600001109ad4dd370d5320f9bcda2d06e6e:spec/catalog/input-dependencies.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "input-registry.log"
+  },
+  {
+    "name": "build-input-catalog",
+    "command": [
+      "git",
+      "show",
+      "bba3d600001109ad4dd370d5320f9bcda2d06e6e:tools/build-inputs.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "build-input-catalog.log"
+  },
+  {
+    "name": "sparse-init",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "init",
+      "--no-cone"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.101,
+    "log": "sparse-init.log"
+  },
+  {
+    "name": "sparse-selection",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.09,
+    "log": "sparse-selection.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "bba3d600001109ad4dd370d5320f9bcda2d06e6e"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 2.602,
+    "log": "checkout.log"
+  },
+  {
+    "name": "initial-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.099,
+    "log": "initial-source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 7.694,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build",
+      "--config",
+      "Release",
+      "--target",
+      "bootstrap_registry",
+      "exfat_capture_probe",
+      "disked_exfat_capture_headers",
+      "exfat_probe",
+      "exfat_directory_probe",
+      "exfat_allocation_probe",
+      "exfat_upcase_probe",
+      "fat_capture_probe",
+      "fat_capture_fault",
+      "fat_content_probe",
+      "fat_probe",
+      "fat_directory_probe",
+      "gpt_probe",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 31.367,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build",
+      "-C",
+      "Release",
+      "-R",
+      "^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.exfat_allocation|portable.exfat_allocation_guard|portable.exfat_upcase|portable.exfat_upcase_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries|image.exfat_capture|image.fat_capture|image.fat_content|portable.fat_cell_guard)$",
+      "--output-on-failure"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 42.588,
+    "log": "native.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 264.713,
+    "log": "tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 2.777,
+    "log": "spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.164,
+    "log": "index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.907,
+    "log": "manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.098,
+    "log": "source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W067",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\context",
+      "--byte-budget",
+      "1050000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.925,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 4.153,
+    "log": "verify-context.log"
+  },
+  {
+    "name": "headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "headers.log"
+  },
+  {
+    "name": "imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "imports.log"
+  },
+  {
+    "name": "dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-capture-exact-bba3d600\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "final-source-status.log"
+  }
+]
