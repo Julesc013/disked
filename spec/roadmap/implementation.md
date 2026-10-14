@@ -357,3 +357,14 @@ and separate checksum association from name lookup, allocation and source
 coherence. Bitmap/upcase, paging/provider/frontend/extraction and the full
 original all-platform/storage0.1.0 programme remain required later work. This
 contract checkpoint does not claim directory implementation or tests.
+
+
+DE-W066 reaches local implementing-agent review at exact clean source `e43f00fb`.
+Its private supplied-byte upcase descriptor, streaming map and complete name
+comparison pass 244 independent scenarios, 15 selected native groups, one header,
+strict C90/import/context/source checks and 242 tooling tests with two skips.
+Repository evidence at `.aide/evidence/2026-10-14-exfat-upcase-qualified/`
+separates this result from the prior complete native suite.
+Continue bounded root/active-FAT/bitmap/upcase source coherence, then tree/content
+and native integration. The original full platform/storage 0.1.0 and owner,
+production writer/recovery, privilege and release gates remain unfinished.

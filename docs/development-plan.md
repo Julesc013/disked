@@ -370,7 +370,7 @@ regressions bring this run to 472 processes/7052 assertions. Tooling runs
 215 tests with two skipped; 1057 structural checks and exact 461-input
 closure pass. All 404 product inputs remain unchanged, retaining dev.40
 evidence at its original source without another product build/full-suite
-run. The file map covers all 176 current files. Comparison is a declared
+run. The file map covered all 176 files at that checkpoint. Comparison is a declared
 fixture pairing, without owned-reader/physical association or provider
 admission. /2 cached interfaces, owned raw-reader provenance, composite
 identity and live/product/public/platform/owner/full-unit gates remain.
@@ -576,3 +576,13 @@ DE-W038 shared FAT image inspection at `57cfd113` passes 62 focused cases and 97
 DE-W039 allocation windows at `543826fe` pass 34 interval / 44 command cases and 99 native groups. [Evidence](../.aide/evidence/2026-10-13-fat-window/README.md). Windows ordinary-file prototype only; coherent multi-window/directory/namespace coverage, retrieval/extraction and further consumer/host/platform/storage remain open.
 
 The [13 October structure follow-up](structure-review.md) keeps the existing ownership tree and records the supplied review dispositions against newer source-bound evidence. DE-W044 now has retained native qualification at `4d3dc0a3`, integrated into `main` and `dev` at `f8a3eb84`; continue the programme's remaining traversal/extraction and platform/storage work. This documentation maintenance does not accept the baseline, close the wider native work programme or narrow the full 0.1.0 scope.
+
+
+DE-W066 reaches local implementing-agent review at exact clean source `e43f00fb`.
+Its private supplied-byte upcase descriptor, streaming map and complete name
+comparison pass 244 independent scenarios, 15 selected native groups, one header,
+strict C90/import/context/source checks and 242 tooling tests with two skips.
+[Retained evidence](../.aide/evidence/2026-10-14-exfat-upcase-qualified/README.md) separates this result from the prior complete native suite.
+Continue bounded root/active-FAT/bitmap/upcase source coherence, then tree/content
+and native integration. The original full platform/storage 0.1.0 and owner,
+production writer/recovery, privilege and release gates remain unfinished.

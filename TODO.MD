@@ -167,7 +167,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Ordinary product stays Fake; physical/live/provider/protocol/platform/owner/full-unit gates stay open.
 - [x] Source ownership clarification: CLI presentation under `cli/`, all-mode
   composition under `app.*`, explicit `tui_model.*` and toolkit-free GUI model
-  under `gui/`. `docs/source-map.md` covers all 176 current files and future owners;
+  under `gui/`. `docs/source-map.md` covered all 176 files at that checkpoint and maps future owners;
   no speculative empty tree or public identifier change.
 
 - [x] DE-W030 private device ID/alignment/OS-layout query fixtures at `b853621b`:
@@ -367,4 +367,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W065 local exact qualificationbe410d95:2554oraclecases/4methods,13freshnativegroups,1header/C90/import/source/context and localreview. Toolingresult pending; upcase/source/tree/provider/fullrelease remain.
 
-- [ ] DE-W066 active: privateC90 upcase descriptor/stream/mapping/hash/fullcomparison implemented;244scenarios/9methods and13focused nativegroups pass. Exactclean/tooling/import/review remain; source/root/chain/namespace/provider/fullrelease gates open.
+- [x] DE-W066 local exact qualification at `e43f00fb`: 244 scenarios/9 methods, 15 selected native groups, one header, C90/import/context/source and 242 tooling tests with two skips. Four agent-review criteria pass; source/root/chain/namespace/provider/full release remain unfinished.
