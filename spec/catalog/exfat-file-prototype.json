@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-file-profile/1",
   "work_id": "DE-W068",
-  "status": "implemented-working-checks-pass-exact-qualification-pending",
+  "status": "locally-qualified-private-held-ordinary-file-adapter",
   "scope": "Bind the qualified DE-W067 root/system observer to a read-only Windows ordinary image file and retained actual region bytes. This is a private synchronous adapter; contained-worker, public command, tree/content/extraction, physical and writer admission remain separate.",
   "ownership": "source/providers/image/exfat_file.h/.cpp consumes existing local_file and runtime/capture/exfat_capture ports. Reuse parent pinning, ordinary-file/path/generation checks and bounded metadata; do not duplicate the FAT decoder, change local_file semantics or introduce another process scheduler.",
   "inputs": "Explicit UTF8 ordinary-file path, volume offset/length, upcase representation and finite ExfatCaptureLimits. Validate limits, signed native seek range and checked volume extent before opening. Derive source size and metadata binding from the actual held file; caller-supplied identity alone is never admitted.",
@@ -16,5 +16,22 @@
   ],
   "authorizes_effects": false,
   "owner_accepted": false,
-  "base_revision": "1ba14114a1b7162e5ae166f6ee93127acff74483"
+  "base_revision": "1ba14114a1b7162e5ae166f6ee93127acff74483",
+  "qualification": {
+    "source_revision": "c73c687019c982d930148807e8497dd11976ea1a",
+    "evidence": ".aide/evidence/2026-10-14-exfat-file-qualified/summary.json",
+    "review": ".aide/evidence/2026-10-14-exfat-file-qualified/REVIEW.md",
+    "native_groups_fresh": 20,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "full_native_suite_fresh": false,
+    "source_state": "clean_sparse",
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-ljhw1q3u\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-ljhw1q3u\\\\owned-link.img'"
+      }
+    ],
+    "owner_accepted": false
+  }
 }

@@ -37,3 +37,14 @@ This work does not admit tree traversal, file extraction, physical devices,
 production writers/recovery, other hosts or the full original 0.1.0 release.
 Next qualify the existing contained-reader host with these owned observations,
 then paged namespace/tree/content and ValidDataLength handling.
+
+
+DE-W068's available ordinary-file scope reaches local agent review at exact
+`c73c6870`: 60 native cases/seven methods, 20 selected regression groups, one
+header, normal/fault imports/context/source hashes and 242 tooling tests with
+two skips pass. Actual file-symlink creation remains unverified without privilege;
+leaf/ancestor junction and hardlink checks pass. The clean sparse checkout contains
+every registered/build input and current source/tests/spec/docs/tools/external
+files, excluding unused historical evidence. No fresh full native-suite or archive
+checkout claim. Repository evidence: `.aide/evidence/2026-10-14-exfat-file-qualified/`.
+Contained worker, coherent namespace/tree/content and original full0.1.0 remain.

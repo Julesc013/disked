@@ -1,5 +1,18 @@
 # Source structure and release review follow-up
 
+## Qualified held exFAT image adapter: 14 October 2026
+
+The existing image-provider/local_file and runtime/capture owners accommodate
+W068; the source map now covers 275 files. Exact `c73c6870` passes 60 native image
+cases/seven methods, 20 selected native groups, one header and 242 tooling tests
+with two skips. [Retained evidence](../.aide/evidence/2026-10-14-exfat-file-qualified/README.md)
+records unavailable file-symlink creation separately from passing actual
+junction/hardlink/held-access checks. This is a private synchronous ordinary-file
+adapter, not contained worker/frontend/tree/content or full release admission.
+Keep the ownership tree and continue bounded process integration and the original
+all-platform/storage0.1.0 with separate owner/privilege/release gates.
+
+
 ## Qualified root/system integration: 14 October 2026
 
 The existing runtime/capture and portable/exfat owners now accommodate W067

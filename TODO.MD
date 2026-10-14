@@ -371,4 +371,4 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W067 local qualification at `bba3d600`: 121 image cases/9 methods, 19 selected native groups, one header, import/context/source and 242 tooling tests with two skips; all four local review criteria pass. Held source/worker/tree/content and full original release remain.
 
-- [ ] DE-W068 active: held ordinary-image exFAT source/ordered responses/replay implemented; native normal/fault/header and working tests pass. File-symlink fixture unverified without privilege; expanded/exact qualification, worker/tree/content/full original release remain.
+- [x] DE-W068 local ordinary-file qualification at `c73c6870`: 60 native cases/7 methods, 20 selected native groups, one header, normal/fault import/context/source and 242 tooling tests with two skips. Actual file-symlink fixture remains unverified; worker/tree/content/full original release remain.

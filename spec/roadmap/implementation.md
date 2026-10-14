@@ -396,3 +396,14 @@ parent/path/generation checks and requires actual retained-region replay and
 source preservation. The synchronous adapter is not admitted to shared frontends;
 contained worker, coherent namespace/tree/content and the full original
 platform/storage0.1.0 remain. No native implementation result is claimed here.
+
+
+DE-W068's available ordinary-file scope reaches local agent review at exact
+`c73c6870`: 60 native cases/seven methods, 20 selected regression groups, one
+header, normal/fault imports/context/source hashes and 242 tooling tests with
+two skips pass. Actual file-symlink creation remains unverified without privilege;
+leaf/ancestor junction and hardlink checks pass. The clean sparse checkout contains
+every registered/build input and current source/tests/spec/docs/tools/external
+files, excluding unused historical evidence. No fresh full native-suite or archive
+checkout claim. Repository evidence: `.aide/evidence/2026-10-14-exfat-file-qualified/`.
+Contained worker, coherent namespace/tree/content and original full0.1.0 remain.
