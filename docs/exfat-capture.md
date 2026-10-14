@@ -73,3 +73,12 @@ excluded. This is not a fresh full native suite or complete archive checkout.
 Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
 Continue actual held source/worker and coherent namespace/tree/content integration;
 owner, other-platform/storage, production and full original release remain.
+
+
+DE-W072's automatic supplied-region stage is locally reviewed at exact clean
+sparse `6edabcc7`: 146 image cases/13 methods, four selected native groups/four
+headers, 63 file/69 worker regressions and 242 tooling tests with two skips pass.
+[Evidence and stage review](../.aide/evidence/2026-10-14-exfat-auto-qualified/README.md)
+retain the complete registered/build input closure and excluded unused archive.
+Automatic file/frame/worker transport and normal command/frontends remain;
+no fresh full native suite, whole W072 acceptance or original full0.1.0 claim.
