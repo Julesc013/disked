@@ -384,3 +384,5 @@ W072 full exact60376a0e campaign failed:132/140native groups passed, eight faile
 W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and15selected groups have recorded passing results. New exact141group qualification remains before main promotion.
 
 W072 exact e75602f8:139/141 groups pass; two preparation-quota harness failures retained. Both corrected groups pass with strict refusal/live-peer/retirement/source/output checks. New exact full qualification remains before main.
+
+W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipped) and four ambiguous UI cases pass. Local prototype needs owner review; namespace/tree/content, remaining platforms/storage and release remain.

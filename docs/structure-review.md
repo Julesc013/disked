@@ -1,5 +1,21 @@
 # Source structure and release review follow-up
 
+## Qualified development checkpoint: 14 October 2026
+
+Exact source `75689f97` builds in a clean checkout and passes all 141 native
+groups, 48 standalone header compilations and 242 tooling tests (two skipped).
+Manifest, context, source freshness and import/dependency checks pass. Four
+additional ambiguous-table CLI/GUI/TUI/shell cases agree on failure without a
+selected mapping, preserve source/executable bytes and restore console state.
+[Evidence and agent review](../.aide/evidence/2026-10-14-worker-leases-qualified/README.md)
+retain both earlier full failures and the corrected checks.
+
+The supplementary console's original 1,000-row buffer lost the response prefix;
+a bounded 4,096-row test-only overlay captures it. Product bytes, quotas, waits
+and response semantics are unchanged. DE-W072's selected Windows root/active-system
+slice is ready for development integration and owner review. Namespace/tree/file
+content, other platforms/storage, Setup and the full original 0.1.0 remain open.
+
 ## Exact lease campaign and quota-harness correction: 14 October 2026
 
 The clean `e75602f8` build and 48 standalone headers pass. Its full native

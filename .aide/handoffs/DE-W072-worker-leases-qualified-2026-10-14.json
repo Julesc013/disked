@@ -1,0 +1,73 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W072",
+  "base_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
+  "spec_manifest_digest": "sha256:52bda29e0a281325c2051ab66d8cff2a4fd197083ced575c4c22ffe5643b594d",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/catalog/worker-lease-prototype.json",
+    "source/platform/windows/worker_files.h",
+    "source/platform/windows/storage/fat_tree_controller.cpp",
+    "tests/images/fat_worker_probe.cpp",
+    "tests/images/fat_tree_extraction_worker_probe.cpp",
+    "docs/code-structure.md",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/structure-review.md",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/frontend-job-coexistence-prototype.json",
+    "spec/catalog/report-worker-prototype.json",
+    "spec/catalog/verification-worker-prototype.json",
+    "spec/catalog/worker-lease-prototype.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    ".aide/evidence/2026-10-14-worker-leases-qualified/README.md",
+    ".aide/evidence/2026-10-14-worker-leases-qualified/REVIEW.md"
+  ],
+  "summary": "Exact Windows development source passes full141native/48headers/242tooling2skips and four additional ambiguous CLI/GUI/TUI/shell cases. Worker leases preserve caller/controller restrictions and exact private ceilings. Local agent review complete; owner and full original0.1.0 remain unfinished.",
+  "tests": [
+    {
+      "command": "python reproduce-qualified.py --revision 75689f97 (exact command list retained)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-qualified/commands.json"
+    },
+    {
+      "command": "python check-worker-leases-ambiguity-frontends.py --campaign .aide-local/worker-leases-exact-75689f97",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-qualified/exfat-ambiguity-frontends.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-qualified/summary.json",
+      "sha256": "sha256:52aebfaa2bfd018b6c1c535c8f3edfe3e73f84ff9aa26aabe909177392e2b8e6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-qualified/inventory.json",
+      "sha256": "sha256:3ce834b15dcdd7355de24fc5b45861403e37a85c2915b4c7aa02fe455b1d9229"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-qualified/artifact-identities.json",
+      "sha256": "sha256:50cbd9a68f7d72f05904fa7d2d0200ce12d606b6c00f114d03d67ce466139c8f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-qualified/REVIEW.md",
+      "sha256": "sha256:8877acf428c28ef2fb7582928d896bd7ac0b6ea043ac1380a28a8958cb7e70e7"
+    }
+  ],
+  "blockers": [
+    "Owner acceptance is not granted by this agent review.",
+    "Other platforms, full namespace/content and storage operations, Setup and original full0.1.0/release qualifications remain unfinished."
+  ],
+  "next_safe_step": "Commit/push evidence metadata to dev and integrate the tested, agent-reviewed checkpoint to main. Define the next bounded exFAT namespace/tree/content/ValidDataLength extension in existing owners; retain separate authority and qualification gates.",
+  "performed_remote_writes": true
+}
