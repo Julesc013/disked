@@ -1,0 +1,93 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W068",
+  "base_revision": "1ba14114a1b7162e5ae166f6ee93127acff74483",
+  "spec_manifest_digest": "sha256:e39808d3cfe7f0697943f6fe25ca5a716393603481eb88b614cda511ee949328",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-file-prototype.json",
+    "source/runtime/capture/exfat_capture.h",
+    "source/providers/image/local_file.h",
+    "source/providers/image/fat_file.cpp"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-file-start/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-file-start/check.log",
+    ".aide/evidence/2026-10-14-exfat-file-start/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-file-start/context.log",
+    ".aide/evidence/2026-10-14-exfat-file-start/manifest.log",
+    ".aide/evidence/2026-10-14-exfat-file-start/summary.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "spec/catalog/exfat-file-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/work/units.json"
+  ],
+  "summary": "Recorded actual W067 reviewed main integration and expected W068 held-file/replay contract before implementation. Structural/manifest/context checks pass; ignored source draft remains unbuilt with missing failure seams and qualification. Original scope and authority gates unchanged.",
+  "tests": [
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-file-start/check.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-file-start/manifest.log"
+    },
+    {
+      "command": ".aide-local/venv/Scripts/python.exe -X utf8 spec/tools/specctl.py verify-context .aide-local/context/exfat-file-start",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-file-start/context.log"
+    },
+    {
+      "command": "DE-W068 actual native held-file qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/check.log",
+      "sha256": "sha256:d850fb0d0fdd04a4fa2afb517a0224c4ce69aa2304b11042fe1f29b540f1bb5f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/context-manifest.json",
+      "sha256": "sha256:47f31a62f8da6cc93fe353d3868410614f72d05204e9410aa69ad7c328f64a5d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/context.log",
+      "sha256": "sha256:1c949e0a567bb788e0f7f18dd4982f21b7faa0fe72c4351b65127954e4dbceb8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/manifest.log",
+      "sha256": "sha256:655f7744bc9d03926d797c0ab29d5d62c043772dad1affdcdd255dc9fe7b8eb1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-start/summary.json",
+      "sha256": "sha256:af3996f89cff210bea778cd4294a12c403d56ad8418d741c82c837684bf77124"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Complete bounded native adapter and independent actual disposable-image harness in existing providers/image owner, preserve actual source/error/prefix/replay evidence and qualify exact build/headers/imports/tooling. Contained worker, paged names/tree/content and full original platform/storage0.1.0 remain.",
+  "performed_remote_writes": false
+}

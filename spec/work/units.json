@@ -6291,6 +6291,103 @@
         "docs/exfat-capture.md",
         "tests/property/exfat_directory_vectors.py"
       ]
+    },
+    {
+      "id": "DE-W068",
+      "title": "Bind exFAT root/system observations to held ordinary image files",
+      "phase": "M2",
+      "status": "needs_review",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W067"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-050"
+      ],
+      "allowed_paths": [
+        "source/portable/exfat/**",
+        "tests/images/**",
+        "tests/legacy/**",
+        "spec/**",
+        "docs/**",
+        "tools/build*",
+        "CMakeLists.txt",
+        "TODO.MD",
+        ".aide/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tools/check-build-boundaries.py",
+        "spec/catalog/source-maintenance-prototype.json",
+        "tests/tools/**",
+        "tests/frontend/**",
+        "source/runtime/capture/**",
+        "source/providers/image/**",
+        "source/platform/windows/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bind the qualified DE-W067 root/system observer to a read-only Windows ordinary image file and retained actual region bytes. This is a private synchronous adapter; contained-worker, public command, tree/content/extraction, physical and writer admission remain separate.",
+        "source/providers/image/exfat_file.h/.cpp consumes existing local_file and runtime/capture/exfat_capture ports. Reuse parent pinning, ordinary-file/path/generation checks and bounded metadata; do not duplicate the FAT decoder, change local_file semantics or introduce another process scheduler.",
+        "Explicit UTF8 ordinary-file path, volume offset/length, upcase representation and finite ExfatCaptureLimits. Validate limits, signed native seek range and checked volume extent before opening. Derive source size and metadata binding from the actual held file; caller-supplied identity alone is never admitted.",
+        "Pin ancestor generations and open the existing ordinary file read-only with read-only sharing and OPEN_REPARSE_POINT. Check file/path/ancestor agreement before and after reading. Reject devices, reparse points and invalid ordinary paths using existing local_file rules. A source/opening failure does not fall back to another path or request elevation.",
+        "Actual reads service the exact checked W067 extents through the same held handle. Retain immutable ordered byte responses through observation return, with source offsets/requested lengths/errors. Enforce selected runtime request/byte budgets; host seek bounds and DWORD lengths are explicit. No kernel-read deadline or atomicity claim from synchronous API completion.",
+        "Record exact source metadata before/after, parent generations, actual process identity/creation and provider-domain capture sequence. Compare actual observations with replay through the retained region responses and require exact request order and result agreement. Withdraw root/system applicability if held metadata/parent checks or replay disagree; preserve measured prefixes and errors. Retention is evidence, not renewed opening authority or a future-current snapshot. Read responses explicitly distinguish actual read attempts from binding/cancellation refusal. Cancellation predicate exceptions produce exfat_file_cancel_callback; late failures preserve prefixes and independently withdraw applicability."
+      ],
+      "acceptance": [
+        "Actual generated one/two-FAT ordinary files at nonzero volume offsets, fragmented system chains and compressed/literal custom maps agree with independent fixture offsets/digests and pure retained-region replay; source bytes remain unchanged.",
+        "Actual missing/directory/reparse/nonordinary inputs, out-of-file/native seek/overflow windows and invalid limits refuse without writes or silent fallback. Record unavailable permission/fixture checks as unverified.",
+        "Separate test-only failure callbacks exercise short/error reads, changed metadata, cancellation and replay disagreement. Normal adapter exposes no fault environment protocol. Applicability is withdrawn and no successful source or recovery result is manufactured.",
+        "Exact native source, header/import/artifact/context/tooling and existing image/local-file/format regression evidence. Synchronous waits remain outside shared frontend admission; worker/namespace/tree/content and full original platform/storage0.1.0 remain."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-file-prototype.json",
+        "spec/catalog/exfat-capture-prototype.json",
+        "source/runtime/capture/exfat_capture.h",
+        "source/runtime/capture/exfat_capture.cpp",
+        "source/runtime/capture/region_reader.h",
+        "source/providers/image/local_file.h",
+        "source/providers/image/local_file.cpp",
+        "source/providers/image/fat_file.h",
+        "source/providers/image/fat_file.cpp",
+        "source/portable/hash/sha256.h",
+        "tests/images/test_exfat_capture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/providers/image/exfat_file.h",
+        "source/providers/image/exfat_file.cpp",
+        "tests/images/exfat_file_probe.cpp",
+        "tests/images/test_exfat_file.py",
+        "docs/exfat-file.md"
+      ]
     }
   ]
 }

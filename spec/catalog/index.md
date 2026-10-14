@@ -20,6 +20,7 @@
 - [exfat-allocation-prototype.json](exfat-allocation-prototype.json)
 - [exfat-capture-prototype.json](exfat-capture-prototype.json)
 - [exfat-directory-prototype.json](exfat-directory-prototype.json)
+- [exfat-file-prototype.json](exfat-file-prototype.json)
 - [exfat-reader-prototype.json](exfat-reader-prototype.json)
 - [exfat-upcase-prototype.json](exfat-upcase-prototype.json)
 - [export-command-prototype.json](export-command-prototype.json)
