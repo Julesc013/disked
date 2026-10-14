@@ -1,5 +1,17 @@
 # Source structure and release review follow-up
 
+## Exact lease campaign and quota-harness correction: 14 October 2026
+
+The clean `e75602f8` build and 48 standalone headers pass. Its full native
+campaign passed 139 of 141 groups, including all eight earlier failures.
+[Retained terminal results](../.aide/evidence/2026-10-14-worker-leases-exact-failed/README.md)
+show two quota-harness failures: the fifth worker is refused during preparation,
+while the harness catches only launch refusal. Working corrections verify
+`operation_worker_budget_resource`/1816, no constructed fifth worker, four live
+workers, confirmed retirement and source/output preservation. Both corrected
+groups pass. A new exact-source complete campaign remains required; `main` and
+full original 0.1.0 qualification remain separate.
+
 ## Worker repair checkpoint: 14 October 2026
 
 Keep the five source owners, the 283-file source map and the existing CLI,

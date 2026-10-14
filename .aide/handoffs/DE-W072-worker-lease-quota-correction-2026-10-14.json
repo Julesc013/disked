@@ -1,0 +1,58 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W072",
+  "base_revision": "e75602f8da93a363547a8e3f877b366f5a24560c",
+  "spec_manifest_digest": "sha256:36387f54142c01bd481d9ec19de92aee5a947d34d1213de4401b223a759944ea",
+  "status": "partial",
+  "files_read": [
+    "spec/catalog/worker-lease-prototype.json",
+    "tests/images/fat_worker_probe.cpp",
+    "tests/images/fat_tree_extraction_worker_probe.cpp",
+    "tests/images/test_fat_worker.py",
+    "tests/images/test_fat_tree_extraction_worker.py"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/structure-review.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/fat_tree_extraction_worker_probe.cpp",
+    "tests/images/fat_worker_probe.cpp",
+    "tests/images/test_fat_tree_extraction_worker.py",
+    "tests/images/test_fat_worker.py"
+  ],
+  "summary": "Retain actual clean-source139/141 native failure; correct only outdated quota-harness ownership/expectations. Exact fifth preparation refusal, four live peers, actual exit and no source/output effects pass in both corrected working groups.",
+  "tests": [
+    {
+      "command": "Exact-source reproduce-qualified.py --revision e75602f8",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-exact-failed/native-junit.xml"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/exfat-command-launch-diagnostic/build -C Release --output-on-failure -R \"^image\\.(fat_tree_extraction_worker|fat_worker)$\" --output-junit D:/Projects/DiskEd/disked/.aide-local/worker-leases-fifth-prepare-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-lease-quota-correction/worker-leases-fifth-prepare-junit.xml"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-worker-lease-quota-correction/summary.json",
+      "sha256": "sha256:f7eb5f1418de2dd6d0b87869825a2faebfefaf98e6865618eb14376385bc6bb5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-lease-quota-correction/inventory.json",
+      "sha256": "sha256:da37646965db80300430704b34868ab38f25845154770035400986d11f146dc4"
+    }
+  ],
+  "blockers": [
+    "New corrected exact-source full campaign not yet run; no main promotion.",
+    "Full original0.1.0, owner acceptance, other platforms/storage and release remain unfinished."
+  ],
+  "next_safe_step": "Commit/push partial checkpoint to dev, reproduce the complete campaign at its exact revision, retain terminal outcome and review before main promotion.",
+  "performed_remote_writes": false
+}

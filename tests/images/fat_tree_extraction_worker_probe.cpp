@@ -1,5 +1,6 @@
 #include "platform/windows/storage/fat_tree_extraction_worker.h"
 #include "platform/windows/memory_budget.h"
+#include "platform/windows/worker_files.h"
 #include "providers/image/local_file.h"
 #include <iostream>
 
@@ -68,17 +69,22 @@ int wmain(int argc, wchar_t **argv) {
                 owned.push_back(std::move(child));
             }
             bool refused = false;
+            std::string error_code;
+            DWORD platform_code = ERROR_SUCCESS;
             auto before = V::array();
             for (auto &child : owned)
                 before.items.push_back(child->observe());
-            auto extra = n::FatTreeExtractionWorker::prepare(request);
+            std::unique_ptr<n::FatTreeExtractionWorker> extra;
             try {
+                extra = n::FatTreeExtractionWorker::prepare(request);
                 extra->launch();
                 extra->release();
-            } catch (const std::exception &) {
+            } catch (const disked::worker_files::Failure &error) {
                 refused = true;
+                error_code = error.what();
+                platform_code = error.platform;
             }
-            const auto extra_retirement = extra->retire();
+            const auto extra_retirement = extra ? extra->retire() : V{};
             auto retirement = V::array();
             for (auto &child : owned) {
                 child->cancel();
@@ -88,6 +94,9 @@ int wmain(int argc, wchar_t **argv) {
                      .put("kind", V::string("quota"))
                      .put("owned", V::string("4"))
                      .put("fifth_refused", V::boolean_value(refused))
+                     .put("fifth_error", V::string(error_code))
+                     .put("fifth_platform_code", V::string(std::to_string(platform_code)))
+                     .put("fifth_constructed", V::boolean_value(extra != nullptr))
                      .put("before", before)
                      .put("fifth_retirement", extra_retirement)
                      .put("retirement", retirement));

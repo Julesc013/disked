@@ -382,3 +382,5 @@ DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT 
 W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
 
 W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and15selected groups have recorded passing results. New exact141group qualification remains before main promotion.
+
+W072 exact e75602f8:139/141 groups pass; two preparation-quota harness failures retained. Both corrected groups pass with strict refusal/live-peer/retirement/source/output checks. New exact full qualification remains before main.

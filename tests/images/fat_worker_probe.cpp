@@ -1,5 +1,6 @@
 #include "platform/windows/storage/fat_worker.h"
 #include "platform/windows/memory_budget.h"
+#include "platform/windows/worker_files.h"
 #include "providers/image/local_file.h"
 #include <cstdio>
 #include <fcntl.h>
@@ -138,7 +139,7 @@ V exercise(const V &input) {
         return out;
     }
     if (mode == "quota") {
-        // Owned hung test readers occupy the real shared job. No source read is started.
+        // Owned hung readers retain four actual leases. No source read is started.
         auto held = r;
         held.fixture = V::object().put("worker_fault", V::string("hang"));
         std::vector<std::unique_ptr<n::FatWorker>> peers;
@@ -151,16 +152,23 @@ V exercise(const V &input) {
             peer->release();
             peers.push_back(std::move(peer));
         }
-        auto fifth = n::FatWorker::prepare(r);
+        std::unique_ptr<n::FatWorker> fifth;
         try {
+            fifth = n::FatWorker::prepare(r);
             fifth->launch();
             out.put("fifth_error", V{});
-        } catch (const std::exception &error) {
+        } catch (const disked::worker_files::Failure &error) {
             out.put("fifth_error", V::string(error.what()));
+            out.put("fifth_platform_code", V::string(std::to_string(error.platform)));
         }
-        out.put("fifth_never_launched", V::boolean_value(fifth->never_launched()));
-        if (!fifth->never_launched())
+        out.put("fifth_constructed", V::boolean_value(fifth != nullptr));
+        out.put("fifth_never_launched", V::boolean_value(!fifth || fifth->never_launched()));
+        if (fifth && !fifth->never_launched())
             out.put("fifth_retirement", fifth->retire());
+        auto before = V::array();
+        for (auto &peer : peers)
+            before.items.push_back(peer->observe());
+        out.put("peers_before_retirement", std::move(before));
         auto retirements = V::array();
         for (auto &peer : peers)
             retirements.items.push_back(peer->retire());

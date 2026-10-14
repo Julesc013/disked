@@ -206,8 +206,13 @@ class WorkerTests(unittest.TestCase):
     def test_real_shared_quota_refuses_fifth_reader(self):
         path,volume=self.make();before=hashlib.sha256(path.read_bytes()).hexdigest()
         value=run([request(path,volume,mode='quota')],True)[0]
-        self.assertEqual(value['fifth_error'],'observation_spawn_failed',value)
+        self.assertEqual(value['fifth_error'],'operation_worker_budget_resource',value)
+        self.assertEqual(value['fifth_platform_code'],'1816')
+        self.assertFalse(value['fifth_constructed'])
         self.assertTrue(value['fifth_never_launched'])
+        self.assertNotIn('fifth_retirement',value)
+        self.assertEqual(len(value['peers_before_retirement']),4)
+        self.assertTrue(all(p['worker']['observation']=='running' for p in value['peers_before_retirement']))
         self.assertEqual(len(value['peer_retirements']),4)
         self.assertTrue(all(p['worker']['observation']=='exited' for p in value['peer_retirements']))
         QUOTA_OBSERVATIONS.append(value)

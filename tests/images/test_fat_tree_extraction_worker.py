@@ -180,8 +180,11 @@ class WorkerTests(unittest.TestCase):
         folder, rows, _ = run(tree, extra={"mode": "quota"})
         self.assertEqual("quota", rows[-1]["kind"])
         self.assertTrue(rows[-1]["fifth_refused"])
+        self.assertEqual("operation_worker_budget_resource", rows[-1]["fifth_error"])
+        self.assertEqual("1816", rows[-1]["fifth_platform_code"])
+        self.assertFalse(rows[-1]["fifth_constructed"])
         self.assertTrue(all(value["worker"]["observation"] == "running" for value in rows[-1]["before"]))
-        self.assertIn(rows[-1]["fifth_retirement"]["worker"]["observation"], ("not_started", "exited"))
+        self.assertIsNone(rows[-1]["fifth_retirement"])
         self.assertEqual(4, len(rows[-1]["retirement"]))
         for value in rows[-1]["retirement"]:
             self.assertEqual("exited", value["worker"]["observation"])
