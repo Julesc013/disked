@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="1"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="26"
+	timestamp="2026-10-15T05:00:30"
+	>
+	<testcase name="image.gpt_fixture_restoration" classname="image.gpt_fixture_restoration" time="21.8586" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 123, in make
+    send(process,v);prepared=rows.get(timeout=15);assert prepared['phase']=='prepared' and prepared['definition']==case['definition'];review,grant=receipts(prepared);send(process,dict(phase='execute',review=review,grant=grant,cancel_at=cancel));process.stdin.close();finish=rows.get(timeout=15);code=process.wait(timeout=15);assert not process.stderr.read()
+                                                                                                                                                                                                                                                                                  ~~~~~~~~^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\queue.py", line 209, in get
+    raise Empty
+_queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 182, in main
+    case=case_for(unit,source);data=make(parent,str(unit)+'-'+source,case,source,fault=dict(stage='image.write.2',action='crash_after'));result=restore(str(unit)+'-'+source,data)
+                                    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 125, in make
+    finally:close(process,thread)
+            ~~~~~^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 18, in close
+    if process.poll() is None:process.kill();process.wait(timeout=5)
+                                             ~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1279, in wait
+    return self._wait(timeout=timeout)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1608, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-bf26a4a4\\build\\Release\\gpt_execution_probe.exe', '--fixture-parent', 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-bf26a4a4\\source\\.aide-local\\gpt-restore-lzxty2uy\\512-primary']' timed out after 5 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python314\Lib\shutil.py", line 701, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-bf26a4a4\\source\\.aide-local\\gpt-restore-lzxty2uy\\512-primary\\gptfx-f6ea86da06821c573070acab\\backup.bin'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 223, in &lt;module&gt;
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-exact-bf26a4a4\source\tests\recovery\test_gpt_restoration.py", line 174, in main
+    with tempfile.TemporaryDirectory(prefix='gpt-restore-',dir=parent) as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 972, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 976, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 956, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\shutil.py", line 705, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\tempfile.py", line 931, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-bf26a4a4\\source\\.aide-local\\gpt-restore-lzxty2uy\\512-primary\\gptfx-f6ea86da06821c573070acab\\backup.bin'
+</system-out>
+	</testcase>
+</testsuite>

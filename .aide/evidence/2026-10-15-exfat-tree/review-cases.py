@@ -81,7 +81,8 @@ values = json.loads(result.stdout)
 assert len(values) == len(expects)
 for expected, observed in zip(expects, values):
     if expected['complete'] is None:
-        assert 'error' in observed and not observed['requests'], (expected, observed)
+        assert observed.get('refusal') == 'exfat_tree_inputs' and not observed['requests'], (expected, observed)
+        assert observed['source_unchanged'], (expected, observed)
         continue
     tree = observed['observation']
     assert tree['complete'] == expected['complete'], (expected, tree)

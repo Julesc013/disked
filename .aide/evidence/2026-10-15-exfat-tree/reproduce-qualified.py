@@ -36,7 +36,9 @@ def run(name, command, cwd=clone, data=None):
     save(out / 'commands.json', commands)
     print(name + ': exit ' + str(result.returncode), flush=True)
     if result.returncode:
-        save(out / 'failure.json', dict(stage=name, exit_code=result.returncode, source_revision=revision))
+        failure = dict(stage=name, status='fail', exit_code=result.returncode, source_revision=revision)
+        save(out / 'failure.json', failure)
+        save(out / 'current-stage.json', failure)
         raise SystemExit(result.returncode)
     return (out / (name + '.log')).read_bytes()
 
