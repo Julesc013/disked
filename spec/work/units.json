@@ -6350,7 +6350,7 @@
         "Explicit UTF8 ordinary-file path, volume offset/length, upcase representation and finite ExfatCaptureLimits. Validate limits, signed native seek range and checked volume extent before opening. Derive source size and metadata binding from the actual held file; caller-supplied identity alone is never admitted.",
         "Pin ancestor generations and open the existing ordinary file read-only with read-only sharing and OPEN_REPARSE_POINT. Check file/path/ancestor agreement before and after reading. Reject devices, reparse points and invalid ordinary paths using existing local_file rules. A source/opening failure does not fall back to another path or request elevation.",
         "Actual reads service the exact checked W067 extents through the same held handle. Retain immutable ordered byte responses through observation return, with source offsets/requested lengths/errors. Enforce selected runtime request/byte budgets; host seek bounds and DWORD lengths are explicit. No kernel-read deadline or atomicity claim from synchronous API completion.",
-        "Record exact source metadata before/after, parent generations, actual process identity/creation and provider-domain capture sequence. Compare actual observations with replay through the retained region responses and require exact request order and result agreement. Withdraw root/system applicability if held metadata/parent checks or replay disagree; preserve measured prefixes and errors. Retention is evidence, not renewed opening authority or a future-current snapshot."
+        "Record exact source metadata before/after, parent generations, actual process identity/creation and provider-domain capture sequence. Compare actual observations with replay through the retained region responses and require exact request order and result agreement. Withdraw root/system applicability if held metadata/parent checks or replay disagree; preserve measured prefixes and errors. Retention is evidence, not renewed opening authority or a future-current snapshot. Read responses explicitly distinguish actual read attempts from binding/cancellation refusal. Cancellation predicate exceptions produce exfat_file_cancel_callback; late failures preserve prefixes and independently withdraw applicability."
       ],
       "acceptance": [
         "Actual generated one/two-FAT ordinary files at nonzero volume offsets, fragmented system chains and compressed/literal custom maps agree with independent fixture offsets/digests and pure retained-region replay; source bytes remain unchanged.",
@@ -6381,7 +6381,12 @@
         "tests/images/test_exfat_capture.py",
         "CMakeLists.txt",
         "tools/build-inputs.json",
-        "spec/catalog/source-maintenance-prototype.json"
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/providers/image/exfat_file.h",
+        "source/providers/image/exfat_file.cpp",
+        "tests/images/exfat_file_probe.cpp",
+        "tests/images/test_exfat_file.py",
+        "docs/exfat-file.md"
       ]
     }
   ]

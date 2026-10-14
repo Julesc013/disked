@@ -1,0 +1,179 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W068",
+  "base_revision": "1520521907803a585731f1f7fadf2fa99060a862",
+  "spec_manifest_digest": "sha256:984bed47cbd71734efb49ce8ef65e7164cc62a861993d5dd9861aa592098a2b5",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-file-prototype.json",
+    "source/providers/image/local_file.cpp",
+    "source/runtime/capture/exfat_capture.h"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-file-working/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-file-working/README.md",
+    ".aide/evidence/2026-10-14-exfat-file-working/artifact-identities.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-boundaries-first.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-expanded.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-first.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-fixed.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-regressions.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases-expanded.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases-first.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-native-final.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-native-working.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-tests-expanded.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-tests-first.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-headers.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-imports.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-headers.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-imports.log",
+    ".aide/evidence/2026-10-14-exfat-file-working/failure-and-repair.json",
+    ".aide/evidence/2026-10-14-exfat-file-working/summary.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/exfat-file.md",
+    "docs/source-map.md",
+    "source/providers/image/exfat_file.cpp",
+    "source/providers/image/exfat_file.h",
+    "spec/catalog/exfat-file-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/images/exfat_file_probe.cpp",
+    "tests/images/test_exfat_file.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Native held ordinary-file exFAT adapter implemented; 60 generated cases/7 methods, 20 selected native groups, normal/fault/header/import checks pass. Actual junction/hardlink and held write/delete/rename refusals pass; unavailable file-symlink fixture explicitly unverified. Exact source/tooling/review remain.",
+  "tests": [
+    {
+      "command": "ctest --test-dir .aide-local/fat-recursive-command-development-build -C Release -R '^(portable.exfat|portable.exfat_guard|portable.exfat_directory|portable.exfat_directory_guard|portable.exfat_allocation|portable.exfat_allocation_guard|portable.exfat_upcase|portable.exfat_upcase_guard|portable.fat|portable.fat_guard|portable.fat_directory|portable.fat_directory_guard|portable.gpt|portable.gpt_guard|build.boundaries|image.exfat_capture|image.exfat_file|image.fat_capture|image.fat_content|portable.fat_cell_guard)$' --output-on-failure",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-native-working.log"
+    },
+    {
+      "command": "DE-W068 exact committed qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/artifact-identities.json",
+      "sha256": "sha256:a157ebb037205782c78e5261c74193ed5ef570e429ecf2ca396e52f18a58b01e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/context-manifest.json",
+      "sha256": "sha256:f52a6c00f69d0069afebd2e9783e46388c2b84e9c53e14765c2751dcec8d7fdb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-boundaries-first.log",
+      "sha256": "sha256:9c96203f75cac7f64efe2a7ec09f623986e1bfc41611c00a82abc726ec525bea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-expanded.log",
+      "sha256": "sha256:741299fe0b3199dfaf4b06129eeb5d6b1063cb02be4b7ec9c624ccacbcdcf4fb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-first.log",
+      "sha256": "sha256:319804a4e1e21c2502fc591ddd39a8531da02ab40b929b4c90d67c4a24a148aa"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-fixed.log",
+      "sha256": "sha256:0cd6d5388931e036cc7fa48f0a2ea8c282f4c28af710f71b3bb3458cbd9f2f80"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-build-regressions.log",
+      "sha256": "sha256:81573af979924315856a4547ff4489038d77b0f25eb2212544f23063c45919db"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases-expanded.json",
+      "sha256": "sha256:6b3727007fd8aaef211dadd6d786b104b5e05c3dc30216c1b6ac3fb4df5e8973"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases-first.json",
+      "sha256": "sha256:c26fcbcd1a8d125eabd0bb53fd577b9a89005730dbb24a2baf57f3a7b3422023"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-cases.json",
+      "sha256": "sha256:508a79079bfe81d4c0cb0852f56f65cf86ce6647a2ac6522c36186adfbd66a53"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-native-final.log",
+      "sha256": "sha256:b55b501e4154a883639259027c7c6ae7b44c81814377db53f7f89e6cf6b5a61a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-native-working.log",
+      "sha256": "sha256:7e57880b495ccd8a76621c52db2e796817187250d232ba236e723c4f5d87c21b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-tests-expanded.log",
+      "sha256": "sha256:8a84189b3cde80e58a3728a42e35711cddaa4e34340bfde2f854bff05842a90d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat-file-tests-first.log",
+      "sha256": "sha256:480387422c502775da6c3010e9bad6956754841d8c79085ffad34fba491daa18"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-dependents.log",
+      "sha256": "sha256:efd019c0c4f967e4e114554f22ec7dd30d10ef86d8994e239234c1315f069ae6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-headers.log",
+      "sha256": "sha256:47f70bcd5b6308203ea9bd7025d5b85d42056e20d45b919aeb04716b5c694473"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_fault-imports.log",
+      "sha256": "sha256:98b4d1207e942841fab095d1b88f35ee97d3288b3d9775195100cc3a7f32ceae"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-dependents.log",
+      "sha256": "sha256:0ab126d4815469a9d4c7e5d255502c47fd763da3893807adadea3d2e41419f00"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-headers.log",
+      "sha256": "sha256:ad340f97cac93c22fcc1017724cd7bec6ea372b114cca91e49094127a8c4e97b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/exfat_file_probe-imports.log",
+      "sha256": "sha256:b25195717c526eee95b4178af4b3df37c12ad15cf019810b99ddf28aaf9a4dd2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/failure-and-repair.json",
+      "sha256": "sha256:c2bce3242a2b6f1a1b8a1d78d2f1f5d1b2575ccc374eeb69ffef5af23522195b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/README.md",
+      "sha256": "sha256:0587a66aa09b591a2075fc985ddb8806457eacc01de00a734641754e76b86313"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/summary.json",
+      "sha256": "sha256:224ef675adb8a420cdfdfc695dbd52fec18ce2a9bd4bd8152e2ebcbcdbcb0585"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-file-working/working-inputs.json",
+      "sha256": "sha256:70e4da596362146f0534a3bb90517229f577d7b14cb8bb2a9d09eff94a8afd52"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit fixed source and qualify exact clean native/header/import/context/tooling and four local criteria, retaining the unavailable file-symlink check. Then contained owned reader/retirement, paged namespace/tree/content and all original platform/storage0.1.0 with separate owner/privilege/release gates.",
+  "performed_remote_writes": false
+}
