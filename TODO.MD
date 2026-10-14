@@ -401,5 +401,6 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 ## Current exFAT coherent-tree development
 
 - [x] DE-W074 working owned root capture and bounded tree/logical-content reader; 40 independent cases, seven selected native groups and 51 headers pass.
-- [ ] Retain the exact e7e3297f full144 campaign and qualify the subsequent private tree-limit correction at an exact revision on x64/Win32, with tooling/import/context/source checks and review before main integration. The earlier full143/restoration failures remain retained; the original delay is unresolved.
+- [x] Retain the exact e7e3297f full144 failure (136 passes/eight failures) and qualify the private tree-limit correction at9c2d2b09 on x64/Win32 with tooling/import/context/source checks. This is partial qualification.
+- [ ] Diagnose the broad worker/restoration/parser failures and obtain applicable passing broad evidence before main integration; preserve deadlines and uncertain dependencies.
 - [ ] Complete paging/backpressure, held-source/worker/frontend and remaining original platform/storage/release gates.

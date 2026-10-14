@@ -1,0 +1,137 @@
+{
+  "status": "pass",
+  "source_revision": "e7e3297f6ef707628b607597bb8f7e2d6d76659a",
+  "fixture_directory": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-e7e3297f\\source\\.aide-local\\gpt-execution-diagnostic-35jr_o3o",
+  "fault": {
+    "stage": "image.write.2",
+    "action": "crash_after"
+  },
+  "reply_deadline_seconds": 15,
+  "trace_enabled": true,
+  "artifact_sha256": "sha256:1f2f896b572d608c636e922a8916a2b905783d8dfa7cebe7d6385740de29164e",
+  "expected_crash_observed": true,
+  "preparation": {
+    "backup_bytes": "3642",
+    "backup_digest": "sha256:e0239a06df4d4e2e055c67e790bda24a966eac625456de1a70646d079336e77c",
+    "definition": {
+      "authoritative_copy": "primary",
+      "authorizes_effects": false,
+      "capture": {
+        "backup_array": {
+          "bytes": "512",
+          "sha256": "sha256:2a690d2071ab95b9145efe5ffd6513c6d83a7cc7bc5b6806ab3a5b97af3f1e13"
+        },
+        "backup_header": {
+          "bytes": "512",
+          "sha256": "sha256:19637bd30b3d95ede06852a579df0b25cf6620f70fc4c27809f56a228362c8a2"
+        },
+        "block_bytes": "512",
+        "blocks": "100",
+        "epoch": "1",
+        "image_id": "image:gpt-fixture",
+        "primary_array": {
+          "bytes": "512",
+          "sha256": "sha256:362e1caaff1e99d27c2d23f4bb308bce832d44fcc9c9006ce7324bec4e315d2c"
+        },
+        "primary_header": {
+          "bytes": "512",
+          "sha256": "sha256:0ead2113e7f2eee4b09bf4a55d5fb6ec6ba877f923a27f77a1f36ba74bbaacaa"
+        },
+        "protective_mbr": {
+          "bytes": "512",
+          "sha256": "sha256:7a69c17ed86728fba977e27cbc3c530b54a7d667cc6264f34f92a1bb42c7d787"
+        },
+        "schema": "org.disked.gpt-repair-capture-prototype/1"
+      },
+      "capture_digest": "sha256:b7aa301fb9e4bca5ab0df635b93159cfef1000e91c3a2207ab1294cd9ce3d7d6",
+      "execution_requirements": [
+        "fresh-exact-image-and-recapture",
+        "exclusive-access-and-resolved-dependencies",
+        "original-metadata-backup",
+        "accepted-journal-and-recovery-policy",
+        "admitted-provider-byte-write-scope",
+        "exact-plan-review-grant-admission",
+        "flush-reread-independent-verification"
+      ],
+      "operation": "table.gpt.repair",
+      "patches": [
+        {
+          "after_sha256": "sha256:362e1caaff1e99d27c2d23f4bb308bce832d44fcc9c9006ce7324bec4e315d2c",
+          "before_sha256": "sha256:2a690d2071ab95b9145efe5ffd6513c6d83a7cc7bc5b6806ab3a5b97af3f1e13",
+          "bytes": "512",
+          "depends_on": [],
+          "id": "target-array",
+          "offset": "50176"
+        },
+        {
+          "after_sha256": "sha256:909a67c067d9b4ab86f96342135fc982e83b082d64b3dd2198d74bf5172cefa2",
+          "before_sha256": "sha256:9a65e38bc42f41e8ca265b0cd6bb699677d7dd1f0778cffcf944938d70e49fd5",
+          "bytes": "92",
+          "depends_on": [
+            "target-array"
+          ],
+          "id": "target-header",
+          "offset": "50688"
+        }
+      ],
+      "profile": "gpt-repair-planning-prototype/1",
+      "qualifies_durability": false,
+      "qualifies_recovery": false,
+      "schema": "org.disked.gpt-repair-preview-prototype/1",
+      "selection_decision_digest": null,
+      "simulation": {
+        "both_copies_agree": true,
+        "both_copies_consistent": true,
+        "coverage": "supplied-captures-only",
+        "independent_verification": false,
+        "type": "shared-parser-byte-overlay",
+        "whole_device_valid": false
+      },
+      "status": "repair_preview",
+      "target_copy": "backup",
+      "writer_admitted": false
+    },
+    "execution_authorized": false,
+    "manifest": {
+      "backup_identity": "sha256:c291542869994901fcc57dbf8c35fe926aeacd5e47883ce44a23165c60596b94",
+      "directory": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-exact-e7e3297f\\source\\.aide-local\\gpt-execution-diagnostic-35jr_o3o\\gptfx-a20001accf1ff205050e1161",
+      "executor_digest": "sha256:1f2f896b572d608c636e922a8916a2b905783d8dfa7cebe7d6385740de29164e",
+      "image_before_sha256": "sha256:7d3ac71bce85667062814b228c8a42d8064a70d4e05a4a860080aaf0a56c2bd2",
+      "image_bytes": "51200",
+      "image_identity": "sha256:1119f9086f72af1304b1daf79d67345b06d1903011fc21d07f77a41a97cf620f",
+      "journal_identity": "sha256:2b1bf2d03b50011ac0b3220a44276313059b704279391bf76b45ba3a8a72aa06",
+      "provider_id": "provider.image.gpt-owned-fixture/1",
+      "publisher_epoch": "134364794769580322",
+      "publisher_identity": "7ac1a25295dce32a7803eb61176d3116",
+      "root_identity": "sha256:c7ae87b3c56a896798b3f84b6b464109e3985f4479ab6e8edf7ae3375af9877c",
+      "schema": "org.disked.gpt-fixture-files/1",
+      "scope": "owned-file-fixture",
+      "source_revision": "e7e3297f6ef707628b607597bb8f7e2d6d76659a",
+      "storage_independent": false
+    },
+    "manifest_digest": "sha256:dcbf5645a10865a4037274fd5ca061b1c3521c423569f789816057c957a74fff",
+    "phase": "prepared",
+    "plan_digest": "sha256:922d094bc922b2218d523e742cb11ce846d76ae15a86fdf6b3db60c5c6073e26"
+  },
+  "exit_code": 112,
+  "elapsed_seconds": 0.901022,
+  "process_observations": [
+    {
+      "phase": "retirement",
+      "pid": 31344,
+      "exit_code": 112,
+      "elapsed_seconds": 0.82,
+      "frames": 1,
+      "last_reply_phase": "prepared",
+      "reader_error": null,
+      "stdout_reader_alive": false,
+      "stderr_reader_alive": false,
+      "stderr_bytes": 7865,
+      "stderr_tail": "GPT_FIXTURE 996383734 checking image.seed.write\r\nGPT_FIXTURE 996383734 dispatch image.seed.write.1\r\nGPT_FIXTURE 996383734 returned image.seed.write.1\r\nGPT_FIXTURE 996383734 checking image.seed.flush\r\nGPT_FIXTURE 996383734 dispatch image.seed.flush.1\r\nGPT_FIXTURE 996383984 returned image.seed.flush.1\r\nGPT_FIXTURE 996383984 checking image.read\r\nGPT_FIXTURE 996383984 dispatch image.read.1\r\nGPT_FIXTURE 996383984 returned image.read.1\r\nGPT_FIXTURE 996383984 checking image.read\r\nGPT_FIXTURE 996383984 dispatch image.read.2\r\nGPT_FIXTURE 996383984 returned image.read.2\r\nGPT_FIXTURE 996383984 checking image.read\r\nGPT_FIXTURE 996383984 dispatch image.read.3\r\nGPT_FIXTURE 996383984 returned image.read.3\r\nGPT_FIXTURE 996383984 checking image.read\r\nGPT_FIXTURE 996383984 dispatch image.read.4\r\nGPT_FIXTURE 996383984 returned image.read.4\r\nGPT_FIXTURE 996383984 checking image.read\r\nGPT_FIXTURE 996383984 dispatch image.read.5\r\nGPT_FIXTURE 996383984 returned image.read.5\r\nGPT_FIXTURE 996383984 checking backup.write\r\nGPT_FIXTURE 996383984 dispatch backup.write.1\r\nGPT_FIXTURE 996383984 returned backup.write.1\r\nGPT_FIXTURE 996383984 checking backup.flush\r\nGPT_FIXTURE 996383984 dispatch backup.flush.1\r\nGPT_FIXTURE 996384062 returned backup.flush.1\r\nGPT_FIXTURE 996384062 checking backup.read\r\nGPT_FIXTURE 996384062 dispatch backup.read.1\r\nGPT_FIXTURE 996384062 returned backup.read.1\r\nGPT_FIXTURE 996384062 checking image.read\r\nGPT_FIXTURE 996384062 dispatch image.read.6\r\nGPT_FIXTURE 996384062 returned image.read.6\r\nGPT_FIXTURE 996384062 checking image.read\r\nGPT_FIXTURE 996384062 dispatch image.read.7\r\nGPT_FIXTURE 996384062 returned image.read.7\r\nGPT_FIXTURE 996384062 checking image.read\r\nGPT_FIXTURE 996384062 dispatch image.read.8\r\nGPT_FIXTURE 996384062 returned image.read.8\r\nGPT_FIXTURE 996384062 checking image.read\r\nGPT_FIXTURE 996384062 dispatch image.read.9\r\nGPT_FIXTURE 996384062 returned image.read.9\r\nGPT_FIXTURE 996384062 checking image.read\r\nGPT_FIXTURE 996384062 dispatch image.read.10\r\nGPT_FIXTURE 996384062 returned image.read.10\r\nGPT_FIXTURE 996384062 checking journal.write\r\nGPT_FIXTURE 996384062 dispatch journal.write.1\r\nGPT_FIXTURE 996384062 returned journal.write.1\r\nGPT_FIXTURE 996384062 checking journal.flush\r\nGPT_FIXTURE 996384062 dispatch journal.flush.1\r\nGPT_FIXTURE 996384156 returned journal.flush.1\r\nGPT_FIXTURE 996384156 checking journal.read\r\nGPT_FIXTURE 996384156 dispatch journal.read.1\r\nGPT_FIXTURE 996384156 returned journal.read.1\r\nGPT_FIXTURE 996384156 checking journal.write\r\nGPT_FIXTURE 996384156 dispatch journal.write.2\r\nGPT_FIXTURE 996384156 returned journal.write.2\r\nGPT_FIXTURE 996384156 checking journal.flush\r\nGPT_FIXTURE 996384156 dispatch journal.flush.2\r\nGPT_FIXTURE 996384218 returned journal.flush.2\r\nGPT_FIXTURE 996384218 checking journal.read\r\nGPT_FIXTURE 996384218 dispatch journal.read.2\r\nGPT_FIXTURE 996384218 returned journal.read.2\r\nGPT_FIXTURE 996384218 checking journal.write\r\nGPT_FIXTURE 996384218 dispatch journal.write.3\r\nGPT_FIXTURE 996384218 returned journal.write.3\r\nGPT_FIXTURE 996384218 checking journal.flush\r\nGPT_FIXTURE 996384218 dispatch journal.flush.3\r\nGPT_FIXTURE 996384265 returned journal.flush.3\r\nGPT_FIXTURE 996384265 checking journal.read\r\nGPT_FIXTURE 996384265 dispatch journal.read.3\r\nGPT_FIXTURE 996384265 returned journal.read.3\r\nGPT_FIXTURE 996384265 checking journal.write\r\nGPT_FIXTURE 996384265 dispatch journal.write.4\r\nGPT_FIXTURE 996384265 returned journal.write.4\r\nGPT_FIXTURE 996384265 checking journal.flush\r\nGPT_FIXTURE 996384265 dispatch journal.flush.4\r\nGPT_FIXTURE 996384359 returned journal.flush.4\r\nGPT_FIXTURE 996384359 checking journal.read\r\nGPT_FIXTURE 996384359 dispatch journal.read.4\r\nGPT_FIXTURE 996384359 returned journal.read.4\r\nGPT_FIXTURE 996384359 checking journal.write\r\nGPT_FIXTURE 996384359 dispatch journal.write.5\r\nGPT_FIXTURE 996384359 returned journal.write.5\r\nGPT_FIXTURE 996384359 checking journal.flush\r\nGPT_FIXTURE 996384359 dispatch journal.flush.5\r\nGPT_FIXTURE 996384390 returned journal.flush.5\r\nGPT_FIXTURE 996384390 checking journal.read\r\nGPT_FIXTURE 996384390 dispatch journal.read.5\r\nGPT_FIXTURE 996384390 returned journal.read.5\r\nGPT_FIXTURE 996384390 checking image.read\r\nGPT_FIXTURE 996384390 dispatch image.read.11\r\nGPT_FIXTURE 996384390 returned image.read.11\r\nGPT_FIXTURE 996384390 checking image.read\r\nGPT_FIXTURE 996384390 dispatch image.read.12\r\nGPT_FIXTURE 996384390 returned image.read.12\r\nGPT_FIXTURE 996384390 checking image.read\r\nGPT_FIXTURE 996384390 dispatch image.read.13\r\nGPT_FIXTURE 996384390 returned image.read.13\r\nGPT_FIXTURE 996384390 checking image.read\r\nGPT_FIXTURE 996384390 dispatch image.read.14\r\nGPT_FIXTURE 996384390 returned image.read.14\r\nGPT_FIXTURE 996384390 checking image.read\r\nGPT_FIXTURE 996384390 dispatch image.read.15\r\nGPT_FIXTURE 996384390 returned image.read.15\r\nGPT_FIXTURE 996384390 checking journal.write\r\nGPT_FIXTURE 996384406 dispatch journal.write.6\r\nGPT_FIXTURE 996384406 returned journal.write.6\r\nGPT_FIXTURE 996384406 checking journal.flush\r\nGPT_FIXTURE 996384406 dispatch journal.flush.6\r\nGPT_FIXTURE 996384421 returned journal.flush.6\r\nGPT_FIXTURE 996384421 checking journal.read\r\nGPT_FIXTURE 996384421 dispatch journal.read.6\r\nGPT_FIXTURE 996384421 returned journal.read.6\r\nGPT_FIXTURE 996384421 checking image.write\r\nGPT_FIXTURE 996384421 dispatch image.write.1\r\nGPT_FIXTURE 996384421 returned image.write.1\r\nGPT_FIXTURE 996384421 checking image.flush\r\nGPT_FIXTURE 996384421 dispatch image.flush.1\r\nGPT_FIXTURE 996384453 returned image.flush.1\r\nGPT_FIXTURE 996384453 checking image.read\r\nGPT_FIXTURE 996384453 dispatch image.read.16\r\nGPT_FIXTURE 996384453 returned image.read.16\r\nGPT_FIXTURE 996384453 checking image.read\r\nGPT_FIXTURE 996384453 dispatch image.read.17\r\nGPT_FIXTURE 996384453 returned image.read.17\r\nGPT_FIXTURE 996384453 checking image.read\r\nGPT_FIXTURE 996384453 dispatch image.read.18\r\nGPT_FIXTURE 996384453 returned image.read.18\r\nGPT_FIXTURE 996384453 checking image.read\r\nGPT_FIXTURE 996384453 dispatch image.read.19\r\nGPT_FIXTURE 996384453 returned image.read.19\r\nGPT_FIXTURE 996384453 checking image.read\r\nGPT_FIXTURE 996384453 dispatch image.read.20\r\nGPT_FIXTURE 996384453 returned image.read.20\r\nGPT_FIXTURE 996384453 checking journal.write\r\nGPT_FIXTURE 996384453 dispatch journal.write.7\r\nGPT_FIXTURE 996384453 returned journal.write.7\r\nGPT_FIXTURE 996384453 checking journal.flush\r\nGPT_FIXTURE 996384453 dispatch journal.flush.7\r\nGPT_FIXTURE 996384484 returned journal.flush.7\r\nGPT_FIXTURE 996384484 checking journal.read\r\nGPT_FIXTURE 996384484 dispatch journal.read.7\r\nGPT_FIXTURE 996384484 returned journal.read.7\r\nGPT_FIXTURE 996384484 checking image.read\r\nGPT_FIXTURE 996384484 dispatch image.read.21\r\nGPT_FIXTURE 996384484 returned image.read.21\r\nGPT_FIXTURE 996384484 checking image.read\r\nGPT_FIXTURE 996384484 dispatch image.read.22\r\nGPT_FIXTURE 996384484 returned image.read.22\r\nGPT_FIXTURE 996384484 checking image.read\r\nGPT_FIXTURE 996384484 dispatch image.read.23\r\nGPT_FIXTURE 996384484 returned image.read.23\r\nGPT_FIXTURE 996384484 checking image.read\r\nGPT_FIXTURE 996384484 dispatch image.read.24\r\nGPT_FIXTURE 996384484 returned image.read.24\r\nGPT_FIXTURE 996384484 checking image.read\r\nGPT_FIXTURE 996384484 dispatch image.read.25\r\nGPT_FIXTURE 996384484 returned image.read.25\r\nGPT_FIXTURE 996384484 checking journal.write\r\nGPT_FIXTURE 996384484 dispatch journal.write.8\r\nGPT_FIXTURE 996384484 returned journal.write.8\r\nGPT_FIXTURE 996384484 checking journal.flush\r\nGPT_FIXTURE 996384484 dispatch journal.flush.8\r\nGPT_FIXTURE 996384500 returned journal.flush.8\r\nGPT_FIXTURE 996384500 checking journal.read\r\nGPT_FIXTURE 996384500 dispatch journal.read.8\r\nGPT_FIXTURE 996384500 returned journal.read.8\r\nGPT_FIXTURE 996384500 checking image.write\r\nGPT_FIXTURE 996384500 dispatch image.write.2\r\nGPT_FIXTURE 996384500 returned image.write.2\r\n",
+      "kill_requested": false,
+      "kill_error": null,
+      "exit_confirmed": true
+    }
+  ],
+  "fixture_retained": true
+}

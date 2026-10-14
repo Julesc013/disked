@@ -1,0 +1,510 @@
+[
+  {
+    "name": "worktree",
+    "command": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+      "9c2d2b09e07e5ff23a6d02f2a6cad437d38476a1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "worktree.log"
+  },
+  {
+    "name": "sparse",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.063,
+    "log": "sparse.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "9c2d2b09e07e5ff23a6d02f2a6cad437d38476a1"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 6.397,
+    "log": "checkout.log"
+  },
+  {
+    "name": "x64-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 31.593,
+    "log": "x64-configure.log"
+  },
+  {
+    "name": "x64-build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64",
+      "--config",
+      "Release",
+      "--target",
+      "bootstrap_registry",
+      "exfat_tree_probe",
+      "exfat_namespace_probe",
+      "exfat_capture_probe",
+      "disked_exfat_tree_headers",
+      "disked_exfat_namespace_headers",
+      "disked_exfat_capture_headers",
+      "disked_exfat_upcase_headers",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 22.781,
+    "log": "x64-build.log"
+  },
+  {
+    "name": "x64-native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64",
+      "-C",
+      "Release",
+      "-R",
+      "^(image.exfat_(tree|namespace|capture)|build.boundaries|recovery.gpt_fixture_harness)$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64-junit.xml"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 19.124,
+    "log": "x64-native.log"
+  },
+  {
+    "name": "x64-exfat_tree_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.088,
+    "log": "x64-exfat_tree_probe-headers.log"
+  },
+  {
+    "name": "x64-exfat_tree_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "x64-exfat_tree_probe-imports.log"
+  },
+  {
+    "name": "x64-exfat_tree_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "x64-exfat_tree_probe-dependents.log"
+  },
+  {
+    "name": "x64-exfat_namespace_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.075,
+    "log": "x64-exfat_namespace_probe-headers.log"
+  },
+  {
+    "name": "x64-exfat_namespace_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.067,
+    "log": "x64-exfat_namespace_probe-imports.log"
+  },
+  {
+    "name": "x64-exfat_namespace_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "x64-exfat_namespace_probe-dependents.log"
+  },
+  {
+    "name": "x64-exfat_capture_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.064,
+    "log": "x64-exfat_capture_probe-headers.log"
+  },
+  {
+    "name": "x64-exfat_capture_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.068,
+    "log": "x64-exfat_capture_probe-imports.log"
+  },
+  {
+    "name": "x64-exfat_capture_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\x64\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "x64-exfat_capture_probe-dependents.log"
+  },
+  {
+    "name": "Win32-configure",
+    "command": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32-fixtures",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 5.281,
+    "log": "Win32-configure.log"
+  },
+  {
+    "name": "Win32-build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 9.514,
+    "log": "Win32-build.log"
+  },
+  {
+    "name": "Win32-tree",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source\\tests\\images\\test_exfat_tree.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_tree_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\exfat-tree-cases.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.749,
+    "log": "Win32-tree.log"
+  },
+  {
+    "name": "Win32-namespace",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source\\tests\\property\\test_exfat_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\exfat-namespace-cases.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 3.119,
+    "log": "Win32-namespace.log"
+  },
+  {
+    "name": "Win32-capture",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source\\tests\\images\\test_exfat_capture.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_capture_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\exfat-capture-cases.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 9.965,
+    "log": "Win32-capture.log"
+  },
+  {
+    "name": "Win32-exfat_tree_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "Win32-exfat_tree_probe-headers.log"
+  },
+  {
+    "name": "Win32-exfat_tree_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.066,
+    "log": "Win32-exfat_tree_probe-imports.log"
+  },
+  {
+    "name": "Win32-exfat_tree_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "Win32-exfat_tree_probe-dependents.log"
+  },
+  {
+    "name": "Win32-exfat_namespace_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.071,
+    "log": "Win32-exfat_namespace_probe-headers.log"
+  },
+  {
+    "name": "Win32-exfat_namespace_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "log": "Win32-exfat_namespace_probe-imports.log"
+  },
+  {
+    "name": "Win32-exfat_namespace_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "Win32-exfat_namespace_probe-dependents.log"
+  },
+  {
+    "name": "Win32-exfat_capture_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.161,
+    "log": "Win32-exfat_capture_probe-headers.log"
+  },
+  {
+    "name": "Win32-exfat_capture_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.054,
+    "log": "Win32-exfat_capture_probe-imports.log"
+  },
+  {
+    "name": "Win32-exfat_capture_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\Win32\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.044,
+    "log": "Win32-exfat_capture_probe-dependents.log"
+  },
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 345.348,
+    "log": "tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 3.084,
+    "log": "spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.409,
+    "log": "index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.14,
+    "log": "manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.14,
+    "log": "source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W074",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\context",
+      "--byte-budget",
+      "1200000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 4.379,
+    "log": "context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-9c2d2b09\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 5.227,
+    "log": "verify-context.log"
+  }
+]

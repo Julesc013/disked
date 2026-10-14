@@ -43,3 +43,10 @@ group, is required. Owner acceptance and full0.1.0 remain open.
 Paged continuation, bounded stream delivery/backpressure, held-source and contained
 worker/frontend admission, other platforms/storage and production writer/recovery
 remain at their subsequent gates. No native opening or effects are part of this code.
+
+The subsequent private limits correction qualifies44 cases/10 methods on x64/Win32
+at `9c2d2b09`, plus related supplied-byte suites, four headers per architecture,
+242 tooling tests/two skips and imports/context/source freshness. The separate
+complete `e7e3297f` native run fails eight of144 groups. The
+[review](../.aide/evidence/2026-10-15-exfat-tree/REVIEW.md) keeps those scopes distinct;
+the work remains partial and `main` integration is withheld.

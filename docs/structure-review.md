@@ -1,5 +1,19 @@
 # Source structure and release review follow-up
 
+## Current private correction and failed broad run: 15 October 2026
+
+Keep the same owners, consistent model names and289-file source map. The private
+tree correction at `9c2d2b09` passes44 tree cases on x64/Win32, the related supplied-byte
+suites, four headers per architecture and242 tooling tests/two skips. Its
+[scope and implementing-agent review](../.aide/evidence/2026-10-15-exfat-tree/REVIEW.md)
+do not qualify a full Win32 product or complete current native suite.
+
+The complete earlier `e7e3297f` campaign finishes with136 passes/eight failures.
+Worker, restoration and one parser timeout remain unresolved. Focused same-artifact
+parser/GPT probes pass without increasing deadlines; the cause is still unproven.
+Development checkpoints are pushed to `dev`; `main` stays at `baeebb4c` until an
+applicable broad campaign passes. No stable0.1.0 or release date is established.
+
 ## Tree checkpoint awaiting qualification: 15 October 2026
 
 Keep the same source ownership and names; the map covers289 current files once.
