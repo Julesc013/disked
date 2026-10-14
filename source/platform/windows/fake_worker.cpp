@@ -139,7 +139,7 @@ Outcome start(const std::string& request,const std::string& fixture_id,const Dir
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY;
         limits.BasicLimitInformation.ActiveProcessLimit=1;limits.ProcessMemoryLimit=128*1024*1024;
         if(!SetInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits)))fail("operation_job_limits");
-        std::vector<HANDLE> jobs={aggregate.job.value,job.value};AttributeList list(handles,jobs);
+        auto budget_leases=aggregate.inherited_leases();for(const auto& lease:budget_leases)handles.push_back(lease.value);for(const auto& lease:budget_leases)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(lease.value));std::vector<HANDLE> jobs={job.value};AttributeList list(handles,jobs);
         STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=list.list;
         startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
         PROCESS_INFORMATION raw{};
@@ -258,8 +258,8 @@ Outcome dispatch_fake_worker(const std::string& request,const std::string& comma
 }
 int run_fake_worker(int argc,wchar_t** argv) {
     try {
-        if(argc!=6)fail("operation_role_arguments");
-        std::vector<HANDLE> capabilities;for(int i=2;i<6;++i)capabilities.push_back(argument_handle(argv[i]));
+        if(argc!=8)fail("operation_role_arguments");
+        std::vector<HANDLE> capabilities;for(int i=2;i<8;++i)capabilities.push_back(argument_handle(argv[i]));
         for(std::size_t i=0;i<capabilities.size();++i)for(std::size_t j=0;j<i;++j)if(capabilities[i]==capabilities[j])fail("operation_role_capability");
         Handle pipe(capabilities[0]),records(capabilities[1]),cancel(capabilities[2]),event(capabilities[3]);
         for(const auto h:capabilities)if(!SetHandleInformation(h,HANDLE_FLAG_INHERIT,0))fail("operation_role_capability");
@@ -283,7 +283,7 @@ int run_fake_worker(int argc,wchar_t** argv) {
            text(header,"record_file_id")!=file_identity(records.value) || text(header,"cancel_file_id")!=file_identity(cancel.value))fail("operation_role_capability");
         const auto* definition=header.find("definition");if(!definition || definition->fields.size()!=8 ||
             op::hash(json::dump(*definition))!=text(header,"definition_digest"))fail("operation_request_invalid");
-        Security security;Image image;WorkerBudget aggregate(security,false);
+        Security security;Image image;Handle slot_lease(capabilities[4]),guard_lease(capabilities[5]);WorkerBudget aggregate(security,false,slot_lease.value,guard_lease.value);
         if(text(*definition,"source_revision")!=bootstrap::source_revision || text(*definition,"input_digest")!=bootstrap::input_digest ||
            text(*definition,"image_digest")!=image.digest || text(*definition,"host_id")!=security.host_id)fail("operation_image_mismatch");
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION budget{};

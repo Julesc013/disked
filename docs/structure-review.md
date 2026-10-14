@@ -1,5 +1,22 @@
 # Source structure and release review follow-up
 
+## Worker repair checkpoint: 14 October 2026
+
+Keep the five source owners, the 283-file source map and the existing CLI,
+TUI, shell and terminal boundaries. Independent caller-job probes reproduced
+the shared worker job's launch error 5. The replacement uses four inherited
+kernel slot leases and existing private jobs, preserving caller restrictions
+and the four-worker/128 MiB per-process/512 MiB total limits. The
+[working repair evidence](../.aide/evidence/2026-10-14-worker-leases-working/README.md)
+retains original failures and selected passing results. A new exact-source full
+141-group campaign remains required before normal admission and `main` promotion.
+
+Universal Setup draft [PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+is now at `4cd3dac3`. Its [current CI run](https://github.com/Julesc013/universal-setup/actions/runs/38525077743)
+has six successful jobs and a failed `native-windows` job, checked on 14 October.
+This is hosted CI status, not independent Setup qualification. DiskEd's full
+0.1.0 scope and owner/storage/platform/release gates remain unfinished.
+
 ## Failed full command qualification: 14 October 2026
 
 Keep the five source owners and the 283-file source map. The clean `60376a0e`

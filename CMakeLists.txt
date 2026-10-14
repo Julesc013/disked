@@ -508,6 +508,10 @@ if(BUILD_TESTING)
     --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_exfat_test>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
     --output "${CMAKE_CURRENT_BINARY_DIR}/exfat-command-cases.json")
   set_tests_properties(image.exfat_commands PROPERTIES TIMEOUT 240)
+  add_test(NAME resilience.worker_ancestry COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/resilience/test_worker_ancestry.py"
+    --exe "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_fat_test>"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/worker-ancestry-cases.json")
+  set_tests_properties(resilience.worker_ancestry PROPERTIES TIMEOUT 45 RESOURCE_LOCK disked_fake_workers)
   private_header_check(disked_json runtime/command/json.h)
   private_header_check(disked_command runtime/command/command.h runtime/command/protocol.h runtime/command/shell_lexer.h)
   private_header_check(disked_invocation runtime/invocation/policy.h)

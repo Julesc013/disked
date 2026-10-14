@@ -1,4 +1,4 @@
-"""Measure the shared job using only owned fake workers and disposable files."""
+"""Measure four inherited kernel slot leases over owned fake workers and files."""
 import argparse
 import ctypes as C
 from ctypes import wintypes as W
@@ -31,6 +31,25 @@ K.WaitForSingleObject.argtypes = [W.HANDLE, W.DWORD]
 K.GetProcessTimes.argtypes = [W.HANDLE] + [C.POINTER(W.FILETIME)] * 4
 K.QueryFullProcessImageNameW.argtypes = [W.HANDLE, W.DWORD, W.LPWSTR, C.POINTER(W.DWORD)]
 K.GetExitCodeProcess.argtypes = [W.HANDLE, C.POINTER(W.DWORD)]
+K.CreateToolhelp32Snapshot.argtypes = [W.DWORD, W.DWORD]
+K.CreateToolhelp32Snapshot.restype = W.HANDLE
+class ProcessEntry(C.Structure):
+    _fields_ = [('size',W.DWORD),('usage',W.DWORD),('pid',W.DWORD),('heap',C.c_size_t),
+        ('module',W.DWORD),('threads',W.DWORD),('parent',W.DWORD),('priority',W.LONG),
+        ('flags',W.DWORD),('exe',W.WCHAR*260)]
+for api in ('Process32FirstW','Process32NextW'):
+    getattr(K,api).argtypes=[W.HANDLE,C.POINTER(ProcessEntry)]
+def child_pid(parent):
+    snapshot=K.CreateToolhelp32Snapshot(2,0)
+    if snapshot==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+    try:
+        entry=ProcessEntry();entry.size=C.sizeof(entry)
+        present=K.Process32FirstW(snapshot,C.byref(entry))
+        while present:
+            if entry.parent==parent and entry.exe.lower()==ARGS.delayed.name.lower():return int(entry.pid)
+            present=K.Process32NextW(snapshot,C.byref(entry))
+        return None
+    finally:K.CloseHandle(snapshot)
 
 class Basic(C.Structure):
     _fields_ = [('process_time', C.c_int64), ('job_time', C.c_int64), ('flags', W.DWORD),
@@ -71,6 +90,27 @@ def outcome(process):
     if stderr: raise AssertionError(stderr)
     return process.returncode, json.loads(stdout)
 
+def slot_jobs(host):
+    jobs=[]
+    for index in range(4):
+        handle=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v2.'+host+'.'+str(index))
+        if handle:jobs.append(handle)
+    return jobs
+
+def bound(directory):
+    try:
+        for line in (directory/'operation.records').read_text().splitlines():
+            value=json.loads(line)['state']['binding']
+            if value.get('process_id'):return value
+    except (FileNotFoundError,json.JSONDecodeError):pass
+    return None
+
+def four_slots(host):
+    handles=slot_jobs(host)
+    if len(handles)==4:return handles
+    for handle in handles:K.CloseHandle(handle)
+    return None
+
 class Budget(unittest.TestCase):
     def test_actual_allocation_failure_retains_unresolved_operation(self):
         with tempfile.TemporaryDirectory(prefix='disked-memory-') as directory:
@@ -80,8 +120,9 @@ class Budget(unittest.TestCase):
             admitted = json.loads(result.stdout); binding = admitted['result']['state']['binding']
             handle = K.OpenProcess(0x1000 | 0x100000, False, int(binding['process_id']))
             self.assertTrue(handle)
-            job = K.OpenJobObjectW(4, False, 'Local\\DiskEd.Fake.Workers.v1.' + binding['host_id'])
-            self.assertTrue(job)
+            candidates=slot_jobs(binding['host_id']);self.assertTrue(candidates)
+            job=candidates[0]
+            for item in candidates[1:]:K.CloseHandle(item)
             try:
                 times = [W.FILETIME() for _ in range(4)]
                 self.assertTrue(K.GetProcessTimes(handle, *map(C.byref, times)))
@@ -89,9 +130,9 @@ class Budget(unittest.TestCase):
                 self.assertEqual(0, K.WaitForSingleObject(handle, 5000))
                 exit_code = W.DWORD(); self.assertTrue(K.GetExitCodeProcess(handle, C.byref(exit_code)))
                 self.assertIn(exit_code.value, (8, 1455, 1816), 'test-only worker did not encounter a memory/commit/quota denial')
-                memory = query(job, 9, Limits())
-                self.assertGreaterEqual(memory.peak_process, 96*1024*1024)
-                self.assertLessEqual(memory.peak_process, 128*1024*1024)
+                measured=process_memory(handle)
+                self.assertGreaterEqual(measured['peak_commit_bytes'],96*1024*1024)
+                self.assertLessEqual(measured['peak_commit_bytes'],128*1024*1024)
                 inspected = subprocess.run([str(ARGS.exe), 'operation', 'inspect', admitted['operation_id'],
                     '--state-dir', directory, '--json'], capture_output=True, text=True, timeout=8)
                 self.assertEqual(6, inspected.returncode, inspected.stdout)
@@ -105,7 +146,7 @@ class Budget(unittest.TestCase):
                 self.assertEqual(before, {p.name: p.read_bytes() for p in Path(directory).iterdir()})
                 OBSERVATIONS.append(dict(test='actual committed-memory denial in test-only worker',
                     executable=str(ARGS.memory), sha256=hashlib.sha256(ARGS.memory.read_bytes()).hexdigest(),
-                    process_memory_limit=memory.process_memory, peak_process_bytes=memory.peak_process,
+                    process_memory_limit=128*1024*1024, peak_process_bytes=measured['peak_commit_bytes'],
                     worker_exit=exit_code.value, outcome=value))
             finally:
                 K.WaitForSingleObject(handle, 5000); K.CloseHandle(handle); K.CloseHandle(job)
@@ -113,22 +154,23 @@ class Budget(unittest.TestCase):
     def test_four_workers_hold_the_limit_across_disconnected_clients(self):
         temp = tempfile.TemporaryDirectory(prefix='disked-budget-')
         processes, workers = [], []
-        job = None; frontend_job = None
+        job = None; frontend_job = None; slots=[]
         try:
             directories = [Path(temp.name) / str(i) for i in range(5)]
             for directory in directories: directory.mkdir()
             started = time.monotonic()
             processes.append(launch(directories[0]))
             first = eventually(lambda: header(directories[0]))
-            name = 'Local\\DiskEd.Fake.Workers.v1.' + first['definition']['host_id']
+            host=first['definition']['host_id'];name='Local\\DiskEd.Fake.Workers.v1.'+host
             job = eventually(lambda: K.OpenJobObjectW(4, False, name))  # query only
             frontend_job = K.OpenJobObjectW(4, False, memory_name())
             self.assertTrue(frontend_job)
-            eventually(lambda: query(job, 3, Processes()).listed == 1)
-            for directory in directories[1:4]: processes.append(launch(directory))
-            eventually(lambda: query(job, 3, Processes()).listed == 4)
-            members = query(job, 3, Processes())
-            self.assertEqual(4, members.assigned)
+            slots=eventually(lambda:slot_jobs(host))
+            for directory in directories[1:4]:processes.append(launch(directory))
+            for slot in slots:K.CloseHandle(slot)
+            slots=eventually(lambda:four_slots(host))
+            members=eventually(lambda:[child_pid(p.pid) for p in processes] if all(child_pid(p.pid) for p in processes) else None)
+            self.assertEqual(4,len(set(members)))
             frontend_samples = []
             for process in processes:
                 self.assertTrue(memory_member(int(process._handle), frontend_job))
@@ -136,7 +178,7 @@ class Budget(unittest.TestCase):
             frontend_limits = memory_limits(frontend_job)
             self.assertEqual((0x100, 256*1024*1024), (frontend_limits['flags'], frontend_limits['process_bytes']))
             identities = {}
-            for pid in members.ids[:members.listed]:
+            for pid in members:
                 handle = K.OpenProcess(0x1000 | 0x100000, False, pid)
                 self.assertTrue(handle); workers.append(handle)
                 self.assertTrue(memory_member(handle, frontend_job), 'worker lost shared frontend memory ancestry')
@@ -146,24 +188,36 @@ class Budget(unittest.TestCase):
                 self.assertTrue(K.QueryFullProcessImageNameW(handle, 0, path, C.byref(length)))
                 self.assertEqual(ARGS.delayed, Path(path.value))
                 identities[str(pid)] = str(times[0].dwLowDateTime | (times[0].dwHighDateTime << 32))
-            limits = query(job, 9, Limits())
-            self.assertEqual((0x308, 4, 128*1024*1024, 512*1024*1024),
-                             (limits.basic.flags, limits.basic.active_limit, limits.process_memory, limits.job_memory))
+            limits = query(slots[0],9,Limits())
+            for slot in slots:
+                observed=query(slot,9,Limits())
+                self.assertEqual((0x308,1,128*1024*1024,128*1024*1024),
+                    (observed.basic.flags,observed.basic.active_limit,observed.process_memory,observed.job_memory))
             fifth = launch(directories[4]); processes.append(fifth)
             fifth_code, fifth_result = outcome(fifth)
             self.assertEqual(6, fifth_code, fifth_result)
             self.assertEqual('unknown', fifth_result['status'])
-            self.assertEqual('operation_spawn_failed', fifth_result['diagnostics'][0]['code'])
-            self.assertEqual(4, query(job, 3, Processes()).listed)
+            self.assertEqual('operation_worker_budget_resource', fifth_result['diagnostics'][0]['code'])
+            self.assertTrue(all(K.WaitForSingleObject(handle,0)==258 for handle in workers))
             self.assertEqual(b'', (directories[4] / 'operation.records').read_bytes())
+            # Release observer handles before testing child-owned lease lifetime.
+            for slot in slots:K.CloseHandle(slot)
+            slots=[]
             responses = [outcome(process) for process in processes[:4]]
             self.assertTrue(all(code == 6 and value['status'] == 'unknown' for code, value in responses), responses)
             # Every client has exited after its 3s bound. All four workers still
             # occupy their slots during the test-only 5s admission delay.
-            self.assertEqual(4, query(job, 3, Processes()).listed)
+            slots=eventually(lambda:four_slots(host))
+            for slot in slots:K.CloseHandle(slot)
+            slots=[]
+            self.assertTrue(all(K.WaitForSingleObject(handle,0)==258 for handle in workers))
             self.assertTrue(all(K.WaitForSingleObject(handle, 0) == 258 for handle in workers))
             for handle in workers: self.assertEqual(0, K.WaitForSingleObject(handle, 8000))
-            self.assertEqual(0, query(job, 3, Processes()).listed)
+            remaining=slot_jobs(host)
+            try:self.assertEqual([],remaining,'lease name survived actual exit without an owned observer')
+            finally:
+                for slot in remaining:K.CloseHandle(slot)
+            self.assertTrue(all(K.WaitForSingleObject(handle,0)==0 for handle in workers))
             finals = []
             for directory, (_, admitted) in zip(directories, responses):
                 result = subprocess.run([str(ARGS.exe), 'operation', 'inspect', admitted['operation_id'],
@@ -179,18 +233,18 @@ class Budget(unittest.TestCase):
             code, value = outcome(repeated)
             self.assertEqual(6, code, value); self.assertEqual(fifth_result['operation_id'], value['operation_id'])
             self.assertEqual(before, {p.name: p.read_bytes() for p in directories[4].iterdir()})
-            self.assertEqual(0, query(job, 3, Processes()).listed)
-            accounting = query(job, 1, Accounting()); memory = query(job, 9, Limits())
-            self.assertLessEqual(memory.peak_process, 128*1024*1024)
-            self.assertLessEqual(memory.peak_job, 512*1024*1024)
-            OBSERVATIONS.append(dict(scope='current user and Windows logon session; cooperating fake composition',
+            self.assertTrue(all(K.WaitForSingleObject(handle,0)==0 for handle in workers))
+            measurements=[process_memory(handle) for handle in workers]
+            self.assertTrue(all(item['peak_commit_bytes']<=128*1024*1024 for item in measurements))
+            self.assertLessEqual(sum(item['peak_commit_bytes'] for item in measurements),512*1024*1024)
+            OBSERVATIONS.append(dict(scope='current user/session; four inherited kernel leases plus actual private process caps; marker jobs are unassociated',
                 elapsed_seconds=time.monotonic()-started, identities=identities,
-                flags=limits.basic.flags, max_workers=limits.basic.active_limit,
-                process_memory_limit=limits.process_memory, job_memory_limit=limits.job_memory,
-                peak_process_bytes=memory.peak_process, peak_job_bytes=memory.peak_job,
+                flags=limits.basic.flags, max_workers=4, slot_active_limit=limits.basic.active_limit,
+                process_memory_limit=limits.process_memory, job_memory_limit=4*limits.job_memory, slot_memory_limit=limits.job_memory,
+                peak_process_bytes=max(item['peak_commit_bytes'] for item in measurements), peak_job_bytes=sum(item['peak_commit_bytes'] for item in measurements),
                 frontend_memory_limits=frontend_limits, frontend_memory_samples=frontend_samples,
                 worker_members_of_frontend_job=True,
-                total_assigned=accounting.total, fifth=fifth_result, retry=value, finals=finals))
+                total_assigned=len(members), fifth=fifth_result, retry=value, finals=finals))
         finally:
             for process in processes:
                 if process.poll() is None:
@@ -203,6 +257,7 @@ class Budget(unittest.TestCase):
                 for stream in (process.stdout, process.stderr):
                     if stream: stream.close()
             for handle in workers: K.WaitForSingleObject(handle, 8000); K.CloseHandle(handle)
+            for slot in slots:K.CloseHandle(slot)
             if job: K.CloseHandle(job)
             if frontend_job: K.CloseHandle(frontend_job)
             # Also cover a fixture assertion before process identities arrived.

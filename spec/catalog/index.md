@@ -102,3 +102,4 @@
 - [validation-cases.json](validation-cases.json)
 - [verification-command-prototype.json](verification-command-prototype.json)
 - [verification-worker-prototype.json](verification-worker-prototype.json)
+- [worker-lease-prototype.json](worker-lease-prototype.json)

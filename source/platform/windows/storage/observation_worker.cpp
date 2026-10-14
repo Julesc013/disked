@@ -71,7 +71,7 @@ void ObservationWorker::launch(){
     auto& p=*impl_;if(p.launch_attempted)invalid(p.profile,"launch_reused");p.launch_attempted=true;
     auto ci=inherited(p.input.value,FILE_MAP_READ),co=inherited(p.output.value,FILE_MAP_WRITE),cc=inherited(p.cancellation.value,SYNCHRONIZE),ca=inherited(p.admission.value,EVENT_MODIFY_STATE),cg=inherited(p.gate.value,SYNCHRONIZE);
     Handle cp;if(p.profile.payload_bytes)cp=inherited(p.payload.value,FILE_MAP_WRITE);
-    std::vector<HANDLE> handles={ci.value,co.value,cc.value,ca.value,cg.value},jobs={p.aggregate.job.value,p.job.value};if(cp.valid())handles.push_back(cp.value);AttributeList attributes(handles,jobs);
+    std::vector<HANDLE> handles={ci.value,co.value,cc.value,ca.value,cg.value},jobs={p.job.value};if(cp.valid())handles.push_back(cp.value);auto budget_leases=p.aggregate.inherited_leases();for(const auto& lease:budget_leases)handles.push_back(lease.value);AttributeList attributes(handles,jobs);
     STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=attributes.list;
     startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
     std::wstring command=L"\""+p.image.path+L"\" "+p.profile.role;for(const auto h:handles)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(h));
@@ -131,10 +131,10 @@ V ObservationWorker::retire(DWORD ms){
     observed.put("retired",V::boolean_value(p.retired));return observed;
 }
 int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfile& profile,const PayloadObservationFactory& factory){
-    if(profile.payload_bytes>16U*1024U*1024U || argc!=(profile.payload_bytes?8:7))return 2;
+    if(profile.payload_bytes>16U*1024U*1024U || argc!=(profile.payload_bytes?10:9))return 2;
     try{
         auto hi=Handle(argument_handle(argv[2])),ho=Handle(argument_handle(argv[3])),hc=Handle(argument_handle(argv[4])),ha=Handle(argument_handle(argv[5])),hg=Handle(argument_handle(argv[6]));
-        Security security;WorkerBudget budget(security,false);Image image;View input(hi.value,FILE_MAP_READ,profile.input_mapping_bytes),output(ho.value,FILE_MAP_WRITE,sizeof(Output)+profile.reply_limits.bytes);
+        Handle slot_lease(argument_handle(argv[profile.payload_bytes?8:7])),guard_lease(argument_handle(argv[profile.payload_bytes?9:8]));Security security;WorkerBudget budget(security,false,slot_lease.value,guard_lease.value);Image image;View input(hi.value,FILE_MAP_READ,profile.input_mapping_bytes),output(ho.value,FILE_MAP_WRITE,sizeof(Output)+profile.reply_limits.bytes);
         const auto* raw=static_cast<const Input*>(input.value);if(!raw->length || raw->length>profile.input_limits.bytes)invalid(profile,"input_size");
         const std::string bytes(reinterpret_cast<const char*>(raw+1),raw->length);const auto h=json::parse(bytes,profile.input_limits);header(h,profile);
         if(text(h,"host_id")!=security.host_id || text(h,"code_sha256")!=image.digest)invalid(profile,"worker_code");

@@ -1,0 +1,103 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W072",
+  "base_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+  "spec_manifest_digest": "sha256:ab99fd76c757be101f938744a32bf689439949cf3f1be71ec1555216e44808b3",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "source/platform/windows/worker_files.h",
+    "docs/code-structure.md",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/native-bootstrap.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/platform/windows/acquisition_worker.cpp",
+    "source/platform/windows/fake_worker.cpp",
+    "source/platform/windows/report_worker.cpp",
+    "source/platform/windows/storage/fat_tree_controller.cpp",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/platform/windows/verification_worker.cpp",
+    "source/platform/windows/worker_files.h",
+    "spec/architecture/execution-topology.md",
+    "spec/catalog/fat-recursive-command-prototype.json",
+    "spec/catalog/frontend-job-coexistence-prototype.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/report-worker-prototype.json",
+    "spec/catalog/verification-worker-prototype.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/operations/acquire-image.md",
+    "spec/safety/degraded-operation.md",
+    "spec/work/units.json",
+    "tests/evidence/test_joined_report_worker.py",
+    "tests/evidence/test_report_worker.py",
+    "tests/evidence/test_verification_worker.py",
+    "tests/images/test_acquisition_worker.py",
+    "tests/resilience/test_worker_budget.py",
+    "tools/build-inputs.json",
+    "spec/catalog/worker-lease-prototype.json",
+    "tests/resilience/test_worker_ancestry.py"
+  ],
+  "summary": "Repair independent Windows caller job ancestry with four inherited leases, preserving private memory/process limits and mixed-version refusal. Historical failures and selected working results retained; no full qualification or owner acceptance.",
+  "tests": [
+    {
+      "command": "cmake --build .aide-local/exfat-command-launch-diagnostic/build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-working/worker-leases-verification-observation-build.log"
+    },
+    {
+      "command": "ctest --test-dir .aide-local/exfat-command-launch-diagnostic/build -C Release --output-on-failure -R \"^(evidence\\.(report_worker|verification_worker)|resilience\\.(worker_ancestry|worker_budget))$\" --output-junit D:/Projects/DiskEd/disked/.aide-local/worker-leases-final-adapters-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-working/worker-leases-final-adapters-junit.xml"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v (earlier working source)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-worker-leases-working/worker-leases-tooling.log"
+    },
+    {
+      "command": "New exact-source full141native campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-working/inventory.json",
+      "sha256": "sha256:11e77a23ce84aea98dfa300dc561fa43402019e22529a1b2a13187684a1a3bcc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-working/summary.json",
+      "sha256": "sha256:4ae2eb904159a9465b51e08e18025586306f5fbca616980e0bc1144dda80e10e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-worker-leases-working/final-adapter-artifact-identities.json",
+      "sha256": "sha256:fc8a1a358e1b91eb4832b7664f0987fe694ed48ab6b997c06cda3f2a0b4f4ea4"
+    }
+  ],
+  "blockers": [
+    "Exact-source full141native/tooling/import/context qualification not yet run.",
+    "Owner acceptance and broader platform/storage/release qualifications remain separate; full original0.1.0 is unfinished."
+  ],
+  "next_safe_step": "Commit/push partial repair to dev, run reproduce-qualified.py at that exact revision, retain terminal result and agent review before main promotion.",
+  "performed_remote_writes": false
+}

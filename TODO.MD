@@ -380,3 +380,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT image.inspect service and all five frontends pass 33 working cases; exact full-native qualification and work-unit review remain.
 
 W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
+
+W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and15selected groups have recorded passing results. New exact141group qualification remains before main promotion.

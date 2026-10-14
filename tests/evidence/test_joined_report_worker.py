@@ -132,10 +132,10 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
     interim=inspect(r['operation_id'],store,fault);before=(store/'report.records').read_bytes();again=start(d,exe=fault)
     check('joined-late-worker-no-replacement',interim['value']['worker_observation']=='running' and again['operation_id']==r['operation_id'] and (store/'report.records').read_bytes()==before)
     process=report_process(interim['value']['state'],fault);assert process
-    job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v1.'+d['definition']['host_id']);assert job
+    job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Report.Attempt.v1.'+d['definition']['host_id']+'.'+r['operation_id']);assert job
     try:
         member=W.BOOL();limits=JobLimits();assert K.IsProcessInJob(process,job,C.byref(member)) and member.value and K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)
-        check('joined-independent-job-limits',limits.basic.flags==0x308 and limits.basic.process_limit==4 and limits.process_memory==128*1024*1024 and limits.job_memory==512*1024*1024)
+        check('joined-independent-private-job-limits',limits.basic.flags==0x108 and limits.basic.process_limit==1 and limits.process_memory==128*1024*1024 and limits.job_memory==0)
     finally:K.CloseHandle(job);K.CloseHandle(process)
     finish('delayed-admission',d,store,output,fault,r)
     d,store,output=prepare('cancel-before-create',fault);r=start(d,exe=fault,extra=dict(DISKED_REPORT_WORKER_TEST_EFFECT_DELAY='1'));cancel=inspect(r['operation_id'],store,fault,True)

@@ -1,0 +1,333 @@
+{
+  "tests": 2,
+  "passed": true,
+  "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-command-launch-diagnostic\\build\\Release\\disked_worker_delayed.exe",
+  "sha256": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+  "observations": [
+    {
+      "test": "actual committed-memory denial in test-only worker",
+      "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-command-launch-diagnostic\\build\\Release\\disked_worker_memory_limit.exe",
+      "sha256": "9f4216cd9f7996d112c6155fffe6b1d759a59e4c41b5e106a810f43ba655d466",
+      "process_memory_limit": 134217728,
+      "peak_process_bytes": 119828480,
+      "worker_exit": 1455,
+      "outcome": {
+        "diagnostics": [
+          {
+            "code": "operation_worker_unresolved",
+            "message_key": "disked.operation_worker_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:24cfb0b50e094b0d43a7be05db7f90da",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "1706f150b055ae62ca653d33109284a121b1e938a78193fb41021db92c604bb6",
+          "operation_id": "fake-op:24cfb0b50e094b0d43a7be05db7f90da",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "prepared",
+            "binding": {
+              "attempt_id": "fake-op:24cfb0b50e094b0d43a7be05db7f90da:attempt:1",
+              "fixture_id": "fake:complete",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "9f4216cd9f7996d112c6155fffe6b1d759a59e4c41b5e106a810f43ba655d466",
+              "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+              "operation_id": "fake-op:24cfb0b50e094b0d43a7be05db7f90da",
+              "process_created": "134364343850094200",
+              "process_id": "43940",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:8fc2be203d9c2878594166d6c97429fb"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "not_started",
+            "last_event": "prepared",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "prepared",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "2",
+            "synthetic_effect_count": "0"
+          },
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      }
+    },
+    {
+      "scope": "current user/session; four inherited kernel leases plus actual private process caps; marker jobs are unassociated",
+      "elapsed_seconds": 6.388074900023639,
+      "identities": {
+        "20776": "134364343866663025",
+        "27612": "134364343867198020",
+        "63356": "134364343867226914",
+        "56340": "134364343867254950"
+      },
+      "flags": 776,
+      "max_workers": 4,
+      "slot_active_limit": 1,
+      "process_memory_limit": 134217728,
+      "job_memory_limit": 536870912,
+      "slot_memory_limit": 134217728,
+      "peak_process_bytes": 5771264,
+      "peak_job_bytes": 22994944,
+      "frontend_memory_limits": {
+        "flags": 256,
+        "process_bytes": 268435456,
+        "job_bytes": 0,
+        "active_limit": 0,
+        "peak_process_bytes": 9121792,
+        "peak_job_bytes": 40919040
+      },
+      "frontend_memory_samples": [
+        {
+          "private_bytes": 5492736,
+          "peak_commit_bytes": 9121792,
+          "working_set_bytes": 13471744,
+          "peak_working_set_bytes": 16859136
+        },
+        {
+          "private_bytes": 5349376,
+          "peak_commit_bytes": 9003008,
+          "working_set_bytes": 13312000,
+          "peak_working_set_bytes": 16711680
+        },
+        {
+          "private_bytes": 5447680,
+          "peak_commit_bytes": 9097216,
+          "working_set_bytes": 13365248,
+          "peak_working_set_bytes": 16748544
+        },
+        {
+          "private_bytes": 5337088,
+          "peak_commit_bytes": 8978432,
+          "working_set_bytes": 13307904,
+          "peak_working_set_bytes": 16719872
+        }
+      ],
+      "worker_members_of_frontend_job": true,
+      "total_assigned": 4,
+      "fifth": {
+        "diagnostics": [
+          {
+            "code": "operation_worker_budget_resource",
+            "message_key": "disked.operation_worker_budget_resource",
+            "parameters": {},
+            "platform_code": "1816",
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:e299d88e82d072729c3e0b811354ca1e",
+        "request_id": "cli",
+        "result": {
+          "admission": "unresolved"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      },
+      "retry": {
+        "diagnostics": [
+          {
+            "code": "operation_history_empty",
+            "message_key": "disked.operation_history_empty",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:e299d88e82d072729c3e0b811354ca1e",
+        "request_id": "cli",
+        "result": {
+          "admission": "existing",
+          "operation_id": "fake-op:e299d88e82d072729c3e0b811354ca1e",
+          "scope": "fake-only"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      },
+      "finals": [
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:61daf7caac8393b47bce185b1fc4c86a",
+          "request_id": "cli",
+          "result": {
+            "last_record_digest": "9979f3e46dc976534da1da78f9c6653970e3c806bb0f5064e80b3db7872904af",
+            "operation_id": "fake-op:61daf7caac8393b47bce185b1fc4c86a",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:61daf7caac8393b47bce185b1fc4c86a:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+                "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+                "operation_id": "fake-op:61daf7caac8393b47bce185b1fc4c86a",
+                "process_created": "134364343866663025",
+                "process_id": "20776",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:c47e4af264a5e4fc7d91641a03dff1d9"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        },
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:0219181cff0c5c53f8d979ee5b868c92",
+          "request_id": "cli",
+          "result": {
+            "last_record_digest": "55607fc0f2b3d3b43cfacbeb60feff56510cad1a3cde247742398281bbed54e4",
+            "operation_id": "fake-op:0219181cff0c5c53f8d979ee5b868c92",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:0219181cff0c5c53f8d979ee5b868c92:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+                "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+                "operation_id": "fake-op:0219181cff0c5c53f8d979ee5b868c92",
+                "process_created": "134364343867198020",
+                "process_id": "27612",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:c165d95403c42f71c31c390573935645"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        },
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:06b70e3ffe240e16fab7acd68d0afa25",
+          "request_id": "cli",
+          "result": {
+            "last_record_digest": "29ff01ce5caef25d6a446a16be8b123be461d7217a789634e44d93983b1ec155",
+            "operation_id": "fake-op:06b70e3ffe240e16fab7acd68d0afa25",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:06b70e3ffe240e16fab7acd68d0afa25:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+                "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+                "operation_id": "fake-op:06b70e3ffe240e16fab7acd68d0afa25",
+                "process_created": "134364343867226914",
+                "process_id": "63356",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:c103e8df246182b6419acd1b7ef433ed"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        },
+        {
+          "diagnostics": [],
+          "evidence": [],
+          "operation_id": "fake-op:6a977a5e1faf41f73df02a6e3992f856",
+          "request_id": "cli",
+          "result": {
+            "last_record_digest": "1c01457e1c577e9a8cb7bcdd26640da596376839e1ff6d49e559bdd6f97d1cd9",
+            "operation_id": "fake-op:6a977a5e1faf41f73df02a6e3992f856",
+            "scope": "fake-only",
+            "state": {
+              "attempt_state": "finished",
+              "binding": {
+                "attempt_id": "fake-op:6a977a5e1faf41f73df02a6e3992f856:attempt:1",
+                "fixture_id": "fake:complete",
+                "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+                "image_digest": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+                "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+                "operation_id": "fake-op:6a977a5e1faf41f73df02a6e3992f856",
+                "process_created": "134364343867254950",
+                "process_id": "56340",
+                "provider_id": "provider.fake.bootstrap/1",
+                "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+                "target_profile": "windows.nt10.x64.win32",
+                "worker_epoch": "worker:5078178458c48493024f8dd2cef90e40"
+              },
+              "cancellation": "not_requested",
+              "effect_certainty": "observed",
+              "last_event": "verified",
+              "logical_state": "completed",
+              "outcome": "succeeded",
+              "phase": "finished",
+              "recovery": "unnecessary",
+              "schema": "org.disked.fake-operation/1",
+              "scope": "fake-only",
+              "sequence": "5",
+              "synthetic_effect_count": "1"
+            },
+            "worker_observation": "exited"
+          },
+          "schema": "org.disked.response/1",
+          "status": "completed"
+        }
+      ]
+    }
+  ]
+}

@@ -260,7 +260,9 @@ void FatTreeController::launch() {
          cb = w::inherited(p.aggregate.job.value, JOB_OBJECT_QUERY);
     std::vector<HANDLE> handles = {ci.value, co.value, cg.value, ca.value,
                                    cp.value, cj.value, cb.value},
-                        jobs = {p.aggregate.job.value, p.job.value};
+                        jobs = {p.job.value};
+    auto budget_leases = p.aggregate.inherited_leases();
+    for (const auto &lease : budget_leases) handles.push_back(lease.value);
     w::AttributeList attributes(handles, jobs);
     STARTUPINFOEXW startup{};
     startup.StartupInfo.cb = sizeof(startup);
@@ -368,7 +370,7 @@ V FatTreeController::observe(DWORD wait_ms) {
     return out;
 }
 int fat_tree_controller_role(int argc, wchar_t **argv) {
-    if (argc != 9)
+    if (argc != 11)
         return 2;
     try {
         w::Handle hi(w::argument_handle(argv[2])), ho(w::argument_handle(argv[3])),
@@ -381,9 +383,9 @@ int fat_tree_controller_role(int argc, wchar_t **argv) {
                 invalid("fat_tree_controller_standard_handle");
         }
         w::Security security;
-        w::WorkerBudget aggregate(security, false);
-        BOOL member = FALSE;
-        if (!IsProcessInJob(GetCurrentProcess(), hb.value, &member) || !member)
+        w::Handle slot_lease(w::argument_handle(argv[9])), guard_lease(w::argument_handle(argv[10]));
+        w::WorkerBudget aggregate(security, false, slot_lease.value, guard_lease.value);
+        if (!w::WorkerBudget::same(hb.value, aggregate.job.value))
             invalid("fat_tree_controller_aggregate");
         job_check(hj.value, true);
         w::Image image;

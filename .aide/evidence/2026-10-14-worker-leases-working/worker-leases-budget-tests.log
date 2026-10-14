@@ -1,0 +1,19 @@
+test_actual_allocation_failure_retains_unresolved_operation (__main__.Budget.test_actual_allocation_failure_retains_unresolved_operation) ... ok
+test_four_workers_hold_the_limit_across_disconnected_clients (__main__.Budget.test_four_workers_hold_the_limit_across_disconnected_clients) ... FAIL
+
+======================================================================
+FAIL: test_four_workers_hold_the_limit_across_disconnected_clients (__main__.Budget.test_four_workers_hold_the_limit_across_disconnected_clients)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\resilience\test_worker_budget.py", line 149, in test_four_workers_hold_the_limit_across_disconnected_clients
+    slots=eventually(lambda:slot_jobs(host));eventually(lambda:bound(directories[0]))
+                                             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\resilience\test_worker_budget.py", line 58, in eventually
+    if time.monotonic() >= deadline: raise AssertionError('bounded fixture wait expired')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: bounded fixture wait expired
+
+----------------------------------------------------------------------
+Ran 2 tests in 8.113s
+
+FAILED (failures=1)

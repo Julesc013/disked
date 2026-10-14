@@ -921,3 +921,19 @@ No public extraction command is admitted by this source checkpoint.
 DE-W047 adds the [complete mapped FAT file extraction backend](fat-extraction.md),
 reusing ordinary-file acquisition checkpoints and verified destination writes.
 The private logical/backing plan2 does not add a public command; 23 command identities remain.
+
+
+The working worker-budget repair uses four inherited kernel leases rather than
+placing independent caller branches in one shared job hierarchy. The
+[private contract](../spec/catalog/worker-lease-prototype.json) preserves existing
+process/memory ceilings and controller descendants. Actual independent-caller,
+disconnect and allocation-denial checks pass; broader qualification remains.
+
+
+Kernel slot objects are namespace leases, not associated process groups. Existing
+private jobs enforce actual 128 MiB process ceilings; four independently retained
+leases bound their total to 512 MiB. Controllers preserve their two-process/
+256 MiB private job and acquire another lease for a child. Two private argv
+capabilities identify the lease and legacy guard by kernel-object comparison.
+There is no caller-job removal or breakaway. Query observers also retain names;
+tests close their own query handles before checking disconnect and reclamation.

@@ -8,6 +8,27 @@
   "records": "Canonical finite hash-chained progress records bind definition, operation, attempt, worker and capture epochs, host, verifier code and actual PID/creation time. Separate phase, progress, terminal verification verdict, cancellation observation, collection retention certainty and provider quiescence. Progress is sampled only after confirmed checkpoints, at most twelve times. Cancellation requests persist independently; late requests cannot rewrite a completed verdict. Provider handles close before quiescent terminal evidence; inspectors observe OS process identity separately.",
   "retention": "Keep the actual terminal typed outcome independently of retention success. Persist a complete typed ImageVerificationCollection under the fixed owned collection filename, binding actual observer epochs/PID/creation time. Flush/readback and full pure restore precede verified retention. Partial writes, torn terminal records, worker exits and uncertain effects remain unresolved and retained. Inspection of a historical completed collection opens only the explicitly selected store, never paths recorded in its bytes. Compatible reads do not require current writer code authority.",
   "watch": "Private finite history reads expose validated records and a digest cursor in the operation/attempt/worker/capture domain. Reject conflicting cursors before advancing; retain the last complete record on torn suffixes. Public negotiated event/frontends and bounded caller request containment remain a later gate.",
-  "limits": {"definition_bytes": 262144, "header_bytes": 278528, "record_bytes": 65536, "history_bytes": 2097152, "records": 32, "progress_samples": 12, "collection_bytes": 1048577, "admission_ms": 3000, "private_processes": 1, "private_memory_bytes": 134217728},
-  "qualification": "Independently verify raw chains, digests, progress counters, actual launch/process identity and collection bytes. Test normal/mismatched images, cancellation before and during reads, late cancellation, delayed admission, repeat-start observation, missing grants, stale resources/code, reserved aliases, malformed/torn records, retention and terminal-store failures. Preserve worker dependencies until actual owned-process exit. Product command count and native verification adapter exclusion remain unchanged."
+  "limits": {
+    "definition_bytes": 262144,
+    "header_bytes": 278528,
+    "record_bytes": 65536,
+    "history_bytes": 2097152,
+    "records": 32,
+    "progress_samples": 12,
+    "collection_bytes": 1048577,
+    "admission_ms": 3000,
+    "private_processes": 1,
+    "private_memory_bytes": 134217728
+  },
+  "qualification": "Independently verify raw chains, digests, progress counters, actual launch/process identity and collection bytes. Test normal/mismatched images, cancellation before and during reads, late cancellation, delayed admission, repeat-start observation, missing grants, stale resources/code, reserved aliases, malformed/torn records, retention and terminal-store failures. Preserve worker dependencies until actual owned-process exit. Product command count and native verification adapter exclusion remain unchanged.",
+  "current_worker_budget_extension": {
+    "work_id": "DE-W072",
+    "contract": "spec/catalog/worker-lease-prototype.json",
+    "status": "working-native-regression-in-progress",
+    "scope": "Four inherited kernel slot leases with existing private worker/controller jobs; preserve every caller ancestry and four/128MiB/512MiB ceilings. Earlier source-bound shared-job qualification remains historical.",
+    "private_handles": "Two additional query-only slot and legacy guard capabilities are explicit in the compiled private role argv. Marker jobs remain unassociated; they are not described as enforcing memory.",
+    "controller": "Controllers retain two-process/256MiB private jobs; each child independently obtains another lease and retains inherited controller restrictions.",
+    "owner_accepted": false,
+    "private_job_observation": "Acquisition/report/verification attempt jobs have unique compiled names and inherited query-only handles. Refuse existing names; do not rewrite jobs. Query actual membership/private limits. Unassociated slot-marker limits are not enforcement."
+  }
 }

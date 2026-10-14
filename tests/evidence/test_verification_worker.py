@@ -175,11 +175,11 @@ def main():
                 assert time.monotonic()<endtime,(name,observed);time.sleep(.025)
             handle=report_process(s,fault)
             assert handle
-            job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v1.'+cd['definition']['host_id']);assert job
+            job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Verification.Attempt.v1.'+cd['definition']['host_id']+'.'+id);assert job
             try:
                 member=W.BOOL();limits=JobLimits();assert K.IsProcessInJob(handle,job,C.byref(member)) and member.value
                 assert K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)
-                check('native-aggregate-budget',limits.basic.flags==0x308 and limits.basic.process_limit==4 and limits.process_memory==128*1024*1024 and limits.job_memory==512*1024*1024)
+                check('native-private-process-budget',limits.basic.flags==0x108 and limits.basic.process_limit==1 and limits.process_memory==128*1024*1024 and limits.job_memory==0)
             finally:K.CloseHandle(job);K.CloseHandle(handle)
             requested=observe(id,cs,fault,'cancel');check('cancel-request-separate',requested['value']['cancellation_request']=='requested')
             end,_,_,_=finish(cd,cs,started,fault,status);s=end['value']['state']

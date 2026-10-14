@@ -548,3 +548,17 @@ in separately compiled test binaries and is not accepted by the product.
 These are tested ordinary Windows process/API boundaries, not physical namespace
 fences, elevated/external-writer protection, power-loss persistence or additional
 platform qualification. Existing map/code-generation resume rules remain in force.
+
+
+The current Windows prototype extends the earlier shared-job mechanism through
+[the worker lease contract](../catalog/worker-lease-prototype.json). Four kernel
+slot leases and existing private jobs preserve the four-worker, 128 MiB per
+process and 512 MiB total ceilings across independent caller job hierarchies.
+Marker jobs remain unassociated; controllers retain their existing two-process/
+256 MiB private job and obtain a separate lease for each child. No caller job is
+removed and no breakaway is used. Parent/child inherited handles retain lease
+names until exit; an existing empty/prepared slot is still occupied. Legacy
+budget conflicts refuse without rewriting existing objects or automatically
+restarting an unresolved operation. This is working private-role evolution;
+normal composition admission requires the recorded native qualification gates.
+Earlier revision-bound shared-job evidence continues to describe its old source.

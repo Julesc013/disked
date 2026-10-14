@@ -1,0 +1,67 @@
+{
+  "tests": 2,
+  "passed": false,
+  "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-command-launch-diagnostic\\build\\Release\\disked_worker_delayed.exe",
+  "sha256": "a50dc9d91ab1cd9d554166bf08a54757858a0b3677ccf8d467c02c64cb2f7cc1",
+  "observations": [
+    {
+      "test": "actual committed-memory denial in test-only worker",
+      "executable": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-command-launch-diagnostic\\build\\Release\\disked_worker_memory_limit.exe",
+      "sha256": "9f4216cd9f7996d112c6155fffe6b1d759a59e4c41b5e106a810f43ba655d466",
+      "process_memory_limit": 134217728,
+      "peak_process_bytes": 119828480,
+      "worker_exit": 1455,
+      "outcome": {
+        "diagnostics": [
+          {
+            "code": "operation_worker_unresolved",
+            "message_key": "disked.operation_worker_unresolved",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": "fake-op:4231c0c9cf4bdeafb52db242a0d0fa96",
+        "request_id": "cli",
+        "result": {
+          "last_record_digest": "40a7ad4995612a94e8bd1a253ff6990a582bb8aee1f0a2046a68b0bd42ca9649",
+          "operation_id": "fake-op:4231c0c9cf4bdeafb52db242a0d0fa96",
+          "scope": "fake-only",
+          "state": {
+            "attempt_state": "prepared",
+            "binding": {
+              "attempt_id": "fake-op:4231c0c9cf4bdeafb52db242a0d0fa96:attempt:1",
+              "fixture_id": "fake:complete",
+              "host_id": "ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7",
+              "image_digest": "9f4216cd9f7996d112c6155fffe6b1d759a59e4c41b5e106a810f43ba655d466",
+              "input_digest": "sha256:4c03b6c6ec1f1acb7068f8e1040233a10c4b75cc7a43b5147e620422203a0c36",
+              "operation_id": "fake-op:4231c0c9cf4bdeafb52db242a0d0fa96",
+              "process_created": "134364342344573358",
+              "process_id": "9844",
+              "provider_id": "provider.fake.bootstrap/1",
+              "source_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+              "target_profile": "windows.nt10.x64.win32",
+              "worker_epoch": "worker:99cf815410a9cd85f049f1e0f85902c3"
+            },
+            "cancellation": "not_requested",
+            "effect_certainty": "not_started",
+            "last_event": "prepared",
+            "logical_state": "active",
+            "outcome": null,
+            "phase": "prepared",
+            "recovery": "unnecessary",
+            "schema": "org.disked.fake-operation/1",
+            "scope": "fake-only",
+            "sequence": "2",
+            "synthetic_effect_count": "0"
+          },
+          "worker_observation": "exited"
+        },
+        "schema": "org.disked.response/1",
+        "status": "unknown"
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "work_id": "DE-W072",
+  "base_revision": "bd6b150fb389da8a3a3e6f5aae08e0607c47a8b3",
+  "scope": "Repair the existing Windows cooperating-worker budget across independent caller job hierarchies, without changing command identities or widening storage authority.",
+  "evidence": "reader-independent-jobs.json: first caller launches; second independent caller retains its private256MiB frontend job but JOB_LIST creation fails5. Handles-only and ordinary creation succeed. Microsoft nested-job rules require one valid ancestry, which the shared aggregate cannot span.",
+  "requirements": [
+    "At most four named kernel slot leases per current user/Windows session. Lease jobs remain unassociated so controllers can launch another leased child while preserving their two-process/256 MiB job. Each compiled process has its existing128 MiB private process limit; four unique process leases therefore bound total worker commitment by512 MiB. Preserve all stricter inherited caller and controller limits.",
+    "Acquire only a newly created slot object under a bounded initialization mutex. An existing slot is occupied, even if empty or still prepared; never rewrite its limits or infer quiescence from its active count.",
+    "Pass query-only duplicates of the selected slot marker and legacy guard in the explicit inherited-handle list and private role argv. Parent and child retain both names; disconnect, timeout, crash and cancellation acknowledgement cannot release a live child slot. Release after actual exit and closure of all retained lease handles.",
+    "The compiled parent passes two explicit query-only slot/legacy guard handles in its private role argv. Workers compare actual kernel objects against exactly four compiled slot names and the legacy guard, validate marker limits and their existing private process job. There is no JSON slot selector. Every worker/controller process obtains its own lease; unassociated markers are never treated as memory-enforcing jobs.",
+    "Keep a legacy v1 guard object with distinct v2 limits while new slots exist. Refuse an existing legacy v1 budget rather than modifying it or assuming idle means no prepared launches. Older strictv1 code rejects the distinct guard limits. The inherited guard lease keeps mixed-version admission fail-closed while any v2 child lives.",
+    "Do not use process breakaway, detach caller jobs, loosen quotas, change ACLs, bypass source/code pins or substitute copied-path success for qualification.",
+    "Test independent caller hierarchies, four simultaneous workers/fifth refusal, actual commitment denial, parent disconnect and inherited lease retention, prepared/occupied slots, legacy conflict, crash/exit reclamation and all existing transports/controllers. Run the eight previously failed groups and a new immutable-source full native campaign before normal admission."
+  ],
+  "public_release_or_owner_acceptance": false,
+  "authorizes_effects": false,
+  "schema": "org.disked.worker-lease-prototype/1",
+  "status": "working-implementation-qualification-pending",
+  "official_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/procthread/nested-jobs",
+    "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"
+  ],
+  "limits": {
+    "worker_slots": 4,
+    "worker_process_bytes": 134217728,
+    "total_worker_bytes": 536870912,
+    "controller_private_process_limit": 2,
+    "controller_private_job_bytes": 268435456
+  },
+  "slot_objects": "Unassociated named job objects retain kernel lease names. Their configured limits are marker validation, not memory enforcement. Existing private worker/controller jobs enforce actual process/memory limits.",
+  "private_role_evolution": "Pass exactly two additional query-only kernel handles in compiled private role argv; child compares them with compiled slot/guard names using CompareObjectHandles. Preserve JSON command identities and code/request/process bindings. Historical private role binaries are retained, but v1/v2 mixed budget admission refuses an existing incompatible guard.",
+  "exhaustion": "A full or prepared four-slot namespace refuses before process creation with operation_worker_budget_resource and platform ERROR_NOT_ENOUGH_QUOTA. A previously allocated durable operation remains unknown; it is not retried automatically.",
+  "lease_lifetime": "Parents and children hold slot and legacy guard handles. Observer query handles also retain names and must close before reclaim is tested. Empty process lists do not authorize replacing an existing lease.",
+  "review": "Not accepted or fully qualified; independent-caller reproduction, working positive product case and four-worker/disconnect/commit-denial checks are partial evidence.",
+  "working_evidence": ".aide/evidence/2026-10-14-worker-leases-working/summary.json",
+  "private_job_observation": "Acquisition/report/verification attempt jobs have unique compiled names and inherited query-only handles. Refuse existing names; do not rewrite jobs. Query actual membership/private limits. Unassociated slot-marker limits are not enforcement."
+}

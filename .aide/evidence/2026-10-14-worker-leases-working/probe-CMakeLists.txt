@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.23)
+project(DiskEdLaunchProbe LANGUAGES CXX)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
+add_executable(launch_attributes launch_attributes.cpp "${DISKED_SOURCE}/source/platform/windows/memory_budget.cpp")
+target_include_directories(launch_attributes PRIVATE "${DISKED_SOURCE}/source")
+target_link_libraries(launch_attributes PRIVATE
+  "${DISKED_BUILD}/Release/disked_local_file.lib"
+  "${DISKED_BUILD}/Release/disked_hash.lib"
+  "${DISKED_BUILD}/Release/disked_json.lib")
+set_target_properties(launch_attributes PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+target_compile_definitions(launch_attributes PRIVATE _WIN32_WINNT=0x0A00)
+target_compile_options(launch_attributes PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)

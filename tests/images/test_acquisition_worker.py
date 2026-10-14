@@ -376,17 +376,17 @@ def main():
         live=inspect('aggregate-membership',active[0][0],active[0][1]['operation_id'],True)
         state=live['value']['state'];handle=owned_process(state,probes[1]);assert handle
         host=live['value']['definition']['host_id']
-        job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Fake.Workers.v1.'+host);assert job
+        job=K.OpenJobObjectW(4,False,'Local\\DiskEd.Acquisition.Attempt.v1.'+host+'.'+active[0][1]['operation_id']);assert job
         try:
             limits=JobLimits();assert K.QueryInformationJobObject(job,9,C.byref(limits),C.sizeof(limits),None)
             member=W.BOOL();assert K.IsProcessInJob(handle,job,C.byref(member)) and member.value
-            assert limits.basic.flags==0x108|0x200 and limits.basic.process_limit==4
-            assert limits.process_memory==128*1024*1024 and limits.job_memory==512*1024*1024
-            workers.append(dict(name='aggregate-budget',limits=dict(active_processes=4,process_bytes=limits.process_memory,job_bytes=limits.job_memory),owned_process_id=state['binding']['process_id']))
+            assert limits.basic.flags==0x108 and limits.basic.process_limit==1
+            assert limits.process_memory==128*1024*1024 and limits.job_memory==0
+            workers.append(dict(name='actual-private-budget',limits=dict(active_processes=1,process_bytes=limits.process_memory,job_bytes=limits.job_memory),owned_process_id=state['binding']['process_id']))
         finally:K.CloseHandle(job);K.CloseHandle(handle)
         req=fixture('aggregate-excess');reviewed=prepare('review-excess-worker',req,True)
         excess=call('excess-worker-is-not-admitted',reviewed,True)
-        assert excess['status']=='unknown' and excess['diagnostic']=='acquisition_spawn_failed' and int(excess['platform_code'])>0,excess
+        assert excess['status']=='unknown' and excess['diagnostic']=='operation_worker_budget_resource' and int(excess['platform_code'])>0,excess
         assert not Path(req['destination']).exists() and not Path(req['map']).exists()
         for i,(req,first) in enumerate(active):
             cancelled=inspect('cancel-aggregate-'+str(i),req,first['operation_id'],True,True)

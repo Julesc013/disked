@@ -188,11 +188,16 @@ V start_acquisition_worker(const V& definition,const V& grant) {
         Handle event(CreateEventW(&attributes,TRUE,FALSE,nullptr));if(!event.valid())worker_files::fail("acquisition_event_create");
         auto child_input=inherited(input.value,GENERIC_READ),child_records=inherited(records.value,FILE_APPEND_DATA|FILE_READ_ATTRIBUTES),child_cancel=inherited(cancel.value,GENERIC_READ),child_event=inherited(event.value,EVENT_MODIFY_STATE|SYNCHRONIZE);
         std::vector<HANDLE> handles={child_input.value,child_records.value,child_cancel.value,child_event.value};
-        WorkerBudget aggregate(security,true);Handle job(CreateJobObjectW(&attributes,nullptr));if(!job.valid())worker_files::fail("acquisition_job_create");
+        WorkerBudget aggregate(security,true);
+        const auto job_name=L"Local\\DiskEd.Acquisition.Attempt.v1."+wide(security.host_id)+L"."+wide(id);
+        SetLastError(ERROR_SUCCESS);Handle job(CreateJobObjectW(&attributes,job_name.c_str()));const auto job_state=GetLastError();
+        if(!job.valid())worker_files::fail("acquisition_job_create");if(job_state==ERROR_ALREADY_EXISTS)throw Failure("acquisition_job_exists",ERROR_ALREADY_EXISTS);
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY;
         limits.BasicLimitInformation.ActiveProcessLimit=1;limits.ProcessMemoryLimit=128*1024*1024;
         if(!SetInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits)))worker_files::fail("acquisition_job_limits");
-        std::vector<HANDLE> jobs={aggregate.job.value,job.value};AttributeList list(handles,jobs);
+        auto budget_leases=aggregate.inherited_leases();for(const auto& lease:budget_leases)handles.push_back(lease.value);
+        auto private_job_lease=inherited(job.value,JOB_OBJECT_QUERY);auto inherited_handles=handles;inherited_handles.push_back(private_job_lease.value);
+        std::vector<HANDLE> jobs={job.value};AttributeList list(inherited_handles,jobs);
         STARTUPINFOEXW startup{};startup.StartupInfo.cb=sizeof(startup);startup.StartupInfo.dwFlags=STARTF_USESTDHANDLES;startup.lpAttributeList=list.list;
         startup.StartupInfo.hStdInput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdOutput=INVALID_HANDLE_VALUE;startup.StartupInfo.hStdError=INVALID_HANDLE_VALUE;
         std::wstring command=L"\""+image.path+L"\" __disked_acquisition_worker";for(const auto h:handles)command+=L" "+std::to_wstring(reinterpret_cast<std::uintptr_t>(h));
@@ -286,8 +291,8 @@ Outcome dispatch_acquisition_operation(const std::string& request,const std::str
 }
 int run_acquisition_worker(int argc,wchar_t** argv) {
     try {
-        if(argc!=6)reject("acquisition_role_arguments");std::vector<HANDLE> capabilities;
-        for(int i=2;i<6;++i)capabilities.push_back(argument_handle(argv[i]));
+        if(argc!=8)reject("acquisition_role_arguments");std::vector<HANDLE> capabilities;
+        for(int i=2;i<8;++i)capabilities.push_back(argument_handle(argv[i]));
         for(std::size_t i=0;i<capabilities.size();++i)for(std::size_t j=0;j<i;++j)if(capabilities[i]==capabilities[j])reject("acquisition_role_capability");
         Handle input(capabilities[0]),records(capabilities[1]),cancel(capabilities[2]),event(capabilities[3]);
         for(const auto h:capabilities)if(!SetHandleInformation(h,HANDLE_FLAG_INHERIT,0))reject("acquisition_role_capability");
@@ -298,7 +303,7 @@ int run_acquisition_worker(int argc,wchar_t** argv) {
         if(input_path.compare(0,4,L"\\\\?\\") || input_path.substr(slash+1)!=request_name || record_path!=parent+records_name || cancel_path!=parent+cancel_name)reject("acquisition_role_capability");
         const auto header=json::parse(read_file(input.value,32768));Directory directory(narrow(parent.substr(4,parent.size()-5)));
         const auto persisted=header_read(directory);if(json::dump(header)!=json::dump(persisted) || text(header,"records_id")!=file_identity(records.value) || text(header,"cancel_id")!=file_identity(cancel.value))reject("acquisition_role_capability");
-        Security security;Image image;applicable(field(header,"definition"),directory,security,image);WorkerBudget aggregate(security,false);
+        Security security;Image image;applicable(field(header,"definition"),directory,security,image);Handle slot_lease(capabilities[4]),guard_lease(capabilities[5]);WorkerBudget aggregate(security,false,slot_lease.value,guard_lease.value);
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION budget{};
         if(!QueryInformationJobObject(nullptr,JobObjectExtendedLimitInformation,&budget,sizeof(budget),nullptr) || budget.BasicLimitInformation.ActiveProcessLimit!=1 || budget.ProcessMemoryLimit!=128*1024*1024 ||
            (budget.BasicLimitInformation.LimitFlags&(JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY))!=(JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY) ||

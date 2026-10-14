@@ -338,3 +338,17 @@ running process; its retired flag remains false. Derive the returned flag and
 process state from one observation to avoid an exit race between separate checks.
 Owned sessions and dependencies remain with the caller while exit is unresolved;
 publication and a retained immutable value do not retire that process.
+
+
+The current Windows prototype extends the earlier shared-job mechanism through
+[the worker lease contract](../catalog/worker-lease-prototype.json). Four kernel
+slot leases and existing private jobs preserve the four-worker, 128 MiB per
+process and 512 MiB total ceilings across independent caller job hierarchies.
+Marker jobs remain unassociated; controllers retain their existing two-process/
+256 MiB private job and obtain a separate lease for each child. No caller job is
+removed and no breakaway is used. Parent/child inherited handles retain lease
+names until exit; an existing empty/prepared slot is still occupied. Legacy
+budget conflicts refuse without rewriting existing objects or automatically
+restarting an unresolved operation. This is working private-role evolution;
+normal composition admission requires the recorded native qualification gates.
+Earlier revision-bound shared-job evidence continues to describe its old source.

@@ -236,27 +236,87 @@ struct AttributeList {
     ~AttributeList() {if(list)DeleteProcThreadAttributeList(list);}
 };
 struct WorkerBudget {
-    Handle job;
-    explicit WorkerBudget(const Security& security,bool create) {
-        const auto name=L"Local\\DiskEd.Fake.Workers.v1."+wide(security.host_id);
-        auto attributes=security.attributes;
-        SetLastError(ERROR_SUCCESS);
-        job=Handle(create?CreateJobObjectW(&attributes,name.c_str()):OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,name.c_str()));
-        const auto error=GetLastError();if(!job.valid())fail("operation_worker_budget_unavailable");
-        const DWORD flags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY|JOB_OBJECT_LIMIT_JOB_MEMORY;
-        if(create && error!=ERROR_ALREADY_EXISTS) {
-            JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};limits.BasicLimitInformation.LimitFlags=flags;
-            limits.BasicLimitInformation.ActiveProcessLimit=4;limits.ProcessMemoryLimit=128*1024*1024;limits.JobMemoryLimit=512*1024*1024;
-            if(!SetInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits)))fail("operation_worker_budget_unavailable");
-        }
-        JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
-        if(!QueryInformationJobObject(job.value,JobObjectExtendedLimitInformation,&limits,sizeof(limits),nullptr) ||
-           limits.BasicLimitInformation.LimitFlags!=flags || limits.BasicLimitInformation.ActiveProcessLimit!=4 ||
-           limits.ProcessMemoryLimit!=128*1024*1024 || limits.JobMemoryLimit!=512*1024*1024)fail("operation_worker_budget_mismatch");
+    // Four unassociated named jobs lease worker slots without imposing a
+    // shared ancestry. Each compiled worker also validates its own128MiB
+    // private process job. Inherited query handles retain names until exit;
+    // a controller child obtains another slot and retains its caller jobs.
+    Handle job, guard;
+    static constexpr DWORD slot_count = 4;
+    static constexpr SIZE_T slot_bytes = 128 * 1024 * 1024;
+    static void configure(HANDLE handle) {
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION value{};
+        value.BasicLimitInformation.LimitFlags=JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY|JOB_OBJECT_LIMIT_JOB_MEMORY;
+        value.BasicLimitInformation.ActiveProcessLimit=1;
+        value.ProcessMemoryLimit=slot_bytes;value.JobMemoryLimit=slot_bytes;
+        if(!SetInformationJobObject(handle,JobObjectExtendedLimitInformation,&value,sizeof(value)))fail("operation_worker_budget_unavailable");
+    }
+    static void validate(HANDLE handle) {
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION value{};
+        if(!QueryInformationJobObject(handle,JobObjectExtendedLimitInformation,&value,sizeof(value),nullptr) ||
+           value.BasicLimitInformation.LimitFlags!=(JOB_OBJECT_LIMIT_ACTIVE_PROCESS|JOB_OBJECT_LIMIT_PROCESS_MEMORY|JOB_OBJECT_LIMIT_JOB_MEMORY) ||
+           value.BasicLimitInformation.ActiveProcessLimit!=1 || value.ProcessMemoryLimit!=slot_bytes || value.JobMemoryLimit!=slot_bytes)
+            fail("operation_worker_budget_mismatch");
+    }
+    static bool same(HANDLE first,HANDLE second) {
+        const auto compare=symbol<BOOL (WINAPI*)(HANDLE,HANDLE)>(GetModuleHandleW(L"kernelbase.dll"),"CompareObjectHandles");
+        if(!compare)fail("operation_worker_budget_identity_api");
+        return compare(first,second)!=FALSE;
+    }
+    explicit WorkerBudget(const Security& security,bool create,HANDLE slot_lease=nullptr,HANDLE guard_lease=nullptr) {
+        const auto base=wide(security.host_id);
+        const auto legacy=L"Local\\DiskEd.Fake.Workers.v1."+base;
         if(!create) {
-            BOOL member=FALSE;
-            if(!IsProcessInJob(GetCurrentProcess(),job.value,&member) || !member)fail("operation_worker_budget_mismatch");
+            guard=Handle(OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,legacy.c_str()));
+            if(!guard.valid())fail("operation_worker_budget_unavailable");
+            validate(guard.value);
+            if(!same(guard.value,guard_lease))fail("operation_worker_budget_mismatch");
+            for(DWORD index=0;index<slot_count;++index) {
+                const auto name=L"Local\\DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
+                Handle candidate(OpenJobObjectW(JOB_OBJECT_QUERY,FALSE,name.c_str()));
+                if(!candidate.valid()) {
+                    if(GetLastError()!=ERROR_FILE_NOT_FOUND)fail("operation_worker_budget_unavailable");
+                    continue;
+                }
+                if(!same(candidate.value,slot_lease))continue;
+                if(job.valid())fail("operation_worker_budget_mismatch");
+                validate(candidate.value);job=std::move(candidate);
+            }
+            if(!job.valid())fail("operation_worker_budget_mismatch");
+            return;
         }
+        auto attributes=security.attributes;
+        const auto mutex_name=L"Local\\DiskEd.Fake.Workers.v2.Init."+base;
+        Handle mutex(CreateMutexW(&attributes,FALSE,mutex_name.c_str()));
+        if(!mutex.valid())fail("operation_worker_budget_unavailable");
+        const auto acquired=WaitForSingleObject(mutex.value,250);
+        if(acquired!=WAIT_OBJECT_0 && acquired!=WAIT_ABANDONED) {
+            if(acquired==WAIT_TIMEOUT)throw Failure("operation_worker_budget_busy",WAIT_TIMEOUT);
+            fail("operation_worker_budget_unavailable");
+        }
+        struct Unlock {HANDLE value;~Unlock(){ReleaseMutex(value);}} unlock{mutex.value};
+        SetLastError(ERROR_SUCCESS);guard=Handle(CreateJobObjectW(&attributes,legacy.c_str()));
+        const auto guard_state=GetLastError();
+        if(!guard.valid())fail("operation_worker_budget_unavailable");
+        // Never rewrite an existing legacy budget, including an empty prepared
+        // v1 budget. Distinct limits make older strict readers refuse this guard.
+        if(guard_state!=ERROR_ALREADY_EXISTS)configure(guard.value);
+        validate(guard.value);
+        for(DWORD index=0;index<slot_count;++index) {
+            const auto name=L"Local\\DiskEd.Fake.Workers.v2."+base+L"."+std::to_wstring(index);
+            SetLastError(ERROR_SUCCESS);
+            Handle candidate(CreateJobObjectW(&attributes,name.c_str()));
+            const auto state=GetLastError();
+            if(!candidate.valid())fail("operation_worker_budget_unavailable");
+            if(state==ERROR_ALREADY_EXISTS)continue;
+            configure(candidate.value);validate(candidate.value);job=std::move(candidate);return;
+        }
+        throw Failure("operation_worker_budget_resource",ERROR_NOT_ENOUGH_QUOTA);
+    }
+    std::vector<Handle> inherited_leases() const {
+        std::vector<Handle> leases;
+        leases.push_back(inherited(job.value,JOB_OBJECT_QUERY));
+        leases.push_back(inherited(guard.value,JOB_OBJECT_QUERY));
+        return leases;
     }
 };
 inline HANDLE argument_handle(const wchar_t* argument) {

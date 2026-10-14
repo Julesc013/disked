@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="4"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="102"
+	timestamp="2026-10-14T18:48:44"
+	>
+	<testcase name="resilience.worker_ancestry" classname="resilience.worker_ancestry" time="4.5017" status="run">
+		<properties/>
+		<system-out>Independent caller jobs: actual second reader completes, first stays unknown, host limits/source preserved
+</system-out>
+	</testcase>
+	<testcase name="evidence.report_worker" classname="evidence.report_worker" time="31.774" status="run">
+		<properties/>
+		<system-out>{
+  "status": "PASS",
+  "scope": "Private native report admission/owned durable state and independent generated-file checks; not public service/frontend or physical/power-loss qualification",
+  "checks": 178,
+  "outputs": [
+    {
+      "bytes": "790",
+      "sha256": "sha256:952c9d7d2374f72997c31a7d8f02fd7b07bc2c719434d401af2f48315321f638",
+      "status": "completed"
+    },
+    {
+      "bytes": "790",
+      "sha256": "sha256:952c9d7d2374f72997c31a7d8f02fd7b07bc2c719434d401af2f48315321f638",
+      "status": "completed"
+    },
+    {
+      "bytes": "0",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "cancelled"
+    },
+    {
+      "bytes": "790",
+      "sha256": "sha256:952c9d7d2374f72997c31a7d8f02fd7b07bc2c719434d401af2f48315321f638",
+      "status": "completed"
+    }
+  ]
+}
+</system-out>
+	</testcase>
+	<testcase name="evidence.verification_worker" classname="evidence.verification_worker" time="57.6409" status="run">
+		<properties/>
+		<system-out>{"status": "passed", "checks": 236, "native_samples": 7}
+</system-out>
+	</testcase>
+	<testcase name="resilience.worker_budget" classname="resilience.worker_budget" time="9.05467" status="run">
+		<properties/>
+		<system-out>test_actual_allocation_failure_retains_unresolved_operation (__main__.Budget.test_actual_allocation_failure_retains_unresolved_operation) ... ok
+test_four_workers_hold_the_limit_across_disconnected_clients (__main__.Budget.test_four_workers_hold_the_limit_across_disconnected_clients) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 8.900s
+
+OK
+</system-out>
+	</testcase>
+</testsuite>
