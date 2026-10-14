@@ -117,6 +117,26 @@ typedef struct de_exfat_bitmap_interval {
     de_u64 first_byte, last_byte;
 } de_exfat_bitmap_interval;
 
+#define DE_EXFAT_UPCASE_FORMAT 1UL
+#define DE_EXFAT_UPCASE_CHECKSUM 2UL
+#define DE_EXFAT_UPCASE_COUNT 4UL
+#define DE_EXFAT_UPCASE_ASCII 8UL
+typedef struct de_exfat_upcase {
+    de_u32 length, consumed, expected_checksum, checksum, mapped, pending_identity;
+    de_u32 issues;
+    unsigned int low_byte;
+    int compressed, half_word, need_count, final, valid;
+} de_exfat_upcase;
+typedef struct de_exfat_upcase_step {
+    de_u32 consumed_bytes, first_mapping, emitted_mappings;
+} de_exfat_upcase_step;
+typedef struct de_exfat_upcase_descriptor {
+    de_view raw;
+    de_u32 issues, table_checksum, first_cluster;
+    de_u64 data_length, heap_bytes;
+    int valid;
+} de_exfat_upcase_descriptor;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -140,6 +160,23 @@ int de_exfat_bitmap_read(const de_view *record, de_u32 clusters, unsigned int cl
 int de_exfat_bitmap_count(const de_view *window, const de_u64 *byte_offset,
                           const de_u64 *data_length, de_u32 clusters, de_u32 first_cluster,
                           de_u32 count, de_u32 bit_budget, de_exfat_bitmap_interval *out);
+/* Private supplied table bytes; map output stays provisional until finish.
+   Calls require disjoint input/state/output and stable borrowed bytes for the
+   full call, including validation and publication passes. Names require a
+   complete validated map supplied by the caller; these functions confer no
+   source identity or acceptance of a map merely because its size is correct. */
+int de_exfat_upcase_descriptor_read(const de_view *record, de_u32 clusters,
+                                    unsigned int cluster_shift, de_exfat_upcase_descriptor *out);
+int de_exfat_upcase_init(de_u32 length, de_u32 checksum, int compressed, de_exfat_upcase *out);
+int de_exfat_upcase_feed(de_exfat_upcase *state, const de_view *chunk, de_u32 offset,
+                         de_u32 byte_budget, de_u32 mapping_budget, unsigned short *mappings,
+                         size_t capacity, de_exfat_upcase_step *step);
+int de_exfat_upcase_finish(de_exfat_upcase *state);
+int de_exfat_name_hash(const unsigned short *mapping, size_t map_count, const unsigned short *units,
+                       size_t count, unsigned short *out);
+int de_exfat_name_equal(const unsigned short *mapping, size_t map_count, const unsigned short *left,
+                        size_t left_count, const unsigned short *right, size_t right_count,
+                        int *out);
 #ifdef __cplusplus
 }
 #endif

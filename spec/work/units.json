@@ -6100,7 +6100,7 @@
       "id": "DE-W066",
       "title": "Validate volume-specific exFAT upcase mappings and name comparison",
       "phase": "M2",
-      "status": "planned",
+      "status": "needs_review",
       "risk": "R2",
       "dependencies": [
         "DE-W065"
@@ -6149,9 +6149,9 @@
         "Private C90 supplied-byte upcase descriptor, streaming checksum/mapping decoder and exact volume-mapped name hash/comparison. Preserve the original full platform/storage0.1.0 programme; no hostIO, root/chain/source authority, normalization, mount or writer admission.",
         "Existing portable/exfat/exfat.h and new upcase.c, reusing checked/view. Caller-owned bounded state and optional map output; no host locale or duplicated universal name framework.",
         "Exactly32borrowed bytes decode in-use82entry, raw TableChecksum, FirstCluster and DataLength with supplied clusterCount1..2^32-11 and clusterbyteshift9..25. Validate nonzero evenlength within heap and format mapping bound, valid firstcluster2..clusterCount+1; preserve reserved bytes as advisory. No root uniqueness or backing-chain claim.",
-        "Caller initializes decoder with exact declared byte length, expected32bit checksum and explicit compressed or uncompressed representation. Bound input to131072rawbytes, enough for all65536uncompressed16bit mappings. Feed borrowed chunks at exact monotonic offsets with per-call byte work budget, carrying split16bitword and compressed-run state across chunks. Reject invalid/capacity/budget/offset calls without changing state/output/input. Malformed content latches explicit issues without inventing mappings. Finalize only at exactlength; verify rotate-right/add modulo2^32checksum over every original byte and exactly65536codeunit mappings. No format selection from ambiguous content; caller selects and records representation.",
+        "Caller initializes decoder with exact declared byte length, expected32bit checksum and explicit compressed or uncompressed representation. Uncompressed input is exactly131072bytes. Bound compressed input to262144rawbytes: each of65536mappings may use at most a marker/count pair, with no zero-length runs. Feed borrowed chunks at exact monotonic offsets with per-call byte work budget, carrying split16bitword and compressed-run state across chunks. Reject invalid/capacity/budget/offset calls without changing state/output/input. Malformed content latches explicit issues without inventing mappings. Finalize only at exactlength; verify rotate-right/add modulo2^32checksum over every original byte and exactly65536codeunit mappings. No format selection from ambiguous content; caller selects and records representation.",
         "In compressed mode, FFFF followed by a nonzero16bitcount describes that many identity mappings when current codeunit is belowFFFF. LiteralFFFFat final codeunit is a mapping, not a marker requiring another word. Missing/zero/runoverflow/extra/short mappings are issues. In uncompressed mode everyword, includingFFFF, is a literal mapping. Verify mandatory0..127mappings: lowercaseASCII maps to uppercase and otherASCII maps to itself. Every other mapping comes from supplied volume bytes, never the host Unicode version.",
-        "Caller may supply an array of65536unsignedshort mapping slots or request validation-only. The map is unpublished/untrusted until final checksum, exactlength/count and mandatory mappings pass. Streaming output is provisional and may include prefixes on media failure; API errors preserve state and output. Each feed checks remaining output capacity before changing it. Preserve original compressed bytes separately; decoded map is not serialized ABI, source freshness or writer authority.",
+        "Caller may supply mapping output slots for each feed or request validation-only, consuming provisional prefixes into a bounded exact65536unit map. Per-call mapping work budget bounds identity-run expansion separately from input bytes; pending runs may drain with emptyinput. The map is unpublished/untrusted until final checksum, exactlength/count and mandatory mappings pass. Streaming output may include prefixes on media failure; API errors preserve state and output. Each feed preflights required output capacity/budgets before changing it. Preserve original compressed bytes separately; decoded map is not serialized ABI, source freshness or writer authority.",
         "After valid final mapping, hash originalUTF16unit names1..255 by upcasing eachunit with that exactmap and applying16bit rotate/add over lowbyte then highbyte. Compare every mappedunit after checking equal lengths; a matching hash never substitutes for full comparison. Preserve original units; no surrogate interpretation, trimming, NFC, path conversion or output normalization. Caller binds map/descriptor/source/epoch externally and cannot claim current lookup or directory uniqueness from this purecomparison alone."
       ],
       "acceptance": [
@@ -6182,7 +6182,10 @@
         "source/portable/primitives/view.h",
         "CMakeLists.txt",
         "tools/build-inputs.json",
-        "spec/catalog/source-maintenance-prototype.json"
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/portable/exfat/upcase.c",
+        "tests/unit/exfat_upcase_probe.cpp",
+        "tests/property/test_exfat_upcase.py"
       ]
     }
   ]

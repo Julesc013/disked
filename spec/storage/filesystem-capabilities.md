@@ -119,7 +119,11 @@ Compressed and uncompressed decoding remain explicitly selected representations;
 all names retain original units. NameHash narrows search but never establishes
 equality without comparing the full volume-mapped units. Root/chain/source/epoch
 binding and coherent directory uniqueness remain later runtime qualification.
-This expected contract precedes implementation; upcase/native tests are not_run.
+The private C90 descriptor/stream/mapping/hash/fullcomparison is implemented.
+Working checks pass244scenarios/9methods and13focusednativegroups, including
+independent complete-map/checksum/namecomparison and protected/read-only output
+capacity checks. Exactclean/source/import/context/tooling qualification and local
+review remain; these facts do not establish source-bound lookup or uniqueness.
 
 ## DE-W025 supplied-byte FAT allocation reader
 
@@ -356,3 +360,14 @@ copy/validation/acknowledgement before reuse; aggregate tree size is not its cap
 Cancellation/publication and confirmed process exit remain separate. Retained
 pages confer no present access, atomicity or mutation authority. Normal readers
 reject fixture controls; public traversal/recursive destination work remains.
+
+
+DE-W066 reaches local implementing-agent review at exact clean source `e43f00fb`.
+Its private supplied-byte upcase descriptor, streaming map and complete name
+comparison pass 244 independent scenarios, 15 selected native groups, one header,
+strict C90/import/context/source checks and 242 tooling tests with two skips.
+Repository evidence at `.aide/evidence/2026-10-14-exfat-upcase-qualified/`
+separates this result from the prior complete native suite.
+Continue bounded root/active-FAT/bitmap/upcase source coherence, then tree/content
+and native integration. The original full platform/storage 0.1.0 and owner,
+production writer/recovery, privilege and release gates remain unfinished.

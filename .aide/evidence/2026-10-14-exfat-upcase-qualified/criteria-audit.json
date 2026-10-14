@@ -1,0 +1,47 @@
+{
+  "work_id": "DE-W066",
+  "source_revision": "e43f00fb494cd12727fc52fcf82cb040a85cde2c",
+  "status": "pass",
+  "owner_accepted": false,
+  "criteria": [
+    {
+      "criterion": 1,
+      "status": "pass",
+      "scope": "Independent descriptor geometry, compressed/literal checksum and full 65536-unit mapping oracle; mandatory ASCII and final FFFF literal.",
+      "evidence": [
+        "exfat-upcase-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 2,
+      "status": "pass",
+      "scope": "Word/run splits, one-byte feeds, malformed rehashed tables and API offset/budget/capacity conservation.",
+      "evidence": [
+        "exfat-upcase-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 3,
+      "status": "pass",
+      "scope": "Independent volume-specific name hashes and full comparison for lengths 1..255, non-ASCII maps, surrogate units and a real hash collision.",
+      "evidence": [
+        "exfat-upcase-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 4,
+      "status": "pass",
+      "scope": "Read-only/protected input and output guards; exact clean native, header, strict C90, imports, context, source hashes and tooling. Prior full-suite evidence is separate.",
+      "evidence": [
+        "commands.json",
+        "artifact-identities.json",
+        "source-inputs.json",
+        "context-manifest.json",
+        "tooling.log"
+      ]
+    }
+  ]
+}

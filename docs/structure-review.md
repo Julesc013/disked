@@ -1,5 +1,32 @@
 # Source structure and release review follow-up
 
+## Current local checkpoint: 14 October 2026
+
+Keep the existing source ownership tree. The [source map](source-map.md) covers
+all 271 current files exactly once. CLI has its own folder; TUI, GUI and shell use
+`tui_model.*`, `gui_model.*` and `shell_model.*`. Shared runtime semantics and native
+terminal/window hosts remain separate. Build-target, header/dependency and shared
+presentation improvements from the supplied review have retained tests. Application
+routing/test-seam cleanup remains incremental work; no demonstrated defect calls
+for a wholesale restructure or speculative future files.
+
+W066 at exact clean `e43f00fb` passes 244 upcase scenarios, 15 selected native
+groups, one header, C90/import/context/source checks and 242 tooling tests with
+two skips. [Evidence and agent review](../.aide/evidence/2026-10-14-exfat-upcase-qualified/README.md) keep the prior complete
+native suite separate. Root/active-FAT/bitmap/upcase source coherence and broader
+tree/content/provider/platform/storage work remain. Tested dev checkpoints can
+merge to main after local review; full 0.1.0 release is not ready.
+
+A fresh read-only GitHub observation found Universal Setup main at `c048f7f1`,
+dev at `2b7a4d01` and open draft [PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+at `8b1837ec132363a7c3a3cfe2412b4927e1645b22`.
+[Its exact-head CI run](https://github.com/Julesc013/universal-setup/actions/runs/38482259213)
+fails `native-windows`; six other jobs pass. This is hosted status, not an
+independent cause diagnosis or DiskEd lifecycle qualification. Both public release
+queries returned empty lists. Historical observations below retain their original
+revisions and results.
+
+
 ## Qualified private exFAT metadata: 14 October 2026
 
 W058 at `1e938369` passes130native groups,42selected headers,242tooling tests with
@@ -29,7 +56,7 @@ wrong step. A repair requires the actual focused label to change and the complet
 entered value to appear before continuing. The original campaign remains retained;
 the repair and W058 full qualification are pending actual frontend validation.
 
-The current file-by-file [source map](source-map.md) explains all 268 source files.
+At the boot-decoder checkpoint, the file-by-file [source map](source-map.md) covered 268 source files.
 CLI has its own folder, and `tui_model.*`, `shell_model.*` and `gui_model.*` use
 consistent private names. Future ownership is specified; future helper filenames
 are chosen when their responsibilities are known. Stable command/spec identities
