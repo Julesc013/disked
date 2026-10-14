@@ -15,6 +15,8 @@ args = parser.parse_args()
 campaign = args.campaign.resolve()
 source = campaign / 'source'
 exe = campaign / 'build/Release/disked.exe'
+console_fixture = Path(__file__).resolve().with_name('ambiguity-console-fixture.py')
+assert console_fixture.is_file()
 sys.path.insert(0, str(source / 'tests/frontend'))
 sys.path.insert(0, str(source / 'tests/images'))
 from gui_fixture import Gui, U, wait
@@ -70,7 +72,7 @@ try:
         for frontend in ['tui', 'shell']:
             report = folder / (frontend + '.json')
             startup = subprocess.STARTUPINFO(); startup.dwFlags = subprocess.STARTF_USESHOWWINDOW; startup.wShowWindow = 0
-            command = [sys.executable, str(campaign / 'ambiguity-console-fixture.py'),
+            command = [sys.executable, str(console_fixture),
                 str(exe), frontend, 'image.inspect', str(path), '-', str(report), json.dumps(options)]
             result = subprocess.run(command, cwd=folder, creationflags=subprocess.CREATE_NEW_CONSOLE,
                                     startupinfo=startup, timeout=35, env=dict(os.environ, PYTHONPATH=str(source / 'tests/frontend')))
