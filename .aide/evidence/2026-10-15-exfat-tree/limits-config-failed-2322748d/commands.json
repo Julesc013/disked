@@ -1,0 +1,62 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-2322748d\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 69.097,
+    "log": "clone.log"
+  },
+  {
+    "name": "sparse",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-2322748d\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.183,
+    "log": "sparse.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "2322748dec5dd3fc0dd994bbda872e01e74c381f"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-2322748d\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 16.647,
+    "log": "checkout.log"
+  },
+  {
+    "name": "x64-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-A",
+      "x64",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-2322748d\\x64",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-2322748d\\source",
+    "exit_code": 1,
+    "elapsed_seconds": 27.728,
+    "log": "x64-configure.log"
+  }
+]
