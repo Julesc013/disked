@@ -5,8 +5,12 @@ DE-W067 combines the existing supplied-byte decoders through
 defines the expected behaviour. This private observer does not open a source,
 mount a volume, traverse every file, extract content or admit a writer.
 
-The caller supplies a source/window/epoch binding, an explicit compressed or
-literal upcase representation, finite budgets and the existing `RegionReader`.
+The caller supplies a source/window/epoch binding, a single typed upcase format,
+finite budgets and the existing `RegionReader`. Compressed and literal choices
+retain the private v1 observation shape. DE-W072 adds automatic interpretation
+with a private v2 shape; the [command profile](../spec/catalog/exfat-command-prototype.json)
+owns that extension. Existing held-file and worker v1 adapters still select an
+explicit representation until automatic frames are implemented and verified.
 Invalid requests are refused before calling the reader. Borrowed views follow
 that port's immutable-lifetime contract; returned JSON owns its observations.
 
@@ -24,6 +28,14 @@ tail bits. Root/active-bitmap/upcase clusters must be unavailable for allocation
 and cannot cross-link. Upcase checksum, mapping count and mandatory mappings
 must pass before publishing the little-endian mapping digest. Neither an
 allocation bit nor a name hash proves ownership or filesystem health.
+
+Automatic interpretation evaluates at most two candidates over the same copied
+table bytes. A sole valid map is selected; two exactly equal maps are equivalent.
+Different valid maps yield `exfat_upcase_representation_ambiguous`, without a
+selected digest or applicability. Candidate initialization, completed evaluation
+and validity remain separate. Resource exhaustion retains completed candidate
+facts and accurately labels unfinished evaluation. Both candidates are charged
+under the existing finite limits; choosing an encoding causes no extra source reads.
 
 Every captured region retains its source offset, length and content digest.
 Overlapping bytes must agree, and all regions are reread within the same request
@@ -45,9 +57,10 @@ It exercises fragmented and inactive-copy fixtures, malformed chains/descriptors
 finite budgets, faulty readers, changed bytes and real protected/read-only views.
 Working results and later exact-source qualification are separate evidence.
 
-Next work binds held ordinary sources and contained readers, then paged
-directory/name and file-content observations including ValidDataLength zero
-filling. The original full platform/storage 0.1.0 programme remains unchanged;
+Held ordinary sources and contained explicit-format readers now have separate
+local qualification. Current work binds automatic interpretation and the common
+exFAT command/frontends, then paged directory/name and file-content observations
+including ValidDataLength zero filling. The original full platform/storage 0.1.0 programme remains unchanged;
 owner, physical-device, production recovery/writer and release gates stay separate.
 
 

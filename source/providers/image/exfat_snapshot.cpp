@@ -104,7 +104,8 @@ ExfatCaptureRequest capture_request(const ExfatSnapshotInput &input, std::uint64
     request.source_bytes = integer(input.expected_source, "bytes");
     request.volume_offset = input.volume_offset;
     request.volume_bytes = input.volume_bytes;
-    request.compressed_upcase = input.compressed_upcase;
+    request.upcase_format =
+        input.compressed_upcase ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal;
     request.limits = input.limits;
     return request;
 }

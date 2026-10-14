@@ -77,7 +77,7 @@ ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint6
     request.source_bytes = maximum;
     request.volume_offset = offset;
     request.volume_bytes = bytes;
-    request.compressed_upcase = compressed;
+    request.upcase_format = compressed ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal;
     request.limits = limits;
     validate_exfat_capture_request(request);
     const auto path = local_file::path_for(input);

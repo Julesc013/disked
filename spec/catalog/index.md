@@ -19,6 +19,7 @@
 - [decisions.json](decisions.json)
 - [exfat-allocation-prototype.json](exfat-allocation-prototype.json)
 - [exfat-capture-prototype.json](exfat-capture-prototype.json)
+- [exfat-command-prototype.json](exfat-command-prototype.json)
 - [exfat-directory-prototype.json](exfat-directory-prototype.json)
 - [exfat-file-prototype.json](exfat-file-prototype.json)
 - [exfat-reader-prototype.json](exfat-reader-prototype.json)

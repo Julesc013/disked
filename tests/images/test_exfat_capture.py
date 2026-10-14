@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'property'))
 from test_exfat import boot, seal
-from test_exfat_upcase import checksum, compress, literal, mapping
+from test_exfat_upcase import checksum, compress, literal, mapping, decode
 from exfat_directory_vectors import file_set, seal as seal_file_set
 
 PROBE = None
@@ -21,7 +21,7 @@ RECEIPTS = []
 
 class Volume:
     def __init__(self, copies=1, active=0, compressed=True, offset=0, shift=9,
-                 cluster_shift=0, clusters=4096, fragmented=True):
+                 cluster_shift=0, clusters=4096, fragmented=True, table=None):
         self.copies = copies
         self.active = active
         self.compressed = compressed
@@ -35,9 +35,10 @@ class Volume:
         self.fat = struct.unpack_from('<I', self.boot, 84)[0] * self.sector
         self.heap = struct.unpack_from('<I', self.boot, 88)[0] * self.sector
         self.root = [2, 9] if fragmented else [2]
-        self.table = mapping()
-        for n in range(128, 800):
-            self.table[n] = (n + 977) % 65535
+        self.table = mapping() if table is None else list(table)
+        if table is None:
+            for n in range(128, 800):
+                self.table[n] = (n + 977) % 65535
         self.upcase = compress(self.table) if compressed else literal(self.table)
         self.bitmap_length = (clusters + 7) // 8
         self.bitmap_chain = [3] + [20 + n * 2 for n in range((self.bitmap_length + self.size - 1) // self.size - 1)]
@@ -130,6 +131,13 @@ def run(rows):
 
 
 class Tests(unittest.TestCase):
+    @staticmethod
+    def automatic(volume):
+        row = volume.request()
+        del row['compressed']
+        row['upcase_format'] = 'auto'
+        return row
+
     def observation(self, row):
         out = run([row])[0]
         self.assertTrue(out['source_unchanged'])
@@ -456,6 +464,119 @@ class Tests(unittest.TestCase):
             row = Volume().request()
             row.update(guard=True, fault=dict(mode=mode, call='2'))
             self.assertEqual(['exfat_read_length'], self.observation(row)['observation']['diagnostics'])
+
+    def test_automatic_unique_and_equivalent_maps_match_full_oracles(self):
+        literal_only = mapping()
+        literal_only[128:130] = [65535, 0]
+        fixtures = [(Volume(copies=2, active=1), 'compressed'),
+                    (Volume(compressed=False, table=literal_only), 'literal'),
+                    (Volume(compressed=False, table=mapping()), 'equivalent')]
+        for volume, selected in fixtures:
+            explicit = self.observation(volume.request())
+            automatic = self.observation(self.automatic(volume))
+            out = automatic['observation']
+            self.assertEqual(explicit['requests'], automatic['requests'])
+            self.assertTrue(out['applicable'], out)
+            self.assertEqual('org.disked.exfat-root-observation/2', out['schema'])
+            self.assertEqual('auto', out['upcase_format'])
+            self.assertNotIn('compressed_upcase', out)
+            facts = out['upcase']
+            self.assertEqual(selected, facts['selection'])
+            self.assertTrue(facts['valid'])
+            expected_hash = 'sha256:' + hashlib.sha256(literal(volume.table)).hexdigest()
+            self.assertEqual(expected_hash, facts['mapping_sha256'])
+            self.assertEqual(2, len(facts['candidates']))
+            for candidate in facts['candidates']:
+                self.assertTrue(candidate['evaluated'])
+                units, issues = decode(volume.upcase, candidate['format'] == 'compressed')
+                self.assertEqual(not issues, candidate['valid'])
+                if candidate['valid']:
+                    self.assertEqual('sha256:' + hashlib.sha256(literal(units)).hexdigest(),
+                                     candidate['details']['mapping_sha256'])
+                else:
+                    self.assertNotIn('mapping_sha256', candidate['details'])
+
+    def test_automatic_ambiguous_and_invalid_maps_confer_no_applicability(self):
+        ambiguous = mapping()
+        ambiguous[128:130] = [65535, 2]
+        bad_ascii = mapping()
+        bad_ascii[97] = 97
+        for table, selection, diagnostic in [
+                (ambiguous, 'ambiguous', 'exfat_upcase_representation_ambiguous'),
+                (bad_ascii, 'invalid', 'exfat_upcase_mapping')]:
+            volume = Volume(compressed=False, table=table)
+            explicit = self.observation(volume.request())
+            automatic = self.observation(self.automatic(volume))
+            out = automatic['observation']
+            self.assertFalse(out['complete'])
+            self.assertFalse(out['applicable'])
+            self.assertEqual([diagnostic], out['diagnostics'])
+            facts = out['upcase']
+            self.assertEqual(selection, facts['selection'])
+            self.assertFalse(facts['valid'])
+            self.assertNotIn('mapping_sha256', facts)
+            # Automatic evaluation reuses exactly one read of the source table.
+            self.assertEqual(automatic['requests'], explicit['requests'][:len(automatic['requests'])])
+            digests = []
+            for candidate in facts['candidates']:
+                units, issues = decode(volume.upcase, candidate['format'] == 'compressed')
+                self.assertTrue(candidate['evaluated'])
+                self.assertEqual(not issues, candidate['valid'])
+                if not issues:
+                    expected = 'sha256:' + hashlib.sha256(literal(units)).hexdigest()
+                    self.assertEqual(expected, candidate['details']['mapping_sha256'])
+                    digests.append(expected)
+            if selection == 'ambiguous':
+                self.assertEqual(2, len(set(digests)))
+                self.assertTrue(explicit['observation']['applicable'])
+                forced = volume.request()
+                forced['compressed'] = True
+                self.assertTrue(self.observation(forced)['observation']['applicable'])
+
+    def test_automatic_budgets_retained_candidates_and_pre_read_format_refusal(self):
+        volume = Volume(compressed=False, table=mapping())
+        explicit = volume.request()
+        explicit['limits'] = dict(retained_bytes='650000')
+        self.assertTrue(self.observation(explicit)['observation']['applicable'])
+        row = self.automatic(volume)
+        row['limits'] = dict(retained_bytes='650000')
+        out = self.observation(row)['observation']
+        self.assertEqual(['exfat_retained_budget'], out['diagnostics'])
+        self.assertFalse(out['applicable'])
+        facts = out['upcase']
+        self.assertEqual('pending', facts['selection'])
+        self.assertFalse(facts['valid'])
+        self.assertNotIn('mapping_sha256', facts)
+        self.assertTrue(facts['candidates'][0]['evaluated'])
+        self.assertTrue(facts['candidates'][0]['valid'])
+        self.assertFalse(facts['candidates'][1]['evaluated'])
+        self.assertFalse(facts['candidates'][1]['valid'])
+        for ceiling in [16384, 32768, 65536]:
+            row = self.automatic(volume)
+            row['limits'] = dict(output_bytes=str(ceiling))
+            out = self.observation(row)['observation']
+            self.assertFalse(out['applicable'])
+            self.assertEqual(['exfat_output_budget'], out['diagnostics'])
+        row = self.automatic(volume)
+        row['upcase_format'] = 'unknown-format'
+        refused = self.observation(row)
+        self.assertEqual('exfat_capture_format', refused['refusal'])
+        self.assertEqual([], refused['requests'])
+
+    def test_automatic_seeded_custom_maps_and_protected_views(self):
+        rng = random.Random(7201)
+        for compressed in [False, True]:
+            for _ in range(4):
+                table = mapping()
+                for _ in range(32):
+                    table[rng.randrange(128, 65535)] = rng.randrange(65535)
+                volume = Volume(copies=2, active=1, compressed=compressed, table=table)
+                row = self.automatic(volume)
+                row['guard'] = True
+                out = self.observation(row)['observation']
+                self.assertTrue(out['applicable'], out)
+                self.assertEqual('sha256:' + hashlib.sha256(literal(table)).hexdigest(),
+                                 out['upcase']['mapping_sha256'])
 
 
 if __name__ == '__main__':
