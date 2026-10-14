@@ -1,0 +1,88 @@
+[
+  {
+    "name": "clone",
+    "command": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 18.119,
+    "log": "clone.log"
+  },
+  {
+    "name": "sparse-selection",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "sparse-selection.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "2545d078b8dd6fc5335cf38314013be3d4c2fc7c"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.039,
+    "log": "checkout.log"
+  },
+  {
+    "name": "initial-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.113,
+    "log": "initial-source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 11.55,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 215.339,
+    "log": "build.log"
+  }
+]

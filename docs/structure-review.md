@@ -1,5 +1,27 @@
 # Source structure and release review follow-up
 
+## Current namespace checkpoint: 15 October 2026
+
+Keep the existing source ownership and explicit frontend names. The source map
+now covers 287 files once, including the shared exFAT upcase map and private
+supplied-directory namespace. The working checks pass 303 namespace cases,
+six selected native groups, 50 standalone headers and 242 tooling tests with
+two skips. Source `2545d078` then passed an isolated clean configure/full build;
+its 142-group native campaign and subsequent exact checks are still running.
+This is progress toward the original scope, not completed 0.1.0 or release approval.
+
+The checkpoint is on remote `dev`; `main` remains `483f88b2` pending qualification.
+Keep historical identities and results; the new [evidence](../.aide/evidence/2026-10-15-exfat-namespace/README.md)
+records current scope and the initial omission-count failure. Later stream/tree,
+ValidDataLength content, contained-worker/frontend, platform/storage and owner
+gates remain separate.
+
+The latest read-only Setup observation is draft PR #237 at `082d6c7f`,
+[run 38583797287](https://github.com/Julesc013/universal-setup/actions/runs/38583797287):
+six jobs succeeded and native-windows remained in progress. The result is pending;
+it does not establish maintenance or DiskEd integration qualification. No release
+date follows from naming improvements or this unfinished campaign.
+
 ## Qualified development checkpoint: 14 October 2026
 
 Exact source `75689f97` builds in a clean checkout and passes all 141 native

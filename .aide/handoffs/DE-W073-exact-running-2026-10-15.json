@@ -1,0 +1,82 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W073",
+  "base_revision": "2545d078b8dd6fc5335cf38314013be3d4c2fc7c",
+  "spec_manifest_digest": "sha256:04a81336a5a7ef77f791a6720ad42ae030c2b3185bf412fe04c7c12d9dcc11a4",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-namespace-prototype.json",
+    "docs/code-structure.md",
+    "docs/structure-review.md",
+    "source/portable/exfat/directory.c",
+    "source/runtime/capture/exfat_capture.cpp",
+    "source/runtime/capture/exfat_upcase.cpp",
+    "source/runtime/capture/exfat_namespace.cpp",
+    "tests/property/test_exfat_namespace.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/build-identity.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/build.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/checkout-selection.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/commands.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/configure.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/exact-running/source-inputs.json"
+  ],
+  "summary": "Exact clean-sparse source configures and builds successfully. Full142 native campaign is currently running in session72846; tooling/context/import/final-source checks follow only after native pass. Working namespace evidence remains separate. No terminal qualification or main promotion yet.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/build.log"
+    },
+    {
+      "command": "Full142 native and subsequent exact tooling/context/import/source campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-namespace-exact-2545d078\\source",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/build-identity.json",
+      "sha256": "sha256:0692dad7744493fb42be87df7e2aee32438ad0788b19f354b8df0604e9a89322"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/build.log",
+      "sha256": "sha256:78a101012fd69d29287c339c184d90dcb95aec9e6e4b7c8fd87f33816fc0ebcb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/checkout-selection.json",
+      "sha256": "sha256:e83ef0bc4f1d0c26c6a741155e2e8a8245e308eb9b3ce846ddc1d9dc59f24a5a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/commands.json",
+      "sha256": "sha256:0d8e5eda0084ca80dce708ce2dc43c085359a0a8502ed915b49ed764012bc475"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/configure.log",
+      "sha256": "sha256:ff56a578888ca861d71a56dc0ca1457c2e3a6d93d63b78dcd9b6bd338489b32a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/exact-running/source-inputs.json",
+      "sha256": "sha256:f36784781c56f3c4f5910e87efaba2237465acf1155a24df175045b327e7a520"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Resume session72846; inspect .aide-local/exfat-namespace-exact-2545d078/current-stage.json and campaign log. Do not start a duplicate campaign. Require terminal full142/50/tooling/import/context/source PASS plus implementing-agent review before integration. Preserve failures and ordinary-file unverified checks.",
+  "performed_remote_writes": true
+}
