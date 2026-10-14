@@ -12,7 +12,19 @@
     "source": "User instruction, 2026-10-12 Australia/Sydney: continue; work on dev and merge to main to keep the remote up to date.",
     "development": "Commit and push development checkpoints to origin/dev; retain tested source identities and incomplete work accurately.",
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
-    "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate."
+    "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
+    "latest_integration": {
+      "checkpoint_revision": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+      "tested_source_revision": "75689f9799c91315f6cba4d876c8a9e46ef7a704",
+      "recorded_at": "2026-10-14T10:18:47.383391+00:00",
+      "branches": {
+        "dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/dev": "de8d990a037ee86fab19f55dbd79ab864d0fc81b",
+        "origin/main": "de8d990a037ee86fab19f55dbd79ab864d0fc81b"
+      },
+      "source": "Successful authorized git push origin/dev and origin/main; fast-forward integration, no force push."
+    }
   },
   "permitted": [
     "Local implementation",
@@ -62,7 +74,7 @@
     "DE-W072"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Integrate the tested, agent-reviewed checkpoint through dev/main. Then define and implement the bounded exFAT namespace/tree/file-content/ValidDataLength extension in existing owners. Owner acceptance, all platforms/storage and release gates remain; original0.1.0 is unfinished.",
+  "next_action": "DE-W072 selected Windows root/active-system slice is tested, agent-reviewed and synchronized through dev/main; owner acceptance remains separate. Define and implement the next bounded exFAT namespace/tree/file-content/ValidDataLength extension in existing owners. Full original0.1.0, other platforms/storage, Setup and release gates remain unfinished.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
