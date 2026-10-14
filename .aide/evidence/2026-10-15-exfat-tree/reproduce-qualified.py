@@ -25,6 +25,17 @@ def save(path, value):
 def sha(path):
     return 'sha256:' + hashlib.sha256(path.read_bytes()).hexdigest()
 
+
+def failed_validation(kind, error, traceback):
+    stage = json.loads((out / 'current-stage.json').read_bytes())
+    stage.update(status='fail', error=repr(error), failure_kind='post-command-validation')
+    save(out / 'current-stage.json', stage)
+    save(out / 'failure.json', stage)
+    sys.__excepthook__(kind, error, traceback)
+
+
+sys.excepthook = failed_validation
+
 def run(name, command, cwd=clone, data=None):
     command = list(map(str, command))
     save(out / 'current-stage.json', dict(stage=name, status='running', source_revision=revision))
@@ -42,7 +53,7 @@ def run(name, command, cwd=clone, data=None):
         raise SystemExit(result.returncode)
     return (out / (name + '.log')).read_bytes()
 
-run('clone', ['git', 'clone', '--local', '--no-hardlinks', '--no-checkout', root, clone], root)
+run('worktree', ['git', 'worktree', 'add', '--detach', '--no-checkout', clone, revision], root)
 def blob(path):
     return json.loads(subprocess.check_output(['git', 'show', revision + ':' + path], cwd=root))
 catalog, registry = blob('tools/build-inputs.json'), blob('spec/catalog/input-dependencies.json')
@@ -82,7 +93,8 @@ run('verify-context', specctl + ['verify-context', out / 'context'])
 identity = json.loads((build / 'generated/build-identity.json').read_bytes())
 dumpbin = Path(identity['compiler_path']).with_name('dumpbin.exe')
 artifacts = []
-for name in ['disked', 'disked_exfat_test', 'exfat_capture_probe', 'exfat_tree_probe', 'exfat_namespace_probe', 'exfat_file_probe',
+for name in ['disked', 'disked_exfat_test', 'gpt_execution_probe', 'command_parser_probe', 'acquisition_command_probe',
+             'exfat_capture_probe', 'exfat_tree_probe', 'exfat_namespace_probe', 'exfat_file_probe',
              'exfat_file_fault', 'exfat_worker_probe', 'exfat_worker_fault', 'report_worker_probe', 'report_worker_fault',
              'verification_worker_probe', 'verification_worker_fault', 'acquisition_worker_probe', 'acquisition_worker_fault']:
     artifact = build / 'Release' / (name + '.exe')
