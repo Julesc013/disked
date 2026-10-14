@@ -391,3 +391,11 @@ excluded. This is not a fresh full native suite or complete archive checkout.
 Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
 Continue actual held source/worker and coherent namespace/tree/content integration;
 owner, other-platform/storage, production and full original release remain.
+
+
+DE-W068 binds the qualified supplied-reader observer to held ordinary image files.
+[Its expected contract](../catalog/exfat-file-prototype.json) reuses local_file
+parent/path/generation checks and requires actual retained-region replay and
+source preservation. The synchronous adapter is not admitted to shared frontends;
+contained worker, coherent namespace/tree/content and the full original
+platform/storage0.1.0 remain. No native implementation result is claimed here.

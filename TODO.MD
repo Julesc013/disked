@@ -370,3 +370,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [x] DE-W066 local exact qualification at `e43f00fb`: 244 scenarios/9 methods, 15 selected native groups, one header, C90/import/context/source and 242 tooling tests with two skips. Four agent-review criteria pass; source/root/chain/namespace/provider/full release remain unfinished.
 
 - [x] DE-W067 local qualification at `bba3d600`: 121 image cases/9 methods, 19 selected native groups, one header, import/context/source and 242 tooling tests with two skips; all four local review criteria pass. Held source/worker/tree/content and full original release remain.
+
+- [ ] DE-W068 active: actual read-only held ordinary-image exFAT source/region replay; expected contract precedes native implementation. Draft unbuilt; worker/tree/content/full original release remain.
