@@ -18,6 +18,12 @@ std::uint64_t number(const V &v) {
         throw std::invalid_argument("probe_number");
     return std::stoull(v.text);
 }
+std::size_t size(const V &v) {
+    const auto n = number(v);
+    if (n > std::numeric_limits<std::size_t>::max())
+        throw std::invalid_argument("probe_size");
+    return static_cast<std::size_t>(n);
+}
 bool boolean(const V &v) {
     if (v.kind != V::Kind::boolean)
         throw std::invalid_argument("probe_bool");
@@ -45,16 +51,15 @@ V run(const V &input) {
         throw std::invalid_argument("probe_checksum");
     const auto format = disked::exfat_upcase_format_from(field(input, "format").text);
     const auto *budget = input.find("map_budget");
-    auto map =
-        disked::ExfatUpcaseMap::read(table, static_cast<unsigned long>(checksum), format,
-                                     budget ? static_cast<std::size_t>(number(*budget)) : 786432);
+    auto map = disked::ExfatUpcaseMap::read(table, static_cast<unsigned long>(checksum), format,
+                                            budget ? size(*budget) : 786432);
     const auto &supplied = field(input, "directories");
     if (supplied.kind != V::Kind::array || supplied.items.size() > 256)
         throw std::invalid_argument("probe_directories");
     std::vector<disked::ExfatNamespaceDirectory> directories;
     for (const auto &d : supplied.items) {
         disked::ExfatNamespaceDirectory dir;
-        dir.id = static_cast<std::size_t>(number(field(d, "id")));
+        dir.id = size(field(d, "id"));
         dir.root = boolean(field(d, "root"));
         dir.extent_complete = boolean(field(d, "complete"));
         const auto &rs = field(d, "records");
@@ -77,7 +82,7 @@ V run(const V &input) {
         throw std::invalid_argument("probe_queries");
     for (const auto &q : qs.items) {
         disked::ExfatNameQuery query;
-        query.directory = static_cast<std::size_t>(number(field(q, "directory")));
+        query.directory = size(field(q, "directory"));
         const auto &name = field(q, "units");
         if (name.kind != V::Kind::array || name.items.size() > 255)
             throw std::invalid_argument("probe_name");
@@ -94,7 +99,7 @@ V run(const V &input) {
         if (l->kind != V::Kind::object)
             throw std::invalid_argument("probe_limit");
         for (const auto &pair : l->fields) {
-            const auto n = static_cast<std::size_t>(number(pair.second));
+            const auto n = size(pair.second);
             if (pair.first == "directories")
                 limits.directories = n;
             else if (pair.first == "records")
