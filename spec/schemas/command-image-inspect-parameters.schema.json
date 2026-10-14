@@ -21,7 +21,8 @@
       "type": "string",
       "enum": [
         "map",
-        "fat"
+        "fat",
+        "exfat"
       ]
     },
     "volume_offset": {
@@ -135,6 +136,14 @@
         "yes",
         "no"
       ]
+    },
+    "upcase_format": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "compressed",
+        "literal"
+      ]
     }
   },
   "required": [
@@ -160,7 +169,8 @@
           "name_code_page": false,
           "lookup": false,
           "allocation_window": false,
-          "retain_capture": false
+          "retain_capture": false,
+          "upcase_format": false
         }
       }
     },
@@ -181,7 +191,8 @@
           "volume_bytes"
         ],
         "properties": {
-          "logical_block_bytes": false
+          "logical_block_bytes": false,
+          "upcase_format": false
         }
       }
     },
@@ -210,6 +221,41 @@
               "no"
             ],
             "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "exfat"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "volume_bytes": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$",
+            "maxLength": 20,
+            "x-disked-scalar": "decimal-u64",
+            "x-disked-minimum": 512
           }
         }
       }

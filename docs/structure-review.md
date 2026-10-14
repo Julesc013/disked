@@ -1,5 +1,25 @@
 # Source structure and release review follow-up
 
+## Working exFAT command checkpoint: 14 October 2026
+
+The source map covers all **283** current files once. Keep the five existing
+owners and the separate CLI/TUI/shell models and shared terminal. New
+`exfat_inspection.*` and `exfat_reader.*` follow the same ownership split as
+their FAT counterparts; no empty future tree or broad naming rewrite is needed.
+
+Automatic transport is locally reviewed at exact `33ee364a`, with four selected
+native groups/four headers, 146 observer/89 file/94 worker cases and 242 tooling
+tests/two skips. The subsequent shared exFAT command and all five frontends pass
+33 working cases; full native build succeeds. Plain-output and independent
+full-array hash coverage pass; exact command qualification remains in progress. These
+working results do not replace the earlier revision-bound qualifications.
+
+Development proceeds on `dev`; only tested, agent-reviewed checkpoints are
+promoted to `main`. The original all-platform/storage 0.1.0 scope, owner
+acceptance and release/storage gates remain unfinished. Current programme and
+the [exFAT contract](exfat-capture.md) record the next bounded implementation.
+
+
 ## Current contained-reader checkpoint: 14 October 2026
 
 Keep the existing source ownership tree. The source map covers all 279 current

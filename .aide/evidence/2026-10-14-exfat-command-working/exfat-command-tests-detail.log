@@ -1,0 +1,24 @@
+CASE cli-compressed
+CASE protocol-compressed
+CASE gui
+CASE tui
+CASE shell
+CASE cli-compressed
+CASE protocol-compressed
+CASE cli-literal
+CASE protocol-literal
+CASE cli-equivalent
+CASE protocol-equivalent
+CASE cli-ambiguous
+CASE protocol-ambiguous
+CASE explicit-literal
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 172, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 122, in main
+    detail = launch('bounded-detail-cli', ['--json', 'image', 'inspect', str(detail_path), *options(detailed)])
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 42, in launch
+    assert result.returncode == expected, (name, result.returncode, result.stdout[:2000], result.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('bounded-detail-cli', 4, b'{"diagnostics":[{"code":"exfat_capture_incomplete","message_key":"disked.exfat_capture_incomplete","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":{"applicability_scope":"root-and-active-system-metadata","authorizes_effects":false,"capture":{"atomic_snapshot":false,"binding_checks":"28","binding_checks_ok":true,"binding_error":"","binding_platform_error":"0","capture_domain":"sha256:d12fc8c190b2720aa79355fed01ccda1815183adfb918f1f292b1fd985a0e6f6","metadata_equal":true,"observed_stable":false,"parent_generations":[{"created":"132201830244609777","file_id":"05000000000005000000000000000000","volume_id":"8302240993133592026"},{"created":"132201830245394998","file_id":"6f060000000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439722109","file_id":"66d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"71d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"85d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"86d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134364254932153029","file_id":"f8870a000000e20f0000000000000000","volume_id":"8302240993133592026"}],"process_created":"134364255000289137","process_id":"57596","replay_equal":true,"sequence":"1","source_after":{"attributes":"32","bytes":"2126509","changed":"134364254999789561","created":"134364254999754215","file_id":"52c30200000046080000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134364254999789561"},"source_before":{"attributes":"32","bytes":"2126509","changed":"134364254999789561","created":"134364254999754215","file_id":"52c30200000046080000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134364254999789561"},"source_consistency":"live-u', b'')

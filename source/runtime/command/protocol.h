@@ -21,6 +21,7 @@ bool report_watch_response(const json::Value& response);
 bool report_response(const json::Value& response);
 bool verification_response(const json::Value& response);
 bool fat_inspection_response(const json::Value& response);
+bool exfat_inspection_response(const json::Value& response);
 bool fat_capture_response(const json::Value& response);
 bool fat_tree_response(const json::Value& response);
 bool fat_recursive_response(const json::Value& response);

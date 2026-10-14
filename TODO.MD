@@ -375,6 +375,6 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W069 local contained-reader qualification at `cce05d17`: all 139 native groups, 69 reader cases/6 methods, 63 file cases/8 methods, exact headers/import/context/source and 242 tooling tests with two skips. Shared retirement and pre-read binding fixes are covered; unavailable symlink, frontend/tree/content and original full release remain.
 
-- [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Automatic file/frame/worker binding and normal image.inspect/frontends remain; original full0.1.0 and owner/storage/release gates stay open.
+- [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Typed automatic file/frame/worker transport is now locally qualified at `33ee364a`; normal image.inspect/frontends require their own qualification; original full0.1.0 and owner/storage/release gates stay open.
 
-DE-W072 transport working stage: strict v2 automatic file/frame/owned-reader passes 89 file cases/11 methods and 94 worker cases/nine methods. Exact source qualification and common command/frontend admission remain.
+DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT image.inspect service and all five frontends pass 33 working cases; exact full-native qualification and work-unit review remain.

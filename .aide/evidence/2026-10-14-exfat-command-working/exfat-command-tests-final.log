@@ -1,0 +1,29 @@
+CASE cli-compressed
+CASE protocol-compressed
+CASE gui
+CASE tui
+CASE shell
+CASE cli-compressed
+CASE protocol-compressed
+CASE cli-literal
+CASE protocol-literal
+CASE cli-equivalent
+CASE protocol-equivalent
+CASE cli-ambiguous
+CASE protocol-ambiguous
+CASE explicit-literal
+CASE bounded-detail-cli
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 228, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 150, in main
+    compare(detail, dict(status='completed', diagnostics=[], result=json.loads(plain.stdout)))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 61, in compare
+    assert stable(left) == stable(right), (stable(left), stable(right))
+                           ~~~~~~^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 55, in stable
+    for key in ['context', 'worker', 'file_sha256', 'capture_sha256']: result.pop(key)
+                                                                       ~~~~~~~~~~^^^^^
+KeyError: 'context'

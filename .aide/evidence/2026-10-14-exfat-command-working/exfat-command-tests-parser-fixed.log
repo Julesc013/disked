@@ -1,0 +1,24 @@
+CASE cli-compressed
+CASE protocol-compressed
+CASE gui
+CASE tui
+CASE shell
+CASE cli-compressed
+CASE protocol-compressed
+CASE cli-literal
+CASE protocol-literal
+CASE cli-equivalent
+CASE protocol-equivalent
+CASE cli-ambiguous
+CASE protocol-ambiguous
+CASE explicit-literal
+CASE invalid-before-source-0
+CASE invalid-before-source-1
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 144, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_exfat_commands.py", line 123, in main
+    assert response['diagnostics'][0]['code'] == diagnostic, (index, response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (1, {'diagnostics': [{'code': 'invalid_option_value', 'message_key': 'disked.invalid_option_value', 'parameters': {'token': 1}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'cli', 'result': None, 'schema': 'org.disked.response/1', 'status': 'refused'})

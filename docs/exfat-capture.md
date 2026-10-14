@@ -82,3 +82,34 @@ headers, 63 file/69 worker regressions and 242 tooling tests with two skips pass
 retain the complete registered/build input closure and excluded unused archive.
 Automatic file/frame/worker transport and normal command/frontends remain;
 no fresh full native suite, whole W072 acceptance or original full0.1.0 claim.
+
+
+The automatic transport stage is locally reviewed at exact clean sparse
+`33ee364a`: four selected native groups/four headers, 146 observer, 89 file and
+94 worker cases plus 242 tooling tests/two skips pass. [Transport evidence](../.aide/evidence/2026-10-14-exfat-transport-qualified/README.md)
+retains the typed v2 input/frame/file relationships, original logs and source
+closure. That result does not qualify the subsequent command implementation.
+
+The working Windows composition now supports:
+
+```text
+disked --json image inspect generated.img --view exfat --volume-offset 0 --volume-bytes 2126336
+```
+
+Supply the actual generated image's volume window. `--upcase-format` accepts
+`auto` (default), `compressed` or `literal`. Automatic ambiguity is a failed
+observation with both candidate findings; explicit selection remains recorded
+and validated. No FAT controls or `--retain-capture` are admitted for this view.
+The current private result covers root and active system metadata, with bounded
+detail and explicit original/returned/omitted counts and full-array hashes.
+It does not qualify a complete directory namespace, file content or extraction.
+
+`runtime/capture/exfat_inspection.*` owns shared parameter validation, projection
+and outcomes. `platform/windows/storage/exfat_reader.*` pins the ordinary file
+and binds the owned process; `exfat_worker.*` owns that process protocol. These
+are separate lifetimes and responsibilities within the existing short owners.
+The same service feeds CLI/protocol/GUI/TUI/shell. Source handles and the callback
+slot survive frontend wait expiry until actual worker exit; static commands and
+inert review do not probe the image. Working frontend checks pass 33 cases,
+including large-detail omissions, reader faults and retained source ownership.
+Exact full-native qualification is pending.
