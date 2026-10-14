@@ -81,7 +81,7 @@
     "DE-W074"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Resume actual exec session81609 and exact11e6f625 campaign; no overlapping build/native qualification. Inspect terminal results, preserve any failures, verify source/artifact hashes and review before integration. On success retain exact evidence and integrate tested checkpoint under the existing grant; full original0.1.0 and owner/storage/release gates remain separate.",
+  "next_action": "Resume actual live session81609 and allow the exact11e6f625 campaign to reach terminal status. Retain complete failures and source/artifact identities, then inspect joined-report read-only preparation latency and any further failures. Do not launch another unchanged full campaign or weaken expectations to get a pass; require a diagnosed repair or concrete evidence supporting a changed qualification method. Main remains at the previous tested checkpoint; full original0.1.0 and owner/storage/release gates remain open.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1290,7 +1290,7 @@
   "in_progress_slice": {
     "work_id": "DE-W075",
     "base_revision": "c03c2d5e9fdc72a62cbb50984824e24288d06be2",
-    "state": "Original39d514f1 full145 has137 passes/eight failures; independent51-header/242-tooling(two skips)/imports/context/source checks pass. Same-artifact eight-group diagnostic and bounded fault-only timing pass. New exact145/header/tooling/import/context campaign at11e6f625 is live. Old delay cause unproven; integration withheld.",
+    "state": "Exact11e6f625 full build passes and145-group native campaign remains live. Joined-report prepare has returned request_wait_expired; this is an observed failure, not terminal campaign status. Previous39d514f1 failures, same-artifact diagnostic passes and bounded timing retained. Source owners/names unchanged; no W075 integration/owner/full0.1.0 claim.",
     "contract": "spec/catalog/exfat-tree-file-prototype.json",
     "owner_accepted": false,
     "working_evidence": ".aide/evidence/2026-10-15-exfat-tree-file/working/summary.json",
@@ -1300,7 +1300,13 @@
       "directory": ".aide-local/exfat-tree-file-exact-11e6f625",
       "status": "running",
       "expected_native_groups": 145,
-      "scope": "Complete exact-source campaign; old failures and diagnostic passes retained, no admission until terminal results/review."
+      "scope": "Complete exact-source campaign; old failures and diagnostic passes retained, no admission until terminal results/review.",
+      "observed_at": "2026-10-14T23:23:48.284955+00:00",
+      "completed_groups_observed": 48,
+      "failed_groups_observed": [
+        "22/145 Test  #22: frontend.joined_report ....................***Failed   12.86 sec"
+      ],
+      "stage_observed": "native"
     },
     "timing_diagnostic": {
       "evidence": ".aide/evidence/2026-10-15-native-delays/timing-working/acquisition-timing-observation/summary.json",
@@ -1349,7 +1355,17 @@
         "exec_session_closed": true,
         "evidence": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json"
       }
-    ]
+    ],
+    "current_observed_issue": {
+      "group": "frontend.joined_report",
+      "command": "evidence.export prepare",
+      "diagnostic": "request_wait_expired",
+      "invocation_exit_code": 6,
+      "test_elapsed_seconds": 12.86,
+      "fixture": ".aide-local/exfat-tree-file-exact-11e6f625/source/.aide-local/disked-acq-worker-_zqxk64f",
+      "cause_established": false,
+      "test_deadlines_changed": false
+    }
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1411,5 +1427,16 @@
     "source": "Authorized git push returned exit0; origin/dev resolves to this revision.",
     "main_revision": "c03c2d5e9fdc72a62cbb50984824e24288d06be2",
     "release_published": false
+  },
+  "latest_setup_observation": {
+    "evidence": ".aide/evidence/2026-10-15-setup-observation-update/summary.json",
+    "pull_head": "f0affc35210d53f4401351cbd24e0a1f55a99571",
+    "passed_jobs": 6,
+    "running_jobs": [
+      "native-windows"
+    ],
+    "release_collection_empty": true,
+    "upstream_code_executed": false,
+    "disked_integration_qualified": false
   }
 }

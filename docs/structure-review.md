@@ -969,3 +969,15 @@ The review then selected DE-W044; subsequent work is recorded in the dated
 updates above and the current programme. Preserve the current source owners;
 address the remaining composition/test seams during implementation and qualify
 each capability against its actual contract.
+
+## 2026-10-15 upstream status refresh
+
+A later read-only observation of Setup PR237 at
+`f0affc35210d53f4401351cbd24e0a1f55a99571` records six successful jobs and
+`native-windows` still in progress; the PR remains a draft. The release query
+returns an empty list. This supersedes the earlier head's failed-job status only
+for this new revision and observation time. It does not diagnose or erase the
+earlier failure, qualify a stable Setup release or establish DiskEd lifecycle
+integration. No upstream code was executed or installed.
+[Retained snapshot](../.aide/evidence/2026-10-15-setup-observation-update/summary.json)
+records the exact PR/job links, branch identities and timestamp.
