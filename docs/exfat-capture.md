@@ -49,3 +49,14 @@ Next work binds held ordinary sources and contained readers, then paged
 directory/name and file-content observations including ValidDataLength zero
 filling. The original full platform/storage 0.1.0 programme remains unchanged;
 owner, physical-device, production recovery/writer and release gates stay separate.
+
+
+DE-W067 reaches local implementing-agent review at exact `bba3d600`: 121 image
+cases in nine methods, 19 selected native groups, one private header, imports,
+context/input hashes and 242 tooling tests with two skips pass. The clean sparse
+checkout contains every registered/build input and all current implementation,
+tests, spec, docs, tools and external files; unused historical evidence is
+excluded. This is not a fresh full native suite or complete archive checkout.
+Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
+Continue actual held source/worker and coherent namespace/tree/content integration;
+owner, other-platform/storage, production and full original release remain.

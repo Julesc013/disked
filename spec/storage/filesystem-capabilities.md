@@ -380,3 +380,14 @@ bitmap membership and exact upcase mapping before implementation. Inactive bitma
 descriptors are historical candidates, never substitutes for active bitmap data.
 Partial coverage or reread disagreement withdraws applicability. Held native
 source, recursive tree/content, frontend and original full release remain later work.
+
+
+DE-W067 reaches local implementing-agent review at exact `bba3d600`: 121 image
+cases in nine methods, 19 selected native groups, one private header, imports,
+context/input hashes and 242 tooling tests with two skips pass. The clean sparse
+checkout contains every registered/build input and all current implementation,
+tests, spec, docs, tools and external files; unused historical evidence is
+excluded. This is not a fresh full native suite or complete archive checkout.
+Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
+Continue actual held source/worker and coherent namespace/tree/content integration;
+owner, other-platform/storage, production and full original release remain.

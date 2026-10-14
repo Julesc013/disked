@@ -1,9 +1,20 @@
 # Source structure and release review follow-up
 
+## Qualified root/system integration: 14 October 2026
+
+The existing runtime/capture and portable/exfat owners now accommodate W067
+without restructuring. Exact clean sparse `bba3d600` passes 121 generated image
+cases/9 methods, 19 selected native groups, one header and 242 tooling tests with
+two skips. [Evidence and agent review](../.aide/evidence/2026-10-14-exfat-capture-qualified/README.md)
+record the complete selected input closure and excluded unused archive. This is
+root/active-system supplied-byte agreement; held native source, worker, paged
+namespace/tree/content and the full original platform/storage release remain.
+
+
 ## Current local checkpoint: 14 October 2026
 
 Keep the existing source ownership tree. The [source map](source-map.md) covers
-all 271 current files exactly once. CLI has its own folder; TUI, GUI and shell use
+all 273 current files exactly once. CLI has its own folder; TUI, GUI and shell use
 `tui_model.*`, `gui_model.*` and `shell_model.*`. Shared runtime semantics and native
 terminal/window hosts remain separate. Build-target, header/dependency and shared
 presentation improvements from the supplied review have retained tests. Application

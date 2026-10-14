@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-capture-profile/1",
   "work_id": "DE-W067",
-  "status": "implemented-working-native-checks-pass-exact-qualification-pending",
+  "status": "locally-qualified-private-supplied-region-root-observer",
   "scope": "Private bounded exFAT bootstrap observation through the existing supplied RegionReader. Decode the main boot region, traverse the root through the active FAT, collect root system descriptors, validate bitmap/upcase backing chains and build the exact volume mapping. No native source opening, public command, recursive extraction or writer admission.",
   "ownership": "source/runtime/capture/exfat_capture.h/.cpp consumes the existing portable/exfat library and capture/region_reader.h. Concrete held-file and contained-worker adapters remain in existing provider/platform owners. No new source root or duplicated FAT format decoder.",
   "request": "Explicit source_id, epoch, source byte length, volume offset and byte length, selected upcase representation and finite read-request/read-byte/cluster/record/retained-byte/output budgets. Validate all limits and checked source/window extents before invoking the reader. Source identifiers are caller-supplied bindings, not authenticated opening rights.",
@@ -27,5 +27,16 @@
   "owner_accepted": false,
   "base_revision": "fd00c35679b2c7e0a980679ad4c97162320d2e9d",
   "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
-  "resource_accounting": "Finite copied-byte accounting is conservative and cumulative for region copies, boot/system buffers, raw records, decoded map and digest encoding; metadata containers are separately bounded by request/cluster/record limits. No total process-memory or atomic snapshot claim."
+  "resource_accounting": "Finite copied-byte accounting is conservative and cumulative for region copies, boot/system buffers, raw records, decoded map and digest encoding; metadata containers are separately bounded by request/cluster/record limits. No total process-memory or atomic snapshot claim.",
+  "qualification": {
+    "source_revision": "bba3d600001109ad4dd370d5320f9bcda2d06e6e",
+    "evidence": ".aide/evidence/2026-10-14-exfat-capture-qualified/summary.json",
+    "review": ".aide/evidence/2026-10-14-exfat-capture-qualified/REVIEW.md",
+    "native_groups_fresh": 19,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "full_native_suite_fresh": false,
+    "source_state": "clean_sparse",
+    "owner_accepted": false
+  }
 }
