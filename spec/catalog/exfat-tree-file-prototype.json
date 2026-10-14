@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-tree-file-profile/1",
   "work_id": "DE-W075",
-  "status": "implemented-working-exact-qualification-pending",
+  "status": "implemented-working-exact-native-regressions-failed",
   "base_revision": "c03c2d5e9fdc72a62cbb50984824e24288d06be2",
   "scope": "Bind the qualified supplied-reader exFAT tree and logical-content collector to an actual held ordinary Windows image file. This advances the original filesystem scope; it does not replace paging, contained-worker/frontend admission, other platforms/storage or the full original0.1.0 finish line.",
   "ownership": "Extend providers/image/exfat_file through the existing held-handle/read/metadata/replay mechanism. Keep root capture v1/v2 outputs and their read order compatible. Runtime/capture/exfat_tree owns collection and limit validation; portable/exfat remains the sole format decoder. No duplicate opener, parser, scheduler or empty source hierarchy.",
@@ -38,5 +38,42 @@
     "full_native_fresh": false,
     "owner_accepted": false,
     "authorizes_effects": false
+  },
+  "exact_validation": {
+    "status": "fail",
+    "work_id": "DE-W075",
+    "source_revision": "39d514f1a606290c63a6a63b2ce9e6d5d6e3e673",
+    "native_groups": 145,
+    "native_failed": [
+      "frontend.product_verification",
+      "frontend.product_export",
+      "frontend.joined_report",
+      "evidence.acquisition_export",
+      "evidence.image_verification_collection",
+      "evidence.verification_commands",
+      "frontend.fat_extraction",
+      "evidence.logical_extraction"
+    ],
+    "native_passed": 137,
+    "full_native_qualified": false,
+    "header_compilations_fresh": 51,
+    "tree_file_cases": 46,
+    "tree_file_methods": 8,
+    "tooling_tests_run": 242,
+    "tooling_tests_skipped": 2,
+    "source_state": "clean_sparse",
+    "inputs_unchanged": true,
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-e3ly3gyv\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-e3ly3gyv\\\\owned-link.img'"
+      }
+    ],
+    "owner_accepted": false,
+    "full_0_1_0_complete": false,
+    "scope": "Private held ordinary-image tree passes; full Windows regression campaign fails. Independent structural/tooling/import observations cannot clear native failures.",
+    "evidence": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json",
+    "integration_withheld": true,
+    "original_failure_cause_established": false
   }
 }

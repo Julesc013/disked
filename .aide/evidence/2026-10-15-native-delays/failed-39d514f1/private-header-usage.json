@@ -1,0 +1,3217 @@
+{
+  "schema" : "org.disked.private-header-usage/1",
+  "targets" : 
+  {
+    "Continuous" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "Experimental" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "Nightly" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "NightlyMemoryCheck" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquired_image_verification_probe" : 
+    {
+      "direct" : [ "disked_file_image_verification", "disked_file_case_source" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_case_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_case_source",
+        "disked_file_report_export",
+        "disked_windows_files"
+      ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_command_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_acquisition_observation",
+        "disked_file_acquisition",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/acquisition_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_export_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_file_case_source",
+        "disked_report_export",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/providers/report/file_export.h",
+        "source/providers/report/file_acquisition_export.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_export_probe" : 
+    {
+      "direct" : [ "disked_file_acquisition_export", "disked_windows_files" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_probe" : 
+    {
+      "direct" : [ "disked_acquisition" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/acquisition_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "acquisition_worker_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/acquisition_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "bootstrap_registry" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "capture_probe" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "case_evidence_probe" : 
+    {
+      "direct" : [ "disked_case_evidence", "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "command_parser_probe" : 
+    {
+      "direct" : [ "disked_command" ],
+      "headers" : [ "source/apps/disked/command_registry.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "compiled_registry_probe" : 
+    {
+      "direct" : [ "disked_command" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_acquisition" : 
+    {
+      "direct" : [ "disked_json", "disked_hash" ],
+      "headers" : 
+      [
+        "source/runtime/acquisition/pipeline.h",
+        "source/runtime/acquisition/operation.h"
+      ],
+      "interface" : [ "disked_json", "disked_hash" ],
+      "interface_headers" : 
+      [
+        "source/runtime/acquisition/pipeline.h",
+        "source/runtime/acquisition/operation.h"
+      ]
+    },
+    "disked_acquisition_commands" : 
+    {
+      "direct" : [ "disked_acquisition", "disked_command" ],
+      "headers" : [ "source/runtime/acquisition/commands.h" ],
+      "interface" : [ "disked_acquisition", "disked_command" ],
+      "interface_headers" : [ "source/runtime/acquisition/commands.h" ]
+    },
+    "disked_acquisition_observation" : 
+    {
+      "direct" : [ "disked_acquisition_commands", "disked_presentation" ],
+      "headers" : [ "source/runtime/acquisition/observation.h" ],
+      "interface" : [ "disked_acquisition_commands", "disked_presentation" ],
+      "interface_headers" : [ "source/runtime/acquisition/observation.h" ]
+    },
+    "disked_acquisition_verification" : 
+    {
+      "direct" : [],
+      "headers" : [],
+      "interface" : [ "disked_report_export" ],
+      "interface_headers" : []
+    },
+    "disked_capture_campaign" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_case_evidence" : 
+    {
+      "direct" : [ "disked_health_observation", "disked_hash", "disked_acquisition" ],
+      "headers" : 
+      [
+        "source/runtime/evidence/case_report.h",
+        "source/runtime/evidence/acquisition_case.h",
+        "source/runtime/evidence/image_verification.h"
+      ],
+      "interface" : [ "disked_health_observation", "disked_hash", "disked_acquisition" ],
+      "interface_headers" : 
+      [
+        "source/runtime/evidence/case_report.h",
+        "source/runtime/evidence/acquisition_case.h",
+        "source/runtime/evidence/image_verification.h"
+      ]
+    },
+    "disked_command" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : 
+      [
+        "source/runtime/command/command.h",
+        "source/runtime/command/protocol.h",
+        "source/runtime/command/shell_lexer.h"
+      ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : 
+      [
+        "source/runtime/command/command.h",
+        "source/runtime/command/protocol.h",
+        "source/runtime/command/shell_lexer.h"
+      ]
+    },
+    "disked_command_headers" : 
+    {
+      "direct" : [ "disked_command" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [ "source/portable/exfat/exfat.h" ],
+      "interface" : [ "disked_primitives" ],
+      "interface_headers" : [ "source/portable/exfat/exfat.h" ]
+    },
+    "disked_exfat_capture" : 
+    {
+      "direct" : 
+      [
+        "disked_region_reader",
+        "disked_json",
+        "disked_exfat_upcase",
+        "disked_exfat",
+        "disked_hash"
+      ],
+      "headers" : [ "source/runtime/capture/exfat_capture.h" ],
+      "interface" : 
+      [
+        "disked_region_reader",
+        "disked_json",
+        "disked_exfat_upcase",
+        "disked_exfat"
+      ],
+      "interface_headers" : [ "source/runtime/capture/exfat_capture.h" ]
+    },
+    "disked_exfat_capture_headers" : 
+    {
+      "direct" : [ "disked_exfat_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_file" : 
+    {
+      "direct" : 
+      [
+        "disked_exfat_capture",
+        "disked_exfat_tree",
+        "disked_local_file",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/exfat_file.h" ],
+      "interface" : [ "disked_exfat_capture", "disked_exfat_tree" ],
+      "interface_headers" : [ "source/providers/image/exfat_file.h" ]
+    },
+    "disked_exfat_file_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_exfat_capture",
+        "disked_exfat_tree",
+        "disked_local_file",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/exfat_file.h" ],
+      "interface" : [ "disked_exfat_capture", "disked_exfat_tree" ],
+      "interface_headers" : [ "source/providers/image/exfat_file.h" ]
+    },
+    "disked_exfat_file_headers" : 
+    {
+      "direct" : [ "disked_exfat_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_headers" : 
+    {
+      "direct" : [ "disked_exfat" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_inspection" : 
+    {
+      "direct" : [ "disked_command", "disked_exfat_capture", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/exfat_inspection.h" ],
+      "interface" : [ "disked_command", "disked_exfat_capture" ],
+      "interface_headers" : [ "source/runtime/capture/exfat_inspection.h" ]
+    },
+    "disked_exfat_inspection_headers" : 
+    {
+      "direct" : [ "disked_exfat_inspection" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_namespace" : 
+    {
+      "direct" : [ "disked_exfat_upcase", "disked_exfat" ],
+      "headers" : [ "source/runtime/capture/exfat_namespace.h" ],
+      "interface" : [ "disked_exfat_upcase" ],
+      "interface_headers" : [ "source/runtime/capture/exfat_namespace.h" ]
+    },
+    "disked_exfat_namespace_headers" : 
+    {
+      "direct" : [ "disked_exfat_namespace" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_reader" : 
+    {
+      "direct" : 
+      [
+        "disked_exfat_worker",
+        "disked_exfat_inspection",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/exfat_reader.h" ],
+      "interface" : [ "disked_exfat_worker", "disked_exfat_inspection" ],
+      "interface_headers" : [ "source/platform/windows/storage/exfat_reader.h" ]
+    },
+    "disked_exfat_reader_headers" : 
+    {
+      "direct" : [ "disked_exfat_reader" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_snapshot" : 
+    {
+      "direct" : [ "disked_exfat_file", "disked_local_file", "disked_hash" ],
+      "headers" : [ "source/providers/image/exfat_snapshot.h" ],
+      "interface" : [ "disked_exfat_file" ],
+      "interface_headers" : [ "source/providers/image/exfat_snapshot.h" ]
+    },
+    "disked_exfat_snapshot_fault" : 
+    {
+      "direct" : [ "disked_exfat_file_fault", "disked_local_file", "disked_hash" ],
+      "headers" : [ "source/providers/image/exfat_snapshot.h" ],
+      "interface" : [ "disked_exfat_file_fault" ],
+      "interface_headers" : [ "source/providers/image/exfat_snapshot.h" ]
+    },
+    "disked_exfat_snapshot_headers" : 
+    {
+      "direct" : [ "disked_exfat_snapshot" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_worker_fault",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/storage/exfat_reader.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_tree" : 
+    {
+      "direct" : [ "disked_exfat_capture", "disked_exfat_namespace", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/exfat_tree.h" ],
+      "interface" : [ "disked_exfat_capture" ],
+      "interface_headers" : [ "source/runtime/capture/exfat_tree.h" ]
+    },
+    "disked_exfat_tree_headers" : 
+    {
+      "direct" : [ "disked_exfat_tree" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_upcase" : 
+    {
+      "direct" : [ "disked_json", "disked_exfat", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/exfat_upcase.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/capture/exfat_upcase.h" ]
+    },
+    "disked_exfat_upcase_headers" : 
+    {
+      "direct" : [ "disked_exfat_upcase" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_exfat_worker" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker",
+        "disked_exfat_snapshot",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/exfat_worker.h" ],
+      "interface" : [ "disked_observation_worker", "disked_exfat_snapshot" ],
+      "interface_headers" : [ "source/platform/windows/storage/exfat_worker.h" ]
+    },
+    "disked_exfat_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker_fault",
+        "disked_exfat_snapshot_fault",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/exfat_worker.h" ],
+      "interface" : [ "disked_observation_worker_fault", "disked_exfat_snapshot_fault" ],
+      "interface_headers" : [ "source/platform/windows/storage/exfat_worker.h" ]
+    },
+    "disked_exfat_worker_headers" : 
+    {
+      "direct" : [ "disked_exfat_worker" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_export_commands" : 
+    {
+      "direct" : [ "disked_report_export", "disked_command" ],
+      "headers" : [ "source/runtime/evidence/export_commands.h" ],
+      "interface" : [ "disked_report_export", "disked_command" ],
+      "interface_headers" : [ "source/runtime/evidence/export_commands.h" ]
+    },
+    "disked_fat" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [ "source/portable/fat/fat.h" ],
+      "interface" : [ "disked_primitives" ],
+      "interface_headers" : [ "source/portable/fat/fat.h" ]
+    },
+    "disked_fat_capture" : 
+    {
+      "direct" : 
+      [
+        "disked_region_reader",
+        "disked_json",
+        "disked_fat_namespace",
+        "disked_fat"
+      ],
+      "headers" : [ "source/runtime/capture/fat_capture.h" ],
+      "interface" : [ "disked_region_reader", "disked_json", "disked_fat_namespace" ],
+      "interface_headers" : [ "source/runtime/capture/fat_capture.h" ]
+    },
+    "disked_fat_capture_headers" : 
+    {
+      "direct" : [ "disked_fat_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_content" : 
+    {
+      "direct" : [ "disked_json", "disked_region_reader", "disked_fat", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/fat_content.h" ],
+      "interface" : [ "disked_json", "disked_region_reader" ],
+      "interface_headers" : [ "source/runtime/capture/fat_content.h" ]
+    },
+    "disked_fat_content_file" : 
+    {
+      "direct" : [ "disked_fat_content", "disked_hash" ],
+      "headers" : [ "source/providers/image/fat_content_file.h" ],
+      "interface" : [ "disked_fat_content" ],
+      "interface_headers" : [ "source/providers/image/fat_content_file.h" ]
+    },
+    "disked_fat_content_file_headers" : 
+    {
+      "direct" : [ "disked_fat_content_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_content_headers" : 
+    {
+      "direct" : [ "disked_fat_content" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_content_stream" : 
+    {
+      "direct" : [ "disked_fat_traversal", "disked_fat", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/fat_content_stream.h" ],
+      "interface" : [ "disked_fat_traversal" ],
+      "interface_headers" : [ "source/runtime/capture/fat_content_stream.h" ]
+    },
+    "disked_fat_content_stream_headers" : 
+    {
+      "direct" : [ "disked_fat_content_stream" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_file" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_content_file",
+        "disked_fat_capture",
+        "disked_local_file",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/fat_file.h" ],
+      "interface" : [ "disked_fat_capture", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/fat_file.h" ]
+    },
+    "disked_fat_file_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_content_file",
+        "disked_fat_capture",
+        "disked_local_file",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/fat_file.h" ],
+      "interface" : [ "disked_fat_capture", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/fat_file.h" ]
+    },
+    "disked_fat_headers" : 
+    {
+      "direct" : [ "disked_fat" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_inspection" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_retention",
+        "disked_command",
+        "disked_fat_namespace",
+        "disked_fat_capture",
+        "disked_hash",
+        "disked_fat_content"
+      ],
+      "headers" : [ "source/runtime/capture/fat_inspection.h" ],
+      "interface" : 
+      [
+        "disked_fat_retention",
+        "disked_command",
+        "disked_fat_namespace",
+        "disked_fat_capture"
+      ],
+      "interface_headers" : [ "source/runtime/capture/fat_inspection.h" ]
+    },
+    "disked_fat_inspection_headers" : 
+    {
+      "direct" : [ "disked_fat_inspection" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_metadata" : 
+    {
+      "direct" : [ "disked_json", "disked_fat" ],
+      "headers" : [ "source/runtime/acquisition/fat_metadata.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/acquisition/fat_metadata.h" ]
+    },
+    "disked_fat_metadata_headers" : 
+    {
+      "direct" : [ "disked_fat_metadata" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_namespace" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [ "source/runtime/capture/fat_namespace.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/capture/fat_namespace.h" ]
+    },
+    "disked_fat_namespace_headers" : 
+    {
+      "direct" : [ "disked_fat_namespace" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_native_metadata" : 
+    {
+      "direct" : [ "disked_fat_metadata" ],
+      "headers" : [ "source/providers/image/fat_native_metadata.h" ],
+      "interface" : [ "disked_fat_metadata" ],
+      "interface_headers" : [ "source/providers/image/fat_native_metadata.h" ]
+    },
+    "disked_fat_native_metadata_headers" : 
+    {
+      "direct" : [ "disked_fat_native_metadata" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_reader" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_worker",
+        "disked_fat_inspection",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_reader.h" ],
+      "interface" : [ "disked_fat_worker", "disked_fat_inspection" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_reader.h" ]
+    },
+    "disked_fat_reader_headers" : 
+    {
+      "direct" : [ "disked_fat_reader" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_retention" : 
+    {
+      "direct" : [ "disked_command", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/fat_retention.h" ],
+      "interface" : [ "disked_command" ],
+      "interface_headers" : [ "source/runtime/capture/fat_retention.h" ]
+    },
+    "disked_fat_retention_headers" : 
+    {
+      "direct" : [ "disked_fat_retention" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_snapshot" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_content_file",
+        "disked_fat_file",
+        "disked_windows_file_names",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/fat_snapshot.h" ],
+      "interface" : [ "disked_fat_content_file", "disked_fat_file" ],
+      "interface_headers" : [ "source/providers/image/fat_snapshot.h" ]
+    },
+    "disked_fat_snapshot_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_content_file",
+        "disked_fat_file_fault",
+        "disked_windows_file_names",
+        "disked_hash"
+      ],
+      "headers" : [ "source/providers/image/fat_snapshot.h" ],
+      "interface" : [ "disked_fat_content_file", "disked_fat_file_fault" ],
+      "interface_headers" : [ "source/providers/image/fat_snapshot.h" ]
+    },
+    "disked_fat_snapshot_headers" : 
+    {
+      "direct" : [ "disked_fat_snapshot" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_worker_fault",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h",
+        "source/platform/windows/storage/fat_reader.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_traversal" : 
+    {
+      "direct" : [ "disked_region_reader", "disked_json", "disked_fat", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/fat_traversal.h" ],
+      "interface" : [ "disked_region_reader", "disked_json" ],
+      "interface_headers" : [ "source/runtime/capture/fat_traversal.h" ]
+    },
+    "disked_fat_traversal_headers" : 
+    {
+      "direct" : [ "disked_fat_traversal" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_actions" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_commands",
+        "disked_fat_tree_watch",
+        "disked_fat_tree_admission",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_reconnect"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_actions.h" ],
+      "interface" : [ "disked_fat_tree_commands", "disked_fat_tree_watch" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_actions.h" ]
+    },
+    "disked_fat_tree_actions_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_commands",
+        "disked_fat_tree_watch",
+        "disked_fat_tree_admission_fault",
+        "disked_fat_tree_controller_fault",
+        "disked_fat_tree_reconnect"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_actions.h" ],
+      "interface" : [ "disked_fat_tree_commands", "disked_fat_tree_watch" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_actions.h" ]
+    },
+    "disked_fat_tree_actions_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_actions" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_admission" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_store",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_review",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_admission.h" ],
+      "interface" : 
+      [
+        "disked_fat_tree_store",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_review"
+      ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_admission.h" ]
+    },
+    "disked_fat_tree_admission_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_store_fault",
+        "disked_fat_tree_extraction_worker_fault",
+        "disked_fat_tree_review",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_admission.h" ],
+      "interface" : 
+      [
+        "disked_fat_tree_store_fault",
+        "disked_fat_tree_extraction_worker_fault",
+        "disked_fat_tree_review"
+      ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_admission.h" ]
+    },
+    "disked_fat_tree_admission_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_admission" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_commands" : 
+    {
+      "direct" : [ "disked_fat_tree_review", "disked_command", "disked_fat_metadata" ],
+      "headers" : [ "source/runtime/acquisition/fat_tree_commands.h" ],
+      "interface" : [ "disked_fat_tree_review", "disked_command" ],
+      "interface_headers" : [ "source/runtime/acquisition/fat_tree_commands.h" ]
+    },
+    "disked_fat_tree_commands_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_commands" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_controller" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_review",
+        "disked_json",
+        "disked_fat_tree_admission",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_controller.h" ],
+      "interface" : [ "disked_fat_tree_review", "disked_json" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_controller.h" ]
+    },
+    "disked_fat_tree_controller_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_review",
+        "disked_json",
+        "disked_fat_tree_admission_fault",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_controller.h" ],
+      "interface" : [ "disked_fat_tree_review", "disked_json" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_controller.h" ]
+    },
+    "disked_fat_tree_controller_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_controller" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_extraction" : 
+    {
+      "direct" : [ "disked_fat_tree_file", "disked_local_file", "disked_hash" ],
+      "headers" : [ "source/providers/image/fat_tree_extraction.h" ],
+      "interface" : [ "disked_fat_tree_file" ],
+      "interface_headers" : [ "source/providers/image/fat_tree_extraction.h" ]
+    },
+    "disked_fat_tree_extraction_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_extraction" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_extraction_worker" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker",
+        "disked_fat_tree_extraction",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_extraction_worker.h" ],
+      "interface" : [ "disked_observation_worker", "disked_fat_tree_extraction" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_extraction_worker.h" ]
+    },
+    "disked_fat_tree_extraction_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker_fault",
+        "disked_fat_tree_extraction",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_extraction_worker.h" ],
+      "interface" : [ "disked_observation_worker_fault", "disked_fat_tree_extraction" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_extraction_worker.h" ]
+    },
+    "disked_fat_tree_extraction_worker_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_extraction_worker" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_file" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_snapshot",
+        "disked_fat_content_stream",
+        "disked_fat_metadata",
+        "disked_local_file",
+        "disked_fat",
+        "disked_fat_native_metadata"
+      ],
+      "headers" : [ "source/providers/image/fat_tree_file.h" ],
+      "interface" : 
+      [
+        "disked_fat_tree_snapshot",
+        "disked_fat_content_stream",
+        "disked_fat_metadata"
+      ],
+      "interface_headers" : [ "source/providers/image/fat_tree_file.h" ]
+    },
+    "disked_fat_tree_file_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_snapshot_fault",
+        "disked_fat_content_stream",
+        "disked_fat_metadata",
+        "disked_local_file",
+        "disked_fat",
+        "disked_fat_native_metadata"
+      ],
+      "headers" : [ "source/providers/image/fat_tree_file.h" ],
+      "interface" : 
+      [
+        "disked_fat_tree_snapshot_fault",
+        "disked_fat_content_stream",
+        "disked_fat_metadata"
+      ],
+      "interface_headers" : [ "source/providers/image/fat_tree_file.h" ]
+    },
+    "disked_fat_tree_file_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_history" : 
+    {
+      "direct" : [ "disked_json", "disked_hash" ],
+      "headers" : [ "source/runtime/evidence/fat_tree_history.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/evidence/fat_tree_history.h" ]
+    },
+    "disked_fat_tree_history_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_history" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_operation" : 
+    {
+      "direct" : [ "disked_fat_tree_review", "disked_json", "disked_hash" ],
+      "headers" : [ "source/runtime/acquisition/fat_tree_operation.h" ],
+      "interface" : [ "disked_fat_tree_review", "disked_json" ],
+      "interface_headers" : [ "source/runtime/acquisition/fat_tree_operation.h" ]
+    },
+    "disked_fat_tree_operation_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_operation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_reconnect" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_operation",
+        "disked_fat_tree_watch",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_reconnect.h" ],
+      "interface" : [ "disked_fat_tree_operation", "disked_fat_tree_watch" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_reconnect.h" ]
+    },
+    "disked_fat_tree_reconnect_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_reconnect" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_review" : 
+    {
+      "direct" : [ "disked_json", "disked_hash" ],
+      "headers" : [ "source/runtime/acquisition/fat_tree_review.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/acquisition/fat_tree_review.h" ]
+    },
+    "disked_fat_tree_review_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_review" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_session" : 
+    {
+      "direct" : [ "disked_command", "disked_fat_traversal", "disked_hash" ],
+      "headers" : [ "source/runtime/capture/fat_tree_session.h" ],
+      "interface" : [ "disked_command", "disked_fat_traversal" ],
+      "interface_headers" : [ "source/runtime/capture/fat_tree_session.h" ]
+    },
+    "disked_fat_tree_session_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_session" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_sessions" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_session",
+        "disked_fat_tree_worker",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_sessions.h" ],
+      "interface" : [ "disked_fat_tree_session" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_sessions.h" ]
+    },
+    "disked_fat_tree_sessions_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_sessions" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_snapshot" : 
+    {
+      "direct" : [ "disked_fat_traversal", "disked_hash" ],
+      "headers" : [ "source/providers/image/fat_tree_snapshot.h" ],
+      "interface" : [ "disked_fat_traversal" ],
+      "interface_headers" : [ "source/providers/image/fat_tree_snapshot.h" ]
+    },
+    "disked_fat_tree_snapshot_fault" : 
+    {
+      "direct" : [ "disked_fat_traversal", "disked_hash" ],
+      "headers" : [ "source/providers/image/fat_tree_snapshot.h" ],
+      "interface" : [ "disked_fat_traversal" ],
+      "interface_headers" : [ "source/providers/image/fat_tree_snapshot.h" ]
+    },
+    "disked_fat_tree_snapshot_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_snapshot" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_store" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_extraction",
+        "disked_fat_tree_review",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_store.h" ],
+      "interface" : [ "disked_fat_tree_extraction", "disked_fat_tree_review" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_store.h" ]
+    },
+    "disked_fat_tree_store_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_extraction",
+        "disked_fat_tree_review",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_store.h" ],
+      "interface" : [ "disked_fat_tree_extraction", "disked_fat_tree_review" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_store.h" ]
+    },
+    "disked_fat_tree_store_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_store" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_watch" : 
+    {
+      "direct" : [ "disked_fat_tree_operation", "disked_json", "disked_hash" ],
+      "headers" : [ "source/runtime/acquisition/fat_tree_watch.h" ],
+      "interface" : [ "disked_fat_tree_operation", "disked_json" ],
+      "interface_headers" : [ "source/runtime/acquisition/fat_tree_watch.h" ]
+    },
+    "disked_fat_tree_watch_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_watch" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_tree_worker" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker",
+        "disked_fat_tree_snapshot",
+        "disked_fat_tree_file",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_worker.h" ],
+      "interface" : [ "disked_observation_worker", "disked_fat_tree_snapshot" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_worker.h" ]
+    },
+    "disked_fat_tree_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker_fault",
+        "disked_fat_tree_snapshot_fault",
+        "disked_fat_tree_file_fault",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_tree_worker.h" ],
+      "interface" : [ "disked_observation_worker_fault", "disked_fat_tree_snapshot_fault" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_tree_worker.h" ]
+    },
+    "disked_fat_tree_worker_headers" : 
+    {
+      "direct" : [ "disked_fat_tree_worker" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_fat_worker" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker",
+        "disked_fat_snapshot",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_worker.h" ],
+      "interface" : [ "disked_observation_worker", "disked_fat_snapshot" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_worker.h" ]
+    },
+    "disked_fat_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_observation_worker_fault",
+        "disked_fat_snapshot_fault",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/fat_worker.h" ],
+      "interface" : [ "disked_observation_worker_fault", "disked_fat_snapshot_fault" ],
+      "interface_headers" : [ "source/platform/windows/storage/fat_worker.h" ]
+    },
+    "disked_fat_worker_headers" : 
+    {
+      "direct" : [ "disked_fat_worker" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_file_acquisition" : 
+    {
+      "direct" : 
+      [
+        "disked_acquisition",
+        "disked_local_file",
+        "disked_fat_capture",
+        "disked_fat_content_file"
+      ],
+      "headers" : [ "source/providers/image/file_acquisition.h" ],
+      "interface" : [ "disked_acquisition", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/file_acquisition.h" ]
+    },
+    "disked_file_acquisition_export" : 
+    {
+      "direct" : [ "disked_file_case_source", "disked_file_report_export" ],
+      "headers" : [ "source/providers/report/file_acquisition_export.h" ],
+      "interface" : [ "disked_file_case_source", "disked_file_report_export" ],
+      "interface_headers" : [ "source/providers/report/file_acquisition_export.h" ]
+    },
+    "disked_file_case_source" : 
+    {
+      "direct" : [ "disked_report_export", "disked_local_file", "disked_windows_files" ],
+      "headers" : 
+      [
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_image_collection.h"
+      ],
+      "interface" : [ "disked_report_export", "disked_local_file" ],
+      "interface_headers" : 
+      [
+        "source/providers/report/file_case.h",
+        "source/providers/report/file_image_collection.h"
+      ]
+    },
+    "disked_file_image_verification" : 
+    {
+      "direct" : [ "disked_case_evidence", "disked_local_file" ],
+      "headers" : [ "source/providers/image/file_verification.h" ],
+      "interface" : [ "disked_case_evidence", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/file_verification.h" ]
+    },
+    "disked_file_report_export" : 
+    {
+      "direct" : [ "disked_report_export", "disked_local_file" ],
+      "headers" : [ "source/providers/report/file_export.h" ],
+      "interface" : [ "disked_report_export", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/report/file_export.h" ]
+    },
+    "disked_file_verification_case_export" : 
+    {
+      "direct" : 
+      [
+        "disked_acquisition_verification",
+        "disked_file_case_source",
+        "disked_file_report_export"
+      ],
+      "headers" : [ "source/providers/report/file_verification_case_export.h" ],
+      "interface" : 
+      [
+        "disked_acquisition_verification",
+        "disked_file_case_source",
+        "disked_file_report_export"
+      ],
+      "interface_headers" : [ "source/providers/report/file_verification_case_export.h" ]
+    },
+    "disked_file_wait" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_gpt" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [ "source/portable/gpt/gpt.h" ],
+      "interface" : [ "disked_primitives" ],
+      "interface_headers" : [ "source/portable/gpt/gpt.h" ]
+    },
+    "disked_gpt_capture" : 
+    {
+      "direct" : [ "disked_map_observation", "disked_gpt_repair_planning" ],
+      "headers" : [ "source/runtime/capture/gpt_capture.h" ],
+      "interface" : [ "disked_map_observation", "disked_gpt_repair_planning" ],
+      "interface_headers" : [ "source/runtime/capture/gpt_capture.h" ]
+    },
+    "disked_gpt_fixture_execution" : 
+    {
+      "direct" : [ "disked_gpt_repair_planning", "disked_journal_prototype" ],
+      "headers" : [ "source/runtime/operation/gpt_execution.h" ],
+      "interface" : [ "disked_gpt_repair_planning", "disked_journal_prototype" ],
+      "interface_headers" : [ "source/runtime/operation/gpt_execution.h" ]
+    },
+    "disked_gpt_fixture_files" : 
+    {
+      "direct" : [ "disked_gpt_fixture_restoration", "disked_local_file" ],
+      "headers" : [ "source/providers/image/fixture_repair.h" ],
+      "interface" : [ "disked_gpt_fixture_restoration", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/fixture_repair.h" ]
+    },
+    "disked_gpt_fixture_restoration" : 
+    {
+      "direct" : [ "disked_gpt_fixture_execution" ],
+      "headers" : [ "source/runtime/recovery/gpt_restoration.h" ],
+      "interface" : [ "disked_gpt_fixture_execution" ],
+      "interface_headers" : [ "source/runtime/recovery/gpt_restoration.h" ]
+    },
+    "disked_gpt_repair_planning" : 
+    {
+      "direct" : [ "disked_gpt", "disked_mbr", "disked_hash", "disked_json" ],
+      "headers" : [ "source/runtime/planner/gpt_repair.h" ],
+      "interface" : [ "disked_gpt", "disked_mbr", "disked_hash", "disked_json" ],
+      "interface_headers" : [ "source/runtime/planner/gpt_repair.h" ]
+    },
+    "disked_guarded_model" : 
+    {
+      "direct" : [ "disked_plan_prototype" ],
+      "headers" : [ "source/runtime/journal/guarded_model.h" ],
+      "interface" : [ "disked_plan_prototype" ],
+      "interface_headers" : [ "source/runtime/journal/guarded_model.h" ]
+    },
+    "disked_gui" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [ "source/apps/disked/gui/gui_model.h" ],
+      "interface" : [ "disked_presentation" ],
+      "interface_headers" : [ "source/apps/disked/gui/gui_model.h" ]
+    },
+    "disked_gui_unavailable" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_hash" : 
+    {
+      "direct" : [],
+      "headers" : [ "source/portable/hash/sha256.h" ],
+      "interface" : [],
+      "interface_headers" : [ "source/portable/hash/sha256.h" ]
+    },
+    "disked_health_observation" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [ "source/runtime/evidence/health.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/evidence/health.h" ]
+    },
+    "disked_image_actions" : 
+    {
+      "direct" : 
+      [
+        "disked_map_observation",
+        "disked_gpt_repair_planning",
+        "disked_command",
+        "disked_fat_inspection",
+        "disked_exfat_inspection"
+      ],
+      "headers" : [ "source/runtime/capture/image_commands.h" ],
+      "interface" : 
+      [
+        "disked_map_observation",
+        "disked_gpt_repair_planning",
+        "disked_command",
+        "disked_fat_inspection",
+        "disked_exfat_inspection"
+      ],
+      "interface_headers" : [ "source/runtime/capture/image_commands.h" ]
+    },
+    "disked_image_capture" : 
+    {
+      "direct" : [ "disked_gpt_capture", "disked_local_file" ],
+      "headers" : [ "source/providers/image/file_capture.h" ],
+      "interface" : [ "disked_gpt_capture", "disked_local_file" ],
+      "interface_headers" : [ "source/providers/image/file_capture.h" ]
+    },
+    "disked_image_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_gpt_capture",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h",
+        "source/providers/image/file_capture.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_invocation" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [ "source/runtime/invocation/policy.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/runtime/invocation/policy.h" ]
+    },
+    "disked_invocation_headers" : 
+    {
+      "direct" : [ "disked_invocation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_journal_prototype" : 
+    {
+      "direct" : [ "disked_hash" ],
+      "headers" : [ "source/runtime/journal/codec.h" ],
+      "interface" : [ "disked_hash" ],
+      "interface_headers" : [ "source/runtime/journal/codec.h" ]
+    },
+    "disked_journal_semantics" : 
+    {
+      "direct" : [ "disked_plan_prototype" ],
+      "headers" : [ "source/runtime/journal/semantics.h" ],
+      "interface" : [ "disked_plan_prototype" ],
+      "interface_headers" : [ "source/runtime/journal/semantics.h" ]
+    },
+    "disked_json" : 
+    {
+      "direct" : [],
+      "headers" : [ "source/runtime/command/json.h" ],
+      "interface" : [],
+      "interface_headers" : [ "source/runtime/command/json.h" ]
+    },
+    "disked_json_headers" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_local_file" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [ "source/providers/image/local_file.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/providers/image/local_file.h" ]
+    },
+    "disked_map_observation" : 
+    {
+      "direct" : 
+      [
+        "disked_region_reader",
+        "disked_mbr",
+        "disked_gpt",
+        "disked_presentation",
+        "disked_gpt_repair_planning"
+      ],
+      "headers" : 
+      [
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/capture_port.h"
+      ],
+      "interface" : 
+      [
+        "disked_region_reader",
+        "disked_mbr",
+        "disked_gpt",
+        "disked_presentation",
+        "disked_gpt_repair_planning"
+      ],
+      "interface_headers" : 
+      [
+        "source/runtime/capture/map_observation.h",
+        "source/runtime/capture/capture_port.h"
+      ]
+    },
+    "disked_mbr" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [ "source/portable/mbr/mbr.h", "source/portable/ebr/ebr.h" ],
+      "interface" : [ "disked_primitives" ],
+      "interface_headers" : [ "source/portable/mbr/mbr.h", "source/portable/ebr/ebr.h" ]
+    },
+    "disked_memory_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_model_journal_producer" : 
+    {
+      "direct" : [ "disked_journal_semantics" ],
+      "headers" : [ "source/runtime/journal/producer.h" ],
+      "interface" : [ "disked_journal_semantics" ],
+      "interface_headers" : [ "source/runtime/journal/producer.h" ]
+    },
+    "disked_observation_worker" : 
+    {
+      "direct" : 
+      [
+        "disked_json",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/observation_worker.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/platform/windows/storage/observation_worker.h" ]
+    },
+    "disked_observation_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_json",
+        "disked_local_file",
+        "disked_hash",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/storage/observation_worker.h" ],
+      "interface" : [ "disked_json" ],
+      "interface_headers" : [ "source/platform/windows/storage/observation_worker.h" ]
+    },
+    "disked_observation_worker_headers" : 
+    {
+      "direct" : [ "disked_observation_worker" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_plan_prototype" : 
+    {
+      "direct" : [ "disked_journal_prototype", "disked_json" ],
+      "headers" : [ "source/runtime/journal/definitions.h" ],
+      "interface" : [ "disked_journal_prototype", "disked_json" ],
+      "interface_headers" : [ "source/runtime/journal/definitions.h" ]
+    },
+    "disked_presentation" : 
+    {
+      "direct" : [ "disked_command", "disked_hash" ],
+      "headers" : 
+      [
+        "source/runtime/operation/fake_operation.h",
+        "source/runtime/operation/watch.h",
+        "source/runtime/graph/snapshot.h",
+        "source/runtime/graph/capture.h",
+        "source/runtime/presentation/session.h",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/text_input.h"
+      ],
+      "interface" : [ "disked_command", "disked_hash" ],
+      "interface_headers" : 
+      [
+        "source/runtime/operation/fake_operation.h",
+        "source/runtime/operation/watch.h",
+        "source/runtime/graph/snapshot.h",
+        "source/runtime/graph/capture.h",
+        "source/runtime/presentation/session.h",
+        "source/runtime/presentation/requests.h",
+        "source/runtime/presentation/text_input.h"
+      ]
+    },
+    "disked_presentation_headers" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_primitives" : 
+    {
+      "direct" : [],
+      "headers" : 
+      [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h"
+      ],
+      "interface" : [],
+      "interface_headers" : 
+      [
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/extent.h"
+      ]
+    },
+    "disked_provider_guard" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_recursive_disabled" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_recursive_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions_fault",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller_fault",
+        "disked_fat_tree_extraction_worker_fault",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_region_reader" : 
+    {
+      "direct" : [],
+      "headers" : [ "source/runtime/capture/region_reader.h" ],
+      "interface" : [ "disked_primitives" ],
+      "interface_headers" : [ "source/runtime/capture/region_reader.h" ]
+    },
+    "disked_region_reader_headers" : 
+    {
+      "direct" : [ "disked_region_reader" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_report_export" : 
+    {
+      "direct" : [ "disked_case_evidence" ],
+      "headers" : 
+      [
+        "source/runtime/evidence/report_export.h",
+        "source/runtime/evidence/acquisition_export.h",
+        "source/runtime/evidence/report_operation.h",
+        "source/runtime/evidence/image_observation.h",
+        "source/runtime/evidence/image_collection.h",
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/verification_case_export.h"
+      ],
+      "interface" : [ "disked_case_evidence" ],
+      "interface_headers" : 
+      [
+        "source/runtime/evidence/report_export.h",
+        "source/runtime/evidence/acquisition_export.h",
+        "source/runtime/evidence/report_operation.h",
+        "source/runtime/evidence/image_observation.h",
+        "source/runtime/evidence/image_collection.h",
+        "source/runtime/evidence/verification_operation.h",
+        "source/runtime/evidence/acquisition_verification.h",
+        "source/runtime/evidence/verification_case_export.h"
+      ]
+    },
+    "disked_report_observation" : 
+    {
+      "direct" : [ "disked_export_commands", "disked_presentation" ],
+      "headers" : [ "source/runtime/evidence/report_observation.h" ],
+      "interface" : [ "disked_export_commands", "disked_presentation" ],
+      "interface_headers" : [ "source/runtime/evidence/report_observation.h" ]
+    },
+    "disked_report_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_shell" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [ "source/apps/disked/shell/shell_model.h" ],
+      "interface" : [ "disked_presentation" ],
+      "interface_headers" : [ "source/apps/disked/shell/shell_model.h" ]
+    },
+    "disked_store_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_tree_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_session",
+        "disked_fat_tree_worker_fault",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/storage/fat_tree_sessions.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_tui" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [ "source/apps/disked/tui/tui_model.h" ],
+      "interface" : [ "disked_presentation" ],
+      "interface_headers" : [ "source/apps/disked/tui/tui_model.h" ]
+    },
+    "disked_tui_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_verification_commands" : 
+    {
+      "direct" : [ "disked_report_export", "disked_command" ],
+      "headers" : [ "source/runtime/evidence/verification_commands.h" ],
+      "interface" : [ "disked_report_export", "disked_command" ],
+      "interface_headers" : [ "source/runtime/evidence/verification_commands.h" ]
+    },
+    "disked_verification_observation" : 
+    {
+      "direct" : [ "disked_verification_commands", "disked_presentation" ],
+      "headers" : [ "source/runtime/evidence/verification_observation.h" ],
+      "interface" : [ "disked_verification_commands", "disked_presentation" ],
+      "interface_headers" : [ "source/runtime/evidence/verification_observation.h" ]
+    },
+    "disked_verification_test" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_windows_file_names" : 
+    {
+      "direct" : [ "disked_fat_namespace" ],
+      "headers" : [ "source/platform/windows/file_names.h" ],
+      "interface" : [ "disked_fat_namespace" ],
+      "interface_headers" : [ "source/platform/windows/file_names.h" ]
+    },
+    "disked_windows_file_names_headers" : 
+    {
+      "direct" : [ "disked_windows_file_names" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_windows_files" : 
+    {
+      "direct" : [],
+      "headers" : [ "source/platform/windows/worker_files.h" ],
+      "interface" : [ "disked_json", "disked_hash", "disked_local_file" ],
+      "interface_headers" : [ "source/platform/windows/worker_files.h" ]
+    },
+    "disked_worker_delayed" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "disked_worker_memory_limit" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_reconnect",
+        "disked_fat_tree_controller",
+        "disked_fat_tree_extraction_worker",
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_invocation",
+        "disked_tui",
+        "disked_gui",
+        "disked_shell",
+        "disked_image_actions",
+        "disked_file_acquisition",
+        "disked_acquisition_observation",
+        "disked_health_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_image_verification",
+        "disked_verification_observation",
+        "disked_fat_reader",
+        "disked_exfat_reader",
+        "disked_image_capture",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/app.h",
+        "source/apps/disked/cli/cli.h",
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/bootstrap.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/platform/windows/invocation.h",
+        "source/platform/windows/fake_worker.h",
+        "source/platform/windows/output.h",
+        "source/platform/windows/memory_budget.h",
+        "source/platform/windows/console/terminal.h",
+        "source/platform/windows/ui/gui.h",
+        "source/platform/windows/acquisition_worker.h",
+        "source/platform/windows/report_worker.h",
+        "source/platform/windows/verification_worker.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_allocation_probe" : 
+    {
+      "direct" : [ "disked_exfat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_capture_probe" : 
+    {
+      "direct" : [ "disked_exfat_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_directory_probe" : 
+    {
+      "direct" : [ "disked_exfat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_file_fault" : 
+    {
+      "direct" : [ "disked_exfat_file_fault", "disked_local_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_file_probe" : 
+    {
+      "direct" : [ "disked_exfat_file", "disked_local_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_namespace_probe" : 
+    {
+      "direct" : [ "disked_exfat_namespace" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_probe" : 
+    {
+      "direct" : [ "disked_exfat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_tree_probe" : 
+    {
+      "direct" : [ "disked_exfat_tree" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_upcase_probe" : 
+    {
+      "direct" : [ "disked_exfat", "disked_json", "disked_hash" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_worker_fault" : 
+    {
+      "direct" : [ "disked_exfat_worker_fault", "disked_local_file" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "exfat_worker_probe" : 
+    {
+      "direct" : [ "disked_exfat_worker", "disked_local_file" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "export_command_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_report_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/report_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "export_command_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_report_observation",
+        "disked_file_acquisition_export",
+        "disked_file_verification_case_export",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/report_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_capture_fault" : 
+    {
+      "direct" : [ "disked_fat_file_fault", "disked_fat", "disked_windows_file_names" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_capture_probe" : 
+    {
+      "direct" : [ "disked_fat_file", "disked_fat", "disked_windows_file_names" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_content_probe" : 
+    {
+      "direct" : [ "disked_fat_content", "disked_fat_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_content_stream_probe" : 
+    {
+      "direct" : [ "disked_fat_content_stream" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_directory_probe" : 
+    {
+      "direct" : [ "disked_fat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_metadata_probe" : 
+    {
+      "direct" : [ "disked_fat_metadata" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_native_metadata_probe" : 
+    {
+      "direct" : [ "disked_fat_native_metadata" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_probe" : 
+    {
+      "direct" : [ "disked_fat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_retention_probe" : 
+    {
+      "direct" : [ "disked_fat_retention", "disked_fat_inspection", "disked_hash" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_traversal_probe" : 
+    {
+      "direct" : [ "disked_fat_traversal" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_admission_fault" : 
+    {
+      "direct" : [ "disked_fat_tree_admission_fault", "disked_local_file" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_admission_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_admission", "disked_local_file" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_command_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_actions",
+        "disked_fat_tree_admission",
+        "disked_fat_tree_controller"
+      ],
+      "headers" : 
+      [
+        "source/apps/disked/command_registry.h",
+        "source/platform/windows/memory_budget.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_content_fault" : 
+    {
+      "direct" : [ "disked_fat_tree_file_fault", "disked_local_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_content_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_file", "disked_local_file" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_controller_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_controller_fault",
+        "disked_fat_tree_admission_fault",
+        "disked_local_file"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_controller_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_controller",
+        "disked_fat_tree_admission",
+        "disked_local_file"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_extraction_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_extraction" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_extraction_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_extraction_worker_fault",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_extraction_worker_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_extraction_worker",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_file_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_tree_worker_fault",
+        "disked_fat_tree_file_fault",
+        "disked_local_file"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_file_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_worker", "disked_fat_tree_file", "disked_local_file" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_history_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_history" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_reconnect_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_reconnect" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_review_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_review" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_tree_session_probe" : 
+    {
+      "direct" : [ "disked_fat_tree_session", "disked_hash" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_walk_probe" : 
+    {
+      "direct" : [ "disked_fat", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_fat_worker_fault",
+        "disked_local_file",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "fat_worker_probe" : 
+    {
+      "direct" : [ "disked_fat_worker", "disked_local_file", "disked_windows_files" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "file_acquisition_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_acquisition",
+        "disked_local_file",
+        "disked_fat_capture",
+        "disked_fat_content_file"
+      ],
+      "headers" : [ "source/providers/image/file_acquisition.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "file_acquisition_probe" : 
+    {
+      "direct" : [ "disked_file_acquisition" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "file_report_export_fault" : 
+    {
+      "direct" : [ "disked_report_export", "disked_local_file" ],
+      "headers" : [ "source/providers/report/file_export.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "file_report_export_probe" : 
+    {
+      "direct" : [ "disked_file_report_export" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "frontend_service_probe" : 
+    {
+      "direct" : [ "disked_presentation", "disked_health_observation" ],
+      "headers" : 
+      [
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/providers/fake/bootstrap.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "gpt_execution_probe" : 
+    {
+      "direct" : [ "disked_gpt_fixture_files", "disked_gpt_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "gpt_probe" : 
+    {
+      "direct" : [ "disked_gpt", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "gpt_repair_probe" : 
+    {
+      "direct" : [ "disked_gpt_repair_planning" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "guarded_journal_probe" : 
+    {
+      "direct" : [ "disked_guarded_model" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "gui_model_probe" : 
+    {
+      "direct" : [ "disked_gui", "disked_health_observation" ],
+      "headers" : 
+      [
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/providers/fake/bootstrap.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "health_observation_probe" : 
+    {
+      "direct" : [ "disked_health_observation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "image_file_capture_fault" : 
+    {
+      "direct" : [ "disked_gpt_capture", "disked_local_file" ],
+      "headers" : [ "source/providers/image/file_capture.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "image_file_capture_probe" : 
+    {
+      "direct" : [ "disked_image_capture" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "image_observation_probe" : 
+    {
+      "direct" : [ "disked_map_observation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "image_verification_collection_probe" : 
+    {
+      "direct" : [ "disked_file_case_source", "disked_file_report_export" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "image_verification_observation_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_image_verification",
+        "disked_file_case_source",
+        "disked_file_report_export",
+        "disked_windows_files"
+      ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "invocation_policy_probe" : 
+    {
+      "direct" : [ "disked_invocation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "journal_codec_probe" : 
+    {
+      "direct" : [ "disked_journal_prototype", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "journal_semantic_probe" : 
+    {
+      "direct" : [ "disked_journal_semantics" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "json_codec_probe" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "mbr_probe" : 
+    {
+      "direct" : [ "disked_mbr", "disked_json" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "memory_budget_probe" : 
+    {
+      "direct" : [ "disked_json" ],
+      "headers" : [ "source/platform/windows/memory_budget.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "model_journal_producer_probe" : 
+    {
+      "direct" : [ "disked_guarded_model", "disked_model_journal_producer" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "operation_reducer_probe" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "plan_definition_probe" : 
+    {
+      "direct" : [ "disked_plan_prototype" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "portable_cpp" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "portable_probe" : 
+    {
+      "direct" : [ "disked_primitives" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "presentation_rules_probe" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "protocol_reader_probe" : 
+    {
+      "direct" : [ "disked_command" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "provider_guard_probe" : 
+    {
+      "direct" : [],
+      "headers" : [ "source/providers/fake/bootstrap.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "report_export_probe" : 
+    {
+      "direct" : [ "disked_report_export" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "report_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_case_source",
+        "disked_report_export",
+        "disked_windows_files"
+      ],
+      "headers" : 
+      [
+        "source/platform/windows/report_worker.h",
+        "source/providers/report/file_export.h",
+        "source/providers/report/file_acquisition_export.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "report_worker_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_verification_case_export",
+        "disked_report_observation",
+        "disked_file_acquisition_export",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/report_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "request_channel_probe" : 
+    {
+      "direct" : [ "disked_presentation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "shell_model_probe" : 
+    {
+      "direct" : [ "disked_shell", "disked_health_observation" ],
+      "headers" : 
+      [
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/providers/fake/bootstrap.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "tui_model_probe" : 
+    {
+      "direct" : [ "disked_tui", "disked_health_observation" ],
+      "headers" : 
+      [
+        "source/apps/disked/command_registry.h",
+        "source/providers/fake/graph.h",
+        "source/providers/fake/health_observer.h",
+        "source/providers/fake/bootstrap.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_case_fault" : 
+    {
+      "direct" : [ "disked_acquisition_verification", "disked_file_case_source" ],
+      "headers" : 
+      [
+        "source/providers/report/file_export.h",
+        "source/providers/report/file_verification_case_export.h"
+      ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_case_probe" : 
+    {
+      "direct" : [ "disked_file_verification_case_export" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_command_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_file_image_verification",
+        "disked_file_case_source",
+        "disked_verification_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/verification_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_command_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_image_verification",
+        "disked_file_case_source",
+        "disked_verification_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/verification_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_worker_fault" : 
+    {
+      "direct" : 
+      [
+        "disked_file_image_verification",
+        "disked_file_case_source",
+        "disked_verification_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/verification_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "verification_worker_probe" : 
+    {
+      "direct" : 
+      [
+        "disked_file_image_verification",
+        "disked_file_case_source",
+        "disked_verification_observation",
+        "disked_windows_files"
+      ],
+      "headers" : [ "source/platform/windows/verification_worker.h" ],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "watch_probe" : 
+    {
+      "direct" : [ "disked_acquisition_observation" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    },
+    "worker_directory_probe" : 
+    {
+      "direct" : [ "disked_local_file", "disked_windows_files" ],
+      "headers" : [],
+      "interface" : [],
+      "interface_headers" : []
+    }
+  }
+}

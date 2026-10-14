@@ -1,0 +1,55 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\acquisition-timing-build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 15.897,
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\acquisition-timing-build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4",
+      "--target",
+      "file_acquisition_probe",
+      "file_acquisition_fault"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 18.001,
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "log": "build.log"
+  },
+  {
+    "name": "existing-regression",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\acquisition-timing-build",
+      "-C",
+      "Release",
+      "--output-on-failure",
+      "-R",
+      "^image.file_acquisition$",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\acquisition-timing-build\\regression-junit.xml"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 22.712,
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "log": "existing-regression.log"
+  }
+]

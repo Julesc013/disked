@@ -80,6 +80,27 @@ class FileAcquisition::Impl final:public acquisition::Ports {
     std::unique_ptr<FatContentMap> logical_;
     struct MetadataRegion {std::uint64_t offset;std::uint32_t requested;std::vector<unsigned char> bytes;};
     std::vector<MetadataRegion> metadata_regions_;
+#ifdef DISKED_FILE_ACQUISITION_TESTING
+    const bool trace_enabled_=GetEnvironmentVariableW(L"DISKED_ACQ_TEST_TIMING",nullptr,0)!=0;
+    mutable std::size_t trace_count_=0;
+#endif
+    void trace(const char* phase) const {
+#ifdef DISKED_FILE_ACQUISITION_TESTING
+        if(!trace_enabled_ || trace_count_>=16384)return;
+        const auto error=GetLastError();
+        FILETIME created{},exited{},kernel{},user{};
+        const auto ticks=GetTickCount64();
+        const bool measured=GetProcessTimes(GetCurrentProcess(),&created,&exited,&kernel,&user)!=FALSE;
+        const auto time=[](const FILETIME& t) {return (static_cast<std::uint64_t>(t.dwHighDateTime)<<32)|t.dwLowDateTime;};
+        std::fprintf(stdout,"{\"schema\":\"org.disked.acquisition-test-timing/1\",\"sequence\":\"%llu\",\"phase\":\"%s\",\"ticks_ms\":\"%llu\",\"cpu_observed\":%s,\"kernel_100ns\":\"%llu\",\"user_100ns\":\"%llu\",\"checkpoint_bytes\":\"%llu\"}\n",
+            static_cast<unsigned long long>(++trace_count_),phase,static_cast<unsigned long long>(ticks),
+            measured?"true":"false",static_cast<unsigned long long>(time(kernel)),
+            static_cast<unsigned long long>(time(user)),static_cast<unsigned long long>(checkpoint_));
+        std::fflush(stdout);SetLastError(error);
+#else
+        (void)phase;
+#endif
+    }
     bool executed_=false,opened_=false,creation_attempted_=false;std::uint32_t platform_=0;
     acquisition::Plan plan_;
     FileAcquisitionHooks hooks_;V original_capture_;std::uint64_t started_=0,ticks_=0;
@@ -100,6 +121,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         const auto g=local_file::generation(file,false);return binding(role,file_id(g),hash(json::dump(g)),domain(g),source_size_,path.location());
     }
     V observe_base() const {
+        trace("observe-start");
         source_path_.check();destination_path_.check();map_path_.check();code_path_->check();
         local_file::bind_path(source_.value,source_path_.value);local_file::bind_path(code_.value,code_path_->value);
         const auto source=local_file::metadata(source_.value),code=local_file::metadata(code_.value);
@@ -118,7 +140,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
             out.fields.at("provider").put("identity",V::string("provider.image.acquire.fat-file.prototype/1"));
             out.fields.at("provider").fields.at("aliases").items[0]=V::string("provider.image.acquire.fat-file.prototype/1");
         }
-        return out;
+        trace("observe-end");return out;
     }
     void prepare_logical() {
         const auto& s=request_.logical_source;
@@ -151,13 +173,15 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         source_size_=size;logical_.reset(new FatContentMap(std::move(map)));
     }
     bool logical_metadata_equal() {
+        trace("logical-metadata-start");
         for(const auto& r:metadata_regions_) {
             const auto value=read(source_.value,r.offset,static_cast<std::uint32_t>(r.requested));
             if(!value.error.empty() || value.bytes!=r.bytes || value.bytes.size()!=r.requested)return false;
         }
-        return true;
+        trace("logical-metadata-end");return true;
     }
     acquisition::Read logical_read(std::uint64_t offset,std::uint32_t count) {
+        trace("logical-read-start");
         acquisition::Read out;
         if(offset>source_size_ || count>source_size_-offset)throw FileAcquisitionError("acquisition_logical_range");
         if(!logical_metadata_equal()) {out.error="fat-metadata-changed";return out;}
@@ -171,7 +195,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
                 return de_view{r.bytes.data(),r.bytes.size()};
             });
         };
-        std::uint32_t done=0;
+        trace("logical-content-start");std::uint32_t done=0;
         while(done<count) {
             const auto bytes=std::min<std::uint32_t>(196608,count-done);logical_buffers_.clear();
             const auto first=window(offset+done,bytes);
@@ -183,9 +207,9 @@ class FileAcquisition::Impl final:public acquisition::Ports {
             if(field(again,"outcome").text!="complete" || field(again,"data").text!=h) {out.error="fat-content-reread-changed";break;}
             done+=bytes;
         }
-        logical_buffers_.clear();
+        trace("logical-content-end");logical_buffers_.clear();
         if(!logical_metadata_equal())out.error="fat-metadata-changed";
-        return out;
+        trace("logical-read-end");return out;
     }
     std::deque<acquisition::Read> logical_buffers_;
     void capacity(std::uint64_t data_remaining,std::uint64_t map_remaining) const {
@@ -200,6 +224,7 @@ class FileAcquisition::Impl final:public acquisition::Ports {
         } else if(data.QuadPart<data_remaining || records.QuadPart<map_remaining)throw acquisition::CreationRefusal("acquisition_capacity");
     }
     void event(const char* name) {
+        trace(name);
 #ifdef DISKED_FILE_ACQUISITION_TESTING
         wchar_t wanted[80];const auto n=GetEnvironmentVariableW(L"DISKED_ACQ_TEST_EVENT",wanted,80);
         const auto match=n && n<80 && local_file::utf8(std::wstring(wanted,n))==name;
@@ -332,6 +357,7 @@ public:
         event(("append-"+type).c_str());
     }); }
     void flush_map() override { guarded([&] {
+        trace("map-flush-start");
 #ifdef DISKED_FILE_ACQUISITION_TESTING
         if(GetEnvironmentVariableW(L"DISKED_ACQ_TEST_MAP_FLUSH_ERROR",nullptr,0))throw FileAcquisitionError("acquisition_map_flush",ERROR_WRITE_FAULT);
 #endif
@@ -354,6 +380,7 @@ public:
         write(destination_.value,bytes.data(),bytes.size());event("destination-written");
     }); }
     void flush_destination() override { guarded([&] {
+        trace("destination-flush-start");
 #ifdef DISKED_FILE_ACQUISITION_TESTING
         if(GetEnvironmentVariableW(L"DISKED_ACQ_TEST_DESTINATION_FLUSH_ERROR",nullptr,0))throw FileAcquisitionError("acquisition_destination_flush",ERROR_WRITE_FAULT);
 #endif

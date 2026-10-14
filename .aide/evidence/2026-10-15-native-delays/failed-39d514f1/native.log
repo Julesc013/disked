@@ -1,0 +1,2528 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/exfat-tree-file-exact-39d514f1/build
+        Start   1: image.exfat_commands
+  1/145 Test   #1: image.exfat_commands ......................   Passed   20.38 sec
+        Start   2: resilience.worker_ancestry
+  2/145 Test   #2: resilience.worker_ancestry ................   Passed    4.48 sec
+        Start   3: acquisition.fat_metadata
+  3/145 Test   #3: acquisition.fat_metadata ..................   Passed    2.73 sec
+        Start   4: capture.fat_content_stream
+  4/145 Test   #4: capture.fat_content_stream ................   Passed    6.20 sec
+        Start   5: capture.tree_session_rules
+  5/145 Test   #5: capture.tree_session_rules ................   Passed    0.06 sec
+        Start   6: frontend.fat_recursive_product
+  6/145 Test   #6: frontend.fat_recursive_product ............   Passed   15.92 sec
+        Start   7: frontend.fat_recursive_failures
+  7/145 Test   #7: frontend.fat_recursive_failures ...........   Passed   39.19 sec
+        Start   8: frontend.fat_tree_sessions
+  8/145 Test   #8: frontend.fat_tree_sessions ................   Passed   16.52 sec
+        Start   9: image.fat_tree_commands
+  9/145 Test   #9: image.fat_tree_commands ...................   Passed    3.35 sec
+        Start  10: image.fat_tree_reconnect
+ 10/145 Test  #10: image.fat_tree_reconnect ..................   Passed    3.64 sec
+        Start  11: image.fat_tree_watch
+ 11/145 Test  #11: image.fat_tree_watch ......................   Passed    3.89 sec
+        Start  12: acquisition.fat_tree_review
+ 12/145 Test  #12: acquisition.fat_tree_review ...............   Passed    1.93 sec
+        Start  13: evidence.fat_tree_history
+ 13/145 Test  #13: evidence.fat_tree_history .................   Passed   74.10 sec
+        Start  14: image.fat_tree_extraction
+ 14/145 Test  #14: image.fat_tree_extraction .................   Passed   77.09 sec
+        Start  15: image.fat_content
+ 15/145 Test  #15: image.fat_content .........................   Passed    1.25 sec
+        Start  16: image.fat_retention_store
+ 16/145 Test  #16: image.fat_retention_store .................   Passed    0.34 sec
+        Start  17: image.fat_retention_commands
+ 17/145 Test  #17: image.fat_retention_commands ..............   Passed    8.96 sec
+        Start  18: build.boundaries
+ 18/145 Test  #18: build.boundaries ..........................   Passed   11.40 sec
+        Start  19: build.boundary_checker
+ 19/145 Test  #19: build.boundary_checker ....................   Passed    0.59 sec
+        Start  20: frontend.product_verification
+ 20/145 Test  #20: frontend.product_verification .............***Failed   92.53 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-jjt8ujl7
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_verification.py", line 193, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_verification.py", line 188, in main
+    check('product-execute-watch-ignore-all-private-controls',time.monotonic()-started<4 and done['result']['state']['outcome']['status']=='matched' and done['result']['state']['retention']['state']=='verified' and [e['payload']['record'] for e in observed['result']['events']]==rows)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_verification.py", line 25, in check
+    def check(name,ok,**extra):assert ok,(name,extra);checks.append(dict(name=name,passed=True,**extra))
+                                      ^^
+AssertionError: ('product-execute-watch-ignore-all-private-controls', {})
+
+        Start  21: frontend.product_export
+ 21/145 Test  #21: frontend.product_export ...................***Failed   35.89 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-smfvcjw0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 244, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 217, in main
+    reconciled,_=exchange('after-completion','evidence.export',q)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 209, in exchange
+    frame=dict(schema='org.disked.request/1',request_id=id,command=cmd,parameters=parameters,required_features=[]);started=time.monotonic();process.stdin.write(canonical(frame)+b'\n');process.stdin.flush();raw=inbox.get(timeout=8);assert raw is not None;value=json.loads(raw);assert value['request_id']==id;validate(value);return value,time.monotonic()-started
+                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+        Start  22: frontend.joined_report
+ 22/145 Test  #22: frontend.joined_report ....................***Failed   23.98 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-p4pnwqt_
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 244, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 133, in main
+    q=grants(prepared['result']);first=execute(q);check(kind+'-actual-operation-id',first['status'] in ('completed','accepted_running','unknown') and first['operation_id'].startswith('report-op:'))
+                                       ~~~~~~~^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_product_export.py", line 61, in gui
+    ui.click(110);first=wait(lambda:ui.details() if ui.details().get('schema')=='org.disked.response/1' else None)
+                        ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\gui_fixture.py", line 136, in wait
+    raise TimeoutError('native window observation')
+TimeoutError: native window observation
+
+        Start  23: frontend.gui_capture
+ 23/145 Test  #23: frontend.gui_capture ......................   Passed    1.39 sec
+        Start  24: evidence.report_process_identity
+ 24/145 Test  #24: evidence.report_process_identity ..........   Passed    3.39 sec
+        Start  25: operation.directory_pins
+ 25/145 Test  #25: operation.directory_pins ..................   Passed    1.14 sec
+        Start  26: evidence.acquisition_export
+ 26/145 Test  #26: evidence.acquisition_export ...............***Failed    9.74 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-ysiatrlw
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_acquisition_export.py", line 174, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_acquisition_export.py", line 51, in main
+    state=cli(['operation','inspect',first['operation_id'],'--state-dir',str(state_dir)])['result']['state']
+          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_acquisition_export.py", line 37, in cli
+    assert r.returncode in (0,5) and not r.stderr,(r.returncode,r.stdout,r.stderr);return json.loads(r.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (6, b'{"diagnostics":[{"code":"request_wait_expired","message_key":"disked.request_wait_expired","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":"image-op:fa1c20ef58d46255699424255b8008c7","request_id":"cli","result":{"request_state":"unresolved","state_directory":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\exfat-tree-file-exact-39d514f1\\\\source\\\\.aide-local\\\\disked-acq-worker-ysiatrlw\\\\owned\\\\state"},"schema":"org.disked.response/1","status":"unknown"}\n', b'')
+
+        Start  27: evidence.verification_case_export
+ 27/145 Test  #27: evidence.verification_case_export .........   Passed  127.90 sec
+        Start  28: evidence.report_worker
+ 28/145 Test  #28: evidence.report_worker ....................   Passed   50.89 sec
+        Start  29: evidence.export_commands
+ 29/145 Test  #29: evidence.export_commands ..................   Passed   15.15 sec
+        Start  30: evidence.report_watch
+ 30/145 Test  #30: evidence.report_watch .....................   Passed   34.64 sec
+        Start  31: evidence.acquisition_case
+ 31/145 Test  #31: evidence.acquisition_case .................   Passed   29.94 sec
+        Start  32: evidence.export_model
+ 32/145 Test  #32: evidence.export_model .....................   Passed    1.94 sec
+        Start  33: evidence.file_export
+ 33/145 Test  #33: evidence.file_export ......................   Passed   25.71 sec
+        Start  34: evidence.acquired_image_verification
+ 34/145 Test  #34: evidence.acquired_image_verification ......   Passed   10.27 sec
+        Start  35: evidence.image_verification_observation
+ 35/145 Test  #35: evidence.image_verification_observation ...   Passed   17.01 sec
+        Start  36: evidence.image_verification_collection
+ 36/145 Test  #36: evidence.image_verification_collection ....***Failed    9.55 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-xk_6_d3y
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_image_collection.py", line 184, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_image_collection.py", line 79, in main
+    first=cli(['image','acquire','execute','--definition-json',canonical(review['definition']).decode(),'--definition-digest',review['definition_digest'],'--allow-source-read','--allow-destination-write','--allow-map-write','--allow-host-effects']);assert first['operation_id'],first
+                                                                                                                                                                                                                                                                ~~~~~^^^^^^^^^^^^^^^^
+AssertionError: {'diagnostics': [{'code': 'request_wait_expired', 'message_key': 'disked.request_wait_expired', 'parameters': {}, 'platform_code': None, 'remediation': [], 'severity': 'error'}], 'evidence': [], 'operation_id': None, 'request_id': 'cli', 'result': {'definition_digest': 'sha256:46d0ee4ebba95e50dc61c619a2909df8c0cd0a587193c5fc1bdd7c81104b964f', 'request_state': 'unresolved'}, 'schema': 'org.disked.response/1', 'status': 'unknown'}
+
+        Start  37: evidence.verification_worker
+ 37/145 Test  #37: evidence.verification_worker ..............   Passed   93.34 sec
+        Start  38: evidence.verification_commands
+ 38/145 Test  #38: evidence.verification_commands ............***Failed   13.00 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-tvxmld9p
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_verification_commands.py", line 194, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_verification_commands.py", line 76, in main
+    start=cli(['image','acquire','execute','--definition-json',canonical(r['definition']).decode(),'--definition-digest',r['definition_digest'],'--allow-source-read','--allow-destination-write','--allow-map-write','--allow-host-effects']);case_id=start['operation_id'];end=time.monotonic()+20
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_verification_commands.py", line 42, in cli
+    assert p.returncode in (0,5) and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (6, b'{"diagnostics":[{"code":"request_wait_expired","message_key":"disked.request_wait_expired","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":{"definition_digest":"sha256:8bd91f36acad7e0ac2c38c32af1f6d0ff59d5c73b4a81d99f9b048cb8010696c","request_state":"unresolved"},"schema":"org.disked.response/1","status":"unknown"}\n', b'')
+
+        Start  39: evidence.case_model
+ 39/145 Test  #39: evidence.case_model .......................   Passed    3.89 sec
+        Start  40: health.observation_model
+ 40/145 Test  #40: health.observation_model ..................   Passed    0.27 sec
+        Start  41: health.command
+ 41/145 Test  #41: health.command ............................   Passed    4.21 sec
+        Start  42: journal.semantic_reader
+ 42/145 Test  #42: journal.semantic_reader ...................   Passed   13.34 sec
+        Start  43: journal.guarded_model
+ 43/145 Test  #43: journal.guarded_model .....................   Passed    1.91 sec
+        Start  44: journal.model_binary_producer
+ 44/145 Test  #44: journal.model_binary_producer .............   Passed    2.61 sec
+        Start  45: journal.repeated_crash_audit
+ 45/145 Test  #45: journal.repeated_crash_audit ..............   Passed    4.22 sec
+        Start  46: journal.plan_definitions
+ 46/145 Test  #46: journal.plan_definitions ..................   Passed    0.38 sec
+        Start  47: journal.binary_codec
+ 47/145 Test  #47: journal.binary_codec ......................   Passed    0.28 sec
+        Start  48: frontend.acquisition_forms
+ 48/145 Test  #48: frontend.acquisition_forms ................   Passed   25.27 sec
+        Start  49: frontend.fat_extraction
+ 49/145 Test  #49: frontend.fat_extraction ...................***Failed  137.64 sec
+PASS cli
+PASS static-help
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS prepare
+PASS execute
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS selection
+PASS protocol-filesystem.extract
+PASS protocol-filesystem.extract
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS verified-copy
+PASS cli
+PASS protocol-operation.watch
+PASS protocol-operation.cancel.request
+PASS selection
+PASS cli
+PASS cli
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.inspect
+PASS protocol-operation.cancel.request
+PASS protocol-operation.inspect
+PASS cli
+PASS cli
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+PASS observe
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-qjzst3ul
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_fat_extraction_commands.py", line 179, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_fat_extraction_commands.py", line 123, in main
+    review=cli(argv(resumed))['result'];finish(resumed,cli(argv(grants(review)),(0,5)),data)
+                                        ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\frontend\test_fat_extraction_commands.py", line 52, in finish
+    assert now<end and now<progress_end,('retain unfinished worker dependencies',out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('retain unfinished worker dependencies', {'diagnostics': [], 'evidence': [], 'operation_id': 'image-op:db8f7b88c0b12d64e66f5b9173c8c7c2', 'request_id': 'cli', 'result': {'definition': {'host_id': 'ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7', 'image_digest': 'f119626c506ee8bc4a091b79c8a620164fbed4c8307653f879314360fb802a2a', 'input_digest': 'sha256:734feb778b547f38201b108fd6af274354e0c109f74f40504e50f3296f8508aa', 'plan': {'bytes': '17039341', 'capture_epoch': 'sha256:7407e17bbc09f3cb17a4ec9e7d50b73a2f494767214e81d46fa2d3e51542f581', 'chunk_bytes': '65536', 'logical_source': {'expected_file_bytes': '17039341', 'fat_copy': '0', 'kind': 'fat-file', 'metadata_digest': 'sha256:c00aa99f987342f59b233e289cf7936fa8629ed35e4334c034e32ccbc4950d34', 'node_id': '1', 'volume_bytes': '186591232', 'volume_offset': '37'}, 'read_policy': 'ordinary', 'resources': {'backing': {'access': 'read', 'aliases': ['file:sha256:b6a8880f01d61aa3421aa4318f16a203e074671258da6e97c5125489b2dfd523', 'location:sha256:651f9bc9264ef840e12ad3447cb697a36cffb10a911422e89138c9619a17932d'], 'end': '186591269', 'epoch': 'sha256:cd444f62e7d4ed23cf6501c8a3617c9b2f30543d46d13b3408f5631dd398c298', 'failure_domain': 'observed-file-volume:3781016413010784355', 'identity': 'file:sha256:b6a8880f01d61aa3421aa4318f16a203e074671258da6e97c5125489b2dfd523', 'start': '0', 'verification': 'identity-epoch'}, 'destination': {'access': 'create-write', 'aliases': ['location:sha256:399c3caa1d23b01d33912577b6e9b7a602fe717a8af644565d0b420e0ddd9725'], 'end': '17039341', 'epoch': 'sha256:927fb08e7acaa1be189b5a8b1bb1378480a69cf78c9d33f4a36c98ded802b8f5', 'failure_domain': 'observed-file-volume:3781016413010784355', 'identity': 'location:sha256:399c3caa1d23b01d33912577b6e9b7a602fe717a8af644565d0b420e0ddd9725', 'start': '0', 'verification': 'readback-sha256'}, 'executable': {'access': 'read', 'aliases': ['file:sha256:649672b3e4379e5769334388d98923d1f2f7adeb8d8b3035fa42fb2bb99e1517'], 'end': '0', 'epoch': 'sha256:8cf16e6d70c1fc1c6805e09ccaa739e9d71170176d02f3d6026ddaa1b4a328c9', 'failure_domain': 'observed-file-volume:3781016413010784355', 'identity': 'file:sha256:649672b3e4379e5769334388d98923d1f2f7adeb8d8b3035fa42fb2bb99e1517', 'start': '0', 'verification': 'identity-epoch'}, 'host': {'access': 'observe', 'aliases': ['observed-local-host:sha256:efc4df6bf93dcd8b9c2c16deba3c8486132c951c02685740ae80caf15c774e26'], 'end': '0', 'epoch': 'windows.nt10.x64.local-file-profile/1', 'failure_domain': 'host-observation', 'identity': 'observed-local-host:sha256:efc4df6bf93dcd8b9c2c16deba3c8486132c951c02685740ae80caf15c774e26', 'start': '0', 'verification': 'identity-epoch'}, 'map': {'access': 'create-append', 'aliases': ['location:sha256:c8059eea23c9fbd9ecb218a8afb22314301c7741941d00ef2c1a67b9d8aeb613'], 'end': '0', 'epoch': 'sha256:927fb08e7acaa1be189b5a8b1bb1378480a69cf78c9d33f4a36c98ded802b8f5', 'failure_domain': 'observed-file-volume:3781016413010784355', 'identity': 'location:sha256:c8059eea23c9fbd9ecb218a8afb22314301c7741941d00ef2c1a67b9d8aeb613', 'start': '0', 'verification': 'ordered-hash-chain'}, 'provider': {'access': 'observe', 'aliases': ['provider.image.acquire.fat-file.prototype/1'], 'end': '0', 'epoch': 'sha256:f119626c506ee8bc4a091b79c8a620164fbed4c8307653f879314360fb802a2a', 'failure_domain': 'linked-executable-generation', 'identity': 'provider.image.acquire.fat-file.prototype/1', 'start': '0', 'verification': 'identity-epoch'}, 'source': {'access': 'read', 'aliases': ['fat-file:sha256:7752d1bbf17254a44da7a5b88d3260e066890e00dce3d95befed85a5294f2824', 'location:sha256:651f9bc9264ef840e12ad3447cb697a36cffb10a911422e89138c9619a17932d', 'file:sha256:b6a8880f01d61aa3421aa4318f16a203e074671258da6e97c5125489b2dfd523'], 'end': '17039341', 'epoch': 'sha256:15776663d06ecbef4371bdf5d06ee62ba50f36933f52fbc3702745bc0e32c081', 'failure_domain': 'observed-file-volume:3781016413010784355', 'identity': 'fat-file:sha256:7752d1bbf17254a44da7a5b88d3260e066890e00dce3d95befed85a5294f2824', 'start': '0', 'verification': 'identity-epoch'}}, 'retry_limit': '0', 'schema': 'org.disked.acquisition-plan-prototype/2', 'substitution': 'stop'}, 'request': {'chunk_bytes': '65536', 'destination': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source\\.aide-local\\disked-acq-worker-qjzst3ul\\8\\\u8f93\u51fa.bin', 'explicit_options': True, 'logical_source': {'expected_file_bytes': '17039341', 'fat_copy': '0', 'kind': 'fat-file', 'metadata_digest': 'sha256:c00aa99f987342f59b233e289cf7936fa8629ed35e4334c034e32ccbc4950d34', 'node_id': '1', 'volume_bytes': '186591232', 'volume_offset': '37'}, 'map': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source\\.aide-local\\disked-acq-worker-qjzst3ul\\8\\copy.map', 'read_policy': 'ordinary', 'resume': True, 'retry_limit': '0', 'source': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source\\.aide-local\\disked-acq-worker-qjzst3ul\\8\\\u6e90.img', 'substitution': 'stop'}, 'schema': 'org.disked.acquisition-worker-definition/2', 'source_revision': '39d514f1a606290c63a6a63b2ce9e6d5d6e3e673', 'store': {'access': 'create-owned-metadata', 'children': ['acquisition.request', 'acquisition.records', 'acquisition.cancel', 'acquisition.admission'], 'failure_domain': 'observed-file-volume:3781016413010784355', 'generation': {'created': '134364903885700854', 'file_id': 'dff42800000004000000000000000000', 'volume_id': '3781016413010784355'}, 'path': 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source\\.aide-local\\disked-acq-worker-qjzst3ul\\8\\resume-state'}, 'target_profile': 'windows.nt10.x64.win32'}, 'definition_digest': 'sha256:669cd2fc6eecad36db8d449b4edadefaa97f46fadadb7b27149111c50d5cc027', 'last_digest': '44a0643c4976f61320cea22598aec55e033fa44948d98f87e7af04fe10cb2ee2', 'request_kind': 'operation-observation', 'scope': 'ordinary-local-fat-file-extraction', 'state': {'binding': {'attempt_id': 'attempt:389b1d5ff4ba4d85ba7c0b8af954da28', 'capture_epoch': 'sha256:7407e17bbc09f3cb17a4ec9e7d50b73a2f494767214e81d46fa2d3e51542f581', 'definition_digest': 'sha256:669cd2fc6eecad36db8d449b4edadefaa97f46fadadb7b27149111c50d5cc027', 'host_id': 'ebb1f96469b3e4cc186d3af02b5e8a7127359574ccd4a69a6b80c505e7b2b0b7', 'image_digest': 'f119626c506ee8bc4a091b79c8a620164fbed4c8307653f879314360fb802a2a', 'operation_id': 'image-op:db8f7b88c0b12d64e66f5b9173c8c7c2', 'process_created': '134364903901318945', 'process_id': '50336', 'worker_epoch': 'worker:d516ad06d799325a0549fea2d688152c'}, 'checkpoint_bytes': '7995392', 'observed_filetime': '134364904790993972', 'outcome': None, 'phase': 'active', 'quiescent': False, 'receipt': None, 'schema': 'org.disked.acquisition-worker-state/1', 'sequence': '16', 'source_bytes': '7995392', 'substituted_bytes': '0'}, 'worker_observation': 'running'}, 'schema': 'org.disked.response/1', 'status': 'completed'})
+
+        Start  50: evidence.logical_extraction
+ 50/145 Test  #50: evidence.logical_extraction ...............***Failed   66.33 sec
+PASS cli
+PASS filesystem.extract
+PASS filesystem.extract
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS image.verify
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS native-probe
+PASS image.verify
+PASS native-probe
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+PASS evidence.export
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS operation.inspect
+PASS actual-worker-exit
+PASS joined-policy
+PASS evidence.export
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\.aide-local\disked-acq-worker-o40js1yk
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_logical_extraction_evidence.py", line 197, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_logical_extraction_evidence.py", line 174, in main
+    first=wire('evidence.export',granted(review,('case_read','collection_read','report_write','store_write','host_effects')),(0,5));finish(first,state,'report')
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-39d514f1\source\tests\evidence\test_logical_extraction_evidence.py", line 40, in wire
+    assert r.returncode in exits and not r.stderr,(command,r.returncode,r.stdout[-1500:],r.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('evidence.export', 6, b'{"diagnostics":[{"code":"request_wait_expired","message_key":"disked.request_wait_expired","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"logical-evidence","result":{"authenticity":"not_established","current_image_state":"not_established","custody_authentication":"not_established","definition_digest":"sha256:0d4e5b93557dc4b0bed9bf24875bbcb778edd8083fe11f2e21a9227e618530f0","power_loss_persistence":"not_established","request_kind":"export-execution","request_state":"unresolved","scope":"recorded-acquisition-verification-support-export","state_directory":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\exfat-tree-file-exact-39d514f1\\\\source\\\\.aide-local\\\\disked-acq-worker-o40js1yk\\\\1\\\\export-6"},"schema":"org.disked.response/1","status":"unknown"}\n', b'')
+
+        Start  51: command.compiled_registry
+ 51/145 Test  #51: command.compiled_registry .................   Passed    0.07 sec
+        Start  52: frontend.acquisition_interactive
+ 52/145 Test  #52: frontend.acquisition_interactive ..........   Passed   93.88 sec
+        Start  53: image.acquisition_commands
+ 53/145 Test  #53: image.acquisition_commands ................   Passed   20.63 sec
+        Start  54: image.acquisition_operations
+ 54/145 Test  #54: image.acquisition_operations ..............   Passed   11.59 sec
+        Start  55: image.acquisition_worker
+ 55/145 Test  #55: image.acquisition_worker ..................   Passed   37.59 sec
+        Start  56: image.fat_extraction
+ 56/145 Test  #56: image.fat_extraction ......................   Passed   18.35 sec
+        Start  57: image.file_acquisition
+ 57/145 Test  #57: image.file_acquisition ....................   Passed   21.69 sec
+        Start  58: image.parent_pins
+ 58/145 Test  #58: image.parent_pins .........................   Passed    0.94 sec
+        Start  59: image.acquisition_pipeline
+ 59/145 Test  #59: image.acquisition_pipeline ................   Passed    6.15 sec
+        Start  60: image.shared_commands
+ 60/145 Test  #60: image.shared_commands .....................   Passed   20.56 sec
+        Start  61: image.gpt_repair_command
+ 61/145 Test  #61: image.gpt_repair_command ..................   Passed    8.49 sec
+        Start  62: image.gpt_fixture_execution
+ 62/145 Test  #62: image.gpt_fixture_execution ...............   Passed  106.85 sec
+        Start  63: image.gpt_fixture_restoration
+ 63/145 Test  #63: image.gpt_fixture_restoration .............   Passed  108.42 sec
+        Start  64: recovery.gpt_fixture_harness
+ 64/145 Test  #64: recovery.gpt_fixture_harness ..............   Passed    0.36 sec
+        Start  65: image.gpt_restoration_inspection
+ 65/145 Test  #65: image.gpt_restoration_inspection ..........   Passed    9.79 sec
+        Start  66: image.file_capture
+ 66/145 Test  #66: image.file_capture ........................   Passed    4.40 sec
+        Start  67: image.map_observation
+ 67/145 Test  #67: image.map_observation .....................   Passed    1.90 sec
+        Start  68: portable.gpt
+ 68/145 Test  #68: portable.gpt ..............................   Passed    3.80 sec
+        Start  69: portable.gpt_guard
+ 69/145 Test  #69: portable.gpt_guard ........................   Passed    0.02 sec
+        Start  70: portable.exfat
+ 70/145 Test  #70: portable.exfat ............................   Passed   15.51 sec
+        Start  71: portable.exfat_guard
+ 71/145 Test  #71: portable.exfat_guard ......................   Passed    0.02 sec
+        Start  72: portable.exfat_directory
+ 72/145 Test  #72: portable.exfat_directory ..................   Passed    1.28 sec
+        Start  73: portable.exfat_directory_guard
+ 73/145 Test  #73: portable.exfat_directory_guard ............   Passed    0.02 sec
+        Start  74: portable.exfat_allocation
+ 74/145 Test  #74: portable.exfat_allocation .................   Passed    0.45 sec
+        Start  75: portable.exfat_allocation_guard
+ 75/145 Test  #75: portable.exfat_allocation_guard ...........   Passed    0.02 sec
+        Start  76: portable.exfat_upcase
+ 76/145 Test  #76: portable.exfat_upcase .....................   Passed    3.03 sec
+        Start  77: portable.exfat_upcase_guard
+ 77/145 Test  #77: portable.exfat_upcase_guard ...............   Passed    0.02 sec
+        Start  78: image.exfat_tree
+ 78/145 Test  #78: image.exfat_tree ..........................   Passed    1.52 sec
+        Start  79: image.exfat_namespace
+ 79/145 Test  #79: image.exfat_namespace .....................   Passed    2.84 sec
+        Start  80: image.exfat_capture
+ 80/145 Test  #80: image.exfat_capture .......................   Passed    8.78 sec
+        Start  81: image.exfat_file
+ 81/145 Test  #81: image.exfat_file ..........................   Passed    8.61 sec
+        Start  82: image.exfat_tree_file
+ 82/145 Test  #82: image.exfat_tree_file .....................   Passed    2.91 sec
+        Start  83: image.exfat_worker
+ 83/145 Test  #83: image.exfat_worker ........................   Passed   12.08 sec
+        Start  84: portable.fat
+ 84/145 Test  #84: portable.fat ..............................   Passed    1.97 sec
+        Start  85: portable.fat_guard
+ 85/145 Test  #85: portable.fat_guard ........................   Passed    0.03 sec
+        Start  86: portable.fat_walk
+ 86/145 Test  #86: portable.fat_walk .........................   Passed    7.29 sec
+        Start  87: portable.fat_walk_guard
+ 87/145 Test  #87: portable.fat_walk_guard ...................   Passed    0.02 sec
+        Start  88: image.fat_traversal
+ 88/145 Test  #88: image.fat_traversal .......................   Passed    4.86 sec
+        Start  89: portable.fat_directory
+ 89/145 Test  #89: portable.fat_directory ....................   Passed    3.82 sec
+        Start  90: portable.fat_directory_guard
+ 90/145 Test  #90: portable.fat_directory_guard ..............   Passed    0.02 sec
+        Start  91: image.fat_capture
+ 91/145 Test  #91: image.fat_capture .........................   Passed    4.42 sec
+        Start  92: image.fat_content_file
+ 92/145 Test  #92: image.fat_content_file ....................   Passed   24.70 sec
+        Start  93: image.fat_allocation_scan
+ 93/145 Test  #93: image.fat_allocation_scan .................   Passed    6.49 sec
+        Start  94: image.fat_auxiliary
+ 94/145 Test  #94: image.fat_auxiliary .......................   Passed   14.09 sec
+        Start  95: portable.fat_auxiliary_guard
+ 95/145 Test  #95: portable.fat_auxiliary_guard ..............   Passed    0.02 sec
+        Start  96: image.fat_namespace
+ 96/145 Test  #96: image.fat_namespace .......................   Passed    2.12 sec
+        Start  97: image.fat_tree_controller
+ 97/145 Test  #97: image.fat_tree_controller .................   Passed   22.72 sec
+        Start  98: image.fat_tree_admission
+ 98/145 Test  #98: image.fat_tree_admission ..................   Passed   62.74 sec
+        Start  99: image.fat_tree_extraction_worker
+ 99/145 Test  #99: image.fat_tree_extraction_worker ..........   Passed   65.03 sec
+        Start 100: image.fat_tree_content
+100/145 Test #100: image.fat_tree_content ....................   Passed   52.23 sec
+        Start 101: image.fat_tree_metadata
+101/145 Test #101: image.fat_tree_metadata ...................   Passed    1.73 sec
+        Start 102: image.fat_tree_file
+102/145 Test #102: image.fat_tree_file .......................   Passed   31.36 sec
+        Start 103: image.fat_worker
+103/145 Test #103: image.fat_worker ..........................   Passed   11.27 sec
+        Start 104: image.fat_commands
+104/145 Test #104: image.fat_commands ........................   Passed   15.78 sec
+        Start 105: image.fat_allocation_windows
+105/145 Test #105: image.fat_allocation_windows ..............   Passed    1.04 sec
+        Start 106: image.fat_window_commands
+106/145 Test #106: image.fat_window_commands .................   Passed   13.99 sec
+        Start 107: portable.fat_cell_guard
+107/145 Test #107: portable.fat_cell_guard ...................   Passed    0.06 sec
+        Start 108: planner.gpt_repair
+108/145 Test #108: planner.gpt_repair ........................   Passed    2.97 sec
+        Start 109: portable.mbr_ebr
+109/145 Test #109: portable.mbr_ebr ..........................   Passed    1.86 sec
+        Start 110: portable.mbr_guard
+110/145 Test #110: portable.mbr_guard ........................   Passed    0.02 sec
+        Start 111: portable.checked
+111/145 Test #111: portable.checked ..........................   Passed    0.40 sec
+        Start 112: portable.c_cpp_linkage
+112/145 Test #112: portable.c_cpp_linkage ....................   Passed    0.04 sec
+        Start 113: operation.watch_reader
+113/145 Test #113: operation.watch_reader ....................   Passed    0.52 sec
+        Start 114: resilience.capture
+114/145 Test #114: resilience.capture ........................   Passed   32.45 sec
+        Start 115: resilience.request_channel
+115/145 Test #115: resilience.request_channel ................   Passed    0.64 sec
+        Start 116: shell.model
+116/145 Test #116: shell.model ...............................   Passed    2.24 sec
+        Start 117: operation.reducer
+117/145 Test #117: operation.reducer .........................   Passed    0.98 sec
+        Start 118: frontend.gui_model
+118/145 Test #118: frontend.gui_model ........................   Passed    1.35 sec
+        Start 119: frontend.gui_windows
+119/145 Test #119: frontend.gui_windows ......................   Passed    3.05 sec
+        Start 120: frontend.tui_model
+120/145 Test #120: frontend.tui_model ........................   Passed    0.70 sec
+        Start 121: frontend.tui_windows
+121/145 Test #121: frontend.tui_windows ......................   Passed    4.57 sec
+        Start 122: shell.windows
+122/145 Test #122: shell.windows .............................   Passed    7.20 sec
+        Start 123: frontend.service
+123/145 Test #123: frontend.service ..........................   Passed    0.68 sec
+        Start 124: frontend.transport
+124/145 Test #124: frontend.transport ........................   Passed    1.60 sec
+        Start 125: frontend.shared_presentation
+125/145 Test #125: frontend.shared_presentation ..............   Passed    1.21 sec
+        Start 126: invocation.policy
+126/145 Test #126: invocation.policy .........................   Passed    6.60 sec
+        Start 127: protocol.compatible_reader
+127/145 Test #127: protocol.compatible_reader ................   Passed    1.19 sec
+        Start 128: command.syntax
+128/145 Test #128: command.syntax ............................   Passed   13.92 sec
+        Start 129: protocol.json_codec
+129/145 Test #129: protocol.json_codec .......................   Passed    3.58 sec
+        Start 130: operation.watch
+130/145 Test #130: operation.watch ...........................   Passed   31.72 sec
+        Start 131: resilience.capture_campaign
+131/145 Test #131: resilience.capture_campaign ...............   Passed    9.36 sec
+        Start 132: resilience.frontend_memory
+132/145 Test #132: resilience.frontend_memory ................   Passed    8.75 sec
+        Start 133: resilience.store_failures
+133/145 Test #133: resilience.store_failures .................   Passed   17.91 sec
+        Start 134: resilience.request_waiting
+134/145 Test #134: resilience.request_waiting ................   Passed   19.60 sec
+        Start 135: resilience.output_waiting
+135/145 Test #135: resilience.output_waiting .................   Passed   17.94 sec
+        Start 136: operation.worker
+136/145 Test #136: operation.worker ..........................   Passed   21.31 sec
+        Start 137: resilience.gui_waiting
+137/145 Test #137: resilience.gui_waiting ....................   Passed    6.53 sec
+        Start 138: resilience.console_waiting
+138/145 Test #138: resilience.console_waiting ................   Passed   13.10 sec
+        Start 139: resilience.worker_budget
+139/145 Test #139: resilience.worker_budget ..................   Passed    8.41 sec
+        Start 140: disked.invocation
+140/145 Test #140: disked.invocation .........................   Passed    1.84 sec
+        Start 141: disked.acceptance
+141/145 Test #141: disked.acceptance .........................   Passed    8.59 sec
+        Start 142: disked_provider_guard.invocation
+142/145 Test #142: disked_provider_guard.invocation ..........   Passed    1.58 sec
+        Start 143: disked_provider_guard.acceptance
+143/145 Test #143: disked_provider_guard.acceptance ..........   Passed    3.92 sec
+        Start 144: provider_guard.positive_control
+144/145 Test #144: provider_guard.positive_control ...........   Passed    0.15 sec
+        Start 145: artifacts.archive_completeness
+145/145 Test #145: artifacts.archive_completeness ............   Passed    2.55 sec
+
+94% tests passed, 8 tests failed out of 145
+
+Total Test time (real) = 2298.62 sec
+
+The following tests FAILED:
+	 20 - frontend.product_verification (Failed)
+	 21 - frontend.product_export (Failed)
+	 22 - frontend.joined_report (Failed)
+	 26 - evidence.acquisition_export (Failed)
+	 36 - evidence.image_verification_collection (Failed)
+	 38 - evidence.verification_commands (Failed)
+	 49 - frontend.fat_extraction (Failed)
+	 50 - evidence.logical_extraction (Failed)
+Errors while running CTest

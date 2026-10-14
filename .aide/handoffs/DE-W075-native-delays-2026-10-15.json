@@ -1,0 +1,105 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W075",
+  "base_revision": "e5633c9592250a08ed1165c2b4e3a92e04f3ec8f",
+  "spec_manifest_digest": "sha256:93ee284c85b2d55bcc3802203293b087c238b92d973265e7157c3793da40da02",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-tree-file-prototype.json",
+    "source/providers/image/exfat_file.cpp",
+    "source/runtime/capture/exfat_tree.cpp",
+    "source/providers/image/file_acquisition.cpp",
+    "source/apps/disked/app.cpp",
+    "source/platform/windows/report_worker.cpp",
+    "tests/frontend/test_fat_extraction_commands.py",
+    "tests/evidence/test_logical_extraction_evidence.py"
+  ],
+  "files_changed": [
+    "source/providers/image/file_acquisition.cpp",
+    "spec/catalog/exfat-tree-file-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/work/units.json",
+    "spec/manifest.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "docs/exfat-tree-file.md",
+    "TODO.MD",
+    ".aide/evidence/2026-10-15-native-delays"
+  ],
+  "summary": "Original complete145 campaign fails eight groups;137 pass. Private tree-file46 cases pass, with51 headers/242 tooling(two skips) and independent import/context/source checks. Bounded fault-only timing and one existing acquisition regression pass. Original eight failures pass once on unchanged artifacts/deadlines, but cause and full native qualification remain unresolved. No W075 integration/owner/full0.1.0 claim.",
+  "tests": [
+    {
+      "command": "reproduce-qualified.py --revision 39d514f1 --work DE-W075",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json"
+    },
+    {
+      "command": "finish-observations.py after failed native run",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json"
+    },
+    {
+      "command": "build-acquisition-timing.py: two adapter targets and existing acquisition regression",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-native-delays/timing-working/acquisition-timing-build/summary.json"
+    },
+    {
+      "command": "reproduce-timing.py: generated paused prefix/resume/normal control isolation",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-native-delays/timing-working/acquisition-timing-observation/summary.json"
+    },
+    {
+      "command": "ctest eight original failed groups with unchanged artifacts and deadlines",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-native-delays/retest-39d514f1/summary.json"
+    },
+    {
+      "command": "current specctl index/check/manifest/verify-manifest/context/verify-context and source-map",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide-local/context/native-delays-w075/manifest.json"
+    },
+    {
+      "command": "complete exact native/header/tooling/import campaign at the next source commit",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json",
+      "sha256": "sha256:164883f15579db7eda5d6336a84a2e5f42c36141e815c0a4433f5db1c718247e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-native-delays/timing-working/acquisition-timing-observation/summary.json",
+      "sha256": "sha256:262c7f455910320ff1929fcea7f7bc96a450f36563406ac7fe2ec0447a36d2f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-native-delays/retest-39d514f1/summary.json",
+      "sha256": "sha256:7e75473c1aef7d3a94c2e5893c6b5d82cac6b6465a300bc662deef2c06673cc0"
+    }
+  ],
+  "blockers": [
+    "Native full campaign failed; focused passes and diagnostic timing do not clear it.",
+    "Actual symlink fixture remains unavailable without privilege.",
+    "Tree worker/frontend, remaining original platforms/storage, owner/release gates unfinished."
+  ],
+  "next_safe_step": "Commit/push this partial development checkpoint to dev, then run one complete exact-source145/header/tooling/import/context campaign with sequential build/test stages. Preserve failures and original deadlines. Main remains at the prior tested checkpoint until new evidence and agent review support integration.",
+  "performed_remote_writes": false
+}

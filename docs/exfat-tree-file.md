@@ -19,7 +19,19 @@ fragmented/NoFatChain allocations, ValidDataLength zero filling, actual held-han
 exclusion, invalid inputs, cancellation and replay disagreement. The original89
 root-file cases and44 supplied-tree cases pass. The first dependency check correctly
 reported the new tree/namespace closure; its owning declaration is updated for
-the implemented shared API. Exact source qualification is pending.
+the implemented shared API. The complete exact `39d514f1` native campaign has
+137 passes and eight failures in existing verification, export and extraction
+journeys. Its 51 headers, 242 tooling tests/two skips, structural checks, imports,
+context and source freshness pass. Native qualification and integration are
+withheld; those independent checks cannot clear the failed campaign.
+
+A bounded fault-build timing experiment independently verifies the same generated
+17 MB resume shape, final content, sealed map and unchanged backing image. It
+completes in 29.984 seconds, with 28.165 seconds in measured flush spans. This does
+not explain the earlier 213.422-second resume or establish a fix. The normal
+adapter ignores the new test timing control; the existing acquisition regression
+passes. [Retained evidence](../.aide/evidence/2026-10-15-native-delays/README.md)
+keeps failures and diagnostic measurements distinct.
 
 This is a synchronous private adapter. It creates no extracted files and is not
 admitted to normal worker/frontend dispatch. Paging/backpressure, contained

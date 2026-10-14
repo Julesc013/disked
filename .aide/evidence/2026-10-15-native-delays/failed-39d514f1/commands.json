@@ -1,0 +1,105 @@
+[
+  {
+    "name": "worktree",
+    "command": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+      "39d514f1a606290c63a6a63b2ce9e6d5d6e3e673"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "worktree.log"
+  },
+  {
+    "name": "sparse-selection",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "sparse-selection.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "39d514f1a606290c63a6a63b2ce9e6d5d6e3e673"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 4.594,
+    "log": "checkout.log"
+  },
+  {
+    "name": "initial-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.148,
+    "log": "initial-source-status.log"
+  },
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 9.209,
+    "log": "configure.log"
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 232.476,
+    "log": "build.log"
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\build",
+      "-C",
+      "Release",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\native-junit.xml"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-39d514f1\\source",
+    "exit_code": 8,
+    "elapsed_seconds": 2298.702,
+    "log": "native.log"
+  }
+]
