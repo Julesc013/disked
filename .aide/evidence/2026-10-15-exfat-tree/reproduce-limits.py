@@ -50,7 +50,7 @@ def run(name, command, cwd=clone, data=None):
         raise SystemExit(result.returncode)
 
 
-run('clone', ['git', 'clone', '--local', '--no-hardlinks', '--no-checkout', root, clone], root)
+run('worktree', ['git', 'worktree', 'add', '--detach', '--no-checkout', clone, revision], root)
 def blob(path):
     return json.loads(subprocess.check_output(['git', 'show', revision + ':' + path], cwd=root))
 catalog, registry = blob('tools/build-inputs.json'), blob('spec/catalog/input-dependencies.json')
@@ -65,7 +65,7 @@ paths = required | {p.relative_to(clone).as_posix() for folder in ['source', 'te
     for p in (clone / folder).rglob('*') if p.is_file()}
 inputs = {p: sha(clone / p) for p in sorted(paths)}
 save(out / 'source-inputs.json', inputs)
-targets = ['exfat_tree_probe', 'exfat_namespace_probe', 'exfat_capture_probe',
+targets = ['bootstrap_registry', 'exfat_tree_probe', 'exfat_namespace_probe', 'exfat_capture_probe',
     'disked_exfat_tree_headers', 'disked_exfat_namespace_headers', 'disked_exfat_capture_headers', 'disked_exfat_upcase_headers']
 for architecture in ['x64', 'Win32']:
     build = out / architecture
