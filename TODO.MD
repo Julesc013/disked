@@ -410,5 +410,6 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 
 - [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with89 existing root-file and44 supplied-tree cases.
 - [x] Retain exact `39d514f1` full145 failure (137 passes/eight failures),51 headers and242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
+- [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
 - [ ] Qualify exact committed source, headers, imports/context/tooling and the shared-mechanism regressions before integration.
 - [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original0.1.0 work.

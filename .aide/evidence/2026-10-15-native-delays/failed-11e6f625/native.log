@@ -1,0 +1,312 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/exfat-tree-file-exact-11e6f625/build
+        Start   1: image.exfat_commands
+  1/145 Test   #1: image.exfat_commands ......................   Passed   22.58 sec
+        Start   2: resilience.worker_ancestry
+  2/145 Test   #2: resilience.worker_ancestry ................   Passed    4.42 sec
+        Start   3: acquisition.fat_metadata
+  3/145 Test   #3: acquisition.fat_metadata ..................   Passed    2.63 sec
+        Start   4: capture.fat_content_stream
+  4/145 Test   #4: capture.fat_content_stream ................   Passed    5.85 sec
+        Start   5: capture.tree_session_rules
+  5/145 Test   #5: capture.tree_session_rules ................   Passed    0.06 sec
+        Start   6: frontend.fat_recursive_product
+  6/145 Test   #6: frontend.fat_recursive_product ............   Passed    9.64 sec
+        Start   7: frontend.fat_recursive_failures
+  7/145 Test   #7: frontend.fat_recursive_failures ...........   Passed   55.38 sec
+        Start   8: frontend.fat_tree_sessions
+  8/145 Test   #8: frontend.fat_tree_sessions ................   Passed   16.96 sec
+        Start   9: image.fat_tree_commands
+  9/145 Test   #9: image.fat_tree_commands ...................   Passed   13.16 sec
+        Start  10: image.fat_tree_reconnect
+ 10/145 Test  #10: image.fat_tree_reconnect ..................   Passed    3.47 sec
+        Start  11: image.fat_tree_watch
+ 11/145 Test  #11: image.fat_tree_watch ......................   Passed    3.94 sec
+        Start  12: acquisition.fat_tree_review
+ 12/145 Test  #12: acquisition.fat_tree_review ...............   Passed    1.69 sec
+        Start  13: evidence.fat_tree_history
+ 13/145 Test  #13: evidence.fat_tree_history .................   Passed   85.05 sec
+        Start  14: image.fat_tree_extraction
+ 14/145 Test  #14: image.fat_tree_extraction .................   Passed   75.36 sec
+        Start  15: image.fat_content
+ 15/145 Test  #15: image.fat_content .........................   Passed    1.49 sec
+        Start  16: image.fat_retention_store
+ 16/145 Test  #16: image.fat_retention_store .................   Passed    0.34 sec
+        Start  17: image.fat_retention_commands
+ 17/145 Test  #17: image.fat_retention_commands ..............   Passed    9.26 sec
+        Start  18: build.boundaries
+ 18/145 Test  #18: build.boundaries ..........................   Passed   13.47 sec
+        Start  19: build.boundary_checker
+ 19/145 Test  #19: build.boundary_checker ....................   Passed    0.59 sec
+        Start  20: frontend.product_verification
+ 20/145 Test  #20: frontend.product_verification .............   Passed   72.61 sec
+        Start  21: frontend.product_export
+ 21/145 Test  #21: frontend.product_export ...................   Passed   34.07 sec
+        Start  22: frontend.joined_report
+ 22/145 Test  #22: frontend.joined_report ....................***Failed   12.86 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-11e6f625\source\.aide-local\disked-acq-worker-_zqxk64f
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-11e6f625\source\tests\frontend\test_product_export.py", line 244, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-11e6f625\source\tests\frontend\test_product_export.py", line 128, in main
+    if kind=='cli':prepared=cli(command(selection));execute=lambda p:cli(command(p),(0,5,6))
+                            ~~~^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\exfat-tree-file-exact-11e6f625\source\tests\frontend\test_product_export.py", line 36, in cli
+    assert p.returncode in exits and not p.stderr,(argv,p.returncode,p.stdout,p.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (['evidence', 'export', 'prepare', 'image-op:e2df205043b2c69ce5cc78225a596b0a', 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source\\.aide-local\\disked-acq-worker-_zqxk64f\\cli\\support.json', '--case-state-dir', 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source\\.aide-local\\disked-acq-worker-_zqxk64f\\case', '--state-dir', 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source\\.aide-local\\disked-acq-worker-_zqxk64f\\cli\\state', '--collection', 'D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source\\.aide-local\\disked-acq-worker-_zqxk64f\\verification\\verification.collection', '--collection-digest', 'sha256:e532daedb2d5c7b649c54acce7876679c9814c4fa85e2575c6339e7da455efbb'], 6, b'{"diagnostics":[{"code":"request_wait_expired","message_key":"disked.request_wait_expired","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":{"request_kind":"export-execution","request_state":"unresolved","state_directory":"D:\\\\Projects\\\\DiskEd\\\\disked\\\\.aide-local\\\\exfat-tree-file-exact-11e6f625\\\\source\\\\.aide-local\\\\disked-acq-worker-_zqxk64f\\\\cli\\\\state"},"schema":"org.disked.response/1","status":"unknown"}\n', b'')
+
+        Start  23: frontend.gui_capture
+ 23/145 Test  #23: frontend.gui_capture ......................   Passed    1.49 sec
+        Start  24: evidence.report_process_identity
+ 24/145 Test  #24: evidence.report_process_identity ..........   Passed    3.38 sec
+        Start  25: operation.directory_pins
+ 25/145 Test  #25: operation.directory_pins ..................   Passed    0.98 sec
+        Start  26: evidence.acquisition_export
+ 26/145 Test  #26: evidence.acquisition_export ...............   Passed    8.45 sec
+        Start  27: evidence.verification_case_export
+ 27/145 Test  #27: evidence.verification_case_export .........   Passed   96.82 sec
+        Start  28: evidence.report_worker
+ 28/145 Test  #28: evidence.report_worker ....................   Passed   35.11 sec
+        Start  29: evidence.export_commands
+ 29/145 Test  #29: evidence.export_commands ..................   Passed   24.46 sec
+        Start  30: evidence.report_watch
+ 30/145 Test  #30: evidence.report_watch .....................   Passed   28.18 sec
+        Start  31: evidence.acquisition_case
+ 31/145 Test  #31: evidence.acquisition_case .................   Passed   17.20 sec
+        Start  32: evidence.export_model
+ 32/145 Test  #32: evidence.export_model .....................   Passed    1.89 sec
+        Start  33: evidence.file_export
+ 33/145 Test  #33: evidence.file_export ......................   Passed   14.35 sec
+        Start  34: evidence.acquired_image_verification
+ 34/145 Test  #34: evidence.acquired_image_verification ......   Passed   10.08 sec
+        Start  35: evidence.image_verification_observation
+ 35/145 Test  #35: evidence.image_verification_observation ...   Passed   16.13 sec
+        Start  36: evidence.image_verification_collection
+ 36/145 Test  #36: evidence.image_verification_collection ....   Passed   13.36 sec
+        Start  37: evidence.verification_worker
+ 37/145 Test  #37: evidence.verification_worker ..............   Passed   50.92 sec
+        Start  38: evidence.verification_commands
+ 38/145 Test  #38: evidence.verification_commands ............   Passed   24.67 sec
+        Start  39: evidence.case_model
+ 39/145 Test  #39: evidence.case_model .......................   Passed    3.88 sec
+        Start  40: health.observation_model
+ 40/145 Test  #40: health.observation_model ..................   Passed    0.28 sec
+        Start  41: health.command
+ 41/145 Test  #41: health.command ............................   Passed    4.23 sec
+        Start  42: journal.semantic_reader
+ 42/145 Test  #42: journal.semantic_reader ...................   Passed   13.00 sec
+        Start  43: journal.guarded_model
+ 43/145 Test  #43: journal.guarded_model .....................   Passed    1.89 sec
+        Start  44: journal.model_binary_producer
+ 44/145 Test  #44: journal.model_binary_producer .............   Passed    2.58 sec
+        Start  45: journal.repeated_crash_audit
+ 45/145 Test  #45: journal.repeated_crash_audit ..............   Passed    4.07 sec
+        Start  46: journal.plan_definitions
+ 46/145 Test  #46: journal.plan_definitions ..................   Passed    0.36 sec
+        Start  47: journal.binary_codec
+ 47/145 Test  #47: journal.binary_codec ......................   Passed    0.26 sec
+        Start  48: frontend.acquisition_forms
+ 48/145 Test  #48: frontend.acquisition_forms ................   Passed    2.89 sec
+        Start  49: frontend.fat_extraction
+ 49/145 Test  #49: frontend.fat_extraction ...................   Passed   61.62 sec
+        Start  50: evidence.logical_extraction
+ 50/145 Test  #50: evidence.logical_extraction ...............   Passed   28.96 sec
+        Start  51: command.compiled_registry
+ 51/145 Test  #51: command.compiled_registry .................   Passed    0.09 sec
+        Start  52: frontend.acquisition_interactive
+ 52/145 Test  #52: frontend.acquisition_interactive ..........   Passed   37.31 sec
+        Start  53: image.acquisition_commands
+ 53/145 Test  #53: image.acquisition_commands ................   Passed   17.13 sec
+        Start  54: image.acquisition_operations
+ 54/145 Test  #54: image.acquisition_operations ..............   Passed   11.05 sec
+        Start  55: image.acquisition_worker
+ 55/145 Test  #55: image.acquisition_worker ..................   Passed   25.42 sec
+        Start  56: image.fat_extraction
+ 56/145 Test  #56: image.fat_extraction ......................   Passed   11.90 sec
+        Start  57: image.file_acquisition
+ 57/145 Test  #57: image.file_acquisition ....................   Passed   20.21 sec
+        Start  58: image.parent_pins
+ 58/145 Test  #58: image.parent_pins .........................   Passed    0.91 sec
+        Start  59: image.acquisition_pipeline
+ 59/145 Test  #59: image.acquisition_pipeline ................   Passed    5.99 sec
+        Start  60: image.shared_commands
+ 60/145 Test  #60: image.shared_commands .....................   Passed   19.76 sec
+        Start  61: image.gpt_repair_command
+ 61/145 Test  #61: image.gpt_repair_command ..................   Passed    8.13 sec
+        Start  62: image.gpt_fixture_execution
+ 62/145 Test  #62: image.gpt_fixture_execution ...............   Passed   78.02 sec
+        Start  63: image.gpt_fixture_restoration
+ 63/145 Test  #63: image.gpt_fixture_restoration .............   Passed  134.04 sec
+        Start  64: recovery.gpt_fixture_harness
+ 64/145 Test  #64: recovery.gpt_fixture_harness ..............   Passed    0.36 sec
+        Start  65: image.gpt_restoration_inspection
+ 65/145 Test  #65: image.gpt_restoration_inspection ..........   Passed   10.28 sec
+        Start  66: image.file_capture
+ 66/145 Test  #66: image.file_capture ........................   Passed    4.52 sec
+        Start  67: image.map_observation
+ 67/145 Test  #67: image.map_observation .....................   Passed    1.86 sec
+        Start  68: portable.gpt
+ 68/145 Test  #68: portable.gpt ..............................   Passed    3.74 sec
+        Start  69: portable.gpt_guard
+ 69/145 Test  #69: portable.gpt_guard ........................   Passed    0.02 sec
+        Start  70: portable.exfat
+ 70/145 Test  #70: portable.exfat ............................   Passed   14.77 sec
+        Start  71: portable.exfat_guard
+ 71/145 Test  #71: portable.exfat_guard ......................   Passed    0.02 sec
+        Start  72: portable.exfat_directory
+ 72/145 Test  #72: portable.exfat_directory ..................   Passed    1.25 sec
+        Start  73: portable.exfat_directory_guard
+ 73/145 Test  #73: portable.exfat_directory_guard ............   Passed    0.02 sec
+        Start  74: portable.exfat_allocation
+ 74/145 Test  #74: portable.exfat_allocation .................   Passed    0.37 sec
+        Start  75: portable.exfat_allocation_guard
+ 75/145 Test  #75: portable.exfat_allocation_guard ...........   Passed    0.02 sec
+        Start  76: portable.exfat_upcase
+ 76/145 Test  #76: portable.exfat_upcase .....................   Passed    2.93 sec
+        Start  77: portable.exfat_upcase_guard
+ 77/145 Test  #77: portable.exfat_upcase_guard ...............   Passed    0.02 sec
+        Start  78: image.exfat_tree
+ 78/145 Test  #78: image.exfat_tree ..........................   Passed    1.41 sec
+        Start  79: image.exfat_namespace
+ 79/145 Test  #79: image.exfat_namespace .....................   Passed    2.76 sec
+        Start  80: image.exfat_capture
+ 80/145 Test  #80: image.exfat_capture .......................   Passed    8.60 sec
+        Start  81: image.exfat_file
+ 81/145 Test  #81: image.exfat_file ..........................   Passed    8.11 sec
+        Start  82: image.exfat_tree_file
+ 82/145 Test  #82: image.exfat_tree_file .....................   Passed    2.88 sec
+        Start  83: image.exfat_worker
+ 83/145 Test  #83: image.exfat_worker ........................   Passed   12.32 sec
+        Start  84: portable.fat
+ 84/145 Test  #84: portable.fat ..............................   Passed    1.92 sec
+        Start  85: portable.fat_guard
+ 85/145 Test  #85: portable.fat_guard ........................   Passed    0.02 sec
+        Start  86: portable.fat_walk
+ 86/145 Test  #86: portable.fat_walk .........................   Passed    6.52 sec
+        Start  87: portable.fat_walk_guard
+ 87/145 Test  #87: portable.fat_walk_guard ...................   Passed    0.04 sec
+        Start  88: image.fat_traversal
+ 88/145 Test  #88: image.fat_traversal .......................   Passed    3.96 sec
+        Start  89: portable.fat_directory
+ 89/145 Test  #89: portable.fat_directory ....................   Passed    3.25 sec
+        Start  90: portable.fat_directory_guard
+ 90/145 Test  #90: portable.fat_directory_guard ..............   Passed    0.02 sec
+        Start  91: image.fat_capture
+ 91/145 Test  #91: image.fat_capture .........................   Passed    2.18 sec
+        Start  92: image.fat_content_file
+ 92/145 Test  #92: image.fat_content_file ....................   Passed    4.64 sec
+        Start  93: image.fat_allocation_scan
+ 93/145 Test  #93: image.fat_allocation_scan .................   Passed    5.50 sec
+        Start  94: image.fat_auxiliary
+ 94/145 Test  #94: image.fat_auxiliary .......................   Passed   11.58 sec
+        Start  95: portable.fat_auxiliary_guard
+ 95/145 Test  #95: portable.fat_auxiliary_guard ..............   Passed    0.02 sec
+        Start  96: image.fat_namespace
+ 96/145 Test  #96: image.fat_namespace .......................   Passed    1.87 sec
+        Start  97: image.fat_tree_controller
+ 97/145 Test  #97: image.fat_tree_controller .................   Passed   20.78 sec
+        Start  98: image.fat_tree_admission
+ 98/145 Test  #98: image.fat_tree_admission ..................   Passed   63.12 sec
+        Start  99: image.fat_tree_extraction_worker
+ 99/145 Test  #99: image.fat_tree_extraction_worker ..........   Passed   64.15 sec
+        Start 100: image.fat_tree_content
+100/145 Test #100: image.fat_tree_content ....................   Passed   50.01 sec
+        Start 101: image.fat_tree_metadata
+101/145 Test #101: image.fat_tree_metadata ...................   Passed    1.84 sec
+        Start 102: image.fat_tree_file
+102/145 Test #102: image.fat_tree_file .......................   Passed   33.25 sec
+        Start 103: image.fat_worker
+103/145 Test #103: image.fat_worker ..........................   Passed   10.73 sec
+        Start 104: image.fat_commands
+104/145 Test #104: image.fat_commands ........................   Passed   14.96 sec
+        Start 105: image.fat_allocation_windows
+105/145 Test #105: image.fat_allocation_windows ..............   Passed    0.96 sec
+        Start 106: image.fat_window_commands
+106/145 Test #106: image.fat_window_commands .................   Passed    8.59 sec
+        Start 107: portable.fat_cell_guard
+107/145 Test #107: portable.fat_cell_guard ...................   Passed    0.03 sec
+        Start 108: planner.gpt_repair
+108/145 Test #108: planner.gpt_repair ........................   Passed    2.67 sec
+        Start 109: portable.mbr_ebr
+109/145 Test #109: portable.mbr_ebr ..........................   Passed    1.20 sec
+        Start 110: portable.mbr_guard
+110/145 Test #110: portable.mbr_guard ........................   Passed    0.02 sec
+        Start 111: portable.checked
+111/145 Test #111: portable.checked ..........................   Passed    0.35 sec
+        Start 112: portable.c_cpp_linkage
+112/145 Test #112: portable.c_cpp_linkage ....................   Passed    0.04 sec
+        Start 113: operation.watch_reader
+113/145 Test #113: operation.watch_reader ....................   Passed    0.44 sec
+        Start 114: resilience.capture
+114/145 Test #114: resilience.capture ........................   Passed   29.63 sec
+        Start 115: resilience.request_channel
+115/145 Test #115: resilience.request_channel ................   Passed    1.19 sec
+        Start 116: shell.model
+116/145 Test #116: shell.model ...............................   Passed    1.84 sec
+        Start 117: operation.reducer
+117/145 Test #117: operation.reducer .........................   Passed    0.81 sec
+        Start 118: frontend.gui_model
+118/145 Test #118: frontend.gui_model ........................   Passed    0.84 sec
+        Start 119: frontend.gui_windows
+119/145 Test #119: frontend.gui_windows ......................   Passed    2.50 sec
+        Start 120: frontend.tui_model
+120/145 Test #120: frontend.tui_model ........................   Passed    0.60 sec
+        Start 121: frontend.tui_windows
+121/145 Test #121: frontend.tui_windows ......................   Passed    3.98 sec
+        Start 122: shell.windows
+122/145 Test #122: shell.windows .............................   Passed    6.70 sec
+        Start 123: frontend.service
+123/145 Test #123: frontend.service ..........................   Passed    0.41 sec
+        Start 124: frontend.transport
+124/145 Test #124: frontend.transport ........................   Passed    1.73 sec
+        Start 125: frontend.shared_presentation
+125/145 Test #125: frontend.shared_presentation ..............   Passed    1.18 sec
+        Start 126: invocation.policy
+126/145 Test #126: invocation.policy .........................   Passed    6.38 sec
+        Start 127: protocol.compatible_reader
+127/145 Test #127: protocol.compatible_reader ................   Passed    0.90 sec
+        Start 128: command.syntax
+128/145 Test #128: command.syntax ............................   Passed   13.58 sec
+        Start 129: protocol.json_codec
+129/145 Test #129: protocol.json_codec .......................   Passed    9.30 sec
+        Start 130: operation.watch
+130/145 Test #130: operation.watch ...........................   Passed   35.19 sec
+        Start 131: resilience.capture_campaign
+131/145 Test #131: resilience.capture_campaign ...............   Passed    9.25 sec
+        Start 132: resilience.frontend_memory
+132/145 Test #132: resilience.frontend_memory ................   Passed    8.53 sec
+        Start 133: resilience.store_failures
+133/145 Test #133: resilience.store_failures .................   Passed   17.53 sec
+        Start 134: resilience.request_waiting
+134/145 Test #134: resilience.request_waiting ................   Passed   19.58 sec
+        Start 135: resilience.output_waiting
+135/145 Test #135: resilience.output_waiting .................   Passed   22.60 sec
+        Start 136: operation.worker
+136/145 Test #136: operation.worker ..........................   Passed   21.16 sec
+        Start 137: resilience.gui_waiting
+137/145 Test #137: resilience.gui_waiting ....................   Passed    6.33 sec
+        Start 138: resilience.console_waiting
+138/145 Test #138: resilience.console_waiting ................   Passed   12.86 sec
+        Start 139: resilience.worker_budget
+139/145 Test #139: resilience.worker_budget ..................   Passed    8.37 sec
+        Start 140: disked.invocation
+140/145 Test #140: disked.invocation .........................   Passed    1.68 sec
+        Start 141: disked.acceptance
+141/145 Test #141: disked.acceptance .........................   Passed    3.86 sec
+        Start 142: disked_provider_guard.invocation
+142/145 Test #142: disked_provider_guard.invocation ..........   Passed    1.56 sec
+        Start 143: disked_provider_guard.acceptance
+143/145 Test #143: disked_provider_guard.acceptance ..........   Passed    3.83 sec
+        Start 144: provider_guard.positive_control
+144/145 Test #144: provider_guard.positive_control ...........   Passed    0.14 sec
+        Start 145: artifacts.archive_completeness
+145/145 Test #145: artifacts.archive_completeness ............   Passed    1.54 sec
+
+99% tests passed, 1 tests failed out of 145
+
+Total Test time (real) = 1933.81 sec
+
+The following tests FAILED:
+	 22 - frontend.joined_report (Failed)
+Errors while running CTest

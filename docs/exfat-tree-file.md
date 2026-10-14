@@ -33,6 +33,14 @@ adapter ignores the new test timing control; the existing acquisition regression
 passes. [Retained evidence](../.aide/evidence/2026-10-15-native-delays/README.md)
 keeps failures and diagnostic measurements distinct.
 
+The later complete exact `11e6f625` campaign passes 144 of145 native groups,
+51 headers and242 tooling tests/two skips with imports/context/source checks.
+Joined-report read-only preparation returns `request_wait_expired` in its failing
+group. Six subsequent bounded samples on that retained fixture return identical
+completed preparations in0.10-0.17 seconds, preserving inputs and creating no
+outputs. They do not reproduce or diagnose the earlier delay. Integration remains
+withheld; the full failed campaign is preserved alongside these observations.
+
 This is a synchronous private adapter. It creates no extracted files and is not
 admitted to normal worker/frontend dispatch. Paging/backpressure, contained
 transport and process retirement, other platforms/storage, owner acceptance and

@@ -62,3 +62,21 @@ passes all eight failed groups with unchanged deadlines and assertions. See
 `retest-39d514f1/summary.json`. This is a diagnostic result; the original complete
 campaign still has eight failures and their cause remains unproven. A complete
 campaign at the next committed source remains required before integration.
+
+That next complete exact campaign at `11e6f625` has144 passes and one failure in
+joined-report read-only preparation (`request_wait_expired`). Build,51 headers,
+242 tooling tests/two skips, imports/context and source freshness pass. Its raw
+terminal evidence is retained in `failed-11e6f625/`; it is not native-qualified.
+
+Six bounded CLI preparations on the actual retained fixture then complete in
+0.103-0.165 seconds, with identical responses,0.094-0.156 seconds of observed CPU
+time, matching source hashes and no destination or state-store outputs. All
+owned children exit. Process I/O counters include stdout writes; they do not
+imply report-output effects. These measurements include harness overhead and do
+not identify the cause of the earlier deadline expiry. See
+`joined-prepare-11e6f625/summary.json` and the complete raw responses.
+
+Preserve the four-second request boundary and the original tests. No further
+unchanged full campaign is justified merely to obtain a pass. The next corrective
+task needs concrete phase observations or a diagnosed repair; independent work
+can continue where its owning gates permit. Main integration remains withheld.

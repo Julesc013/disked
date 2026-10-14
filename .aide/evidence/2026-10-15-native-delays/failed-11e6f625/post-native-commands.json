@@ -1,0 +1,771 @@
+[
+  {
+    "name": "tooling",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "spec/tools/tests",
+      "-v"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 302.988,
+    "log": "post-native-tooling.log"
+  },
+  {
+    "name": "spec-check",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 2.988,
+    "log": "post-native-spec-check.log"
+  },
+  {
+    "name": "index",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "index",
+      "--check"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.267,
+    "log": "post-native-index.log"
+  },
+  {
+    "name": "manifest",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-manifest"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.058,
+    "log": "post-native-manifest.log"
+  },
+  {
+    "name": "source-map",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "tools/check-source-map.py"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.136,
+    "log": "post-native-source-map.log"
+  },
+  {
+    "name": "context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "context",
+      "--work",
+      "DE-W075",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\context",
+      "--byte-budget",
+      "1200000"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 2.046,
+    "log": "post-native-context.log"
+  },
+  {
+    "name": "verify-context",
+    "command": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "spec/tools/specctl.py",
+      "verify-context",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\context"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 4.871,
+    "log": "post-native-verify-context.log"
+  },
+  {
+    "name": "disked-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "post-native-disked-headers.log"
+  },
+  {
+    "name": "disked-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.106,
+    "log": "post-native-disked-imports.log"
+  },
+  {
+    "name": "disked-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.076,
+    "log": "post-native-disked-dependents.log"
+  },
+  {
+    "name": "disked_exfat_test-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked_exfat_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.078,
+    "log": "post-native-disked_exfat_test-headers.log"
+  },
+  {
+    "name": "disked_exfat_test-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked_exfat_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.099,
+    "log": "post-native-disked_exfat_test-imports.log"
+  },
+  {
+    "name": "disked_exfat_test-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\disked_exfat_test.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "post-native-disked_exfat_test-dependents.log"
+  },
+  {
+    "name": "gpt_execution_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\gpt_execution_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.062,
+    "log": "post-native-gpt_execution_probe-headers.log"
+  },
+  {
+    "name": "gpt_execution_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\gpt_execution_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-gpt_execution_probe-imports.log"
+  },
+  {
+    "name": "gpt_execution_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\gpt_execution_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-gpt_execution_probe-dependents.log"
+  },
+  {
+    "name": "command_parser_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\command_parser_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.062,
+    "log": "post-native-command_parser_probe-headers.log"
+  },
+  {
+    "name": "command_parser_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\command_parser_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "post-native-command_parser_probe-imports.log"
+  },
+  {
+    "name": "command_parser_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\command_parser_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.041,
+    "log": "post-native-command_parser_probe-dependents.log"
+  },
+  {
+    "name": "acquisition_command_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-acquisition_command_probe-headers.log"
+  },
+  {
+    "name": "acquisition_command_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-acquisition_command_probe-imports.log"
+  },
+  {
+    "name": "acquisition_command_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_command_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.04,
+    "log": "post-native-acquisition_command_probe-dependents.log"
+  },
+  {
+    "name": "exfat_capture_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "post-native-exfat_capture_probe-headers.log"
+  },
+  {
+    "name": "exfat_capture_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-exfat_capture_probe-imports.log"
+  },
+  {
+    "name": "exfat_capture_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_capture_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "post-native-exfat_capture_probe-dependents.log"
+  },
+  {
+    "name": "exfat_tree_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.057,
+    "log": "post-native-exfat_tree_probe-headers.log"
+  },
+  {
+    "name": "exfat_tree_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-exfat_tree_probe-imports.log"
+  },
+  {
+    "name": "exfat_tree_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_tree_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-exfat_tree_probe-dependents.log"
+  },
+  {
+    "name": "exfat_namespace_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.052,
+    "log": "post-native-exfat_namespace_probe-headers.log"
+  },
+  {
+    "name": "exfat_namespace_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "post-native-exfat_namespace_probe-imports.log"
+  },
+  {
+    "name": "exfat_namespace_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "post-native-exfat_namespace_probe-dependents.log"
+  },
+  {
+    "name": "exfat_file_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "post-native-exfat_file_probe-headers.log"
+  },
+  {
+    "name": "exfat_file_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "post-native-exfat_file_probe-imports.log"
+  },
+  {
+    "name": "exfat_file_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.043,
+    "log": "post-native-exfat_file_probe-dependents.log"
+  },
+  {
+    "name": "exfat_file_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "log": "post-native-exfat_file_fault-headers.log"
+  },
+  {
+    "name": "exfat_file_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.043,
+    "log": "post-native-exfat_file_fault-imports.log"
+  },
+  {
+    "name": "exfat_file_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_file_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.039,
+    "log": "post-native-exfat_file_fault-dependents.log"
+  },
+  {
+    "name": "exfat_worker_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-exfat_worker_probe-headers.log"
+  },
+  {
+    "name": "exfat_worker_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.704,
+    "log": "post-native-exfat_worker_probe-imports.log"
+  },
+  {
+    "name": "exfat_worker_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "post-native-exfat_worker_probe-dependents.log"
+  },
+  {
+    "name": "exfat_worker_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-exfat_worker_fault-headers.log"
+  },
+  {
+    "name": "exfat_worker_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.051,
+    "log": "post-native-exfat_worker_fault-imports.log"
+  },
+  {
+    "name": "exfat_worker_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\exfat_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-exfat_worker_fault-dependents.log"
+  },
+  {
+    "name": "report_worker_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-report_worker_probe-headers.log"
+  },
+  {
+    "name": "report_worker_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "post-native-report_worker_probe-imports.log"
+  },
+  {
+    "name": "report_worker_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.048,
+    "log": "post-native-report_worker_probe-dependents.log"
+  },
+  {
+    "name": "report_worker_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "post-native-report_worker_fault-headers.log"
+  },
+  {
+    "name": "report_worker_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "post-native-report_worker_fault-imports.log"
+  },
+  {
+    "name": "report_worker_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\report_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "log": "post-native-report_worker_fault-dependents.log"
+  },
+  {
+    "name": "verification_worker_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "log": "post-native-verification_worker_probe-headers.log"
+  },
+  {
+    "name": "verification_worker_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "post-native-verification_worker_probe-imports.log"
+  },
+  {
+    "name": "verification_worker_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.042,
+    "log": "post-native-verification_worker_probe-dependents.log"
+  },
+  {
+    "name": "verification_worker_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.088,
+    "log": "post-native-verification_worker_fault-headers.log"
+  },
+  {
+    "name": "verification_worker_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.085,
+    "log": "post-native-verification_worker_fault-imports.log"
+  },
+  {
+    "name": "verification_worker_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\verification_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.067,
+    "log": "post-native-verification_worker_fault-dependents.log"
+  },
+  {
+    "name": "acquisition_worker_probe-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "post-native-acquisition_worker_probe-headers.log"
+  },
+  {
+    "name": "acquisition_worker_probe-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "post-native-acquisition_worker_probe-imports.log"
+  },
+  {
+    "name": "acquisition_worker_probe-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "post-native-acquisition_worker_probe-dependents.log"
+  },
+  {
+    "name": "acquisition_worker_fault-headers",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "post-native-acquisition_worker_fault-headers.log"
+  },
+  {
+    "name": "acquisition_worker_fault-imports",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.053,
+    "log": "post-native-acquisition_worker_fault-imports.log"
+  },
+  {
+    "name": "acquisition_worker_fault-dependents",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\build\\Release\\acquisition_worker_fault.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.046,
+    "log": "post-native-acquisition_worker_fault-dependents.log"
+  },
+  {
+    "name": "final-source-status",
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-file-exact-11e6f625\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.066,
+    "log": "post-native-final-source-status.log"
+  }
+]
