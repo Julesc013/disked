@@ -1,0 +1,49 @@
+test_actual_forged_publications_do_not_create_snapshots (__main__.Tests.test_actual_forged_publications_do_not_create_snapshots) ... FAIL
+test_expected_source_changes_and_partial_native_failure_claims (__main__.Tests.test_expected_source_changes_and_partial_native_failure_claims) ... ERROR
+test_passive_frame_input_and_raw_replay_refuse_tampering (__main__.Tests.test_passive_frame_input_and_raw_replay_refuse_tampering) ... ok
+test_real_profiles_typed_context_and_immutable_retention (__main__.Tests.test_real_profiles_typed_context_and_immutable_retention) ... FAIL
+test_startup_hangs_cancel_late_exit_and_confirmed_retirement (__main__.Tests.test_startup_hangs_cancel_late_exit_and_confirmed_retirement) ... ERROR
+
+======================================================================
+ERROR: test_expected_source_changes_and_partial_native_failure_claims (__main__.Tests.test_expected_source_changes_and_partial_native_failure_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 156, in test_expected_source_changes_and_partial_native_failure_claims
+    self.assertFalse(out['has_snapshot'], out)
+                     ~~~^^^^^^^^^^^^^^^^
+KeyError: 'has_snapshot'
+
+======================================================================
+ERROR: test_startup_hangs_cancel_late_exit_and_confirmed_retirement (__main__.Tests.test_startup_hangs_cancel_late_exit_and_confirmed_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 131, in test_startup_hangs_cancel_late_exit_and_confirmed_retirement
+    self.retired(out)
+    ~~~~~~~~~~~~^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 53, in retired
+    self.assertFalse(state['dependencies']['reader_alive'], state)
+                     ~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'dependencies'
+
+======================================================================
+FAIL: test_actual_forged_publications_do_not_create_snapshots (__main__.Tests.test_actual_forged_publications_do_not_create_snapshots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 111, in test_actual_forged_publications_do_not_create_snapshots
+    self.assertNotIn('error', out, out)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'error' unexpectedly found in {'error': 'exfat_wait_budget'} : {'error': 'exfat_wait_budget'}
+
+======================================================================
+FAIL: test_real_profiles_typed_context_and_immutable_retention (__main__.Tests.test_real_profiles_typed_context_and_immutable_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 60, in test_real_profiles_typed_context_and_immutable_retention
+    self.assertNotIn('error', out)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 'error' unexpectedly found in {'error': 'exfat_wait_budget'}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.751s
+
+FAILED (failures=2, errors=2)

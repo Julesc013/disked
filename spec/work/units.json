@@ -6448,10 +6448,10 @@
       "deliverables": [
         "Run the qualified read-only ordinary-file exFAT root/system capture through the existing owned ObservationWorker host, verify retained byte frames in the parent and publish immutable typed snapshots only for the exact owned attempt. No new scheduler, raw devices, tree/content/extraction or writer authority.",
         "Private exfat_snapshot.h/.cpp under providers/image defines bounded input/frame/replay semantics; private exfat_worker.h/.cpp under platform/windows/storage binds the existing generic host. Product/test roles are compiled choices. Runtime/portable do not import concrete workers.",
-        "Exact capture epoch, ordinary image path, expected native source metadata, checked volume window, upcase representation and finite capture limits. Strict private input schema and target-specific source metadata shape; normal inputs reject fixture keys. Expected metadata is a binding to verify, not source-opening authority or proof of physical association.",
+        "Exact capture epoch, ordinary image path, expected native source metadata, checked volume window, upcase representation and finite capture limits. Strict private input schema and target-specific source metadata shape; normal inputs reject fixture keys. Expected metadata is a binding to verify, not source-opening authority or proof of physical association. The held file adapter must compare its actual native metadata with expected_source before its first content read; a mismatch produces no frame or content responses.",
         "Finite anonymous payload mapping contains exact selected input, actual process ID/creation, owned read-only capture receipt and ordered original region responses. Verify field relationships, exact window/budgets/request order, source binding, original raw bytes and independent W067 replay. Check aggregate flags/withdrawal instead of trusting a supplied applicable boolean. A valid hash or frame is not process authentication.",
         "Reuse compiled ObservationWorkerProfile, code-generation pinning, request digest, explicit inherited handle set, job/process ownership and startup/reply controls. Allocate and validate before launch. Parent validates copied payload hash and frame, then binds actual owned PID/creation, attempt/worker/observer/capture epochs and code/request/payload identities before typed publication.",
-        "Observation completion, cancellation request and confirmed process exit remain separate. Hung, late, malformed or abruptly exited readers retain explicit partial/unavailable/unresolved states and dependencies. No replacement before required retirement proof. Snapshots own immutable copied results; retained evidence does not renew source access or future freshness."
+        "Observation completion, cancellation request and confirmed process exit remain separate. Hung, late, malformed or abruptly exited readers retain explicit partial/unavailable/unresolved states and dependencies. No replacement before required retirement proof. Snapshots own immutable copied results; retained evidence does not renew source access or future freshness. The shared host reports retired only from the same exact process-exit observation returned to the caller, including zero-wait retirement. Termination-request acknowledgement alone is insufficient."
       ],
       "acceptance": [
         "Actual normal and separate fixture-owned process journeys over generated ordinary images: compressed/literal, one/two-FAT active pairing, fragmented roots/system chains and exact parent replay/source preservation.",
@@ -6489,7 +6489,15 @@
         "tools/build-inputs.json",
         "spec/catalog/source-maintenance-prototype.json",
         "tests/images/fat_worker_probe.cpp",
-        "tests/images/test_fat_worker.py"
+        "tests/images/test_fat_worker.py",
+        "source/providers/image/exfat_snapshot.h",
+        "source/providers/image/exfat_snapshot.cpp",
+        "source/platform/windows/storage/exfat_worker.h",
+        "source/platform/windows/storage/exfat_worker.cpp",
+        "tests/images/exfat_worker_probe.cpp",
+        "tests/images/test_exfat_worker.py",
+        "docs/exfat-worker.md",
+        "tests/images/exfat_file_probe.cpp"
       ]
     }
   ]

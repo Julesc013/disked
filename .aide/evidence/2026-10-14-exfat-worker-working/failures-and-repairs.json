@@ -1,0 +1,26 @@
+[
+  {
+    "stage": "first-native-tests",
+    "status": "fail",
+    "cause": "Probe requested 2000ms admission wait where the shared host permits at most1000ms; test assumed nonexistent dependencies output fields.",
+    "repair": "Probe uses supported1000ms wait; tests inspect actual worker observation, retired and exit values."
+  },
+  {
+    "stage": "second-native-tests",
+    "status": "fail",
+    "cause": "New compiled worker profile still named the FAT role; exFAT child exited with code2 before admission. Chained C++14 harness calls could observe after retirement.",
+    "repair": "Compiled exFAT role corrected; lifecycle samples are captured in explicit sequence."
+  },
+  {
+    "stage": "shared-host-review",
+    "status": "defect-found-by-inspection",
+    "cause": "retired was set on successful TerminateJobObject before actual process exit; separate wait/observation could race.",
+    "repair": "Return retired from the same owned-process observation. Twelve actual zero-wait samples still-running and retired=false pass."
+  },
+  {
+    "stage": "expected-source-review",
+    "status": "defect-found-by-inspection",
+    "cause": "Frame builder compared expected metadata only after content collection.",
+    "repair": "Held adapter accepts an optional expected-source binding, checked before content reads; actual mismatch yields no read callbacks."
+  }
+]

@@ -329,3 +329,12 @@ This extends frontend admission, not shared worker quota scope. Existing four
 worker/128MiB per-worker/512MiB aggregate jobs remain unchanged; incompatible
 worker ancestry still refuses admission. Frontend success grants neither storage
 authority, worker retirement nor permission to replace a timed-out worker.
+
+
+The private shared native observation host's retirement result must use confirmed
+exit of its exact owned process handle. Successful TerminateJobObject is a
+termination request, not that proof. A zero-wait retirement may still observe a
+running process; its retired flag remains false. Derive the returned flag and
+process state from one observation to avoid an exit race between separate checks.
+Owned sessions and dependencies remain with the caller while exit is unresolved;
+publication and a retained immutable value do not retire that process.

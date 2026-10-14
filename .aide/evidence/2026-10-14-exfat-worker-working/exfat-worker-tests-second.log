@@ -1,0 +1,38 @@
+test_actual_forged_publications_do_not_create_snapshots (__main__.Tests.test_actual_forged_publications_do_not_create_snapshots) ... ok
+test_expected_source_changes_and_partial_native_failure_claims (__main__.Tests.test_expected_source_changes_and_partial_native_failure_claims) ... ok
+test_passive_frame_input_and_raw_replay_refuse_tampering (__main__.Tests.test_passive_frame_input_and_raw_replay_refuse_tampering) ... ok
+test_real_profiles_typed_context_and_immutable_retention (__main__.Tests.test_real_profiles_typed_context_and_immutable_retention) ... FAIL
+test_startup_hangs_cancel_late_exit_and_confirmed_retirement (__main__.Tests.test_startup_hangs_cancel_late_exit_and_confirmed_retirement) ... FAIL
+test_zero_wait_retirement_tracks_actual_owned_exit (__main__.Tests.test_zero_wait_retirement_tracks_actual_owned_exit) ... FAIL
+
+======================================================================
+FAIL: test_real_profiles_typed_context_and_immutable_retention (__main__.Tests.test_real_profiles_typed_context_and_immutable_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 61, in test_real_profiles_typed_context_and_immutable_retention
+    self.assertTrue(out['has_snapshot'], out)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'before': {'admitted': False, 'attempt_id': 'exfat-attempt:1b4994c0507d06520fe4876ae2dbe5c6', 'cancellation_requested': False, 'capture_epoch': '77', 'claims': {'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '4bb6710df49987d452bb790f1f0fbebc8401048f1c1fbf316ed9caafdd34e043', 'diagnostic': None, 'observer_epoch': 'observer:df7c980730c22f4869e6292ac9f4998c', 'request_digest': 'cf6a92618abc604ec00c77789f1fd5e5055c4b1d20a1c6c0688fcb746ee44895', 'result': None, 'retired': True, 'schema': 'org.disked.exfat-worker-observation/1', 'status': 'unknown', 'worker': {'created': '134364138813007134', 'exit_code': '2', 'observation': 'exited', 'pid': '47172'}, 'worker_epoch': 'worker:4c32ed946d27100b8582d62ab4850362'}, 'has_snapshot': False, 'retirement': {'admitted': False, 'attempt_id': 'exfat-attempt:1b4994c0507d06520fe4876ae2dbe5c6', 'cancellation_requested': False, 'capture_epoch': '77', 'claims': {'durable_reconnect': False, 'live_namespace': False, 'mutation_authority': False, 'physical_admission': False}, 'code_sha256': '4bb6710df49987d452bb790f1f0fbebc8401048f1c1fbf316ed9caafdd34e043', 'diagnostic': None, 'observer_epoch': 'observer:df7c980730c22f4869e6292ac9f4998c', 'request_digest': 'cf6a92618abc604ec00c77789f1fd5e5055c4b1d20a1c6c0688fcb746ee44895', 'result': None, 'retired': True, 'schema': 'org.disked.exfat-worker-observation/1', 'status': 'unknown', 'worker': {'created': '134364138813007134', 'exit_code': '2', 'observation': 'exited', 'pid': '47172'}, 'worker_epoch': 'worker:4c32ed946d27100b8582d62ab4850362'}}
+
+======================================================================
+FAIL: test_startup_hangs_cancel_late_exit_and_confirmed_retirement (__main__.Tests.test_startup_hangs_cancel_late_exit_and_confirmed_retirement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 135, in test_startup_hangs_cancel_late_exit_and_confirmed_retirement
+    self.assertNotEqual('exited', out['before']['worker']['observation'])
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'exited' == 'exited'
+
+======================================================================
+FAIL: test_zero_wait_retirement_tracks_actual_owned_exit (__main__.Tests.test_zero_wait_retirement_tracks_actual_owned_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_exfat_worker.py", line 169, in test_zero_wait_retirement_tracks_actual_owned_exit
+    self.assertFalse(out['before']['retired'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.392s
+
+FAILED (failures=3)
