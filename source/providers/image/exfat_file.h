@@ -23,7 +23,8 @@ struct ExfatFileRead {
 ExfatFileRead capture_exfat_file_owned(const std::string &path, std::uint64_t offset,
                                        std::uint64_t bytes, bool compressed,
                                        const ExfatCaptureLimits &limits = {},
-                                       const std::function<bool()> &stop = {});
+                                       const std::function<bool()> &stop = {},
+                                       const json::Value *expected_source = nullptr);
 #ifdef DISKED_EXFAT_FILE_TESTING
 // Compiled only into the separate fixture library/probe. No environment protocol.
 struct ExfatFileTestControl {
@@ -34,6 +35,7 @@ struct ExfatFileTestControl {
 };
 ExfatFileRead capture_exfat_file_testing(const std::string &, std::uint64_t, std::uint64_t, bool,
                                          const ExfatCaptureLimits &, const std::function<bool()> &,
-                                         const ExfatFileTestControl &);
+                                         const ExfatFileTestControl &,
+                                         const json::Value *expected_source = nullptr);
 #endif
 } // namespace disked

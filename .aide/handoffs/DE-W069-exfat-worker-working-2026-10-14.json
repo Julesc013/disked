@@ -1,0 +1,208 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W069",
+  "base_revision": "77f569b88f51aceac38d7fb30bb70586742cfe9d",
+  "spec_manifest_digest": "sha256:70b72116a04682364aaa087e92ae44a34131feaeb8d45a268fd36b21a20a0c03",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-worker-prototype.json",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/providers/image/fat_snapshot.cpp",
+    "source/platform/windows/storage/fat_worker.cpp"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-14-exfat-worker-working/.gitattributes",
+    ".aide/evidence/2026-10-14-exfat-worker-working/README.md",
+    ".aide/evidence/2026-10-14-exfat-worker-working/artifact-identities.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/context-manifest.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-file-cases-binding.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-file-tests-binding.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-boundaries-first.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-binding-fixed.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-first.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-harness-fixed.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-retirement-fixed.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-role-fixed.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-final.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-first.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-second.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-third.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-final.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-first.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-second.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-third.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-headers.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-imports.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-headers.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-imports.log",
+    ".aide/evidence/2026-10-14-exfat-worker-working/failures-and-repairs.json",
+    ".aide/evidence/2026-10-14-exfat-worker-working/summary.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/exfat-worker.md",
+    "docs/source-map.md",
+    "source/platform/windows/storage/exfat_worker.cpp",
+    "source/platform/windows/storage/exfat_worker.h",
+    "source/platform/windows/storage/observation_worker.cpp",
+    "source/providers/image/exfat_file.cpp",
+    "source/providers/image/exfat_file.h",
+    "source/providers/image/exfat_snapshot.cpp",
+    "source/providers/image/exfat_snapshot.h",
+    "spec/catalog/exfat-worker-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/safety/degraded-operation.md",
+    "spec/work/units.json",
+    "tests/images/exfat_file_probe.cpp",
+    "tests/images/exfat_worker_probe.cpp",
+    "tests/images/test_exfat_file.py",
+    "tests/images/test_exfat_worker.py",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Contained exFAT strict frame/replay and actual owned process implemented;69nativecases/6methods,2headers/import/context/dependency checks pass. Shared retirement flag and expected-source pre-read repaired;12zero-wait pending samples and63filecases/8methods pass. Exact full native/tooling/review remains; failures retained.",
+  "tests": [
+    {
+      "command": "python tests/images/test_exfat_worker.py --probe .aide-local/fat-recursive-command-development-build/Release/exfat_worker_probe.exe --fault .aide-local/fat-recursive-command-development-build/Release/exfat_worker_fault.exe --output .aide-local/fat-recursive-command-development-build/exfat-worker-cases-final.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-final.log"
+    },
+    {
+      "command": "DE-W069 exact full native qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/.gitattributes",
+      "sha256": "sha256:04d7b519e20e7ac40a7b554977f329244ddbaff07e166d17ae02ee5836176224"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/artifact-identities.json",
+      "sha256": "sha256:3f22c64bbb933a1aed5956e700a1685335645e0506e9da9af38ef2df8ce43719"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/context-manifest.json",
+      "sha256": "sha256:d819be52981fa6dc5ccbab60f533f12c65888be1477a89eaf3e8e0a7c4e00752"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-file-cases-binding.json",
+      "sha256": "sha256:a014011e5bc94a6720e9e5a2d34b7ab51c3a17094545f2f684911c834da030e4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-file-tests-binding.log",
+      "sha256": "sha256:5909af2be781d3da6a7b70bafba17606b73f40abd7fc2eaede4b1ca2c40499eb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-boundaries-first.log",
+      "sha256": "sha256:f2e04da0ba4a7878d33332671c06a5047415092af3759796a55025bebecdddfd"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-binding-fixed.log",
+      "sha256": "sha256:751c5c368d2ba814645dee4b7d463207f72370f3c56967c1b8e1fc74599c4401"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-first.log",
+      "sha256": "sha256:713e409c957f5545332d06ad9ebd73aeb593c2ed062f2edc029b456e2206b16b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-harness-fixed.log",
+      "sha256": "sha256:c669ca431ae7b243ded12779baf62424e161c8a484400c37c437648da90a340c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-retirement-fixed.log",
+      "sha256": "sha256:db1f7573dc2fbd8f5dd1dcca8ac5258c4a04faaafd5476f3742337b6a1dbd034"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-build-role-fixed.log",
+      "sha256": "sha256:79424e208b914740ecb7f34bbee4bb32c2ba5d31ec8490e052495ab14b063a1d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-final.json",
+      "sha256": "sha256:0a77f6b9ebd9ca1b22621fd9bb21b97c5263f577e52aa56add0a89fa57b482ea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-first.json",
+      "sha256": "sha256:fc35403ea0f47b7dde265c4c94e7bb843772d5480490537ac1cede24fa94eabb"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-second.json",
+      "sha256": "sha256:0242dab0cb97b4a81022d656391cd98616a6a5ac71b7d54e695ae46f3033b9a2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-cases-third.json",
+      "sha256": "sha256:22471ffc932ed16595e217485079852db9531761c002e0c2c356a4a287ce9059"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-final.log",
+      "sha256": "sha256:67f1e994952f7e1de73d47d0286382efd2d9ded8503189fdaad8a844a38cd8c9"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-first.log",
+      "sha256": "sha256:bc38e30995fc53eb8a32710b92b63acef8b932c4b8c8fbb7c532edb3f9dfc852"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-second.log",
+      "sha256": "sha256:80d7a236a15dbf2061231df0a7f58ba5f91126e091b032b3fa8e1b012642356d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat-worker-tests-third.log",
+      "sha256": "sha256:59465115152b3baaa17065d0fdafe7f5b12d90a3ba667fa970582717491ba7d7"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-dependents.log",
+      "sha256": "sha256:afdd21778ce60335335e104d57496b976d5ea72bfe595e57c8b0ddd27ad53c4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-headers.log",
+      "sha256": "sha256:fce84902c281e1a542c399bdf5578cd26b00415b0eb377e5d817f102edbe6f42"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_fault-imports.log",
+      "sha256": "sha256:e6aed003b28f59bf4bfbe2341fe546e7f652a990c0eabba2434e48efbf9befb4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-dependents.log",
+      "sha256": "sha256:f3e71f45372372d3faaaab90c07496218790d41df5d81b144b2b43a36089c133"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-headers.log",
+      "sha256": "sha256:3e0cdac62c876b65b24000a6c59c7328bad2a2d47860a4a09c02628e134a3aea"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/exfat_worker_probe-imports.log",
+      "sha256": "sha256:e22c9a70c27f62051fed91a18b53df3c1eadd445444a0094c0ff2ec1e06b8088"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/failures-and-repairs.json",
+      "sha256": "sha256:01c751f40e2a9d876b1671f46b567b68289116b8fc6f1021843a4befb63f8e9a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/README.md",
+      "sha256": "sha256:952dc1dc494dab3ec219a51fc6c6ae98e7b909040ccb9dc6927313aae7a46784"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/summary.json",
+      "sha256": "sha256:4453415ff2a4e5bfa23eff03aba02a757b743b3e613b909f8dd65331cc3d9f0c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-14-exfat-worker-working/working-inputs.json",
+      "sha256": "sha256:03f9dc52a04083f31195cee01ff6d3e69923a24f18814fe60dfaea65197e7fe3"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit fixed source and run exact full native build/regression due shared ObservationWorker change, then fixed-source tooling/import/header/context/artifact and criterion review. Preserve unavailable symlink coverage, all original platform/storage0.1.0 and separate owner/privilege/release gates.",
+  "performed_remote_writes": false
+}

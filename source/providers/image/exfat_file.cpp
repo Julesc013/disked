@@ -62,7 +62,7 @@ ExfatFileRegion read(HANDLE file, std::uint64_t start, std::size_t count) {
 }
 ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint64_t bytes,
                       bool compressed, const ExfatCaptureLimits &limits,
-                      const std::function<bool()> &stop
+                      const std::function<bool()> &stop, const V *expected_source
 #ifdef DISKED_EXFAT_FILE_TESTING
                       ,
                       const ExfatFileTestControl *control
@@ -110,6 +110,8 @@ ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint6
     };
     check();
     const auto before = local_file::metadata(file.value);
+    if (expected_source && encode(before.value) != encode(*expected_source))
+        throw local_file::Error("exfat_file_source_changed");
     static std::atomic<std::uint64_t> sequence{0};
     auto previous = sequence.load();
     for (;;) {
@@ -245,8 +247,9 @@ ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint6
 ExfatFileRead capture_exfat_file_owned(const std::string &input, std::uint64_t offset,
                                        std::uint64_t bytes, bool compressed,
                                        const ExfatCaptureLimits &limits,
-                                       const std::function<bool()> &stop) {
-    return capture(input, offset, bytes, compressed, limits, stop
+                                       const std::function<bool()> &stop,
+                                       const V *expected_source) {
+    return capture(input, offset, bytes, compressed, limits, stop, expected_source
 #ifdef DISKED_EXFAT_FILE_TESTING
                    ,
                    nullptr
@@ -258,8 +261,9 @@ ExfatFileRead capture_exfat_file_testing(const std::string &input, std::uint64_t
                                          std::uint64_t bytes, bool compressed,
                                          const ExfatCaptureLimits &limits,
                                          const std::function<bool()> &stop,
-                                         const ExfatFileTestControl &control) {
-    return capture(input, offset, bytes, compressed, limits, stop, &control);
+                                         const ExfatFileTestControl &control,
+                                         const V *expected_source) {
+    return capture(input, offset, bytes, compressed, limits, stop, expected_source, &control);
 }
 #endif
 } // namespace disked

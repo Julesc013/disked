@@ -294,6 +294,17 @@ class Tests(unittest.TestCase):
         self.assertEqual(len(out), len({c['capture_domain'] for c in captures}))
         self.assertEqual(1, len({c['source_identity_digest'] for c in captures}))
 
+    def test_expected_source_is_checked_before_native_content_reads(self):
+        v = Volume()
+        path = self.fixture(v)
+        source = self.good(v, path)['result']['capture']['source_before']
+        self.good(v, path, dict(expected_source=source))
+        changed = dict(source, written='1')
+        out = self.preserve(path, [request(v, path, expected_source=changed)], True)[0]
+        self.assertEqual('exfat_file_source_changed', out['refusal'])
+        self.assertEqual('0', out['read_calls'])
+        self.assertNotIn('regions', out)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -55,6 +55,7 @@ static V observe(const V &input) {
     const auto *call_value = input.find("call");
     const auto call = call_value ? integer(*call_value) : 1;
     std::size_t stop_calls = 0;
+    std::size_t read_calls = 0;
     std::function<bool()> stop;
 #ifdef DISKED_EXFAT_FILE_TESTING
     out.put("fault_controls_available", V::boolean_value(true));
@@ -68,6 +69,7 @@ static V observe(const V &input) {
         };
     disked::ExfatFileTestControl control;
     control.after_read = [&](std::size_t ordinal, disked::ExfatFileRegion &region) {
+        ++read_calls;
         if (ordinal != call)
             return;
         if (mode == "short" && !region.bytes.empty())
@@ -123,11 +125,12 @@ static V observe(const V &input) {
 #endif
     try {
 #ifdef DISKED_EXFAT_FILE_TESTING
-        auto owned = disked::capture_exfat_file_testing(path.text, offset, bytes,
-                                                        compressed.boolean, limits, stop, control);
+        auto owned =
+            disked::capture_exfat_file_testing(path.text, offset, bytes, compressed.boolean, limits,
+                                               stop, control, input.find("expected_source"));
 #else
         auto owned = disked::capture_exfat_file_owned(path.text, offset, bytes, compressed.boolean,
-                                                      limits, stop);
+                                                      limits, stop, input.find("expected_source"));
 #endif
         auto regions = V::array();
         for (const auto &region : owned.regions)
@@ -151,7 +154,9 @@ static V observe(const V &input) {
     } catch (const std::invalid_argument &e) {
         out.put("refusal", V::string(e.what())).put("platform_error", exact(0));
     }
-    return out.put("stop_calls", exact(stop_calls)).put("held_access", std::move(held_access));
+    return out.put("stop_calls", exact(stop_calls))
+        .put("read_calls", exact(read_calls))
+        .put("held_access", std::move(held_access));
 }
 int main() {
     try {

@@ -1,5 +1,29 @@
 # Source structure and release review follow-up
 
+## Current contained-reader checkpoint: 14 October 2026
+
+Keep the existing source ownership tree. The source map covers all 279 current
+files exactly once; CLI and the consistent GUI/TUI/shell model names remain
+appropriate. Existing runtime, image-provider and Windows storage owners now
+accommodate W069 without a restructure or additional scheduler.
+
+At exact full clean `cce05d17`, all 139 current native groups pass, alongside
+46 standalone headers, 69 reader cases/six methods, 63 file
+cases/eight methods and 242 tooling tests with two skips. [Evidence and local
+review](../.aide/evidence/2026-10-14-exfat-worker-qualified/README.md) cover confirmed-exit retirement and pre-read
+source binding. Actual file-symlink creation remains unverified without privilege.
+This private reader does not yet admit normal exFAT frontend commands, complete
+tree/content, physical storage, other hosts or the original full0.1.0 release.
+Tested and locally reviewed checkpoints can merge from dev to main under the
+existing grant; owner/release acceptance stays separate.
+
+The latest read-only Universal Setup observation has main `c048f7f1`, dev
+`2b7a4d01` and open draft [PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+at `00bb4978`. Its [native Windows CI job](https://github.com/Julesc013/universal-setup/actions/runs/38492214371/job/115619848757) fails;
+the other six jobs pass. Both repository release queries are empty. These are
+hosted observations, not an independent cause diagnosis or DiskEd lifecycle test.
+
+
 ## Qualified held exFAT image adapter: 14 October 2026
 
 The existing image-provider/local_file and runtime/capture owners accommodate
@@ -24,7 +48,7 @@ root/active-system supplied-byte agreement; held native source, worker, paged
 namespace/tree/content and the full original platform/storage release remain.
 
 
-## Current local checkpoint: 14 October 2026
+## Earlier upcase checkpoint: 14 October 2026
 
 Keep the existing source ownership tree. The [source map](source-map.md) covers
 all 273 current files exactly once. CLI has its own folder; TUI, GUI and shell use

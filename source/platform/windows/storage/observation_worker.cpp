@@ -123,8 +123,12 @@ V ObservationWorker::observe(DWORD ms){
 }
 V ObservationWorker::retire(DWORD ms){
     if(ms>2000)invalid(impl_->profile,"retirement_budget");auto& p=*impl_;
-    if(p.process.valid() && WaitForSingleObject(p.process.value,0)==WAIT_TIMEOUT){if(!TerminateJobObject(p.job.value,31))fail("observation_retirement_unresolved");p.retired=true;}
-    if(p.process.valid())WaitForSingleObject(p.process.value,ms);return observe();
+    if(p.process.valid() && WaitForSingleObject(p.process.value,0)==WAIT_TIMEOUT){if(!TerminateJobObject(p.job.value,31))fail("observation_retirement_unresolved");}
+    // A successful termination request is not confirmed exit. Keep retirement
+    // unresolved until the exact owned process handle is signalled.
+    if(p.process.valid())WaitForSingleObject(p.process.value,ms);
+    auto observed=observe();p.retired=!p.process.valid() || text(field(observed,"worker"),"observation")=="exited";
+    observed.put("retired",V::boolean_value(p.retired));return observed;
 }
 int observation_worker_role(int argc,wchar_t** argv,const ObservationWorkerProfile& profile,const PayloadObservationFactory& factory){
     if(profile.payload_bytes>16U*1024U*1024U || argc!=(profile.payload_bytes?8:7))return 2;

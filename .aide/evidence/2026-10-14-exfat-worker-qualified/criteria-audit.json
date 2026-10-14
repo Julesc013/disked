@@ -1,0 +1,55 @@
+{
+  "work_id": "DE-W069",
+  "source_revision": "cce05d172c89f0a71dba5ee1cc0698307f8c686e",
+  "status": "pass-for-local-contained-reader-scope",
+  "owner_accepted": false,
+  "unverified": [
+    {
+      "check": "actual-file-symlink",
+      "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-g4ram3bj\\\\owned-link.img'"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": 1,
+      "status": "pass",
+      "scope": "Actual normal/fixture owned processes over generated ordinary images, one/two-FAT active pairing, compressed/literal maps, source preservation, exact replay and immutable retention.",
+      "evidence": [
+        "exfat-worker-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 2,
+      "status": "pass",
+      "scope": "Input/window/source/epoch, raw region/result/receipt/process/domain, payload and host contradictions cannot publish typed snapshots. Expected native metadata precedes content reads.",
+      "evidence": [
+        "exfat-worker-cases.json",
+        "exfat-file-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 3,
+      "status": "pass",
+      "scope": "Startup failures, actual hangs, late replies, cancellation, abrupt exits and finite retirement remain distinct. Zero-wait samples bind retirement to the actual returned exit observation.",
+      "evidence": [
+        "exfat-worker-cases.json",
+        "native.log"
+      ]
+    },
+    {
+      "criterion": 4,
+      "status": "pass",
+      "scope": "Exact full clean checkout, 139 fresh native groups, fresh owned header compilations, normal/fault PE/import/hash/context/source checks and 242 tooling tests with two skips. Original all-platform/storage0.1.0, frontend/tree/content, owner and writer/release gates remain.",
+      "evidence": [
+        "commands.json",
+        "native-junit.xml",
+        "artifact-identities.json",
+        "source-inputs.json",
+        "context-manifest.json",
+        "tooling.log"
+      ]
+    }
+  ]
+}
