@@ -12701,6 +12701,7 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
+        "source/runtime/capture/exfat_tree.h",
         "spec/catalog/exfat-file-prototype.json"
       ],
       "spec_ids": [
@@ -13311,6 +13312,64 @@
         "tests/images/test_exfat_tree.py",
         "CMakeLists.txt",
         "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "spec/catalog/exfat-tree-file-prototype.json",
+      "path": "spec/catalog/exfat-tree-file-prototype.json",
+      "kind": "catalog",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/exfat-tree-prototype.json",
+        "spec/catalog/exfat-file-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "tests/images/test_exfat_tree_file.py",
+      "path": "tests/images/test_exfat_tree_file.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "tests/images/exfat_file_probe.cpp",
+        "tests/images/test_exfat_tree.py",
+        "tests/images/test_exfat_file.py"
+      ],
+      "spec_ids": [
+        "DE-102",
+        "DE-023"
+      ]
+    },
+    {
+      "id": "docs/exfat-tree-file.md",
+      "path": "docs/exfat-tree-file.md",
+      "kind": "metadata",
+      "delivery": "content",
+      "depends_on": [
+        "spec/catalog/exfat-tree-file-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-102"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-15-exfat-tree/reproduce-qualified.py",
+      "path": ".aide/evidence/2026-10-15-exfat-tree/reproduce-qualified.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "tests/images/test_exfat_tree.py",
+        "tests/images/test_exfat_tree_file.py",
+        "tests/images/test_exfat_file.py"
       ],
       "spec_ids": [
         "DE-102",

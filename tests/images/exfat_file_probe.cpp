@@ -38,6 +38,29 @@ static V observe(const V &input) {
     require(format ? !compressed && format->kind == V::Kind::string
                    : compressed && compressed->kind == V::Kind::boolean);
     disked::ExfatCaptureLimits limits;
+    disked::ExfatTreeLimits tree_limits;
+    const auto *tree = input.find("tree");
+    const bool tree_mode = tree && tree->kind == V::Kind::boolean && tree->boolean;
+    if (tree)
+        require(tree->kind == V::Kind::boolean);
+    if (const auto *values = input.find("tree_limits")) {
+        require(values->kind == V::Kind::object);
+#define LOAD_TREE_LIMIT(name)                                                                      \
+    if (const auto *v = values->find(#name))                                                       \
+    tree_limits.name = static_cast<std::size_t>(integer(*v))
+        LOAD_TREE_LIMIT(directories);
+        LOAD_TREE_LIMIT(depth);
+        LOAD_TREE_LIMIT(clusters);
+        LOAD_TREE_LIMIT(records);
+        LOAD_TREE_LIMIT(read_requests);
+        LOAD_TREE_LIMIT(read_bytes);
+        LOAD_TREE_LIMIT(retained_bytes);
+        LOAD_TREE_LIMIT(content_bytes);
+        LOAD_TREE_LIMIT(output_bytes);
+#undef LOAD_TREE_LIMIT
+    }
+    V expected_source = input.find("expected_source") ? *input.find("expected_source") : V{};
+    const V *expected = input.find("expected_source") ? &expected_source : nullptr;
     if (const auto *values = input.find("limits")) {
         require(values->kind == V::Kind::object);
 #define LOAD_LIMIT(name)                                                                           \
@@ -117,8 +140,16 @@ static V observe(const V &input) {
             ++region.offset;
     };
     control.before_binding = [&](std::size_t ordinal) {
+        if (ordinal == call && mode == "mutate_expected")
+            expected_source = field(input, "replace_expected_with");
+        if (ordinal == call && mode == "mutate_limits")
+            tree_limits = disked::ExfatTreeLimits{};
         if (ordinal == call && mode == "binding")
             throw disked::local_file::Error("test_binding_failure", ERROR_INVALID_HANDLE);
+    };
+    control.before_applicability_replay = [&](std::size_t ordinal, bool &allowed) {
+        if (ordinal == call && mode == "replay_applicability")
+            allowed = !allowed;
     };
 #else
     out.put("fault_controls_available", V::boolean_value(false));
@@ -136,20 +167,27 @@ static V observe(const V &input) {
                 typed = static_cast<disked::ExfatUpcaseFormat>(99);
             }
         }
+        const auto tree_format = format                ? typed
+                                 : compressed->boolean ? disked::ExfatUpcaseFormat::Compressed
+                                                       : disked::ExfatUpcaseFormat::Literal;
 #ifdef DISKED_EXFAT_FILE_TESTING
         auto owned =
-            format
+            tree_mode ? disked::capture_exfat_tree_file_testing(path.text, offset, bytes,
+                                                                tree_format, tree_limits, limits,
+                                                                stop, control, expected)
+            : format
                 ? disked::capture_exfat_file_testing(path.text, offset, bytes, typed, limits, stop,
-                                                     control, input.find("expected_source"))
+                                                     control, expected)
                 : disked::capture_exfat_file_testing(path.text, offset, bytes, compressed->boolean,
-                                                     limits, stop, control,
-                                                     input.find("expected_source"));
+                                                     limits, stop, control, expected);
 #else
         auto owned =
-            format ? disked::capture_exfat_file_owned(path.text, offset, bytes, typed, limits, stop,
-                                                      input.find("expected_source"))
-                   : disked::capture_exfat_file_owned(path.text, offset, bytes, compressed->boolean,
-                                                      limits, stop, input.find("expected_source"));
+            tree_mode ? disked::capture_exfat_tree_file_owned(path.text, offset, bytes, tree_format,
+                                                              tree_limits, limits, stop, expected)
+            : format  ? disked::capture_exfat_file_owned(path.text, offset, bytes, typed, limits,
+                                                         stop, expected)
+                      : disked::capture_exfat_file_owned(
+                           path.text, offset, bytes, compressed->boolean, limits, stop, expected);
 #endif
         auto regions = V::array();
         for (const auto &region : owned.regions)

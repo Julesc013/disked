@@ -1,5 +1,6 @@
 #pragma once
 #include "runtime/capture/exfat_capture.h"
+#include "runtime/capture/exfat_tree.h"
 #include <functional>
 #include <string>
 #include <vector>
@@ -25,6 +26,13 @@ ExfatFileRead capture_exfat_file_owned(const std::string &path, std::uint64_t of
                                        const ExfatCaptureLimits &limits = {},
                                        const std::function<bool()> &stop = {},
                                        const json::Value *expected_source = nullptr);
+// Private tree observation only. No worker/public transport or effect authority.
+ExfatFileRead capture_exfat_tree_file_owned(const std::string &path, std::uint64_t offset,
+                                            std::uint64_t bytes, ExfatUpcaseFormat format,
+                                            const ExfatTreeLimits &tree_limits = {},
+                                            const ExfatCaptureLimits &root_limits = {},
+                                            const std::function<bool()> &stop = {},
+                                            const json::Value *expected_source = nullptr);
 // Typed private v2 encoding; explicit boolean overload above retains v1.
 ExfatFileRead capture_exfat_file_owned(const std::string &path, std::uint64_t offset,
                                        std::uint64_t bytes, ExfatUpcaseFormat format,
@@ -38,6 +46,7 @@ struct ExfatFileTestControl {
     std::function<void(json::Value &)> after_metadata;
     std::function<void(std::size_t, ExfatFileRegion &)> before_replay;
     std::function<void(std::size_t)> before_binding;
+    std::function<void(std::size_t, bool &)> before_applicability_replay;
 };
 ExfatFileRead capture_exfat_file_testing(const std::string &, std::uint64_t, std::uint64_t, bool,
                                          const ExfatCaptureLimits &, const std::function<bool()> &,
@@ -48,5 +57,11 @@ ExfatFileRead capture_exfat_file_testing(const std::string &, std::uint64_t, std
                                          const std::function<bool()> &,
                                          const ExfatFileTestControl &,
                                          const json::Value *expected_source = nullptr);
+ExfatFileRead capture_exfat_tree_file_testing(const std::string &, std::uint64_t, std::uint64_t,
+                                              ExfatUpcaseFormat, const ExfatTreeLimits &,
+                                              const ExfatCaptureLimits &,
+                                              const std::function<bool()> &,
+                                              const ExfatFileTestControl &,
+                                              const json::Value *expected_source = nullptr);
 #endif
 } // namespace disked

@@ -413,14 +413,9 @@ class Tree {
          const ExfatTreeLimits &limits)
         : request_(request), port_(port), limits_(limits) {
         validate_exfat_capture_request(request);
-        if (!port.read || !port.applicable || !limits.directories || limits.directories > 256 ||
-            !limits.depth || limits.depth > 32 || !limits.clusters || limits.clusters > 4096 ||
-            !limits.records || limits.records > 4096 || !limits.read_requests ||
-            limits.read_requests > 16384 || !limits.read_bytes || limits.read_bytes > 8388608 ||
-            !limits.retained_bytes || limits.retained_bytes > 8388608 || !limits.content_bytes ||
-            limits.content_bytes > 1048576 || limits.output_bytes < 65536 ||
-            limits.output_bytes > 4194304)
+        if (!port.read || !port.applicable)
             throw std::invalid_argument("exfat_tree_inputs");
+        validate_exfat_tree_limits(limits);
         const auto length = portable(request.source_bytes);
         checked(de_space_from_bytes(request.source_id.data(), request.source_id.size(), &length, 1,
                                     &space_));
@@ -525,6 +520,15 @@ class Tree {
     }
 };
 } // namespace
+void validate_exfat_tree_limits(const ExfatTreeLimits &limits) {
+    if (!limits.directories || limits.directories > 256 || !limits.depth || limits.depth > 32 ||
+        !limits.clusters || limits.clusters > 4096 || !limits.records || limits.records > 4096 ||
+        !limits.read_requests || limits.read_requests > 16384 || !limits.read_bytes ||
+        limits.read_bytes > 8388608 || !limits.retained_bytes || limits.retained_bytes > 8388608 ||
+        !limits.content_bytes || limits.content_bytes > 1048576 || limits.output_bytes < 65536 ||
+        limits.output_bytes > 4194304)
+        throw std::invalid_argument("exfat_tree_inputs");
+}
 V observe_exfat_tree(const ExfatCaptureRequest &request, const ExfatTreePort &port,
                      const ExfatTreeLimits &limits) {
     return Tree(request, port, limits).run();

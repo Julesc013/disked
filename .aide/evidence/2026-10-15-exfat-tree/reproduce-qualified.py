@@ -1,4 +1,4 @@
-"""Reproduce W074's tree and full native campaign at an immutable source revision."""
+"""Reproduce the selected private exFAT tree/file and full native campaign."""
 import argparse
 import hashlib
 import json
@@ -11,10 +11,13 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--revision', required=True)
+parser.add_argument('--work', choices=['DE-W074', 'DE-W075'], default='DE-W074')
 args = parser.parse_args()
 root = Path.cwd()
 revision = subprocess.check_output(['git', 'rev-parse', args.revision], text=True).strip()
-out = root / ('.aide-local/exfat-tree-exact-' + revision[:8])
+tree_file = args.work == 'DE-W075'
+expected_groups = 145 if tree_file else 144
+out = root / (('.aide-local/exfat-tree-file-exact-' if tree_file else '.aide-local/exfat-tree-exact-') + revision[:8])
 out.mkdir(exist_ok=False)
 clone, build = out / 'source', out / 'build'
 commands = []
@@ -79,7 +82,7 @@ run('build', ['cmake', '--build', build, '--config', 'Release', '--parallel', '4
 run('native', ['ctest', '--test-dir', build, '-C', 'Release', '--output-on-failure',
                '--output-junit', out / 'native-junit.xml'])
 junit = ET.parse(out / 'native-junit.xml').getroot()
-assert len(list(junit.iter('testcase'))) == 144
+assert len(list(junit.iter('testcase'))) == expected_groups
 assert not any(list(junit.iter(k)) for k in ['failure', 'error', 'skipped'])
 run('tooling', [sys.executable, '-X', 'utf8', '-m', 'unittest', 'discover', '-s', 'spec/tools/tests', '-v'])
 specctl = [sys.executable, '-X', 'utf8', 'spec/tools/specctl.py']
@@ -87,7 +90,7 @@ for name, options in [('spec-check', ['check']), ('index', ['index', '--check'])
                        ('manifest', ['verify-manifest'])]:
     run(name, specctl + options)
 run('source-map', [sys.executable, '-X', 'utf8', 'tools/check-source-map.py'])
-run('context', specctl + ['context', '--work', 'DE-W074', '--output', out / 'context',
+run('context', specctl + ['context', '--work', args.work, '--output', out / 'context',
                          '--byte-budget', '1200000'])
 run('verify-context', specctl + ['verify-context', out / 'context'])
 identity = json.loads((build / 'generated/build-identity.json').read_bytes())
@@ -108,6 +111,10 @@ save(out / 'artifact-identities.json', artifacts + [dict(path=str(p), bytes=p.st
 for name in ['exfat-tree-cases.json', 'exfat-namespace-cases.json', 'exfat-command-cases.json', 'exfat-capture-cases.json', 'exfat-file-cases.json',
              'exfat-worker-cases.json', 'worker-ancestry-cases.json', 'private-header-usage.json']:
     shutil.copyfile(build / name, out / name)
+if tree_file:
+    shutil.copyfile(build / 'exfat-tree-file-cases.json', out / 'exfat-tree-file-cases.json')
+    native_file = json.loads((out / 'exfat-tree-file-cases.json').read_bytes())
+    assert native_file['passed'] and native_file['cases'] == 46 and native_file['methods'] == 8
 shutil.copyfile(build / 'generated/build-identity.json', out / 'build-identity.json')
 shutil.copyfile(out / 'context/manifest.json', out / 'context-manifest.json')
 capture = json.loads((out / 'exfat-capture-cases.json').read_bytes())
@@ -128,11 +135,13 @@ assert 'Ran 242 tests' in (out / 'tooling.log').read_text(encoding='utf-8')
 assert 'OK (skipped=2)' in (out / 'tooling.log').read_text(encoding='utf-8')
 assert not run('final-source-status', ['git', 'status', '--porcelain']).strip()
 assert all(sha(clone / p) == digest for p, digest in inputs.items())
-save(out / 'summary.json', dict(status='pass', source_revision=revision, source_state='clean_sparse',
-    native_groups_fresh=144, header_compilations_fresh=51, tree_cases=44, tree_methods=10, namespace_cases=303, namespace_methods=12, capture_cases=146, capture_methods=13,
+save(out / 'summary.json', dict(status='pass', work_id=args.work, source_revision=revision, source_state='clean_sparse',
+    native_groups_fresh=expected_groups, header_compilations_fresh=51, tree_cases=44, tree_methods=10,
+    tree_file_cases=46 if tree_file else None, tree_file_methods=8 if tree_file else None,
+    namespace_cases=303, namespace_methods=12, capture_cases=146, capture_methods=13,
     file_cases=89, file_methods=11, worker_cases=94, worker_methods=9, command_cases=33,
     tooling_tests_run=242, tooling_tests_skipped=2, full_native_suite_fresh=True,
-    scope='Private supplied-reader coherent exFAT tree/logical contents, owned root capture and existing Windows ordinary-image prototype',
+    scope='Private held ordinary-image exFAT tree and exact retained read/applicability replay; existing Windows prototype regressions' if tree_file else 'Private supplied-reader coherent exFAT tree/logical contents, owned root capture and existing Windows ordinary-image prototype',
     tested_frontends=['cli', 'protocol', 'gui', 'tui', 'shell'],
     unverified=file['unverified'], owner_accepted=False, full_0_1_0_complete=False))
 save(out / 'current-stage.json', dict(stage='complete', status='pass', source_revision=revision))

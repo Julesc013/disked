@@ -6886,6 +6886,102 @@
         "docs/exfat-tree.md",
         ".aide/evidence/2026-10-15-exfat-tree/reproduce-limits.py"
       ]
+    },
+    {
+      "id": "DE-W075",
+      "title": "Bind coherent exFAT trees to held ordinary-image files",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W074"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-044",
+        "DE-045",
+        "DE-050",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "source/providers/image/**",
+        "source/runtime/capture/**",
+        "tests/images/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bind the qualified supplied-reader exFAT tree and logical-content collector to an actual held ordinary Windows image file. This advances the original filesystem scope; it does not replace paging, contained-worker/frontend admission, other platforms/storage or the full original0.1.0 finish line.",
+        "Extend providers/image/exfat_file through the existing held-handle/read/metadata/replay mechanism. Keep root capture v1/v2 outputs and their read order compatible. Runtime/capture/exfat_tree owns collection and limit validation; portable/exfat remains the sole format decoder. No duplicate opener, parser, scheduler or empty source hierarchy.",
+        "Typed upcase selector, explicit UTF8 path and volume window, root and tree limits, optional exact expected source metadata and cancellation predicate. Own request/limit/expected-metadata and callback objects before any callback. Validate selectors, limits, checked source-window/native-seek bounds before opening. Derive the actual source identity, process/capture epoch and file size from the held file, not caller assertions.",
+        "Reuse ordinary-file/path checks, pinned ancestor generations, read-only sharing and OPEN_REPARSE_POINT. Reject devices, reparse/offline/multiple-link files and invalid paths using existing local_file rules. No fallback opening, elevation, mounts, extraction or writes. Hold all dependencies through observation, replay and final binding checks.",
+        "Use the same checked native reader for the existing tree collector, preserving exact requested regions, bytes, errors and attempted-read facts. The mandatory applicability callback binds source/epoch/window and records every applicability decision, including binding/cancellation failure. Tree limits are immutable snapshots. Enforce finite region/read/applicability retention bounds; do not silently increase budgets.",
+        "Replay the exact retained read-response and applicability-decision sequences with no native reads or live cancellation callbacks. Require exact request/binding order, consumption counts and observation equality. A replay disagreement, cancellation exception, final binding disagreement or metadata mismatch withdraws measured applicability/stability while preserving prefixes and diagnostics. Source-region stability and tree completeness are separate properties. Replay proves retained evidence, not renewed opening authority.",
+        "Private org.disked.exfat-tree-file/1 result records tree observation, actual before/after metadata, ancestor/process/capture identities, binding diagnostics, applicability replay and retained region facts. A private bounded encoder may use8MiB for the tree result; the supplied tree observation remains bounded by4MiB. Existing root encodings keep4MiB. Test export of raw retained responses is separately bounded by32MiB and is not a stable worker/public protocol. Current-source authority, atomic snapshot, product dispatch and effects stay false."
+      ],
+      "acceptance": [
+        "Actual generated fragmented/NoFatChain nested trees at zero/nonzero volume offsets with one/two active FAT selections agree with independent names, allocation, logical-byte/ValidDataLength and physical-offset oracles; original files are byte-identical after collection.",
+        "The native result equals replay of actual retained regions and applicability decisions, including incomplete/cancelled/error prefixes, without renewed native reads. Live source/process identities are derived and testable.",
+        "Invalid limits, selectors, windows and native bounds refuse before opening; missing, directory, aliased/replaced/reparse/offline sources reject without writes or fallback. Held-source exclusion is tested using actual handles. Expected source and limit mutation cannot weaken entry-bound inputs.",
+        "Native/fault suites, standalone headers, root/file/worker/frontend regressions, exact compiler/import/source/context/artifact evidence. Shared mechanism changes require applicable full regression evidence before integration. No owner, hardware, writer/recovery or full0.1.0 acceptance is manufactured."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-tree-file-prototype.json",
+        "spec/catalog/exfat-tree-prototype.json",
+        "spec/catalog/exfat-file-prototype.json",
+        "source/runtime/capture/exfat_tree.h",
+        "source/runtime/capture/exfat_tree.cpp",
+        "source/runtime/capture/exfat_capture.h",
+        "source/providers/image/exfat_file.h",
+        "source/providers/image/exfat_file.cpp",
+        "source/providers/image/local_file.h",
+        "source/providers/image/local_file.cpp",
+        "tests/images/exfat_file_probe.cpp",
+        "tests/images/test_exfat_file.py",
+        "tests/images/test_exfat_tree.py",
+        "tests/images/test_exfat_capture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "tests/images/test_exfat_tree_file.py",
+        "docs/exfat-tree-file.md",
+        "spec/catalog/source-maintenance-prototype.json",
+        ".aide/evidence/2026-10-15-exfat-tree/reproduce-qualified.py"
+      ]
     }
   ]
 }

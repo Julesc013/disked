@@ -13,6 +13,7 @@ struct ExfatTreePort {
     // Exact provider observation, not authentication or snapshot authority.
     std::function<bool(const ExfatCaptureRequest &)> applicable;
 };
+void validate_exfat_tree_limits(const ExfatTreeLimits &);
 // Bounded supplied-reader observations; no native opening or effect grant.
 json::Value observe_exfat_tree(const ExfatCaptureRequest &, const ExfatTreePort &,
                                const ExfatTreeLimits & = ExfatTreeLimits{});

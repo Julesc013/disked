@@ -405,3 +405,9 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 - [ ] Retain the unresolved cause of the earlier worker/restoration/parser delays and investigate any recurrence; preserve deadlines and uncertain dependencies.
 - [x] Fresh exact2cd2e2e1 complete qualification:144 native groups,51 headers,242 tooling tests/two skips and imports/context/source checks. Previous delay cause remains unproven; failures retained.
 - [ ] Complete paging/backpressure, held-source/worker/frontend and remaining original platform/storage/release gates.
+
+## Held ordinary-image trees
+
+- [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with89 existing root-file and44 supplied-tree cases.
+- [ ] Qualify exact committed source, headers, imports/context/tooling and the shared-mechanism regressions before integration.
+- [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original0.1.0 work.
