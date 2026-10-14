@@ -1,0 +1,104 @@
+[
+  {
+    "name": "worktree",
+    "command": [
+      "git",
+      "worktree",
+      "add",
+      "--detach",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+      "7590746a6f29494a824abb8a08f64332f346cee9"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "log": "worktree.log"
+  },
+  {
+    "name": "sparse",
+    "command": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.056,
+    "log": "sparse.log"
+  },
+  {
+    "name": "checkout",
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "7590746a6f29494a824abb8a08f64332f346cee9"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 1.397,
+    "log": "checkout.log"
+  },
+  {
+    "name": "x64-configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\x64",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 10.105,
+    "log": "x64-configure.log"
+  },
+  {
+    "name": "x64-build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\x64",
+      "--config",
+      "Release",
+      "--target",
+      "bootstrap_registry",
+      "exfat_tree_probe",
+      "exfat_namespace_probe",
+      "exfat_capture_probe",
+      "disked_exfat_tree_headers",
+      "disked_exfat_namespace_headers",
+      "disked_exfat_capture_headers",
+      "disked_exfat_upcase_headers",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 38.647,
+    "log": "x64-build.log"
+  },
+  {
+    "name": "x64-native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\x64",
+      "-C",
+      "Release",
+      "-R",
+      "^(image.exfat_(tree|namespace|capture)|build.boundaries|recovery.gpt_fixture_harness)$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\x64-junit.xml"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-tree-limits-exact-7590746a\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 27.789,
+    "log": "x64-native.log"
+  }
+]

@@ -32,6 +32,17 @@ def sha(path):
     return 'sha256:' + hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def failed_validation(kind, error, traceback):
+    stage = json.loads((out / 'current-stage.json').read_bytes())
+    stage.update(status='fail', error=repr(error), failure_kind='post-command-validation')
+    save(out / 'current-stage.json', stage)
+    save(out / 'failure.json', stage)
+    sys.__excepthook__(kind, error, traceback)
+
+
+sys.excepthook = failed_validation
+
+
 def run(name, command, cwd=clone, data=None):
     command = list(map(str, command))
     stage = dict(stage=name, status='running', source_revision=revision)
@@ -95,11 +106,15 @@ for architecture in ['x64', 'Win32']:
             if node['name'] in source_targets:
                 continue
             names = [row['path'] for row in node.get('sources', []) if row['path'].endswith(('.c', '.cpp'))]
+            if node['name'] == 'ZERO_CHECK':
+                assert node['type'] == 'UTILITY' and not names
+                continue
             assert all(name.startswith('source/') and '..' not in Path(name).parts for name in names)
             source_targets[node['name']] = names
             queue += [row['id'] for row in node.get('dependencies', [])]
         assert set(source_targets) == {'disked_exfat_tree', 'disked_exfat_capture', 'disked_exfat_namespace',
-            'disked_exfat_upcase', 'disked_exfat', 'disked_primitives', 'disked_hash', 'disked_json'}
+            'disked_exfat_upcase', 'disked_exfat', 'disked_primitives', 'disked_hash', 'disked_json',
+            'disked_region_reader'}
         save(out / 'fixture-source-targets.json', source_targets)
         project = out / 'Win32-fixtures'
         project.mkdir()
