@@ -168,7 +168,8 @@
           "disked_json",
           "disked_exfat",
           "disked_hash",
-          "disked_primitives"
+          "disked_primitives",
+          "disked_exfat_upcase"
         ],
         "language_standard": "14",
         "required_compile_flags": [
@@ -192,7 +193,53 @@
           "disked_hash",
           "disked_json",
           "disked_primitives",
-          "disked_local_file"
+          "disked_local_file",
+          "disked_exfat_upcase"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_upcase": {
+        "sources": [
+          "source/runtime/capture/exfat_upcase.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_namespace": {
+        "sources": [
+          "source/runtime/capture/exfat_namespace.cpp"
+        ],
+        "build_closure": [
+          "disked_exfat_upcase",
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives"
         ],
         "language_standard": "14",
         "required_compile_flags": [

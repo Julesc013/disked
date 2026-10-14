@@ -1,0 +1,42 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/exfat-namespace-working/build
+    Start 77: image.exfat_namespace
+1/2 Test #77: image.exfat_namespace ............***Failed    4.16 sec
+test_case_collision_and_finding_omissions (__main__.Namespace.test_case_collision_and_finding_omissions) ... FAIL
+test_end_marker_root_records_and_independent_directories (__main__.Namespace.test_end_marker_root_records_and_independent_directories) ... ok
+test_every_name_length_and_original_units (__main__.Namespace.test_every_name_length_and_original_units) ... ok
+test_hash_collision_requires_full_comparison (__main__.Namespace.test_hash_collision_requires_full_comparison) ... ok
+test_invalid_api_and_query_names (__main__.Namespace.test_invalid_api_and_query_names) ... ok
+test_invalid_sets_and_orphans_preserve_raw_names (__main__.Namespace.test_invalid_sets_and_orphans_preserve_raw_names) ... ok
+test_map_ambiguity_invalid_and_explicit_selection (__main__.Namespace.test_map_ambiguity_invalid_and_explicit_selection) ... ok
+test_map_and_namespace_resource_bounds (__main__.Namespace.test_map_and_namespace_resource_bounds) ... ok
+test_partial_capture_never_establishes_absence_or_unique (__main__.Namespace.test_partial_capture_never_establishes_absence_or_unique) ... ok
+test_stream_and_timestamp_validity_are_separate (__main__.Namespace.test_stream_and_timestamp_validity_are_separate) ... ok
+test_volume_rules_without_host_normalization (__main__.Namespace.test_volume_rules_without_host_normalization) ... ok
+
+======================================================================
+FAIL: test_case_collision_and_finding_omissions (__main__.Namespace.test_case_collision_and_finding_omissions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\property\test_exfat_namespace.py", line 78, in test_case_collision_and_finding_omissions
+    self.assertEqual('3',r['findings_total']);self.assertEqual('2',r['findings_omitted']);self.assertEqual(3,len(r['queries'][0]['observed_matches']))
+                                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '2' != '3'
+- 2
++ 3
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 3.834s
+
+FAILED (failures=1)
+
+    Start 78: image.exfat_capture
+2/2 Test #78: image.exfat_capture ..............   Passed    9.95 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  14.12 sec
+
+The following tests FAILED:
+	 77 - image.exfat_namespace (Failed)
+Errors while running CTest

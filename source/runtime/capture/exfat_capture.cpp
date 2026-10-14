@@ -359,104 +359,14 @@ class Observer {
         }
         membership_ = true;
     }
-    std::vector<unsigned short> decode_upcase(const Bytes &bytes, de_u32 expected_checksum,
-                                              bool compressed, V &facts, bool &initialized) {
-        de_exfat_upcase state{};
-        initialized = !de_exfat_upcase_init(static_cast<de_u32>(bytes.size()), expected_checksum,
-                                            compressed ? 1 : 0, &state);
-        if (!initialized)
-            return {};
-        retain(65536 * sizeof(unsigned short));
-        std::vector<unsigned short> mapping(65536);
-        for (std::size_t at = 0; at < bytes.size();) {
-            const auto n = std::min<std::size_t>(8192, bytes.size() - at);
-            const de_view view{bytes.data() + at, n};
-            de_exfat_upcase_step step{};
-            checked(de_exfat_upcase_feed(
-                &state, &view, static_cast<de_u32>(at), static_cast<de_u32>(n), 65536,
-                mapping.data() + state.mapped, mapping.size() - state.mapped, &step));
-            at += n;
-        }
-        checked(de_exfat_upcase_finish(&state));
-        facts.put("bytes", exact(bytes.size()))
-            .put("sha256", V::string(digest(bytes)))
-            .put("checksum", exact(state.checksum))
-            .put("issues", exact(state.issues))
-            .put("mapped_units", exact(state.mapped))
-            .put("valid", V::boolean_value(state.valid != 0));
-        if (!state.valid)
-            return mapping;
-        // Hash the specified little-endian unit representation, not host memory.
-        retain(131072);
-        Bytes encoded;
-        encoded.reserve(131072);
-        for (auto unit : mapping) {
-            encoded.push_back(static_cast<unsigned char>(unit & 255));
-            encoded.push_back(static_cast<unsigned char>(unit >> 8));
-        }
-        facts.put("mapping_sha256", V::string(digest(encoded)));
-        return mapping;
-    }
     void upcase(const de_exfat_upcase_descriptor &descriptor) {
         const auto bytes = system_bytes(upcase_chain_, native(descriptor.data_length));
-        if (request_.upcase_format != ExfatUpcaseFormat::Automatic) {
-            bool initialized = false;
-            decode_upcase(bytes, descriptor.table_checksum,
-                          request_.upcase_format == ExfatUpcaseFormat::Compressed, upcase_facts_,
-                          initialized);
-            if (!initialized)
-                stop("exfat_upcase_representation");
-            if (!upcase_facts_.fields.at("valid").boolean)
-                stop("exfat_upcase_mapping");
-            upcase_valid_ = true;
-            return;
-        }
-        output(2048); // Two bounded candidate summaries beyond the v1 result allowance.
-        upcase_facts_.put("bytes", exact(bytes.size()))
-            .put("sha256", V::string(digest(bytes)))
-            .put("requested_format", V::string("auto"))
-            .put("selection", V::string("pending"))
-            .put("valid", V::boolean_value(false))
-            .put("candidates", V::array());
-        std::vector<unsigned short> maps[2];
-        bool valid[2] = {false, false};
-        for (std::size_t index = 0; index < 2; ++index) {
-            auto &candidates = upcase_facts_.fields.at("candidates").items;
-            candidates.push_back(V::object()
-                                     .put("format", V::string(index ? "literal" : "compressed"))
-                                     .put("initialized", V::boolean_value(false))
-                                     .put("evaluated", V::boolean_value(false))
-                                     .put("valid", V::boolean_value(false))
-                                     .put("diagnostic", V{})
-                                     .put("details", V::object()));
-            auto &candidate = candidates.back();
-            auto &initialized = candidate.fields.at("initialized").boolean;
-            auto &details = candidate.fields.at("details");
-            maps[index] =
-                decode_upcase(bytes, descriptor.table_checksum, index == 0, details, initialized);
-            valid[index] = initialized && details.fields.at("valid").boolean;
-            candidate.put("evaluated", V::boolean_value(true))
-                .put("valid", V::boolean_value(valid[index]));
-            if (!initialized)
-                candidate.put("diagnostic", V::string("exfat_upcase_representation"));
-        }
-        if (!valid[0] && !valid[1]) {
-            upcase_facts_.put("selection", V::string("invalid"));
-            stop("exfat_upcase_mapping");
-        }
-        if (valid[0] && valid[1] && maps[0] != maps[1]) {
-            upcase_facts_.put("selection", V::string("ambiguous"));
-            stop("exfat_upcase_representation_ambiguous");
-        }
-        const std::size_t chosen = valid[0] ? 0 : 1;
-        const auto &details =
-            upcase_facts_.fields.at("candidates").items[chosen].fields.at("details");
-        upcase_facts_
-            .put("selection", V::string(valid[0] && valid[1] ? "equivalent"
-                                        : chosen             ? "literal"
-                                                             : "compressed"))
-            .put("valid", V::boolean_value(true))
-            .put("mapping_sha256", details.fields.at("mapping_sha256"));
+        if (request_.upcase_format == ExfatUpcaseFormat::Automatic)
+            output(2048);
+        try {
+            evaluate_exfat_upcase(bytes, descriptor.table_checksum, request_.upcase_format,
+                                 upcase_facts_, [this](std::size_t n) { retain(n); });
+        } catch (const ExfatUpcaseError &error) { stop(error.what()); }
         upcase_valid_ = true;
     }
     void reread() {
@@ -590,26 +500,6 @@ class Observer {
     }
 };
 } // namespace
-const char *exfat_upcase_format_name(ExfatUpcaseFormat format) {
-    switch (format) {
-    case ExfatUpcaseFormat::Compressed:
-        return "compressed";
-    case ExfatUpcaseFormat::Literal:
-        return "literal";
-    case ExfatUpcaseFormat::Automatic:
-        return "auto";
-    }
-    throw std::invalid_argument("exfat_capture_format");
-}
-ExfatUpcaseFormat exfat_upcase_format_from(const std::string &format) {
-    if (format == "compressed")
-        return ExfatUpcaseFormat::Compressed;
-    if (format == "literal")
-        return ExfatUpcaseFormat::Literal;
-    if (format == "auto")
-        return ExfatUpcaseFormat::Automatic;
-    throw std::invalid_argument("exfat_capture_format");
-}
 void validate_exfat_capture_request(const ExfatCaptureRequest &r) {
     exfat_upcase_format_name(r.upcase_format);
     if (!r.epoch || !r.source_bytes || r.volume_bytes < 512 || r.source_id.empty() ||

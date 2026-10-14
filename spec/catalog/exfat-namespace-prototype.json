@@ -1,0 +1,50 @@
+{
+  "schema": "org.disked.exfat-namespace-profile/1",
+  "work_id": "DE-W073",
+  "status": "implemented-working-checks-passed-exact-source-qualification-pending",
+  "base_revision": "483f88b299a5563de646c5acb9b447fbace2d3b0",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+  "scope": "Private supplied-directory namespace observations and queries using the exact validated volume upcase bytes. This is the next part of the original filesystem capability scope, not a replacement for full exFAT tree/content, held-source/worker/frontend, other platforms or storage operations.",
+  "ownership": "runtime/capture/exfat_upcase owns the shared existing representation/decoder selection and immutable owned map. Existing exfat_capture consumes that helper, preserving its v1/v2 facts and budget callbacks. runtime/capture/exfat_namespace owns directory entry association and capture-local lookup; portable/exfat owns byte decoding/hash/equality. No native I/O, new registry or scheduler.",
+  "map": "Construct an immutable map only by validating supplied original table bytes/checksum/format with the existing portable decoder and automatic two-candidate policy. Retain original bytes and facts. Matching hashes are not used to select between differing maps. Invalid, ambiguous or budget-incomplete maps cannot confer name comparison, uniqueness or absence. Use the same implementation for root observation and namespace. Namespace map retention accounting includes original bytes plus both decoded/encoded candidates; it is a logical copied-byte budget, not total process memory.",
+  "directories": "Caller supplies unique capture-local directory IDs, logical ordered 32-byte records with exact source offsets, a root flag and extent-complete capture fact. Offsets must fit u64 and cannot overlap/repeat anywhere in the supplied capture. Extent completeness is a supplied capture fact, not a live source or I/O grant. A zero end marker establishes the end of this supplied record prefix; later records remain raw and are not interpreted as members. Without it, absence requires the supplied extent-complete fact. Unknown critical/orphan/invalid/partial records withdraw model completeness. Unknown benign records remain retained without creating names. Root-only known system records in a nonroot directory withdraw completeness.",
+  "entries": "Reuse de_exfat_file_set_read for exactly each declared set, retaining original records/offsets and original UTF-16 units, including malformed units. Structural association, encoding/character validity, calculated/stored NameHash, stream validity and metadata validity are independent fields. Reserved/padding issues retain established facts. Name eligibility requires association, complete valid name units and matching NameHash; bad timestamps or stream geometry remain separate findings and confer no stream/data authority. Invalid or unsupported names make the containing directory's name domain incomplete.",
+  "comparison": "Use the selected map for every UTF-16 unit. Stored NameHash is verified with the portable hash helper. A matching hash only permits a full mapped-unit comparison; distinct names with colliding hashes remain distinct. Preserve exact original representation and derive lookup from the volume table, never host Unicode normalization, OEM rules or case folding. Detect equal names belonging to distinct capture-local entries in the same directory.",
+  "queries": "Queries identify a supplied directory and 1..255 original UTF-16 units. Invalid API shape refuses before interpretation. Invalid encoding/characters/dot names yield rejected query facts. Publish unique/entry_id only with one match and complete applicable name-domain/comparison coverage; not_found only with complete applicable coverage and zero matches. Two measured matches yield ambiguous even if additional coverage is incomplete. Otherwise incomplete retains observed match IDs without authorizing selection. Unknown/invalid map, incomplete records, unqualified capture or exhausted comparisons cannot produce unique/not_found.",
+  "limits": {
+    "directories": 256,
+    "records": 4096,
+    "queries": 256,
+    "comparisons": 65536,
+    "findings": 128,
+    "output_bytes": 1048576,
+    "map_retained_bytes": 786432
+  },
+  "budgets": "Validate finite limits and outer record/query shapes before work. Bound directory/record counts, copied bytes, comparisons, findings and JSON output. Record partial coverage and omitted findings explicitly. Never turn a prefix into absence/uniqueness. Preserve candidate facts if a later upcase candidate exhausts its budget. No unexpected source read or original-byte/unit mutation.",
+  "acceptance": [
+    "Independent original-byte entry-set/NameHash/full-comparison oracles; all name lengths/boundaries, custom non-ASCII mapping, surrogate pairs, malformed units and canonical-equivalent spellings without normalization.",
+    "Case collisions, distinct names with equal NameHash, corrupt/reordered/truncated/unsupported entry sets, orphan records, root/nonroot system records, end markers and incomplete prefixes.",
+    "Invalid/ambiguous/equivalent/explicit maps, conservative map budgets, comparison/finding/output exhaustion and capture applicability withdrawal preserve facts but never fabricate unique/absence.",
+    "Native supplied-data probe, standalone headers, existing 146 root capture/89 held-file/94 worker/33 frontend cases and exact source/tooling/import/context/artifact evidence. Full suite before normal integration when relevant; no namespace public admission from this private stage."
+  ],
+  "later_gates": [
+    "Coherent directory stream collection, fragmented and NoFatChain allocation/bitmap checks, recursive cross-link/cycle ownership.",
+    "ValidDataLength-aware file reads and zero filling; held-source, contained-worker and common frontend admission.",
+    "All original platforms/storage operations, owner acceptance, production writer/recovery and release."
+  ],
+  "host_io": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "working_validation": {
+    "native_groups_selected": 6,
+    "namespace_cases": 303,
+    "namespace_methods": 12,
+    "standalone_headers": 50,
+    "tooling_run": 242,
+    "tooling_skipped": 2,
+    "source_state": "dirty",
+    "evidence": ".aide/evidence/2026-10-15-exfat-namespace/working",
+    "full_native_suite_fresh": false,
+    "owner_accepted": false
+  }
+}

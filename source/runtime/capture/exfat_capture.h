@@ -1,13 +1,11 @@
 #pragma once
 #include "runtime/capture/region_reader.h"
+#include "exfat_upcase.h"
 #include "runtime/command/json.h"
 #include <cstdint>
 #include <string>
 
 namespace disked {
-enum class ExfatUpcaseFormat { Compressed, Literal, Automatic };
-const char *exfat_upcase_format_name(ExfatUpcaseFormat);
-ExfatUpcaseFormat exfat_upcase_format_from(const std::string &);
 struct ExfatCaptureLimits {
     std::size_t read_requests = 8192, read_bytes = 2097152;
     std::size_t clusters = 4096, records = 4096, retained_bytes = 1048576;

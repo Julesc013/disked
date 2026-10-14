@@ -6687,6 +6687,102 @@
         "tests/images/fat_tree_extraction_worker_probe.cpp",
         "tests/images/test_fat_tree_extraction_worker.py"
       ]
+    },
+    {
+      "id": "DE-W073",
+      "title": "Interpret capture-local exFAT names with the validated volume map",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W072"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-037",
+        "DE-044",
+        "DE-045",
+        "DE-050",
+        "DE-102"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "source/portable/exfat/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/images/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Implement the expected exfat-namespace-prototype contract using existing portable entry/name helpers and a shared validated upcase-map implementation. Preserve existing root observation shapes and conservative budgets.",
+        "Native supplied-data namespace/query probe and independent oracles; retain original names, observed matches, explicit partial coverage, false effect/physical authority and exact evidence."
+      ],
+      "acceptance": [
+        "Independent original-byte entry-set/NameHash/full-comparison oracles; all name lengths/boundaries, custom non-ASCII mapping, surrogate pairs, malformed units and canonical-equivalent spellings without normalization.",
+        "Case collisions, distinct names with equal NameHash, corrupt/reordered/truncated/unsupported entry sets, orphan records, root/nonroot system records, end markers and incomplete prefixes.",
+        "Invalid/ambiguous/equivalent/explicit maps, conservative map budgets, comparison/finding/output exhaustion and capture applicability withdrawal preserve facts but never fabricate unique/absence.",
+        "Native supplied-data probe, standalone headers, existing 146 root capture/89 held-file/94 worker/33 frontend cases and exact source/tooling/import/context/artifact evidence. Full suite before normal integration when relevant; no namespace public admission from this private stage."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/exfat-namespace-prototype.json",
+        "spec/catalog/exfat-capture-prototype.json",
+        "spec/catalog/exfat-directory-prototype.json",
+        "spec/catalog/exfat-upcase-prototype.json",
+        "source/portable/exfat/exfat.h",
+        "source/portable/exfat/directory.c",
+        "source/portable/exfat/upcase.c",
+        "source/runtime/capture/exfat_capture.h",
+        "source/runtime/capture/exfat_capture.cpp",
+        "source/runtime/capture/fat_namespace.h",
+        "source/runtime/capture/fat_namespace.cpp",
+        "tests/property/test_exfat_directory.py",
+        "tests/property/test_exfat_upcase.py",
+        "tests/images/test_exfat_capture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        ".aide/programmes/disked-0.1.0.json",
+        "source/runtime/capture/exfat_upcase.h",
+        "source/runtime/capture/exfat_upcase.cpp",
+        "source/runtime/capture/exfat_namespace.h",
+        "source/runtime/capture/exfat_namespace.cpp",
+        "tests/unit/exfat_namespace_probe.cpp",
+        "tests/property/test_exfat_namespace.py",
+        "docs/exfat-namespace.md"
+      ]
     }
   ]
 }

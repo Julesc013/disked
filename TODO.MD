@@ -386,3 +386,13 @@ W072 worker lease repair: independent caller-job conflict reproduced; unchanged 
 W072 exact e75602f8:139/141 groups pass; two preparation-quota harness failures retained. Both corrected groups pass with strict refusal/live-peer/retirement/source/output checks. New exact full qualification remains before main.
 
 W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipped) and four ambiguous UI cases pass. Local prototype needs owner review; namespace/tree/content, remaining platforms/storage and release remain.
+
+## Current exFAT namespace development
+
+- [x] DE-W073 working supplied-directory model: shared immutable volume map, lossless names,
+  NameHash candidate filtering/full comparison, ambiguous/incomplete lookup and finite budgets.
+  303 independent cases, six selected native groups, 50 headers and 242 tooling tests/two skips pass.
+- [ ] Qualify the committed source with the full 142-group native campaign and exact artifact,
+  import, context and source evidence before development integration. Owner acceptance stays open.
+- [ ] Collect coherent exFAT directory streams/tree and file data with allocation/bitmap agreement,
+  ValidDataLength zero filling and held-source/worker/frontend admission.

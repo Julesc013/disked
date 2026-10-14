@@ -1,0 +1,254 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W073",
+  "base_revision": "483f88b299a5563de646c5acb9b447fbace2d3b0",
+  "spec_manifest_digest": "sha256:04a81336a5a7ef77f791a6720ad42ae030c2b3185bf412fe04c7c12d9dcc11a4",
+  "status": "partial",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/exfat-namespace-prototype.json",
+    "docs/code-structure.md",
+    "docs/structure-review.md",
+    "source/portable/exfat/directory.c",
+    "source/runtime/capture/exfat_capture.cpp",
+    "source/runtime/capture/exfat_upcase.cpp",
+    "source/runtime/capture/exfat_namespace.cpp",
+    "tests/property/test_exfat_namespace.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-15-exfat-namespace/.gitattributes",
+    ".aide/evidence/2026-10-15-exfat-namespace/README.md",
+    ".aide/evidence/2026-10-15-exfat-namespace/reproduce-qualified.py",
+    ".aide/evidence/2026-10-15-exfat-namespace/upstream-observation.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/artifact-identities.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/build-identity.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/build.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/check.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/configure.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/context-manifest.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-build.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-junit.xml",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-tests.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-capture-cases.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-command-cases.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-file-cases.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-namespace-cases.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-worker-cases.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/final-check.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/final-context.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/final-index.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/final-manifest.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/full-build.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/index.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/initial-junit.xml",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/private-header-usage.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/regression-junit.xml",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/regression.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/summary.json",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/tests.log",
+    ".aide/evidence/2026-10-15-exfat-namespace/working/tooling.log",
+    "docs/exfat-namespace.md",
+    "source/runtime/capture/exfat_namespace.cpp",
+    "source/runtime/capture/exfat_namespace.h",
+    "source/runtime/capture/exfat_upcase.cpp",
+    "source/runtime/capture/exfat_upcase.h",
+    "spec/catalog/exfat-namespace-prototype.json",
+    "tests/property/test_exfat_namespace.py",
+    "tests/unit/exfat_namespace_probe.cpp",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/source-map.md",
+    "source/runtime/capture/exfat_capture.cpp",
+    "source/runtime/capture/exfat_capture.h",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Shared immutable upcase decoder/map and private supplied-directory namespace are implemented. Working native regressions and tooling pass. Initial omitted-findings evaluation-order failure retained and corrected in product code without changing expected outputs. Exact-source full qualification pending; no source/tree/frontend/storage or owner admission.",
+  "tests": [
+    {
+      "command": "cmake configure Windows bootstrap working checkout",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/configure.log"
+    },
+    {
+      "command": "cmake --build .aide-local/exfat-namespace-working/build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/full-build.log"
+    },
+    {
+      "command": "ctest selected namespace and root capture (initial)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/tests.log"
+    },
+    {
+      "command": "ctest selected namespace and root capture (corrected)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-tests.log"
+    },
+    {
+      "command": "ctest six namespace/root/file/worker/frontend/build-boundary groups",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/regression.log"
+    },
+    {
+      "command": "python -X utf8 -m unittest discover -s spec/tools/tests -v (configured venv)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/tooling.log"
+    },
+    {
+      "command": "specctl check (configured venv)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-check.log"
+    },
+    {
+      "command": "specctl manifest / verify-manifest (configured venv)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-manifest.log"
+    },
+    {
+      "command": "specctl context DE-W073 / verify-context (configured venv)",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-context.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/artifact-identities.json",
+      "sha256": "sha256:38a8f3f671f2e5f5d6b4a74d97c404979d63db6d2696411aafa9bcef78c407e8"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/build-identity.json",
+      "sha256": "sha256:d89ef2cb34f43d51dfb8f47b8a03eae08709faa9e1bb05334e4eaa3bfdde6627"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/build.log",
+      "sha256": "sha256:13f066f9f9a8d80219e4385ec0c616d16d275c394d987f059d5ff60a35e33e27"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/check.log",
+      "sha256": "sha256:d33f97af30cd27527bda4561b046fb4fa8388c52e2701c36ac51d366db85517e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/configure.log",
+      "sha256": "sha256:269b2cf48946ce55b4414a1cb942cb6294c05f847f08175415350698f9d6b0d2"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/context-manifest.json",
+      "sha256": "sha256:5775cd6b0736ea8e71df974c9939c4387991b0f5581643ee2c3c710e30c9cfcf"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-build.log",
+      "sha256": "sha256:f7deea23507b6b30b8cedaaa79cf0474dbf9248c26c214b17ed4869694c83e81"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-junit.xml",
+      "sha256": "sha256:581e5ffdadb797740e11e5a279d27b49626ef5b02ce8e5cad630dc3be9478482"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/corrected-tests.log",
+      "sha256": "sha256:86a1732edd1255f8c3c568d2085d91b9c1bfaba93eff1da87a4074bbd10b77c4"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-capture-cases.json",
+      "sha256": "sha256:a07f55fd0575a80e39589bcbf9cdd88712d19f97e70afed015957c8e97e7264b"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-command-cases.json",
+      "sha256": "sha256:65562315c4f3f9b5c671d5954db55d0ddf715caacf890d48ec2d3701bdec1339"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-file-cases.json",
+      "sha256": "sha256:2fc6e943f584ee8a172412a54c7296b1829692009b6252ca9b5637a45995a605"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-namespace-cases.json",
+      "sha256": "sha256:f21aff9b3512271087c5b6a32677d29ae29a3d95bb8d676b777d0b596cf5caa3"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/exfat-worker-cases.json",
+      "sha256": "sha256:56615488d1ff05acf150233d9764df3f8067611b6c64071984dd5aa329d7ddb6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-check.log",
+      "sha256": "sha256:d33f97af30cd27527bda4561b046fb4fa8388c52e2701c36ac51d366db85517e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-context.log",
+      "sha256": "sha256:f30bd0312865a0e9c41b336b8d0ac26faeb29a681d4f6dd508a5608c7bad9108"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/final-manifest.log",
+      "sha256": "sha256:e1c9ca58a6088150d3813466f9d0ef6debf0c9c0f64c0ba3ad1a04f1726d8065"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/full-build.log",
+      "sha256": "sha256:1847e94faeee6d3fee9e4052458c1537c2fefcc1d45ea713c6c7199af1625694"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/index.log",
+      "sha256": "sha256:b446e8f5905cb3e0a63b0f7792fd2c0446d6699c161686d76f9808728a6eb9f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/initial-junit.xml",
+      "sha256": "sha256:0efe030b28908055bfc30e5e82a6c455bbfcc92007b571155f6a2a8085c1e6ed"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/private-header-usage.json",
+      "sha256": "sha256:fba68f53205754777db86d0064e6a721961657cc46819cd8c3abb366ca458115"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/regression-junit.xml",
+      "sha256": "sha256:41781a9276118cc5170d2a6278f1492b9ce1e0694bc164421834fab9e2cb68f1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/regression.log",
+      "sha256": "sha256:72d082d19b173724bc81bb0e29c41e17c9b271e25d340737100e307f296e0f7c"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/summary.json",
+      "sha256": "sha256:d366440c11d5629e19d59dd5cdf6dfe1a39f02d9fb475d9bf1cff9f932d35c38"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/tests.log",
+      "sha256": "sha256:8d41ec0cf7d359e2195593907f230e2320846acd03e4f9e302fc9d4260282320"
+    },
+    {
+      "path": ".aide/evidence/2026-10-15-exfat-namespace/working/tooling.log",
+      "sha256": "sha256:4b8392128a35cecbb0851f5f560cc51400d8ed757983380ccd00ce58c74f8713"
+    }
+  ],
+  "blockers": [],
+  "next_safe_step": "Commit and push this partial checkpoint to dev. Run reproduce-qualified.py at its exact revision, with 142 native groups/50 headers and tooling/context/source/import checks. Retain terminal results and review before main integration; then continue coherent streams/tree/VDL.",
+  "performed_remote_writes": false
+}
