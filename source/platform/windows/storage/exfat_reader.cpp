@@ -1,5 +1,6 @@
 #include "exfat_reader.h"
 #include "exfat_worker.h"
+#include "platform/windows/worker_files.h"
 #include "providers/image/local_file.h"
 #include <atomic>
 #include <limits>
@@ -185,6 +186,11 @@ ExfatInspectionRead inspect_exfat_image(const ExfatInspectionRequest &request) {
                            finish_exit(*worker), error.platform_code);
         return failure(ExfatInspectionRead::Status::Refused, error.what(), V{},
                        error.platform_code);
+    } catch (const worker_files::Failure &error) {
+        if (worker && !worker->never_launched())
+            return failure(ExfatInspectionRead::Status::Unresolved, error.what(),
+                           finish_exit(*worker), error.platform);
+        return failure(ExfatInspectionRead::Status::Refused, error.what(), V{}, error.platform);
     } catch (const std::exception &error) {
         if (worker && !worker->never_launched())
             return failure(ExfatInspectionRead::Status::Unresolved, error.what(),

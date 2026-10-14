@@ -1,0 +1,120 @@
+{
+  "source_revision": "60376a0e90eaeae35810b2f411e3e569c721f259",
+  "artifact_sha256": "sha256:6459bec00ae12f434990c9f7f81ba706d87be5171572230f51d9267e634f624e",
+  "records": [
+    {
+      "command": "image.inspect",
+      "request": {
+        "schema": "org.disked.request/1",
+        "request_id": "late-origin",
+        "command": "image.inspect",
+        "parameters": {
+          "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\exfat-command-exact-60376a0e\\source\\.aide-local\\disked-fat-late-diagnostic-wpygfl43\\generated.img",
+          "view": "fat",
+          "volume_offset": "0",
+          "volume_bytes": "1467904",
+          "retain_capture": "yes"
+        },
+        "required_features": []
+      },
+      "response_sha256": "sha256:94eb179f5c6918ad38b3e07bed89a81d5d849db941ccac1832b8eb74f777df75",
+      "response_bytes": 320,
+      "exit_code": 6
+    },
+    {
+      "command": "image.capture.inspect",
+      "request": {
+        "schema": "org.disked.request/1",
+        "request_id": "retention:2",
+        "command": "image.capture.inspect",
+        "parameters": {},
+        "required_features": []
+      },
+      "response_sha256": "sha256:d50a87758a9fa26e49ada3dc488734ed9baac77115cb1c3b7fdbf8ee35d39835",
+      "response_bytes": 521,
+      "exit_code": 0
+    },
+    {
+      "command": "image.capture.release",
+      "request": {
+        "schema": "org.disked.request/1",
+        "request_id": "retention:3",
+        "command": "image.capture.release",
+        "parameters": {
+          "capture_id": "fat-capture:06ad142adcf12e99429af7e94e951f1b:1"
+        },
+        "required_features": []
+      },
+      "response_sha256": "sha256:2cba8c5ddb1720140ef21dba02ef24a2f9a209ccbfe415b60503296ab703b3d3",
+      "response_bytes": 298,
+      "exit_code": 3
+    },
+    {
+      "command": "image.capture.inspect",
+      "request": {
+        "schema": "org.disked.request/1",
+        "request_id": "retention:4",
+        "command": "image.capture.inspect",
+        "parameters": {},
+        "required_features": []
+      },
+      "response_sha256": "sha256:129bd57118c58c228e557217cb891be367e3868d0929156e18951cf3bb88d90f",
+      "response_bytes": 521,
+      "exit_code": 0
+    },
+    {
+      "command": "image.capture.inspect",
+      "request": {
+        "schema": "org.disked.request/1",
+        "request_id": "retention:5",
+        "command": "image.capture.inspect",
+        "parameters": {},
+        "required_features": []
+      },
+      "response_sha256": "sha256:1147483c1beebacabf4850512e29516ab2c251b012b03deb84533e9f65abd74e",
+      "response_bytes": 385,
+      "exit_code": 0
+    },
+    {
+      "request_id": "diagnostic-after-gate",
+      "response": {
+        "diagnostics": [
+          {
+            "code": "observation_spawn_failed",
+            "message_key": "disked.observation_spawn_failed",
+            "parameters": {},
+            "platform_code": null,
+            "remediation": [],
+            "severity": "error"
+          }
+        ],
+        "evidence": [],
+        "operation_id": null,
+        "request_id": "diagnostic-after-gate",
+        "result": null,
+        "schema": "org.disked.response/1",
+        "status": "refused"
+      },
+      "response_sha256": "sha256:aef2f97bd7d10288ef71d5001dde92c09cb51027dbe5a4b53a55b3b9c6075c6f",
+      "bytes": 312
+    }
+  ],
+  "timeline": [
+    {
+      "elapsed_seconds": 0.0,
+      "rows": [
+        {
+          "bytes": null,
+          "capture_id": "fat-capture:06ad142adcf12e99429af7e94e951f1b:1",
+          "request_id": "late-origin",
+          "sha256": null,
+          "state": "reserved"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 0.101,
+      "rows": []
+    }
+  ]
+}

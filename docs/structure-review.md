@@ -1,5 +1,27 @@
 # Source structure and release review follow-up
 
+## Failed full command qualification: 14 October 2026
+
+Keep the five source owners and the 283-file source map. The clean `60376a0e`
+campaign built successfully but passed only 132 of 140 native groups. Eight
+existing retention, extraction, acquisition and report groups failed; the new
+exFAT groups passed. [Original failed evidence](../.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md)
+retains the complete results. This does not qualify the normal composition.
+
+Working adapter diagnostics now retain the Windows error code, FAT source pins
+survive exception retirement, and retention fixture sessions close before source
+cleanup. The [partial repair](../.aide/evidence/2026-10-14-exfat-launch-repair-working/README.md)
+passes 68 FAT retention cases, 33 exFAT command cases and two reader headers.
+The extended process-launch error 5 and the eight failed groups remain unresolved.
+Development checkpoints go to `dev`; `main` remains at its earlier reviewed
+checkpoint until a complete applicable campaign and agent review pass.
+
+Universal Setup draft [PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+is at `7cf0b5ff`. Its [current CI run](https://github.com/Julesc013/universal-setup/actions/runs/38512737801)
+has six successful jobs and a failed `native-windows` job as checked on
+14 October. This check did not independently diagnose or execute Setup. Full
+DiskEd 0.1.0, owner/storage/platform and release acceptance remain unfinished.
+
 ## Working exFAT command checkpoint: 14 October 2026
 
 The source map covers all **283** current files once. Keep the five existing

@@ -58,10 +58,11 @@
   },
   "command_service_contract": "The prototype exfat view accepts exactly path,view,volume_offset,volume_bytes,upcase_format. volume_bytes is at least512 and the complete window fits signed native63-bit addressing; invalid path text, unknown format, overflow, missing window or unrelated controls refuse2 before invoking the native port. Preserve the existing shared parser diagnostics: missing required parameters use missing_parameter, CLI invalid values or schema relationships use invalid_option_value, and constructed service requests use invalid_parameter. retain_capture is not admitted for exfat until a typed retention-store extension is specified; existing FAT retention stays unchanged. upcase_format defaults auto and explicit selections are recorded. Private ExfatInspectionRequest/Read/Port in runtime/capture/exfat_inspection separates shared validation/projection/outcomes from Windows storage/exfat_reader source/process ownership. The result schema org.disked.exfat-inspection/1 records ordinary-local-file-exfat scope, root-and-active-system applicability, requested format, original complete file/capture digests, context and actual worker, source receipt and bounded observation. root_records projection has at most256items/98304bytes; regions128items/32768bytes; each root/bitmap/upcase chain clusters64items/4096bytes and cells64items/16384bytes. Every projected array records total,returned,omitted and original full-array digest, without new source reads. Complete applicable root/system observations with metadata/binding/replay agreement yield completed0; incomplete observations yield failed4/exfat_capture_incomplete and retain original media diagnostics. Binding/metadata/replay disagreement additionally yields failed4/exfat_source_changed. The known pre-read exfat_file_source_changed refusal is also failed4; path/profile or missing service refusals remain3. Owned worker/wait uncertainty is unknown6 with actual worker state, while the callback and source/session remain owned until confirmed exit. Unexpected errors are failed4/internal_error, response overflow failed4/exfat_report_limit. Responses are at most524288bytes, with the same bounded serialization across CLI,protocol,GUI,TUI,shell. Essential/static commands and inert review do not call the source port. Normal product composition dispatches the existing compiled reader role; fault controls compile only into a separate fixture executable. This is a development image prototype, not physical or public durable storage ABI/release qualification.",
   "command_stage": {
-    "status": "working-33-cases-pass-exact-qualification-pending",
+    "status": "working-command-full-exact-qualification-failed",
     "owner_accepted": false,
     "cases": 33,
-    "evidence": ".aide/evidence/2026-10-14-exfat-command-working/summary.json"
+    "evidence": ".aide/evidence/2026-10-14-exfat-command-working/summary.json",
+    "qualification_attempt": ".aide/evidence/2026-10-14-exfat-command-exact-failed/summary.json"
   },
   "transport_stage_qualification": {
     "source_revision": "33ee364a6e7cbf87771161759019cb977f6d9959",
@@ -78,6 +79,15 @@
     "tooling_tests_run": 242,
     "tooling_tests_skipped": 2,
     "full_native_suite_fresh": false,
+    "owner_accepted": false
+  },
+  "full_campaign_attempt": {
+    "source_revision": "60376a0e90eaeae35810b2f411e3e569c721f259",
+    "status": "fail",
+    "native_groups_run": 140,
+    "native_groups_passed": 132,
+    "native_groups_failed": 8,
+    "evidence": ".aide/evidence/2026-10-14-exfat-command-exact-failed/summary.json",
     "owner_accepted": false
   }
 }

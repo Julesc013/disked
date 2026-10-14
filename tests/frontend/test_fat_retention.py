@@ -1,5 +1,6 @@
 """Real process-lifetime FAT retention over generated ordinary files."""
 import argparse
+from contextlib import ExitStack
 import hashlib
 import json
 import os
@@ -62,13 +63,13 @@ def main():
     parser.add_argument('--output',type=Path);args=parser.parse_args()
     args.exe=args.exe.resolve();args.fault=args.fault.resolve();args.root=args.root.resolve()
     env={k:v for k,v in os.environ.items() if not k.startswith(('DISKED_FAT_COMMAND_TEST_','DISKED_FAT_TEST_'))}
-    records=[];passed=False;sessions=[]
+    records=[];passed=False;sessions=[];session_cleanup=ExitStack()
     def record(**fields):records.append(fields)
     def params(path,volume,**extra):return dict(path=str(path),view='fat',volume_offset=str(volume.offset),
         volume_bytes=str(volume.length),retain_capture='yes',**extra)
     def session(exe=None,settings=None):
         selected=env.copy();selected.update(settings or {})
-        value=Protocol(exe or args.exe,selected,record);sessions.append(value);return value
+        value=Protocol(exe or args.exe,selected,record);sessions.append(value);session_cleanup.callback(value.abort);return value
     def retrieve(port,cid,receipt,original):
         encoded=bytearray();offset=0
         while True:
@@ -96,7 +97,9 @@ def main():
         return value
     scratch=args.root/'.aide-local';scratch.mkdir(exist_ok=True)
     try:
-        with tempfile.TemporaryDirectory(prefix='fat-retention-',dir=scratch) as folder:
+        # ExitStack runs before TemporaryDirectory so a failing assertion closes
+        # its owned sessions before cleanup attempts to unlink held source files.
+        with tempfile.TemporaryDirectory(prefix='fat-retention-',dir=scratch) as folder,session_cleanup:
             folder=Path(folder);assert folder.resolve().is_relative_to(scratch.resolve())
             for bits in (12,16,32):
                 volume=MetadataVolume(bits,offset=512);item=short();long,_=slots(code_units('界🙂 retained.txt'),item)

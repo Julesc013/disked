@@ -1,5 +1,6 @@
 #include "fat_reader.h"
 #include "fat_worker.h"
+#include "platform/windows/worker_files.h"
 #include "providers/image/local_file.h"
 #include <atomic>
 #include <limits>
@@ -88,16 +89,17 @@ V finish_exit(nt_inventory::FatWorker &worker) {
 }
 } // namespace
 FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
+    std::unique_ptr<Source> source;
     std::unique_ptr<nt_inventory::FatWorker> worker;
     try {
 #ifdef DISKED_FAT_COMMAND_TESTING
         if (GetEnvironmentVariableW(L"DISKED_FAT_COMMAND_TEST_OPEN_GUARD", nullptr, 0))
             throw f::Error("fat_source_open_forbidden");
 #endif
-        Source source(request.path);
+        source.reset(new Source(request.path));
         FatSnapshotInput input;
         input.path = request.path;
-        input.expected_source = f::metadata(source.file.value).value;
+        input.expected_source = f::metadata(source->file.value).value;
         input.capture_epoch = epoch();
         input.volume_offset = request.volume_offset;
         input.volume_bytes = request.volume_bytes;
@@ -163,6 +165,11 @@ FatInspectionRead inspect_fat_image(const FatInspectionRequest &request) {
             return failure(FatInspectionRead::Status::Unresolved, error.what(),
                            finish_exit(*worker), error.platform_code);
         return failure(FatInspectionRead::Status::Refused, error.what(), V{}, error.platform_code);
+    } catch (const worker_files::Failure &error) {
+        if (worker && !worker->never_launched())
+            return failure(FatInspectionRead::Status::Unresolved, error.what(),
+                           finish_exit(*worker), error.platform);
+        return failure(FatInspectionRead::Status::Refused, error.what(), V{}, error.platform);
     } catch (const std::invalid_argument &error) {
         if (worker && !worker->never_launched())
             return failure(FatInspectionRead::Status::Unresolved, error.what(),

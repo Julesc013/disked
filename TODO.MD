@@ -378,3 +378,5 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 - [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Typed automatic file/frame/worker transport is now locally qualified at `33ee364a`; normal image.inspect/frontends require their own qualification; original full0.1.0 and owner/storage/release gates stay open.
 
 DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT image.inspect service and all five frontends pass 33 working cases; exact full-native qualification and work-unit review remain.
+
+W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.

@@ -113,3 +113,5 @@ slot survive frontend wait expiry until actual worker exit; static commands and
 inert review do not probe the image. Working frontend checks pass 33 cases,
 including large-detail omissions, reader faults and retained source ownership.
 Exact full-native qualification is pending.
+
+W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](../.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
