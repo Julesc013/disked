@@ -12,12 +12,14 @@ supplied-data probe and two standalone headers for x64 and Win32, runs the exist
 and records compiler/configuration/import/source/artifact facts. An old-probe-only
 Win32 baseline measures the previous conversion against the unchanged kernel.
 
-Execution is pending. Finish the isolated full142 campaign before starting this
-supplement. Use the pinned modern compiler; no product preset or legacy claim is
+The isolated full 142 campaign and this supplement pass. Exact source `84d0c227`
+passes 303 namespace and 13 boundary cases per architecture; the old Win32 probe
+shows 11 mismatches. Retain the initial runner failure separately. Use the pinned modern compiler; no product preset or legacy claim is
 weakened. Run from the repository root:
 
 ```text
 .aide-local/venv/Scripts/python.exe .aide/evidence/2026-10-15-exfat-namespace/word-bounds/qualify-namespace-word-bounds.py --source . --revision <bounds-source-revision> --codemodel-build .aide-local/exfat-namespace-exact-2545d078/build --output .aide-local/namespace-word-bounds-<short-revision> --cases .aide/evidence/2026-10-15-exfat-namespace/word-bounds/namespace-size-cases.py
 ```
 
-No native result or regression reproduction is claimed until actual execution.
+Results and exact compiler/source/import/artifact observations are in the sibling
+`qualified-84d0c227-word-bounds/` directory. This does not qualify the full x86 product.

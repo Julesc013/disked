@@ -1,26 +1,26 @@
 # Source structure and release review follow-up
 
-## Current namespace checkpoint: 15 October 2026
+## Qualified namespace checkpoint: 15 October 2026
 
-Keep the existing source ownership and explicit frontend names. The source map
-now covers 287 files once, including the shared exFAT upcase map and private
-supplied-directory namespace. The working checks pass 303 namespace cases,
-six selected native groups, 50 standalone headers and 242 tooling tests with
-two skips. Source `2545d078` then passed an isolated clean configure/full build;
-its 142-group native campaign and subsequent exact checks are still running.
-This is progress toward the original scope, not completed 0.1.0 or release approval.
+The source map covers 287 files once. Exact `2545d078` passes all 142 native groups,
+50 standalone headers and 242 tooling tests/two skips, with clean source/context,
+manifest and import checks. The probe-only correction at `84d0c227` passes 303
+namespace cases and 13 integer-boundary cases with two headers on both x64/Win32.
+An old-probe-only Win32 baseline independently measures 11 conversion mismatches.
+[Evidence and implementing-agent review](../.aide/evidence/2026-10-15-exfat-namespace/README.md)
+retain actual identities, original failures and scope.
 
-The checkpoint is on remote `dev`; `main` remains `483f88b2` pending qualification.
-Keep historical identities and results; the new [evidence](../.aide/evidence/2026-10-15-exfat-namespace/README.md)
-records current scope and the initial omission-count failure. Later stream/tree,
-ValidDataLength content, contained-worker/frontend, platform/storage and owner
-gates remain separate.
+Keep the existing names/ownership. This qualifies private supplied-directory
+names and queries, not coherent tree/file content, current-source permission,
+full x86 product, owner acceptance or the original all-platform/storage0.1.0.
+The checkpoint is ready for tested development integration; the programme records
+actual subsequent pushes/merges rather than inferring them from this review.
 
-The latest read-only Setup observation is draft PR #237 at `082d6c7f`,
-[run 38583797287](https://github.com/Julesc013/universal-setup/actions/runs/38583797287):
-six jobs succeeded and native-windows remained in progress. The result is pending;
-it does not establish maintenance or DiskEd integration qualification. No release
-date follows from naming improvements or this unfinished campaign.
+Setup's draft PR237 at `082d6c7f`, [run38583797287](https://github.com/Julesc013/universal-setup/actions/runs/38583797287),
+now has six successful jobs and failed native-windows. The log reports an owned
+SYSTEM fixture failure, missing artifacts and later receipt-count errors. These
+are observed diagnostics; underlying cause and live DiskEd integration remain
+unqualified. No evidence-based release date or release approval follows.
 
 ## Qualified development checkpoint: 14 October 2026
 
@@ -122,7 +122,7 @@ cases/eight methods and 242 tooling tests with two skips. [Evidence and local
 review](../.aide/evidence/2026-10-14-exfat-worker-qualified/README.md) cover confirmed-exit retirement and pre-read
 source binding. Actual file-symlink creation remains unverified without privilege.
 This private reader does not yet admit normal exFAT frontend commands, complete
-tree/content, physical storage, other hosts or the original full0.1.0 release.
+tree/content, physical storage, other hosts or the original full 0.1.0 release.
 Tested and locally reviewed checkpoints can merge from dev to main under the
 existing grant; owner/release acceptance stays separate.
 
@@ -195,7 +195,7 @@ Prior fullregression results apply to unchanged source and are separately labele
 See [boot/allocation review](../.aide/evidence/2026-10-14-exfat-qualification/qualified-1e938369/REVIEW.md)
 and [directory review](../.aide/evidence/2026-10-14-exfat-directory-qualified/REVIEW.md).
 The existing source owners accommodate this work; there is no mountedexFAT,
-bitmap/upcase/source/tree/provider/writer/otherhost or full0.1.0 release claim.
+bitmap/upcase/source/tree/provider/writer/otherhost or full 0.1.0 release claim.
 
 ## exFAT development and Setup status: 14 October 2026
 
@@ -238,7 +238,7 @@ The [whole-unit evidence](../.aide/evidence/2026-10-14-fat-recursive-command-qua
 maps all four DE-W057 local criteria to actual common frontend/operation/failure
 results and exact source/build/import/context/artifact identities. The ordinary-file
 Windows scope has reached implementing-agent review. Existing ownership accommodates
-the work; owner, physical/other-host and full0.1.0 release acceptance remain open.
+the work; owner, physical/other-host and full 0.1.0 release acceptance remain open.
 
 ## Normal recursive composition development: 14 October 2026
 
@@ -342,7 +342,7 @@ retained request. Pending acknowledgement preserves that proposed ID for inspect
 it proves no admitted operation. Five focused groups pass across retained runs,
 tooling236pass/two skip, source map266 files and235 dependency targets. Actual
 product frontend admission, compatible readers and full exact-source qualification
-remain. The product command stays planned; full0.1.0 and release remain open.
+remain. The product command stays planned; full 0.1.0 and release remain open.
 
 ## Recursive bounded wait/watch development: 14 October 2026
 
@@ -375,7 +375,7 @@ Three selected native groups pass: controller, reconnect and admission. Tooling
 runs238 tests:236 pass/two skip. The source map covers260 files and generated
 dependency checks cover228 targets without violations. These are focused
 development results. Native wait/watch, actual public frontend journeys and full
-clean-source qualification remain; full0.1.0 and release are unfinished.
+clean-source qualification remain; full 0.1.0 and release are unfinished.
 
 ## Recursive retained-history and reconnect development: 14 October 2026
 

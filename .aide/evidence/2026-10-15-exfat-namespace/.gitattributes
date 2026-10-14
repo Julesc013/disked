@@ -1,3 +1,8 @@
 *.log -text
-*.xml -text
-*.json -text
+*.xml -text whitespace=cr-at-eol
+*.json -text whitespace=cr-at-eol
+qualified-*/** -text whitespace=cr-at-eol
+*.log -diff
+private-header-usage.json -diff
+qualified-*/*-CMakeCache.txt -diff
+qualified-*/*-CMake*Compiler.cmake -diff

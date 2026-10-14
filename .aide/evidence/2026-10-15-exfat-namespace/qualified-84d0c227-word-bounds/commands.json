@@ -1,0 +1,327 @@
+[
+  {
+    "name": "clone",
+    "argv": [
+      "git",
+      "clone",
+      "--local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "D:\\Projects\\DiskEd\\disked",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked",
+    "exit_code": 0,
+    "elapsed_seconds": 1.189,
+    "log": "logs/clone.log"
+  },
+  {
+    "name": "sparse-selection",
+    "argv": [
+      "git",
+      "sparse-checkout",
+      "set",
+      "--no-cone",
+      "--stdin"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/sparse-selection.log"
+  },
+  {
+    "name": "checkout",
+    "argv": [
+      "git",
+      "checkout",
+      "--detach",
+      "84d0c227eaaa1a76ac318aeb70e2da22a641698e"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source",
+    "exit_code": 0,
+    "elapsed_seconds": 0.34,
+    "log": "logs/checkout.log"
+  },
+  {
+    "name": "cmake-version",
+    "argv": [
+      "cmake",
+      "--version"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.199,
+    "log": "logs/cmake-version.log"
+  },
+  {
+    "name": "x64-configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\project",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DEXPECTED_POINTER_BYTES=8"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 5.998,
+    "log": "logs/x64-configure.log"
+  },
+  {
+    "name": "x64-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 6.447,
+    "log": "logs/x64-build.log"
+  },
+  {
+    "name": "x64-namespace",
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source\\tests\\property\\test_exfat_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64\\Release\\exfat_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64-namespace.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 3.076,
+    "log": "logs/x64-namespace.log"
+  },
+  {
+    "name": "x64-word-bounds",
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\namespace-size-cases.py",
+      "--source",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64\\Release\\exfat_namespace_probe.exe",
+      "--pointer-bits",
+      "64",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64-word-bounds.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.219,
+    "log": "logs/x64-word-bounds.log"
+  },
+  {
+    "name": "x64-headers",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/x64-headers.log"
+  },
+  {
+    "name": "x64-imports",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/x64-imports.log"
+  },
+  {
+    "name": "x64-dependents",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\x64\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.05,
+    "log": "logs/x64-dependents.log"
+  },
+  {
+    "name": "Win32-configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\project",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DEXPECTED_POINTER_BYTES=4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 4.051,
+    "log": "logs/Win32-configure.log"
+  },
+  {
+    "name": "Win32-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 5.175,
+    "log": "logs/Win32-build.log"
+  },
+  {
+    "name": "Win32-namespace",
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source\\tests\\property\\test_exfat_namespace.py",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32\\Release\\exfat_namespace_probe.exe",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32-namespace.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 3.44,
+    "log": "logs/Win32-namespace.log"
+  },
+  {
+    "name": "Win32-word-bounds",
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\namespace-size-cases.py",
+      "--source",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32\\Release\\exfat_namespace_probe.exe",
+      "--pointer-bits",
+      "32",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32-word-bounds.json"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.224,
+    "log": "logs/Win32-word-bounds.log"
+  },
+  {
+    "name": "Win32-headers",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/headers",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "log": "logs/Win32-headers.log"
+  },
+  {
+    "name": "Win32-imports",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/imports",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/Win32-imports.log"
+  },
+  {
+    "name": "Win32-dependents",
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+      "/dependents",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\Win32\\Release\\exfat_namespace_probe.exe"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.047,
+    "log": "logs/Win32-dependents.log"
+  },
+  {
+    "name": "baseline-configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\baseline-project",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\baseline-Win32",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "Win32,version=10.0.19041.0",
+      "-T",
+      "v143,version=14.44.35207,host=x64",
+      "-DEXPECTED_POINTER_BYTES=4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 4.124,
+    "log": "logs/baseline-configure.log"
+  },
+  {
+    "name": "baseline-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\baseline-Win32",
+      "--config",
+      "Release",
+      "--parallel",
+      "4"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 4.995,
+    "log": "logs/baseline-build.log"
+  },
+  {
+    "name": "baseline-word-bounds",
+    "argv": [
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\namespace-size-cases.py",
+      "--source",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\source",
+      "--probe",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\baseline-Win32\\Release\\exfat_namespace_probe.exe",
+      "--pointer-bits",
+      "32",
+      "--output",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected\\baseline-word-bounds.json",
+      "--observe-baseline"
+    ],
+    "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\namespace-word-bounds-corrected",
+    "exit_code": 0,
+    "elapsed_seconds": 0.272,
+    "log": "logs/baseline-word-bounds.log"
+  }
+]

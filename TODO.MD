@@ -298,13 +298,13 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] Weekly AIDE source review2026-10-12: exactdev `6f2abc4c`, unchanged queue schema and36passive WorkUnit validations; Lite1.0.0 publication/scope recorded separately. No upstream execution/install/import/stable-consumer qualification.
 
-- [x] DE-W041 read-only ordinary-image GPT repair preview: explicit source/selection binding, bounded capture/rereads, immutable patch digests, native CLI/stdio/GUI/linear TUI/shell and timeout-slot evidence at `3ff136f1`. Clean79product groups and59focused cases; [evidence](.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation/recovery, owner acceptance and full0.1.0 remain open.
+- [x] DE-W041 read-only ordinary-image GPT repair preview: explicit source/selection binding, bounded capture/rereads, immutable patch digests, native CLI/stdio/GUI/linear TUI/shell and timeout-slot evidence at `3ff136f1`. Clean79product groups and59focused cases; [evidence](.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation/recovery, owner acceptance and full 0.1.0 remain open.
 
-- [x] DE-W041 private create-only GPT effects: actual owned-image write/flush/backup/intention/completion and read-only interrupted-state evidence at `b890f9d3`.190cases/70process exits/80native groups; [evidence](.aide/evidence/2026-10-12-gpt-owned-effects/README.md). Existing-target/product writer, production journal, power-loss/recovery, owner and full0.1.0 remain open.
+- [x] DE-W041 private create-only GPT effects: actual owned-image write/flush/backup/intention/completion and read-only interrupted-state evidence at `b890f9d3`.190cases/70process exits/80native groups; [evidence](.aide/evidence/2026-10-12-gpt-owned-effects/README.md). Existing-target/product writer, production journal, power-loss/recovery, owner and full 0.1.0 remain open.
 
-- [x] DE-W042 private owned-image restoration: exact reverse patches, fresh review/grant and attempt journal, original-artifact preservation and interrupted multi-chunk recovery at `b2c6a4e3`.138 restoration/190 execution cases and 81 native groups; [evidence](.aide/evidence/2026-10-12-gpt-restoration/README.md). Product/production recovery, power-loss, independent protection, owner and full0.1.0 qualification remain open.
+- [x] DE-W042 private owned-image restoration: exact reverse patches, fresh review/grant and attempt journal, original-artifact preservation and interrupted multi-chunk recovery at `b2c6a4e3`.138 restoration/190 execution cases and 81 native groups; [evidence](.aide/evidence/2026-10-12-gpt-restoration/README.md). Product/production recovery, power-loss, independent protection, owner and full 0.1.0 qualification remain open.
 
-- [x] DE-W042 private read-only restoration history:121 semantic/framing/current-state cases and124 existing-store inspections, with138 restoration/190 execution cases and82 native groups at `6c4393b9`; [evidence](.aide/evidence/2026-10-12-gpt-restoration-inspection/README.md). Broader recovery, historical generations, product/production, hardware/owner and full0.1.0 remain open.
+- [x] DE-W042 private read-only restoration history:121 semantic/framing/current-state cases and124 existing-store inspections, with138 restoration/190 execution cases and82 native groups at `6c4393b9`; [evidence](.aide/evidence/2026-10-12-gpt-restoration-inspection/README.md). Broader recovery, historical generations, product/production, hardware/owner and full 0.1.0 remain open.
 
 - [ ] 2026-10-12 source maintenance: current-work/formatter clarity and core target separation/bounded generated header/dependency checks now have evidence. Module-qualified includes, compile-header visibility and shared frontend invariants now have bounded source evidence. Continue broader header/host coverage, composition policy and formatting work; preserve current tree/public contracts/historical evidence. See `spec/catalog/source-maintenance-prototype.json` and `.aide/evidence/2026-10-12-build-boundaries/README.md`.
 - [x] Core build boundaries `7f86f6bf`: clean build/launch/imports,84native groups,16checker fixtures,5standalone core headers,120generated targets/3435quoted include edges and213tooling passes/2skips. Bounded lexical/build-closure checks; full units/owner/release/all-platform-storage0.1.0 remain open.
@@ -333,19 +333,19 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] 2026-10-13 structure review follow-up: retain existing owners and implemented CLI/TUI/shell names; reconcile review dispositions and correct stale header-count/parser-placement wording. [Assessment](docs/structure-review.md) links exact native evidence and fresh tooling/upstream observations. Composition/test seams, Setup Windows qualification and full product/release remain open.
 
-- [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full0.1.0 remain open.
+- [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full 0.1.0 remain open.
 
 - [x] Recheck the structure/release assessment at `f8a3eb84`: 220-file map, existing frontend/core-target/header improvements, synchronized main/dev and current Setup CI limitations. [Current assessment](docs/structure-review.md#current-checkpoint-13-october-2026). Preserve earlier evidence and full 0.1.0 gates; no wholesale source rewrite is justified by the supplied review.
 
 - [ ] DE-W045: qualify the [checked FAT content map/window component](docs/fat-content.md), then implement exact native source binding and contained public extraction. Private content mapping/windows are source-bound qualified at `b1a6772e`: 209 cases/14 methods, 102 native groups and 19 headers; native source/public extraction remains unfinished. The original full platform/storage 0.1.0 scope is unchanged.
 
-- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes59 cases/11 methods, with the209 supplied-reader cases and109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full0.1.0 stay open.
+- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes59 cases/11 methods, with the209 supplied-reader cases and109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full 0.1.0 stay open.
 
 - [ ] DE-W047: review the qualified complete mapped FAT file extraction backend. Complete mapped-file backend is qualified at `20ecddbd`: 104 native groups, 20 selected headers and full logical-file/destination/resume evidence; public command admission and full 0.1.0 remain open. [Contract](docs/fat-extraction.md).
 
 - [ ] DE-W048: qualify the shared `filesystem extract` prototype command. Focused complete FAT12/16/32, empty/large, actual CLI/protocol/GUI/TUI/shell, refusal and real cancellation/resume tests pass; Source-bound qualification at `8d1905b9` passes 106 native groups and 20 selected headers; further traversal/fidelity and full 0.1.0 remain open. [Command contract](spec/catalog/fat-extraction-command-prototype.json).
 
-- [ ] DE-W049: qualify logical extraction cases, independent destination/map verification and all-policy joined support. Focused native and actual interface journeys pass; Source-bound qualification at `a7041767` passes 107 native groups and 20 selected headers; further traversal/fidelity and full0.1.0 remain open. [Contract](docs/logical-extraction-evidence.md).
+- [ ] DE-W049: qualify logical extraction cases, independent destination/map verification and all-policy joined support. Focused native and actual interface journeys pass; Source-bound qualification at `a7041767` passes 107 native groups and 20 selected headers; further traversal/fidelity and full 0.1.0 remain open. [Contract](docs/logical-extraction-evidence.md).
 
 - [ ] DE-W052: review the qualified private FAT allocation cursor at `112aa1e9`: 109 native groups, 20 selected headers and 188 independent cases, with chains to 33,000 clusters. Paged trees and recursive metadata fidelity remain open. [Contract](docs/fat-walk.md).
 
@@ -359,9 +359,9 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - DE-W057: actual CLI/protocol/GUI/TUI/shell prepare/execute/watch pass in the gated development composition, with exact generated-image output and console restoration; compatible reader and selected regressions pass. Actual cancellation from all five interfaces and retained full/short/flush failures now pass; interrupted watch/resume, owned hangs/exit and strict event producer coverage now pass with a repaired observation race; normal composition and typed responses are now implemented with actual frontend/failure checks; full clean-source qualification and work review remain. [Contract and progress](docs/fat-recursive-command.md).
 
-- [x] DE-W057 local normal recursive command/operation qualification: exact clean source `087f95b4` passes full native/header/import/tooling and actual all-frontend/failure evidence; agent review retained. Owner, physical/other-host and full0.1.0 release acceptance remain open.
+- [x] DE-W057 local normal recursive command/operation qualification: exact clean source `087f95b4` passes full native/header/import/tooling and actual all-frontend/failure evidence; agent review retained. Owner, physical/other-host and full 0.1.0 release acceptance remain open.
 
-- [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full0.1.0 remain unfinished.
+- [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full 0.1.0 remain unfinished.
 
 - [x] DE-W064 local exact-source qualification44c8b090:2316cases/9methods,10parser/guardgroups+boundaryfollowup,1header/C90/import/context and agentreview. Prior130native evidence separate; bitmap/upcase/source/tree/provider/fullrelease remain unfinished.
 
@@ -375,7 +375,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W069 local contained-reader qualification at `cce05d17`: all 139 native groups, 69 reader cases/6 methods, 63 file cases/8 methods, exact headers/import/context/source and 242 tooling tests with two skips. Shared retirement and pre-read binding fixes are covered; unavailable symlink, frontend/tree/content and original full release remain.
 
-- [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Typed automatic file/frame/worker transport is now locally qualified at `33ee364a`; normal image.inspect/frontends require their own qualification; original full0.1.0 and owner/storage/release gates stay open.
+- [ ] DE-W072 active: automatic supplied-region upcase interpretation is locally qualified at `6edabcc7`: 146 image cases/13 methods, four selected native groups/four headers and 242 tooling tests with two skips. Typed automatic file/frame/worker transport is now locally qualified at `33ee364a`; normal image.inspect/frontends require their own qualification; original full 0.1.0 and owner/storage/release gates stay open.
 
 DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT image.inspect service and all five frontends pass 33 working cases; exact full-native qualification and work-unit review remain.
 
@@ -392,7 +392,8 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 - [x] DE-W073 working supplied-directory model: shared immutable volume map, lossless names,
   NameHash candidate filtering/full comparison, ambiguous/incomplete lookup and finite budgets.
   303 independent cases, six selected native groups, 50 headers and 242 tooling tests/two skips pass.
-- [ ] Qualify the committed source with the full 142-group native campaign and exact artifact,
-  import, context and source evidence before development integration. Owner acceptance stays open.
+- [x] DE-W073 exact source qualifies with all 142 native groups/50 headers and 242 tooling tests/two skips.
+  Corrected private x64/Win32 probes each pass303 namespace/13 boundary cases/two headers.
+  Retained evidence and implementing-agent review govern local continuation; owner acceptance stays open.
 - [ ] Collect coherent exFAT directory streams/tree and file data with allocation/bitmap agreement,
   ValidDataLength zero filling and held-source/worker/frontend admission.

@@ -21,8 +21,12 @@ commands. Coherent tree collection, allocation/bitmap agreement, ValidDataLength
 zero filling and held-source/worker/frontend admission follow. The original all
 platform/storage 0.1.0 scope and owner/release gates remain unchanged.
 
-The working build passes 303 independent cases in 12 namespace methods, all
-six selected namespace/root/file/worker/frontend/build-boundary groups, 50
-standalone headers and 242 tooling tests (two skipped). The initial omitted-
-finding failure is retained alongside the corrected results. This checkout
-is dirty; full native and exact-source qualification remain pending.
+Exact source `2545d078` passes the full 142 native groups, 50 standalone headers,
+242 tooling tests/two skips and manifest/context/import/source checks. The corrected
+private probe at `84d0c227` passes 303 namespace and 13 word-boundary cases on each
+of x64/Win32, with two headers per architecture. The kernel and header inputs are
+unchanged. An old-probe-only Win32 baseline measures 11 conversion mismatches.
+
+[Retained evidence and implementing-agent review](../.aide/evidence/2026-10-15-exfat-namespace/README.md)
+preserve initial failures and exact identities. This is local supplied-data
+qualification; owner acceptance and full x86 product/platform/storage claims remain open.
