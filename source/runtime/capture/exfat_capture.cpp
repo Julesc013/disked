@@ -590,11 +590,28 @@ class Observer {
     }
 };
 } // namespace
+const char *exfat_upcase_format_name(ExfatUpcaseFormat format) {
+    switch (format) {
+    case ExfatUpcaseFormat::Compressed:
+        return "compressed";
+    case ExfatUpcaseFormat::Literal:
+        return "literal";
+    case ExfatUpcaseFormat::Automatic:
+        return "auto";
+    }
+    throw std::invalid_argument("exfat_capture_format");
+}
+ExfatUpcaseFormat exfat_upcase_format_from(const std::string &format) {
+    if (format == "compressed")
+        return ExfatUpcaseFormat::Compressed;
+    if (format == "literal")
+        return ExfatUpcaseFormat::Literal;
+    if (format == "auto")
+        return ExfatUpcaseFormat::Automatic;
+    throw std::invalid_argument("exfat_capture_format");
+}
 void validate_exfat_capture_request(const ExfatCaptureRequest &r) {
-    if (r.upcase_format != ExfatUpcaseFormat::Compressed &&
-        r.upcase_format != ExfatUpcaseFormat::Literal &&
-        r.upcase_format != ExfatUpcaseFormat::Automatic)
-        throw std::invalid_argument("exfat_capture_format");
+    exfat_upcase_format_name(r.upcase_format);
     if (!r.epoch || !r.source_bytes || r.volume_bytes < 512 || r.source_id.empty() ||
         r.source_id.size() > 128 || r.source_id.find('\0') != std::string::npos ||
         !json::valid_utf8(r.source_id))

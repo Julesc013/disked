@@ -11,7 +11,7 @@ struct ExfatSnapshotInput {
     std::uint64_t capture_epoch = 0, volume_offset = 0, volume_bytes = 0;
     std::string path;
     json::Value expected_source;
-    bool compressed_upcase = true;
+    ExfatUpcaseFormat upcase_format = ExfatUpcaseFormat::Automatic;
     ExfatCaptureLimits limits;
     json::Value fixture = json::Value::object();
 };

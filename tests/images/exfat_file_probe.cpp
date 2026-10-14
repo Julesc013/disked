@@ -33,8 +33,10 @@ static V observe(const V &input) {
     const auto &path = field(input, "path");
     require(path.kind == V::Kind::string);
     const auto offset = integer(field(input, "offset")), bytes = integer(field(input, "length"));
-    const auto &compressed = field(input, "compressed");
-    require(compressed.kind == V::Kind::boolean);
+    const auto *format = input.find("upcase_format");
+    const auto *compressed = input.find("compressed");
+    require(format ? !compressed && format->kind == V::Kind::string
+                   : compressed && compressed->kind == V::Kind::boolean);
     disked::ExfatCaptureLimits limits;
     if (const auto *values = input.find("limits")) {
         require(values->kind == V::Kind::object);
@@ -124,12 +126,29 @@ static V observe(const V &input) {
     (void)call;
 #endif
     try {
+        // Fixture input has exactly one selector. Unknown enum reaches the native
+        // API validation so tests can observe refusal before any content reads.
+        disked::ExfatUpcaseFormat typed = disked::ExfatUpcaseFormat::Automatic;
+        if (format) {
+            try {
+                typed = disked::exfat_upcase_format_from(format->text);
+            } catch (const std::invalid_argument &) {
+                typed = static_cast<disked::ExfatUpcaseFormat>(99);
+            }
+        }
 #ifdef DISKED_EXFAT_FILE_TESTING
         auto owned =
-            disked::capture_exfat_file_testing(path.text, offset, bytes, compressed.boolean, limits,
-                                               stop, control, input.find("expected_source"));
+            format
+                ? disked::capture_exfat_file_testing(path.text, offset, bytes, typed, limits, stop,
+                                                     control, input.find("expected_source"))
+                : disked::capture_exfat_file_testing(path.text, offset, bytes, compressed->boolean,
+                                                     limits, stop, control,
+                                                     input.find("expected_source"));
 #else
-        auto owned = disked::capture_exfat_file_owned(path.text, offset, bytes, compressed.boolean,
+        auto owned =
+            format ? disked::capture_exfat_file_owned(path.text, offset, bytes, typed, limits, stop,
+                                                      input.find("expected_source"))
+                   : disked::capture_exfat_file_owned(path.text, offset, bytes, compressed->boolean,
                                                       limits, stop, input.find("expected_source"));
 #endif
         auto regions = V::array();

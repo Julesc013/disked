@@ -104,8 +104,7 @@ ExfatCaptureRequest capture_request(const ExfatSnapshotInput &input, std::uint64
     request.source_bytes = integer(input.expected_source, "bytes");
     request.volume_offset = input.volume_offset;
     request.volume_bytes = input.volume_bytes;
-    request.upcase_format =
-        input.compressed_upcase ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal;
+    request.upcase_format = input.upcase_format;
     request.limits = input.limits;
     return request;
 }
@@ -192,11 +191,12 @@ void validate_exfat_snapshot_input(const ExfatSnapshotInput &input) {
 V exfat_snapshot_input_value(const ExfatSnapshotInput &input) {
     validate_exfat_snapshot_input(input);
     return V::object()
+        .put("schema", V::string("org.disked.exfat-source-request/2"))
         .put("path", V::string(input.path))
         .put("expected_source", input.expected_source)
         .put("volume_offset", number(input.volume_offset))
         .put("volume_bytes", number(input.volume_bytes))
-        .put("compressed_upcase", V::boolean_value(input.compressed_upcase))
+        .put("upcase_format", V::string(exfat_upcase_format_name(input.upcase_format)))
         .put("limits", limit_value(input.limits))
         .put("fixture", input.fixture);
 }
@@ -205,18 +205,20 @@ ExfatSnapshotInput exfat_snapshot_input_from(const V &header) {
     input.capture_epoch = integer(header, "capture_epoch");
     exact(field(header, "policy"), {});
     const auto &v = field(header, "provider_input");
-    std::set<std::string> keys = {"path",         "expected_source",   "volume_offset",
-                                  "volume_bytes", "compressed_upcase", "limits",
-                                  "fixture"};
+    std::set<std::string> keys = {"schema",        "path",         "expected_source",
+                                  "volume_offset", "volume_bytes", "upcase_format",
+                                  "limits",        "fixture"};
     for (const auto key : {"startup_fault", "reply_fault"})
         if (v.find(key))
             keys.insert(key);
     exact(v, keys);
+    if (text(v, "schema") != "org.disked.exfat-source-request/2")
+        throw std::invalid_argument("exfat_snapshot_schema");
     input.path = text(v, "path");
     input.expected_source = field(v, "expected_source");
     input.volume_offset = integer(v, "volume_offset");
     input.volume_bytes = integer(v, "volume_bytes");
-    input.compressed_upcase = boolean(v, "compressed_upcase");
+    input.upcase_format = exfat_upcase_format_from(text(v, "upcase_format"));
     input.fixture = field(v, "fixture");
     for (const auto key : {"startup_fault", "reply_fault"})
         if (const auto *value = v.find(key))
@@ -275,12 +277,12 @@ V read_exfat_snapshot_frame(const ExfatSnapshotInput &input, const std::function
             throw local_file::Error("test_binding_failure", ERROR_INVALID_HANDLE);
     };
     auto captured = capture_exfat_file_testing(input.path, input.volume_offset, input.volume_bytes,
-                                               input.compressed_upcase, input.limits, stop, control,
+                                               input.upcase_format, input.limits, stop, control,
                                                &input.expected_source);
 #else
-    auto captured = capture_exfat_file_owned(input.path, input.volume_offset, input.volume_bytes,
-                                             input.compressed_upcase, input.limits, stop,
-                                             &input.expected_source);
+    auto captured =
+        capture_exfat_file_owned(input.path, input.volume_offset, input.volume_bytes,
+                                 input.upcase_format, input.limits, stop, &input.expected_source);
 #endif
     if (!same(field(field(captured.result, "capture"), "source_before"), input.expected_source))
         throw local_file::Error("exfat_snapshot_source_changed");
@@ -294,7 +296,7 @@ V read_exfat_snapshot_frame(const ExfatSnapshotInput &input, const std::function
                                     .put("refusal", V::string(r.refusal))
                                     .put("bytes", V::string(hex(r.bytes))));
     auto out = V::object()
-                   .put("schema", V::string("org.disked.exfat-region-frame/1"))
+                   .put("schema", V::string("org.disked.exfat-region-frame/2"))
                    .put("input", exfat_snapshot_input_value(input))
                    .put("capture_epoch", number(input.capture_epoch))
                    .put("process_id", number(captured.process_id))
@@ -309,7 +311,7 @@ V verify_exfat_snapshot_frame(const V &frame, const ExfatSnapshotInput &input) {
     exact(frame, {"schema", "input", "capture_epoch", "process_id", "process_created", "result",
                   "regions"});
     encode(frame);
-    if (text(frame, "schema") != "org.disked.exfat-region-frame/1" ||
+    if (text(frame, "schema") != "org.disked.exfat-region-frame/2" ||
         !same(field(frame, "input"), exfat_snapshot_input_value(input)) ||
         integer(frame, "capture_epoch") != input.capture_epoch || !integer(frame, "process_id") ||
         integer(frame, "process_id") > 0xffffffffULL || !integer(frame, "process_created"))
@@ -317,7 +319,7 @@ V verify_exfat_snapshot_frame(const V &frame, const ExfatSnapshotInput &input) {
     const auto &result = field(frame, "result");
     exact(result,
           {"schema", "observation", "capture", "authorizes_effects", "product_dispatch_admitted"});
-    if (text(result, "schema") != "org.disked.exfat-file-capture/1" ||
+    if (text(result, "schema") != "org.disked.exfat-file-capture/2" ||
         boolean(result, "authorizes_effects") || boolean(result, "product_dispatch_admitted"))
         throw std::invalid_argument("exfat_snapshot_claims");
     const auto &receipt = field(result, "capture");

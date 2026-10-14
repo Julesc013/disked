@@ -44,5 +44,16 @@
     "full_native_suite_fresh": false,
     "source_state": "clean_sparse",
     "owner_accepted": false
+  },
+  "automatic_transport_contract": "Continue in existing exfat_file, exfat_snapshot and Windows exfat_worker owners. Add typed ExfatUpcaseFormat file overloads producing exfat-file-capture/2 for every selected format; retain the explicit boolean overloads producing file-capture/1. Typed explicit captures contain root-observation/1; automatic captures contain root-observation/2. The v2 owned snapshot has a single typed format, default Automatic, and strict provider_input schema org.disked.exfat-source-request/2 with mandatory upcase_format=auto|compressed|literal. There is no compressed_upcase field or implicit fallback in that wire request. Worker input/reply/observation/publication and region-frame schemas use /2. Preserve the compiled reader role identity, source/window/epoch/limit bindings, actual PID/creation/code/request and retained-region replay, pre-read expected metadata check and existing exit-only host. The current v2 frame verifier rejects v1/unknown frame/request schemas rather than reinterpreting them. Historical v1 bytes/revisions remain retained; current explicit file wrappers still provide their v1 shape, with no installed/public storage ABI promise. Authentic complete or accurately partial/malformed/ambiguous captures can produce immutable typed snapshots; parent replay derives applicability and observed_stable, so copied flags cannot turn a partial result into authority. Validity of candidate maps never implies a selected map when they differ. Finite payload/input/output budgets and strict normal fixture rejection remain. No automatic transport or frontend admission until actual normal/fault process, source-preservation and negative frame tests pass.",
+  "transport_stage": {
+    "base_revision": "ac7f5ece033033a8876251db74535a98c1a8c2dc",
+    "status": "implemented-working-native-pass-exact-qualification-pending",
+    "owner_accepted": false,
+    "file_cases": 89,
+    "file_methods": 11,
+    "worker_cases": 94,
+    "worker_methods": 9,
+    "evidence": ".aide/evidence/2026-10-14-exfat-transport-working/summary.json"
   }
 }

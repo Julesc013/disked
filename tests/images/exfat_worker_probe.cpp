@@ -45,14 +45,21 @@ V exercise(const V &input) {
     disked::ExfatSnapshotInput request;
     request.capture_epoch = input.find("capture_epoch") ? integer(input, "capture_epoch") : 1;
     request.path = text(input, "path");
+    if (input.find("upcase_format")) {
+        if (input.find("compressed"))
+            throw std::invalid_argument("exfat_probe_format_conflict");
+        request.upcase_format = disked::exfat_upcase_format_from(text(input, "upcase_format"));
+    } else {
+        const auto &compressed = get(input, "compressed");
+        if (compressed.kind != V::Kind::boolean)
+            throw std::invalid_argument("exfat_probe_shape");
+        request.upcase_format = compressed.boolean ? disked::ExfatUpcaseFormat::Compressed
+                                                   : disked::ExfatUpcaseFormat::Literal;
+    }
     request.expected_source =
         input.find("expected_source") ? get(input, "expected_source") : metadata(request.path);
     request.volume_offset = integer(input, "offset");
     request.volume_bytes = integer(input, "length");
-    const auto &compressed = get(input, "compressed");
-    if (compressed.kind != V::Kind::boolean)
-        throw std::invalid_argument("exfat_probe_shape");
-    request.compressed_upcase = compressed.boolean;
     auto value = disked::exfat_snapshot_input_value(request);
     if (const auto *limits = input.find("limits"))
         for (const auto &p : limits->fields)
@@ -67,8 +74,12 @@ V exercise(const V &input) {
                       .put("capture_epoch", V::string(std::to_string(request.capture_epoch)))
                       .put("policy", V::object())
                       .put("provider_input", std::move(value));
+    if (const auto *replacement = input.find("replace_input"))
+        header.put("provider_input", *replacement);
     request = disked::exfat_snapshot_input_from(header);
     const auto mode = input.find("mode") ? text(input, "mode") : "worker";
+    if (mode == "decode_input")
+        return V::object().put("input", disked::exfat_snapshot_input_value(request));
     if (mode == "verify")
         return V::object().put("verified",
                                disked::verify_exfat_snapshot_frame(get(input, "replace"), request));

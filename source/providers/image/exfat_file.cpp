@@ -60,9 +60,11 @@ ExfatFileRegion read(HANDLE file, std::uint64_t start, std::size_t count) {
     result.bytes.resize(result.error ? 0 : static_cast<std::size_t>(got));
     return result;
 }
+enum class FileEncoding { ExplicitV1, TypedV2 };
 ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint64_t bytes,
-                      bool compressed, const ExfatCaptureLimits &limits,
-                      const std::function<bool()> &stop, const V *expected_source
+                      ExfatUpcaseFormat format, FileEncoding encoding,
+                      const ExfatCaptureLimits &limits, const std::function<bool()> &stop,
+                      const V *expected_source
 #ifdef DISKED_EXFAT_FILE_TESTING
                       ,
                       const ExfatFileTestControl *control
@@ -77,7 +79,7 @@ ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint6
     request.source_bytes = maximum;
     request.volume_offset = offset;
     request.volume_bytes = bytes;
-    request.upcase_format = compressed ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal;
+    request.upcase_format = format;
     request.limits = limits;
     validate_exfat_capture_request(request);
     const auto path = local_file::path_for(input);
@@ -210,7 +212,9 @@ ExfatFileRead capture(const std::string &input, std::uint64_t offset, std::uint6
     result.process_created = process_created;
     result.result =
         V::object()
-            .put("schema", V::string("org.disked.exfat-file-capture/1"))
+            .put("schema", V::string(encoding == FileEncoding::ExplicitV1
+                                         ? "org.disked.exfat-file-capture/1"
+                                         : "org.disked.exfat-file-capture/2"))
             .put("observation", std::move(observation))
             .put("capture", V::object()
                                 .put("source_before", before.value)
@@ -249,7 +253,22 @@ ExfatFileRead capture_exfat_file_owned(const std::string &input, std::uint64_t o
                                        const ExfatCaptureLimits &limits,
                                        const std::function<bool()> &stop,
                                        const V *expected_source) {
-    return capture(input, offset, bytes, compressed, limits, stop, expected_source
+    return capture(input, offset, bytes,
+                   compressed ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal,
+                   FileEncoding::ExplicitV1, limits, stop, expected_source
+#ifdef DISKED_EXFAT_FILE_TESTING
+                   ,
+                   nullptr
+#endif
+    );
+}
+ExfatFileRead capture_exfat_file_owned(const std::string &input, std::uint64_t offset,
+                                       std::uint64_t bytes, ExfatUpcaseFormat format,
+                                       const ExfatCaptureLimits &limits,
+                                       const std::function<bool()> &stop,
+                                       const V *expected_source) {
+    return capture(input, offset, bytes, format, FileEncoding::TypedV2, limits, stop,
+                   expected_source
 #ifdef DISKED_EXFAT_FILE_TESTING
                    ,
                    nullptr
@@ -263,7 +282,18 @@ ExfatFileRead capture_exfat_file_testing(const std::string &input, std::uint64_t
                                          const std::function<bool()> &stop,
                                          const ExfatFileTestControl &control,
                                          const V *expected_source) {
-    return capture(input, offset, bytes, compressed, limits, stop, expected_source, &control);
+    return capture(input, offset, bytes,
+                   compressed ? ExfatUpcaseFormat::Compressed : ExfatUpcaseFormat::Literal,
+                   FileEncoding::ExplicitV1, limits, stop, expected_source, &control);
+}
+ExfatFileRead capture_exfat_file_testing(const std::string &input, std::uint64_t offset,
+                                         std::uint64_t bytes, ExfatUpcaseFormat format,
+                                         const ExfatCaptureLimits &limits,
+                                         const std::function<bool()> &stop,
+                                         const ExfatFileTestControl &control,
+                                         const V *expected_source) {
+    return capture(input, offset, bytes, format, FileEncoding::TypedV2, limits, stop,
+                   expected_source, &control);
 }
 #endif
 } // namespace disked

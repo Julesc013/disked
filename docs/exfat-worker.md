@@ -5,6 +5,15 @@ DE-W069 runs the [held ordinary-file adapter](exfat-file.md) through the existin
 defines its private scope. It introduces a compiled exFAT profile and strict
 frame verification, without another scheduler or storage-effect authority.
 
+DE-W072 extends this owner with strict version 2 transport. Source-request/2
+has one mandatory `upcase_format`; worker input/reply/observation/publication,
+region-frame and typed file capture use version 2. The verifier rejects legacy
+or unknown frame/request versions. Historical v1 bytes and source remain retained,
+and explicit file adapters still offer their v1 shape. Automatic frames retain
+authentic ambiguous/invalid/resource-limited observations without applicability.
+[The extension contract](../spec/catalog/exfat-command-prototype.json) and its new
+native evidence are separate from W069's exact baseline below.
+
 Input binds an exact capture epoch, path, expected native metadata, window,
 upcase representation and finite limits. The held adapter compares expected
 metadata before its first content read. The parent reconstructs W067 observations
@@ -23,6 +32,8 @@ observation returned to the caller. A successful termination request or zero-wai
 timeout does not mark a running process retired. Publication and process exit
 remain distinct, and retained values can be inspected after retirement without
 renewing source access. Callers retain the owned session while exit is unresolved.
+The exFAT adapter validates and returns that same retirement observation instead
+of combining a later observation with an earlier retirement flag.
 
 Exact full clean `cce05d17` passes all 139 current native groups, 69 reader
 cases/six methods, 63 file cases/eight methods, standalone headers/imports/

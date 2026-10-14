@@ -10,6 +10,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from test_exfat_capture import Volume, source_bytes, Tests as CaptureOracle
+from test_exfat_upcase import mapping, literal
 
 PROBE = FAULT = None
 RECEIPTS = []
@@ -61,6 +62,13 @@ def run(rows, fault=False, env=None):
 
 
 class Tests(unittest.TestCase):
+    @staticmethod
+    def typed(volume, path, format='auto', **extra):
+        row = request(volume, path, **extra)
+        del row['compressed']
+        row['upcase_format'] = format
+        return row
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='disked-exfat-owned-')
         self.root = Path(self.temp.name).resolve()
@@ -304,6 +312,71 @@ class Tests(unittest.TestCase):
         self.assertEqual('exfat_file_source_changed', out['refusal'])
         self.assertEqual('0', out['read_calls'])
         self.assertNotIn('regions', out)
+
+
+    def test_typed_automatic_maps_and_explicit_v1_bridge(self):
+        literal_only = mapping()
+        literal_only[128:130] = [65535, 0]
+        fixtures = [(Volume(), 'compressed'),
+                    (Volume(copies=2, active=1), 'compressed'),
+                    (Volume(compressed=False, table=literal_only), 'literal'),
+                    (Volume(compressed=False, table=mapping()), 'equivalent')]
+        for volume, selected in fixtures:
+            path = self.fixture(volume)
+            rows = [request(volume, path), self.typed(volume, path),
+                    self.typed(volume, path, 'compressed' if volume.compressed else 'literal')]
+            legacy, automatic, explicit = self.preserve(path, rows)
+            self.assertEqual('org.disked.exfat-file-capture/1', legacy['result']['schema'])
+            for value in [automatic, explicit]:
+                self.assertEqual('org.disked.exfat-file-capture/2', value['result']['schema'])
+                self.assertTrue(value['result']['capture']['observed_stable'])
+                self.assertTrue(value['result']['capture']['replay_equal'])
+                self.assertEqual(legacy['regions'], value['regions'])
+            self.assertEqual('org.disked.exfat-root-observation/2', automatic['result']['observation']['schema'])
+            self.assertEqual(selected, automatic['result']['observation']['upcase']['selection'])
+            self.assertEqual('sha256:' + hashlib.sha256(literal(volume.table)).hexdigest(),
+                             automatic['result']['observation']['upcase']['mapping_sha256'])
+            old, new = copy.deepcopy(legacy['result']['observation']), copy.deepcopy(explicit['result']['observation'])
+            old.pop('epoch'); new.pop('epoch')
+            self.assertEqual(old, new)
+
+    def test_typed_partial_ambiguous_budget_and_source_preservation(self):
+        ambiguous = mapping(); ambiguous[128:130] = [65535, 2]
+        invalid = mapping(); invalid[97] = 97
+        for table, diagnostic in [(ambiguous, 'exfat_upcase_representation_ambiguous'),
+                                  (invalid, 'exfat_upcase_mapping'), (mapping(), 'exfat_retained_budget')]:
+            volume = Volume(compressed=False, table=table)
+            path = self.fixture(volume)
+            extra = dict(limits={'retained_bytes': '650000'}) if diagnostic == 'exfat_retained_budget' else {}
+            out = self.preserve(path, [self.typed(volume, path, **extra)])[0]
+            self.assertNotIn('refusal', out)
+            result = out['result']
+            self.assertEqual('org.disked.exfat-file-capture/2', result['schema'])
+            self.assertEqual([diagnostic], result['observation']['diagnostics'])
+            self.assertFalse(result['observation']['applicable'])
+            self.assertFalse(result['capture']['observed_stable'])
+            for flag in ['metadata_equal', 'binding_checks_ok', 'replay_equal']:
+                self.assertTrue(result['capture'][flag])
+            self.assertNotIn('mapping_sha256', result['observation']['upcase'])
+        row = self.typed(volume, path, 'not-a-format')
+        row['path'] = str(self.root / 'missing-source.img')
+        refused = run([row], True)[0]
+        self.assertEqual('exfat_capture_format', refused['refusal'])
+        self.assertEqual('0', refused['read_calls'])
+
+    def test_typed_automatic_faults_and_expected_source_before_reads(self):
+        volume = Volume()
+        path = self.fixture(volume)
+        initial = self.preserve(path, [self.typed(volume, path)])[0]
+        for fault in ['short', 'error', 'changed', 'metadata', 'binding', 'replay_bytes', 'cancel', 'cancel_throw']:
+            out = self.preserve(path, [self.typed(volume, path, mode=fault)], True)[0]
+            if 'result' in out:
+                self.assertFalse(out['result']['observation']['applicable'], (fault, out))
+                self.assertFalse(out['result']['capture']['observed_stable'])
+        expected = dict(initial['result']['capture']['source_before'], written='1')
+        out = self.preserve(path, [self.typed(volume, path, expected_source=expected)], True)[0]
+        self.assertEqual('exfat_file_source_changed', out['refusal'])
+        self.assertEqual('0', out['read_calls'])
 
 
 if __name__ == '__main__':

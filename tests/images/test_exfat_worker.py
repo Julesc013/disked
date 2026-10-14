@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 from test_exfat_capture import Volume
 from test_exfat_file import write, file_digest, digest, canonical
+from test_exfat_upcase import mapping, literal
 
 PROBE = FAULT = None
 RECEIPTS = []
@@ -26,6 +27,13 @@ def run(row, fault=False):
 
 
 class Tests(unittest.TestCase):
+    @staticmethod
+    def automatic(row):
+        row = dict(row)
+        del row['compressed']
+        row['upcase_format'] = 'auto'
+        return row
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='disked-exfat-worker-')
         self.root = Path(self.temp.name).resolve()
@@ -172,6 +180,84 @@ class Tests(unittest.TestCase):
             zero = out['zero_retirement']
             RETIREMENT_SAMPLES.append(dict(pid=zero['worker']['pid'], observation=zero['worker']['observation'], retired=zero['retired']))
             self.assertEqual(zero['worker']['observation'] == 'exited', zero['retired'], zero)
+            self.retired(out)
+
+
+    def test_actual_typed_automatic_processes_and_partial_snapshots(self):
+        ambiguous = mapping(); ambiguous[128:130] = [65535, 2]
+        invalid = mapping(); invalid[97] = 97
+        fixtures = [(Volume(), 'compressed', None),
+                    (Volume(copies=2, active=1), 'compressed', None),
+                    (Volume(compressed=False, table=mapping()), 'equivalent', None),
+                    (Volume(compressed=False, table=ambiguous), 'ambiguous', 'exfat_upcase_representation_ambiguous'),
+                    (Volume(compressed=False, table=invalid), 'invalid', 'exfat_upcase_mapping')]
+        for volume, selection, diagnostic in fixtures:
+            _, path, row = self.fixture(volume)
+            out = self.preserve(path, self.automatic(row))
+            self.assertTrue(out['has_snapshot'], out)
+            self.assertTrue(out['retained_unchanged'])
+            frame, result = out['frame'], out['snapshot']
+            self.assertEqual('org.disked.exfat-region-frame/2', frame['schema'])
+            self.assertEqual('org.disked.exfat-source-request/2', frame['input']['schema'])
+            self.assertEqual('auto', frame['input']['upcase_format'])
+            self.assertNotIn('compressed_upcase', frame['input'])
+            self.assertEqual('org.disked.exfat-file-capture/2', result['schema'])
+            self.assertEqual('org.disked.exfat-root-observation/2', result['observation']['schema'])
+            self.assertEqual(selection, result['observation']['upcase']['selection'])
+            self.assertEqual(not diagnostic, result['observation']['applicable'])
+            self.assertEqual(not diagnostic, result['capture']['observed_stable'])
+            self.assertTrue(result['capture']['replay_equal'])
+            self.assertEqual(frame['process_id'], out['context']['pid'])
+            self.assertEqual(digest(canonical(frame)), out['context']['frame_sha256'])
+            if diagnostic:
+                self.assertEqual([diagnostic], result['observation']['diagnostics'])
+                self.assertNotIn('mapping_sha256', result['observation']['upcase'])
+            else:
+                self.assertEqual(digest(literal(volume.table)), result['observation']['upcase']['mapping_sha256'])
+            self.retired(out)
+
+    def test_v2_input_versions_selectors_and_frame_binding_are_strict(self):
+        _, path, row = self.fixture()
+        automatic = self.automatic(row)
+        original = self.preserve(path, dict(automatic, mode='frame'))['frame']
+        base = dict(automatic, expected_source=original['result']['capture']['source_before'])
+        for fault in ['schema', 'missing-schema', 'missing-format', 'legacy-selector', 'unknown-format']:
+            value = copy.deepcopy(original['input'])
+            if fault == 'schema': value['schema'] = 'org.disked.exfat-source-request/1'
+            elif fault == 'missing-schema': del value['schema']
+            elif fault == 'missing-format': del value['upcase_format']
+            elif fault == 'legacy-selector': value['compressed_upcase'] = True
+            else: value['upcase_format'] = 'unknown'
+            reply = self.preserve(path, dict(base, mode='decode_input', replace_input=value))
+            self.assertIn('error', reply, (fault, reply))
+        for fault in ['legacy-frame', 'format-binding', 'selected-map', 'candidate-validity', 'old-file']:
+            value = copy.deepcopy(original)
+            if fault == 'legacy-frame': value['schema'] = 'org.disked.exfat-region-frame/1'
+            elif fault == 'format-binding': value['input']['upcase_format'] = 'literal'
+            elif fault == 'selected-map': value['result']['observation']['upcase']['mapping_sha256'] = 'sha256:' + '0' * 64
+            elif fault == 'candidate-validity': value['result']['observation']['upcase']['candidates'][0]['valid'] = False
+            else: value['result']['schema'] = 'org.disked.exfat-file-capture/1'
+            reply = self.preserve(path, dict(base, mode='verify', replace=value))
+            self.assertIn('error', reply, (fault, reply))
+        self.assertIn('error', self.preserve(path, dict(automatic, compressed=True, mode='construction')))
+
+    def test_automatic_limits_faults_and_unresolved_owned_processes(self):
+        _, path, row = self.fixture(Volume(compressed=False, table=mapping()))
+        automatic = self.automatic(row)
+        limited = self.preserve(path, dict(automatic, limits={'retained_bytes': '650000'}))
+        self.assertTrue(limited['has_snapshot'], limited)
+        self.assertFalse(limited['snapshot']['observation']['applicable'])
+        self.assertEqual(['exfat_retained_budget'], limited['snapshot']['observation']['diagnostics'])
+        self.retired(limited)
+        for fault in ['payload_changed', 'result_changed', 'row_changed', 'process_changed', 'domain_changed']:
+            out = self.preserve(path, dict(automatic, fixture={'worker_fault': fault}), True)
+            self.assertFalse(out['has_snapshot'], (fault, out))
+            self.assertEqual('unknown', out['before']['status'])
+            self.retired(out)
+        for fault in ['hang', 'late']:
+            out = self.preserve(path, dict(automatic, mode='pending', fixture={'worker_fault': fault}), True)
+            self.assertFalse(out['has_snapshot'])
+            self.assertFalse(out['before']['retired'])
             self.retired(out)
 
 

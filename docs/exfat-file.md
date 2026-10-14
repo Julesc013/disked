@@ -5,6 +5,13 @@ Windows image files. The [owning profile](../spec/catalog/exfat-file-prototype.j
 defines its bounded scope. This synchronous adapter is private and requires
 contained-worker qualification before use by shared frontends.
 
+DE-W072 adds typed `ExfatUpcaseFormat` overloads returning private file-capture/2.
+Automatic interpretation carries root-observation/2; typed explicit interpretation
+carries root-observation/1. Existing boolean overloads retain file-capture/1.
+They share source binding, limits and retained-response replay. The
+[command profile](../spec/catalog/exfat-command-prototype.json) owns this extension;
+its new evidence is separate from W068's revision-bound qualification below.
+
 `providers/image/exfat_file.*` reuses `local_file.*` for ordinary-file checks,
 read-only sharing, exact path binding and pinned ancestor generations. It does
 not change those shared rules. Input limits, checked windows and the signed
@@ -35,8 +42,9 @@ that cannot create the latter records it as unverified and does not elevate.
 
 This work does not admit tree traversal, file extraction, physical devices,
 production writers/recovery, other hosts or the full original 0.1.0 release.
-Next qualify the existing contained-reader host with these owned observations,
-then paged namespace/tree/content and ValidDataLength handling.
+The contained reader has a separately qualified explicit-format baseline.
+Current work verifies automatic v2 transport and common frontends, then paged
+namespace/tree/content and ValidDataLength handling.
 
 
 DE-W068's available ordinary-file scope reaches local agent review at exact

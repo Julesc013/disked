@@ -55,7 +55,7 @@ json::Limits reply_limits() {
 }
 V publication(const char *status, std::size_t bytes, const V &digest, const V &diagnostic = V{}) {
     return V::object()
-        .put("schema", V::string("org.disked.exfat-worker-publication/1"))
+        .put("schema", V::string("org.disked.exfat-worker-publication/2"))
         .put("status", V::string(status))
         .put("payload_bytes", number(bytes))
         .put("sha256", digest)
@@ -69,7 +69,7 @@ V unavailable(const std::string &code, std::uint32_t platform = 0) {
 }
 V frame(const V &value, const ExfatSnapshotInput &input, const void *view) {
     exact(value, {"schema", "status", "payload_bytes", "sha256", "diagnostic", "claims"});
-    if (text(value, "schema") != "org.disked.exfat-worker-publication/1" ||
+    if (text(value, "schema") != "org.disked.exfat-worker-publication/2" ||
         json::dump(field(value, "claims")) != json::dump(exfat_snapshot_claims()))
         throw std::invalid_argument("exfat_worker_claims");
     if (text(value, "status") == "unavailable") {
@@ -98,9 +98,9 @@ ObservationWorkerProfile profile(const void *view = nullptr) {
     ObservationWorkerProfile p;
     p.prefix = "exfat";
     p.scope = "ordinary-local-file-exfat";
-    p.input_schema = "org.disked.exfat-worker-input/1";
-    p.reply_schema = "org.disked.exfat-worker-reply/1";
-    p.observation_schema = "org.disked.exfat-worker-observation/1";
+    p.input_schema = "org.disked.exfat-worker-input/2";
+    p.reply_schema = "org.disked.exfat-worker-reply/2";
+    p.observation_schema = "org.disked.exfat-worker-observation/2";
     p.role = L"__disked_exfat_reader_worker";
     p.attempt_prefix = "exfat-attempt:";
     p.records_field = "sha256";
@@ -139,6 +139,24 @@ struct ExfatWorker::Impl {
     void *view = nullptr;
     std::unique_ptr<ObservationWorker> worker;
     explicit Impl(ExfatSnapshotInput value) : input(std::move(value)) {
+    }
+    V verified(V observed) const {
+        if (text(observed, "status") == "completed") {
+            try {
+                const auto captured = frame(field(observed, "result"), input, view);
+                if (captured.kind != V::Kind::null) {
+                    const auto &process = field(observed, "worker");
+                    if (integer(captured, "process_id") != integer(process, "pid") ||
+                        integer(captured, "process_created") != integer(process, "created"))
+                        throw std::invalid_argument("exfat_worker_capture_process");
+                }
+            } catch (const std::exception &error) {
+                observed.put("status", V::string("unknown"))
+                    .put("diagnostic", V::string(error.what()))
+                    .put("result", V{});
+            }
+        }
+        return observed;
     }
     ~Impl() {
         worker.reset();
@@ -181,27 +199,11 @@ bool ExfatWorker::wait_entered(DWORD n) {
     return impl_->worker->wait_entered(n);
 }
 V ExfatWorker::observe(DWORD n) {
-    auto observed = impl_->worker->observe(n);
-    if (text(observed, "status") == "completed") {
-        try {
-            const auto captured = frame(field(observed, "result"), impl_->input, impl_->view);
-            if (captured.kind != V::Kind::null) {
-                const auto &process = field(observed, "worker");
-                if (integer(captured, "process_id") != integer(process, "pid") ||
-                    integer(captured, "process_created") != integer(process, "created"))
-                    throw std::invalid_argument("exfat_worker_capture_process");
-            }
-        } catch (const std::exception &error) {
-            observed.put("status", V::string("unknown"))
-                .put("diagnostic", V::string(error.what()))
-                .put("result", V{});
-        }
-    }
-    return observed;
+    return impl_->verified(impl_->worker->observe(n));
 }
 V ExfatWorker::retire(DWORD n) {
-    impl_->worker->retire(n);
-    return observe();
+    // Preserve the exact exit observation that determines the host retirement flag.
+    return impl_->verified(impl_->worker->retire(n));
 }
 std::shared_ptr<const ExfatFileSnapshot> ExfatWorker::snapshot(bool retain_frame) {
     const auto observed = observe();
