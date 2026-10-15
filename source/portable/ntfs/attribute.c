@@ -14,6 +14,9 @@ static int maximum(const de_u64 *n) {
     return n->limb[0] == 65535U && n->limb[1] == 65535U && n->limb[2] == 65535U &&
            n->limb[3] == 65535U;
 }
+static int negative(const de_u64 *n) {
+    return (n->limb[3] & 0x8000) != 0;
+}
 static int span(size_t start, size_t count, size_t header, size_t length) {
     return start <= length && count <= length - start && (!count || start >= header);
 }
@@ -116,7 +119,10 @@ static int decode(const de_view *raw, de_ntfs_attribute *value) {
         if ((value->flags & 0x7fff) || value->compression_unit)
             value->issues |= DE_NTFS_ATTR_FEATURE;
         if (value->sizes_applicable) {
-            if (de_u64_compare(&value->initialized_size, &value->data_size) > 0 ||
+            if (negative(&value->allocated_size) || negative(&value->data_size) ||
+                negative(&value->initialized_size) ||
+                (value->has_total_allocated && negative(&value->total_allocated)) ||
+                de_u64_compare(&value->initialized_size, &value->data_size) > 0 ||
                 (!value->flags && de_u64_compare(&value->data_size, &value->allocated_size) > 0))
                 value->issues |= DE_NTFS_ATTR_SIZE;
             value->empty_stream = maximum(&value->highest_vcn) && zero(&value->allocated_size) &&
@@ -125,7 +131,8 @@ static int decode(const de_view *raw, de_ntfs_attribute *value) {
         }
         if (!value->empty_stream) {
             one = de_u64_from_u32(1);
-            if (de_u64_sub(&value->highest_vcn, &value->lowest_vcn, &difference) ||
+            if (negative(&value->lowest_vcn) || negative(&value->highest_vcn) ||
+                de_u64_sub(&value->highest_vcn, &value->lowest_vcn, &difference) ||
                 de_u64_add(&difference, &one, &value->cluster_span))
                 value->issues |= DE_NTFS_ATTR_VCN;
         }

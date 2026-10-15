@@ -46,9 +46,10 @@ def nonresident(pairs=b'\x11\x03\x14\0',name=b'',flags=0,low=0,high=2,
     empty = first and high == U64 and not any((allocated,data,initialized,total if extended else 0))
     issues = 32 if flags & 0x7fff or unit else 0
     if kind<16 or kind>256 or kind%16: issues |= 512
-    if first and (initialized>data or flags==0 and data>allocated): issues |= 128
+    if first and (any(number >= (1 << 63) for number in (allocated,data,initialized,total if extended else 0)) or
+                  initialized>data or flags==0 and data>allocated): issues |= 128
     span = 0 if empty else high-low+1
-    if not empty and not 0 < span <= U64:
+    if not empty and (low >= (1 << 63) or high >= (1 << 63) or not 0 < span <= U64):
         issues |= 64
         span = 0
     expected = dict(type=kind,record_length=size,form=1,name_length=len(name)//2,name_offset=no,
@@ -131,6 +132,10 @@ def scenarios():
     yield case('continuation-undefined-sizes',[nonresident(flags=0x8000,low=7,high=10,allocated=0,data=U64,initialized=U64)])
     for allocated,data,initialized in ((0,1,0),(4096,5,6),(4096,8,5),(U64,U64,U64),(0,0,0)):
         yield case(f'sizes-{allocated}-{data}-{initialized}',[nonresident(allocated=allocated,data=data,initialized=initialized)])
+    for value in ((1 << 63)-1, 1 << 63, U64):
+        yield case(f'signed-size-boundary-{value}',[nonresident(allocated=value,data=value,initialized=value)])
+        yield case(f'signed-vcn-boundary-{value}',[nonresident(low=value,high=value)])
+        yield case(f'signed-total-boundary-{value}',[nonresident(flags=0x8000,total=value)])
     for unit in (0,1,4,256,65535):
         yield case(f'compression-unit-{unit}',[nonresident(unit=unit)])
     for location,encoding,values,issue in (

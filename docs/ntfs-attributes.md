@@ -12,6 +12,8 @@ Attribute cursors stop at an observed end marker or retain a diagnosed prefix.
 Continuation size fields, unknown types/features, compressed/encrypted content
 and post-marker slack keep distinct meanings. Initialized length is not rounded
 up into data that was never initialized. Names remain exact encoded units.
+Applicable signed size/VCN fields reject negative interpretations while retaining
+their original bits; continuation size fields remain explicitly undefined.
 
 Mapping lengths use the selected positive signed profile. Negative LCN deltas
 use checked limb arithmetic; zero-width offsets denote sparse runs and leave the

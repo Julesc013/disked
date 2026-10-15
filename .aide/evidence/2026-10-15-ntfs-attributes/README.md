@@ -14,6 +14,13 @@ source or complete product qualification. Retained working inputs describe the
 current 250-case fixture; the first log and its case file describe the earlier
 247-case selection.
 
+Pre-qualification review then reproduced two false-positive envelopes at
+`ab33609d`: signed-negative sizes and VCNs were treated as large unsigned values.
+The correction retains raw bits and adds size/VCN diagnostics. Its 259-case
+attribute suite and the two focused reproductions pass on the corrected working
+artifact. `signed-correction/` retains baseline/correction observations and the
+source inputs; no exact qualification is inferred from these working checks.
+
 The finite recipe selects fourteen portable groups, one NTFS header, attributes
 probe imports/security, strict syntax for all four C90 sources, and the complete
 structural/context/spec-tooling floor:
