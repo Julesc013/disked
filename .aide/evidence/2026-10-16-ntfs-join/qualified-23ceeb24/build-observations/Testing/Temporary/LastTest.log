@@ -1,0 +1,623 @@
+Start testing: Oct 16 07:47 AUS Eastern Daylight Time
+----------------------------------------------------------
+1/156 Testing: image.ntfs_commands
+1/156 Test: image.ntfs_commands
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/frontend/test_ntfs_commands.py" "--exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/disked.exe" "--fault" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/disked_ntfs_test.exe" "--worker" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_worker_probe.exe" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_inspection_probe.exe" "--root" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-command-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.ntfs_commands" start time: Oct 16 07:47 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+CASE cli-profile-0
+CASE stdio-profile-0
+CASE cli-profile-1
+CASE stdio-profile-1
+CASE cli-profile-2
+CASE stdio-profile-2
+CASE cli-profile-3
+CASE stdio-profile-3
+CASE cli-profile-4
+CASE stdio-profile-4
+CASE cli-profile-5
+CASE stdio-profile-5
+CASE cli-profile-6
+CASE stdio-profile-6
+CASE cli-profile-7
+CASE stdio-profile-7
+CASE cli-profile-8
+CASE stdio-profile-8
+CASE pure-port
+CASE full-original-list-projection
+CASE pure-port
+CASE nested-original-digests-and-prefix-bounds
+CASE pure-port
+CASE pure-port
+CASE pure-port
+CASE pure-port
+CASE pure-port
+CASE gui
+CASE tui
+CASE shell
+CASE invalid-before-source-0
+CASE invalid-before-source-1
+CASE invalid-before-source-2
+CASE invalid-before-source-3
+CASE invalid-before-source-4
+CASE invalid-before-source-5
+CASE invalid-before-source-6
+CASE missing-source
+CASE invalid-protocol-before-source-0
+CASE invalid-protocol-before-source-1
+CASE invalid-protocol-before-source-2
+CASE fault-VERIFY_CHANGED
+CASE fault-VERIFY_ERROR
+CASE fault-INVALID_REPLY
+CASE fault-HANG
+CASE normal-ignores-fault
+CASE late-read-retains-source-slot
+CASE essential-help
+CASE essential-build
+CASE essential-command
+NTFS command/frontend cases: 50
+<end of output>
+Test time =  14.86 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_commands" end time: Oct 16 07:47 AUS Eastern Daylight Time
+"image.ntfs_commands" time elapsed: 00:00:14
+----------------------------------------------------------
+
+19/156 Testing: build.boundaries
+19/156 Test: build.boundaries
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tools/check-build-boundaries.py" "--root" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24" "--build" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/build-boundaries.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"build.boundaries" start time: Oct 16 07:47 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+{
+  "status": "PASS",
+  "target_count": 305,
+  "compiled_source_entries": 696,
+  "quoted_include_edges": 8282,
+  "violations": []
+}
+<end of output>
+Test time =   5.74 sec
+----------------------------------------------------------
+Test Passed.
+"build.boundaries" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"build.boundaries" time elapsed: 00:00:05
+----------------------------------------------------------
+
+20/156 Testing: build.boundary_checker
+20/156 Test: build.boundary_checker
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "-m" "unittest" "discover" "-s" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/tools" "-p" "test_build_boundaries.py" "-v"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"build.boundary_checker" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_ambiguous_header_even_if_compiler_would_pick_first (test_build_boundaries.BoundaryTests.test_ambiguous_header_even_if_compiler_would_pick_first) ... ok
+test_bare_cross_module_header_is_rejected_even_if_it_resolves (test_build_boundaries.BoundaryTests.test_bare_cross_module_header_is_rejected_even_if_it_resolves) ... ok
+test_build_dependency_does_not_supply_compile_visibility (test_build_boundaries.BoundaryTests.test_build_dependency_does_not_supply_compile_visibility) ... ok
+test_compile_only_false_guard_does_not_add_dependency (test_build_boundaries.BoundaryTests.test_compile_only_false_guard_does_not_add_dependency) ... ok
+test_compile_only_guard_cannot_be_redefined (test_build_boundaries.BoundaryTests.test_compile_only_guard_cannot_be_redefined) ... ok
+test_dynamic_crt_does_not_satisfy_static_crt (test_build_boundaries.BoundaryTests.test_dynamic_crt_does_not_satisfy_static_crt) ... ok
+test_equivalent_msvc_dash_options (test_build_boundaries.BoundaryTests.test_equivalent_msvc_dash_options) ... ok
+test_exported_header_requires_owner (test_build_boundaries.BoundaryTests.test_exported_header_requires_owner) ... ok
+test_file_api_reply_must_belong_to_checkout (test_build_boundaries.BoundaryTests.test_file_api_reply_must_belong_to_checkout) ... ok
+test_frontend_model_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_frontend_model_cannot_depend_on_provider) ... ok
+test_header_ownership_requires_codemodel_source (test_build_boundaries.BoundaryTests.test_header_ownership_requires_codemodel_source) ... ok
+test_json_cannot_absorb_command_implementation (test_build_boundaries.BoundaryTests.test_json_cannot_absorb_command_implementation) ... ok
+test_missing_header (test_build_boundaries.BoundaryTests.test_missing_header) ... ok
+test_mixed_library_cannot_bypass_layer_check (test_build_boundaries.BoundaryTests.test_mixed_library_cannot_bypass_layer_check) ... ok
+test_per_target_c90_contract (test_build_boundaries.BoundaryTests.test_per_target_c90_contract) ... ok
+test_per_target_options_cannot_be_weakened (test_build_boundaries.BoundaryTests.test_per_target_options_cannot_be_weakened) ... ok
+test_per_target_standard_cannot_be_changed (test_build_boundaries.BoundaryTests.test_per_target_standard_cannot_be_changed) ... ok
+test_portable_cannot_depend_on_runtime (test_build_boundaries.BoundaryTests.test_portable_cannot_depend_on_runtime) ... ok
+test_private_link_does_not_leak_headers_to_consumer (test_build_boundaries.BoundaryTests.test_private_link_does_not_leak_headers_to_consumer) ... ok
+test_projection_cannot_be_missing (test_build_boundaries.BoundaryTests.test_projection_cannot_be_missing) ... ok
+test_public_interface_supplies_transitive_headers (test_build_boundaries.BoundaryTests.test_public_interface_supplies_transitive_headers) ... ok
+test_qualified_header_visibility (test_build_boundaries.BoundaryTests.test_qualified_header_visibility) ... ok
+test_runtime_cannot_depend_on_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_depend_on_provider) ... ok
+test_runtime_cannot_include_provider (test_build_boundaries.BoundaryTests.test_runtime_cannot_include_provider) ... ok
+test_transitive_consumer_contamination (test_build_boundaries.BoundaryTests.test_transitive_consumer_contamination) ... ok
+test_unexported_header_is_private (test_build_boundaries.BoundaryTests.test_unexported_header_is_private) ... ok
+test_unknown_guard_stays_conservative (test_build_boundaries.BoundaryTests.test_unknown_guard_stays_conservative) ... ok
+test_unknown_usage_target_refuses (test_build_boundaries.BoundaryTests.test_unknown_usage_target_refuses) ... ok
+test_unresolved_build_dependency (test_build_boundaries.BoundaryTests.test_unresolved_build_dependency) ... ok
+test_valid_generated_graph_and_header_resolution (test_build_boundaries.BoundaryTests.test_valid_generated_graph_and_header_resolution) ... ok
+test_weakened_compiler_options (test_build_boundaries.BoundaryTests.test_weakened_compiler_options) ... ok
+test_wrong_case_does_not_qualify_portable_header_spelling (test_build_boundaries.BoundaryTests.test_wrong_case_does_not_qualify_portable_header_spelling) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.246s
+
+OK
+<end of output>
+Test time =   0.43 sec
+----------------------------------------------------------
+Test Passed.
+"build.boundary_checker" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"build.boundary_checker" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/156 Testing: portable.gpt
+70/156 Test: portable.gpt
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_gpt.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/gpt_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.gpt" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_synthetic_and_encoding_cases (__main__.Gpt.test_synthetic_and_encoding_cases) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.793s
+
+OK
+Checked 1022 synthetic GPT/encoding cases.
+<end of output>
+Test time =   3.97 sec
+----------------------------------------------------------
+Test Passed.
+"portable.gpt" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.gpt" time elapsed: 00:00:03
+----------------------------------------------------------
+
+71/156 Testing: portable.gpt_guard
+71/156 Test: portable.gpt_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/gpt_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.gpt_guard" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+GPT C/C++ linkage and protected header/array boundaries passed.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"portable.gpt_guard" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.gpt_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+72/156 Testing: portable.ntfs_record
+72/156 Test: portable.ntfs_record
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_ntfs_record.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_record_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-record-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.ntfs_record" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+964 supplied-byte NTFS record cases passed; guard-page/read-only input; no volume/provider claim
+<end of output>
+Test time =   1.13 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_record" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.ntfs_record" time elapsed: 00:00:01
+----------------------------------------------------------
+
+73/156 Testing: portable.ntfs_boot
+73/156 Test: portable.ntfs_boot
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_ntfs_boot.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_boot_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-boot-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.ntfs_boot" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+1729 NTFS boot/seed cases passed; protected read-only bytes; no volume/provider claim
+<end of output>
+Test time =   1.77 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_boot" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.ntfs_boot" time elapsed: 00:00:01
+----------------------------------------------------------
+
+74/156 Testing: portable.ntfs_list
+74/156 Test: portable.ntfs_list
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_ntfs_list.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_list_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-list-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.ntfs_list" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+561 protected-byte NTFS list cases passed
+<end of output>
+Test time =   1.37 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_list" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.ntfs_list" time elapsed: 00:00:01
+----------------------------------------------------------
+
+75/156 Testing: portable.ntfs_attributes
+75/156 Test: portable.ntfs_attributes
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_ntfs_attributes.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_attributes_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-attributes-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.ntfs_attributes" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+259 post-fixup NTFS attribute cases passed; no volume/content authority
+<end of output>
+Test time =   0.65 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_attributes" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.ntfs_attributes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/156 Testing: portable.ntfs_runlist
+76/156 Test: portable.ntfs_runlist
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_ntfs_runlist.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_attributes_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-runlist-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.ntfs_runlist" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+632 canonical NTFS mapping cases passed; no source/content authority
+<end of output>
+Test time =   0.62 sec
+----------------------------------------------------------
+Test Passed.
+"portable.ntfs_runlist" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.ntfs_runlist" time elapsed: 00:00:00
+----------------------------------------------------------
+
+77/156 Testing: image.ntfs_stream
+77/156 Test: image.ntfs_stream
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_ntfs_stream.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_stream_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-stream-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.ntfs_stream" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+298 protected-record stream cases passed
+<end of output>
+Test time =   1.21 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_stream" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"image.ntfs_stream" time elapsed: 00:00:01
+----------------------------------------------------------
+
+78/156 Testing: image.ntfs_capture
+78/156 Test: image.ntfs_capture
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_ntfs_capture.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_capture_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-capture-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.ntfs_capture" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Passed 154 independent supplied-reader NTFS capture cases.
+<end of output>
+Test time =   0.75 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_capture" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"image.ntfs_capture" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/156 Testing: portable.exfat
+79/156 Test: portable.exfat
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_exfat.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/exfat-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.exfat" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_cells_do_not_claim_bitmap_allocation (__main__.ExfatTests.test_cells_do_not_claim_bitmap_allocation) ... ok
+test_checksum_every_word_and_excluded_fields (__main__.ExfatTests.test_checksum_every_word_and_excluded_fields) ... ok
+test_extended_reserved_and_undefined_metadata (__main__.ExfatTests.test_extended_reserved_and_undefined_metadata) ... ok
+test_geometry_profiles_and_high_address_counts (__main__.ExfatTests.test_geometry_profiles_and_high_address_counts) ... ok
+test_invalid_shifts_truncation_and_overlong_output_conservation (__main__.ExfatTests.test_invalid_shifts_truncation_and_overlong_output_conservation) ... ok
+test_minimum_volume_and_maximum_byte_conversion (__main__.ExfatTests.test_minimum_volume_and_maximum_byte_conversion) ... ok
+test_rehashed_structural_mutations_and_u64_overflow (__main__.ExfatTests.test_rehashed_structural_mutations_and_u64_overflow) ... ok
+test_seeded_valid_geometry_and_data_boundaries (__main__.ExfatTests.test_seeded_valid_geometry_and_data_boundaries) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 15.264s
+
+OK
+<end of output>
+Test time =  15.47 sec
+----------------------------------------------------------
+Test Passed.
+"portable.exfat" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.exfat" time elapsed: 00:00:15
+----------------------------------------------------------
+
+80/156 Testing: portable.exfat_guard
+80/156 Test: portable.exfat_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.exfat_guard" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+guard passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"portable.exfat_guard" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"portable.exfat_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+89/156 Testing: image.exfat_capture
+89/156 Test: image.exfat_capture
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_exfat_capture.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_capture_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/exfat-capture-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.exfat_capture" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_automatic_ambiguous_and_invalid_maps_confer_no_applicability (__main__.Tests.test_automatic_ambiguous_and_invalid_maps_confer_no_applicability) ... ok
+test_automatic_budgets_retained_candidates_and_pre_read_format_refusal (__main__.Tests.test_automatic_budgets_retained_candidates_and_pre_read_format_refusal) ... ok
+test_automatic_seeded_custom_maps_and_protected_views (__main__.Tests.test_automatic_seeded_custom_maps_and_protected_views) ... ok
+test_automatic_unique_and_equivalent_maps_match_full_oracles (__main__.Tests.test_automatic_unique_and_equivalent_maps_match_full_oracles) ... ok
+test_bitmap_membership_upcase_validation_and_representation (__main__.Tests.test_bitmap_membership_upcase_validation_and_representation) ... ok
+test_boot_and_all_system_chain_failures (__main__.Tests.test_boot_and_all_system_chain_failures) ... ok
+test_exhausted_output_and_retained_limits_preserve_partial_scope (__main__.Tests.test_exhausted_output_and_retained_limits_preserve_partial_scope) ... ok
+test_high_offsets_large_root_chunks_and_cross_cluster_file_sets (__main__.Tests.test_high_offsets_large_root_chunks_and_cross_cluster_file_sets) ... ok
+test_native_protected_read_only_reader_views (__main__.Tests.test_native_protected_read_only_reader_views) ... ok
+test_overlap_and_final_reread_withdraw_applicability (__main__.Tests.test_overlap_and_final_reread_withdraw_applicability) ... ok
+test_profiles_active_pairing_fragmentation_and_original_values (__main__.Tests.test_profiles_active_pairing_fragmentation_and_original_values) ... ok
+test_request_limits_invalid_calls_and_reader_failures (__main__.Tests.test_request_limits_invalid_calls_and_reader_failures) ... ok
+test_root_cardinality_critical_entries_and_partial_sets (__main__.Tests.test_root_cardinality_critical_entries_and_partial_sets) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 9.424s
+
+OK
+<end of output>
+Test time =   9.61 sec
+----------------------------------------------------------
+Test Passed.
+"image.exfat_capture" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"image.exfat_capture" time elapsed: 00:00:09
+----------------------------------------------------------
+
+90/156 Testing: image.exfat_file
+90/156 Test: image.exfat_file
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_exfat_file.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_file_probe.exe" "--fault" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_file_fault.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/exfat-file-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.exfat_file" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_actual_malformed_sources_and_native_budget_prefixes (__main__.Tests.test_actual_malformed_sources_and_native_budget_prefixes) ... ok
+test_actual_profiles_offsets_maps_and_exact_region_replay (__main__.Tests.test_actual_profiles_offsets_maps_and_exact_region_replay) ... ok
+test_actual_reparse_leaf_and_ancestor_when_available (__main__.Tests.test_actual_reparse_leaf_and_ancestor_when_available) ... ok
+test_expected_source_is_checked_before_native_content_reads (__main__.Tests.test_expected_source_is_checked_before_native_content_reads) ... ok
+test_failure_prefixes_cancellation_binding_and_replay_disagreement (__main__.Tests.test_failure_prefixes_cancellation_binding_and_replay_disagreement) ... ok
+test_held_write_delete_and_rename_access_is_denied (__main__.Tests.test_held_write_delete_and_rename_access_is_denied) ... ok
+test_normal_adapter_ignores_fixture_controls_and_epochs_do_not_alias (__main__.Tests.test_normal_adapter_ignores_fixture_controls_and_epochs_do_not_alias) ... ok
+test_refusals_limits_windows_paths_and_actual_nonordinary_aliases (__main__.Tests.test_refusals_limits_windows_paths_and_actual_nonordinary_aliases) ... ok
+test_typed_automatic_faults_and_expected_source_before_reads (__main__.Tests.test_typed_automatic_faults_and_expected_source_before_reads) ... ok
+test_typed_automatic_maps_and_explicit_v1_bridge (__main__.Tests.test_typed_automatic_maps_and_explicit_v1_bridge) ... ok
+test_typed_partial_ambiguous_budget_and_source_preservation (__main__.Tests.test_typed_partial_ambiguous_budget_and_source_preservation) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 8.458s
+
+OK
+<end of output>
+Test time =   8.68 sec
+----------------------------------------------------------
+Test Passed.
+"image.exfat_file" end time: Oct 16 07:48 AUS Eastern Daylight Time
+"image.exfat_file" time elapsed: 00:00:08
+----------------------------------------------------------
+
+91/156 Testing: image.ntfs_file
+91/156 Test: image.ntfs_file
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_ntfs_file.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_file_probe.exe" "--fault" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_file_fault.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-file-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.ntfs_file" start time: Oct 16 07:48 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_actual_native_offset_over4GiB (__main__.Tests.test_actual_native_offset_over4GiB) ... ok
+test_actual_profile_geometry_mapping_and_release (__main__.Tests.test_actual_profile_geometry_mapping_and_release) ... ok
+test_expected_source_context_and_snapshot_before_callbacks (__main__.Tests.test_expected_source_context_and_snapshot_before_callbacks) ... ok
+test_held_native_access_and_release (__main__.Tests.test_held_native_access_and_release) ... ok
+test_metadata_profile_and_replay_disagreements (__main__.Tests.test_metadata_profile_and_replay_disagreements) ... ok
+test_native_prefix_failures_and_sticky_cancellation (__main__.Tests.test_native_prefix_failures_and_sticky_cancellation) ... ok
+test_normal_ignores_fault_protocol (__main__.Tests.test_normal_ignores_fault_protocol) ... ok
+test_paths_windows_aliases_and_pre_read_refusals (__main__.Tests.test_paths_windows_aliases_and_pre_read_refusals) ... ok
+test_profile_mismatch_unknown_and_no_native_retry (__main__.Tests.test_profile_mismatch_unknown_and_no_native_retry) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 17.003s
+
+OK
+<end of output>
+Test time =  17.21 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_file" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"image.ntfs_file" time elapsed: 00:00:17
+----------------------------------------------------------
+
+93/156 Testing: image.exfat_worker
+93/156 Test: image.exfat_worker
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_exfat_worker.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_worker_probe.exe" "--fault" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/exfat_worker_fault.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/exfat-worker-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.exfat_worker" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_actual_forged_publications_do_not_create_snapshots (__main__.Tests.test_actual_forged_publications_do_not_create_snapshots) ... ok
+test_actual_typed_automatic_processes_and_partial_snapshots (__main__.Tests.test_actual_typed_automatic_processes_and_partial_snapshots) ... ok
+test_automatic_limits_faults_and_unresolved_owned_processes (__main__.Tests.test_automatic_limits_faults_and_unresolved_owned_processes) ... ok
+test_expected_source_changes_and_partial_native_failure_claims (__main__.Tests.test_expected_source_changes_and_partial_native_failure_claims) ... ok
+test_passive_frame_input_and_raw_replay_refuse_tampering (__main__.Tests.test_passive_frame_input_and_raw_replay_refuse_tampering) ... ok
+test_real_profiles_typed_context_and_immutable_retention (__main__.Tests.test_real_profiles_typed_context_and_immutable_retention) ... ok
+test_startup_hangs_cancel_late_exit_and_confirmed_retirement (__main__.Tests.test_startup_hangs_cancel_late_exit_and_confirmed_retirement) ... ok
+test_v2_input_versions_selectors_and_frame_binding_are_strict (__main__.Tests.test_v2_input_versions_selectors_and_frame_binding_are_strict) ... ok
+test_zero_wait_retirement_tracks_actual_owned_exit (__main__.Tests.test_zero_wait_retirement_tracks_actual_owned_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 12.929s
+
+OK
+<end of output>
+Test time =  13.13 sec
+----------------------------------------------------------
+Test Passed.
+"image.exfat_worker" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"image.exfat_worker" time elapsed: 00:00:13
+----------------------------------------------------------
+
+94/156 Testing: image.ntfs_worker
+94/156 Test: image.ntfs_worker
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/images/test_ntfs_worker.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_worker_probe.exe" "--fault" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/ntfs_worker_fault.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/ntfs-worker-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"image.ntfs_worker" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_actual_corrupt_publications_and_host_reply_bindings (__main__.Tests.test_actual_corrupt_publications_and_host_reply_bindings) ... ok
+test_actual_profiles_geometry_and_retention_after_teardown (__main__.Tests.test_actual_profiles_geometry_and_retention_after_teardown) ... ok
+test_cancel_hang_late_exit_startup_and_zero_retirement (__main__.Tests.test_cancel_hang_late_exit_startup_and_zero_retirement) ... ok
+test_incomplete_native_and_binding_observations_remain_inspectable (__main__.Tests.test_incomplete_native_and_binding_observations_remain_inspectable) ... ok
+test_invalid_request_and_normal_fault_refusal (__main__.Tests.test_invalid_request_and_normal_fault_refusal) ... ok
+test_parent_replay_after_source_removed_and_inert_preparation (__main__.Tests.test_parent_replay_after_source_removed_and_inert_preparation) ... ok
+test_strict_frame_relationships_and_byte_reconstruction (__main__.Tests.test_strict_frame_relationships_and_byte_reconstruction) ... ok
+test_unsupported_profiles_budget_prefixes_and_expected_source (__main__.Tests.test_unsupported_profiles_budget_prefixes_and_expected_source) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 7.166s
+
+OK
+<end of output>
+Test time =   7.36 sec
+----------------------------------------------------------
+Test Passed.
+"image.ntfs_worker" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"image.ntfs_worker" time elapsed: 00:00:07
+----------------------------------------------------------
+
+95/156 Testing: portable.fat
+95/156 Test: portable.fat
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_fat.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/fat_probe.exe" "--output" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/fat-cases.json"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.fat" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_all_entry_marker_classes_and_high_nibble (__main__.FatTests.test_all_entry_marker_classes_and_high_nibble) ... ok
+test_capacity_and_budget_errors (__main__.FatTests.test_capacity_and_budget_errors) ... ok
+test_chain_cycle_precedes_unseen_budget_and_truncation (__main__.FatTests.test_chain_cycle_precedes_unseen_budget_and_truncation) ... ok
+test_chain_terminal_and_start_dispositions (__main__.FatTests.test_chain_terminal_and_start_dispositions) ... ok
+test_cluster_thresholds_all_sector_and_cluster_units (__main__.FatTests.test_cluster_thresholds_all_sector_and_cluster_units) ... ok
+test_conflicting_fat_copies_remain_explicit_observations (__main__.FatTests.test_conflicting_fat_copies_remain_explicit_observations) ... ok
+test_counter_and_type_shape_conflicts (__main__.FatTests.test_counter_and_type_shape_conflicts) ... ok
+test_entry_shape_index_and_truncation_errors_preserve_output (__main__.FatTests.test_entry_shape_index_and_truncation_errors_preserve_output) ... ok
+test_fat32_extended_features_and_auxiliary_references (__main__.FatTests.test_fat32_extended_features_and_auxiliary_references) ... ok
+test_invalid_common_geometry_and_insufficient_capacity (__main__.FatTests.test_invalid_common_geometry_and_insufficient_capacity) ... ok
+test_labels_hidden_sectors_and_padding_do_not_select_geometry (__main__.FatTests.test_labels_hidden_sectors_and_padding_do_not_select_geometry) ... ok
+test_large_byte_extents_and_trailing_partial_cluster (__main__.FatTests.test_large_byte_extents_and_trailing_partial_cluster) ... ok
+test_nonstandard_copy_count_preserved_without_automatic_selection (__main__.FatTests.test_nonstandard_copy_count_preserved_without_automatic_selection) ... ok
+test_packed_neighbors_and_cross_sector_cell (__main__.FatTests.test_packed_neighbors_and_cross_sector_cell) ... ok
+test_random_chain_oracle (__main__.FatTests.test_random_chain_oracle) ... ok
+test_random_geometry_oracle (__main__.FatTests.test_random_geometry_oracle) ... ok
+test_regions_and_table_capacity_use_wide_arithmetic (__main__.FatTests.test_regions_and_table_capacity_use_wide_arithmetic) ... ok
+test_reserved_header_entries_are_not_chain_data (__main__.FatTests.test_reserved_header_entries_are_not_chain_data) ... ok
+test_short_and_overlong_boot_views (__main__.FatTests.test_short_and_overlong_boot_views) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 2.028s
+
+OK
+FAT supplied-byte cases executed: 1335
+<end of output>
+Test time =   2.25 sec
+----------------------------------------------------------
+Test Passed.
+"portable.fat" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.fat" time elapsed: 00:00:02
+----------------------------------------------------------
+
+96/156 Testing: portable.fat_guard
+96/156 Test: portable.fat_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/fat_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.fat_guard" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+FAT C/C++ linkage, protected read-only bounds and capacity-before-read checks passed.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"portable.fat_guard" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.fat_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+120/156 Testing: portable.mbr_ebr
+120/156 Test: portable.mbr_ebr
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_mbr.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/mbr_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.mbr_ebr" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.145s
+
+OK
+Checked 1296 independently constructed/mutated synthetic image cases.
+<end of output>
+Test time =   1.36 sec
+----------------------------------------------------------
+Test Passed.
+"portable.mbr_ebr" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.mbr_ebr" time elapsed: 00:00:01
+----------------------------------------------------------
+
+121/156 Testing: portable.mbr_guard
+121/156 Test: portable.mbr_guard
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/mbr_probe.exe" "--guard"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.mbr_guard" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+C MBR/EBR linkage, immutable pages and 512 truncated boundaries passed.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"portable.mbr_guard" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.mbr_guard" time elapsed: 00:00:00
+----------------------------------------------------------
+
+122/156 Testing: portable.checked
+122/156 Test: portable.checked
+Command: "D:/Projects/DiskEd/disked/.aide-local/venv/Scripts/python.exe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-exact-23ceeb24/tests/property/test_primitives.py" "--probe" "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/portable_probe.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.checked" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+test_aliases_and_invalid_internal_objects (__main__.Portable.test_aliases_and_invalid_internal_objects) ... ok
+test_bounded_views (__main__.Portable.test_bounded_views) ... ok
+test_checked_arithmetic (__main__.Portable.test_checked_arithmetic) ... ok
+test_endian_reads_writes (__main__.Portable.test_endian_reads_writes) ... ok
+test_extents_and_units (__main__.Portable.test_extents_and_units) ... ok
+test_space_geometry_and_overlap (__main__.Portable.test_space_geometry_and_overlap) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.151s
+
+OK
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"portable.checked" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.checked" time elapsed: 00:00:00
+----------------------------------------------------------
+
+123/156 Testing: portable.c_cpp_linkage
+123/156 Test: portable.c_cpp_linkage
+Command: "D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build/Release/portable_cpp.exe"
+Directory: D:/Projects/DiskEd/disked/.aide-local/ntfs-join-qualified-23ceeb24/build
+"portable.c_cpp_linkage" start time: Oct 16 07:49 AUS Eastern Daylight Time
+Output:
+----------------------------------------------------------
+C/C++ linkage and actual read-only/no-access page boundaries passed.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"portable.c_cpp_linkage" end time: Oct 16 07:49 AUS Eastern Daylight Time
+"portable.c_cpp_linkage" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 16 07:49 AUS Eastern Daylight Time

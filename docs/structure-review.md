@@ -34,7 +34,7 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **309 current source files**: 31 portable, 133 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W085 captured-stream joiner awaiting clean source qualification; the earlier decoder evidence remains below. The longest repository-relative source
+63 platform and 14 application files. This includes the private DE-W085 captured-stream joiner; its selected clean source evidence and earlier decoder results are below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
@@ -93,15 +93,13 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-The private list decoder at `65ca67d9` passes 561 protected-byte cases,
-24 selected native groups, 59 standalone headers, strict C90 syntax and
-244 tooling tests (two skipped). [Exact-source review](../.aide/evidence/2026-10-16-ntfs-list/REVIEW.md).
-[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-list-integration/repository.json)
-records the successful dev/main synchronization. This changes no owner or release gate.
-It advances the existing portable owner without a tree restructure. It does not
-yet join MFT extension records or change the bootstrap-only NTFS command scope.
-This is a selected regression campaign; the previous complete campaign remains
-bound to its own revision below.
+The captured-stream joiner at `23ceeb24` passes 298 protected-record cases,
+25 selected native groups, 9 standalone headers and 244 tooling tests
+(two skipped). [Source-bound review](../.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
+It verifies supplied capture assertions and record/stream relationships, with an
+owned typed result only after complete checks. Native MFT/nonresident-list
+acquisition and public command admission remain separate work. The prior entry
+decoder results remain in its owning guide and the programme's evidence history.
 
 The preceding product source `b985adf2` passes one complete clean-source campaign: 154 native
 groups, 59 standalone headers, 244 tooling tests (2 skipped), source/header/

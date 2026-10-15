@@ -1,6 +1,6 @@
 {
-  "observed_at": "2026-10-15T20:36:58.037972+00:00",
-  "implementation_base": "20eedfb71c3b46d7bc8716c51fad70daf574d23c",
+  "observed_at": "2026-10-15T20:45:39.652814+00:00",
+  "implementation_base": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
   "scope": "Read-only preparation for the next original NTFS acquisition step; not an execution contract or accepted source capability.",
   "files_inspected": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "path": "source/runtime/capture/ntfs_stream.h",
-      "sha256": "sha256:be207980c5a931168c8a53844f4b33add742d43143bf5bb27bfbc7946b138651"
+      "sha256": "sha256:8748d12a4ab00aa7f32ba7bf34490959a53da5d475f84cee81f223ec217f547e"
     },
     {
       "path": "source/providers/image/ntfs_file.h",
@@ -18,6 +18,10 @@
     {
       "path": "source/providers/image/ntfs_snapshot.cpp",
       "sha256": "sha256:51c477a887f6b57e21469ba902a768627117cb0a723992d68b8f738d9a7a928e"
+    },
+    {
+      "path": "source/runtime/capture/ntfs_stream.cpp",
+      "sha256": "sha256:4aea561fd77a03c86dfe011efa72f368e0191d860c8fb7eda9e61ac320ce79ff"
     }
   ],
   "facts": [
@@ -31,7 +35,10 @@
     "Define captured nonresident-list value provenance and complete initialized byte coverage before passing it to a joiner.",
     "Retain finite known-coverage MFT extension discovery and explicit unresolved cycles/gaps; never publish an incomplete MFT map as usable.",
     "Preserve MFT-specific boot/mirror exclusion, record/data size rules, region budgets and exact source-generation/worker-code binding.",
-    "Use independent generated-image reference/mapping/corruption and source-change fixtures; qualify actual owned-worker replay and existing public NTFS responses before extending capability claims."
+    "Use independent generated-image reference/mapping/corruption and source-change fixtures; qualify actual owned-worker replay and existing public NTFS responses before extending capability claims.",
+    "Choose any missing dependency whose entire logical FILE range is covered by already validated MFT read coverage; do not assume the first listed reference is reachable. The complete missing set is not an execution queue or a grant.",
+    "Use the existing per-record attribute/run observations for MFT-specific safe read prefixes, after join validation of present identities/membership. A missing-record result still has no complete typed stream; require ordinary nonsparse mappings, exact seed mapping and boot/mirror exclusion before any prefix-based read. Reject unlisted/unknown/stale metadata rather than expanding through it.",
+    "Own each assembled fragmented FILE buffer until joining ends; join output contains no borrowed views. Complete native observation still requires exact-source rereads, ordered frame replay and actual worker-exit ownership."
   ],
   "sources": [
     "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/attrib.c"
@@ -39,5 +46,6 @@
   "execution_contract_defined": false,
   "authorizes_effects": false,
   "owner_accepted": false,
-  "full_0_1_0_complete": false
+  "full_0_1_0_complete": false,
+  "revision_note": "Refresh inspected source hashes after complete-dependency implementation. Prior preparation bytes are retained in next-source-preparation-before-dependency-change.json; their original20eedfb7 base describes the first-reference model, not the revised discovery behavior."
 }

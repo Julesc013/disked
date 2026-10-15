@@ -1,0 +1,89 @@
+{
+  "observed_at": "2026-10-15T20:56:04.007102+00:00",
+  "tested_source": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
+  "implementation_build_parameter_inputs_unchanged": true,
+  "compared_inputs": 737,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W085",
+        "--output",
+        ".aide-local\\context\\ntfs-join-reviewed-20261015T205545Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-join-reviewed-20261015T205545Z"
+      ],
+      "exit_code": 0,
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-join/metadata-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false
+}

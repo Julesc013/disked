@@ -3,11 +3,11 @@
 DE-W085 verifies one exact type/raw-name stream across supplied captured FILE
 records. The [execution contract](../spec/catalog/ntfs-join-prototype.json) fixes
 sequence/owner/instance matching, coverage, budgets and result ownership before
-implementation/evaluation. The working native corpus passes298 protected-record
-cases and ownership/build checks; clean source qualification remains pending.
-Missing-record outcomes name every unique unresolved selected reference, after
-full list and present-record validation, without granting
-acquisition authority. Result ownership is checked after freeing every input.
+implementation/evaluation. Source `23ceeb24` passes 298 protected-record cases,
+25 selected native groups, 9 standalone headers and 244 tooling tests
+(two skipped). [Exact source evidence](../.aide/evidence/2026-10-16-ntfs-join/qualified-23ceeb24/summary.json) and
+[implementing-agent review](../.aide/evidence/2026-10-16-ntfs-join/REVIEW.md) retain the selection,
+output ownership, missing-reference handoff, original failures and limitations.
 
 Capture contexts are asserted input, not proven native provenance. A typed
 stream exists only after complete checks. Missing/stale/malformed or unsupported

@@ -22,6 +22,13 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [x] DE-W085 captured-stream joining: exact `23ceeb24` passes 298 protected-record
+  cases, 25 selected native groups, 9 standalone headers and 244 tooling
+  tests(two skipped), with implementing-agent review. The typed result owns its
+  data; missing full references remain dependencies, not acquisition grants.
+  Native MFT/nonresident-list acquisition, namespace/content and original full0.1.0
+  remain. [Evidence](.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
+
 - [x] DE-W084 private attribute-list decoder: source `65ca67d9` passes 561
   protected-byte cases, 24 selected native groups, 59 standalone headers,
   strict C90 and 244 tooling tests (two skipped), with implementing-agent review.

@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-10-15T20:36:58.037972+00:00",
+  "implementation_base": "20eedfb71c3b46d7bc8716c51fad70daf574d23c",
+  "scope": "Read-only preparation for the next original NTFS acquisition step; not an execution contract or accepted source capability.",
+  "files_inspected": [
+    {
+      "path": "source/runtime/capture/ntfs_capture.cpp",
+      "sha256": "sha256:5be557eac17be7036869b35f556e14908813536cf7d109beb2efdcdeb1e2eb3e"
+    },
+    {
+      "path": "source/runtime/capture/ntfs_stream.h",
+      "sha256": "sha256:be207980c5a931168c8a53844f4b33add742d43143bf5bb27bfbc7946b138651"
+    },
+    {
+      "path": "source/providers/image/ntfs_file.h",
+      "sha256": "sha256:541d298f59249739df06ba47868da4e2c09c206548424607c9284efa0cdfb3da"
+    },
+    {
+      "path": "source/providers/image/ntfs_snapshot.cpp",
+      "sha256": "sha256:51c477a887f6b57e21469ba902a768627117cb0a723992d68b8f738d9a7a928e"
+    }
+  ],
+  "facts": [
+    "Observer already owns finite region copying, exact byte-space/window checks, overlapping-read comparison and final region rereads. Extend those mechanisms rather than adding an independent source-access pipeline.",
+    "NtfsFileRequest and strict snapshot control encoding currently have six capture limits. Any new control must be propagated to producer, strict consumer and fixtures, or define explicit derived bounds without changing existing counters silently.",
+    "consume_ntfs_reader_payload reconstructs and replays observe_ntfs_bootstrap over every ordered offset/length/byte record. It rejects reordered, extra, omitted or changed read results. Preserve this proof for new MFT reads.",
+    "The pinned NTFS-3G lookup handles ATTRIBUTE_LIST specially in the base FILE because it is not listed in its own value. Its value may still need nonresident acquisition; do not synthesize a resident replacement or infer bytes from a reference.",
+    "NtfsStreamJoinResult.required_records supplies every unique unresolved selected full48/16 reference after validating the complete list and present records. Source acquisition must map the requested logical record through already validated MFT coverage, then verify sequence/base identity, exact source context and original-source rereads. No contiguous-address guess or automatic stale-reference retry."
+  ],
+  "next_requirements": [
+    "Define captured nonresident-list value provenance and complete initialized byte coverage before passing it to a joiner.",
+    "Retain finite known-coverage MFT extension discovery and explicit unresolved cycles/gaps; never publish an incomplete MFT map as usable.",
+    "Preserve MFT-specific boot/mirror exclusion, record/data size rules, region budgets and exact source-generation/worker-code binding.",
+    "Use independent generated-image reference/mapping/corruption and source-change fixtures; qualify actual owned-worker replay and existing public NTFS responses before extending capability claims."
+  ],
+  "sources": [
+    "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/attrib.c"
+  ],
+  "execution_contract_defined": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}
