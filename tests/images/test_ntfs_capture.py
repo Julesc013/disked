@@ -207,7 +207,7 @@ def cases():
     good = Volume()
     for name, payload, code in [
         ('duplicate', good.data+good.data, 'data_ambiguous'),
-        ('attribute-list', good.data+resident(b'', kind=0x20)[0], 'attribute_list_unsupported'),
+        ('attribute-list', good.data+resident(b'', kind=0x20)[0], 'join_list_empty'),
         ('resident', resident(b'abcd')[0], 'data_unsupported'),
         ('named', nonresident(mapping(good.runs), name=b'x\0', high=15, allocated=8192, data=8192, initialized=8192)[0], 'data_unsupported'),
         ('sparse', nonresident(mapping(good.runs), flags=0x8000, high=15, allocated=8192, data=8192, initialized=8192)[0], 'data_unsupported'),
@@ -241,7 +241,8 @@ def cases():
                                 ('named', resident(b'\0'*12, name=b'x\0', kind=0x70)[0], 'information'),
                                 ('short', resident(b'\0'*11, kind=0x70)[0], 'information'),
                                 ('flags', resident(b'\0'*12, flags=1, kind=0x70)[0], 'information'),
-                                ('list', good.info+resident(b'', kind=0x20)[0], 'attribute_list_unsupported')]:
+                                ('list', good.info+resident(b'', kind=0x20, instance=1)[0], 'join_list_empty'),
+                                ('list-duplicate-instance', good.info+resident(b'', kind=0x20)[0], 'join_instance_ambiguous')]:
         add('volume-'+name, Volume(info_payload=payload), 'ntfs_volume_'+code, False)
     add('volume-wrong-number', Volume(volume_number=4), 'ntfs_volume_record', False)
     v = Volume(volume_options={'flags': 3})

@@ -27,9 +27,10 @@ provides observed version and raw flags; the version must match the requested
 profile. Header record numbers are bound when that optional header field exists.
 
 Malformed/unsupported metadata, changed source bytes, failed/short callbacks and
-budgets retain an explicit observation prefix and diagnostic. Attribute-list
-extensions, further MFT records/payloads, namespace/content, held sources,
-contained workers and public frontend integration remain original required work.
+budgets retain an explicit observation prefix and diagnostic. The source-bound
+[record closure](ntfs-closure.md) extends supported MFT/Volume list dependencies.
+Held ordinary sources, contained workers and common frontends have their separate
+revision-bound evidence. General MFT payloads and namespace/content remain work.
 Dirty flags and an applicable bootstrap are not filesystem health or recovery
 qualification. Native/platform/physical writer and release claims require their
 own applicable evidence.

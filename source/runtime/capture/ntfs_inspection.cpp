@@ -89,6 +89,30 @@ void project_record(V &record) {
     auto replacement = rows(*original, projected, 65536, 128);
     record.put("attributes", std::move(replacement));
 }
+void project_closures(V &observation) {
+    if (!observation.find("record_closures"))
+        return;
+    auto &closures = observation.fields.at("record_closures");
+    if (closures.kind != V::Kind::object)
+        throw std::invalid_argument("ntfs_result_shape");
+    for (auto &entry : closures.fields) {
+        auto &closure = entry.second;
+        const auto &extensions = field(closure, "extensions");
+        auto projected = extensions;
+        for (auto &record : projected.items)
+            project_record(record);
+        closure.put("extensions", rows(extensions, projected, 65536, 128));
+        if (!closure.find("join") || closure.fields.at("join").kind == V::Kind::null)
+            continue;
+        auto &join = closure.fields.at("join");
+        for (const auto *key : {"records", "parts", "runs", "required_records"}) {
+            const auto &original = field(join, key);
+            const bool small = std::string(key) == "runs" || std::string(key) == "required_records";
+            auto replacement = rows(original, original, small ? 8192 : 32768, small ? 64 : 128);
+            join.put(key, std::move(replacement));
+        }
+    }
+}
 Outcome failure(const std::string &request, const std::string &code, int exit_code) {
     auto out = refused(request, code, exit_code);
     if (exit_code == 4)
@@ -151,6 +175,7 @@ V project_ntfs_inspection(const NtfsInspectionRead &read, const NtfsInspectionRe
     observation.put("regions", rows(regions, regions, 32768, 128));
     for (const auto key : {"primary", "mirror", "volume_record"})
         project_record(observation.fields.at(key));
+    project_closures(observation);
     const auto version = request.profile == NtfsFileProfile::Automatic   ? "auto"
                          : request.profile == NtfsFileProfile::Version30 ? "3.0"
                                                                          : "3.1";

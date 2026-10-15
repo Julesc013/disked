@@ -160,6 +160,28 @@ class Tests(unittest.TestCase):
             v,path = self.fixture(Volume(**options)); self.good(v,path)
         v,path = self.fixture(name='ntfs-\u03bb.img'); self.good(v,path)
 
+    def test_actual_source_bound_record_closures(self):
+        from ntfs_closure_fixture import ClosureVolume
+        from test_ntfs_closure import good
+        for minor in (0,1):
+            for nonresident in (False,True):
+                v,path=self.fixture(ClosureVolume(minor=minor,offset=173,nonresident_list=nonresident,volume_nonresident=nonresident))
+                value=self.good(v,path,dict(release_check=True));good(value['result']['observation'],v)
+                self.assertTrue(all(r['opened'] for r in value['released_access']))
+        v,path=self.fixture(ClosureVolume(cluster=512,offset=173,nonresident_list=True,volume_nonresident=True,padding=20))
+        good(self.good(v,path)['result']['observation'],v)
+        # Do not hash a multi-gigabyte sparse hole: check all fixture regions,
+        # size and the existing before/final source generation instead.
+        v,path=self.fixture(ClosureVolume(offset=(1<<32)+173,nonresident_list=True))
+        size=path.stat().st_size
+        value=run([self.row(v,path)])[0];good(value['result']['observation'],v)
+        self.assertTrue(value['result']['capture']['observed_stable'])
+        self.assertEqual(path.stat().st_size,size)
+        with path.open('rb') as stream:
+            for region in v.input['regions']:
+                raw=bytes.fromhex(region['hex']);stream.seek(int(region['offset']))
+                self.assertEqual(stream.read(len(raw)),raw)
+
     def test_profile_mismatch_unknown_and_no_native_retry(self):
         for minor in (0,1):
             v,path = self.fixture(Volume(minor=minor))

@@ -72,7 +72,8 @@ bool same(const NtfsStreamContext &a, const NtfsStreamContext &b) {
     return a.source_id == b.source_id && a.epoch == b.epoch && a.volume_offset == b.volume_offset &&
            a.volume_bytes == b.volume_bytes;
 }
-void validate(const NtfsStreamJoinRequest &r, const std::vector<NtfsCapturedRecord> &records) {
+void validate(const NtfsStreamJoinRequest &r, const std::vector<NtfsCapturedRecord> &records,
+              const NtfsCapturedAttributeList *list) {
     const auto &c = r.context;
     const auto &l = r.limits;
     if (c.source_id.empty() || c.source_id.size() > 128 ||
@@ -86,8 +87,11 @@ void validate(const NtfsStreamJoinRequest &r, const std::vector<NtfsCapturedReco
         throw std::invalid_argument("ntfs_join_inputs");
     if (!l.records || l.records > 256 || !l.record_bytes || l.record_bytes > 1048576 ||
         !l.attributes || l.attributes > 4096 || !l.list_entries || l.list_entries > 4096 ||
-        !l.runs || l.runs > 4096 || l.output_bytes < 16384 || l.output_bytes > 1048576)
+        !l.runs || l.runs > 4096 || l.output_bytes < 16384 || l.output_bytes > 1048576 ||
+        !l.list_bytes || l.list_bytes > 262144)
         throw std::invalid_argument("ntfs_join_limits");
+    if (list && !list->value.data && list->value.size)
+        throw std::invalid_argument("ntfs_join_list_inputs");
     // Do not traverse an unbounded supplied array merely to reject its count.
     if (records.size() > l.records)
         return;
@@ -109,6 +113,7 @@ struct Selected {
 class Joiner {
     const NtfsStreamJoinRequest request_;
     const std::vector<NtfsCapturedRecord> &inputs_;
+    const NtfsCapturedAttributeList *external_list_;
     std::map<std::uint64_t, const NtfsCapturedRecord *> available_;
     std::map<std::uint64_t, std::unique_ptr<Record>> loaded_;
     std::vector<Selected> selected_;
@@ -117,6 +122,7 @@ class Joiner {
     V record_facts_ = V::array(), part_facts_ = V::array(), run_facts_ = V::array();
     std::size_t attributes_ = 0, entries_ = 0, runs_ = 0, charged_ = 4096;
     bool list_ = false, context_matches_ = false;
+    bool external_list_bound_ = false;
 
     void charge(std::size_t bytes) {
         if (bytes > request_.limits.output_bytes - charged_)
@@ -213,6 +219,51 @@ class Joiner {
     std::uint64_t low(const de_ntfs_attribute &a) const {
         return a.form ? native(a.lowest_vcn) : 0;
     }
+    de_view list_value(const Record &base, const de_ntfs_attribute &list) {
+        if (list.flags || list.name_length || list.issues & DE_NTFS_ATTR_FEATURE)
+            stop("ntfs_join_list_unsupported");
+        if (!list.form) {
+            if (external_list_)
+                stop("ntfs_join_unexpected_list_capture");
+            return list.value;
+        }
+        if (!external_list_)
+            stop("ntfs_join_nonresident_list_unsupported");
+        const auto &capture = *external_list_;
+        if (!same(capture.context, request_.context) ||
+            capture.base_reference != request_.base_reference ||
+            capture.instance != list.instance ||
+            capture.base_record_sha256 != digest(base.input->bytes))
+            stop("ntfs_join_list_binding");
+        if (capture.value.size > request_.limits.list_bytes)
+            stop("ntfs_join_list_byte_budget");
+        if (!list.ordinary_mapping || !list.sizes_applicable || list.empty_stream ||
+            !native(list.data_size) || native(list.initialized_size) != native(list.data_size) ||
+            capture.value.size != native(list.data_size) ||
+            native(list.allocated_size) != mul(native(list.cluster_span), request_.cluster_bytes))
+            stop("ntfs_join_list_sizes");
+        const auto clusters = portable(request_.volume_clusters);
+        de_ntfs_run_cursor cursor{};
+        de_ntfs_run run{};
+        checked(de_ntfs_runs_begin(&list.mapping, &list.lowest_vcn, &list.cluster_span, &clusters,
+                                   0, static_cast<unsigned>(request_.limits.runs), &cursor));
+        std::vector<std::pair<std::uint64_t, std::uint64_t>> physical;
+        while (de_ntfs_runs_next(&cursor, &run) == DE_OK) {
+            if (run.end_marker)
+                break;
+            if (!run.valid)
+                stop("ntfs_join_list_mapping");
+            physical.emplace_back(native(run.lcn), native(run.lcn_end));
+        }
+        if (!cursor.terminated || cursor.issues)
+            stop("ntfs_join_list_mapping");
+        std::sort(physical.begin(), physical.end());
+        for (std::size_t i = 1; i < physical.size(); ++i)
+            if (physical[i].first < physical[i - 1].second)
+                stop("ntfs_join_list_physical_overlap");
+        external_list_bound_ = true;
+        return capture.value;
+    }
     void select() {
         if (request_.type == 0x20)
             stop("ntfs_join_list_query_unsupported");
@@ -225,6 +276,8 @@ class Joiner {
                 list = &a;
             }
         if (!list) {
+            if (external_list_)
+                stop("ntfs_join_unexpected_list_capture");
             for (const auto &a : base.attributes)
                 if (matches(a))
                     selected_.push_back(Selected{&base, &a});
@@ -235,15 +288,12 @@ class Joiner {
             return;
         }
         list_ = true;
-        if (list->form)
-            stop("ntfs_join_nonresident_list_unsupported");
-        if (list->flags || list->name_length || list->issues & DE_NTFS_ATTR_FEATURE)
-            stop("ntfs_join_list_unsupported");
-        if (!list->value.size)
+        const auto value = list_value(base, *list);
+        if (!value.size)
             stop("ntfs_join_list_empty");
         de_ntfs_attr_list_cursor cursor{};
         de_ntfs_attr_list_entry entry{};
-        checked(de_ntfs_attr_list_begin(&list->value, request_.major, request_.minor,
+        checked(de_ntfs_attr_list_begin(&value, request_.major, request_.minor,
                                         static_cast<unsigned>(request_.limits.list_entries),
                                         &cursor));
         std::set<std::pair<std::uint64_t, unsigned>> keys;
@@ -429,12 +479,16 @@ class Joiner {
                      stream_.resident
                          ? V::string(digest(de_view{stream_.value.data(), stream_.value.size()}))
                          : V{});
+        if (external_list_)
+            value.put("external_list_bound", flag(external_list_bound_))
+                .put("external_list_bytes", exact(external_list_->value.size));
         return value;
     }
 
   public:
-    Joiner(const NtfsStreamJoinRequest &request, const std::vector<NtfsCapturedRecord> &inputs)
-        : request_(request), inputs_(inputs) {
+    Joiner(const NtfsStreamJoinRequest &request, const std::vector<NtfsCapturedRecord> &inputs,
+           const NtfsCapturedAttributeList *list)
+        : request_(request), inputs_(inputs), external_list_(list) {
     }
     NtfsStreamJoinResult run() {
         const char *diagnostic = "";
@@ -462,8 +516,9 @@ class Joiner {
 };
 } // namespace
 NtfsStreamJoinResult join_ntfs_stream(const NtfsStreamJoinRequest &request,
-                                      const std::vector<NtfsCapturedRecord> &records) {
-    validate(request, records);
-    return Joiner(request, records).run();
+                                      const std::vector<NtfsCapturedRecord> &records,
+                                      const NtfsCapturedAttributeList *list) {
+    validate(request, records, list);
+    return Joiner(request, records, list).run();
 }
 } // namespace disked

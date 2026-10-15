@@ -88,6 +88,7 @@
 - [ntfs-attributes-prototype.json](ntfs-attributes-prototype.json)
 - [ntfs-boot-prototype.json](ntfs-boot-prototype.json)
 - [ntfs-capture-prototype.json](ntfs-capture-prototype.json)
+- [ntfs-closure-prototype.json](ntfs-closure-prototype.json)
 - [ntfs-command-prototype.json](ntfs-command-prototype.json)
 - [ntfs-file-prototype.json](ntfs-file-prototype.json)
 - [ntfs-join-prototype.json](ntfs-join-prototype.json)

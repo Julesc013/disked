@@ -1,9 +1,12 @@
 #include "ntfs_capture.h"
+#include "ntfs_stream.h"
 #include "portable/hash/sha256.h"
 #include "portable/ntfs/ntfs.h"
 #include <algorithm>
 #include <deque>
 #include <limits>
+#include <map>
+#include <set>
 #include <vector>
 
 namespace disked {
@@ -11,10 +14,10 @@ namespace {
 using V = json::Value;
 using Bytes = std::vector<unsigned char>;
 struct Stop {
-    const char *code;
+    std::string code;
 };
-[[noreturn]] void stop(const char *code) {
-    throw Stop{code};
+[[noreturn]] void stop(std::string code) {
+    throw Stop{std::move(code)};
 }
 void checked(int code) {
     if (code)
@@ -88,11 +91,33 @@ struct Attribute {
 };
 struct Record {
     de_ntfs_record header{};
+    de_view original{};
+    std::uint64_t number = 0;
     Bytes logical;
     std::vector<Attribute> attributes;
     V report = V::object().put("observed", flag(false));
     bool good = false;
     bool mapping_error = false;
+};
+struct StreamMapping {
+    std::vector<Mapping> runs;
+    std::uint64_t allocated = 0, data = 0, initialized = 0;
+};
+struct Extension {
+    std::uint64_t reference = 0;
+    Bytes original;
+    Record record;
+};
+struct Closure {
+    bool active = false;
+    bool join_current = false;
+    std::uint64_t base_reference = 0;
+    std::deque<Extension> extensions;
+    Bytes list_value;
+    std::vector<Mapping> list_runs;
+    NtfsCapturedAttributeList captured_list;
+    V list_facts = V::object(), join_facts;
+    std::size_t join_bytes = 0;
 };
 class Observer {
     // Own both controls before the first callback; callbacks cannot widen scope.
@@ -104,11 +129,13 @@ class Observer {
     V region_facts_ = V::array(), boot_facts_ = V::object(), mft_facts_ = V::object();
     V volume_facts_ = V::object();
     Record primary_, mirror_, volume_;
+    Bytes volume_original_;
+    Closure mft_closure_, volume_closure_;
     std::size_t reads_ = 0, bytes_ = 0, retained_ = 0, attributes_ = 0, runs_ = 0;
     std::size_t output_ = 8192, reread_start_ = 0;
     bool rereading_ = false, reread_equal_ = false, complete_ = false;
     bool mirror_equal_ = false, version_matches_ = false;
-    const char *diagnostic_ = "";
+    std::string diagnostic_;
 
     void charge(std::size_t n) {
         if (n > request_.limits.output_bytes - output_)
@@ -225,8 +252,11 @@ class Observer {
         a.mapped = cursor.terminated && !cursor.issues;
         item.put("runs_complete", flag(a.mapped)).put("run_issues", exact(cursor.issues));
     }
-    void parse(Record &record, const Bytes &raw, unsigned expected_number) {
+    void parse(Record &record, const Bytes &raw, std::uint64_t expected_number,
+               std::uint64_t expected_base = 0, unsigned expected_sequence = 0) {
         const de_view original{raw.data(), raw.size()};
+        record.original = original;
+        record.number = expected_number;
         checked(de_ntfs_record_read(&original, request_.major, request_.minor, &record.header));
         const auto &h = record.header;
         record.report.put("observed", flag(true))
@@ -279,8 +309,9 @@ class Observer {
         record.report.put("attributes_complete", flag(complete))
             .put("attribute_issues", exact(cursor.issues))
             .put("mappings_valid", flag(!record.mapping_error));
-        record.good = complete && !record.mapping_error && h.flags == 1 &&
-                      !native(h.base_reference) && number_matches;
+        record.good = complete && !record.mapping_error && h.flags == 1 && h.sequence &&
+                      native(h.base_reference) == expected_base && number_matches &&
+                      (!expected_sequence || h.sequence == expected_sequence);
     }
     bool mirror_equal() const {
         if (!primary_.good || !mirror_.good)
@@ -295,12 +326,14 @@ class Observer {
                 return false;
         return true;
     }
-    std::vector<std::pair<std::uint64_t, std::size_t>>
-    pieces(const Attribute &a, std::uint64_t start, std::size_t length) {
+    std::vector<std::pair<std::uint64_t, std::size_t>> pieces(const std::vector<Mapping> &runs,
+                                                              std::uint64_t start,
+                                                              std::size_t length,
+                                                              bool *covered = nullptr) {
         std::vector<std::pair<std::uint64_t, std::size_t>> out;
         auto next = start;
         const auto end = add(start, length);
-        for (const auto &run : a.runs) {
+        for (const auto &run : runs) {
             const auto first = mul(run.vcn, boot_.cluster_bytes);
             const auto last = add(first, mul(run.count, boot_.cluster_bytes));
             if (next < first)
@@ -316,19 +349,288 @@ class Observer {
             if (next == end)
                 break;
         }
-        if (next != end)
+        if (covered) {
+            *covered = next == end;
+            if (!*covered)
+                return {};
+        } else if (next != end)
             stop("ntfs_mft_coverage");
         return out;
     }
-    const Attribute &mft() {
+    Bytes logical_read(const std::vector<Mapping> &runs, std::uint64_t start, std::size_t length) {
+        const auto spans = pieces(runs, start, length);
+        Bytes assembled;
+        assembled.reserve(length);
+        for (const auto &span : spans) {
+            auto offset = span.first;
+            auto remaining = span.second;
+            while (remaining) {
+                const auto count = std::min<std::size_t>(remaining, DE_NTFS_MAX_RECORD);
+                const auto &bytes = read(offset, count);
+                assembled.insert(assembled.end(), bytes.begin(), bytes.end());
+                offset = add(offset, count);
+                remaining -= count;
+            }
+        }
+        return assembled;
+    }
+    const Attribute *attribute_list(const Record &base) {
+        const Attribute *list = nullptr;
+        for (const auto &a : base.attributes)
+            if (a.value.type == 0x20) {
+                if (list)
+                    stop("ntfs_attribute_list_ambiguous");
+                list = &a;
+            }
+        return list;
+    }
+    NtfsStreamContext join_context() const {
+        NtfsStreamContext context;
+        context.source_id = request_.source_id;
+        context.epoch = request_.epoch;
+        context.volume_offset = request_.volume_offset;
+        context.volume_bytes = request_.volume_bytes;
+        return context;
+    }
+    static std::uint64_t reference(const Record &record) {
+        return record.number | (std::uint64_t(record.header.sequence) << 48);
+    }
+    std::vector<const Record *> closure_records(const Record &base, const Closure &closure) {
+        std::vector<const Record *> records{&base};
+        for (const auto &extension : closure.extensions)
+            records.push_back(&extension.record);
+        return records;
+    }
+    void physical_ranges(const std::vector<Mapping> &runs,
+                         const std::vector<Mapping> *other = nullptr) {
+        std::vector<std::pair<std::uint64_t, std::uint64_t>> physical;
+        for (const auto &run : runs) {
+            const auto begin = mul(run.lcn, boot_.cluster_bytes),
+                       end = add(begin, mul(run.count, boot_.cluster_bytes));
+            if (run.sparse || overlap(begin, end, 0, boot_.bytes_per_sector) ||
+                overlap(begin, end, native(boot_.mirror0_offset),
+                        add(native(boot_.mirror0_offset), boot_.record_bytes)))
+                stop("ntfs_metadata_physical_alias");
+            if (other)
+                for (const auto &candidate : *other) {
+                    const auto first = mul(candidate.lcn, boot_.cluster_bytes),
+                               last = add(first, mul(candidate.count, boot_.cluster_bytes));
+                    if (overlap(begin, end, first, last))
+                        stop("ntfs_list_physical_alias");
+                }
+            physical.emplace_back(begin, end);
+        }
+        std::sort(physical.begin(), physical.end());
+        for (std::size_t i = 1; i < physical.size(); ++i)
+            if (physical[i].first < physical[i - 1].second)
+                stop("ntfs_metadata_physical_alias");
+    }
+    void acquire_list(Closure &closure, const Record &base, const std::vector<Mapping> &mft_runs) {
+        const auto *list = attribute_list(base);
+        if (!list)
+            return;
+        closure.active = true;
+        closure.base_reference = reference(base);
+        charge(768);
+        const auto &a = list->value;
+        if (a.flags || a.name_length || !a.envelope_valid || a.issues & DE_NTFS_ATTR_FEATURE)
+            stop("ntfs_attribute_list_unsupported");
+        de_view value = a.value;
+        if (a.form) {
+            const auto data = native(a.data_size), initialized = native(a.initialized_size);
+            if (!a.ordinary_mapping || !list->mapped || !a.sizes_applicable || a.empty_stream ||
+                !data || initialized != data ||
+                native(a.allocated_size) != mul(native(a.cluster_span), boot_.cluster_bytes))
+                stop("ntfs_attribute_list_mapping");
+            if (data > std::min<std::size_t>(262144, request_.limits.retained_bytes))
+                stop("ntfs_attribute_list_budget");
+            physical_ranges(list->runs, &mft_runs);
+            if (!mft_closure_.list_runs.empty() && &closure != &mft_closure_)
+                physical_ranges(list->runs, &mft_closure_.list_runs);
+            closure.list_runs = list->runs;
+            closure.list_value = logical_read(list->runs, 0, static_cast<std::size_t>(data));
+            value = de_view{closure.list_value.data(), closure.list_value.size()};
+            closure.captured_list.context = join_context();
+            closure.captured_list.base_reference = reference(base);
+            closure.captured_list.instance = a.instance;
+            closure.captured_list.base_record_sha256 =
+                digest(base.original.data, base.original.size);
+            closure.captured_list.value = value;
+        }
+        closure.list_facts = V::object()
+                                 .put("form", exact(a.form))
+                                 .put("instance", exact(a.instance))
+                                 .put("value_bytes", exact(value.size))
+                                 .put("value_sha256", V::string(digest(value.data, value.size)))
+                                 .put("base_record_sha256",
+                                      V::string(digest(base.original.data, base.original.size)));
+    }
+    NtfsStreamJoinResult join_records(const Record &base, Closure &closure, unsigned type) {
+        NtfsStreamJoinRequest request;
+        request.context = join_context();
+        request.base_reference = reference(base);
+        request.volume_clusters = native(boot_.clusters);
+        request.cluster_bytes = boot_.cluster_bytes;
+        request.record_bytes = boot_.record_bytes;
+        request.type = type;
+        request.major = request_.major;
+        request.minor = request_.minor;
+        request.limits.records = std::min<std::size_t>(256, request_.limits.read_requests);
+        request.limits.record_bytes = request_.limits.retained_bytes;
+        request.limits.attributes = request_.limits.attributes;
+        request.limits.list_entries = request_.limits.attributes;
+        request.limits.runs = request_.limits.runs;
+        request.limits.output_bytes = request_.limits.output_bytes;
+        request.limits.list_bytes = std::min<std::size_t>(262144, request_.limits.retained_bytes);
+        std::vector<NtfsCapturedRecord> inputs;
+        for (const auto *record : closure_records(base, closure)) {
+            NtfsCapturedRecord input;
+            input.context = request.context;
+            input.number = record->number;
+            input.bytes = record->original;
+            inputs.push_back(std::move(input));
+        }
+        const auto *list = closure.captured_list.value.data ? &closure.captured_list : nullptr;
+        auto joined = join_ntfs_stream(request, inputs, list);
+        const auto bytes = json::dump(joined.observation, json_limits()).size() + 2;
+        if (bytes > closure.join_bytes) {
+            charge(bytes - closure.join_bytes);
+            closure.join_bytes = bytes;
+        }
+        closure.join_facts = joined.observation;
+        closure.join_current = true;
+        return joined;
+    }
+    StreamMapping known_mft() {
+        StreamMapping mapping;
+        bool first = false;
+        for (const auto *record : closure_records(primary_, mft_closure_))
+            for (const auto &a : record->attributes) {
+                if (a.value.type != 0x80 || a.value.name_length)
+                    continue;
+                if (!a.value.ordinary_mapping || a.value.flags || !a.mapped || a.value.empty_stream)
+                    stop("ntfs_mft_data_unsupported");
+                if (a.value.sizes_applicable) {
+                    if (first)
+                        stop("ntfs_mft_data_ambiguous");
+                    first = true;
+                    mapping.allocated = native(a.value.allocated_size);
+                    mapping.data = native(a.value.data_size);
+                    mapping.initialized = native(a.value.initialized_size);
+                }
+                mapping.runs.insert(mapping.runs.end(), a.runs.begin(), a.runs.end());
+            }
+        if (!first)
+            stop("ntfs_mft_data_unsupported");
+        return mapping;
+    }
+    void validate_mft(StreamMapping &mapping, bool complete) {
+        if (!mapping.allocated || mapping.allocated > native(boot_.data_bytes) ||
+            mapping.allocated % boot_.cluster_bytes || mapping.data % boot_.record_bytes ||
+            mapping.initialized % boot_.record_bytes ||
+            mapping.initialized < mul(4, boot_.record_bytes))
+            stop("ntfs_mft_sizes");
+        std::sort(mapping.runs.begin(), mapping.runs.end(),
+                  [](const Mapping &a, const Mapping &b) { return a.vcn < b.vcn; });
+        std::uint64_t next = 0;
+        for (const auto &run : mapping.runs) {
+            if (run.vcn < next || (complete && run.vcn != next))
+                stop("ntfs_mft_coverage");
+            next = add(run.vcn, run.count);
+            if (mul(next, boot_.cluster_bytes) > mapping.allocated)
+                stop("ntfs_mft_sizes");
+        }
+        if (complete && mapping.allocated != mul(next, boot_.cluster_bytes))
+            stop("ntfs_mft_sizes");
+        physical_ranges(mapping.runs);
+        if (!mft_closure_.list_runs.empty())
+            physical_ranges(mapping.runs, &mft_closure_.list_runs);
+        auto expected = native(boot_.mft0_offset);
+        for (const auto &part : pieces(mapping.runs, 0, boot_.record_bytes)) {
+            if (part.first != expected)
+                stop("ntfs_mft_seed_mapping");
+            expected = add(expected, part.second);
+        }
+    }
+    void fetch_extension(Closure &closure, std::uint64_t wanted, const StreamMapping &mapping,
+                         const char *role) {
+        if (closure.extensions.size() + 1 >=
+            std::min<std::size_t>(256, request_.limits.read_requests))
+            stop("ntfs_record_budget");
+        charge(1024);
+        const auto ordinal = wanted & ((std::uint64_t(1) << 48) - 1);
+        auto raw = logical_read(mapping.runs, mul(ordinal, boot_.record_bytes), boot_.record_bytes);
+        closure.extensions.emplace_back();
+        auto &extension = closure.extensions.back();
+        closure.join_current = false;
+        extension.reference = wanted;
+        extension.original = std::move(raw);
+        parse(extension.record, extension.original, ordinal, closure.base_reference,
+              static_cast<unsigned>(wanted >> 48));
+        if (extension.record.mapping_error)
+            stop(std::string("ntfs_") + role + "_extension_mapping");
+        if (!extension.record.good)
+            stop(std::string("ntfs_") + role + "_extension_record");
+    }
+    void fetch_reachable(Closure &closure, const std::vector<std::uint64_t> &required,
+                         const StreamMapping &mapping, const char *role) {
+        for (const auto wanted : required) {
+            const auto ordinal = wanted & ((std::uint64_t(1) << 48) - 1),
+                       first = mul(ordinal, boot_.record_bytes),
+                       last = add(first, boot_.record_bytes);
+            if (last > mapping.initialized || last > mapping.data)
+                stop(std::string("ntfs_") + role + "_reference_bounds");
+        }
+        for (const auto wanted : required) {
+            const auto ordinal = wanted & ((std::uint64_t(1) << 48) - 1);
+            bool covered = false;
+            pieces(mapping.runs, mul(ordinal, boot_.record_bytes), boot_.record_bytes, &covered);
+            if (covered) {
+                fetch_extension(closure, wanted, mapping, role);
+                return;
+            }
+        }
+        stop(std::string("ntfs_") + role + "_unresolved_coverage");
+    }
+    StreamMapping mft() {
         if (primary_.mapping_error)
             stop("ntfs_primary_mapping");
         if (!primary_.good)
             stop("ntfs_primary_record");
+        if (attribute_list(primary_)) {
+            auto known = known_mft();
+            validate_mft(known, false);
+            acquire_list(mft_closure_, primary_, known.runs);
+            for (;;) {
+                auto joined = join_records(primary_, mft_closure_, 0x80);
+                if (joined.stream) {
+                    const auto &stream = *joined.stream;
+                    if (stream.resident)
+                        stop("ntfs_mft_data_unsupported");
+                    StreamMapping complete;
+                    complete.allocated = stream.allocated_bytes;
+                    complete.data = stream.data_bytes;
+                    complete.initialized = stream.initialized_bytes;
+                    for (const auto &run : stream.runs)
+                        complete.runs.push_back(Mapping{run.vcn, run.clusters, run.lcn, false});
+                    validate_mft(complete, true);
+                    mft_facts_.put("mapping_valid", flag(true))
+                        .put("allocated_bytes", exact(complete.allocated))
+                        .put("data_bytes", exact(complete.data))
+                        .put("initialized_bytes", exact(complete.initialized))
+                        .put("runs", exact(complete.runs.size()));
+                    return complete;
+                }
+                const auto diagnostic = joined.observation.fields.at("diagnostic").text;
+                if (diagnostic != "ntfs_join_record_missing")
+                    stop("ntfs_mft_" + diagnostic.substr(5));
+                known = known_mft();
+                validate_mft(known, false);
+                fetch_reachable(mft_closure_, joined.required_records, known, "mft");
+            }
+        }
         const Attribute *selected = nullptr;
         for (const auto &a : primary_.attributes) {
-            if (a.value.type == 0x20)
-                stop("ntfs_mft_attribute_list_unsupported");
             if (a.value.type != 0x80 || a.value.name_length)
                 continue;
             if (selected)
@@ -360,7 +662,7 @@ class Observer {
             if (physical[i].first < physical[i - 1].second)
                 stop("ntfs_mft_physical_alias");
         auto expected = native(boot_.mft0_offset);
-        for (const auto &part : pieces(a, 0, boot_.record_bytes)) {
+        for (const auto &part : pieces(a.runs, 0, boot_.record_bytes)) {
             if (part.first != expected)
                 stop("ntfs_mft_seed_mapping");
             expected = add(expected, part.second);
@@ -370,7 +672,7 @@ class Observer {
             .put("data_bytes", exact(data))
             .put("initialized_bytes", exact(initialized))
             .put("runs", exact(a.runs.size()));
-        return a;
+        return StreamMapping{a.runs, allocated, data, initialized};
     }
     void collect() {
         const auto &prefix = read(0, 512);
@@ -400,32 +702,46 @@ class Observer {
               read(native(boot_.mirror0_offset), static_cast<std::size_t>(boot_.record_bytes)), 0);
         mirror_equal_ = mirror_equal();
         const auto &data = mft();
-        Bytes assembled;
-        assembled.reserve(static_cast<std::size_t>(boot_.record_bytes));
         const auto start = mul(3, boot_.record_bytes);
-        for (const auto &part : pieces(data, start, static_cast<std::size_t>(boot_.record_bytes))) {
-            const auto &bytes = read(part.first, part.second);
-            assembled.insert(assembled.end(), bytes.begin(), bytes.end());
-        }
-        parse(volume_, assembled, 3);
+        volume_original_ = logical_read(data.runs, start, boot_.record_bytes);
+        parse(volume_, volume_original_, 3);
         if (volume_.mapping_error)
             stop("ntfs_volume_mapping");
         if (!volume_.good)
             stop("ntfs_volume_record");
-        const Attribute *info = nullptr;
-        for (const auto &a : volume_.attributes) {
-            if (a.value.type == 0x20)
-                stop("ntfs_volume_attribute_list_unsupported");
-            if (a.value.type != 0x70)
-                continue;
-            if (info)
-                stop("ntfs_volume_information_ambiguous");
-            info = &a;
+        Bytes info_bytes;
+        if (attribute_list(volume_)) {
+            acquire_list(volume_closure_, volume_, data.runs);
+            for (;;) {
+                auto joined = join_records(volume_, volume_closure_, 0x70);
+                if (joined.stream) {
+                    if (!joined.stream->resident || joined.stream->value.size() < 12)
+                        stop("ntfs_volume_information");
+                    info_bytes = joined.stream->value;
+                    break;
+                }
+                const auto diagnostic = joined.observation.fields.at("diagnostic").text;
+                if (diagnostic != "ntfs_join_record_missing")
+                    stop("ntfs_volume_" + diagnostic.substr(5));
+                fetch_reachable(volume_closure_, joined.required_records, data, "volume");
+            }
+        } else {
+            const Attribute *info = nullptr;
+            for (const auto &a : volume_.attributes) {
+                if (a.value.type != 0x70)
+                    continue;
+                if (info)
+                    stop("ntfs_volume_information_ambiguous");
+                info = &a;
+            }
+            if (!info || info->value.form || info->value.name_length || info->value.flags ||
+                !info->value.envelope_valid || info->value.issues & DE_NTFS_ATTR_FEATURE ||
+                info->value.value.size < 12)
+                stop("ntfs_volume_information");
+            info_bytes.assign(info->value.value.data,
+                              info->value.value.data + info->value.value.size);
         }
-        if (!info || info->value.form || info->value.name_length || info->value.flags ||
-            !info->value.envelope_valid || info->value.value.size < 12)
-            stop("ntfs_volume_information");
-        const auto &value = info->value.value;
+        const de_view value{info_bytes.data(), info_bytes.size()};
         version_matches_ = value.data[8] == request_.major && value.data[9] == request_.minor;
         volume_facts_.put("major", exact(value.data[8]))
             .put("minor", exact(value.data[9]))
@@ -452,36 +768,61 @@ class Observer {
         else if (!version_matches_)
             diagnostic_ = "ntfs_volume_version";
     }
-    V report() const {
+    V closure_report(const Closure &closure) const {
+        auto extensions = V::array();
+        for (const auto &extension : closure.extensions) {
+            auto value = extension.record.report;
+            value.put("expected_reference", exact(extension.reference));
+            extensions.items.push_back(std::move(value));
+        }
         return V::object()
-            .put("schema", V::string("org.disked.ntfs-bootstrap-observation-prototype/1"))
-            .put("source_id", V::string(request_.source_id))
-            .put("epoch", exact(request_.epoch))
-            .put("volume_offset", exact(request_.volume_offset))
-            .put("volume_bytes", exact(request_.volume_bytes))
-            .put("requested_major", exact(request_.major))
-            .put("requested_minor", exact(request_.minor))
-            .put("complete", flag(complete_))
-            .put("applicable", flag(complete_ && !*diagnostic_))
-            .put("diagnostic", V::string(diagnostic_))
-            .put("reread_equal", flag(reread_equal_))
-            .put("atomic_snapshot", flag(false))
-            .put("current_source_authority", flag(false))
-            .put("effects_authorized", flag(false))
-            .put("boot", boot_facts_)
-            .put("primary", primary_.report)
-            .put("mirror", mirror_.report)
-            .put("mirror_used_payload_equal", flag(mirror_equal_))
-            .put("mft", mft_facts_)
-            .put("volume_record", volume_.report)
-            .put("volume_information", volume_facts_)
-            .put("regions", region_facts_)
-            .put("read_requests", exact(reads_))
-            .put("read_bytes", exact(bytes_))
-            .put("retained_bytes", exact(retained_))
-            .put("attributes", exact(attributes_))
-            .put("runs", exact(runs_))
-            .put("reread_requests", exact(rereading_ ? reads_ - reread_start_ : 0));
+            .put("schema", V::string("org.disked.ntfs-record-closure-observation/1"))
+            .put("base_reference", exact(closure.base_reference))
+            .put("attribute_list", closure.list_facts)
+            .put("extensions", std::move(extensions))
+            .put("join_current", flag(closure.join_current))
+            .put("join", closure.join_facts);
+    }
+    V report() const {
+        auto value =
+            V::object()
+                .put("schema", V::string("org.disked.ntfs-bootstrap-observation-prototype/1"))
+                .put("source_id", V::string(request_.source_id))
+                .put("epoch", exact(request_.epoch))
+                .put("volume_offset", exact(request_.volume_offset))
+                .put("volume_bytes", exact(request_.volume_bytes))
+                .put("requested_major", exact(request_.major))
+                .put("requested_minor", exact(request_.minor))
+                .put("complete", flag(complete_))
+                .put("applicable", flag(complete_ && diagnostic_.empty()))
+                .put("diagnostic", V::string(diagnostic_))
+                .put("reread_equal", flag(reread_equal_))
+                .put("atomic_snapshot", flag(false))
+                .put("current_source_authority", flag(false))
+                .put("effects_authorized", flag(false))
+                .put("boot", boot_facts_)
+                .put("primary", primary_.report)
+                .put("mirror", mirror_.report)
+                .put("mirror_used_payload_equal", flag(mirror_equal_))
+                .put("mft", mft_facts_)
+                .put("volume_record", volume_.report)
+                .put("volume_information", volume_facts_)
+                .put("regions", region_facts_)
+                .put("read_requests", exact(reads_))
+                .put("read_bytes", exact(bytes_))
+                .put("retained_bytes", exact(retained_))
+                .put("attributes", exact(attributes_))
+                .put("runs", exact(runs_))
+                .put("reread_requests", exact(rereading_ ? reads_ - reread_start_ : 0));
+        if (mft_closure_.active || volume_closure_.active) {
+            auto closures = V::object();
+            if (mft_closure_.active)
+                closures.put("mft", closure_report(mft_closure_));
+            if (volume_closure_.active)
+                closures.put("volume", closure_report(volume_closure_));
+            value.put("record_closures", std::move(closures));
+        }
+        return value;
     }
 
   public:

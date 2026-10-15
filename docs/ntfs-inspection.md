@@ -26,6 +26,11 @@ presentation omission are separate. Missing55AA/checksum boot issues retain thei
 existing advisory meaning when bootstrap geometry is usable; completion is not
 a whole-filesystem health judgment.
 
+The [source-bound closure](ntfs-closure.md) work extends MFT/Volume dependencies.
+It adds `record_closures` facts with bounded extension and join lists, exact
+original hashes and counts. Earlier qualification above is historical evidence
+for its exact source, rather than proof of that extension.
+
 The native adapter holds source/ancestor generations, reuses the owned reader and
 validates its retained-byte frame after actual child exit. Source consistency,
 source applicability, process exit and host retirement remain separate facts.

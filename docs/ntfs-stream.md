@@ -11,6 +11,8 @@ output ownership, missing-reference handoff, original failures and limitations.
 
 Capture contexts are asserted input, not proven native provenance. A typed
 stream exists only after complete checks. Missing/stale/malformed or unsupported
-records produce observations without usable mappings. Native record acquisition,
-nonresident attribute-list acquisition, MFT discovery and namespace/content remain
-required later work; the existing product NTFS command stays bootstrap-scoped.
+records produce observations without usable mappings. The separate
+[source-bound closure](ntfs-closure.md) extends acquisition of supported
+MFT/Volume dependencies and nonresident list values. Namespace/content and
+general record lookup retain their implementation gates; inspection remains
+bootstrap-scoped.

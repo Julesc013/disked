@@ -8000,6 +8000,127 @@
         "tests/images/test_ntfs_stream.py",
         ".aide/evidence/2026-10-16-ntfs-join/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W086",
+      "title": "Acquire and replay source-bound NTFS MFT and list record closure",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R1",
+      "dependencies": [
+        "DE-W083",
+        "DE-W085"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-021",
+        "DE-022",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/providers/image/**",
+        "tests/images/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**",
+        "source/platform/windows/storage/**",
+        "source/runtime/capture/**",
+        "source/runtime/command/command.cpp",
+        "source/apps/disked/app.cpp",
+        "source/platform/windows/entry.cpp",
+        "tests/frontend/**",
+        "tests/unit/**",
+        "tests/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Extend the existing NTFS bootstrap collector and current ordinary-file/owned-worker/public inspection path to resident/nonresident ATTRIBUTE_LIST and source-bound MFT/Volume extension FILE closure within explicit finite limits. Reuse DE-W085 stream joins and DE-W079 read/retain/reread mechanisms. General namespace/content, arbitrary public record lookup, compressed/encrypted/sparse streams, physical storage, other hosts and full original0.1.0 remain required later qualifications.",
+        "Extend the private joiner with an optional NtfsCapturedAttributeList: asserted context, exact full base reference, list attribute instance, SHA256 of original protected base FILE, and borrowed exact logical list-value span. The old call without a value still refuses nonresident lists. Only a single unnamed flags0 VCN0 ordinary nonresident list descriptor accepts that value. Require complete nonsparse mapping, allocated size equal coverage*cluster bytes, nonempty data size equal initialized size and supplied span length, byte quota, matching context/base/instance/base hash. Resident/absent lists with an external value are refused, never substituted. The joiner verifies binding assertions, not native provenance; only source acquisition establishes the actual value bytes.",
+        "Keep all six NtfsCaptureLimits fields and strict source-request/frame encoding unchanged. Derive join records<=min(256,read_requests), record-byte quota<=retained_bytes, attribute/run quotas from existing limits, list entries<=min(4096,attributes), list-value bytes<=min(262144,retained_bytes) and report quota<=output_bytes. Add a separate private join list_bytes quota(positive<=262144, default262144) rather than silently changing the old total-record-byte quota. No truncation, guessed defaults, automatic quota increases or weakened host deadlines.",
+        "Retain original protected bytes for every assembled extension and Volume FILE through all joins, and separate restored buffers for attribute views. Validate exact declared record size, USA envelope, nonzero FILE sequence, flags1 and full requested ordinal/owner/sequence before an extension contributes read coverage. Existing optional on-record32-bit ordinal is compared without truncating a48-bit reference. Preserve all original region hashes, copy-before-callback behavior and global attribute/run observations; known failed mappings in unrelated parsed ordinary attributes remain fatal to their record.",
+        "Start at the existing boot-bound primary FILE0 and independently observed mirror0. A base list must be completely framed before following references. Join current known records using the complete validated missing set; stale/conflicting/unlisted/bad metadata never produces read suggestions. Build an internal read-only MFT prefix from the known selected ordinary DATA extents after membership/identity checks, preserving explicit low/highVCNs. Require one VCN0 first extent with applicable sizes, positive initialized data covering at least four records, record-aligned data/initialized sizes and nonsparse validated runs. Validate all known physical runs for self-overlap and boot/mirror intersections, and bind logical FILE0 exactly to the boot seed. Prefix coverage is only an addressing aid, never a complete typed stream or write grant.",
+        "Fetch any unresolved full reference whose entire logical FILE byte range lies inside first-extent initialized/data bounds and already validated MFT read coverage. Split at actual run boundaries and cap each reader request at49152 bytes. No eligible dependency means an explicit unresolved-coverage/cycle result; never infer physical offsets or retry a stale generation. Rejoin after each fetched record until a complete ordinary MFT DATA stream exists, then enforce exact joined allocation/coverage and retain its owned mapping. Each new record/read is charged once to existing global capture counters; private join revalidation has its own derived finite quotas.",
+        "For a nonresident base list, validate its own complete mapping and byte sizes before any value read, check boot/mirror exclusion and known MFT/list physical disjointness, then copy its exact initialized logical value through the same checked reader/region store. Bind the optional captured value to that exact protected base record. Keep that root mapping disjoint from every later discovered MFT DATA run. Resident lists use original restored bytes directly. Multiple/named/flagged/sparse/incomplete list descriptors fail explicitly; allocation padding is never part of the declared logical value.",
+        "Read FILE3 only through the completed MFT mapping and fully initialized range. If it has a list, use the same resident/nonresident binding and join path to resolve its single unnamed resident VOLUME_INFORMATION through fully covered MFT records. Check full sequence/base membership and preserve exact value hash/length, raw flags and observed3.0/3.1 version. Unsupported, ambiguous, nonresident volume-information or unresolvable records fail without a mirror fallback or fabricated version.",
+        "Preserve original no-list observation fields and counters. Extended closures add bounded owned extension records, list binding/size/hash and current join observations under explicit closure metadata. Joined MFT run count remains a scalar; actual arrays get bounded projections with original hashes/counts/omissions, including nested extension attributes, selected/missing references and run arrays. Charge replacement report growth before retention. The whole response remains<=524288 bytes; oversize is a typed report failure. This is a private review-model extension, not a stable storage ABI or complete NTFS capability.",
+        "Every list/extension read enters the existing exact ordered retained region stream, overlap checks and final source rereads. Native file generation/ancestor pins, before/after metadata, worker/code/capture epochs and actual process exit stay independently checked. Parent consume_ntfs_reader_payload must replay the extended collector against every exact supplied read; altered/extra/missing/reordered data cannot qualify. No new scheduler, standalone source opener, privileged role, physical authority or reconstructed synthetic FILE replaces original bytes.",
+        "Retained_bytes continues to count saved raw source regions. Additional original/restored/assembled/list buffers are bounded by the selected record count, aggregate retained bytes and list quota, with at most six retained-byte equivalents plus bounded record/assembly scratch; JSON/attribute/run metadata is separately bounded by item/output quotas. These are algorithmic buffer bounds, not an OS heap-quota claim. Existing contained-worker memory/time enforcement remains required. On any budget/source/reader/metadata error preserve a bounded incomplete observation, no usable whole MFT mapping and no effects.",
+        "Define independent generated sparse byte sources with resident/nonresident and fragmented lists, split/reordered/transitive/self-dependent MFT extents, split records, Volume extensions, exact full references, native offsets above4GiB and3.0/3.1 profiles. Independently predict physical read order/bytes/hashes and stream counters before evaluation. Cover malformed/truncated/binding/sequence/owner/instance/VCN/physical-alias/uninitialized/cycle and every derived/global quota, each read and final reread source mutation. Retain original failures and update owning contracts when a new feature deliberately replaces a previous unsupported outcome. Verify actual ordinary-file and contained-worker ordered replay, public CLI/stdio/GUI/TUI/shell projections and code/process/source identity. Run the complete current native campaign after shared collector/public behavior changes, standalone headers, imports/dependencies, full tooling, exact clean source/context/manifest/staged bytes and implementing-agent review. Unavailable cases stay unverified."
+      ],
+      "acceptance": [
+        "Source reads for list and extension bytes follow only validated mappings within initialized bounds and finite quotas; originals remain retained and full references match. Incomplete/cyclic/stale/unsupported outcomes never become complete MFT maps.",
+        "Independent sparse-source and actual ordinary-file/contained-worker/frontend fixtures match physical read lineage, exact replay and bounded projections. Original failures, unavailable cases and original all-platform/storage0.1.0 remain explicit.",
+        "Complete current native campaign and actual compiler/header/import/build/context/tooling/staged-byte evidence plus implementing-agent review before ordinary source integration; owner/storage/release admission remain separate."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --parallel 4",
+        "ctest --preset windows-bootstrap --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-closure-prototype.json",
+        "docs/ntfs-closure.md",
+        ".aide/evidence/2026-10-16-ntfs-closure/references.json",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "source/runtime/capture/ntfs_stream.h",
+        "source/runtime/capture/ntfs_stream.cpp",
+        "source/runtime/capture/ntfs_inspection.h",
+        "source/runtime/capture/ntfs_inspection.cpp",
+        "source/providers/image/ntfs_file.h",
+        "source/providers/image/ntfs_file.cpp",
+        "source/providers/image/ntfs_snapshot.cpp",
+        "source/platform/windows/storage/ntfs_worker.cpp",
+        "source/platform/windows/storage/ntfs_reader.cpp",
+        "tests/unit/ntfs_stream_probe.cpp",
+        "tests/unit/ntfs_capture_probe.cpp",
+        "tests/images/test_ntfs_stream.py",
+        "tests/images/test_ntfs_capture.py",
+        "tests/images/test_ntfs_file.py",
+        "tests/images/test_ntfs_worker.py",
+        "tests/frontend/test_ntfs_commands.py",
+        "spec/catalog/ntfs-join-prototype.json",
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-file-prototype.json",
+        "spec/catalog/ntfs-worker-prototype.json",
+        "spec/catalog/ntfs-command-prototype.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        "tests/images/ntfs_closure_fixture.py",
+        "tests/images/test_ntfs_closure.py",
+        ".aide/evidence/2026-10-16-ntfs-closure/reproduce.py"
+      ]
     }
   ]
 }

@@ -3,6 +3,7 @@ import argparse,copy,hashlib,json,os,queue,subprocess,sys,tempfile,threading,tim
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'images'))
 from test_ntfs_capture import Volume
+from ntfs_closure_fixture import ClosureVolume
 from test_ntfs_file import canonical,file_digest
 from gui_fixture import Gui,wait
 from test_image_commands import Gate
@@ -41,6 +42,9 @@ def main():
         value=copy.deepcopy(value['result'])
         for key in ('context','worker','file_sha256','capture_sha256'):value.pop(key)
         value['observation'].pop('epoch');value['observation'].pop('source_id')
+        for closure in value['observation'].get('record_closures',{}).values():
+            if closure.get('join'):
+                closure['join'].pop('epoch');closure['join'].pop('source_id')
         for key in ('process_id','process_created','sequence','capture_domain','domain'):value['capture'].pop(key)
         return value
     def compare(left,right):
@@ -66,12 +70,15 @@ def main():
             folder=Path(temp).resolve();baseline=None;full=None
             fixtures=[(Volume(minor=minor,offset=173,sector=sector,size=size,usa=usa),selector,expected)
                       for minor,selector,expected,sector,size,usa in [(0,None,0,512,1024,42),(1,None,0,512,1024,48),(0,'3.0',0,512,1024,48),(1,'3.1',0,4096,4096,48),(0,'3.1',4,512,1024,48),(1,'3.0',4,512,1024,48)]]
+            fixtures[1]=(ClosureVolume(offset=173,nonresident_list=True,volume_nonresident=True),None,0)
             advisory=Volume(offset=173);advisory.change(0,510)
             fixtures.append((advisory,None,0))
             bad=Volume(offset=173);bad.change(0,11,0);bad.change(0,12,0)
             fixtures.append((bad,None,4))
             bad_record=Volume(offset=173);bad_record.change(1,510)
             fixtures.append((bad_record,None,4))
+            for minor in (0,1):
+                for form in (False,True):fixtures.append((ClosureVolume(minor=minor,offset=173,nonresident_list=form,volume_nonresident=form),None,0))
             for index,(v,selector,expected) in enumerate(fixtures):
                 path=folder/f'generated-{index}.img';write(v,path);before=file_digest(path)
                 value=launch('cli-profile-'+str(index),['--json','image','inspect',str(path),*options(v,selector)],expected)
@@ -103,7 +110,7 @@ def main():
             projected=pure(params(v,path),full)['response']['result']['observation']
             wrapper(projected['regions'],full['observation']['regions'],128,32768)
             assert projected['mft']==full['observation']['mft']
-            assert projected['mft']['runs']=='2'
+            assert projected['mft']['runs']=='4'
             for key in ('primary','mirror','volume_record'):
                 original=full['observation'][key]['attributes']
                 def attribute(row):
@@ -111,12 +118,32 @@ def main():
                         runs=row['runs'];row['runs']=dict(items=runs,total=str(len(runs)),returned=str(len(runs)),omitted='0',sha256=digest(runs))
                     return row
                 wrapper(projected[key]['attributes'],original,128,65536,attribute)
+            def record_projection(original):
+                out=copy.deepcopy(original)
+                attrs=out.get('attributes')
+                if attrs is not None:
+                    for attr in attrs:
+                        if 'runs' in attr:
+                            runs=attr['runs'];attr['runs']=dict(items=runs,total=str(len(runs)),returned=str(len(runs)),omitted='0',sha256=digest(runs))
+                    out['attributes']=dict(items=attrs,total=str(len(attrs)),returned=str(len(attrs)),omitted='0',sha256=digest(original['attributes']))
+                return out
+            for role,closure in full['observation']['record_closures'].items():
+                selected=projected['record_closures'][role]
+                wrapper(selected['extensions'],closure['extensions'],128,65536,record_projection)
+                for key in ('records','parts','runs','required_records'):
+                    small=key in ('runs','required_records')
+                    wrapper(selected['join'][key],closure['join'][key],64 if small else 128,8192 if small else 32768)
             record('full-original-list-projection',file_sha256=digest(full))
             detailed=copy.deepcopy(full);original_runs=full['observation']['primary']['attributes'][0]['runs']*60
             for key in ('primary','mirror','volume_record'):
                 attr=copy.deepcopy(full['observation']['primary']['attributes'][0]);attr['runs']=original_runs
                 detailed['observation'][key]['attributes']=[copy.deepcopy(attr) for _ in range(170)]
             detailed['observation']['regions']*=60
+            for closure in detailed['observation']['record_closures'].values():
+                closure['extensions']*=170
+                for key in ('records','parts','runs'):
+                    closure['join'][key]=copy.deepcopy(full['observation']['record_closures']['mft']['join'][key])*170
+                closure['join']['required_records']=[str(i) for i in range(170)]
             # Keep the synthetic report within the declared8MiB transport ceiling.
             assert len(canonical(detailed))<8*1024*1024
             detail=pure(params(v,path),detailed);assert detail['exit_code']==0
@@ -129,6 +156,14 @@ def main():
                 assert sum(len(canonical(r))+1 for r in rows['items'])<=65536
             assert observed['mft']==detailed['observation']['mft']
             wrapper(observed['regions'],detailed['observation']['regions'],128,32768)
+            for role,closure in detailed['observation']['record_closures'].items():
+                selected=observed['record_closures'][role]
+                wrapper(selected['extensions'],closure['extensions'],128,65536,record_projection)
+                assert int(selected['extensions']['omitted'])>0
+                for key in ('records','parts','runs','required_records'):
+                    small=key in ('runs','required_records')
+                    wrapper(selected['join'][key],closure['join'][key],64 if small else 128,8192 if small else 32768)
+                    assert int(selected['join'][key]['omitted'])>0
             record('nested-original-digests-and-prefix-bounds')
             excessive=copy.deepcopy(full);excessive['capture']['padding']='x'*600000
             assert pure(params(v,path),excessive)['response']['diagnostics'][0]['code']=='ntfs_report_limit'

@@ -20,6 +20,7 @@ struct NtfsCapturedRecord {
 struct NtfsStreamJoinLimits {
     std::size_t records = 64, record_bytes = 262144, attributes = 512;
     std::size_t list_entries = 512, runs = 512, output_bytes = 1048576;
+    std::size_t list_bytes = 262144;
 };
 struct NtfsStreamJoinRequest {
     NtfsStreamContext context;
@@ -51,6 +52,14 @@ struct NtfsStreamJoinResult {
     std::vector<std::uint64_t> required_records;
     json::Value observation;
 };
+struct NtfsCapturedAttributeList {
+    NtfsStreamContext context;
+    std::uint64_t base_reference = 0;
+    unsigned instance = 0;
+    std::string base_record_sha256;
+    de_view value{}; // Exact initialized logical value, with native provenance checked by caller.
+};
 NtfsStreamJoinResult join_ntfs_stream(const NtfsStreamJoinRequest &,
-                                      const std::vector<NtfsCapturedRecord> &);
+                                      const std::vector<NtfsCapturedRecord> &,
+                                      const NtfsCapturedAttributeList * = nullptr);
 } // namespace disked

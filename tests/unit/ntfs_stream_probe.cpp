@@ -43,6 +43,7 @@ static V run(const V &input) {
         LOAD(list_entries);
         LOAD(runs);
         LOAD(output_bytes);
+        LOAD(list_bytes);
 #undef LOAD
     }
     std::vector<std::vector<unsigned char>> originals;
@@ -61,12 +62,30 @@ static V run(const V &input) {
         records.push_back(record);
     }
     auto result = V::object();
+    disked::NtfsCapturedAttributeList list;
+    std::unique_ptr<Guard> list_guard;
+    std::vector<unsigned char> list_original;
+    if (const auto *capture = input.find("list_capture")) {
+        list_original = unhex(get(*capture, "hex"), 1048576);
+        list_guard.reset(new Guard(list_original));
+        list.context =
+            capture->find("context") ? context(get(*capture, "context")) : request.context;
+        list.base_reference = integer(get(*capture, "base"));
+        list.instance = small(get(*capture, "instance"));
+        list.base_record_sha256 = get(*capture, "base_sha256").text;
+        list.value = de_view{list_guard->data, list_original.size()};
+    }
     try {
-        auto joined = disked::join_ntfs_stream(request, records);
+        auto joined = disked::join_ntfs_stream(request, records, list_guard ? &list : nullptr);
         for (std::size_t i = 0; i < records.size(); ++i)
             need(originals[i].empty() ||
                  !std::memcmp(guards[i]->data, originals[i].data(), originals[i].size()));
         guards.clear(); // The typed stream and report must outlive every borrowed input.
+        if (list_guard) {
+            need(list_original.empty() ||
+                 !std::memcmp(list_guard->data, list_original.data(), list_original.size()));
+            list_guard.reset();
+        }
         auto missing = V::array();
         for (const auto reference : joined.required_records)
             missing.items.push_back(exact(reference));
@@ -105,6 +124,9 @@ static V run(const V &input) {
     for (std::size_t i = 0; i < guards.size(); ++i)
         need(originals[i].empty() ||
              !std::memcmp(guards[i]->data, originals[i].data(), originals[i].size()));
+    if (list_guard)
+        need(list_original.empty() ||
+             !std::memcmp(list_guard->data, list_original.data(), list_original.size()));
     return result.put("source_unchanged", V::boolean_value(true));
 }
 int main() {

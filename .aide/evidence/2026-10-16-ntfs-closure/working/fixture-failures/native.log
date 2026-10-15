@@ -1,0 +1,69 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/report-phases-build
+    Start  1: image.ntfs_commands
+1/6 Test  #1: image.ntfs_commands ..............***Failed    5.87 sec
+CASE cli-profile-0
+CASE stdio-profile-0
+CASE cli-profile-1
+CASE stdio-profile-1
+CASE cli-profile-2
+CASE stdio-profile-2
+CASE cli-profile-3
+CASE stdio-profile-3
+CASE cli-profile-4
+CASE stdio-profile-4
+CASE cli-profile-5
+CASE stdio-profile-5
+CASE cli-profile-6
+CASE stdio-profile-6
+CASE cli-profile-7
+CASE stdio-profile-7
+CASE cli-profile-8
+CASE stdio-profile-8
+CASE cli-profile-9
+CASE stdio-profile-9
+CASE cli-profile-10
+CASE stdio-profile-10
+CASE cli-profile-11
+CASE stdio-profile-11
+CASE cli-profile-12
+CASE stdio-profile-12
+CASE pure-port
+CASE full-original-list-projection
+CASE pure-port
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 232, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 166, in main
+    assert int(selected['join'][key]['omitted'])>0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+    Start 77: image.ntfs_stream
+2/6 Test #77: image.ntfs_stream ................   Passed    0.88 sec
+    Start 78: image.ntfs_capture
+3/6 Test #78: image.ntfs_capture ...............***Failed    0.64 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_capture.py", line 324, in <module>
+    main()
+    ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_capture.py", line 278, in main
+    assert report['diagnostic'] == diagnostic, (name, report['diagnostic'], diagnostic)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('volume-list', 'ntfs_volume_join_instance_ambiguous', 'ntfs_volume_join_list_empty')
+
+    Start 79: image.ntfs_closure
+4/6 Test #79: image.ntfs_closure ...............   Passed    1.03 sec
+    Start 92: image.ntfs_file
+5/6 Test #92: image.ntfs_file ..................   Passed   19.29 sec
+    Start 95: image.ntfs_worker
+6/6 Test #95: image.ntfs_worker ................   Passed    8.15 sec
+
+67% tests passed, 2 tests failed out of 6
+
+Total Test time (real) =  35.88 sec
+
+The following tests FAILED:
+	  1 - image.ntfs_commands (Failed)
+	 78 - image.ntfs_capture (Failed)
+Errors while running CTest

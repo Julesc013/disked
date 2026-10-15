@@ -100,6 +100,31 @@ class Tests(unittest.TestCase):
         self.assertEqual(original['verified'],run(dict(base,mode='verify',replace=original['frame']))['verified'])
         unavailable=run(base);self.retired(unavailable);self.assertFalse(unavailable['has_snapshot'])
 
+    def test_source_bound_closure_and_extended_frame_replay(self):
+        from ntfs_closure_fixture import ClosureVolume
+        from test_ntfs_closure import good
+        for minor in (0,1):
+            for nonresident in (False,True):
+                v,path,row=self.fixture(ClosureVolume(minor=minor,offset=173,nonresident_list=nonresident,volume_nonresident=nonresident))
+                out=self.preserve(path,row);self.retired(out)
+                self.assertTrue(out['has_snapshot'] and out['retained_unchanged'],out)
+                good(out['snapshot']['observation'],v)
+                frame=out['frame'];self.assertEqual(v.initial_reads*2,[(int(r['offset']),int(r['requested'])) for r in frame['regions']])
+                self.assertEqual(out['context']['frame_sha256'],digest(canonical(frame)))
+        base=dict(row,mode='verify',expected_source=frame['result']['capture']['source_before'])
+        # The new list and extension reads have the same exact ordered replay
+        # obligations as boot/seed reads, including after source removal.
+        path.unlink()
+        self.assertEqual(frame['result'],run(dict(base,replace=frame))['verified'])
+        for index in range(3,len(v.initial_reads)):
+            for change in ('alter','missing','reorder','extra'):
+                changed=copy.deepcopy(frame)
+                if change=='alter':changed['regions'][index]['bytes']='ff'+changed['regions'][index]['bytes'][2:]
+                elif change=='missing':changed['regions'].pop(index)
+                elif change=='reorder':changed['regions'][index],changed['regions'][index-1]=changed['regions'][index-1],changed['regions'][index]
+                else:changed['regions'].insert(index,copy.deepcopy(changed['regions'][index]))
+                self.assertIn('error',run(dict(base,replace=changed)),(index,change))
+
     def test_strict_frame_relationships_and_byte_reconstruction(self):
         _,path,row=self.fixture(Volume(minor=0,offset=173))
         original=self.preserve(path,dict(row,mode='frame'))['frame']
