@@ -1,0 +1,77 @@
+{
+  "observed_at": "2026-10-15T22:31:38.775302+00:00",
+  "implementation_build_test_runtime_parameter_inputs_unchanged": true,
+  "validation_metadata_exception": "spec/catalog/source-maintenance-prototype.json",
+  "exception_matches_tested_correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+  "compared_inputs": 740,
+  "original_campaign_passed": false,
+  "all_applicable_failures_resolved": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log": "index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": "manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": "source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W086",
+        "--output",
+        ".aide-local\\context\\ntfs-closure-integrated-20261015T223115Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": "context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-closure-integrated-20261015T223115Z"
+      ],
+      "exit_code": 0,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "release_published": false,
+  "full_0_1_0_complete": false
+}

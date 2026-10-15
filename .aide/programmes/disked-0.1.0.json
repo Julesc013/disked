@@ -14,28 +14,40 @@
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
     "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
     "latest_integration": {
-      "work_id": "DE-W085",
-      "checkpoint_revision": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-      "tested_source_revision": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
-      "recorded_at": "2026-10-15T20:57:21.565365+00:00",
+      "work_id": "DE-W086",
+      "checkpoint_revision": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+      "tested_source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+      "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+      "recorded_at": "2026-10-15T22:28:42.245477+00:00",
       "branches": {
-        "dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-        "main": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-        "origin/dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-        "origin/main": "1b219792b9c11caaa91defb4e92765aa28d322ba"
+        "dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+        "main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+        "origin/dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+        "origin/main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9"
       },
       "remote_refs": {
-        "refs/heads/dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-        "refs/heads/main": "1b219792b9c11caaa91defb4e92765aa28d322ba"
+        "refs/heads/dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+        "refs/heads/main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9"
       },
-      "source": "Successful authorized dev push, fast-forward main and main push followed by exact local/remote ref verification. No force push. A subsequent receipt commit changes metadata only.",
-      "evidence": ".aide/evidence/2026-10-16-ntfs-join/qualified-23ceeb24/summary.json",
-      "review": ".aide/evidence/2026-10-16-ntfs-join/REVIEW.md",
-      "native_groups": 25,
-      "ntfs_join_cases": 298,
-      "standalone_headers": 9,
+      "source": "Authorized dev push, fast-forward main and main push succeeded; exact local/remote refs verified. No force push. Subsequent receipt commit is metadata only.",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+      "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+      "native_groups": 157,
+      "native_passed_original": 156,
+      "native_failed_original": [
+        "build.boundaries"
+      ],
+      "original_campaign_passed": false,
+      "corrected_native_groups": [
+        "build.boundaries",
+        "build.boundary_checker"
+      ],
+      "all_applicable_failures_resolved": true,
+      "ntfs_closure_cases": 134,
+      "standalone_headers": 60,
       "tooling_tests": 244,
-      "implementation_and_parameter_inputs_unchanged": true,
+      "native_inputs_and_artifacts_unchanged": true,
       "owner_accepted": false,
       "full_0_1_0_complete": false,
       "release_published": false,
@@ -102,7 +114,7 @@
     "DE-W086"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Close metadata/context/staged bytes and integrate reviewed source. Then define and implement bounded NTFS record/namespace decoders/access through existing source/worker ownership. CI is not qualified; original all-platform/storage0.1.0 and separate owner/privilege/release gates remain.",
+  "next_action": "Define and implement supplied-byte NTFS FILE_NAME and directory-index envelopes with independent fixtures, then source-bound record/namespace access through existing ownership. No remote CI qualification. Preserve all original platform/storage0.1.0 and separate owner/privilege/release gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1400,28 +1412,40 @@
     "next_action": "Continue current_work and next_action; targeted app/service/test-seam cleanup and upstream Windows qualification remain. Historical delays retain their own failed evidence and unknown original cause."
   },
   "last_integration": {
-    "work_id": "DE-W085",
-    "checkpoint_revision": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-    "tested_source_revision": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
-    "recorded_at": "2026-10-15T20:57:21.565365+00:00",
+    "work_id": "DE-W086",
+    "checkpoint_revision": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+    "tested_source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+    "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+    "recorded_at": "2026-10-15T22:28:42.245477+00:00",
     "branches": {
-      "dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-      "main": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-      "origin/dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-      "origin/main": "1b219792b9c11caaa91defb4e92765aa28d322ba"
+      "dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+      "main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+      "origin/dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+      "origin/main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9"
     },
     "remote_refs": {
-      "refs/heads/dev": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-      "refs/heads/main": "1b219792b9c11caaa91defb4e92765aa28d322ba"
+      "refs/heads/dev": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+      "refs/heads/main": "f501365eb7f16ea110f93cabb53821ccbec0a4f9"
     },
-    "source": "Successful authorized dev push, fast-forward main and main push followed by exact local/remote ref verification. No force push. A subsequent receipt commit changes metadata only.",
-    "evidence": ".aide/evidence/2026-10-16-ntfs-join/qualified-23ceeb24/summary.json",
-    "review": ".aide/evidence/2026-10-16-ntfs-join/REVIEW.md",
-    "native_groups": 25,
-    "ntfs_join_cases": 298,
-    "standalone_headers": 9,
+    "source": "Authorized dev push, fast-forward main and main push succeeded; exact local/remote refs verified. No force push. Subsequent receipt commit is metadata only.",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+    "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+    "native_groups": 157,
+    "native_passed_original": 156,
+    "native_failed_original": [
+      "build.boundaries"
+    ],
+    "original_campaign_passed": false,
+    "corrected_native_groups": [
+      "build.boundaries",
+      "build.boundary_checker"
+    ],
+    "all_applicable_failures_resolved": true,
+    "ntfs_closure_cases": 134,
+    "standalone_headers": 60,
     "tooling_tests": 244,
-    "implementation_and_parameter_inputs_unchanged": true,
+    "native_inputs_and_artifacts_unchanged": true,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "release_published": false,
@@ -1431,7 +1455,7 @@
     "work_id": "DE-W086",
     "base_revision": "09d37ee3448016a56997c1621dea47012f35e728",
     "contract": "spec/catalog/ntfs-closure-prototype.json",
-    "state": "Source-bound NTFS closure agent-reviewed;original full campaign156/157 passed and metadata-only boundary failure resolved by exact-input clean retest. Metadata/source integration pending.",
+    "state": "Source-bound NTFS closure implemented and agent-reviewed; full native campaign and metadata-only boundary correction retained and source/evidence integrated to main. Owner/full0.1.0 and release gates remain.",
     "grant": "Existing local implementation/build/test/repair across agent-reviewed units and authorized dev/main source synchronization. Generated ordinary images only; physical/elevation/customer/install/signing/release and owner authority remain separate.",
     "owner_accepted": false,
     "full_native_suite_run": true,
@@ -1578,12 +1602,12 @@
   ],
   "latest_development_push": {
     "branch": "dev",
-    "revision": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-    "observed_at": "2026-10-15T20:57:21.565365+00:00",
+    "revision": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+    "observed_at": "2026-10-15T22:28:42.245477+00:00",
     "verified_remote_write": true,
     "main_updated": true,
     "release_published": false,
-    "source": "Actual source/evidence integration confirmed by exact local/remote refs; subsequent receipt commit is metadata only."
+    "source": "Exact local/remote refs confirm source/evidence integration; subsequent receipt commit is metadata only."
   },
   "latest_setup_observation": {
     "evidence": ".aide/evidence/2026-10-16-ntfs-list/hosted-observations.json",
@@ -1789,13 +1813,15 @@
   "integration_review": {
     "tested_source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
     "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
-    "status": "agent-reviewed-eligible-after-metadata-closure",
+    "status": "source-integrated",
     "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
     "original_campaign_passed": false,
     "all_applicable_group_failures_resolved": true,
     "historical_delay_cause_established": false,
     "owner_accepted": false,
-    "release_qualified": false
+    "release_qualified": false,
+    "checkpoint_revision": "f501365eb7f16ea110f93cabb53821ccbec0a4f9",
+    "receipt": ".aide/evidence/2026-10-16-ntfs-closure-integration/repository.json"
   },
   "next_work_preparation": {
     "scope": "Supplied-byte NTFS FILE_NAME and directory index envelopes, then source-bound record/namespace access",

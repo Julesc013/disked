@@ -23,23 +23,24 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 ## Active 0.1.0 goal
 
 - [x] DE-W086 bounded NTFS MFT/Volume record closure: native `540043c3`
-  passes134 new cases and156/157 groups; its stale dependency-declaration failure
+  passes 134 new cases and 156/157 groups; its stale dependency-declaration failure
   is retained. Metadata `fb562480` corrects three transitive closures and
   passes both boundary groups with native inputs/artifacts unchanged. 60
-  headers and244 tooling tests(two skipped) pass. Agent-reviewed local scope;
-  original0.1.0 and owner/release gates remain. [Evidence](.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md).
+  headers and 244 tooling tests (two skipped) pass. Agent-reviewed local scope;
+  original 0.1.0 and owner/release gates remain. [Evidence](.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md).
 
 - [x] DE-W085 captured-stream joining: exact `23ceeb24` passes 298 protected-record
   cases, 25 selected native groups, 9 standalone headers and 244 tooling
   tests(two skipped), with implementing-agent review. The typed result owns its
   data; missing full references remain dependencies, not acquisition grants.
-  Native MFT/nonresident-list acquisition, namespace/content and original full0.1.0
-  remain. [Evidence](.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
+  DE-W086 connects native MFT/nonresident-list acquisition. Namespace/content
+  and original full 0.1.0 remain. [Evidence](.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
 
 - [x] DE-W084 private attribute-list decoder: source `65ca67d9` passes 561
   protected-byte cases, 24 selected native groups, 59 standalone headers,
   strict C90 and 244 tooling tests (two skipped), with implementing-agent review.
-  MFT reference/extension joining, namespace/content and original full0.1.0 remain.
+  DE-W085/086 add reference joining and acquisition; namespace/content and
+  original full 0.1.0 remain.
   [Evidence](.aide/evidence/2026-10-16-ntfs-list/REVIEW.md).
 
 - [x] DE-W083 local scope: exact `b985adf2` passes 50 NTFS command/frontend

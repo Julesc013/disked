@@ -93,6 +93,9 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-closure-integration/repository.json)
+records the successful dev/main synchronization. Owner and release gates remain separate.
+
 Source-bound MFT/Volume closure at `540043c3` passes134 new cases and
 156/157 native groups. The original dependency-declaration failure remains;
 metadata `fb562480` corrects three transitive closures and passes both
@@ -107,8 +110,8 @@ The captured-stream joiner at `23ceeb24` passes 298 protected-record cases,
 [Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-join-integration/repository.json)
 records the successful dev/main synchronization. This changes no owner or release gate.
 It verifies supplied capture assertions and record/stream relationships, with an
-owned typed result only after complete checks. Native MFT/nonresident-list
-acquisition and public command admission remain separate work. The prior entry
+owned typed result only after complete checks. Its private joiner evidence does
+not establish native acquisition; DE-W086 connects that separate path. The prior entry
 decoder results remain in its owning guide and the programme's evidence history.
 
 The preceding product source `b985adf2` passes one complete clean-source campaign: 154 native
@@ -134,16 +137,16 @@ methods on x64 and isolated x86/WOW64, including actual native offsets above4GiB
 file/ancestor access refusals and release.18 selected x64 groups/five headers/
 242 tooling tests(two skips), and two x86 groups/two headers pass. Four launch
 samples retain actual process/source/profile evidence. Original NTFS primitives
-and the154-case bootstrap also pass. That checkpoint leaves worker/public
-transport and the remaining original filesystem/platform scope open.
+and the154-case bootstrap also pass. That checkpoint did not qualify worker/public
+transport or the remaining original filesystem/platform scope.
 [Exact source review](../.aide/evidence/2026-10-16-ntfs-file/REVIEW.md).
 
 The owned NTFS reader at `e164f863` passes 106 cases/eight methods, 20 selected
 x64 native groups, eight headers and 242 tooling tests/two skips. Four complete
 launch samples retain source/frame/process evidence. Actual exited-child
-publication, strict parent replay and retention after teardown pass. Public
-NTFS frontend admission, complete filesystem interpretation, actual file-symlink
-qualification and original platform/storage scope remain open. This campaign
+publication, strict parent replay and retention after teardown pass. That campaign
+did not establish public frontend admission, complete filesystem interpretation,
+actual file-symlink qualification or the original platform/storage scope. This campaign
 does not qualify x86 or the complete native product suite.
 [Owned-reader review](../.aide/evidence/2026-10-16-ntfs-worker/REVIEW.md).
 
