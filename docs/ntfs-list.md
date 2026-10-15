@@ -12,3 +12,10 @@ An entry observation does not establish live reference/sequence validity or a
 complete attribute stream. Borrowed names retain exact UTF16LE bytes. The parser
 has no source/provider callbacks or storage effects; the existing NTFS command
 remains bootstrap-scoped until source-bound joining is implemented and verified.
+
+The first clean campaign rejected the new file through the explicit build-source
+contract: 23 of24 selected groups passed; `build.boundaries` failed. The approved
+NTFS source list is corrected without changing decoder code, limits or checker
+rules. Its 32 negative fixtures pass. The original failure and contract are
+retained in the [correction receipt](../.aide/evidence/2026-10-16-ntfs-list/build-contract-correction.json).
+Fresh exact-source qualification remains pending.
