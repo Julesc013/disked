@@ -1,6 +1,7 @@
 #include "commands.h"
 #include "pipeline.h"
 #include "portable/hash/sha256.h"
+#include <utility>
 
 namespace disked {
 namespace {
@@ -87,6 +88,36 @@ Outcome acquisition_observation(const std::string& request,const V& reply) {
         if(const auto id=reply.find("operation_id"))if(operation_id(*id))out.response.put("operation_id",*id);
         return out;
     }
+}
+Outcome acquisition_unresolved_request(const Registry& registry,const std::string& request,
+    const V& parameters,const std::string& command) {
+    auto value=V::object().put("request_state",V::string("unresolved"));
+    const auto phase=parameters.find("phase"),id=parameters.find("operation_id");
+    const bool observing=(command=="operation.inspect" || command=="operation.cancel.request" || command=="operation.watch") && id && operation_id(*id);
+    const bool acquiring=command=="image.acquire" || command=="filesystem.extract";
+    const bool preparing=acquiring && phase && phase->kind==V::Kind::string && phase->text=="prepare";
+    const bool executing=acquiring && phase && phase->kind==V::Kind::string && phase->text=="execute";
+    value.put("request_kind",V::string(observing?"operation-observation":preparing?"acquisition-preparation":executing?"acquisition-execution":"acquisition-request"));
+    const auto keep_path=[&](const V& path) {
+        if(path.kind!=V::Kind::string || path.text.empty() || path.text.size()>1024 || path.text.find('\0')!=std::string::npos || !json::valid_utf8(path.text))throw AcquisitionCommandError("acquisition_unresolved_path");
+        value.put("state_directory",path);
+    };
+    try {
+        json::Limits bounds;bounds.bytes=65535;json::dump(parameters,bounds);
+        const auto descriptor=registry.command(command);
+        if(!descriptor || !validate_parameters(registry,*descriptor,parameters).empty())throw AcquisitionCommandError("acquisition_unresolved_shape");
+        if(observing || preparing) {
+            if(const auto path=parameters.find("state_directory"))keep_path(*path);
+        } else if(executing) {
+            const auto& reviewed=get(parameters,"definition");definition(registry,reviewed,command=="filesystem.extract");
+            const auto hash=digest(reviewed);
+            if(text(parameters,"definition_digest")!=hash)throw AcquisitionCommandError("acquisition_unresolved_digest");
+            keep_path(get(get(reviewed,"store"),"path"));value.put("definition_digest",V::string(hash));
+        }
+    } catch(const std::exception&) {} // No I/O, no guessed reviewed routing.
+    auto out=completed(request,std::move(value));out.exit_code=6;out.response.put("status",V::string("unknown"));
+    if(observing)out.response.put("operation_id",*id);
+    out.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));return out;
 }
 Outcome dispatch_acquisition(const Registry& registry,const std::string& request,const V& parameters,const AcquisitionActions& actions,const std::string& command) {
     bool execution_invoked=false;V worker_reply;

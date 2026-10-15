@@ -18,4 +18,8 @@ Outcome dispatch_acquisition(const Registry&,const std::string& request,
 // An observation is a completed read, independent of the logical operation's
 // outcome. Execution completion requires the acquisition postcondition.
 Outcome acquisition_observation(const std::string& request,const json::Value& worker_reply);
+// Pure routing for an expired frontend request; no provider/store lookup or
+// allocated-operation/permission claim. Definitions must match their digest.
+Outcome acquisition_unresolved_request(const Registry&,const std::string& request,
+    const json::Value& parameters,const std::string& command = "image.acquire");
 }

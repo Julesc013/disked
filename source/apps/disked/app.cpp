@@ -79,6 +79,12 @@ Outcome image_action(const std::string& request,const std::string& command,const
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
 }
+Outcome acquisition_action(const std::string& request,const std::string& command,const Value& parameters) {
+#ifdef DISKED_IMAGE_COMMAND_TESTING
+    if(GetEnvironmentVariableW(L"DISKED_IMAGE_TEST_GATE",nullptr,0))image_test_wait();
+#endif
+    return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
+}
 bool recursive_identity(const Value& parameters) {
     const auto *id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,8,"tree-op:")==0;
 }
@@ -209,7 +215,7 @@ Outcome dispatch(const std::string& request,const std::string& command,const Val
     if(!implemented(command))return refused(request,"command_unavailable",3);
     if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
     if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
-            if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
+            if((command=="image.acquire" || command=="filesystem.extract"))return acquisition_action(request,command,parameters);
     if(command=="evidence.export")return report_action(request,parameters);
     if(command=="image.verify")return verification_action(request,parameters);
     if(command=="build.inspect")return completed(request,build_information());
@@ -243,11 +249,12 @@ Submission frontend_dispatch(const std::string& request,const std::string& comma
         return channel.submit(request,[request,command,parameters,observations]() {
             if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
             if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
-            if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
+            if((command=="image.acquire" || command=="filesystem.extract"))return acquisition_action(request,command,parameters);
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters,observations):operation_action(request,command,parameters);
-        },request_bytes(command,parameters),command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):
+        },request_bytes(command,parameters),command=="image.acquire" || command=="filesystem.extract" || acquisition_identity(parameters)?acquisition_unresolved_request(command_registry(),request,parameters,command):
+            command=="image.verify" || verification_identity(parameters)?verification_unresolved_request(request,parameters):
             command=="evidence.export" || report_identity(parameters)?export_unresolved_request(request,parameters):Outcome{});
     }
     return dispatch(request,command,parameters,host,inputs,session,observations,revision);
@@ -266,12 +273,13 @@ Outcome bounded_dispatch(const std::string& request,const std::string& command,c
         expired.exit_code=6;expired.response.put("status",Value::string("unknown"));
         if(const auto* operation=parameters.find("operation_id"))expired.response.put("operation_id",*operation);
         expired.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));
-        if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
+        if(command=="image.acquire" || command=="filesystem.extract" || acquisition_identity(parameters))expired=acquisition_unresolved_request(command_registry(),request,parameters,command);
+        else if(command=="image.verify" || verification_identity(parameters))expired=verification_unresolved_request(request,parameters);
         else if(command=="evidence.export" || report_identity(parameters))expired=export_unresolved_request(request,parameters);
         return calls->run(request,[request,command,parameters,observations]() {
             if(command=="filesystem.tree.extract")return recursive_action(request,parameters);
             if(command=="filesystem.tree.inspect")return observations->trees.dispatch(request,parameters);
-            if((command=="image.acquire" || command=="filesystem.extract"))return dispatch_acquisition(command_registry(),request,parameters,acquisition_actions(),command);
+            if((command=="image.acquire" || command=="filesystem.extract"))return acquisition_action(request,command,parameters);
             if(command=="evidence.export")return report_action(request,parameters);
             if(command=="image.verify")return verification_action(request,parameters);
             return image_command(command)?image_action(request,command,parameters,observations):operation_action(request,command,parameters);

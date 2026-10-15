@@ -36,7 +36,12 @@ int wmain(int argc,wchar_t** argv) {
         } else if(mode=="form") {
             V typed;const auto error=disked::form_parameters(registry,*registry.command("image.acquire"),get(v,"editor"),typed);
             out=error.empty()?disked::dispatch_acquisition(registry,"form",typed,ports):disked::refused("form",error);
-        } else if(mode=="observe-reply")out=disked::acquisition_observation("probe",get(v,"reply"));
+        } else if(mode=="unresolved" || mode=="oversized-unresolved") {
+            auto parameters=get(v,"parameters");
+            if(mode=="oversized-unresolved")parameters.put("padding",V::string(std::string(65536,'x')));
+            out=disked::acquisition_unresolved_request(registry,"probe",parameters,v.find("command")?text(v,"command"):"image.acquire");
+        }
+        else if(mode=="observe-reply")out=disked::acquisition_observation("probe",get(v,"reply"));
         else if(mode=="inspect" || mode=="cancel")out=disked::acquisition_observation("probe",disked::observe_acquisition_worker(text(v,"operation_id"),text(v,"state_directory"),mode=="cancel"));
         else throw std::runtime_error("probe_input");
         const auto validation=disked::validate_response(out.response);if(!validation.empty())throw std::runtime_error(validation);

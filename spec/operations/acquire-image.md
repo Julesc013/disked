@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-103
   profile: disked-spec/1
-  version: 0.1.5-proposed.1
+  version: 0.1.6-proposed.1
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-103-01
 updated:
   by: codex
-  at: '2026-10-09T03:33:56.250500+00:00'
-  scope: DE-W033/017 strong worker-state and code-parent guards with exact creation facts; owner acceptance pending
+  at: '2026-10-15T17:23:26.434986+00:00'
+  scope: DE-W033 unresolved frontend routing; no admission or freshness claim; owner acceptance pending
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -54,6 +54,30 @@ Image, acquisition map and evidence agree on source size, unreadable ranges and 
 ## Interruption, cancellation and recovery
 
 Resume only with matching identities/map/destination state. An interrupted map record is uncertain and causes bounded re-observation. Do not overwrite original source. Stop/pause may be safe between recorded chunks but failing-media policy takes precedence over ordinary throughput.
+
+### Unresolved frontend routing
+
+The bounded frontend wait is distinct from worker admission and completion.
+An expired `image.acquire` or `filesystem.extract` execution returns `unknown`/6,
+retaining the exact `definition.store.path` and canonical `definition_digest`
+only when the bounded request shape is valid, its definition matches the selected command's raw/logical
+schema and semantic plan, and its supplied digest matches. A conflicting
+top-level state directory never replaces the reviewed execution store. Invalid,
+mismatched, missing or oversized definitions add no purported reviewed routing.
+Preparation retains its explicitly selected, shape-valid state directory.
+Acquisition-operation observation requests retain a well-formed supplied operation
+ID and explicit state directory; this does not establish that the operation exists.
+No implicit current-directory/store lookup is
+introduced.
+
+One shared inward helper constructs these fallbacks for CLI/stdio and deferred
+GUI/TUI/shell requests. It performs no provider call, file opening, metadata
+lookup or effect. Request kinds distinguish `acquisition-preparation`,
+`acquisition-execution` and `operation-observation`; unrecognised input remains
+an unresolved `acquisition-request`. These are routing hints, not evidence of
+admission, freshness, authority, completion, quiescence or a recoverable journal.
+Do not manufacture an operation ID from the definition or retry the writer.
+The original wait limits and late-response suppression remain in force.
 
 ## Required adversarial cases
 

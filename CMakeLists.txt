@@ -956,6 +956,10 @@ if(BUILD_TESTING)
   add_test(NAME frontend.acquisition_forms COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_acquisition_forms.py"
     --exe "$<TARGET_FILE:disked>" --product "$<TARGET_FILE:disked>" --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
   set_tests_properties(frontend.acquisition_forms PROPERTIES TIMEOUT 120 RESOURCE_LOCK disked_fake_workers)
+  private_header_check(disked_acquisition_commands runtime/acquisition/commands.h)
+  add_test(NAME frontend.acquisition_timeout COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_acquisition_timeout.py"
+    --product "$<TARGET_FILE:disked>" --fault "$<TARGET_FILE:disked_image_test>" --probe "$<TARGET_FILE:acquisition_command_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}" --evidence "${CMAKE_CURRENT_BINARY_DIR}/acquisition-timeout.json")
+  set_tests_properties(frontend.acquisition_timeout PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME frontend.fat_extraction COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/frontend/test_fat_extraction_commands.py"
     --exe "$<TARGET_FILE:disked>" --gui "$<TARGET_FILE:gui_model_probe>" --tui "$<TARGET_FILE:tui_model_probe>" --fat "$<TARGET_FILE:fat_worker_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/fat-extraction-command-cases.json")
   set_tests_properties(frontend.fat_extraction PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
