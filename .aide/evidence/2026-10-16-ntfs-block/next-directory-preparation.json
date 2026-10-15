@@ -1,0 +1,44 @@
+{
+  "recorded_at": "2026-10-15T23:42:36.126736+00:00",
+  "base_revision": "1a5f4f701d33f2311298392e20388c132bed844f",
+  "scope": "Preparation for source-bound NTFS directory acquisition; no new work-unit implementation or admission",
+  "actual_dependencies": [
+    "Bootstrap currently exposes JSON observations; its owned Observer retains the MFT mapping internally. Reuse the checked reader and ownership before any directory source offset is calculated.",
+    "The current collector parses base/extension FILE metadata with its existing non-directory flags policy. Named directory stream joining must define the exact applicable base/extension flag checks before widening either collector or joiner.",
+    "join_records currently selects an unnamed type. Directory $I30 root/allocation/bitmap require explicit exact original UTF16LE attribute-name selection; do not reinterpret another named stream.",
+    "Existing initialized MFT bounds only require record3. Record5 must be independently inside initialized/data coverage, with checked ordinal*record_bytes and complete validated mapping coverage.",
+    "INDEX_ROOT and INDX framing now have private decoders. A child VBN still needs the derived unit, block alignment, checked multiplication, stream initialized/data bounds and exact expected VBN before source reads.",
+    "Index bitmap bits address logical index blocks; they do not independently qualify global cluster allocation, MFT membership, collation, uniqueness or current-source consistency.",
+    "Every acquired root/extension/index/bitmap region must preserve original bytes/hashes, source-window/epoch context and finite read/retention/output limits, participate in overlap checks and final exact rereads.",
+    "Root-only supplied framing is not a complete namespace. Full references, FILE_NAME parent links, arbitrary directory depth, cycles, changed records, hard links, Upcase/collation, sparse/compressed/encrypted data, extraction and all other original filesystems/platforms remain required gates."
+  ],
+  "next_action": "After DE-W088 terminal qualification and implementing-agent review, settle the source-bound directory execution contract and exact record/stream flags using primary format/implementation references. Preserve default bootstrap bytes and old refusal semantics; do not add an opener or authorize physical access.",
+  "inputs": {
+    "source/runtime/capture/ntfs_capture.h": "sha256:f3dc502401d139656568766a560b0f864e8e7ade210554c348eb7a5c0a5e4f6d",
+    "source/runtime/capture/ntfs_capture.cpp": "sha256:b8b7405d19b9ca7fecaef0b68de30eb32ed534e8148967d94b1f9cc228305b9c",
+    "source/runtime/capture/ntfs_stream.h": "sha256:0aef9293d7aa5aec391756dc59f280f8bf0a71429648552e9b1261c8dee6da4c",
+    "source/runtime/capture/ntfs_stream.cpp": "sha256:1f6d00489144e2ef3e9f4a1227a2dc91c6736a03fa2c59a9f1a1054247a77b19",
+    "source/portable/ntfs/index.c": "sha256:7036976cfeefe7a17f6b71c7136463279794492bb9ea27a9c487eb3ef40d8a1f",
+    "source/portable/ntfs/index_block.c": "sha256:1931bbb95f0471cb304f192b4fe757d17748cf41872bdddb1232c47d4e7742d3",
+    "source/portable/ntfs/ntfs.h": "sha256:42511f97fa07afd957640c48513120bb3b798d625dfc859dfadff52a5f5bd494"
+  },
+  "implementation_started": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "additional_primary_references": [
+    {
+      "url": "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/frecord.c",
+      "sha256": "sha256:9b68e9acd0f5c31039b01ab060deb8f67f011662d6abe5de2446ba7f06402ddd",
+      "bytes": 77992,
+      "use": "Functional format research only; no upstream source copied into product or executed."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/mft.c",
+      "sha256": "sha256:9c47e7c668fb4096e3a8399b6412588db57b117c0ac12a37710231fa009c70f0",
+      "bytes": 64074,
+      "use": "Functional format research only; no upstream source copied into product or executed."
+    }
+  ],
+  "flag_research": "Pinned ntfs3g mft.c allocation starts from a cleared header and sets IN_USE; extent allocation binds the full base reference. This supports defining separate directory-base and extension flag checks, rather than propagating the directory bit to every FILE. This is a design inference for the next profile, not a claim that every on-disk variant is already admitted."
+}

@@ -1,0 +1,211 @@
+{
+  "status": "pass",
+  "source_revision": "1a5f4f701d33f2311298392e20388c132bed844f",
+  "host": "Windows-10-10.0.19045-SP0",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "Win32,version=10.0.19041.0",
+        "-T",
+        "v143,version=14.44.35207,host=x64",
+        "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 5.066974900197238,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 4.7498840999323875,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 12.727383299963549,
+      "log": "native.log"
+    },
+    {
+      "name": "ntfs_block_probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/headers",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.05411029979586601,
+      "log": "ntfs_block_probe-headers.log"
+    },
+    {
+      "name": "ntfs_block_probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/imports",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.051576599944382906,
+      "log": "ntfs_block_probe-imports.log"
+    },
+    {
+      "name": "ntfs_block_probe-dependents",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/dependents",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.05728080007247627,
+      "log": "ntfs_block_probe-dependents.log"
+    },
+    {
+      "name": "ntfs_record_probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/headers",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.056495700031518936,
+      "log": "ntfs_record_probe-headers.log"
+    },
+    {
+      "name": "ntfs_record_probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/imports",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.05427299998700619,
+      "log": "ntfs_record_probe-imports.log"
+    },
+    {
+      "name": "ntfs_record_probe-dependents",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/dependents",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.051586000015959144,
+      "log": "ntfs_record_probe-dependents.log"
+    },
+    {
+      "name": "ntfs_index_probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/headers",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.05266640009358525,
+      "log": "ntfs_index_probe-headers.log"
+    },
+    {
+      "name": "ntfs_index_probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/imports",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.0508260999340564,
+      "log": "ntfs_index_probe-imports.log"
+    },
+    {
+      "name": "ntfs_index_probe-dependents",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/dependents",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "exit_code": 0,
+      "seconds": 0.04756499989889562,
+      "log": "ntfs_index_probe-dependents.log"
+    }
+  ],
+  "scope": "Three supplied-byte private parser probes on Win32/WOW64, derived from exact x64 codemodel; not a full Win32 product or historical host qualification.",
+  "recipe_sha256": "sha256:e85ad1dca14e0e5e15ed89633af5fae36cce10b0407d300216229fe6aea3fa4a",
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "cases": {
+    "ntfs-block-cases.json": 1230,
+    "ntfs-index-cases.json": 1502,
+    "ntfs-record-cases.json": 964
+  },
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "sha256": "sha256:b514664e8be0d4be04869e3ac83aa8af09a9ea72fd2bc814416afa72eb8e5b03",
+      "bytes": 226816
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "sha256": "sha256:dc975ec43479abca3f56583c88e263ad6a9151861d6248f4cec96b2a538648fa",
+      "bytes": 220672
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe",
+      "sha256": "sha256:4ace9b9f544bca1759c3a014c60e73dfdafcacb4ae27aff8bfd393cb5a07722b",
+      "bytes": 230912
+    }
+  ],
+  "header_artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\ntfs_fixture_headers.dir\\Release\\header-0.obj",
+      "sha256": "sha256:201a2cda0b8b6b64a9f30a59e9d493f17d712a22e9e1fd1680164aed7ec5678c"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\ntfs_fixture_headers.dir\\Release\\header-1.obj",
+      "sha256": "sha256:c8000caa591b151c379379656f36fb641fac2fb6cfb91581fed4803ce04d4f7a"
+    }
+  ],
+  "inputs_unchanged": true,
+  "checkout_clean": true,
+  "native_groups": 3
+}
