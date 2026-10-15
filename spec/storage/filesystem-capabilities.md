@@ -70,6 +70,21 @@ checks with all 989 registered/build/source inputs unchanged. Both failures and
 the correction are retained. Other NTFS capabilities, original platforms/storage,
 owner, physical writer/recovery and full release qualification remain open.
 
+## DE-W077 supplied-byte NTFS boot geometry
+
+The [boot contract](../catalog/ntfs-boot-prototype.json) separates the raw BPB
+sector field, data/media/backup bounds, signed size encodings, record support
+and checked initial MFT/mirror candidates. It reuses the existing C90 checked
+layer; geometry is not complete volume recognition, current source authority,
+mount/boot capability or writer admission. Later MFT records need validated
+attributes and runlists, not a presumed contiguous layout.
+
+Repository evidence `.aide/evidence/2026-10-15-ntfs-boot/qualified-aefee4cd/summary.json`
+records exact clean `aefee4cd`: 1,729 boot/964 record cases, 12 selected portable
+groups, one header and 242 tooling tests/two skips, with imports, C90 syntax and
+source/context/manifest freshness. No full native, NTFS volume/provider/frontend,
+other original platform/storage, owner or release qualification follows.
+
 ## DE-W058 supplied-byte exFAT metadata
 
 After local DE-W057 qualification, the [exFAT reader contract](../catalog/exfat-reader-prototype.json)

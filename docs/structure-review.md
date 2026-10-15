@@ -1,5 +1,17 @@
 # Source structure and release review follow-up
 
+## NTFS boot checkpoint: 15 October 2026
+
+Keep the existing owners and compact names. The map covers 292 source files;
+`portable/ntfs/boot.c` adds pure supplied-byte boot geometry beside `record.c`.
+The two test probes share domain-specific protected-input helpers without a new
+runtime layer. [Exact `aefee4cd` evidence](../.aide/evidence/2026-10-15-ntfs-boot/qualified-aefee4cd/summary.json)
+passes 1,729 boot/964 record cases, 12 selected portable groups, one header,
+242 tooling tests/two skips and C90/import/context/manifest checks. This is an
+independent bounded primitive, not a fresh full native campaign. The prior
+W075/report-preparation failure still prevents whole-branch integration; owner,
+other original platforms/storage, physical writer/recovery and release remain.
+
 ## Current programme and upstream observation: 15 October 2026
 
 Keep the five source owners, consistent model names and dedicated CLI folder.

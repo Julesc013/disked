@@ -27,3 +27,10 @@ fragmented records. Geometry, record support and seed addresses are distinct;
 there is no NTFS volume/provider/frontend, boot/mount or writer admission. WSL
 syntax checks do not qualify a Linux product or any legacy target. W075/report
 failures, owner/physical/release gates and the full original0.1.0 remain open.
+
+Exact clean `aefee4cd` finishes the finite qualification with all 12 selected
+groups passing: 1,729 boot cases, 964 record cases, one header, 242 tooling tests
+with two skips, actual compiler/import observations, both-source C90 syntax and
+source/context/manifest freshness. No source input changed during the run.
+See [results](qualified-aefee4cd/summary.json) and [review](REVIEW.md) for the
+specific evidence and limits. No earlier failure is erased or reclassified.

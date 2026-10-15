@@ -33,4 +33,9 @@ No boot code is executed, file/device opened or storage changed. The prototype
 does not establish a complete NTFS volume, coherent acquisition, current source,
 mount/boot capability, attributes/runlists, provider/frontend availability or
 writer authority. Actual compiler/test results and unverified environments belong
-in retained evidence; the guide does not assert a passing campaign.
+in the retained source-bound evidence below.
+
+DE-W077's [exact-source results](../.aide/evidence/2026-10-15-ntfs-boot/qualified-aefee4cd/summary.json)
+and [implementing-agent review](../.aide/evidence/2026-10-15-ntfs-boot/REVIEW.md)
+record the completed finite scope at `aefee4cd`. They do not qualify the complete
+product or remaining NTFS work.

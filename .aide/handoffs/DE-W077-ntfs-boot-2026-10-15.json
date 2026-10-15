@@ -1,0 +1,96 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W077",
+  "base_revision": "ebbf8d0f420137c7c6817589e3d9ccc8ed35cdd9",
+  "spec_manifest_digest": "sha256:8f1dfd8fb9cfce6621fbdbd980ca1b9b6bbacab19b63aa84f65254288bf7bb1a",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/storage/windows.md",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/catalog/ntfs-record-prototype.json",
+    "source/portable/primitives/checked.h",
+    "source/portable/primitives/checked.c",
+    "source/portable/primitives/extent.h",
+    "source/portable/fat/volume.c",
+    "source/portable/ntfs/ntfs.h",
+    "tests/unit/ntfs_record_probe.cpp"
+  ],
+  "files_changed": [
+    "source/portable/ntfs/ntfs.h",
+    "source/portable/ntfs/boot.c",
+    "tests/unit/ntfs_probe_support.h",
+    "tests/unit/ntfs_record_probe.cpp",
+    "tests/unit/ntfs_boot_probe.cpp",
+    "tests/property/test_ntfs_boot.py",
+    "CMakeLists.txt",
+    "tools/build-inputs.json",
+    "spec/catalog/ntfs-boot-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/work/units.json",
+    "spec/generated/index.json",
+    "spec/catalog/index.md",
+    "spec/manifest.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/roadmap/implementation.md",
+    "docs/ntfs-boot.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "TODO.MD",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide\\evidence\\2026-10-15-ntfs-boot"
+  ],
+  "summary": "Expected NTFS boot/span/signed-encoding contract implemented in private supplied-byte C90 code. Exact clean aefee4cd passes1,729 boot/964 record cases,12 selected portable groups,one header,242 tooling(two skips),both-source strict C90 syntax,boot-probe import/security and structural/manifest/context/source checks. Raw geometry, budgets and seed validity remain distinct. No full native/NTFS volume/provider/main/owner/physical/release qualification.",
+  "tests": [
+    {
+      "command": "reproduce.py --root exact aefee4cd --output fresh directory; finite selected qualification",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-aefee4cd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\summary.json"
+    },
+    {
+      "command": "12 selected portable groups including NTFS boot/record and native API/protected-input checks",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-aefee4cd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\portable-junit.xml"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-aefee4cd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\tooling.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\summary.json",
+      "sha256": "sha256:b01ed340e1743bc7a634db56fc419917e59781b7b99d527c06d59acbde4b53a4"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\ntfs-boot-cases.json",
+      "sha256": "sha256:310003a4c64750b950bd191ceafe688390da751398a44dc4386b91411beaaad5"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-boot\\qualified-aefee4cd\\ntfs-record-cases.json",
+      "sha256": "sha256:082e06b1642e2a119652aca9989d86f4006d8762d6aee7a08e9604fd14984d81"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-boot\\REVIEW.md",
+      "sha256": "sha256:6ea3e31fe65b9c5e95f1bb611fdf4945418365c041e8632e4b643120ba40b99f"
+    }
+  ],
+  "blockers": [
+    "Prior W075/report-preparation native failures remain unresolved; main integration withheld.",
+    "NTFS attributes/runlists, coherent source/provider/frontend and other original platforms/storage remain.",
+    "Owner, licensing, physical writer/recovery and release authority/qualification remain separate."
+  ],
+  "next_safe_step": "Implement original NTFS attribute envelopes and checked runlist mapping under defined contracts; retain W075/report diagnostics. Continue within the existing local grant without physical access or publication.",
+  "performed_remote_writes": true
+}
