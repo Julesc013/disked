@@ -459,3 +459,5 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 
 - [x] Add DE-W034 test-only preparation phase observations and streamed prefixes; normal modes reject tracing, caller mutation cannot replace selected inputs, and preparation stays inert. Retain the original three-group run's unjoined preparation timeout and subsequent two instrumented fixture passes with unchanged bounds.
 - [ ] Diagnose spontaneous preparation stalls using actual retained phase evidence; preserve request/test bounds, failures and uncertain dependencies. No full native or release qualification follows from the diagnostic tool.
+
+- DE-W082: owned NTFS reader/frame implementation and initial native tests pass locally; exact-source qualification and agent review pending. Continue shared frontend admission and original NTFS scope afterward; retain W075/main and owner/platform/storage/release gates.

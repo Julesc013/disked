@@ -345,6 +345,58 @@
           "/guard:cf",
           "/MT"
         ]
+      },
+      "disked_ntfs_snapshot": {
+        "sources": [
+          "source/providers/image/ntfs_snapshot.cpp"
+        ],
+        "build_closure": [
+          "disked_ntfs_file",
+          "disked_ntfs_capture",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_json",
+          "disked_hash",
+          "disked_local_file"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_worker": {
+        "sources": [
+          "source/platform/windows/storage/ntfs_worker.cpp"
+        ],
+        "build_closure": [
+          "disked_observation_worker",
+          "disked_ntfs_snapshot",
+          "disked_ntfs_file",
+          "disked_ntfs_capture",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_json",
+          "disked_hash",
+          "disked_local_file"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
       }
     },
     "required_compile_flags": [

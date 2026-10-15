@@ -90,6 +90,7 @@
 - [ntfs-capture-prototype.json](ntfs-capture-prototype.json)
 - [ntfs-file-prototype.json](ntfs-file-prototype.json)
 - [ntfs-record-prototype.json](ntfs-record-prototype.json)
+- [ntfs-worker-prototype.json](ntfs-worker-prototype.json)
 - [observation-frontend-prototype.json](observation-frontend-prototype.json)
 - [operations.json](operations.json)
 - [ordinary-file-path-profile.json](ordinary-file-path-profile.json)

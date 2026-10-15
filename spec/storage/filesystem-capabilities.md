@@ -481,3 +481,6 @@ supported profile selection and retained replay. No source/effect authority or
 atomicity follows from a stable finite observation. Synchronous native waits
 remain outside public frontend admission until actual process containment is
 qualified. Full attribute-list/namespace/content and original target scope remain.
+
+
+DE-W082 defines the private owned NTFS reader over the existing observation-worker host. Strict input/source/process/domain binding and retained-region replay precede an immutable observation, available only after actual child exit. This is a bootstrap transport boundary; public command admission, attribute-list/metadata/namespace/content, physical/writer and original-platform qualification remain separate.

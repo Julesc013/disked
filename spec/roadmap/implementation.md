@@ -468,3 +468,6 @@ agree with retained-only decoding and must not retry native reads or override an
 explicit profile. Source generations, native read provenance, metadata and replay
 are separate evidence. Contained-worker/frontend admission and the remaining
 original NTFS/platform/storage scope still require implementation and qualification.
+
+
+DE-W082 follows held-file NTFS bootstrap with an owned reader process, strict retained frame and parent replay using the existing host. Qualify this boundary before shared frontend admission, then continue original NTFS metadata/namespace/content. W075/report-preparation remains a whole-branch main-integration gate.
