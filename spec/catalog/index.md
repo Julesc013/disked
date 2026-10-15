@@ -91,6 +91,7 @@
 - [ntfs-closure-prototype.json](ntfs-closure-prototype.json)
 - [ntfs-command-prototype.json](ntfs-command-prototype.json)
 - [ntfs-file-prototype.json](ntfs-file-prototype.json)
+- [ntfs-index-prototype.json](ntfs-index-prototype.json)
 - [ntfs-join-prototype.json](ntfs-join-prototype.json)
 - [ntfs-list-prototype.json](ntfs-list-prototype.json)
 - [ntfs-record-prototype.json](ntfs-record-prototype.json)

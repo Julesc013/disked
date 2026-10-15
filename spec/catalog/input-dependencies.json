@@ -14502,6 +14502,112 @@
         "DE-031",
         "DE-037"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-index-prototype.json",
+      "path": "spec/catalog/ntfs-index-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-index.md",
+      "path": "docs/ntfs-index.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-index/references.json",
+      "path": ".aide/evidence/2026-10-16-ntfs-index/references.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/filename.c",
+      "path": "source/portable/ntfs/filename.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-index-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/index.c",
+      "path": "source/portable/ntfs/index.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-index-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/unit/ntfs_index_probe.cpp",
+      "path": "tests/unit/ntfs_index_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-index-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/property/test_ntfs_index.py",
+      "path": "tests/property/test_ntfs_index.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-index-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-index/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-index/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-index-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
     }
   ]
 }

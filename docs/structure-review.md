@@ -33,13 +33,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **309 current source files**: 31 portable, 133 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W085 captured-stream joiner; its selected clean source evidence and earlier decoder results are below. The longest repository-relative source
+There are **311 current source files**: 33 portable, 133 runtime, 68 provider,
+63 platform and 14 application files. This includes private DE-W087 filename/index decoder code awaiting verification; the preceding source-bound closure and decoder evidence is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-closure/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-index/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified

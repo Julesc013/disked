@@ -62,6 +62,55 @@
 #define DE_NTFS_LIST_VCN 0x0010UL
 #define DE_NTFS_LIST_TYPE 0x0020UL
 #define DE_NTFS_LIST_BUDGET 0x0040UL
+#define DE_NTFS_NAME_TRUNCATED 0x0001UL
+#define DE_NTFS_NAME_LENGTH 0x0002UL
+#define DE_NTFS_NAME_NAMESPACE 0x0004UL
+#define DE_NTFS_NAME_REFERENCE 0x0008UL
+#define DE_NTFS_INDEX_TRUNCATED 0x0001UL
+#define DE_NTFS_INDEX_LENGTH 0x0002UL
+#define DE_NTFS_INDEX_ALIGNMENT 0x0004UL
+#define DE_NTFS_INDEX_PROFILE 0x0008UL
+#define DE_NTFS_INDEX_GEOMETRY 0x0010UL
+#define DE_NTFS_INDEX_FLAGS 0x0020UL
+#define DE_NTFS_INDEX_KEY 0x0040UL
+#define DE_NTFS_INDEX_REFERENCE 0x0080UL
+#define DE_NTFS_INDEX_CHILD 0x0100UL
+#define DE_NTFS_INDEX_END 0x0200UL
+#define DE_NTFS_INDEX_BUDGET 0x0400UL
+
+typedef struct de_ntfs_filename {
+    de_view raw, duplicated_information, name, suffix;
+    de_u64 parent_reference, parent_record;
+    de_u32 issues;
+    unsigned short parent_sequence;
+    unsigned char name_length, namespace_code;
+    int fields_present, envelope_valid, namespace_known;
+} de_ntfs_filename;
+
+typedef struct de_ntfs_index_root {
+    de_view raw;
+    de_u32 type, collation, index_bytes, first_offset, used_bytes, allocated_bytes;
+    de_u32 child_unit_bytes, issues;
+    unsigned char units_per_index, flags;
+    int fields_present, envelope_valid, geometry_matches, directory_profile;
+} de_ntfs_index_root;
+
+typedef struct de_ntfs_index_entry {
+    de_view raw, key, padding;
+    de_ntfs_filename filename;
+    de_u64 segment_reference, record_number, child_vbn;
+    de_u32 issues;
+    unsigned short record_length, key_length, flags, sequence;
+    int present, end_marker, has_child, envelope_valid;
+} de_ntfs_index_entry;
+
+typedef struct de_ntfs_index_cursor {
+    de_view value;
+    size_t offset;
+    unsigned int major, minor, limit, count;
+    de_u32 issues;
+    int has_children, terminated, stopped;
+} de_ntfs_index_cursor;
 
 typedef struct de_ntfs_attr_list_entry {
     de_view raw, name;
@@ -164,6 +213,13 @@ int de_ntfs_runs_next(de_ntfs_run_cursor *cursor, de_ntfs_run *out);
 int de_ntfs_attr_list_begin(const de_view *value, unsigned int major, unsigned int minor,
                             unsigned int limit, de_ntfs_attr_list_cursor *out);
 int de_ntfs_attr_list_next(de_ntfs_attr_list_cursor *cursor, de_ntfs_attr_list_entry *out);
+/* Field framing is not name legality, lookup, membership or source authority. */
+int de_ntfs_filename_read(const de_view *value, unsigned int major, unsigned int minor,
+                          de_ntfs_filename *out);
+int de_ntfs_index_root_begin(const de_view *value, unsigned int major, unsigned int minor,
+                             de_u32 cluster_bytes, de_u32 expected_index_bytes, unsigned int limit,
+                             de_ntfs_index_root *root, de_ntfs_index_cursor *cursor);
+int de_ntfs_index_next(de_ntfs_index_cursor *cursor, de_ntfs_index_entry *out);
 #ifdef __cplusplus
 }
 #endif

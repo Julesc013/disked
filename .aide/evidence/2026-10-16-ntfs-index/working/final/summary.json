@@ -1,0 +1,88 @@
+{
+  "recorded_at": "2026-10-15T22:57:09.178250+00:00",
+  "status": "pass",
+  "scope": "Working native decoder/C90/header/graph checks only;not clean source or whole-product qualification",
+  "cases": 1502,
+  "inputs_unchanged": true,
+  "stages": [
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "-R",
+        "^portable.ntfs_index$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-index\\working\\final\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "native.log"
+    },
+    {
+      "name": "c90-version",
+      "command": [
+        "gcc",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "c90-version.log"
+    },
+    {
+      "name": "c90-target",
+      "command": [
+        "gcc",
+        "-dumpmachine"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "c90-target.log"
+    },
+    {
+      "name": "c90",
+      "command": [
+        "gcc",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "-Isource",
+        "source\\portable\\ntfs\\attribute.c",
+        "source\\portable\\ntfs\\attribute_list.c",
+        "source\\portable\\ntfs\\boot.c",
+        "source\\portable\\ntfs\\filename.c",
+        "source\\portable\\ntfs\\index.c",
+        "source\\portable\\ntfs\\record.c",
+        "source\\portable\\ntfs\\runlist.c",
+        ".aide\\evidence\\2026-10-16-ntfs-index\\working\\final\\ntfs-header.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "c90.log"
+    },
+    {
+      "name": "boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-index\\working\\final\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "boundaries.log"
+    }
+  ],
+  "probe_sha256": "sha256:1bbe1add5fb98faaf866a45572a08ea9e8e3c6030a1069d5c6fab0d1da88de65",
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

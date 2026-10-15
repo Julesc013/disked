@@ -8121,6 +8121,102 @@
         "tests/images/test_ntfs_closure.py",
         ".aide/evidence/2026-10-16-ntfs-closure/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W087",
+      "title": "Decode supplied NTFS filename and directory index envelopes",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R1",
+      "dependencies": [
+        "DE-W078",
+        "DE-W086"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/portable/ntfs/**",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 supplied-byte FILE_NAME and resident directory INDEX_ROOT/entry envelopes for NTFS3.0/3.1. Reuse checked views, existing full64-bit word/reference representation and private NTFS target. No source opener, native I/O, allocation, lookup/collation, traversal, INDX restore, index-allocation/bitmap or public frontend admission; these remain required original work.",
+        "portable/ntfs/filename.c owns the FILE_NAME value envelope used by MFT attributes and directory keys. portable/ntfs/index.c owns root/entry framing and calls that decoder. Keep private types/functions in existing ntfs.h; no new public SDK, empty hierarchy or generic parser framework.",
+        "Caller supplies valid stable original views and disjoint valid control/output objects, as the existing private NTFS C APIs require. Null nonempty views, null required pointers and unknown parser versions return DE_INVALID without output writes. Index root begin also requires explicit power-of-two cluster bytes512..2097152, expected index bytes512..49152 power-of-two, and limit1..4096; bad geometry/limit controls return DE_BOUNDS without changing either output. This is not a hostile C-caller boundary.",
+        "At least66 fixed bytes expose full parent reference, low48 ordinal/high16 sequence, opaque duplicated-information bytes8..63, byte name length and namespace code. Preserve exact raw UTF16LE name bytes and bounded value suffix; never normalize, render, reject unpaired surrogates/control units as a Unicode-policy decision, or treat duplicated metadata as authoritative file state. A nonempty declared name must fit2*length bytes after66. Zero length is a length issue; incomplete bytes are truncated/length issues. Unknown namespace outside0..3 and zero parent sequence are separate issues but do not make bounded field framing invalid. envelope_valid reflects complete nonempty name framing; callers must also inspect issues before any namespace claim. Reserved/duplicated bytes and bounded trailing value slack stay observable without invented semantics.",
+        "Read the complete32-byte fixed root header before exposing fields. Support only indexed type0x30 and collation1; preserve unsupported raw values and return a stopped cursor. The index header starts at16: first-entry offset>=16 and8-aligned, used>=first+16, used<=allocated, allocated<=supplied bytes after16. Use checked subtraction/comparison before narrowing offsets to size_t. Bounded reserved/unused allocation bytes are not entries. Unknown root flag bits outsidebit0 stop the supported directory profile; reserved byte fields remain opaque. envelope_valid denotes bounded header/entry-area framing independently of directory profile/geometry support.",
+        "The declared root block size must match the explicit expected index size. The unsigned root unit count equals index_bytes/cluster_bytes when index_bytes>=cluster_bytes, otherwise index_bytes/512. Preserve the derived child VBN unit(cluster or512 bytes) without multiplying child values into source offsets. Do not apply the signed boot size-code encoding to this field. Geometry mismatch stops decoding with explicit issues; no source or boot authority is inferred.",
+        "Every entry begins with a16-byte header. Total length>=16,8-aligned and inside the remaining used span. Known flags are NODE1 and END2. NODE must agree with the root header and requires a disjoint final8-byte child VBN; reject negative(signed-high-bit) child values in this profile. Nonterminal key length must fit between header and optional child trailer and contain a complete supported FILE_NAME envelope. Preserve full target reference(low48/high16), original key/padding/child values and nested filename issues; zero target sequence or any filename issue makes the entry unsupported. Never interpret terminal unused reference bytes as a target.",
+        "An END entry has key length0, correct child form and no bytes after its declared total length within the USED span. Padding inside its length and outside used remains opaque. A supported complete cursor terminates only after that exact END; exhaustion without it produces one END issue and stops. Any invalid/unsupported entry produces a bounded observation and stops without interpreting later entries. End-of-cursor DE_EMPTY must not change output or cursor, including repeated calls. A terminated cursor is framed traversal completion, not proof of ordering, uniqueness, membership, name equality, allocation, source freshness or a complete filesystem.",
+        "The limit counts every complete entry header including terminal/malformed headers. Before reading another header when count==limit and bytes remain, emit one budget observation(presentfalse,count unchanged), stop and perform no header access. Exact terminal-at-limit succeeds. Missing-terminal-at-span-end is an END issue independently of unused budget. Root span bytes are borrowed; no whole-span allocation or scan. Actual resident roots remain bounded by their containing FILE/capture; the pure cursor additionally permits larger supplied spans on hosts that can represent them, always under the explicit header limit.",
+        "Independent byte recipes and expected decoded values/issues before evaluation: both profiles, all namespace codes, full48/16 references, raw UTF16 control/surrogate units, exact/suffix framing, each truncation and field width/length/offset/alignment/flag/geometry/child/key/terminal/quota boundary. Guard and readonly original buffers; invalid API/cursor controls and repeated completion preserve outputs. Verify private standalone C/C++ headers, strict C90 on existing compiler, source/header/build/import/context/manifest/tooling and selected existing NTFS/primitives/reader/frontend regressions. No full native campaign claim for a selection; rerun broader tests only if observable/shared runtime code changes. Retain all failures and exact source identities."
+      ],
+      "acceptance": [
+        "Independent expected filename/index facts and issues agree under readonly/guard sources and all declared finite controls. No unbounded entry scan or native/namespace authority is introduced.",
+        "Actual native probe/build/header/C90/selected regressions, full tooling and exact-source/context/manifest evidence retained; untested hosts and full NTFS remain explicit."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "Build the exact selected probes, normal/fault product and relevant standalone headers with Release/MSVC profile; record concrete command in retained recipe.",
+        "ctest --test-dir SELECTED_BUILD -C Release --parallel 1 --output-on-failure -R ^(build\\.(boundaries|boundary_checker)|image\\.(ntfs_stream|ntfs_closure|ntfs_commands|ntfs_worker|exfat_worker|ntfs_file|exfat_file|ntfs_capture|exfat_capture)|portable\\.(checked|c_cpp_linkage|ntfs_index|ntfs_list|ntfs_record|ntfs_boot|ntfs_attributes|ntfs_runlist|gpt|gpt_guard|mbr_ebr|mbr_guard|fat|fat_guard|exfat|exfat_guard))$"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-index-prototype.json",
+        "docs/ntfs-index.md",
+        ".aide/evidence/2026-10-16-ntfs-index/references.json",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/attribute_list.c",
+        "source/portable/ntfs/attribute.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/checked.h",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/unit/ntfs_list_probe.cpp",
+        "tests/property/test_ntfs_list.py",
+        "spec/catalog/ntfs-list-prototype.json",
+        "spec/catalog/ntfs-attributes-prototype.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        "source/portable/ntfs/filename.c",
+        "source/portable/ntfs/index.c",
+        "tests/unit/ntfs_index_probe.cpp",
+        "tests/property/test_ntfs_index.py",
+        ".aide/evidence/2026-10-16-ntfs-index/reproduce.py"
+      ]
     }
   ]
 }
