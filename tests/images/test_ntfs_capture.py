@@ -213,13 +213,23 @@ def cases():
         ('sparse', nonresident(mapping(good.runs), flags=0x8000, high=15, allocated=8192, data=8192, initialized=8192)[0], 'data_unsupported'),
         ('compressed', nonresident(mapping(good.runs), flags=1, high=15, allocated=8192, data=8192, initialized=8192)[0], 'data_unsupported'),
         ('continuation', nonresident(mapping(good.runs), low=1, high=16)[0], 'data_unsupported'),
-        ('bad-run', nonresident(b'\x99\0', high=15, allocated=8192, data=8192, initialized=8192)[0], 'data_unsupported'),
+        ('bad-run', nonresident(b'\x99\0', high=15, allocated=8192, data=8192, initialized=8192)[0], 'primary_mapping'),
         ('allocation-size', nonresident(mapping(good.runs), high=15, allocated=8704, data=8192, initialized=8192)[0], 'sizes'),
         ('partial-data-record', nonresident(mapping(good.runs), high=15, allocated=8192, data=8191, initialized=7168)[0], 'sizes'),
         ('partial-initialized-record', nonresident(mapping(good.runs), high=15, allocated=8192, data=8192, initialized=8191)[0], 'sizes'),
         ('uninitialized-volume-record', nonresident(mapping(good.runs), high=15, allocated=8192, data=8192, initialized=3072)[0], 'sizes'),
     ]:
-        add('mft-'+name, Volume(data_payload=payload), 'ntfs_mft_'+code, False)
+        diagnostic = 'ntfs_'+code if code == 'primary_mapping' else 'ntfs_mft_'+code
+        add('mft-'+name, Volume(data_payload=payload), diagnostic, False)
+    bad_mapping = nonresident(b'\x99\0', kind=0xb0)[0]
+    short_mapping = nonresident(mapping([(2,20)]), high=2, kind=0xb0)[0]
+    add('additional-MFT-malformed-mapping', Volume(data_payload=good.data+bad_mapping), 'ntfs_primary_mapping', False)
+    add('additional-volume-malformed-mapping', Volume(info_payload=good.info+bad_mapping), 'ntfs_volume_mapping', False)
+    add('additional-MFT-short-coverage', Volume(data_payload=good.data+short_mapping), 'ntfs_primary_mapping', False)
+    v = Volume()
+    raw, _ = record(good.data+bad_mapping+b'\xff'*4, 1024, 0)
+    v.input['regions'][2]['hex'] = raw.hex()
+    add('mirror-malformed-mapping', v, 'ntfs_mirror_mapping', False)
     for name, runs, code in [('self-alias', [(7,8),(9,12)], 'physical_alias'),
                              ('boot-alias', [(7,8),(9,0)], 'physical_alias'),
                              ('mirror-alias', [(7,8),(9,5000)], 'physical_alias'),
@@ -274,7 +284,7 @@ def main():
                 assert all(int(value['offset']) <= start < start+size <= int(value['offset'])+int(value['length']) for start, size in requests), name
                 assert int(report['retained_bytes']) == sum(int(r['bytes']) for r in report['regions']), name
                 assert len(json.dumps(report, separators=(',', ':'), ensure_ascii=False).encode()) <= int(value.get('limits', {}).get('output_bytes', '1048576')), name
-                if valid or diagnostic in ('ntfs_mirror_disagreement', 'ntfs_mirror_record', 'ntfs_volume_version'):
+                if valid or diagnostic in ('ntfs_mirror_disagreement', 'ntfs_mirror_record', 'ntfs_mirror_mapping', 'ntfs_volume_version'):
                     assert report['complete'] and report['reread_equal'], name
                     assert requests == expected_reads*2, (name, requests, expected_reads)
                     assert int(report['reread_requests']) == len(expected_reads), name
@@ -295,6 +305,10 @@ def main():
                     assert len(report['primary']['attributes'][0]['runs']) == 2 and len(report['mirror']['attributes'][0]['runs']) == 1, name
                 if name == 'unsafe-attribute-prefix':
                     assert report['primary']['attributes'] and int(report['primary']['attribute_issues']) != 0, name
+                if diagnostic in ('ntfs_primary_mapping', 'ntfs_volume_mapping', 'ntfs_mirror_mapping'):
+                    owner = 'volume_record' if diagnostic == 'ntfs_volume_mapping' else 'mirror' if diagnostic == 'ntfs_mirror_mapping' else 'primary'
+                    assert report[owner]['attributes_complete'] and not report[owner]['mappings_valid'], name
+                    assert any(int(a.get('run_issues', '0')) for a in report[owner]['attributes']), name
                 if name == 'volume-flags-are-raw':
                     assert report['volume_information']['flags'] == '32769', name
             receipts.append(dict(name=name, passed=True, request_sha256=sha(json.dumps(value, sort_keys=True).encode()),

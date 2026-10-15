@@ -92,6 +92,7 @@ struct Record {
     std::vector<Attribute> attributes;
     V report = V::object().put("observed", flag(false));
     bool good = false;
+    bool mapping_error = false;
 };
 class Observer {
     // Own both controls before the first callback; callbacks cannot widen scope.
@@ -270,12 +271,16 @@ class Observer {
             auto &a = record.attributes.back();
             a.value = value;
             mappings(a, record.report.fields.at("attributes").items.back());
+            if (a.value.ordinary_mapping && !a.mapped)
+                record.mapping_error = true;
         }
         const bool complete =
             cursor.terminated && !(cursor.issues & ~(DE_NTFS_ATTR_TYPE | DE_NTFS_ATTR_FEATURE));
         record.report.put("attributes_complete", flag(complete))
-            .put("attribute_issues", exact(cursor.issues));
-        record.good = complete && h.flags == 1 && !native(h.base_reference) && number_matches;
+            .put("attribute_issues", exact(cursor.issues))
+            .put("mappings_valid", flag(!record.mapping_error));
+        record.good = complete && !record.mapping_error && h.flags == 1 &&
+                      !native(h.base_reference) && number_matches;
     }
     bool mirror_equal() const {
         if (!primary_.good || !mirror_.good)
@@ -316,6 +321,8 @@ class Observer {
         return out;
     }
     const Attribute &mft() {
+        if (primary_.mapping_error)
+            stop("ntfs_primary_mapping");
         if (!primary_.good)
             stop("ntfs_primary_record");
         const Attribute *selected = nullptr;
@@ -401,6 +408,8 @@ class Observer {
             assembled.insert(assembled.end(), bytes.begin(), bytes.end());
         }
         parse(volume_, assembled, 3);
+        if (volume_.mapping_error)
+            stop("ntfs_volume_mapping");
         if (!volume_.good)
             stop("ntfs_volume_record");
         const Attribute *info = nullptr;
@@ -434,7 +443,9 @@ class Observer {
         }
         reread_equal_ = true;
         complete_ = true;
-        if (!mirror_.good)
+        if (mirror_.mapping_error)
+            diagnostic_ = "ntfs_mirror_mapping";
+        else if (!mirror_.good)
             diagnostic_ = "ntfs_mirror_record";
         else if (!mirror_equal_)
             diagnostic_ = "ntfs_mirror_disagreement";

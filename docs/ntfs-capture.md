@@ -33,3 +33,10 @@ contained workers and public frontend integration remain original required work.
 Dirty flags and an applicable bootstrap are not filesystem health or recovery
 qualification. Native/platform/physical writer and release claims require their
 own applicable evidence.
+
+Pre-qualification review found three cases where `e37848a5` reported applicability
+despite retaining a failed mapping in an additional metadata attribute. The
+[original probe results](../.aide/evidence/2026-10-16-ntfs-capture/mapping-baseline-e37848a5/summary.json)
+remain retained. The correction distinguishes completed attribute headers from
+valid ordinary mappings and propagates failure to the selected record. Corrected
+working tests pass 154 cases; a new exact-source qualification is still required.

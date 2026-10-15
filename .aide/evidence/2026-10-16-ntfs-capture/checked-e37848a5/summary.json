@@ -1,0 +1,367 @@
+{
+  "schema": "org.disked.ntfs-capture-qualification/1",
+  "observed_at": "2026-10-15T14:27:38.305226+00:00",
+  "source_revision": "e37848a55f7ef4b47547244c05712f3137c12ee5",
+  "checkout_status": "",
+  "root": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "Selected Windows x64 supplied-reader NTFS bootstrap, existing primitives and exFAT reader regressions; strict WSL C90/C++14 syntax checks. No full native suite or other-host/product qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 9.716,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build",
+        "--config",
+        "Release",
+        "--target",
+        "bootstrap_registry",
+        "ntfs_capture_probe",
+        "ntfs_attributes_probe",
+        "exfat_capture_probe",
+        "ntfs_boot_probe",
+        "ntfs_record_probe",
+        "disked_ntfs_headers",
+        "disked_ntfs_capture_headers",
+        "disked_exfat_capture_headers",
+        "portable_probe",
+        "portable_cpp",
+        "gpt_probe",
+        "mbr_probe",
+        "fat_probe",
+        "exfat_probe",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 31.459,
+      "log": "build.log"
+    },
+    {
+      "name": "portable-regression",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\portable-junit.xml",
+        "-R",
+        "^(image\\.(ntfs_capture|exfat_capture)|portable\\.(checked|c_cpp_linkage|ntfs_record|ntfs_boot|ntfs_attributes|ntfs_runlist|gpt|gpt_guard|mbr_ebr|mbr_guard|fat|fat_guard|exfat|exfat_guard))$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 36.663,
+      "log": "portable-regression.log"
+    },
+    {
+      "name": "probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build\\Release\\ntfs_capture_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 0.082,
+      "log": "probe-imports.log"
+    },
+    {
+      "name": "probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build\\Release\\ntfs_capture_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 0.136,
+      "log": "probe-headers.log"
+    },
+    {
+      "name": "build-boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 4.999,
+      "log": "build-boundaries.log"
+    },
+    {
+      "name": "wsl-gcc-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 5.036,
+      "log": "wsl-gcc-identity.log"
+    },
+    {
+      "name": "wsl-gcc-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/record.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/boot.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/attribute.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/runlist.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 1.183,
+      "log": "wsl-gcc-c90.log"
+    },
+    {
+      "name": "wsl-clang-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 0.445,
+      "log": "wsl-clang-identity.log"
+    },
+    {
+      "name": "wsl-clang-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/record.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/boot.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/attribute.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/portable/ntfs/runlist.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 2.093,
+      "log": "wsl-clang-c90.log"
+    },
+    {
+      "name": "wsl-gpp-cxx14",
+      "command": [
+        "wsl",
+        "-e",
+        "g++",
+        "-std=c++14",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/runtime/capture/ntfs_capture.cpp"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 2.721,
+      "log": "wsl-gpp-cxx14.log"
+    },
+    {
+      "name": "wsl-clangpp-cxx14",
+      "command": [
+        "wsl",
+        "-e",
+        "clang++",
+        "-std=c++14",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-e37848a5/source/runtime/capture/ntfs_capture.cpp"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 1.558,
+      "log": "wsl-clangpp-cxx14.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 1.369,
+      "log": "source-map.log"
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 8.866,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 8.916,
+      "log": "structural.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 351.608,
+      "log": "tooling.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 1.137,
+      "log": "manifest.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W079",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\context",
+        "--byte-budget",
+        "700000"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 2.417,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-qualified-e37848a5\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e37848a5",
+      "exit_code": 0,
+      "seconds": 5.709,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "original_failures_cleared": false,
+  "full_0_1_0_complete": false,
+  "physical_devices": false,
+  "compiler": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+  "compiler_configuration_sha256": "sha256:09367b2d3dd6af024fef102881b25351073c031ce6314d4a6feecad6f69b9131",
+  "probe_imports": [
+    "kernel32.dll"
+  ],
+  "probe_import_check": true,
+  "probe_security_check": true,
+  "artifacts": {
+    "Release/disked_exfat.lib": "sha256:1b2be50f9ec80f1ad7bce0dc32a54468153f8b4cb7e63f93b4a7617c15df9614",
+    "Release/disked_exfat_capture.lib": "sha256:3f886a2823f1e097fb8808d064f6c41a577a5c1b41e5656e6be207f9e0183736",
+    "Release/disked_exfat_upcase.lib": "sha256:59d74ceb81e6d2e03eec9789bc58090803e8a8321382440fc6e3de162bb5b2ba",
+    "Release/disked_fat.lib": "sha256:f9715acf79ef6b1321228282d62aa3af3fa2817ea0dc203a6e60b77b22a9f842",
+    "Release/disked_gpt.lib": "sha256:2892e8b283cd3cdefb5c2c63faf0a2cbe8a9260d79add11a22180c7bac52f387",
+    "Release/disked_hash.lib": "sha256:d5a70d0a94cc51fd0f9d717815a5d83f04b1a1c78ab89c219b07068945aeb2aa",
+    "Release/disked_json.lib": "sha256:e20eb56f3752b9b230eb13e1ea517554a5f175d05f3833dacccab6418c2065a4",
+    "Release/disked_mbr.lib": "sha256:491f6857eb6be175536131aa41e331b4f8fcf00e15f90ec7f216cbaa7bf01965",
+    "Release/disked_ntfs.lib": "sha256:f9e89c19fc4071c5a574b3236f6cd1efd28749debfb61606f69a77100028fe06",
+    "Release/disked_ntfs_capture.lib": "sha256:f5467646400583183852ddc0321c1c2afe113ab31d55289ab7240f75547e532f",
+    "Release/disked_primitives.lib": "sha256:6e7e87bf152d8dbb506d4c4019783d74ef211731a091db3859cef31b4fd388de",
+    "Release/exfat_capture_probe.exe": "sha256:080e0bb68e4c9fd2cc53eaaf52aeab039d638d25ffe1bf3cd4025c48d1ae2f28",
+    "Release/exfat_probe.exe": "sha256:1c1cb5448f5e3db2f8f65bdead92dafadd892dc7572e604b50ccf76f8cd05f1e",
+    "Release/fat_probe.exe": "sha256:b90a7365f49f5a826a748d89534be62ee9c65dde22187733bf7cf1aec9bfe92f",
+    "Release/gpt_probe.exe": "sha256:a53426423971956417e35c45500cafea7cbba620d2e7a87b98411f561ba208e2",
+    "Release/mbr_probe.exe": "sha256:ee457aef8c637582d63fcfa8731d9e1aa7ddf91861816cc3de302835533fab69",
+    "Release/ntfs_attributes_probe.exe": "sha256:d5ee7c359b190033f3ef8c7210f06be7bc7200c6d00247a32cd29bfcc3e33549",
+    "Release/ntfs_boot_probe.exe": "sha256:49d5e2ba31efa78ae768956f21ffa0334d020775078fc99780cccc3b009c22a3",
+    "Release/ntfs_capture_probe.exe": "sha256:355e4d9c1e625249093cb324fe4b583e53fd11f202e2ab133d77a46e4c7fe7ce",
+    "Release/ntfs_record_probe.exe": "sha256:043107e9e71be89c1db74cbd8461b4e515669db8d24b7aaa6bcdfdc0c3c05487",
+    "Release/portable_cpp.exe": "sha256:9ec3ed55b0867aab5d2842d87e12e14d39f543eaac9176f1cb801ad108d66b74",
+    "Release/portable_probe.exe": "sha256:dc052d4501c72a49ae81755dbd266a3e2c65a087876d93f0304a07fc29a5f885"
+  },
+  "ntfs_record_cases": 964,
+  "ntfs_boot_cases": 1729,
+  "ntfs_runlist_cases": 632,
+  "ntfs_attribute_cases": 259,
+  "ntfs_cases": 150,
+  "inputs_unchanged": true,
+  "checkout_status_after": "",
+  "status": "pass"
+}
