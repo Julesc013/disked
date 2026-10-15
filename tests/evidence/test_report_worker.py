@@ -4,7 +4,7 @@ Delays and store failures are compiled only into the separate fault executable.
 Generated acquisition metadata is selected; source/copy/map paths are not opened
 by the report worker. No physical media, elevation, restart or assumed exit.
 """
-import argparse,copy,ctypes as C,hashlib,itertools,json,os,subprocess,sys,time
+import argparse,copy,ctypes as C,hashlib,itertools,json,os,subprocess,sys,time,uuid
 from ctypes import wintypes as W
 from pathlib import Path
 from test_case import policy
@@ -66,9 +66,26 @@ def main():
     bundle=Bundle(root/'spec')
     def check(name,value,**extra):assert value,(name,extra);observations.append(dict(name=name,passed=True,**extra))
     def call(value,exe=probe,extra=None,refusal=None,retain=True):
-        result=subprocess.run([str(exe)],input=canonical(value),capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=12)
+        trace=exe==fault and value['mode']=='prepare'
+        selected=dict(value,mode='prepare-trace-stream') if trace else value
+        raw=canonical(selected)
+        try:result=subprocess.run([str(exe)],input=raw,capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=12)
+        except subprocess.TimeoutExpired as error:
+            saved=root/'.aide-local'/('report-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
+            (saved/'input.json').write_bytes(raw);(saved/'stdout.jsonl').write_bytes(error.stdout or b'');(saved/'stderr.log').write_bytes(error.stderr or b'')
+            (saved/'request.json').write_bytes(canonical(dict(original_mode=value['mode'],instrumented=trace,
+                timeout_seconds=12,executable=str(exe),executable_sha256=digest(exe.read_bytes()),extra=extra or {})))
+            print('Retained original-deadline timeout: '+str(saved),flush=True)
+            raise
         assert result.returncode==(3 if refusal else 0) and not result.stderr,(result.returncode,result.stdout,result.stderr)
-        out=json.loads(result.stdout)
+        if trace:
+            frames=[json.loads(line) for line in result.stdout.splitlines()];out=frames[-1]
+            phases=out.pop('phase_trace',None)
+            if not refusal:
+                names=[name+suffix for name in ('directory','identity','image','export_review','definition') for suffix in ('_begin','_end')]
+                assert phases==frames[:-1] and [p['phase'] for p in phases]==names
+            samples.append(dict(kind='report-prepare-stream',observations=frames[:-1],qualification=False))
+        else:out=json.loads(result.stdout)
         if refusal:assert refusal in out['refusal'],out
         if 'definition' in out:
             bundle.validate('urn:disked:schema:report-worker-definition:1',out['definition'])

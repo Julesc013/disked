@@ -1,0 +1,47 @@
+{
+  "status": "diagnostic-pass-with-retained-regression-failure",
+  "work_id": "DE-W034",
+  "source_base": "89cd7b88691a661cc6d2da53e2af9b19a1f0d234",
+  "source_state": "working",
+  "source_inputs": {
+    "source/platform/windows/report_worker.h": "sha256:01417f6b2fa6ee015ca98428517c326d6d8b22f5526bc566c18603766d3fa67a",
+    "source/platform/windows/report_worker.cpp": "sha256:9520e8c97e977a9c057d03ad9a55e24f075a8ee1f88326fd22a6d3bf4b75b109",
+    "tests/evidence/report_worker_probe.cpp": "sha256:7c3a378205cad6f6192a6109a0e59bdfed5b6c4dfb139e2d0ba67105449e6e8c",
+    "tests/evidence/test_report_worker.py": "sha256:e6cad93e3a10b43214e9e74a2c68d2aedb94109a865c7671471cec9150c86246",
+    "tests/evidence/test_joined_report_worker.py": "sha256:4ce026ba2ee2f145c782fba49647656e9ff05861d4d333d94e815b5a2723481a"
+  },
+  "artifacts": {
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\disked.exe": "sha256:5ea4557ac3d2e0aee74c904591398fa5c9af4d9ea22e3681363a16fa1b6bee70",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\disked_report_test.exe": "sha256:df2b31e6eda921477ca3b651a401f51d623452bcd022eaeda5be0b5e1c97e9d0",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\report_worker_probe.exe": "sha256:95fb754aec5ad927d73ae88fc6312ea2c2ba0f4d07fc5a3ecba978746ec4fba9",
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\report_worker_fault.exe": "sha256:dbb78b4f7dda2d24fce053170fe9950184db70391bc0ecd86b65b9bb5c26cac1"
+  },
+  "initial_selected_regression": {
+    "groups": 3,
+    "passed": 2,
+    "failed": [
+      "evidence.report_worker"
+    ],
+    "diagnostic": "unjoined fault preparation exceeded original12-second harness limit"
+  },
+  "final_streamed_fixture_regression": {
+    "groups": 2,
+    "passed": 2,
+    "original_bounds_preserved": true
+  },
+  "joined_phase_fixture_passed": true,
+  "phase_samples": 6,
+  "phases_per_sample": 10,
+  "normal_trace_modes_rejected": true,
+  "caller_mutation_does_not_replace_selection": true,
+  "streamed_prefix_and_actual_owned_exit_verified": true,
+  "source_preserved": true,
+  "no_effects_during_prepare": true,
+  "full_native_qualified": false,
+  "original_timeout_cause_established": false,
+  "owner_accepted": false,
+  "tooling_tests_run": 242,
+  "tooling_tests_skipped": 2,
+  "current_structural_checks": 1238,
+  "source_map_files": 289
+}

@@ -53,9 +53,22 @@ bytes and hashes are checked independently in Python after native completion;
 creation races and owned-child cuts retain observable file facts. Injected faults
 and process termination are not actual full-filesystem or power-loss tests.
 
-The runtime port and native adapter remain unlinked from `disked.exe`, and public
-`evidence.export` remains unavailable. Public parameter/result schemas, an admitted
-case source, bounded service waits/late results and frontend parity are the next
-admission work. The synchronous private fixtures do not qualify worker containment.
-Acquisition/case provenance, authenticated custody, additional platforms and
-physical qualification remain open. DE-W034 and DiskEd 0.1.0 are incomplete.
+The normal Windows image prototype now links the exporters and dispatches
+`evidence.export` for recorded acquisition and joined verification support.
+The canonical command catalog owns its availability and provisional contract
+status; the [joined frontend profile](../spec/catalog/joined-report-public-prototype.json)
+owns its selected scope. Later programme evidence covers actual private workers,
+bounded waits and frontend journeys; the older synchronous commands above remain
+only a fixture floor. These results do not establish authenticated custody,
+physical association, power-loss persistence or other platform qualification.
+DE-W034 and the full original DiskEd 0.1.0 scope remain incomplete.
+
+The separate report-worker fault probe now offers bounded preparation phase
+observations, including streamed prefixes for stalled callbacks. Normal products
+have no trace mode. Inputs are copied before trusted instrumentation; a callback
+cannot replace the selected case, collection, policy or destination. The fixture
+keeps its original twelve/eighteen-second timeouts and retains raw partial output
+on failure. A controlled pause verifies prefix retention and actual owned exit;
+it does not reproduce the earlier spontaneous stalls or diagnose their cause.
+[Diagnostic evidence](../.aide/evidence/2026-10-15-report-prepare-phases/README.md)
+retains both failed and passing regressions.

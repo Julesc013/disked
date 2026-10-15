@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="3"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="110"
+	timestamp="2026-10-15T11:12:11"
+	>
+	<testcase name="frontend.joined_report" classname="frontend.joined_report" time="19.917" status="run">
+		<properties/>
+		<system-out>{"passed": true, "joined": true, "checks": 271, "verified_outputs": [{"frontend": "cli", "operation_id": "report-op:d75a4c50a993bd8d84bdaa9ca5a31756", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:c041247c8a0549598a6774fca21edc9e9e531a60b7e2ff84665b106a0b95f522"}, {"frontend": "stdio", "operation_id": "report-op:454e903e8fd019cdd8d15ccf7d26f60b", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:a37758fd8838f1bd623e81809321216bceb09c4078a9705373130bd9ba5f6d48"}, {"frontend": "gui", "operation_id": "report-op:cd526f31e4363d92ed3a1ca27451750a", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:24a39770f26ecd048fdf2672e76ab3bfb231dbeb2e66541946375cf296d7badd"}, {"frontend": "tui", "operation_id": "report-op:ef662d19f465c2d43e3a1f816ffb7ebe", "bytes": "2787", "sha256": "...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="evidence.verification_case_export" classname="evidence.verification_case_export" time="51.8473" status="run">
+		<properties/>
+		<system-out>PASS acquisition verification report: 523 checks; 47 actual completed/retained exports
+</system-out>
+	</testcase>
+	<testcase name="evidence.report_worker" classname="evidence.report_worker" time="38.2683" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\disked-acq-worker-30tg6k0i
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 253, in &lt;module&gt;
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 228, in main
+    d,store,out=prepare('late-receipt',fault);result=call(request(d),fault,dict(DISKED_REPORT_WORKER_TEST_RECEIPT_DELAY='1'))
+                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 117, in prepare
+    result=call(dict(mode='prepare',operation_id=case_id,case_directory=str(case_store),policy=policy(),destination=str(out),state_directory=str(store)),exe)
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_report_worker.py", line 69, in call
+    result=subprocess.run([str(exe)],input=canonical(value),capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=12)
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\report_worker_fault.exe']' timed out after 12 seconds
+</system-out>
+	</testcase>
+</testsuite>

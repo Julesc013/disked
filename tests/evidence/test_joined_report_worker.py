@@ -5,7 +5,7 @@ Original image paths have been moved; only explicitly selected metadata is read.
 Fault controls exist only in the separate fault executable. Never kill/restart
 an uncertain worker or remove its dependencies before observing actual exit.
 """
-import copy,ctypes as C,hashlib,itertools,json,subprocess,sys,time
+import copy,ctypes as C,hashlib,itertools,json,subprocess,sys,time,uuid
 from ctypes import wintypes as W
 from test_acquisition_worker import canonical,digest,JobLimits,K
 from test_report_worker import report_process,history_check
@@ -18,9 +18,25 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
     bundle=Bundle(root/'spec');prefix=owned/'joined-workers';prefix.mkdir()
     original={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()}
     def call(v,exe=probe,extra=None,refusal=None):
-        r=subprocess.run([str(exe)],input=canonical(v),capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=18)
+        stream=exe==fault and v['mode']=='prepare-joined'
+        selected=dict(v,mode='prepare-joined-trace-stream') if stream else v
+        raw=canonical(selected)
+        try:r=subprocess.run([str(exe)],input=raw,capture_output=True,cwd=root,env=dict(env,**(extra or {})),timeout=18)
+        except subprocess.TimeoutExpired as error:
+            saved=root/'.aide-local'/('joined-prepare-timeout-'+uuid.uuid4().hex);saved.mkdir(parents=True)
+            (saved/'input.json').write_bytes(raw);(saved/'stdout.jsonl').write_bytes(error.stdout or b'');(saved/'stderr.log').write_bytes(error.stderr or b'')
+            (saved/'request.json').write_bytes(canonical(dict(original_mode=v['mode'],instrumented=stream,
+                timeout_seconds=18,executable=str(exe),executable_sha256=digest(exe.read_bytes()),extra=extra or {})))
+            print('Retained original-deadline joined timeout: '+str(saved),flush=True)
+            raise
         assert r.returncode==(3 if refusal else 0) and not r.stderr,(r.returncode,r.stdout,r.stderr)
-        out=json.loads(r.stdout)
+        if stream:
+            frames=[json.loads(line) for line in r.stdout.splitlines()];out=frames[-1];phases=out.pop('phase_trace',None)
+            if not refusal:
+                names=[name+suffix for name in ('directory','identity','image','export_review','definition') for suffix in ('_begin','_end')]
+                assert phases==frames[:-1] and [p['phase'] for p in phases]==names
+            samples.append(dict(kind='joined-prepare-stream',observations=frames[:-1],qualification=False))
+        else:out=json.loads(r.stdout)
         if refusal:check('joined-native-refusal',refusal in out['refusal'],diagnostic=out['refusal'])
         if 'definition' in out:
             bundle.validate('urn:disked:schema:report-worker-definition:2',out['definition'])
@@ -66,6 +82,24 @@ def exercise(root,owned,probe,fault,product,env,operation,case,collection,collec
         samples.append(dict(kind='actual-joined-worker-'+name,definition=d,header=header,records=rows,observation=observed,artifact_bytes=None if body is None else body.decode()))
         exports.append(dict(name='joined-worker-'+name,outcome=s['outcome'],receipt=s['receipt'],bytes=None if body is None else len(body),sha256=None if body is None else digest(body)))
         return observed,header,raw,rows
+    traced,trace_store,trace_output=prepare('phase-proof',fault)
+    trace_request=dict(mode='prepare-joined-trace',operation_id=operation,case_directory=str(case),
+        collection_path=str(collection),collection_digest=digest(collection_bytes),policy=POLICIES[0],
+        destination=str(trace_output),state_directory=str(trace_store))
+    expected_phases=[name+suffix for name in ('directory','identity','image','export_review','definition')
+        for suffix in ('_begin','_end')]
+    measured=call(trace_request,fault);phases=measured.pop('phase_trace')
+    check('joined-test-only-phase-observations',measured==traced and [p['phase'] for p in phases]==expected_phases
+        and all(p['cpu_observed'] and p['io_observed'] for p in phases))
+    changed=call(dict(trace_request,mode='prepare-joined-trace-mutate'),fault)
+    mutation=changed.pop('caller_mutation_attempted');changed.pop('phase_trace')
+    check('joined-phase-callback-cannot-replace-selection',mutation and changed==traced)
+    for mode in ('prepare-joined-trace','prepare-joined-trace-mutate','prepare-joined-trace-stream','prepare-joined-trace-stream-wait'):
+        call(dict(trace_request,mode=mode),probe,refusal='probe_input')
+    check('joined-phase-observation-zero-effects',not trace_output.exists() and not list(trace_store.iterdir())
+        and collection.read_bytes()==collection_bytes and original=={p.name:p.read_bytes() for p in case.iterdir() if p.is_file()})
+    samples.append(dict(kind='joined-prepare-phase-proof',observations=phases,
+        original_selection_preserved=True,source_preserved=True,no_effects=True,qualification=False))
     d,store,output=prepare('normal')
     flags=('case_read','collection_read','report_write','store_write','host_effects')
     for bits in itertools.product((False,True),repeat=5):

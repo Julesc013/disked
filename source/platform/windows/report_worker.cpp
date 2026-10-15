@@ -149,14 +149,54 @@ void delay(const wchar_t*) {}
 #endif
 }
 V prepare_report_worker(const std::string& id,const std::string& case_dir,const V& policy,const std::string& destination,const std::string& execution_dir) {
+#ifndef DISKED_REPORT_WORKER_TESTING
     Directory dir(execution_dir);dir.empty();Security security;Image image;FileAcquisitionExport session(id,case_dir,policy,destination);
     return prepared_definition(session.definition().value(),dir,security,image,false);
+#else
+    return prepare_report_worker_testing(id,case_dir,policy,destination,execution_dir,{});
+#endif
 }
 V prepare_joined_report_worker(const std::string& id,const std::string& case_dir,const std::string& collection,const std::string& digest,
     const V& policy,const std::string& destination,const std::string& execution_dir) {
+#ifndef DISKED_REPORT_WORKER_TESTING
     Directory dir(execution_dir);dir.empty();Security security;Image image;FileVerificationCaseExport session(id,case_dir,collection,digest,policy,destination);
     return prepared_definition(session.definition().value(),dir,security,image,true);
+#else
+    return prepare_joined_report_worker_testing(id,case_dir,collection,digest,policy,destination,execution_dir,{});
+#endif
 }
+#ifdef DISKED_REPORT_WORKER_TESTING
+V prepare_report_worker_testing(const std::string& id,const std::string& case_dir,const V& policy,const std::string& destination,
+    const std::string& execution_dir,const std::function<void(const char*)>& phase) {
+    const auto selected_id=id,selected_case=case_dir,selected_destination=destination,selected_dir=execution_dir;
+    const auto selected_policy=policy;const auto callback=phase;
+    const auto mark=[&](const char* name) {if(callback)callback(name);};
+    mark("directory_begin");Directory dir(selected_dir);dir.empty();mark("directory_end");
+    mark("identity_begin");Security security;mark("identity_end");
+    mark("image_begin");Image image;mark("image_end");
+    mark("export_review_begin");FileAcquisitionExport session(selected_id,selected_case,selected_policy,selected_destination);mark("export_review_end");
+    mark("definition_begin");auto result=prepared_definition(session.definition().value(),dir,security,image,false);mark("definition_end");
+    return result;
+}
+V prepare_joined_report_worker_testing(const std::string& id,const std::string& case_dir,const std::string& collection,const std::string& digest,
+    const V& policy,const std::string& destination,const std::string& execution_dir,
+    const std::function<void(const char*)>& phase) {
+    // Snapshot selection and callback before trusted instrumentation can run.
+    const auto selected_id=id,selected_case=case_dir,selected_collection=collection,selected_digest=digest,
+        selected_destination=destination,selected_dir=execution_dir;
+    const auto selected_policy=policy;
+    const auto callback=phase;
+    const auto mark=[&](const char* name) {if(callback)callback(name);};
+    mark("directory_begin");Directory dir(selected_dir);dir.empty();mark("directory_end");
+    mark("identity_begin");Security security;mark("identity_end");
+    mark("image_begin");Image image;mark("image_end");
+    mark("export_review_begin");
+    FileVerificationCaseExport session(selected_id,selected_case,selected_collection,selected_digest,selected_policy,selected_destination);
+    mark("export_review_end");
+    mark("definition_begin");auto result=prepared_definition(session.definition().value(),dir,security,image,true);mark("definition_end");
+    return result;
+}
+#endif
 V start_report_worker(const V& d,const V& g) {
     std::string id;bool claimed=false,existing=false;
     try {
