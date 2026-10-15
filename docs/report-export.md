@@ -80,3 +80,13 @@ on failure. A controlled pause verifies prefix retention and actual owned exit;
 it does not reproduce the earlier spontaneous stalls or diagnose their cause.
 [Diagnostic evidence](../.aide/evidence/2026-10-15-report-prepare-phases/README.md)
 retains both failed and passing regressions.
+
+The phase-label correction at `5ae50aee` has partial regression evidence:
+three of four selected clean-source groups pass; the joined frontend group fails
+while starting its acquisition fixture, before report preparation. The generated
+copy later has a terminal record. Independent 242 tooling tests/two skips and
+source/context checks pass, without clearing that native failure. The
+[review](../.aide/evidence/2026-10-16-report-preparation/REVIEW.md) retains
+the failure, actual bytes/identities and the working controlled preparation cases.
+The shared latency, acquisition timeout routing and whole-branch main gate remain
+open. No whole DE-W034, original0.1.0 or release acceptance is claimed.

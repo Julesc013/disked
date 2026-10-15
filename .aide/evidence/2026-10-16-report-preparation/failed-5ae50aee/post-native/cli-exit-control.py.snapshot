@@ -1,0 +1,46 @@
+"""Separate stdout timeout from actual owned CLI process exit, no storage effects."""
+from pathlib import Path
+import ctypes as C
+from ctypes import wintypes as W
+import hashlib,json,os,queue,subprocess,threading,time,uuid
+root=Path.cwd();out=root/'.aide-local/report-cli-exit-control-5ae50aee';out.mkdir(exist_ok=False)
+helper=(root/'.aide-local/report-prepare-tail.py').read_text(encoding='utf-8')
+exec(compile(helper[helper.index('K=C.WinDLL'):helper.index('def save(')],'owned-exit-control-helpers','exec'))
+warm=C.WinDLL(str(Path(os.environ['SystemRoot'])/'System32/dbghelp.dll'),use_last_error=True)
+K.CreateEventW.argtypes=[C.c_void_p,W.BOOL,W.BOOL,W.LPCWSTR];K.CreateEventW.restype=W.HANDLE
+K.SetEvent.argtypes=[W.HANDLE];K.SetEvent.restype=W.BOOL;K.CloseHandle.argtypes=[W.HANDLE];K.CloseHandle.restype=W.BOOL
+gate='Local\\DiskEdReportExitControl-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
+fixture=root/'.aide-local/report-preparation-exact-5ae50aee/.aide-local/disked-acq-worker-gni5viyj/case';header=json.loads((fixture/'acquisition.request').read_bytes())
+state=out/'state';state.mkdir();destination=out/'never-created.json'
+exe=root/'.aide-local/report-preparation-qualified-5ae50aee/build/Release/disked_report_test.exe'
+command=[str(exe),'--json','evidence','export','prepare',header['operation_id'],str(destination),'--case-state-dir',str(fixture),'--state-dir',str(state)]
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')};env['DISKED_REPORT_TEST_GATE']=gate
+start=time.monotonic();events=[];inbox=queue.Queue();p=None
+try:
+    with (out/'stderr.log').open('wb') as stderr:
+        p=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=stderr,env=env)
+        def read():
+            for line in p.stdout:inbox.put((time.monotonic()-start,line))
+            inbox.put((time.monotonic()-start,None))
+        reader=threading.Thread(target=read,daemon=True);reader.start()
+        stamp,line=inbox.get(timeout=8);events.append(dict(kind='stdout',elapsed_seconds=stamp,bytes=line.decode() if line else None))
+        assert line is not None;reply=json.loads(line);assert reply['status']=='unknown' and reply['result']['request_kind']=='export-preparation'
+        alive=False
+        try:p.wait(timeout=.25)
+        except subprocess.TimeoutExpired:alive=True
+        result=dict(alive_after_stdout_and250ms=alive)
+        if alive:
+            before=time.monotonic();dumped=dump(p,out);result.update(dump=dumped,dump_seconds=time.monotonic()-before,actual_dump_bytes=(out/'owned-probe.dmp').stat().st_size)
+        elapsed=time.monotonic()-start
+        if alive and elapsed<6:time.sleep(6-elapsed)
+        events.append(dict(kind='release_callback',elapsed_seconds=time.monotonic()-start));assert K.SetEvent(release)
+        p.wait(timeout=10);reader.join(timeout=1)
+        result.update(exit_code=p.returncode,elapsed_seconds=time.monotonic()-start,pid=p.pid,process=cpu(int(p._handle)),events=events,command=command,source_revision='5ae50aeef3a92a29a593daff3ca37a1fa1d6d880',scope='Controlled callback blocked before provider entry; no claim about original spontaneous latency.')
+        assert p.returncode==6 and not destination.exists() and not list(state.iterdir())
+        (out/'stdout.json').write_bytes(line)
+        (out/'summary.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n')
+        print((out/'summary.json').read_text())
+finally:
+    K.SetEvent(release)
+    if p is not None and p.poll() is None:p.kill();p.wait(timeout=5)
+    K.CloseHandle(entered);K.CloseHandle(release)

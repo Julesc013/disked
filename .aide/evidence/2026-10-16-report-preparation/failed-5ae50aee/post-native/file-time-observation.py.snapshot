@@ -1,0 +1,11 @@
+from pathlib import Path
+import json
+root=Path.cwd();campaign=root/'.aide-local/report-preparation-qualified-5ae50aee';fixture=root/'.aide-local/report-preparation-exact-5ae50aee/.aide-local/disked-acq-worker-gni5viyj'
+rows=[json.loads(line) for line in (fixture/'case/acquisition.records').read_bytes().splitlines()]
+created=int(rows[0]['state']['binding']['process_created']);observations=[]
+for path in sorted(fixture.rglob('*')):
+    if not path.is_file():continue
+    stat=path.stat();birth=stat.st_birthtime_ns//100+116444736000000000
+    observations.append(dict(path=path.relative_to(fixture).as_posix(),bytes=stat.st_size,creation_filetime=str(birth),created_after_worker_seconds=(birth-created)/1e7))
+value=dict(worker_created=str(created),files=observations,scope='Current original generated-file birth timestamps compared to recorded worker creation; not historical parent stack or a causal diagnosis.')
+out=campaign/'post-native/file-times.json';out.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n');print(out.read_text())

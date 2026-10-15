@@ -1,0 +1,50 @@
+from pathlib import Path
+import hashlib,json,subprocess,sys,time,ctypes as C
+from ctypes import wintypes as W
+root=Path.cwd();source=root/'.aide-local/report-preparation-exact-5ae50aee';campaign=root/'.aide-local/report-preparation-qualified-5ae50aee';out=campaign/'post-native';out.mkdir(exist_ok=False);build=campaign/'build'
+def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+assert json.loads((campaign/'summary.json').read_bytes())['status']=='fail'
+inputs=json.loads((campaign/'inputs.json').read_bytes());assert all(sha(source/p)==v for p,v in inputs.items())
+fixture=source/'.aide-local/disked-acq-worker-gni5viyj';saved=out/'retained-acquisition';saved.mkdir()
+for p in sorted(fixture.rglob('*')):
+    if p.is_file():
+        target=saved/p.relative_to(fixture);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(p.read_bytes())
+sys.path.insert(0,str(source/'tests/images'))
+from test_acquisition_worker import history_check,K
+rows=history_check(saved/'case/acquisition.records');state=rows[-1]['state'];binding=state['binding']
+header=json.loads((saved/'case/acquisition.request').read_bytes())
+assert sha(saved/'source.img')==sha(saved/'copy.img')
+handle=K.OpenProcess(0x1000|0x100000,False,int(binding['process_id']))
+observation=dict(recorded_pid=binding['process_id'],recorded_creation=binding['process_created'],recorded_terminal_phase=state['phase'])
+if not handle:observation.update(lookup_error=C.get_last_error(),current_process_lookup='unavailable',actual_exit_observed=False)
+else:
+    try:
+        stamps=[W.FILETIME() for _ in range(4)];assert K.GetProcessTimes(handle,*(C.byref(t) for t in stamps));created=(stamps[0].dwHighDateTime<<32)|stamps[0].dwLowDateTime
+        observation.update(queried_creation=str(created),creation_matches=str(created)==binding['process_created'])
+        if str(created)==binding['process_created']:
+            wait=K.WaitForSingleObject(handle,0);observation.update(wait_result=wait,actual_exit_observed=wait==0)
+    finally:K.CloseHandle(handle)
+write(out/'acquisition-observation.json',dict(operation_id=header['operation_id'],definition_digest=header['definition_digest'],source_sha256=sha(saved/'source.img'),copy_sha256=sha(saved/'copy.img'),map_sha256=sha(saved/'copy.map'),records=len(rows),
+    worker_created=binding['process_created'],first_record=rows[0]['state']['observed_filetime'],last_record=state['observed_filetime'],worker_to_terminal_seconds=(int(state['observed_filetime'])-int(binding['process_created']))/1e7,process=observation,
+    effects_retried=False,scope='Read-only retained fixture/history and current creation-bound process lookup; terminal receipt is not substituted for an actual exit observation.'))
+summary=dict(status='running',source_revision='5ae50aeef3a92a29a593daff3ca37a1fa1d6d880',native_campaign_status='fail',native_failed=['frontend.joined_report'],failed_stage='image.acquire execute fixture setup timed out',stages=[],full_native_qualified=False,original_timeout_cause_established=False)
+def run(name,command):
+    command=list(map(str,command));start=time.monotonic();print('BEGIN',name,flush=True)
+    with (out/(name+'.log')).open('wb') as log:r=subprocess.run(command,cwd=source,stdout=log,stderr=subprocess.STDOUT)
+    summary['stages'].append(dict(name=name,command=command,cwd=str(source),exit_code=r.returncode,seconds=time.monotonic()-start,log=name+'.log'));write(out/'summary.json',summary);print('END',name,r.returncode,flush=True)
+    assert r.returncode==0,name
+identity=json.loads((build/'generated/build-identity.json').read_bytes());write(out/'build-identity.json',identity);dumpbin=Path(identity['compiler_path']).with_name('dumpbin.exe')
+summary['artifacts']=[]
+for name in ['disked','disked_report_test','export_command_probe','export_command_fault']:
+    p=build/'Release'/(name+'.exe');summary['artifacts'].append(dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)))
+    for mode in ['headers','imports','dependents']:run(name+'-'+mode,[dumpbin,'/'+mode,p])
+py=Path(sys.executable)
+run('boundaries',[py,'tools/check-build-boundaries.py','--build',build,'--output',out/'build-boundaries.json'])
+for name,args in [('source-map',['tools/check-source-map.py']),('index',['spec/tools/specctl.py','index','--check']),('structural',['spec/tools/specctl.py','check']),('tooling',['-m','unittest','discover','-s','spec/tools/tests','-v']),('manifest',['spec/tools/specctl.py','verify-manifest'])]:run(name,[py,*args])
+run('context',[py,'spec/tools/specctl.py','context','--work','DE-W034','--output',out/'context','--byte-budget','700000','--artifact-byte-budget','16777216'])
+run('verify-context',[py,'spec/tools/specctl.py','verify-context',out/'context'])
+summary['inputs_unchanged']=all(sha(source/p)==v for p,v in inputs.items());summary['source_status_after']=subprocess.check_output(['git','status','--porcelain'],cwd=source,text=True)
+assert summary['inputs_unchanged'] and not summary['source_status_after']
+summary['status']='independent-checks-pass-native-campaign-failed';write(out/'summary.json',summary)
+print(summary['status'],flush=True)

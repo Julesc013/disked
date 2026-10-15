@@ -1,0 +1,72 @@
+{
+  "status": "fail",
+  "source_revision": "5ae50aeef3a92a29a593daff3ca37a1fa1d6d880",
+  "source_status_before": "",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "Four selected x64 export/frontend/watch groups and tooling/source/import/context checks. No full native, original-stall resolution, other-platform, owner or release qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-qualified-5ae50aee\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-exact-5ae50aee",
+      "exit_code": 0,
+      "seconds": 9.047607500106096,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-qualified-5ae50aee\\build",
+        "--config",
+        "Release",
+        "--target",
+        "bootstrap_registry",
+        "disked",
+        "disked_report_test",
+        "export_command_probe",
+        "export_command_fault",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-exact-5ae50aee",
+      "exit_code": 0,
+      "seconds": 75.40529950009659,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-qualified-5ae50aee\\build",
+        "-C",
+        "Release",
+        "--verbose",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-qualified-5ae50aee\\native-junit.xml",
+        "-R",
+        "^(frontend\\.(product_export|joined_report)|evidence\\.(export_commands|report_watch))$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-preparation-exact-5ae50aee",
+      "exit_code": 8,
+      "seconds": 61.813100500032306,
+      "log": "native.log"
+    }
+  ],
+  "original_timeout_cause_established": false,
+  "full_native_suite_run": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "error": "RuntimeError('native failed; retained original result')"
+}

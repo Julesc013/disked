@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "source_revision": "5ae50aeef3a92a29a593daff3ca37a1fa1d6d880",
+  "source_and_contract_unchanged": true,
+  "steps": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W034",
+        "--output",
+        ".aide-local/context/report-preparation-partial-20261015T171114158813",
+        "--byte-budget",
+        "700000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/report-preparation-partial-20261015T171114158813"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-report-preparation/reviewed-verify-context.log"
+    }
+  ],
+  "native_campaign_status": "fail",
+  "scope": "Metadata/context closure only; no failed native result is promoted."
+}
