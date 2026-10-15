@@ -1,0 +1,61 @@
+{
+  "status": "running",
+  "work_id": "DE-W086",
+  "observed_at": "2026-10-15T21:37:13.021885+00:00",
+  "source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+  "source_status_before": "",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 11.59361490001902,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 287.45530880009755,
+      "log": "build.log"
+    },
+    {
+      "name": "registered",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build",
+        "-C",
+        "Release",
+        "--show-only=json-v1"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 1.6151403998956084,
+      "log": "registered.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "original_delay_cause_established": false,
+  "scope": "Current Windows x64 image prototype, one complete registered native campaign and independent tooling/build/import/context evidence. Not full NTFS, all original platforms/storage or release qualification."
+}

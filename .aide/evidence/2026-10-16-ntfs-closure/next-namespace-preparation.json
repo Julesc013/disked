@@ -1,0 +1,43 @@
+{
+  "status": "research-only-not-an-execution-contract",
+  "observed_at": "2026-10-15T21:45:03.978824+00:00",
+  "next_scope": "Supplied-byte NTFS FILE_NAME and directory INDEX_ROOT/entry envelopes before source-bound namespace traversal.",
+  "rationale": "The current FILE/attribute/list/stream and MFT bootstrap work does not interpret directory keys. Add bounded portable byte decoders with independent fixtures before following index children or exposing namespace claims.",
+  "observations": [
+    "Microsoft documents a full parent reference and original UTF16 filename representation for NTFS3.0/3.1. Preserve raw names, namespace and original encoding separately from display and lookup; do not infer one name per file.",
+    "Pinned NTFS3 headers describe directory-entry keys, optional trailing child VBN and a distinct terminal entry. Index block sizing uses clusters when the block is at least one cluster and512-byte units otherwise. Do not reuse the signed boot size-code interpretation for the root byte."
+  ],
+  "proposed_boundary": [
+    "Reuse portable/primitives checked views and existing NTFS3 profile controls; no native I/O, callbacks, mounting, lookup, collation, mutation, new frontend mode or public ABI.",
+    "Define entry/header/name bounds, terminal/child behavior, budget outcomes and raw identifier preservation before implementation/evaluation. Unknown/unsupported metadata must not manufacture a directory graph.",
+    "INDX fixups/index allocation and source-bound record/index acquisition need their own contracts and tests. No empty future source hierarchy or generic parsing framework."
+  ],
+  "open_details": [
+    "Reconcile root block/count geometry and entry/header semantics against pinned sources before freezing private decoder expectations.",
+    "Choose concrete filename/index implementation ownership based on actual decoder consumers; update the existing source map and build/input registry when adding code.",
+    "Run independent guard/read-only/truncation/overflow/count/quota cases and actual C90/C++ header/dependency regressions. A private supplied-byte decoder does not qualify native namespace traversal."
+  ],
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-name",
+      "access": "Read through web tool; NTFS3.0/3.1 developer notes."
+    },
+    {
+      "url": "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/ntfs.h",
+      "local_observation": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-namespace-references\\linux-ntfs.h",
+      "sha256": "sha256:cba697587926a59770bc04962769b8b15b2d9267ec78d379d6cb719e5ee706c4",
+      "use": "Functional format reference only; no upstream code copied, compiled or executed in product."
+    },
+    {
+      "url": "https://github.com/torvalds/linux/blob/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/index.c",
+      "local_observation": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-namespace-references\\linux-index.c",
+      "sha256": "sha256:44bbe7cc6e85236b36e09e8ac2abb7a50b819ec154e05ea6cd6d96d244a34107",
+      "use": "Functional format reference only; no upstream code copied, compiled or executed in product."
+    }
+  ],
+  "implementation_started": false,
+  "execution_contract_defined": false,
+  "owner_accepted": false,
+  "authorizes_effects": false,
+  "full_0_1_0_complete": false
+}
