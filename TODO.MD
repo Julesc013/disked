@@ -22,10 +22,12 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W087 private NTFS filename/index envelopes: code and probe build;
-  1,502 working guarded cases, strict C90/standalone C header and source/build
-  boundary checks pass. Clean selected qualification and agent review remain.
-  Native namespace traversal, original 0.1.0 and owner/release gates remain.
+- [x] DE-W087 private filename/index envelopes: exact `3df1a1c7` passes
+  1,502 guarded cases, 27 selected native groups, 9 C++ headers,
+  strict C90/standalone C header; fixture correction`cd65edcc`
+  passes 244 tooling tests(two skipped) with native inputs/artifacts unchanged.
+  Agent-reviewed supplied-byte scope; protected INDX/native acquisition and
+  original 0.1.0 remain. [Evidence](.aide/evidence/2026-10-16-ntfs-index/REVIEW.md).
 
 - [x] DE-W086 bounded NTFS MFT/Volume record closure: native `540043c3`
   passes 134 new cases and 156/157 groups; its stale dependency-declaration failure

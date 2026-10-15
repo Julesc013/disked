@@ -34,7 +34,7 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **311 current source files**: 33 portable, 133 runtime, 68 provider,
-63 platform and 14 application files. This includes private DE-W087 filename/index decoder code awaiting verification; the preceding source-bound closure and decoder evidence is below. The longest repository-relative source
+63 platform and 14 application files. This includes the private DE-W087 filename/index decoders; source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
@@ -95,6 +95,14 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 [Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-closure-integration/repository.json)
 records the successful dev/main synchronization. Owner and release gates remain separate.
+
+Private filename/index envelopes at `3df1a1c7` pass 1,502 guarded cases,
+27 selected native groups, 9 C++ headers, strict C90/header checks
+and 244 tooling tests(two skipped) after the separate positive fixture-budget
+correction`cd65edcc`. The original failed campaign remains.
+[Review](../.aide/evidence/2026-10-16-ntfs-index/REVIEW.md).
+This adds supplied-byte interpretation while retaining the existing owners;
+native protected-index acquisition, namespace/content and full0.1.0 remain open.
 
 Source-bound MFT/Volume closure at `540043c3` passes134 new cases and
 156/157 native groups. The original dependency-declaration failure remains;

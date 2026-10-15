@@ -1,0 +1,122 @@
+{
+  "status": "pass",
+  "work_id": "DE-W087",
+  "observed_at": "2026-10-15T23:18:08.040506+00:00",
+  "native_source_revision": "3df1a1c7c30dabb39bba394321eff993b0e3431f",
+  "correction_revision": "cd65edcce290e02bd58c9712999033ebb70dc4f9",
+  "original_campaign_status": "fail",
+  "original_tooling": {
+    "tests": 244,
+    "failures": 1,
+    "errors": 4,
+    "skipped": 2
+  },
+  "selected_native_groups": 27,
+  "selected_native_failed": [],
+  "native_cases": 1502,
+  "change": "Two spec-tool positive fixture budgets are explicit and footprint-derived;content-budget and unchanged destination assertions are strengthened. Production source/default limits and native domain fixtures remain unchanged.",
+  "changed_registered_inputs": [
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/tools/tests/test_corrective.py",
+    "spec/tools/tests/test_specctl.py"
+  ],
+  "unchanged_registered_inputs": 1066,
+  "binary_source_identity": "3df1a1c7c30dabb39bba394321eff993b0e3431f",
+  "binary_rebuilt": false,
+  "full_native_campaign_claim": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "stages": [
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 1.460006299894303,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 2.939413599902764,
+      "log": "structural.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 1.0490453999955207,
+      "log": "manifest.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 312.5044891999569,
+      "log": "tooling.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W087",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-tooling-correction-cd65edcc\\context",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 2.503967799944803,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-tooling-correction-cd65edcc\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-index-exact-cd65edcc",
+      "exit_code": 0,
+      "seconds": 5.501556199975312,
+      "log": "verify-context.log"
+    }
+  ],
+  "native_artifacts_unchanged": true,
+  "native_artifacts_compared": 116,
+  "header_objects_compared": 9,
+  "production_and_native_test_inputs_unchanged": true,
+  "correction_checkout_clean": true
+}
