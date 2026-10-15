@@ -31,7 +31,7 @@ release/storage authority remain separate. The programme record is
   eight methods,20 selected x64 groups/eight headers,242 tooling(two skips) and
   four full launches. Actual exited-child publication and retained replay pass.
   Shared frontend/fullNTFS/other-host and original scope remain; diagnose W075
-  report-preparation before whole-branch main promotion.
+  historical report/acquisition latency separately from current source qualification.
 
 - [x] DE-W081 available ordinary-file scope: exact `777fd71f` passes 73 responses/
   nine methods on x64 and isolated x86/WOW64, including real native offsets above
@@ -60,10 +60,12 @@ release/storage authority remain separate. The programme record is
   manifest; `ce5efdae` corrected metadata and passed fresh clean verification
   with identical registered/build/source inputs. See the retained applicability
   record; the failed campaign remains a failure.
-- [ ] DE-W075/report preparation: retain the failed145-group qualification and
-  streamed joined/unjoined timeout evidence; diagnose the delay before claiming
-  the current development branch qualifies for integration. No deadline increase
-  or unchanged full-suite retry solely to obtain a pass.
+- [x] Qualify current `813924fa` after the shared acquisition-routing correction:
+  153 native groups/57 headers/242 tooling(two skips), complete inputs/context and
+  implementing-agent review pass. Current source integration is eligible after
+  metadata closure; historical 145-group failures and unexplained latency remain.
+- [ ] Diagnose any latency recurrence without retrying an uncertain writer,
+  weakening deadlines or rerunning an unchanged full campaign solely for green.
 
 ## First implementation
 
@@ -458,12 +460,12 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 - [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with89 existing root-file and44 supplied-tree cases.
 - [x] Retain exact `39d514f1` full145 failure (137 passes/eight failures),51 headers and242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
 - [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
-- [ ] Qualify exact committed source, headers, imports/context/tooling and the shared-mechanism regressions before integration.
+- [x] Qualify exact `813924fa` shared-mechanism source:153 native groups/57 headers/242 tooling(two skips), imports/context/source checks and agent review pass. Earlier failures remain retained.
 - [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original0.1.0 work.
 
 ## Report preparation investigation
 
-- [ ] Complete phase-label correction qualification: `5ae50aee` passes three of four selected clean native groups; joined setup image.acquire execute times out before report preparation. Independent242 tooling(two skips) pass. Retain generated copy/history and partial working controls; preserve unknown-acquisition store routing and diagnose the shared latency without retrying that writer. W075/main remains withheld.
+- [x] Qualify the later `813924fa` phase-label/routing source with the complete 153-group native campaign, including joined reports, plus57 headers/242 tooling(two skips). Exact `5ae50aee` remains a failed three-of-four campaign; retained generated copy/history is never re-executed. The historical delay cause remains open.
 
 - [x] Add DE-W034 test-only preparation phase observations and streamed prefixes; normal modes reject tracing, caller mutation cannot replace selected inputs, and preparation stays inert. Retain the original three-group run's unjoined preparation timeout and subsequent two instrumented fixture passes with unchanged bounds.
 - [ ] Diagnose spontaneous preparation stalls using actual retained phase evidence; preserve request/test bounds, failures and uncertain dependencies. No full native or release qualification follows from the diagnostic tool.

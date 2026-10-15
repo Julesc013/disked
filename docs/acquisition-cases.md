@@ -87,3 +87,13 @@ prepare/execute paths, reconnect/streaming, rejected grants and a private named
 observer gate across request timeout. Private fault controls are absent from the
 product. Retained build/source/host/import evidence is still required for each
 qualification; tests do not establish physical or power-loss durability.
+
+A bounded frontend wait can expire before an acquisition returns its allocated
+operation ID. For a complete valid reviewed raw/logical execute request, the
+shared pure fallback retains its exact state-store path and canonical definition
+digest; it performs no I/O and invents no ID. Invalid/mismatched inputs supply no
+purported reviewed execution route. These hints establish neither current source
+applicability nor admission/completion/exit, and do not authorize replay.
+The [routing review](../.aide/evidence/2026-10-16-acquisition-routing/REVIEW.md)
+records 74 checks/10 frontend replies and the complete 153-group native campaign
+at `813924fa`. Historical timing failures remain retained and unexplained.

@@ -92,17 +92,19 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-The pushed source checkpoint is `e164f863` on `dev`; `main` remains `c03c2d5e`.
-Development checkpoints are being pushed. Whole-branch integration is withheld
-because DE-W075's exact `11e6f625` campaign passed 144 of 145 native groups and
-failed joined-report preparation with `request_wait_expired`. Later test-only
-phase traces retained an unjoined 12-second preparation timeout. The cause is
-unproven. Do not raise deadlines or repeat an unchanged complete campaign solely
-to obtain a pass. Retain the failures, diagnose or repair the cause, run applicable
-qualification and perform agent review before promoting the branch.
-[Failed campaign and diagnostics](../.aide/evidence/2026-10-15-native-delays/failed-11e6f625/observation-summary.json).
+Current source `813924fa` passes one complete clean-source campaign:153 native
+groups,57 standalone headers,242 tooling tests/two skips, source/header/build
+boundaries, PE/import observations and complete input/context binding. It repairs
+lost reviewed acquisition routing after timeout across all five frontends. The
+[source-bound review](../.aide/evidence/2026-10-16-acquisition-routing/REVIEW.md)
+permits ordinary source integration after metadata and staged-byte closure.
+Actual repository synchronization is recorded separately. This supersedes the
+hold on unqualified current source; prior failed campaigns remain failures and
+the spontaneous latency cause remains unknown. No deadline or test expectation
+was weakened. Current source integration does not qualify release or the full
+original storage/platform scope.
 
-The last integrated product checkpoint has a complete 144-group native campaign
+The previous integrated product checkpoint had a complete 144-group native campaign
 at `2cd2e2e1`, 51 standalone headers and 242 tooling tests with two skips.
 [Exact-source evidence](../.aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json).
 The NTFS ordinary-file checkpoint at `777fd71f` passes 73 responses/nine
@@ -128,16 +130,15 @@ disabled. The specified required
 PR/check policy is still an outstanding governance task; this documentation pass
 does not change repository settings or establish that gate.
 
-At that retained observation, Universal Setup
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237)
-is at `67fa57c9`. Six checks have succeeded; `native-windows` is running in
-[run 38744081610](https://github.com/Julesc013/universal-setup/actions/runs/38744081610).
-Its main/dev file trees are identical, with one synchronization commit difference.
-Both projects' GitHub release collection queries return empty lists at that
-observation time. These are dated observations, not refreshed upstream status,
-local Setup execution, an independently
-diagnosed fix or live DiskEd lifecycle qualification.
-[Retained read-only observation](../.aide/evidence/2026-10-16-structure-status/observation.json).
+The newer retained read-only Universal Setup observation finds
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) at `7b00cb68`.
+Six checks pass; `native-windows` fails in
+[run 38775171064](https://github.com/Julesc013/universal-setup/actions/runs/38775171064).
+Its failed log reports receipt-count mismatches during evidence packaging and a
+missing controller artifact; the installer runtime cause is not established.
+Both queried release collections are empty. These are dated hosted observations,
+not local Setup execution or live DiskEd lifecycle qualification.
+[Retained observations](../.aide/evidence/2026-10-16-acquisition-routing/hosted-observation/observations.json).
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Native Windows
 interfaces and bounded image work are real progress, but substantial original
@@ -149,6 +150,6 @@ silently replace the selected 0.1.0 finish line. No evidence-based release date
 or completion percentage is available.
 
 Continue original NTFS contained-reader/frontend and remaining metadata integration
-while retaining the report-preparation issue as an integration blocker. The
+while retaining the historical preparation/acquisition latency investigation. The
 architecture is suitable for continued development. Release readiness must be
 earned by exact artifacts, applicable tests and the outstanding gates.

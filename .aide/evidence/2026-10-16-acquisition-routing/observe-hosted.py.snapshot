@@ -1,0 +1,37 @@
+import json,subprocess
+from pathlib import Path
+from datetime import datetime,timezone
+
+out=Path('.aide-local/acquisition-routing-hosted-813924fa')
+out.mkdir(exist_ok=False)
+observations=[]
+for name,args in [
+    ('identity',['powershell','-NoProfile','-Command','[System.Security.Principal.WindowsIdentity]::GetCurrent().Name']),
+    ('account',['gh','api','user','--jq','.login']),
+    ('disked-main',['gh','api','repos/Julesc013/disked/branches/main']),
+    ('disked-dev',['gh','api','repos/Julesc013/disked/branches/dev']),
+    ('disked-rules',['gh','api','repos/Julesc013/disked/rulesets']),
+    ('disked-releases',['gh','api','repos/Julesc013/disked/releases?per_page=5']),
+    ('setup-pr237',['gh','pr','view','237','--repo','Julesc013/universal-setup','--json','number,state,isDraft,headRefName,headRefOid,baseRefName,updatedAt,mergeStateStatus,statusCheckRollup,url']),
+    ('setup-main',['gh','api','repos/Julesc013/universal-setup/branches/main']),
+    ('setup-dev',['gh','api','repos/Julesc013/universal-setup/branches/dev']),
+    ('setup-releases',['gh','api','repos/Julesc013/universal-setup/releases?per_page=5']),
+]:
+    started=datetime.now(timezone.utc).isoformat()
+    result=subprocess.run(args,capture_output=True)
+    (out/(name+'.stdout')).write_bytes(result.stdout)
+    (out/(name+'.stderr')).write_bytes(result.stderr)
+    observations.append(dict(name=name,command=args,exit_code=result.returncode,observed_at=started))
+    print(name,result.returncode,flush=True)
+(out/'observations.json').write_text(json.dumps(observations,indent=2)+'\n',encoding='utf-8',newline='\n')
+assert all(row['exit_code']==0 for row in observations)
+assert (out/'identity.stdout').read_text().strip().lower()=='blackglass-win1\\jules'
+assert (out/'account.stdout').read_text().strip()=='Julesc013'
+for name in ('disked','setup'):
+    for branch in ('main','dev'):
+        value=json.loads((out/(name+'-'+branch+'.stdout')).read_bytes())
+        print(name,branch,value['commit']['sha'],value['protected'])
+value=json.loads((out/'setup-pr237.stdout').read_bytes())
+print('setup-pr',value['state'],value['isDraft'],value['headRefOid'])
+for check in value['statusCheckRollup']:
+    print(check.get('name',check.get('context')),check.get('status',check.get('state')),check.get('conclusion'))

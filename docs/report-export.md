@@ -88,5 +88,9 @@ copy later has a terminal record. Independent 242 tooling tests/two skips and
 source/context checks pass, without clearing that native failure. The
 [review](../.aide/evidence/2026-10-16-report-preparation/REVIEW.md) retains
 the failure, actual bytes/identities and the working controlled preparation cases.
-The shared latency, acquisition timeout routing and whole-branch main gate remain
-open. No whole DE-W034, original0.1.0 or release acceptance is claimed.
+That checkpoint remains a failed campaign. Later `813924fa` repairs acquisition
+timeout routing and passes the complete 153 native groups, including this joined
+frontend, with 57 headers/242 tooling(two skips). Its
+[routing review](../.aide/evidence/2026-10-16-acquisition-routing/REVIEW.md)
+permits current source integration without claiming the historical latency cause
+is known. No whole DE-W034, original0.1.0 or release acceptance is claimed.

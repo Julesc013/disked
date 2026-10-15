@@ -1,0 +1,110 @@
+[
+  {
+    "name": "identity",
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:11.605602+00:00"
+  },
+  {
+    "name": "account",
+    "command": [
+      "gh",
+      "api",
+      "user",
+      "--jq",
+      ".login"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:11.802797+00:00"
+  },
+  {
+    "name": "disked-main",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/branches/main"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:12.366715+00:00"
+  },
+  {
+    "name": "disked-dev",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/branches/dev"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:12.992743+00:00"
+  },
+  {
+    "name": "disked-rules",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/rulesets"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:13.474592+00:00"
+  },
+  {
+    "name": "disked-releases",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/releases?per_page=5"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:13.924522+00:00"
+  },
+  {
+    "name": "setup-pr237",
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "237",
+      "--repo",
+      "Julesc013/universal-setup",
+      "--json",
+      "number,state,isDraft,headRefName,headRefOid,baseRefName,updatedAt,mergeStateStatus,statusCheckRollup,url"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:14.477620+00:00"
+  },
+  {
+    "name": "setup-main",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/universal-setup/branches/main"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:15.629318+00:00"
+  },
+  {
+    "name": "setup-dev",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/universal-setup/branches/dev"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:16.155460+00:00"
+  },
+  {
+    "name": "setup-releases",
+    "command": [
+      "gh",
+      "api",
+      "repos/Julesc013/universal-setup/releases?per_page=5"
+    ],
+    "exit_code": 0,
+    "observed_at": "2026-10-15T17:46:16.802778+00:00"
+  }
+]
