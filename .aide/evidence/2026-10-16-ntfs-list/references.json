@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-15T19:32:46.163022+00:00",
+  "source_use": "Functional format facts only; independently authored implementation/fixtures. Downloaded upstream source stays local and is never compiled or executed.",
+  "downloads": [
+    {
+      "path": "linux-attrlist.c",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/attrlist.c",
+      "bytes": 8925,
+      "sha256": "sha256:c6651e82f2ea7b390065cfbf71f4d9a393324c1e3bd429234a89b7b3b53fc6be"
+    },
+    {
+      "path": "ntfs3g-attrib.c",
+      "url": "https://raw.githubusercontent.com/tuxera/ntfs-3g/7f0f841fc52cf719106c5c93bafe465004e36816/libntfs-3g/attrib.c",
+      "bytes": 217452,
+      "sha256": "sha256:94861d509aa7ca24b5cb39a0ff8bf5e1f9ce2e868e52ba18b86702f7ff7ba980"
+    }
+  ],
+  "documentation": "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-list-entry",
+  "reconciliation": [
+    "Microsoft specifies an NTFS3.0/3.1 list with quadword-aligned entries; it labels the name-offset and final16-bit field reserved. The pinned Linux layout uses the former to locate name bytes and the latter as an attribute identifier. Preserve both raw values; do not require zero.",
+    "Both pinned readers iterate inside the supplied list-value length. NTFS-3G explicitly checks length alignment and treats a partial next header as corruption. A FILE-record FFFFFFFF marker is not a list-value terminator.",
+    "This parser consumes a bounded supplied span only. Sorting, volume name collation, uniqueness, live file-reference/sequence validity and complete logical streams require later source-bound interpretation."
+  ]
+}

@@ -55,6 +55,30 @@
 #define DE_NTFS_RUN_COVERAGE 0x0020UL
 #define DE_NTFS_RUN_SPARSE 0x0040UL
 #define DE_NTFS_RUN_BUDGET 0x0080UL
+#define DE_NTFS_LIST_TRUNCATED 0x0001UL
+#define DE_NTFS_LIST_LENGTH 0x0002UL
+#define DE_NTFS_LIST_ALIGNMENT 0x0004UL
+#define DE_NTFS_LIST_NAME 0x0008UL
+#define DE_NTFS_LIST_VCN 0x0010UL
+#define DE_NTFS_LIST_TYPE 0x0020UL
+#define DE_NTFS_LIST_BUDGET 0x0040UL
+
+typedef struct de_ntfs_attr_list_entry {
+    de_view raw, name;
+    de_u64 lowest_vcn, segment_reference, record_number;
+    de_u32 type, issues;
+    unsigned short record_length, sequence, attribute_id;
+    unsigned char name_length, name_offset;
+    int present, envelope_valid;
+} de_ntfs_attr_list_entry;
+
+typedef struct de_ntfs_attr_list_cursor {
+    de_view value;
+    size_t offset;
+    unsigned int limit, count;
+    de_u32 issues;
+    int terminated, stopped;
+} de_ntfs_attr_list_cursor;
 
 typedef struct de_ntfs_attribute {
     de_view raw, name, value, mapping;
@@ -136,6 +160,10 @@ int de_ntfs_runs_begin(const de_view *pairs, const de_u64 *first_vcn, const de_u
                        const de_u64 *volume_clusters, int allow_sparse, unsigned int limit,
                        de_ntfs_run_cursor *out);
 int de_ntfs_runs_next(de_ntfs_run_cursor *cursor, de_ntfs_run *out);
+/* Exact supplied-span exhaustion, not an attribute-record end marker. */
+int de_ntfs_attr_list_begin(const de_view *value, unsigned int major, unsigned int minor,
+                            unsigned int limit, de_ntfs_attr_list_cursor *out);
+int de_ntfs_attr_list_next(de_ntfs_attr_list_cursor *cursor, de_ntfs_attr_list_entry *out);
 #ifdef __cplusplus
 }
 #endif

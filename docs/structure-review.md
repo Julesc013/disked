@@ -33,13 +33,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **302 current source files**: 30 portable, 129 runtime, 68 provider,
-61 platform and 14 application files. The longest repository-relative source
+There are **307 current source files**: 31 portable, 131 runtime, 68 provider,
+63 platform and 14 application files. This includes the private DE-W084 list decoder awaiting exact-source qualification. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-worker/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-list/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -66,7 +66,7 @@ is formatter-clean.
 | SR-05: composition and test seams | Remains a targeted improvement. `app.cpp` still contains command-specific routing, limits and test hooks. Extract a named service binding or test seam with a concrete contract and consumer, preserving one command registry. |
 | SR-06: inventory does not enforce dependencies | Independent CMake-derived build/header checks now accompany source-map coverage. They qualify their tested lane, not every target or public SDK. |
 | SR-07: stale first-task routing | Root guidance routes through the programme. This pass also makes the canonical start page distinguish an active checkout from an initial archive. |
-| SR-08: Setup qualification | The reviewed candidate failed Windows qualification. A newer candidate is still awaiting its Windows result; qualification remains open. See the exact observation below. |
+| SR-08: Setup qualification | The reviewed candidate failed Windows qualification. A newer candidate also fails Windows qualification; qualification remains open. See the exact observation below. |
 
 The original 1,043-line follow-up mixed many dated checkpoints with current
 guidance. Its [exact pre-consolidation contents](../.aide/evidence/2026-10-16-structure-status/structure-review-before.md)
@@ -134,15 +134,17 @@ disabled. The specified required
 PR/check policy is still an outstanding governance task; this documentation pass
 does not change repository settings or establish that gate.
 
-The newer retained read-only Universal Setup observation finds
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) at `7b00cb68`.
+The latest read-only Universal Setup observation finds
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) at `1060e995`.
 Six checks pass; `native-windows` fails in
-[run 38775171064](https://github.com/Julesc013/universal-setup/actions/runs/38775171064).
-Its failed log reports receipt-count mismatches during evidence packaging and a
-missing controller artifact; the installer runtime cause is not established.
-Both queried release collections are empty. These are dated hosted observations,
-not local Setup execution or live DiskEd lifecycle qualification.
-[Retained observations](../.aide/evidence/2026-10-16-acquisition-routing/hosted-observation/observations.json).
+[run 38784925435](https://github.com/Julesc013/universal-setup/actions/runs/38784925435).
+Its failed log reports owned SYSTEM fixture failures in source-free interrupted
+repair checks and receipt-count mismatches during evidence packaging. The
+underlying runtime cause is not established. Both queried GitHub release
+collections are empty. These are dated hosted observations, not local Setup
+execution or live DiskEd lifecycle qualification.
+[Retained observations](../.aide/evidence/2026-10-16-ntfs-list/hosted-observations.json)
+and [failed job log](../.aide/evidence/2026-10-16-ntfs-list/setup-38784925435-failed.log).
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Native Windows
 interfaces and bounded image work are real progress, but substantial original
@@ -153,7 +155,7 @@ source merge. A smaller preview would need an explicitly agreed scope; it cannot
 silently replace the selected 0.1.0 finish line. No evidence-based release date
 or completion percentage is available.
 
-Continue original NTFS contained-reader/frontend and remaining metadata integration
+Continue original NTFS attribute-list/MFT extension and remaining metadata integration
 while retaining the historical preparation/acquisition latency investigation. The
 architecture is suitable for continued development. Release readiness must be
 earned by exact artifacts, applicable tests and the outstanding gates.

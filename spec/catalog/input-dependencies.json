@@ -14233,6 +14233,91 @@
         "DE-022",
         "DE-031"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-list-prototype.json",
+      "path": "spec/catalog/ntfs-list-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "docs/ntfs-list.md",
+      "path": "docs/ntfs-list.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-list/references.json",
+      "path": ".aide/evidence/2026-10-16-ntfs-list/references.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/attribute_list.c",
+      "path": "source/portable/ntfs/attribute_list.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-list-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/unit/ntfs_list_probe.cpp",
+      "path": "tests/unit/ntfs_list_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-list-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/property/test_ntfs_list.py",
+      "path": "tests/property/test_ntfs_list.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-list-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-list/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-list/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-list-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031"
+      ]
     }
   ]
 }

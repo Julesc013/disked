@@ -7803,6 +7803,105 @@
         "spec/catalog/ntfs-boot-prototype.json",
         ".aide/evidence/2026-10-16-ntfs-command/reproduce.py"
       ]
+    },
+    {
+      "id": "DE-W084",
+      "title": "Decode bounded NTFS attribute-list entries and references",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R1",
+      "dependencies": [
+        "DE-W078",
+        "DE-W083"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ],
+      "allowed_paths": [
+        "source/portable/ntfs/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Advance original NTFS attribute-list/MFT support with a bounded supplied-byte list-entry cursor. Cross-record extension joining, arbitrary MFT record lookup, namespace/content, provider/frontend dispatch and effects remain later required work, not qualified by a parser.",
+        "Private C90 portable/ntfs/attribute_list.c extends existing ntfs.h. Reuse checked limb-u64 loads and byte views; no heap, callbacks, OS access, native64 dependency, packed-struct casting or public ABI. Caller objects are valid/disjoint/stable and input spans are readable; this is not a hostile C-caller boundary.",
+        "Begin accepts a stable borrowed span, explicit NTFS3.0/3.1 context and1..4096 item budget. No artificial FILE-record byte ceiling is imposed on a list value; accessible size_t span and caller item budget bound work. Empty spans including null/zero are accepted as already terminated. Invalid pointers/null nonempty view/version return DE_INVALID; invalid item budget returns DE_BOUNDS. All invalid API results preserve cursor/output sentinels and source bytes.",
+        "A full header is26 bytes: little-endian type u32 at0, record length u16 at4, name length/offset bytes at6/7, raw lowest VCN u64 at8, raw segment reference u64 at16 and raw attribute identifier u16 at24. Preserve every field; expose the reference low48 record number and high16 sequence without judging target validity. Header fields are interpreted only with26 bytes available. Short tails retain their borrowed raw span and TRUNCATED issue with present=false; no guessed fields.",
+        "A safely advancing entry has declared length at least26, multiple8 and within remaining supplied bytes (thus minimum valid encoded length32). Decode a full header even when unsafe length prevents advancement. Unsafe length sets LENGTH when below26 or beyond remaining; exceeding remaining also sets TRUNCATED; nonmultiple8 independently sets ALIGNMENT. Count a full observed header, preserve raw remainder and stop without guessing a next entry. Safe framing bounds raw view to declared length, advances exactly that length and permits later bounded observations even if a name/VCN/type issue is present.",
+        "Nonempty name uses exactly2*name_length original UTF16LE bytes at the declared byte offset, bounded after the26-byte header and within declared entry length. Invalid span sets NAME and exposes no name view; safe framing can continue. Empty name ignores its undefined offset. Preserve NUL/surrogate/code units and unexamined padding; impose no extra byte-offset alignment, host normalization, case conversion or display semantics.",
+        "Raw high-bit VCN is retained but sets VCN because usable coordinates are nonnegative signed64. Known type profile is16..256 in multiples16; unknown types set TYPE while retaining a structurally bounded envelope and allowing iteration. envelope_valid excludes framing/name/VCN faults but permits TYPE diagnostics. Raw sequence and attribute identifiers, including zero/all-ones, are not validity or authority proofs. No sort, duplicate, collation, reference resolution or stream completeness claim.",
+        "Exact supplied-span exhaustion terminates; no special entry-type end marker and no implicit padding/trailer stripping. Successful advance to end sets terminated even if item issues were observed; this flag means consumed span only. A remaining1..25-byte tail is an explicit stopped TRUNCATED observation. Item-budget exhaustion before EOF produces a nonpresent BUDGET observation without reading/advancing into another header. Exact budget at EOF succeeds. After stopped/terminated, DE_EMPTY leaves cursor/result unchanged. Each DE_OK observation preserves source and accumulates issues; malformed or budget stopped-prefix is distinguishable from clean EOF.",
+        "Independent Python struct/integer expectations and generated raw byte spans; both versions, raw48/16 reference boundaries, signed VCN patterns, every short header, length/alignment/span/name boundary, empty/odd-offset/raw UTF16 names, unknown types/FFFFFFFF nontermination, exact/below/over item budgets and lists larger than FILE records. Native probe uses actual readonly/guard pages and sentinel/empty-state immutability checks. Retain original failures. Build actual selected native parser/record/attribute/run/boot/capture/file/worker regressions, standalone headers, imports/dependencies/build boundaries, strict C90 syntax and tooling/context/source evidence. Existing product NTFS dispatch stays bootstrap-only until separate source-bound joining work."
+      ],
+      "acceptance": [
+        "Independent byte/integer fixtures match bounded header/name/reference/VCN facts for3.0/3.1 and preserve exact raw bytes. No source/stream authority follows.",
+        "Length/alignment/span/truncation/budget failures never wrap, overread or invent a next entry. EOF, stopped prefix, unknown type and negative VCN remain distinguishable; invalid/empty APIs preserve sentinels.",
+        "Actual native guard-page/header/import/dependency and strict C90 checks, appropriate NTFS/portable regressions, tooling/context/source identity and implementing-agent review. Original full NTFS/platform/storage0.1.0 and separate owner/release/storage gates remain."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --target ntfs_list_probe disked_ntfs_headers --parallel 4",
+        "ctest --preset windows-bootstrap -R \"^portable.ntfs_\" --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-list-prototype.json",
+        "docs/ntfs-list.md",
+        ".aide/evidence/2026-10-16-ntfs-list/references.json",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/attribute.c",
+        "source/portable/ntfs/runlist.c",
+        "source/portable/ntfs/record.c",
+        "source/portable/ntfs/boot.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/unit/ntfs_attributes_probe.cpp",
+        "tests/property/test_ntfs_attributes.py",
+        "tests/property/test_ntfs_runlist.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "spec/catalog/ntfs-attributes-prototype.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "AGENTS.md",
+        "source/portable/ntfs/attribute_list.c",
+        "tests/unit/ntfs_list_probe.cpp",
+        "tests/property/test_ntfs_list.py",
+        ".aide/evidence/2026-10-16-ntfs-list/reproduce.py"
+      ]
     }
   ]
 }

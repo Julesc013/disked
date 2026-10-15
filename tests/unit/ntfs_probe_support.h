@@ -36,8 +36,9 @@ inline V decimal(const de_u64 &n) {
     need(!de_u64_format(&n, text, sizeof(text)));
     return V::string(text);
 }
-inline std::vector<unsigned char> unhex(const V &v) {
-    need(v.kind == V::Kind::string && v.text.size() % 2 == 0 && v.text.size() <= 98306);
+inline std::vector<unsigned char> unhex(const V &v, std::size_t maximum = 49153) {
+    need(maximum <= 1048576 && v.kind == V::Kind::string && v.text.size() % 2 == 0 &&
+         v.text.size() / 2 <= maximum);
     std::vector<unsigned char> b(v.text.size() / 2);
     for (std::size_t i = 0; i < v.text.size(); ++i) {
         const char c = v.text[i];
