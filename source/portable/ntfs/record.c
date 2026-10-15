@@ -1,4 +1,5 @@
 #include "ntfs.h"
+#include "fixup.h"
 #include <string.h>
 
 static unsigned short word(const unsigned char *p) {
@@ -12,7 +13,7 @@ int de_ntfs_record_read(const de_view *raw, unsigned int major, unsigned int min
                         de_ntfs_record *out) {
     de_ntfs_record value;
     const unsigned char *p;
-    size_t array_bytes, i;
+    size_t array_bytes;
     if (!raw || !out || (!raw->data && raw->size))
         return DE_INVALID;
     if (raw->size > DE_NTFS_MAX_RECORD)
@@ -67,9 +68,7 @@ int de_ntfs_record_read(const de_view *raw, unsigned int major, unsigned int min
         value.issues |= DE_NTFS_HEADER;
     if (!(value.issues & (DE_NTFS_LENGTH | DE_NTFS_USA_OFFSET | DE_NTFS_USA_COUNT))) {
         value.update_sequence = word(p + value.usa_offset);
-        for (i = 0; i < value.strides; ++i)
-            if (word(p + (i + 1) * DE_NTFS_STRIDE - 2) != value.update_sequence)
-                ++value.mismatched_tails;
+        value.mismatched_tails = de_ntfs_fixup_mismatches(raw, value.usa_offset, value.strides);
         if (value.mismatched_tails)
             value.issues |= DE_NTFS_TORN;
         else
@@ -80,18 +79,9 @@ int de_ntfs_record_read(const de_view *raw, unsigned int major, unsigned int min
     return DE_OK;
 }
 
-static int overlaps(const unsigned char *a, const unsigned char *b, size_t length) {
-    size_t i;
-    /* Equality is defined for unrelated objects; ordering pointers is not. */
-    for (i = 0; i < length; ++i)
-        if (a + i == b || b + i == a)
-            return 1;
-    return 0;
-}
 int de_ntfs_record_restore(const de_view *raw, unsigned int major, unsigned int minor,
                            const de_buffer *output, de_ntfs_record *out) {
     de_ntfs_record value;
-    size_t i, offset;
     int status;
     if (!output || !out || (!output->data && output->size))
         return DE_INVALID;
@@ -100,16 +90,9 @@ int de_ntfs_record_restore(const de_view *raw, unsigned int major, unsigned int 
         return status;
     if (!value.envelope_valid)
         return DE_INVALID;
-    if (output->size < raw->size)
-        return DE_BUFFER;
-    if (overlaps(raw->data, output->data, raw->size))
-        return DE_INVALID;
-    memcpy(output->data, raw->data, raw->size);
-    for (i = 0; i < value.strides; ++i) {
-        offset = (i + 1) * DE_NTFS_STRIDE - 2;
-        output->data[offset] = raw->data[value.usa_offset + (i + 1) * 2];
-        output->data[offset + 1] = raw->data[value.usa_offset + (i + 1) * 2 + 1];
-    }
+    status = de_ntfs_fixup_restore(raw, value.usa_offset, output);
+    if (status)
+        return status;
     *out = value;
     return DE_OK;
 }

@@ -16,6 +16,8 @@
 #define DE_NTFS_USA_COUNT 0x0020UL
 #define DE_NTFS_TORN 0x0040UL
 #define DE_NTFS_HEADER 0x0080UL
+#define DE_NTFS_BLOCK_FLAGS 0x0100UL
+#define DE_NTFS_BLOCK_VBN 0x0200UL
 
 #define DE_NTFS_BOOT_TRUNCATED 0x0001UL
 #define DE_NTFS_BOOT_OEM 0x0002UL
@@ -103,6 +105,16 @@ typedef struct de_ntfs_index_entry {
     unsigned short record_length, key_length, flags, sequence;
     int present, end_marker, has_child, envelope_valid;
 } de_ntfs_index_entry;
+
+typedef struct de_ntfs_index_block {
+    de_view raw;
+    de_u64 log_sequence, vbn;
+    de_u32 first_offset, used_bytes, allocated_bytes, issues;
+    unsigned short usa_offset, usa_count, update_sequence;
+    unsigned int strides, mismatched_tails;
+    unsigned char flags;
+    int fields_present, fixups_valid, envelope_valid;
+} de_ntfs_index_block;
 
 typedef struct de_ntfs_index_cursor {
     de_view value;
@@ -220,6 +232,17 @@ int de_ntfs_index_root_begin(const de_view *value, unsigned int major, unsigned 
                              de_u32 cluster_bytes, de_u32 expected_index_bytes, unsigned int limit,
                              de_ntfs_index_root *root, de_ntfs_index_cursor *cursor);
 int de_ntfs_index_next(de_ntfs_index_cursor *cursor, de_ntfs_index_entry *out);
+/* Expected block size/VBN are explicit assertions, not source authority. */
+int de_ntfs_index_block_read(const de_view *raw, unsigned int major, unsigned int minor,
+                             de_u32 expected_bytes, const de_u64 *expected_vbn,
+                             de_ntfs_index_block *out);
+int de_ntfs_index_block_restore(const de_view *raw, unsigned int major, unsigned int minor,
+                                de_u32 expected_bytes, const de_u64 *expected_vbn,
+                                const de_buffer *restored, de_ntfs_index_block *out);
+int de_ntfs_index_block_begin(const de_view *raw, unsigned int major, unsigned int minor,
+                              de_u32 expected_bytes, const de_u64 *expected_vbn,
+                              const de_buffer *restored, unsigned int limit,
+                              de_ntfs_index_block *out, de_ntfs_index_cursor *cursor);
 #ifdef __cplusplus
 }
 #endif

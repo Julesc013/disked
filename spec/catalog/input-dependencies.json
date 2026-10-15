@@ -14608,6 +14608,126 @@
         "DE-031",
         "DE-037"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-block-prototype.json",
+      "path": "spec/catalog/ntfs-block-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-block.md",
+      "path": "docs/ntfs-block.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-block/references.json",
+      "path": ".aide/evidence/2026-10-16-ntfs-block/references.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/index_block.c",
+      "path": "source/portable/ntfs/index_block.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/fixup.c",
+      "path": "source/portable/ntfs/fixup.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/fixup.h",
+      "path": "source/portable/ntfs/fixup.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/unit/ntfs_block_probe.cpp",
+      "path": "tests/unit/ntfs_block_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/property/test_ntfs_block.py",
+      "path": "tests/property/test_ntfs_block.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-block/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-block/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-block-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
     }
   ]
 }

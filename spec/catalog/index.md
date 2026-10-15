@@ -86,6 +86,7 @@
 - [nt-storage-worker-prototype.json](nt-storage-worker-prototype.json)
 - [nt-volume-namespace-prototype.json](nt-volume-namespace-prototype.json)
 - [ntfs-attributes-prototype.json](ntfs-attributes-prototype.json)
+- [ntfs-block-prototype.json](ntfs-block-prototype.json)
 - [ntfs-boot-prototype.json](ntfs-boot-prototype.json)
 - [ntfs-capture-prototype.json](ntfs-capture-prototype.json)
 - [ntfs-closure-prototype.json](ntfs-closure-prototype.json)

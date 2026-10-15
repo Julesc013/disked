@@ -1,0 +1,80 @@
+{
+  "scope": "Working checks only, not exact clean-source qualification",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "exit_code": 0,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4",
+        "--target",
+        "ntfs_block_probe",
+        "ntfs_record_probe",
+        "ntfs_index_probe",
+        "disked_ntfs_headers"
+      ],
+      "exit_code": 0,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "-R",
+        "^portable.ntfs_(block|record|index)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-block\\working\\20261015T233328Z\\native-junit.xml"
+      ],
+      "exit_code": 0,
+      "log": "native.log"
+    },
+    {
+      "name": "c90",
+      "command": [
+        "gcc",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "-Isource",
+        "source\\portable\\ntfs\\attribute.c",
+        "source\\portable\\ntfs\\attribute_list.c",
+        "source\\portable\\ntfs\\boot.c",
+        "source\\portable\\ntfs\\filename.c",
+        "source\\portable\\ntfs\\fixup.c",
+        "source\\portable\\ntfs\\index.c",
+        "source\\portable\\ntfs\\index_block.c",
+        "source\\portable\\ntfs\\record.c",
+        "source\\portable\\ntfs\\runlist.c"
+      ],
+      "exit_code": 0,
+      "log": "c90.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

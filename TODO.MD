@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W088 protected INDX blocks: working 1,230 guarded cases, existing
+  FILE/index regressions and strict C90 pass. Clean full native/tooling/header
+  qualification and review remain pending. [Contract](spec/catalog/ntfs-block-prototype.json).
+
 - [x] DE-W087 private filename/index envelopes: exact `3df1a1c7` passes
   1,502 guarded cases, 27 selected native groups, 9 C++ headers,
   strict C90/standalone C header; fixture correction`cd65edcc`
