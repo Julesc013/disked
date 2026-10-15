@@ -6985,6 +6985,93 @@
         ".aide/evidence/2026-10-15-exfat-tree/reproduce-qualified.py",
         ".aide/evidence/2026-10-15-native-delays/reproduce-timing.py"
       ]
+    },
+    {
+      "id": "DE-W076",
+      "title": "Validate supplied NTFS FILE record envelopes and update-sequence tails",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W020"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ],
+      "allowed_paths": [
+        "source/portable/ntfs/**",
+        "tests/unit/**",
+        "tests/property/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Advance the original NTFS scope with a bounded supplied-byte FILE record envelope and update-sequence validation/restoration primitive. No boot geometry, attribute/runlist traversal, native opening, filesystem verdict, source authority, writer or frontend admission follows.",
+        "Private C90 portable/ntfs/ntfs.h and record.c use the existing checked byte/u64 representation. Native probe and independent generated-byte tests own their oracles. No packed native-struct casts, native64 requirement, duplicate arithmetic or speculative source tree.",
+        "Explicit NTFS major/minor context; selected profile covers3.0/3.1 common FILE headers. Observe exact raw signature, sequence, attribute offset, flags, used/allocated sizes, base reference and next-attribute identifier. Preserve uninterpreted flags/reserved bytes. The common header ends at42 bytes; variable USA may begin at42 or48 and must precede attributes. No record-number-extension interpretation.",
+        "Use512-byte sequence strides independently of physical-sector geometry. The on-disk USA count is a count of16-bit entries: record_bytes/512+1. Require aligned array offset at least42, complete exact array ending at or before byte510, and every protected tail equal to the first USA word before any restoration. Preserve mismatched-tail count and original bytes; do not partially repair a torn record.",
+        "Observe returns DE_OK plus issue bits for a bounded malformed record, retaining raw values when available. Invalid API arguments and oversized budget return the existing checked status with observation unchanged. Restoration revalidates the supplied original record, requires a complete consistent FILE envelope for the selected version and sufficient separate output storage, validates all tails before copying, then restores only tail words in caller-owned RAM. Reject exact/partial source/output overlap using portable pointer equality over bounded spans; preserve input, output and result on restoration failure.",
+        "Require a complete512-multiple record within the selected budget, exact allocated-size equality, used<=allocated, aligned first-attribute offset after the USA, and room for an attribute end marker. A valid envelope/fixup is not valid attributes, a complete filesystem, an atomic read, current identity or authority. Unknown flag bits remain raw observations, not extra permissions."
+      ],
+      "acceptance": [
+        "Independent Python byte/struct oracles across512/1024/4096/49152-byte records, both header layouts, every stride tail, boundary USA placements, raw64 values and uninterpreted bytes/flags.",
+        "Truncated records/header/array, odd/overlapping/out-of-first-stride offsets, missing/extra USA entries, bad signature/version/header relationships and one/many mismatched tails retain exact diagnostics without reading outside input.",
+        "Successful restoration matches independent bytes; invalid record/version/budget/capacity and source/output overlap leave all destination/result sentinels unchanged. Guard/read-only input and bounded generated mutations exercise the actual C90 implementation.",
+        "Actual selected compiler/build/launch/header/import/context/tooling and artifact identities. Original failures stay retained; no owner, legacy-host, NTFS volume/provider or full0.1.0 qualification is manufactured."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --target ntfs_record_probe disked_ntfs_headers --parallel 4",
+        "ctest --preset windows-bootstrap -R \"^portable.ntfs_record$\" --output-on-failure",
+        "python tools/check-build-boundaries.py --build build/windows-bootstrap --output build/windows-bootstrap/build-boundaries.json"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-record-prototype.json",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/record.c",
+        "tests/unit/ntfs_record_probe.cpp",
+        "tests/property/test_ntfs_record.py",
+        "docs/ntfs-record.md",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/view.c",
+        "source/runtime/command/json.h",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        ".aide/evidence/2026-10-15-ntfs-record/reproduce.py"
+      ]
     }
   ]
 }

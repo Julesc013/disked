@@ -1,5 +1,34 @@
 # Source structure and release review follow-up
 
+## Current programme and upstream observation: 15 October 2026
+
+Keep the five source owners, consistent model names and dedicated CLI folder.
+The map now covers 291 files once, including the private supplied-byte
+[NTFS record decoder](ntfs-record.md). DE-W076 advances the original NTFS scope
+independently; it neither admits an NTFS volume/provider nor completes DE-W075.
+The complete 145-group campaign at `11e6f625` retained 144 passes and one failed
+joined-report preparation. Later test-only phase traces also retained an unjoined
+12-second preparation timeout. Their cause remains unproven. No unchanged full
+campaign is being retried merely to obtain a pass. `main` remains the earlier
+qualified checkpoint; exact newer decoder qualification is a separate claim.
+
+The newest [read-only Setup observation](../.aide/evidence/2026-10-15-setup-observation-09b6c441/summary.json)
+finds draft PR237 at `09b6c441` with six successful checks and failed native-windows
+in [run38659051375](https://github.com/Julesc013/universal-setup/actions/runs/38659051375).
+Setup main/dev have identical file content and a synchronization commit difference.
+Both GitHub release lists are empty at the observation time. No Setup runtime was
+executed locally and no live DiskEd installation was qualified by this check.
+Older sections below retain their historical revisions and observations.
+
+The review recommendations have already led to separate JSON/command/invocation
+targets, qualified cross-module includes, shared presentation/request invariants,
+and source/header/build boundary checks. Keep strengthening actual contracts and
+tests where a responsibility needs splitting. The evidence supports those focused
+improvements; it does not establish perfect implementation or every future ABI.
+Original platforms/storage, pending license and owner acceptance, physical
+writer/recovery qualification and release publication remain open. There is no
+evidence-based stable0.1.0 release date.
+
 ## Qualified supplied-reader tree: 15 October 2026
 
 Exact `2cd2e2e1` passes the fresh complete144-group native campaign,51 standalone

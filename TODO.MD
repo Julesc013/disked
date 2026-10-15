@@ -18,6 +18,14 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
+- [ ] DE-W076: qualify the bounded supplied-byte NTFS FILE envelope/fixup primitive
+  and independent protected-input oracle. This does not qualify an NTFS volume,
+  provider, writer or legacy platform.
+- [ ] DE-W075/report preparation: retain the failed145-group qualification and
+  streamed joined/unjoined timeout evidence; diagnose the delay before claiming
+  the current development branch qualifies for integration. No deadline increase
+  or unchanged full-suite retry solely to obtain a pass.
+
 ## First implementation
 
 - [x] DE-W010: implement the granted native fake-only bootstrap and run its bounded build/launch checks.

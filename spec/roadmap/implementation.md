@@ -427,3 +427,12 @@ remains unverified. Next, bind the existing image.inspect exFAT view through the
 shared services/frontends, including both upcase representations and explicit
 ambiguity. Complete tree/content, other hosts, original full platform/storage0.1.0,
 physical writer/recovery, owner acceptance and release qualification remain.
+
+DE-W076 advances the original NTFS scope independently of the incomplete held
+exFAT tree integration. Its [expected contract](../catalog/ntfs-record-prototype.json)
+requires exact supplied-byte FILE envelopes and all-tail validation before RAM
+restoration, reusing DE-W020's checked primitives. Qualification covers the selected
+compiler/host and actual fixtures; boot/MFT addressing, attributes/runlists,
+held-source/provider/frontend integration, other platforms, storage effects and
+the complete original0.1.0 remain required work. DE-W075's failed broad campaign
+and report-preparation diagnostics remain retained and do not become passes.

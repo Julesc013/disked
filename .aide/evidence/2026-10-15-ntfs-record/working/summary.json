@@ -1,0 +1,302 @@
+{
+  "schema": "org.disked.ntfs-record-qualification/1",
+  "observed_at": "2026-10-15T01:04:35.434340+00:00",
+  "source_revision": "5507c4121481fb3acdd39ef4696332a27ebcd482",
+  "checkout_status": " M .aide/programmes/disked-0.1.0.json\n M CMakeLists.txt\n M TODO.MD\n M docs/development-plan.md\n M docs/source-map.md\n M docs/structure-review.md\n M spec/catalog/index.md\n M spec/catalog/input-dependencies.json\n M spec/catalog/source-maintenance-prototype.json\n M spec/generated/index.json\n M spec/manifest.json\n M spec/roadmap/implementation.md\n M spec/work/units.json\n M tools/build-inputs.json\n?? .aide/evidence/2026-10-15-ntfs-record/\n?? .aide/evidence/2026-10-15-setup-observation-09b6c441/\n?? docs/ntfs-record.md\n?? source/portable/ntfs/\n?? spec/catalog/ntfs-record-prototype.json\n?? tests/property/test_ntfs_record.py\n?? tests/unit/ntfs_record_probe.cpp\n",
+  "root": "D:\\Projects\\DiskEd\\disked",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "Selected Windows x64 supplied-byte record and portable regressions; strict WSL C90 syntax checks. No full native suite or other-host/product qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 9.078,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build",
+        "--config",
+        "Release",
+        "--target",
+        "ntfs_record_probe",
+        "disked_ntfs_headers",
+        "portable_probe",
+        "portable_cpp",
+        "gpt_probe",
+        "mbr_probe",
+        "fat_probe",
+        "exfat_probe",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 15.288,
+      "log": "build.log"
+    },
+    {
+      "name": "portable-regression",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\portable-junit.xml",
+        "-R",
+        "^portable\\.(checked|c_cpp_linkage|ntfs_record|gpt|gpt_guard|mbr_ebr|mbr_guard|fat|fat_guard|exfat|exfat_guard)$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 26.001,
+      "log": "portable-regression.log"
+    },
+    {
+      "name": "probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build\\Release\\ntfs_record_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.046,
+      "log": "probe-imports.log"
+    },
+    {
+      "name": "probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build\\Release\\ntfs_record_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.05,
+      "log": "probe-headers.log"
+    },
+    {
+      "name": "build-boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 1,
+      "seconds": 4.866,
+      "log": "build-boundaries.log"
+    },
+    {
+      "name": "wsl-gcc-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 4.151,
+      "log": "wsl-gcc-identity.log"
+    },
+    {
+      "name": "wsl-gcc-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/source/portable/ntfs/record.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.125,
+      "log": "wsl-gcc-c90.log"
+    },
+    {
+      "name": "wsl-clang-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.222,
+      "log": "wsl-clang-identity.log"
+    },
+    {
+      "name": "wsl-clang-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/source/portable/ntfs/record.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.13,
+      "log": "wsl-clang-c90.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 0.116,
+      "log": "source-map.log"
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 1.204,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 3.104,
+      "log": "structural.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 313.441,
+      "log": "tooling.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 1.018,
+      "log": "manifest.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W076",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\context",
+        "--byte-budget",
+        "700000"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 2.381,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-working\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "seconds": 5.853,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "original_failures_cleared": false,
+  "full_0_1_0_complete": false,
+  "physical_devices": false,
+  "compiler": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+  "compiler_configuration_sha256": "sha256:09367b2d3dd6af024fef102881b25351073c031ce6314d4a6feecad6f69b9131",
+  "probe_imports": [
+    "kernel32.dll"
+  ],
+  "probe_import_check": true,
+  "probe_security_check": true,
+  "artifacts": {
+    "Release/disked_exfat.lib": "sha256:16a3c626590b020ce24cdad8af14b562da36ed6642ed4ae86d2fa9cd30a1d61b",
+    "Release/disked_fat.lib": "sha256:c6103656b83268187c5e991e2d2ada504ec480538930374e4ecf3c19db752eac",
+    "Release/disked_gpt.lib": "sha256:e84de4239aecd9721d2ee7ef1a1a5dc006b99c6dfc1a531cfe6ba8bac70fa1be",
+    "Release/disked_json.lib": "sha256:387ebdae42030302a60f8950cf4ab1de138ebd2b7e5c08db0e8af12e1f277394",
+    "Release/disked_mbr.lib": "sha256:6a43b3ad753da74d6f3891249753991d82c5977f60cf4fe208df6b475c3e7236",
+    "Release/disked_ntfs.lib": "sha256:1ae44f26ce598bcb4becbc93a06b70aa3248d2da3de7d07fccd7e0e2ef9e6ab9",
+    "Release/disked_primitives.lib": "sha256:420c4f3220d27dafe85645f2c766ef73df28d793fa0b81c3c11c2eb612b2fd5b",
+    "Release/exfat_probe.exe": "sha256:73ca4dd0d4b529eb3b8c0b1c767ab445ee88435d91ebd9797d316e581952fd53",
+    "Release/fat_probe.exe": "sha256:eb8835723eea876431b7c9a3c43b1c95ffbfdfa599e40f54fcba14c8c857c1ef",
+    "Release/gpt_probe.exe": "sha256:93f3f18965e34b8a35acaa321175caa2e60909c1ad228df5f6437cefe997ec15",
+    "Release/mbr_probe.exe": "sha256:e1ca19a4c64f27c1d7f7c3c9cda3b9193adc1877bef95aa3cb154d677b35d253",
+    "Release/ntfs_record_probe.exe": "sha256:8911b3e1012f20bdcb63a87f98be2ef5b0f03d116261741d575f8bd0f4fd2c56",
+    "Release/portable_cpp.exe": "sha256:811a3f83b0d35abe1bb6c637346b0dc62ec8a61f6201e2a8746d6512bc045379",
+    "Release/portable_probe.exe": "sha256:57bbf7f193a4c89211b20a04c3064a217f78c0a4a176615349b19b0e8762d556"
+  },
+  "ntfs_cases": 964,
+  "inputs_unchanged": true,
+  "checkout_status_after": " M .aide/programmes/disked-0.1.0.json\n M CMakeLists.txt\n M TODO.MD\n M docs/development-plan.md\n M docs/source-map.md\n M docs/structure-review.md\n M spec/catalog/index.md\n M spec/catalog/input-dependencies.json\n M spec/catalog/source-maintenance-prototype.json\n M spec/generated/index.json\n M spec/manifest.json\n M spec/roadmap/implementation.md\n M spec/work/units.json\n M tools/build-inputs.json\n?? .aide/evidence/2026-10-15-ntfs-record/\n?? .aide/evidence/2026-10-15-setup-observation-09b6c441/\n?? docs/ntfs-record.md\n?? source/portable/ntfs/\n?? spec/catalog/ntfs-record-prototype.json\n?? tests/property/test_ntfs_record.py\n?? tests/unit/ntfs_record_probe.cpp\n",
+  "status": "fail"
+}

@@ -25,6 +25,14 @@ push checkpoints on `dev`, then merge tested, agent-reviewed checkpoints to
 source-repository synchronization, with owner acceptance and release artifact
 publication, installation, signing and storage privileges still separate.
 
+Current work is routed through the programme, including retained incomplete units.
+DE-W076's supplied-byte [NTFS record contract](ntfs-record.md) is independent of
+DE-W075's held-image adapter and unresolved broad-regression failure. It reuses
+the checked primitive boundary; it grants no provider or storage access. Continue
+independent original-scope work while retaining the failed evidence. Integrating
+the whole current `dev` branch still requires applicable qualification and review;
+selected decoder tests do not clear unrelated report-preparation failures.
+
 DE-W060 begins with an [offline package fixture binding](setup-fixtures.md):
 exact local upstream schema/source identities, independent native payload
 inventory, package/recipe agreement and owned-directory equality/retention

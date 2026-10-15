@@ -1,0 +1,438 @@
+---
+type: DiskEd Specification
+title: Implementation sequence and first usable release
+description: A small Windows-native vertical slice before expanding storage authority.
+resource: disked://spec/de-080
+tags:
+- disked
+- roadmap
+generated:
+  by: chatgpt/gpt-6-astra-pro
+  at: '2026-09-17T12:00:00Z'
+status: draft
+disked:
+  id: DE-080
+  profile: disked-spec/1
+  version: 0.1.5-proposed.8
+  authority: proposed-normative
+  review: pending
+  risk: R2
+  depends_on:
+  - DE-001
+  - DE-074
+  - DE-075
+  requirements:
+  - DE-REQ-080-01
+  - DE-REQ-080-02
+updated:
+  by: codex
+  at: '2026-10-12T23:20:49.605178+00:00'
+  scope: DE-W039 source-bound interval evidence; owner and full platform-storage-release gates remain open
+sources:
+- id: review-inputs-2026-10-04
+  resource: ../references/sources.json#review-inputs-2026-10-04
+- id: review-08a8246-2026-10-04
+  resource: ../references/sources.json#review-08a8246-2026-10-04
+- id: cli-refinement-2026-10-04
+  resource: ../references/sources.json#cli-refinement-2026-10-04
+---
+
+# Implementation sequence and first usable release
+
+DE-W062 adds a private product-bound read-only H, exact finalized D and finite
+offline ZIP fixture with nonrecursive bindings. Generated servicing previews
+exercise one-owner and exact active/uncertain/recovery generation retention.
+This is not embedded/native Setup delivery or a live retirement authority.
+Clean source/native evidence and implementing-agent review govern local
+continuation; full 0.1.0, owner, channel and storage gates remain open.
+
+DE-W060's private native source consumer complements package fixtures. The
+exact CoreStatic ABI is tested on owned Windows x64 fixtures under a separate
+DiskEd build; no upstream scripts run and no Setup runtime enters the shipping
+composition. Structural archive metadata remains separate from independent
+content verification. The pin's FacMan-specific verifier refuses generic
+DiskEd packages, so callable generic verification and all lifecycle modes stay
+unavailable. Installed SDK, CoreShared, other targets and owner acceptance
+remain separate qualification gates; this slice does not close full DE-W060.
+
+## Gate sequence
+
+**M0 â€” Review and bootstrap.** Accept the source/authority model, resolve foundational open decisions, install shared instructions, run the spec/tool tests and commit a baseline. This is not a code release or physical-write grant.
+
+**M1 â€” One executable over fake storage.** Build native `disked` with build/mode/command inspection, fake target inventory, machine output, TUI and a minimal Win32 GUI. Qualify invocation behavior on XP and current Windows. Exercise self-spawn/IPC without real elevation/storage effects. Freeze command spelling and image-subsystem policy only after evidence.
+
+**M2 â€” Read-only format core.** Implement checked arithmetic and raw-image MBR/EBR/GPT parsing, hostile metadata diagnostics and independent comparison. Add fake-provider frontend parity. Do not use VHD mounting when a raw image reader can avoid host effects.
+
+**M3 â€” Native Windows inspection.** Enumerate disks/volumes/mounts with fresh composite identity, preserve unknown layers, audit imports and test XP/7/10/11. Read-only acquisition has a separate case/data policy and no claim of media safety. Build a useful workshop inventory and evidence product.
+
+**M4 â€” Imaging and evidence.** Resumable image acquisition, bad-sector map, explicit substituted bytes, hashes and case reports. Verify known images and preserve privacy. Refuse repair of original failing media by default.
+
+**M5 â€” Image-only mutation.** Accept journal encoding/durability design. Implement map changes only on disposable image fixtures with simulated interruption, then filesystem-provider plans. No host raw-device writes.
+
+**M6 â€” Privileged NT broker and constrained physical operations.** Independent security review and lab qualification. Admit selected healthy non-system basic MBR/GPT operations one at a time. No system move, encryption, pools or unknown metadata under a generic capability.
+
+**M7 â€” Offline recovery and system tasks.** Exact recovery closures, cross-boot identification, boot/BitLocker dependencies and interruption exercises. Only then admit nonoverlapping moves, overlapping moves and start-boundary movement as separate capabilities.
+
+**M8 â€” Broader systems and media.** Following early nonblocking primitive/text probes, full Carbon/DOS/OS2, additional GUIs, filesystems, pools, tape/optical/flux and enterprise coordination grow behind stable contracts without blocking useful NT releases.
+
+## Owner-selected 0.1.0 programme
+
+The 2026-10-06 goal explicitly selects **all platforms and storage operations**
+specified at base `40ac8ec02778b7c25100421147fc1e107fa14ed5` as the 0.1.0 finish
+line. This is larger than the first useful inspector milestone below. The retained
+`.aide/programmes/disked-0.1.0.json` records the exact scope and development grant.
+Local implementation may continue across units after tests and recorded agent
+review; owner acceptance, release and storage privilege gates remain separate.
+This policy permits progress without manufacturing accepted prerequisites.
+Missing target environments remain unverified, not implied platform passes.
+
+## Work model
+
+`work/units.json` defines small dependency-ordered units with source IDs, allowed paths, deliverables, tests, gates and stop states. `specctl next` reports ready-to-review/design work; it does not grant execution. Do not convert this roadmap into one giant agent prompt. Initial units include exact acceptance outcomes and forbid creating a broad untested source tree.
+
+## First public usefulness
+
+The first public software can be an honest Windows Storage Inspector with one native entrypoint, exact inventory, image validation, table backup and evidence export. A later release earns "partition editor" for the operations it actually qualifies. Public docs distinguish planned, implemented and tested capability.
+
+## Bounded development-readiness plan
+
+The October amendment is specification/tooling work within DE-W000, stopped at needs-review. Owner acceptance binds the actual amended content; it is not manufactured from a recommendation to ratify. Once the relevant baseline review and bounded code grant exist, DE-W010 is the next native implementation unit.
+
+Keep DE-W010 small: one native executable, essential build/mode/command discovery, declared loader closure, fake-only composition and actual build/import evidence. DE-W011-016 add invocation, command/protocol, graph and frontends, and unprivileged process roles. DE-W017 verifies the combined failure matrix; DE-W018 runs nonblocking historical primitive/text probes. Record actual native build/test commands when the toolchain is selected, not fictional commands or only the spec-tool floor.
+
+M2/M3 image parsing and inspection can proceed without finished Setup or production journal work. DE-W035 later proves optional read-only native integration. DE-W060/062 cover pinned Setup and finite carrier/owner contracts; DE-W063 covers artifact completeness. DE-W043 covers image-only formatting after the journal gate. Shared storage, tape/optical, conversions and repair split into operation-specific work through DE-W080. The existing M0-M8 risk order remains.
+
+DE-W060 now has an initial [fixture package profile](../catalog/setup-fixture-prototype.json)
+and exact local upstream source/schema mapping. Recorded clean fixture tests
+exercise independent native payload/ZIP/extraction equality, occupied-root data
+retention and interrupted writes. This is partial delivery development: no live
+SDK/ABI, install/repair/update/uninstall, carrier, installed-state compatibility,
+servicing-owner or other-target qualification follows from it. Continue SDK and
+delivery work under the local programme grant while retaining separate owner,
+installation, storage and release gates; the full 0.1.0 finish line is unchanged.
+
+License, launch, journal, elevation, canonicalization, setup-host, channel and historical-terminal decisions block only their affected implementation or release claim. A first public inspector is a selected qualified release, not completion of all historical targets. AIDE remains optional development infrastructure; roughly weekly pin reviews are tracked as DE-W061 follow-up.
+
+## Corrective pass and scoped follow-up
+
+Address review R01-R05 inside DE-W000: mixed-path impact, complete declared task inputs, revision-bound receipt projection, protocol bounds/identities and explicit CLI prompt policy. These fixes are specification tooling, not storage-runtime implementation. The architecture/source prefix and finite portable-first delivery stay in place.
+
+DE-W010-016 remain the native fake slice. DE-W019 adds the explicit shell using shared command/terminal contracts; DE-W017 then covers shell parity and guarded late-result/cancellation scenarios. DE-W012 owns typed parser/help/completion and producer/reader protocol compatibility. DE-W033 gates multi-resource acquisition; DE-W040/041 gate immutable-plan receipts, recovery traits and real journal encoding. None makes every future storage or legacy decision a prerequisite for the first fake executable.
+
+## CLI syntax refinement after 9493381
+
+The proposed grammar now lets users append or intersperse accepted options, registers ordinary-word shortcuts and makes contextual help independent of storage prerequisites. DE-W012 owns the native parser, typed parameter completion, no-effects-before-validation traces and shared conformance corpus. DE-W019 owns editable error recovery and measured shortcut/completion usability. DE-W018/071 reuse parser cases when a target's parser is admitted; this does not expand the first fake executable or require mature historical ports first. DE-W012 now executes the shared vectors and option-position permutations against the native Windows parser. Target-specific evidence remains separate; this does not qualify other tokenizers or hosts.
+
+## Normative requirements
+
+### DE-REQ-080-01
+
+Implementation MUST proceed through explicit phase gates; no physical mutation may be admitted by completing a fake/image-only milestone.
+
+**Verification:** Inspect work dependency/gate graph.
+
+### DE-REQ-080-02
+
+Every selected work unit MUST have bounded outputs, context, tests and a needs-review stop state.
+
+**Verification:** Validate the work catalog and export projection.
+
+## Related specifications
+
+- [DE-001](../foundation/charter.md)
+- [DE-074](../development/testing-and-ci.md)
+- [DE-075](../development/governance-and-review.md)
+
+## DE-W010 executable boundary
+
+The scoped DE-W000 review at `95cce28f801c726ca61816b7d2a974b3c7bce07e` supports the current explicitly granted fake-only implementation. [DE-079](../development/native-bootstrap.md) closes its execution contract as part of development. This console-only composition implements human help/build/command discovery; it does not complete M1. Owner baseline and implementation acceptance remain separate and pending. Review actual native evidence before proceeding to DE-W011/012; retain legacy and storage decisions at their existing gates.
+
+## Local programme implementation progress
+
+Under the explicit 0.1.0 development grant, DE-W012 supplies synchronous commands,
+DE-W011 supplies the current Windows invocation subset, and DE-W013 supplies the
+immutable fake graph/shared service. Retained tests and agent review permit
+local continuation into DE-W014/015. This does not close M1, owner acceptance,
+async operation, historical-platform or release/storage qualification gates.
+
+DE-W014 now exercises the native console frontend in screen and linear modes,
+including actual input, Ctrl+C, resize and caller-state restoration. DE-W015 can
+reuse the service/model semantics for the Win32 frontend under the programme
+grant. This leaves screen-reader/remote/legacy and the rest of M1 unqualified.
+
+
+DE-W015 implements the initial Win32 fake workbench with native controls and
+separate review/submit forms. Its native tests do not qualify screen readers,
+high-contrast-on, other Windows profiles or real storage. The programme proceeds
+to DE-W016 after retained clean build evidence and local agent review.
+
+
+DE-W016 develops a same-file unprivileged fake worker with a private ordinary-file
+evidence store. The synthetic counter, exact operation/attempt/worker identities,
+checkpoint cancellation, no automatic replay and reconnect after client loss are
+bounded by DE-015. Verification failure and worker loss stay distinct. Clean reproduction and local agent review are retained under
+`.aide/evidence/2026-10-06-native-worker/`. DE-W019 is next because the combined
+DE-W017 campaign depends on its shell. Owner acceptance, production journal,
+elevation and real storage gates remain open.
+
+
+DE-W019's local Windows slice now supplies the bounded explicit command shell,
+shared dispatch, inert editing/review, cached completion, optional session history
+and console restoration. Clean reproduction and agent review are retained under
+`.aide/evidence/2026-10-07-native-shell/`; local work continues into DE-W017.
+Human usability and additional keyboard/terminal
+qualification remain open; no production planner or storage admission is implied.
+
+
+DE-W017 has reached its local fake-provider review boundary. Its containment
+slices separate interactive event loops from
+fake-operation file requests, preserve late outcomes by view identity, bound
+cooperating workers with Windows jobs, and add finite CLI/stdio callback and
+output waits. Unknown outcomes never authorize automatic retries; output failure
+does not cancel admitted workers. Store-boundary injections now preserve unknown
+claim/cancellation receipts, residual bytes and no-replay behavior after full,
+partial and failed-flush writes. Valid frontend commands now enter a common
+256 MiB per-process memory job before dispatch; stricter inherited host limits
+remain effective. DE-045 defines the admission failures and measured fake
+CLI/stdio/GUI/TUI/shell workloads. The common ancestor preserves stricter worker
+quotas and independent worker lifetime. The private observation coordinator now
+retains healthy/stale fragments across native denial, malformed input, delayed
+success and producer exception. Capture/worker epochs prevent superseded results
+from publishing, an eight-notice ring makes gaps explicit, and allocation-failure
+checks preserve snapshots and pending updates. A separate native fixture
+composition exercises the shared service through stdio, GUI, TUI and shell; its
+producer budgets and synthetic denial are explicitly scoped. Evidence belongs to
+`.aide/evidence/2026-10-07-observation-capture/`. DE-W012/017 now adds a bounded
+fake-operation watcher, typed record/snapshot events, explicit NDJSON negotiation,
+digest-bound reconnect and frontend parity. Its source-bound tests and clean
+reproduction belong to `.aide/evidence/2026-10-07-operation-watch/`. The retained local review
+and clean reproduction govern continuation to DE-W018;
+owner acceptance, real filesystem/power-loss and other-host qualification remain
+separate. The full 0.1.0 programme is still active.
+
+
+DE-W020 now implements one internal C90 module for exact values, checked arithmetic,
+bounded views, endian fields and named half-open extents. It reuses the DE-W018
+implementation instead of creating a second arithmetic copy. Local independent
+integer/byte vectors and C/C++ linkage/page-boundary checks exercise the core;
+source-bound results and clean reproduction belong to
+`.aide/evidence/2026-10-07-portable-core/`. The module adds no storage command to
+the fake product. Local review governs progression to MBR/EBR and GPT readers;
+DE-W018 historical compilers/launches remain open independently.
+
+
+DE-W021 implements an internal read-only MBR/EBR library over immutable supplied
+blocks. The DE-032 common two-entry EBR profile bounds traversal and preserves
+opaque bytes; independent synthetic layouts and malformed cases drive native
+verification. Evidence belongs to `.aide/evidence/2026-10-07-mbr-ebr/` once run.
+This is local implementation in review, not an admitted image provider or a
+completed `table.verify` command. GPT, source-consistency integration, historical
+layout profiles, owner acceptance and all writer gates remain separate.
+
+
+DE-W022 adds independent private GPT header/array readers with checked resource
+limits, exact CRC spans, lossless GUID/UTF-16 observations and byte comparison of
+primary/backup candidates. Synthetic encoding/layout cases, a real CRC collision
+and protected-memory probes exercise the implementation. Source-bound evidence
+belongs to `.aide/evidence/2026-10-07-gpt/`. Local review and clean reproduction
+govern continuation; provider/source consistency, external differential fuzzing,
+historical profiles, owner acceptance and writer gates remain separate.
+
+
+DE-W023 supplies reproducible malformed-image recipes, bounded installed-tool
+adapters and a deterministic sanitizer campaign over the private C90 readers.
+It retains native findings, external tool/source-package identities, raw invalid
+output and candidate-relative disagreements. Expected results precede tool
+comparison; another parser never selects a GPT winner for DiskEd. Evidence belongs
+to `.aide/evidence/2026-10-07-parser-campaign/`. Local review and clean campaign
+reproduction govern continuation to W024. Coverage-guided campaigns, broader
+sector/platform profiles and independent safety qualification remain explicit;
+coherent image capture and frontend integration belong to W024.
+
+DE-W024 adds shared `image.inspect` and `table.verify` raw-file commands in the
+0.1.0-dev.18 Windows image/fake prototype. CLI/stdio and real native GUI, isolated
+TUI and shell fixtures compare geometry, independent findings, partial coverage
+and source refusals. File reads use the existing bounded request channel; timeout
+does not establish cancellation or free a still-executing slot. Capture remains
+live-uncoordinated: equal rereads are not an atomic snapshot, whole-image check
+or healthy-volume certificate. Only explicitly named ordinary local raw files
+are in this initial profile; physical storage, image containers and writer gates
+remain separate. Reproducible evidence and local review belong to
+`.aide/evidence/2026-10-08-image-commands/`. The full 0.1.0 programme and owner
+acceptance remain open. `.aide/programmes/worker-continuity.md` retains the service-
+independent build/test and handoff workflow.
+
+DE-W034 now includes a private same-file ordinary-image verification worker
+with exact case/image/map/code/store bindings, explicit private-metadata grants,
+checkpoint progress, independent cancellation observations and retained typed
+collections. The authored verification-worker profile fixes expectations before
+evaluation. Clean native reproduction and agent review govern local continuation.
+Public image.verify commands, negotiated events, bounded caller requests and
+actual frontend journeys are the next gate; all platform/storage and owner
+acceptance remain open.
+
+## Current continuation and source maintenance
+
+The programme record `.aide/programmes/disked-0.1.0.json` routes current work and exact verified revisions. Earlier progress notes are historical, not independent current admission. The 2026-10-12 structure review keeps the existing tree and resolves no future capability or owner gate. Its bounded maintenance profile records current-work/format clarity and core target separation/generated dependency-header checks qualified at `7f86f6bf`; see `.aide/evidence/2026-10-12-build-boundaries/`. Module-qualified private includes and CMake compile-header visibility are qualified at `3598ac40`; `.aide/evidence/2026-10-13-qualified-headers/` retains main and standalone adapter compile evidence. Broader standalone headers, host/ABI qualification and composition-policy decomposition remain further work. Shared GUI/TUI identity/view/eligibility rules are qualified at `055bd850`; `.aide/evidence/2026-10-12-shared-presentation/` retains their bounded native evidence, without full-unit/owner/storage/release admission. The full all-platform/storage 0.1.0 objective remains unchanged.
+
+DE-W027 adds bounded FAT volume/tree and file-extent capture at `f98712a4`,
+following the allocation/name readers. The 149 supplied-reader/cell/ordinary-file
+cases and 91 native groups are retained in `.aide/evidence/2026-10-13-fat-capture/`.
+Next qualify global allocation/namespace and actual worker/command/frontend volume
+inspection. Extraction, all-platform/storage 0.1.0, production recovery and
+owner/physical/elevation/customer/install/sign/release gates remain open.
+
+DE-W028 global FAT data-cluster allocation at `0e414ccd` adds paged counts,
+copy/coverage/graph and unreferenced-ownership observations, with 86 independent
+cases/92 native groups. Evidence is retained under
+`.aide/evidence/2026-10-13-fat-allocation-scan/`. Continue auxiliary metadata and
+namespace/consumer semantics before actual worker/frontend and extraction
+admission. Full 0.1.0 and owner/storage/recovery/release gates remain open.
+
+DE-W029 header/FSInfo/backup metadata at `87e7e246` has 257 independent cases and
+94 native groups, retained in `.aide/evidence/2026-10-13-fat-auxiliary/`. Continue
+namespace/consumer rules, larger/chunked coverage, extraction and actual contained
+worker/frontend volume inspection. Full platform/storage, owner, production
+journal/recovery and release gates remain open.
+
+DE-W036 namespace/consumer-name observations at `330c223c` have 171 independent
+cases and 95 native groups, retained in `.aide/evidence/2026-10-13-fat-namespace/`.
+This completes the bounded API/rule-model slice, not mounted-consumer, extraction,
+worker/frontend, historical-host or full 0.1.0 admission. Continue remaining
+storage/platform work under its existing authority and qualification gates.
+
+DE-W037 contained FAT readers at `56effc8f` have 109 focused cases and 96 native
+groups, retained in `.aide/evidence/2026-10-13-fat-worker/`. Next qualify the shared
+command/frontend path, larger coverage and extraction. Public/consumer/historical
+host/full platform-storage, production journal/recovery and owner/release gates
+remain separate; no partial reader means 0.1.0 completion.
+
+DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd113`, with 62 focused cases and 97 native groups. Evidence is retained in `.aide/evidence/2026-10-13-fat-command/`. Continue larger coverage, capture retrieval/extraction and further platform/storage work; full all-platform/storage 0.1.0 and owner/release gates are unfinished.
+
+DE-W039 explicit larger FAT allocation windows at 543826fe have 34 interval cases, 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Continue coherent multi-window and directory/namespace coverage, retrieval/extraction and further platform/storage work under the original full 0.1.0 goal.
+
+DE-W044 exact FAT frame retention/retrieval at `4d3dc0a3` has68 command/frontend cases and101 native groups. Evidence: `.aide/evidence/2026-10-13-fat-retention`. Continue coherent larger directory/namespace/multi-window coverage, extraction and the original full platform/storage programme; owner/production/release gates remain separate.
+
+DE-W045 implements the checked FAT file-content mapping/window algorithm through
+a supplied region port. Qualify its exact bytes, complete selected-chain/copy
+admission, finite callback budgets and short/error prefixes; then qualify held
+native sources, contained payload workers and public extraction. Supplied JSON
+does not prove source freshness, and metadata retention is not a source-opening
+grant. This step moves toward extraction without narrowing the full programme.
+
+
+DE-W052 establishes a resumable allocation-chain primitive under the existing
+FAT owner, with explicit visited-memory and per-step supplied-cell boundaries.
+Qualify the exact source before integrating coherent directory pages, lossless
+name/metadata continuation and recursive extraction. Keep old capture/selector
+semantics versioned and retain the full all-platform/storage0.1.0 programme.
+
+
+DE-W053 integrates the allocation cursor into source-bound directory pages.
+Qualify complete larger trees, cross-page lossless names, changed-scope refusals,
+capture withdrawal and finite resources, then qualify held ordinary-file/worker
+integration and recursive extraction/metadata fidelity. The full all-platform/
+storage0.1.0 programme and its separate production/owner/release gates remain.
+
+
+DE-W054 qualifies source-bound pages through held ordinary files and the existing
+owned process host. Require actual larger aggregate streams, independent replay,
+source preservation, late/hung/cancelled workers and exit-only retirement before
+public tree traversal and recursive extraction/metadata restoration. Preserve
+the unchanged all-platform/storage 0.1.0 and separate owner/privilege/release gates.
+
+DE-W057's normal ordinary-file recursive FAT command/operation service reaches
+local implementing-agent review at clean source `087f95b4`. Exact native
+CLI/protocol/GUI/TUI/shell and failure journeys, 128 regression groups, 41 selected
+headers, imports, context/manifest and 242 tooling tests with two skips are retained
+under `.aide/evidence/2026-10-14-fat-recursive-command-qualification/`. This does not
+admit physical storage, other host profiles, production journal/broker or the full
+all-platform/storage0.1.0 release. Continue the remaining bounded capabilities and
+their actual qualification; owner acceptance remains separate.
+
+
+DE-W064 closes the expected supplied-byte exFAT directory metadata contract after
+DE-W058 local qualification. Preserve original entry/name/time representations
+and separate checksum association from name lookup, allocation and source
+coherence. Bitmap/upcase, paging/provider/frontend/extraction and the full
+original all-platform/storage0.1.0 programme remain required later work. This
+contract checkpoint does not claim directory implementation or tests.
+
+
+DE-W066 reaches local implementing-agent review at exact clean source `e43f00fb`.
+Its private supplied-byte upcase descriptor, streaming map and complete name
+comparison pass 244 independent scenarios, 15 selected native groups, one header,
+strict C90/import/context/source checks and 242 tooling tests with two skips.
+Repository evidence at `.aide/evidence/2026-10-14-exfat-upcase-qualified/`
+separates this result from the prior complete native suite.
+Continue bounded root/active-FAT/bitmap/upcase source coherence, then tree/content
+and native integration. The original full platform/storage 0.1.0 and owner,
+production writer/recovery, privilege and release gates remain unfinished.
+
+
+DE-W067 binds the existing exFAT decoders into bounded root/system observations
+through the existing RegionReader; [its expected profile](../catalog/exfat-capture-prototype.json)
+fixes main-boot/active-copy selection, root cardinality, checked system chains,
+bitmap membership and exact upcase mapping before implementation. Inactive bitmap
+descriptors are historical candidates, never substitutes for active bitmap data.
+Partial coverage or reread disagreement withdraws applicability. Held native
+source, recursive tree/content, frontend and original full release remain later work.
+
+
+DE-W067 reaches local implementing-agent review at exact `bba3d600`: 121 image
+cases in nine methods, 19 selected native groups, one private header, imports,
+context/input hashes and 242 tooling tests with two skips pass. The clean sparse
+checkout contains every registered/build input and all current implementation,
+tests, spec, docs, tools and external files; unused historical evidence is
+excluded. This is not a fresh full native suite or complete archive checkout.
+Repository evidence is `.aide/evidence/2026-10-14-exfat-capture-qualified/`.
+Continue actual held source/worker and coherent namespace/tree/content integration;
+owner, other-platform/storage, production and full original release remain.
+
+
+DE-W068 binds the qualified supplied-reader observer to held ordinary image files.
+[Its expected contract](../catalog/exfat-file-prototype.json) reuses local_file
+parent/path/generation checks and requires actual retained-region replay and
+source preservation. The synchronous adapter is not admitted to shared frontends;
+contained worker, coherent namespace/tree/content and the full original
+platform/storage0.1.0 remain. No native implementation result is claimed here.
+
+
+DE-W068's available ordinary-file scope reaches local agent review at exact
+`c73c6870`: 60 native cases/seven methods, 20 selected regression groups, one
+header, normal/fault imports/context/source hashes and 242 tooling tests with
+two skips pass. Actual file-symlink creation remains unverified without privilege;
+leaf/ancestor junction and hardlink checks pass. The clean sparse checkout contains
+every registered/build input and current source/tests/spec/docs/tools/external
+files, excluding unused historical evidence. No fresh full native-suite or archive
+checkout claim. Repository evidence: `.aide/evidence/2026-10-14-exfat-file-qualified/`.
+Contained worker, coherent namespace/tree/content and original full0.1.0 remain.
+
+
+DE-W069 uses the [existing owned-reader host](../catalog/exfat-worker-prototype.json)
+for bounded exFAT frames and parent replay. Typed publication requires actual
+owned process/creation/attempt/code/request/capture binding, not passive schema
+or hash validity. Cancellation/completion and confirmed exit remain separate.
+This expected contract does not claim worker implementation; namespace/tree/content,
+other platforms/storage and original full release remain subsequent required work.
+
+
+DE-W069 reaches bounded local review at exact full clean `cce05d17`: all 139
+current native groups, 69 reader cases/six methods, 63 file cases/eight methods,
+46 standalone headers, imports/context/source hashes and
+242 tooling tests with two skips pass. The complete native regression covers
+the shared process-retirement change; previous working failures and their repairs
+remain retained. See `.aide/evidence/2026-10-14-exfat-worker-qualified/REVIEW.md`. An unavailable file-symlink fixture
+remains unverified. Next, bind the existing image.inspect exFAT view through the
+shared services/frontends, including both upcase representations and explicit
+ambiguity. Complete tree/content, other hosts, original full platform/storage0.1.0,
+physical writer/recovery, owner acceptance and release qualification remain.
+
+DE-W076 advances the original NTFS scope independently of the incomplete held
+exFAT tree integration. Its [expected contract](../catalog/ntfs-record-prototype.json)
+requires exact supplied-byte FILE envelopes and all-tail validation before RAM
+restoration, reusing DE-W020's checked primitives. Qualification covers the selected
+compiler/host and actual fixtures; boot/MFT addressing, attributes/runlists,
+held-source/provider/frontend integration, other platforms, storage effects and
+the complete original0.1.0 remain required work. DE-W075's failed broad campaign
+and report-preparation diagnostics remain retained and do not become passes.

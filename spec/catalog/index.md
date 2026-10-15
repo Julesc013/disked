@@ -85,6 +85,7 @@
 - [nt-storage-observation-prototype.json](nt-storage-observation-prototype.json)
 - [nt-storage-worker-prototype.json](nt-storage-worker-prototype.json)
 - [nt-volume-namespace-prototype.json](nt-volume-namespace-prototype.json)
+- [ntfs-record-prototype.json](ntfs-record-prototype.json)
 - [observation-frontend-prototype.json](observation-frontend-prototype.json)
 - [operations.json](operations.json)
 - [ordinary-file-path-profile.json](ordinary-file-path-profile.json)
