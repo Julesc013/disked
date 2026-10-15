@@ -1,0 +1,145 @@
+{
+  "work_id": "DE-W000",
+  "base_revision": "d473a63fe6ceee92da44271c73d98e09d967eff5",
+  "source_state": "working documentation/tooling-example changes",
+  "native_tests_run": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "stages": [
+    {
+      "name": "index",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T13:56:33.036014+00:00",
+      "finished_at": "2026-10-15T13:56:34.400878+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/index.log"
+    },
+    {
+      "name": "check",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T13:56:34.401300+00:00",
+      "finished_at": "2026-10-15T13:56:37.414970+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/check.log"
+    },
+    {
+      "name": "source-map",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T13:56:37.415297+00:00",
+      "finished_at": "2026-10-15T13:56:37.527097+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/source-map.log"
+    },
+    {
+      "name": "tooling",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T13:56:37.527417+00:00",
+      "finished_at": "2026-10-15T14:01:30.118445+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/tooling.log"
+    },
+    {
+      "name": "manifest",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T14:01:30.118845+00:00",
+      "finished_at": "2026-10-15T14:01:31.097249+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/manifest.log"
+    },
+    {
+      "name": "verify-manifest",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T14:01:31.097577+00:00",
+      "finished_at": "2026-10-15T14:01:32.059107+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/verify-manifest.log"
+    },
+    {
+      "name": "context",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W000",
+        "--output",
+        ".aide-local/context/structure-status-current",
+        "--byte-budget",
+        "700000"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T14:01:32.059467+00:00",
+      "finished_at": "2026-10-15T14:01:34.157800+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/context.log"
+    },
+    {
+      "name": "verify-context",
+      "argv": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/structure-status-current"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T14:01:34.158201+00:00",
+      "finished_at": "2026-10-15T14:01:38.566868+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/verify-context.log"
+    },
+    {
+      "name": "diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-15T14:01:38.567279+00:00",
+      "finished_at": "2026-10-15T14:01:38.640227+00:00",
+      "log": ".aide/evidence/2026-10-16-structure-status/diff-check.log"
+    }
+  ],
+  "current_local_links_checked": 76,
+  "tooling_result": "Ran 242 tests in 291.687s\n\nOK (skipped=2)",
+  "changed_file_hashes": {
+    ".aide/programmes/disked-0.1.0.json": "sha256:2399ababf5f0fac1958f1293063051f92d1092fd45112b875ab4e28ad2b0139a",
+    "AGENTS.md": "sha256:f66934a07436f5cb9d727d23a5d414ae854338e846ae9a6a075c78c9064c9cbc",
+    "TODO.MD": "sha256:2f8b1c15f40b700f218839daf2b7cc619bed4bc2f3db16cab3e40347a091dbf1",
+    "docs/development-plan.md": "sha256:1651cc2bfc7c98910f24306a9c4a70047f769fb744151348d155abac72124826",
+    "docs/structure-review.md": "sha256:9f79b7b19f46b6c12400f7c278ae26c151d4b11e7b37ffbc38a6cf8b5ea6f39c",
+    "spec/START-HERE.md": "sha256:6c5857c1def1a553fb913f60c0834e9da4fb541cf1cfe7a2a6fa262f7159a393",
+    "spec/generated/index.json": "sha256:d616d8b3f63926b56a9deb547a25e3f175c8f4093dfe44baf5670cc2505d97d1",
+    "spec/index.md": "sha256:91f2ca63162d39cbd5a5d2b4e2384f0a21aa27bdc68279423572067e5b19b116",
+    "spec/manifest.json": "sha256:96868380aaddd192c358121f1f9b0e85c36e2baafe7b665fca8ba54484d7d677",
+    "spec/tools/specctl.py": "sha256:fb18a554a05685fad0b0ccd4ba39cf411066fe5b05e01fcce3209c5581389a10"
+  },
+  "status": "pass",
+  "tracked_source_inventory_matches_observation": true,
+  "native_source_tests_and_build_unchanged": true
+}

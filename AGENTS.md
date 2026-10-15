@@ -11,11 +11,15 @@ Run `python spec/tools/specctl.py next` for dependency readiness. This does not 
 Create a task context pack:
 
 ```text
-python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000
+python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 700000
 python spec/tools/specctl.py verify-context .aide-local/context/review
 ```
 
 Packs include normative prerequisites and exact hashes. They are context, not execution grants. Split oversized work rather than truncating safety context. Read further references only when needed and record them.
+
+The example budget fits the current baseline-review closure; it is not a universal
+task limit. Select the actual work ID and an explicit budget appropriate to its
+complete required inputs.
 
 ## Source ownership
 

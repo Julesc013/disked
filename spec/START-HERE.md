@@ -34,12 +34,22 @@ sources:
 
 The authoritative entry is [index.md](index.md). This bootstrap file is a routing aid.
 
+In the implementation repository, start with root `AGENTS.md` and
+`.aide/programmes/disked-0.1.0.json`. Resolve its `current_work`, retained incomplete
+work and `next_action` against `work/units.json`. The programme records actual
+development state; it does not grant authority or baseline/implementation
+acceptance. The archive-first sequence below applies when no programme exists.
+
 1. Read [authority](foundation/authority.md) and [implementation sequence](roadmap/implementation.md).
 2. Install the tested Python dependencies with `python -m pip install -r spec/tools/requirements.txt` on a development coordinator.
 3. Run `python spec/tools/specctl.py check` and `python -m unittest discover -s spec/tools/tests -v`.
 4. Run `python spec/tools/specctl.py next`; `DE-W000` is the initial review unit.
-5. Build a bounded pack: `python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000`.
+5. Build a bounded pack: `python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 700000`.
 6. Read the [amendment review](roadmap/amendment-review.md), then review before granting code work. No command here authorizes storage writes.
+
+The example budget fits the current baseline-review closure. Select the actual
+work ID and an explicit budget that retains its complete required context; do not
+truncate prerequisites to fit a stale example.
 
 The spec-only ZIP can create optional root entrypoints with `python spec/tools/specctl.py bootstrap --root .` (preview) then `--apply`. The repository overlay already includes those same entrypoints. Do not use bootstrap to overwrite an existing project.
 

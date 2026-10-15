@@ -897,7 +897,7 @@ class Bundle:
         for n in nodes: groups.setdefault(str(PurePosixPath(n['path']).parent),[]).append(n)
         header='---\ntitle: DiskEd specification index\nokf_version: "0.2"\n---\n\n# DiskEd specification\n\n**Proposed baseline '+self.meta['version']+'. Owner acceptance pending. No product or hardware qualification.**\n\n'
         header+='Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [roadmap](roadmap/implementation.md), and [open decisions](roadmap/decisions.md).\n\n'
-        header+='## Working entrypoints\n\n```text\npython spec/tools/specctl.py check\npython -m unittest discover -s spec/tools/tests -v\npython spec/tools/specctl.py next\npython spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000\n```\n\n'
+        header+='## Working entrypoints\n\n```text\npython spec/tools/specctl.py check\npython -m unittest discover -s spec/tools/tests -v\npython spec/tools/specctl.py next\npython spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 700000\n```\n\n'
         header+='The `specctl` utility manages this specification only. It does not execute DiskEd, apply AIDE work, elevate or access raw storage. [Work definitions](work/units.json), [source registry](references/sources.json), [command catalog](catalog/commands.json), [target catalog](catalog/targets.json), [schemas](schemas/index.md) and [tool contract](development/specctl.md) are local, reviewable files.\n\n'
         for group in sorted(groups):
             header+='## '+('Entry' if group=='.' else group.replace('-',' ').title())+'\n\n'

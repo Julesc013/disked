@@ -15,7 +15,7 @@ Start with [Start here](START-HERE.md), [authority](foundation/authority.md), [r
 python spec/tools/specctl.py check
 python -m unittest discover -s spec/tools/tests -v
 python spec/tools/specctl.py next
-python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 180000
+python spec/tools/specctl.py context --work DE-W000 --output .aide-local/context/review --byte-budget 700000
 ```
 
 The `specctl` utility manages this specification only. It does not execute DiskEd, apply AIDE work, elevate or access raw storage. [Work definitions](work/units.json), [source registry](references/sources.json), [command catalog](catalog/commands.json), [target catalog](catalog/targets.json), [schemas](schemas/index.md) and [tool contract](development/specctl.md) are local, reviewable files.

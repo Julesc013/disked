@@ -1,0 +1,61 @@
+[
+  {
+    "argv": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/branches/main"
+    ],
+    "exit_code": 0,
+    "stdout": "disked-main.json"
+  },
+  {
+    "argv": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/branches/dev"
+    ],
+    "exit_code": 0,
+    "stdout": "disked-dev.json"
+  },
+  {
+    "argv": [
+      "gh",
+      "pr",
+      "view",
+      "237",
+      "--repo",
+      "Julesc013/universal-setup",
+      "--json",
+      "number,title,state,isDraft,headRefOid,url,statusCheckRollup"
+    ],
+    "exit_code": 0,
+    "stdout": "setup-pull.json"
+  },
+  {
+    "argv": [
+      "gh",
+      "api",
+      "repos/Julesc013/universal-setup/compare/main...dev"
+    ],
+    "exit_code": 0,
+    "stdout": "setup-compare.json"
+  },
+  {
+    "argv": [
+      "gh",
+      "api",
+      "repos/Julesc013/universal-setup/releases"
+    ],
+    "exit_code": 0,
+    "stdout": "setup-releases.json"
+  },
+  {
+    "argv": [
+      "gh",
+      "api",
+      "repos/Julesc013/disked/releases"
+    ],
+    "exit_code": 0,
+    "stdout": "disked-releases.json"
+  }
+]

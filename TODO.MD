@@ -11,6 +11,15 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 - [x] Run local specification/tooling tests and passive AIDE schema validation; retain actual results and skipped checks in the [validation report](spec/reports/validation.json).
 - [ ] Review and accept the final DE-W000 amendment, including the proposed `source/` ownership map.
 
+## Structure and current status
+
+- [x] Keep the existing five source owners, explicit model names and CLI folder;
+  retain the complete current-file map and future responsibility/gate table.
+- [x] Consolidate the structure assessment and distinguish current checkout work
+  from archive bootstrap instructions; preserve dated evidence and failed runs.
+- [ ] Address SR-05 composition/test seams when their concrete contracts justify
+  extraction. Continue the existing header/layer checks; no broad rewrite needed.
+
 ## Active 0.1.0 goal
 
 Scope: every currently specified platform and storage operation at base `40ac8ec`.
@@ -24,11 +33,15 @@ release/storage authority remain separate. The programme record is
 
 - [x] DE-W077 available supplied-byte scope: exact `aefee4cd` passes 1,729 boot
   and 964 record cases, 12 portable groups, one header and 242 tooling tests/two skips.
-  NTFS attributes/runlists, source/provider/frontend and original release remain.
+  Attributes/runlists are covered by DE-W078; source/provider/frontend and
+  original release remain.
 
 - [x] DE-W076 available supplied-byte scope: exact `c0749e22` passes964 cases,
   11 portable groups, one header,242 tooling tests/two skips and strict C90 checks. This does not qualify an NTFS volume,
-  provider, writer or legacy platform.
+  provider, writer or legacy platform. Its overall campaign failed the byte
+  manifest; `ce5efdae` corrected metadata and passed fresh clean verification
+  with identical registered/build/source inputs. See the retained applicability
+  record; the failed campaign remains a failure.
 - [ ] DE-W075/report preparation: retain the failed145-group qualification and
   streamed joined/unjoined timeout evidence; diagnose the delay before claiming
   the current development branch qualifies for integration. No deadline increase
