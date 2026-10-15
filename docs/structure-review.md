@@ -99,7 +99,8 @@ build boundaries, PE/import observations and complete input/context binding.
 It adds the owned NTFS bootstrap through the common image-inspection service and
 all five frontends. The [source-bound review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md)
 permits ordinary source integration after metadata/staged-byte closure; actual
-repository synchronization is recorded separately. This does not qualify the
+repository synchronization is confirmed in the
+[integration receipt](../.aide/evidence/2026-10-16-ntfs-command-integration/repository.json). This does not qualify the
 complete NTFS filesystem, release or full original storage/platform scope.
 
 The previous acquisition-routing source `813924fa` passed 153 native groups and

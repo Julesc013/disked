@@ -42,6 +42,14 @@
     "docs/source-map.md"
   ],
   "files_changed": [
+    ".aide/evidence/2026-10-16-ntfs-command-integration/check.log",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/closure.json",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/context.log",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/inventory.json",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/repository.json",
+    ".aide/evidence/2026-10-16-ntfs-command-integration/verify-context.log",
     ".aide/evidence/2026-10-16-ntfs-command/.gitattributes",
     ".aide/evidence/2026-10-16-ntfs-command/REVIEW.md",
     ".aide/evidence/2026-10-16-ntfs-command/check.log",
@@ -175,7 +183,7 @@
     "tests/unit/ntfs_inspection_probe.cpp",
     "tools/build-inputs.json"
   ],
-  "summary": "Exact b985adf2 qualifies the owned NTFS bootstrap view through all five frontends:50 cases,154 native groups,59 standalone headers,244 tooling tests/2 skips and complete build/import/context/source checks. Three development failures and corrected contract assumptions remain retained. Implementing-agent review and metadata closure permit ordinary source integration; complete NTFS/original0.1.0 and owner/privilege/release gates remain.",
+  "summary": "Exact b985adf2 qualifies the owned NTFS bootstrap view through all five frontends:50 cases,154 native groups,59 standalone headers,244 tooling tests/2 skips and complete build/import/context/source checks. Three development failures and corrected contract assumptions remain retained. Implementing-agent review and metadata closure permit ordinary source integration; complete NTFS/original0.1.0 and owner/privilege/release gates remain. Actual dev/main source synchronization is separately confirmed by exact refs; no release is published.",
   "tests": [
     {
       "command": "working native NTFS group: projection wrongly treats MFT run count as list",
@@ -379,6 +387,13 @@
       "status": "pass",
       "exit_code": 0,
       "evidence_path": ".aide/evidence/2026-10-16-ntfs-command/qualified-b985adf2/verify-context.log"
+    },
+    {
+      "command": "Authorized dev/main fast-forward and pushes, followed by exact local/remote ref verification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-command-integration/repository.json"
     }
   ],
   "artifacts": [
@@ -401,12 +416,16 @@
     {
       "path": ".aide/evidence/2026-10-16-ntfs-command/inventory.json",
       "sha256": "sha256:1cbdd9d087b3fd89751881191288193bbed61c9c552b3aac4b6a262d3f020eb6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-command-integration/repository.json",
+      "sha256": "sha256:f94284227f439b872b81991b1752c1a3deddb6baa0f14a7076db868f35f187f1"
     }
   ],
   "blockers": [
     "Complete NTFS namespace/content/attribute lists and all remaining original platform/storage0.1.0 work remain.",
     "Other-host, actual file-symlink and separate physical/owner/production writer/recovery/Setup/release qualification remain. Historical delay cause is unproven."
   ],
-  "next_safe_step": "Integrate the tested and agent-reviewed b985adf2 source checkpoint from dev to main after metadata/staged-byte closure and retain actual write receipts. Then define and implement the next bounded original NTFS attribute-list/general MFT record work before namespace/content, retaining full platform/storage0.1.0 and separate privilege/owner/release gates.",
+  "next_safe_step": "Define the next bounded original NTFS attribute-list/MFT metadata execution contract using existing record/attribute/run primitives and primary layout references. Preserve raw fields and names; separate structural decoding from cross-record/reference/sequence/stream authority. Then implement/build/test the bounded parser before source-bound extension joining and namespace/content. Keep the full original platform/storage0.1.0 scope and separate owner/physical/elevation/customer/install/signing/recovery/Setup/release gates.",
   "performed_remote_writes": true
 }
