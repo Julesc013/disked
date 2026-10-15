@@ -96,6 +96,8 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 The captured-stream joiner at `23ceeb24` passes 298 protected-record cases,
 25 selected native groups, 9 standalone headers and 244 tooling tests
 (two skipped). [Source-bound review](../.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
+[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-join-integration/repository.json)
+records the successful dev/main synchronization. This changes no owner or release gate.
 It verifies supplied capture assertions and record/stream relationships, with an
 owned typed result only after complete checks. Native MFT/nonresident-list
 acquisition and public command admission remain separate work. The prior entry
