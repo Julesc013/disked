@@ -98,7 +98,8 @@ boundaries, PE/import observations and complete input/context binding. It repair
 lost reviewed acquisition routing after timeout across all five frontends. The
 [source-bound review](../.aide/evidence/2026-10-16-acquisition-routing/REVIEW.md)
 permits ordinary source integration after metadata and staged-byte closure.
-Actual repository synchronization is recorded separately. This supersedes the
+The authorized dev/main fast-forward and pushes are confirmed at `c7864fa8` in
+the [integration receipt](../.aide/evidence/2026-10-16-acquisition-integration/repository.json). This supersedes the
 hold on unqualified current source; prior failed campaigns remain failures and
 the spontaneous latency cause remains unknown. No deadline or test expectation
 was weakened. Current source integration does not qualify release or the full

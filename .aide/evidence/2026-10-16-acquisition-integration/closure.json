@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "source_revision": "813924fa06ac5e77225467c28183e72cdb763d30",
+  "checkpoint_revision": "c7864fa870641260a1ad124e8aea2dc4f5ba17e8",
+  "metadata_only": true,
+  "steps": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-acquisition-integration/check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-acquisition-integration/manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W033",
+        "--output",
+        ".aide-local/context/acquisition-integration-20261015T181418882848",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-acquisition-integration/context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/acquisition-integration-20261015T181418882848"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-acquisition-integration/verify-context.log"
+    }
+  ],
+  "native_repeated": false,
+  "tooling_repeated": false
+}

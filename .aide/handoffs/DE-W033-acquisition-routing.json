@@ -171,9 +171,10 @@
     "spec/work/units.json",
     "tests/frontend/test_acquisition_timeout.py",
     "tests/images/acquisition_command_probe.cpp",
-    "tools/build-inputs.json"
+    "tools/build-inputs.json",
+    ".aide/evidence/2026-10-16-acquisition-integration/repository.json"
   ],
-  "summary": "Reviewed raw/logical acquisition routing survives unknown frontend outcomes without provider I/O or fabricated IDs. Exact813924fa passes153 native groups/57 headers/242 tooling(two skips), complete input/context/import/build evidence and implementing-agent review. Metadata closure passes; source integration eligible. Historical failures/delay remain; full0.1.0 and owner/release gates remain open.",
+  "summary": "Reviewed raw/logical acquisition routing survives unknown frontend outcomes without provider I/O or fabricated IDs. Exact813924fa passes153 native groups/57 headers/242 tooling(two skips), complete input/context/import/build evidence and implementing-agent review. Metadata closure passes; source integration eligible. Historical failures/delay remain; full0.1.0 and owner/release gates remain open. Authorized dev/main synchronization is confirmed atc7864fa8; a separate receipt retains actual refs. This receipt update is metadata only.",
   "tests": [
     {
       "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\acquisition-routing-qualified-813924fa\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
@@ -335,6 +336,13 @@
       "status": "not_run",
       "exit_code": null,
       "evidence_path": null
+    },
+    {
+      "command": "git push origin dev; git merge --ff-only --no-stat dev on main; git push origin main; read-only exact branch/ref verification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-acquisition-integration/repository.json"
     }
   ],
   "artifacts": [
@@ -357,12 +365,16 @@
     {
       "path": ".aide/evidence/2026-10-16-acquisition-routing/inventory.json",
       "sha256": "sha256:1438b9dc0a2f6af19480bdee4edffa4d98b270d341af031a2d99ed87e387317d"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-acquisition-integration/repository.json",
+      "sha256": "sha256:e9f26d9310ad80248e030af848f727bce172359888fe7f62de31f8c4c9f274b6"
     }
   ],
   "blockers": [
     "Spontaneous historical timing cause remains unproven; prior failed campaigns are not reclassified.",
     "Full original platform/storage0.1.0, work-unit/owner/licensing/production writer/recovery/physical/Setup/release gates remain."
   ],
-  "next_safe_step": "Synchronize this tested and agent-reviewed813924fa checkpoint from dev to main after metadata/staged-byte checks; record actual writes. Then continue bounded original NTFS frontend/metadata work. Keep spontaneous latency investigation, historical failures and every original platform/storage/owner/release gate; never retry an uncertain writer.",
+  "next_safe_step": "Define the next bounded NTFS common-image-command/frontend contract and required-input closure using the verified DE-W082 owned snapshot; its private worker contract does not itself admit public dispatch. Then implement/build/test the ordinary-image read-only slice. Retain historical latency failures and diagnose recurrence without retrying uncertain writers. Every original platform/storage0.1.0 and separate owner/physical/elevation/customer/install/signing/release gate remains.",
   "performed_remote_writes": true
 }
