@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="1"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="0"
+	timestamp="2026-10-16T07:23:47"
+	>
+	<testcase name="image.ntfs_stream" classname="image.ntfs_stream" time="0.344161" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 193, in &lt;module&gt;
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 177, in main
+    assert observed['usable']==(wanted is not None),(name,wanted,observed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('malformed-file-24', None, {'observation': {'allocated_bytes': None, 'atomic_snapshot': False, 'attribute_count': '1', 'attribute_list_present': False, 'base_reference': '1407374883553280', 'complete': True, 'context_matches': True, 'current_source_authority': False, 'data_bytes': '14', 'diagnostic': '', 'effects_authorized': False, 'epoch': '17', 'initialized_bytes': '14', 'list_entry_count': '0', 'name_hex': '', 'parts': [{'highest_vcn': None, 'instance': '11', 'lowest_vcn': '0', 'reference': '1407374883553280'}], 'record_count': '1', 'records': [{'base_reference': '0', 'issues': '0', 'number': '0', 'sequence': '5', 'sha256': 'sha256:9c9533ad3a9941f6464b6384375e64046fb98f2a494dcde633e5d3ae79d8e877'}], 'resident': True, 'run_count': '0', 'runs': [], 'schema': 'org.disked.ntfs-stream-join-observation-prototype/1', 'source_id': 'generated-ntfs-stream', 'type': '128', 'value_sha256': 'sha256:0aa95cdd57d619c6d435097da934ae3a9273917c5da57b13224aa60af17a5180', 'volume_bytes': '16777216', 'volume_offset': '4096'}, 'refusal': '', 'source_unchanged': True, 'stream': {'allocated_bytes': '0', 'data_bytes': '14', 'initialized_bytes': '14', 'name': '', 'parts': [{'highest_vcn': '0', 'instance': '11', 'lowest_vcn': '0', 'reference': '1407374883553280'}], 'resident': True, 'runs': [], 'type': '128', 'value': '6f726967696e616c006279746573'}, 'usable': True})
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,49 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "cmake",
+      "--preset",
+      "windows-bootstrap",
+      "-B",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+      "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+    ],
+    "exit_code": 0,
+    "seconds": 12.600202000001445
+  },
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4",
+      "--target",
+      "ntfs_stream_probe",
+      "disked_ntfs_stream_headers"
+    ],
+    "exit_code": 0,
+    "seconds": 5.448428299976513
+  },
+  {
+    "name": "stream-cases",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+      "-C",
+      "Release",
+      "-R",
+      "^image.ntfs_stream$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-join-working-f2ad2fc8\\native-junit.xml"
+    ],
+    "exit_code": 8,
+    "seconds": 0.2675784998573363
+  }
+]

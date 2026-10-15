@@ -1,0 +1,27 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/report-phases-build
+    Start 77: image.ntfs_stream
+1/1 Test #77: image.ntfs_stream ................***Failed    0.19 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 173, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 150, in main
+    cases=list(scenarios())
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 77, in scenarios
+    v,w=split(name=name);yield case('split-raw-name-'+name[:4].hex(),v,w)
+        ~~~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 68, in split
+    return request([row(base_record),row(extension_record,7)],name=name.hex()),expected
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 53, in request
+    return dict(context=copy.deepcopy(CONTEXT),base=str(BASE),clusters='4096',name='',records=records,**extra)
+TypeError: dict() got multiple values for keyword argument 'name'
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.20 sec
+
+The following tests FAILED:
+	 77 - image.ntfs_stream (Failed)
+Errors while running CTest
