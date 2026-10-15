@@ -117,6 +117,8 @@ def captured_list_cases():
     for data in (b'',value[:-1],value+b'\0'):
         v=copy.deepcopy(original);v['list_capture']['hex']=data.hex();yield case('wrong-value-length-'+str(len(data)),v,'ntfs_join_list_sizes')
     v=copy.deepcopy(original);v['limits']={'list_bytes':'63'};yield case('list-byte-budget',v,'ntfs_join_list_byte_budget')
+    v=copy.deepcopy(original);v['limits']={'runs':'2'};yield case('list-and-stream-share-run-quota',v,'ntfs_join_run_budget')
+    v=copy.deepcopy(original);v['limits']={'runs':'3'};yield case('exact-shared-run-quota',v,stream=wanted)
     for limit in (0,262145):
         v=copy.deepcopy(original);v['limits']={'list_bytes':str(limit)};yield case('invalid-list-quota-'+str(limit),v,refusal='ntfs_join_limits')
     v=copy.deepcopy(original);v.pop('list_capture');yield case('no-external-value-stays-unsupported',v,'ntfs_join_nonresident_list_unsupported')

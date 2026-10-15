@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-10-15T21:36:23.408881+00:00",
+  "source_revision": "9657c4d5b550bb11909e1cf95f679d595d6157a1",
+  "defect": "Nonresident list mapping ran under a separate per-cursor run limit and did not consume the global join run counter. A list run plus two stream runs incorrectly succeeded with runs=2.",
+  "repair": "Charge list mapping runs to the same run counter and conservative output/memory item reserve as stream runs. Exact total3 passes; total2 refuses with ntfs_join_run_budget and no typed result or retry suggestions.",
+  "cases_after": 134,
+  "original_failure_retained": true,
+  "limits_relaxed": false,
+  "previous_campaign": {
+    "status": "stopped-during-build-after-defect-discovery",
+    "native_suite_run": false,
+    "qualifies_current_source": false,
+    "termination": "taskkill of exact inspected owned campaign Python process56388 and child tree; exit1 because one enumerated child had already exited; terminal campaign session ended1 and inspected parent/Python/CMake/MSBuild PIDs absent afterward."
+  },
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

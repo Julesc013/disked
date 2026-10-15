@@ -251,8 +251,12 @@ class Joiner {
         while (de_ntfs_runs_next(&cursor, &run) == DE_OK) {
             if (run.end_marker)
                 break;
+            if (runs_ == request_.limits.runs)
+                stop("ntfs_join_run_budget");
+            ++runs_;
             if (!run.valid)
                 stop("ntfs_join_list_mapping");
+            charge(192);
             physical.emplace_back(native(run.lcn), native(run.lcn_end));
         }
         if (!cursor.terminated || cursor.issues)
