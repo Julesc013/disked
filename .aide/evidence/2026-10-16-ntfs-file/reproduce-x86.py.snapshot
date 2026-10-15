@@ -1,0 +1,96 @@
+"""Finite codemodel-derived x86 file fixture; preserves the product x64 gate."""
+from pathlib import Path
+import subprocess
+import json
+import hashlib
+import platform
+import re
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+repo=Path.cwd();revision='777fd71fe509c8b9961ffec4f726b32dce2305f1'
+root=repo/'.aide-local/ntfs-record-exact-777fd71f'
+x64=repo/'.aide-local/ntfs-file-qualified-777fd71f'
+out=repo/'.aide-local/ntfs-file-win32-777fd71f';out.mkdir(exist_ok=False)
+build=out/'build';fixture=out/'fixture';fixture.mkdir()
+digest=lambda p:'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+before=json.loads((x64/'inputs.json').read_bytes())
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()==revision
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=root)
+assert all(digest(root/p)==v for p,v in before.items())
+reply=x64/'build/.cmake/api/v1/reply'
+model=json.loads(next(reply.glob('codemodel-v2-*.json')).read_bytes())
+targets={r['id']:r for r in model['configurations'][0]['targets']}
+names={r['name']:r for r in targets.values()}
+def own(name):
+    data=json.loads((reply/names[name]['jsonFile']).read_bytes())
+    return {Path(p['path']) if Path(p['path']).is_absolute() else root/p['path'] for p in data.get('sources',[]) if Path(p['path']).suffix in ('.c','.cpp')}
+def closure(identifier,seen=None):
+    seen=set() if seen is None else seen
+    if identifier in seen:return set()
+    seen.add(identifier);data=json.loads((reply/targets[identifier]['jsonFile']).read_bytes())
+    result=own(targets[identifier]['name'])
+    for edge in data.get('dependencies',[]):result|=closure(edge['id'],seen)
+    return result
+probes={name:own(name) for name in ['ntfs_file_probe','ntfs_file_fault','ntfs_capture_probe']}
+provider=own('disked_ntfs_file');assert len(provider)==1
+common=set.union(*(closure(names[n]['id']) for n in probes))-set.union(*probes.values())-provider
+assert len(common)==11 and all(p.is_relative_to(root/'source') for p in common)
+quoted=lambda p:'"'+p.as_posix()+'"'
+lines=['cmake_minimum_required(VERSION 3.27)','project(NtfsFileX86Fixture LANGUAGES C CXX)',
+       'set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)','set(CMAKE_C_STANDARD 90)','set(CMAKE_C_STANDARD_REQUIRED YES)','set(CMAKE_C_EXTENSIONS NO)',
+       'set(CMAKE_CXX_STANDARD 14)','set(CMAKE_CXX_STANDARD_REQUIRED YES)','set(CMAKE_CXX_EXTENSIONS NO)',
+       'if(NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 4 OR NOT CMAKE_VS_PLATFORM_NAME STREQUAL "Win32" OR NOT CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL "19.44.35228.0" OR NOT CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION STREQUAL "10.0.19041.0")',
+       'message(FATAL_ERROR "Pinned x86 compiler/SDK required")','endif()',
+       'find_package(Python3 REQUIRED COMPONENTS Interpreter)','enable_testing()',
+       'add_library(ntfs_fixture STATIC '+' '.join(quoted(p) for p in sorted(common))+')']
+def options(name):
+    lines.extend(['target_include_directories('+name+' PRIVATE '+quoted(root/'source')+')',
+                  'target_compile_options('+name+' PRIVATE /W4 /WX /GS /sdl /guard:cf "$<$<COMPILE_LANGUAGE:CXX>:/permissive-;/utf-8>")',
+                  'target_compile_definitions('+name+' PRIVATE _WIN32_WINNT=0x0A00)'])
+options('ntfs_fixture')
+for name,testing in [('ntfs_file_fixture',False),('ntfs_file_fixture_fault',True)]:
+    lines.extend(['add_library('+name+' STATIC '+' '.join(quoted(p) for p in provider)+')','target_link_libraries('+name+' PUBLIC ntfs_fixture)']);options(name)
+    if testing:lines.append('target_compile_definitions('+name+' PRIVATE DISKED_NTFS_FILE_TESTING=1)')
+for name,paths in probes.items():
+    dependency='ntfs_file_fixture_fault' if name=='ntfs_file_fault' else 'ntfs_file_fixture' if name=='ntfs_file_probe' else 'ntfs_fixture'
+    lines.extend(['add_executable('+name+' '+' '.join(quoted(p) for p in paths)+')','target_link_libraries('+name+' PRIVATE '+dependency+')',
+                  'target_link_options('+name+' PRIVATE /guard:cf /DYNAMICBASE /NXCOMPAT)']);options(name)
+    if name=='ntfs_file_fault':lines.append('target_compile_definitions('+name+' PRIVATE DISKED_NTFS_FILE_TESTING=1)')
+headers=[]
+for index,target in enumerate(['disked_ntfs_file_headers','disked_ntfs_capture_headers']):
+    path=fixture/('header-'+str(index)+'.cpp');sources=own(target);assert len(sources)==1
+    path.write_bytes(next(iter(sources)).read_bytes());headers.append(path)
+lines.append('add_library(ntfs_fixture_headers OBJECT '+' '.join(quoted(p) for p in headers)+')');options('ntfs_fixture_headers')
+lines.extend(['add_test(NAME image.ntfs_file COMMAND "${Python3_EXECUTABLE}" '+quoted(root/'tests/images/test_ntfs_file.py')+' --probe "$<TARGET_FILE:ntfs_file_probe>" --fault "$<TARGET_FILE:ntfs_file_fault>" --output "${CMAKE_BINARY_DIR}/ntfs-file-cases.json")',
+              'add_test(NAME image.ntfs_capture COMMAND "${Python3_EXECUTABLE}" '+quoted(root/'tests/images/test_ntfs_capture.py')+' --probe "$<TARGET_FILE:ntfs_capture_probe>" --output "${CMAKE_BINARY_DIR}/ntfs-capture-cases.json")',
+              'set_tests_properties(image.ntfs_file PROPERTIES TIMEOUT 180)','set_tests_properties(image.ntfs_capture PROPERTIES TIMEOUT 120)'])
+(fixture/'CMakeLists.txt').write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n')
+(out/'fixture-sources.json').write_text(json.dumps({str(p):digest(p) for p in sorted(common|provider|set.union(*probes.values()))},indent=2)+'\n',encoding='utf-8',newline='\n')
+(out/'inputs.json').write_text(json.dumps(before,indent=2)+'\n',encoding='utf-8',newline='\n')
+summary=dict(source_revision=revision,host=platform.platform(),stages=[],scope='Selected ordinary-file/NTFS x86 probes on current Windows x64/WOW64, derived from the exact x64 codemodel. Normal/fault variants remain distinct. Root product gate unchanged; no full Win32/old-host/provider/release claim.',owner_accepted=False,full_native_suite=False)
+def save():(out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
+def run(name,args):
+    start=time.monotonic()
+    with (out/(name+'.log')).open('wb') as f:r=subprocess.run([str(a) for a in args],cwd=root,stdout=f,stderr=subprocess.STDOUT)
+    summary['stages'].append(dict(name=name,argv=[str(a) for a in args],cwd=str(root),exit_code=r.returncode,seconds=round(time.monotonic()-start,3)))
+    save();print(name,r.returncode,flush=True)
+    if r.returncode:raise SystemExit(r.returncode)
+run('configure',['cmake','-S',fixture,'-B',build,'-G','Visual Studio 17 2022','-A','Win32,version=10.0.19041.0','-T','v143,version=14.44.35207,host=x64','-DCMAKE_SYSTEM_VERSION=10.0.19041.0','-DPython3_EXECUTABLE='+sys.executable])
+run('build',['cmake','--build',build,'--config','Release','--target',*probes,'ntfs_fixture_headers','--parallel','4'])
+run('native',['ctest','--test-dir',build,'-C','Release','--output-on-failure','--output-junit',out/'native-junit.xml'])
+clfile=next((build/'CMakeFiles').glob('*/CMakeCXXCompiler.cmake'))
+cl=Path(re.search(r'set\(CMAKE_CXX_COMPILER "([^"]+)"\)',clfile.read_text())[1])
+summary['artifacts']={}
+for label in ['ntfs_file_probe','ntfs_file_fault']:
+    exe=build/'Release'/(label+'.exe');summary['artifacts'][label]=digest(exe)
+    run(label+'-imports',[cl.with_name('dumpbin.exe'),'/DEPENDENTS',exe]);run(label+'-headers',[cl.with_name('dumpbin.exe'),'/HEADERS',exe])
+    imports=re.findall(r'^\s+([A-Za-z0-9_.-]+\.dll)\s*$',(out/(label+'-imports.log')).read_text(),re.MULTILINE)
+    assert [p.lower() for p in imports]==['kernel32.dll']
+    assert all(s in (out/(label+'-headers.log')).read_text() for s in ['14C machine (x86)','Dynamic base','NX compatible','Control Flow Guard'])
+summary['native_groups']=len(list(ET.parse(out/'native-junit.xml').getroot().iter('testcase')))
+summary['file_result']=json.loads((build/'ntfs-file-cases.json').read_bytes());summary['capture_cases']=json.loads((build/'ntfs-capture-cases.json').read_bytes())['count']
+summary['inputs_unchanged']=all(digest(root/p)==v for p,v in before.items());summary['checkout_clean']=not subprocess.check_output(['git','status','--porcelain'],cwd=root)
+assert summary['inputs_unchanged'] and summary['checkout_clean'] and summary['native_groups']==2
+summary['status']='pass';save();print(summary['file_result']['cases'],summary['capture_cases'],flush=True)

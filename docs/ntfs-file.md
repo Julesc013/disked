@@ -27,3 +27,17 @@ Native tests use only generated ordinary files and separate test-only controls.
 Normal code exposes no environment fault protocol. Worker/public integration,
 attribute-list/extended records, namespace/content, other platforms, physical
 writer/recovery and the original all-platform/storage0.1.0 remain required.
+
+Exact clean `777fd71f` passes 73 file responses/nine methods, all 18 selected x64
+native groups, five headers and 242 tooling tests/two skips, with source/context,
+manifest, dependency and normal/fault import/security checks. An isolated x86
+fixture derived from the actual CMake codemodel passes the same 73 file responses,
+154 bootstrap cases, two groups and two headers on the recorded x64 host/WOW64.
+Both architectures exercise real native seeking above4GiB and full logical source
+hash preservation. Four full launch samples retain independently checked process
+creation, source metadata, exact read responses and profile decisions.
+
+Actual leaf-file symlink creation remains unverified because the required
+privilege is absent; parent/leaf junction and hardlink refusals are tested.
+This does not qualify the full product/Win32/other hosts or public NTFS dispatch.
+[Evidence and implementing-agent review](../.aide/evidence/2026-10-16-ntfs-file/REVIEW.md).

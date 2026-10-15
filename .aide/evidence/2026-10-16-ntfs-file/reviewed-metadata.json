@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "source_revision": "777fd71fe509c8b9961ffec4f726b32dce2305f1",
+  "native_and_contract_bytes_unchanged": true,
+  "stages": [
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-index.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-structural.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-source-map.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-manifest.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-verify-manifest.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W081",
+        "--output",
+        ".aide-local/context/ntfs-file-reviewed",
+        "--byte-budget",
+        "700000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-context.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/ntfs-file-reviewed"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-file/reviewed-verify-context.log"
+    }
+  ],
+  "local_links_checked": 322,
+  "scope": "Review metadata closure only; exact native/tooling evidence remains bound to the retained source campaign. No new full native/owner/admission claim."
+}

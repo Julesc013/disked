@@ -1,0 +1,869 @@
+{
+  "schema": "org.disked.ntfs-file-qualification/1",
+  "observed_at": "2026-10-15T15:35:48.696108+00:00",
+  "source_revision": "777fd71fe509c8b9961ffec4f726b32dce2305f1",
+  "checkout_status": "",
+  "root": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "Selected Windows x64 ordinary-file NTFS binding/profiles, existing primitives and exFAT reader/file regressions; strict WSL C90/C++14 syntax checks. No full native suite or other-host/product qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 16.783,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build",
+        "--config",
+        "Release",
+        "--target",
+        "bootstrap_registry",
+        "ntfs_file_probe",
+        "ntfs_file_fault",
+        "exfat_file_probe",
+        "exfat_file_fault",
+        "disked_ntfs_file_headers",
+        "disked_exfat_file_headers",
+        "ntfs_capture_probe",
+        "ntfs_attributes_probe",
+        "exfat_capture_probe",
+        "ntfs_boot_probe",
+        "ntfs_record_probe",
+        "disked_ntfs_headers",
+        "disked_ntfs_capture_headers",
+        "disked_exfat_capture_headers",
+        "portable_probe",
+        "portable_cpp",
+        "gpt_probe",
+        "mbr_probe",
+        "fat_probe",
+        "exfat_probe",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 42.451,
+      "log": "build.log"
+    },
+    {
+      "name": "portable-regression",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\portable-junit.xml",
+        "-R",
+        "^(image\\.(ntfs_file|exfat_file|ntfs_capture|exfat_capture)|portable\\.(checked|c_cpp_linkage|ntfs_record|ntfs_boot|ntfs_attributes|ntfs_runlist|gpt|gpt_guard|mbr_ebr|mbr_guard|fat|fat_guard|exfat|exfat_guard))$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 57.354,
+      "log": "portable-regression.log"
+    },
+    {
+      "name": "probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build\\Release\\ntfs_file_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.042,
+      "log": "probe-imports.log"
+    },
+    {
+      "name": "probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build\\Release\\ntfs_file_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.045,
+      "log": "probe-headers.log"
+    },
+    {
+      "name": "fault-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build\\Release\\ntfs_file_fault.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.042,
+      "log": "fault-imports.log"
+    },
+    {
+      "name": "fault-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build\\Release\\ntfs_file_fault.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "log": "fault-headers.log"
+    },
+    {
+      "name": "build-boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 4.967,
+      "log": "build-boundaries.log"
+    },
+    {
+      "name": "wsl-gcc-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 4.287,
+      "log": "wsl-gcc-identity.log"
+    },
+    {
+      "name": "wsl-gcc-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "gcc",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/record.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/boot.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/attribute.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/runlist.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.175,
+      "log": "wsl-gcc-c90.log"
+    },
+    {
+      "name": "wsl-clang-identity",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "--version"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.22,
+      "log": "wsl-clang-identity.log"
+    },
+    {
+      "name": "wsl-clang-c90",
+      "command": [
+        "wsl",
+        "-e",
+        "clang",
+        "-std=c90",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/record.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/boot.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/attribute.c",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/portable/ntfs/runlist.c"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.214,
+      "log": "wsl-clang-c90.log"
+    },
+    {
+      "name": "wsl-gpp-cxx14",
+      "command": [
+        "wsl",
+        "-e",
+        "g++",
+        "-std=c++14",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/runtime/capture/ntfs_capture.cpp"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.453,
+      "log": "wsl-gpp-cxx14.log"
+    },
+    {
+      "name": "wsl-clangpp-cxx14",
+      "command": [
+        "wsl",
+        "-e",
+        "clang++",
+        "-std=c++14",
+        "-pedantic-errors",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-I/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source",
+        "-fsyntax-only",
+        "/mnt/d/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-777fd71f/source/runtime/capture/ntfs_capture.cpp"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.391,
+      "log": "wsl-clangpp-cxx14.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 0.127,
+      "log": "source-map.log"
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 1.613,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 3.162,
+      "log": "structural.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 297.549,
+      "log": "tooling.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 1.1,
+      "log": "manifest.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W081",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\context",
+        "--byte-budget",
+        "700000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 2.256,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-file-qualified-777fd71f\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-777fd71f",
+      "exit_code": 0,
+      "seconds": 4.872,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "original_failures_cleared": false,
+  "full_0_1_0_complete": false,
+  "physical_devices": false,
+  "compiler": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+  "compiler_configuration_sha256": "sha256:09367b2d3dd6af024fef102881b25351073c031ce6314d4a6feecad6f69b9131",
+  "probe_imports": [
+    "kernel32.dll"
+  ],
+  "probe_import_check": true,
+  "probe_security_check": true,
+  "fault_imports": [
+    "kernel32.dll"
+  ],
+  "fault_import_check": true,
+  "fault_security_check": true,
+  "artifacts": {
+    "Release/disked_exfat.lib": "sha256:feaa89b5e8a7f6f37792ecf07368bab7c47c06f7f227e9fdc787927da87baa8d",
+    "Release/disked_exfat_capture.lib": "sha256:00fb35c241eaeecc8f767e9d8882681f460aed7f355e0e2c6a0b3e91fcc3626c",
+    "Release/disked_exfat_file.lib": "sha256:7d3c47e4b10f83130bf673d2664b183658c032b705b02f2bdf608becba7b5677",
+    "Release/disked_exfat_file_fault.lib": "sha256:954596f1e52798fa2152812ad3418e1ccdcf9baae37a0d106f94c5edc7aeaed6",
+    "Release/disked_exfat_namespace.lib": "sha256:fa72a886732e52dadcf64b2a4f166542788f2e03e7dc3f42675afba44da94fbb",
+    "Release/disked_exfat_tree.lib": "sha256:5e4da72223caf499377e5cbde4afdad483c0175bc379ee1dc73b6009f22b1147",
+    "Release/disked_exfat_upcase.lib": "sha256:2f4e9c8ec83138ba2ea26ee180ddbb837a8752c8b965675c5c86f74d25067617",
+    "Release/disked_fat.lib": "sha256:6dccd9023c909c8e1a18c012dd1c4caf04b4554c4282fd8b7e5ec2acac01a0d0",
+    "Release/disked_gpt.lib": "sha256:f6316b2a8a22ccfc8caafd57704f1fed553e035d86ea75ba7ff6643880ad9383",
+    "Release/disked_hash.lib": "sha256:8ac7b15076f3f9bfa155c5ddcacaa882e8bee101747231bec974c6aad9e005ef",
+    "Release/disked_json.lib": "sha256:e033657c893396de5c9628f7fd0a41d547b96eb8f9be6e515713cdc852feae07",
+    "Release/disked_local_file.lib": "sha256:d059a39b2eb87cc4121ac44caa47393498face044b0342040d2c6d372b3ec480",
+    "Release/disked_mbr.lib": "sha256:b5d9b7f8dc90c614fbb82db0a88bf2a6d347bc93cdd43b34cfc17d288b2b5c87",
+    "Release/disked_ntfs.lib": "sha256:e6a1ae77cec1a7109ec3473f5a7b6f60369a66e2fe31d69b3bf0f96c9ec89930",
+    "Release/disked_ntfs_capture.lib": "sha256:067a27909017955b18aaf4e7acec0fedb85470a9c86990e29767770711072356",
+    "Release/disked_ntfs_file.lib": "sha256:9a564b6991c32e2cfd34e530ddf430726fcaa6807181d6e0cdf563304d696bef",
+    "Release/disked_ntfs_file_fault.lib": "sha256:b75d6433494a0c73052ed2eea9ff9fadc4a4a6fed3045d8da21044dca4a7bbf8",
+    "Release/disked_primitives.lib": "sha256:65d2786f667136e86d49347af617d7031efd391ca48548ea8ee7a263ef75930b",
+    "Release/exfat_capture_probe.exe": "sha256:dec67bd009af28e60b42ed29c49b9c6d05c57b7f5651f60d559dba0ccbca3647",
+    "Release/exfat_file_fault.exe": "sha256:6bf32a70bc09a745e3137850f2e0a7fe9c27e1e2c9d3f048a711ffcc854f151b",
+    "Release/exfat_file_probe.exe": "sha256:4e7cc317ead28846e86e40d63be81ac9ce2920fc0e016174587b4645ae610bef",
+    "Release/exfat_probe.exe": "sha256:b24048b8ba6c24f8d5dd8c264328fe62d52ce705baf4b3a2e6a1fe4ce2b5b007",
+    "Release/fat_probe.exe": "sha256:d7ead4a7c83155eebe756d05d4c19632bc1db418c505c43bb16ac249368d79f3",
+    "Release/gpt_probe.exe": "sha256:6c7b691414ad8434b76e27f1ed1de52a87a9d9245439a78fd2522f2f773f64ab",
+    "Release/mbr_probe.exe": "sha256:8c24ca349e93f42f39c3081917ade066039d97af49142eace53d602ddf57a001",
+    "Release/ntfs_attributes_probe.exe": "sha256:3da4221716d96d157d4093b1745f4d06f7a08de486f98e02f47fe88488ef7506",
+    "Release/ntfs_boot_probe.exe": "sha256:8e058e302bf14cd0cb727bbbe1e26e3a30f4b8a933c31de4b241b00e673131fd",
+    "Release/ntfs_capture_probe.exe": "sha256:7ec52aa4b49aff0a790388365b709fb52c9aa3c0d2b75d2fc08e0fe8558e05fa",
+    "Release/ntfs_file_fault.exe": "sha256:63f16ee6eed15b9c4c5c710097f5c6c6604aa7e4def2e18d95d18f89c0af6d4d",
+    "Release/ntfs_file_probe.exe": "sha256:67b91c7363fb67630db06c469f5d851afd06c19cea9b8e30c24381dff0c24d3c",
+    "Release/ntfs_record_probe.exe": "sha256:2b5a00bef2edd396d59acea30605630f4c11c76a2d6e6001399126b33076b258",
+    "Release/portable_cpp.exe": "sha256:ff2cdf5c18ff001b242f6a03b825131f4ef4a649b2522819c5f00829eebe8b19",
+    "Release/portable_probe.exe": "sha256:ac1257c6fa5fdc85f470c3a71afa8774803d34c1bc689b2067f3ca23312255e6"
+  },
+  "ntfs_record_cases": 964,
+  "ntfs_boot_cases": 1729,
+  "ntfs_runlist_cases": 632,
+  "ntfs_attribute_cases": 259,
+  "ntfs_capture_cases": 154,
+  "ntfs_file_result": {
+    "cases": 73,
+    "methods": 9,
+    "failures": 0,
+    "errors": 0,
+    "receipts": [
+      {
+        "input_sha256": "sha256:c2f2800fada11ef2c6bd9457bb893cfafd0629f3dd91079d504a294ccf5b908e",
+        "observation_sha256": "sha256:98e1af4198f66378082dab4f2601a3ec53bd76d3a84bfbc32b256e00fbfab3d5",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a0819da49ab1a4057e185ae6e3106885aa136b61c95a0585e3845f77b33577e2",
+        "observation_sha256": "sha256:37bb76e0f7ecef5b72998893fe46be5cfd68bd3b2924fc7043d27636c5e3660a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:02fbe498f65c9a498771344fc744a7857dfd1f5477e8fabc675e716c5f012aa0",
+        "observation_sha256": "sha256:116081518c83cd5c3b124a489ca7bcb4a05da88c2cfeb97be59d05b84d1a3deb",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:00784c4ef992d543befd164d7da09c9f18876c36b7fc82486bef646ab86f530f",
+        "observation_sha256": "sha256:9219eda27fd7afbc8685dcce353e83a5ee23c0554de15254da1fbc0769d77a5e",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a54c98b3aaea5962cd19223a19bcbd48a3328e48fe06686f5a56b6870b4aabbd",
+        "observation_sha256": "sha256:35dda03b13d138ce1a02bba3d1970f69390440ee04d8c3f8b89fa1862ae1aac6",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:79c44515ac6439d1bd1bbdc0a07fcb11325dcf5fc97393bf0c11e954c06c9a38",
+        "observation_sha256": "sha256:4ded253d122429a80e7f33db8ad773e78917e3c80390a7e8c7db89e1f282d317",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7f65078751428e4a83392d1d5c6200f07bf19e246c0ba58aa44a6dd10bbed55b",
+        "observation_sha256": "sha256:e887e8d8f0576f65a2029e95bb9225cbd018540c962e66219b57c73e4eca4e7a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b09ec946ccdb1094d5c5105fd479c21ee387bca28f8fff59d79c38a4b613fdbf",
+        "observation_sha256": "sha256:798942b11beaaa56c7573af8b7baefa2df3012213ae05d3675e96a80fd4c5756",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:cf2477dd91cd33a132083080dd200fa2f67878add1afeaf9447c8db5e40be717",
+        "observation_sha256": "sha256:0b6f6f8ab654f1513872f51bada5abbb0dd6d34078c14cccdfd34914438ab650",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b46348cbeddbd4fce78fb8385107c50ee5df18148b86ff6ab76a0e95925d025c",
+        "observation_sha256": "sha256:c1653bf2efa668e07c69a6b0c7a0f328f9355f8901cb27231e45bfa54ab7510c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e5f836eb2b577511cbc9013fea47074d85f4fceeb329f1127d735ca3d086b930",
+        "observation_sha256": "sha256:2fced1a8296c15d4c05bd8b6d892ee527df96e005cf261d117dde9acd8af87df",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:38138425deb7d6189d5ba7dcb313c9eac6b457831eb1b907c99806c403cf6bfb",
+        "observation_sha256": "sha256:ea221bbf39b8b610a76fcbf74c324f9649901c979cd9f3c22707a032f4c28c6a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:0b81b2a9b576e987b096fc6eb42463cdf13456639a949decd9bc6c140b0de7de",
+        "observation_sha256": "sha256:c4b571a3d73f2056cce906d1aac6d2f46e9c260810c31cee9f01da7d54bb7d7a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6d0d082ab4945d0d8bb0176b456099e12fe62b45f4668d3543b3b58feef57c29",
+        "observation_sha256": "sha256:e39715a7b2c6cf676f5367331bf77b6ccb8c6ed9150ddf53be1a62bc7e897ea1",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7bce59989f5a4cb1a8c3fee356f8c5ef39e9179df51956569f0a354983f4e685",
+        "observation_sha256": "sha256:162322298b9ba29446d627070e92f8195b7ecd9ec0abc9bb1e5543172d9d7d85",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:099715e5b6de407c7498ddd53d1e1903595f4e5d697c4a7758be0c3bd0218b32",
+        "observation_sha256": "sha256:e02c88f632bfb2ee043979bc480d5945159c280ec4d2cbe7ef2dd3dc203879a8",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3c3e44bdc842fad688ed0d8b3863ed9432412c5ffcaeaffd1e09fcc4bb6c1409",
+        "observation_sha256": "sha256:25a1a79e8914e7cd1c0a962a5e07656b97c140d8bd47f9bd9f3c9492b338d9df",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4b45cc67ddec5e06897799851bb41b2208a9691ce4803131b7eb28ab8a7f2a83",
+        "observation_sha256": "sha256:a61c02bd5435cd307bdba1a0d59b70bd5bfe15ef0fddd190f7ca58c08974d661",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4d6242763b4b0a9473b023bcbf3877b879fbb53ca754384d6d83dcca56027c56",
+        "observation_sha256": "sha256:a61c02bd5435cd307bdba1a0d59b70bd5bfe15ef0fddd190f7ca58c08974d661",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:099715e5b6de407c7498ddd53d1e1903595f4e5d697c4a7758be0c3bd0218b32",
+        "observation_sha256": "sha256:bef41a49667f97dfb408011b10a4f6ba30efb7822bdb94020cc0642cd61f8a44",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:099715e5b6de407c7498ddd53d1e1903595f4e5d697c4a7758be0c3bd0218b32",
+        "observation_sha256": "sha256:f5f4928744010b16c1bde6d58f8b55548a017315d12f3d7ea4b6d3b1b0604c31",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:270e11326421753235766d380d11218e2329b98cd6ca56cb1c40fa477e28f373",
+        "observation_sha256": "sha256:ff29f4e408a6d69a3b3d6fc5244f2b811934600627f9b00b7742cd6386fda723",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c0b2d5a177b60688e2817ab3d5e104d04a2816bd61ca6dd28a0ea11abbb7402d",
+        "observation_sha256": "sha256:e447c75d93ecba55eb17d9fbaf6de59592e234c7dce19fb51529297171a6fb4b",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:0187a80215c5996132dd168a9a7e3cf30095f91a3e437b1fb0584d760878d5c7",
+        "observation_sha256": "sha256:fdc11156b8b323283202356add23e3b364fb9777f82470b068ed547420166f6e",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5041a9d4b256acefeac864206a30d2bc2430512cca6e48b88536140c9ae139d1",
+        "observation_sha256": "sha256:438704fc5f312619beabd041ccd2bd02b1dcff0c59321305ab443466dfd8dd40",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:720f4011d86ceac61d4627b92a94bd438ed62f6a392e6424a478d93a9c2533fe",
+        "observation_sha256": "sha256:dc454752b29a2c6eabb7aadf630356cb6c53d65311f619248d1d319f671c5302",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:56c3245482ea297572b6ed140bcec50d71538eec7b7da3cfb9b7f67ab56ef47e",
+        "observation_sha256": "sha256:4a8b48dad55d1890a8a3d9d97597da43bcd35840ba84215e67db51992afa75aa",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3e8766c8e68288fcbfeed56052aba60eff05e42d857b9e5b15b5e8f604fb7f72",
+        "observation_sha256": "sha256:a5e9b866318b57e5c86c0e3bdbd3fcccb2249687618c1f31221621b86f33e68b",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:8726036fbae4947b5bc2e583329491dfae2ac7a090533e45488244af5d6e8af1",
+        "observation_sha256": "sha256:ea9c1fbb2839b9f0c148a50cfabd2e632bea2e53f80a07ffbd6131742836c401",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4d59e080b800aaf60e946d212f7122877dd63954ba64234aec9469783d6886cb",
+        "observation_sha256": "sha256:cd6dd8bc1b99393ba6cc05a5ef4d8fdd8f2df02aacd34262ad8f99dfe8385f57",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ab53a66ed84c91c61924a3688a78760e36aafdd19705a4cb7f5941d75609b0eb",
+        "observation_sha256": "sha256:761b3a815aed50c941237ed4e999833d467a85daa37a9ab38b01c845d7e16cd2",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b19cf5f12e50c23d8c12dcf80b4847d8bdb82185e10893433d4b08d635b5dd15",
+        "observation_sha256": "sha256:c60f92a3f3b3e1b6f5ee51f8c286de6762678047cb577ab489aed58f2a0d8186",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:843dad32b0e0cb3de624313f18be5a05cabad0ea5fd83e901712f510c178037b",
+        "observation_sha256": "sha256:7b9fc8e2da84413870f275066054c1b0cb5bc10e07111456969f5abf4aa2ddcc",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2bbcd6f4e73dd184961b0b4edcb29a3ac395774757ff6d54c9075f824b73b3b9",
+        "observation_sha256": "sha256:891575ab43620d41c70609566d09a979bf239bc58f5ae0db32028ecac5c42c73",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:33a2524e8f8301157c48829d1bc7b24cc6f8634ba3cbf28a9c388d70e432623f",
+        "observation_sha256": "sha256:c74209ad5fcd92e7c8c38407b8a6551401c516001d406d94f85e5f1626a76fa6",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2c798b87c9478aa55541592465ea2f5498cb2bd45f22ad858e6eae64061d11fb",
+        "observation_sha256": "sha256:81e2d9808ab2982c0b75cde33563402c158aa8e76356061d14524dd38ec4a5f7",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:cd0ddfead5f79791f4939a581fb885e62c25bd17958353591a98bed7ce98e131",
+        "observation_sha256": "sha256:fdec1690ecc633af8098d90b319bbbf61bd0cea8d8a5e9384c983e69ad5dc176",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:75e08bdf52d689fe21f442cabe9e8fe8c488404da737e58bd92b645e301b805d",
+        "observation_sha256": "sha256:3ffcd46ac003cc554f7c9dc664e872dd06747fbcf94bc36a1daf26132e35205a",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:51bfcf57f8323cfb5e3efb0c285f76727bfac42b57d8960f7cd0a445010272e1",
+        "observation_sha256": "sha256:1e004fe816a4ed0a77e16db73c9a18e10491322ff74c8a132e7194dee8d4cd1a",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:bac2036eb8c604291846dbefcc51a59fd2309edffd6be12e95a8c977a83e02f2",
+        "observation_sha256": "sha256:406ca7f7973654b637abecb643ca9fcbf0e02a21137ce46d8a77ad2b1624e245",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:acc80f1ee7eeb8c19c57febde08ca8b5a28b05d95a783984e2dadb7f0fe9db63",
+        "observation_sha256": "sha256:e0e14f71613934c06a2da157b2e55a6bc02eb3dce9403f903bd2be3aabb8ba11",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:afc5a3af45135785c91c33bb6c24123ee827d6179fd7e320c36708c3fe7ea589",
+        "observation_sha256": "sha256:5c9359172af414825bb01c73d65fa9511ba258a1609b523a72f6b9443cbaf49b",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:1c24aadc616ab48648a70e66255eaf0af03d350ec7e08d500b6af44bcf9bd2d6",
+        "observation_sha256": "sha256:e0e14f71613934c06a2da157b2e55a6bc02eb3dce9403f903bd2be3aabb8ba11",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ee4691fc1a861490e0c7cccbe5930302bfa6f77a81c32951261a5bb80d88f060",
+        "observation_sha256": "sha256:f2d53c4e7e47c5f8d5a53345d40d8d552aea638928617c8f9dd58a4043c79230",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:36f78703e8e7f47edfabe9e89481c7451694bd6b9b8bea2d490ebc7ce21aa69a",
+        "observation_sha256": "sha256:bd68efbfa7e8326576f8dcfe3ebb6e3a8c487ae07386fcd635852110e3893916",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:942201c3d05d84c5bc90347b5f6d634b039f42e050dd345aa60d89e57616d424",
+        "observation_sha256": "sha256:f775b3374a6cfa56d1a569db837c7bf65133badac914e27a1d00f50f9d09e7a0",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c93108296bc7832e9fc79ca5b1d75d8758c0621310a32f96221486f082812c78",
+        "observation_sha256": "sha256:b80c1dda131f08f76502cbf4102b54a6d0549e85ad23b83a444d73a8c112d2e0",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b354e82c242e0dcf6fe38c1a57e6dc265eaf7eccb8052d30ac052dfff95360eb",
+        "observation_sha256": "sha256:6b0a44837a9480c796070df8c28f923cdf72d24360cd26655e9b63ac39432bca",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a2ceeab6f126035c9192c595f018d0c60f34f935e80f4f4a18be2342653ac429",
+        "observation_sha256": "sha256:2082ff2ccd249411214076dc569b0c1c6ed2c65bec97f01b2d8c108e86cca539",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:8ecc3c89bbcdd1b903a83b4024f06d96cd956a9503a849bb1d8578394b2ab803",
+        "observation_sha256": "sha256:876a7f06e3d8cd8537879d8dec813ddf9be50a29bc1bd66829e2132c33e267d7",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f34838ad6da01c510135c4248eb891598463fb6f7ab6501d75670e66bfe74851",
+        "observation_sha256": "sha256:daea2bee9399dfe385388c8bbcaad48dfb25a14483c831fb4a6265b34021580d",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a4f334825fca79540b5dab23a60f05320b9591d8b851cb254c04c80096aa2e1c",
+        "observation_sha256": "sha256:9b13ad7eb31977ec4dc52d8dce2b98596d72e1c91c5efd200b5b7ae2cbc3bd8e",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:40eb8b8fb1e898e7c922aef10d14748c2d0da6422b537e9d5d5606176b8b8380",
+        "observation_sha256": "sha256:61fa701862f763296f39f6b4715331bc77748279da063240088614665b5c8ad0",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2ff03483769a830fd09cb3b892afbad0532d37bfcf5dff488be364a6304fd6aa",
+        "observation_sha256": "sha256:d7fd2377347124703ea23f8061bb8ee1963dbd016feb845de5038f826e47da83",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:94dd2763a190d619c501cb690eb4b2fc8a89566ceb640c07c49107f6fa1fbec7",
+        "observation_sha256": "sha256:48b9d7d610fab2653fba50f778e07376c2b1229d8fb8fd007fd1b008bb26bacc",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a6fdcd13b9e5ea93fc42e4cf9a96c45072bdac4004680144c72a6df62f94668d",
+        "observation_sha256": "sha256:e0560a474a6977c1c10a23f9fbe53f82e40c9691babb26e8ea4dc9f5fa0dab9a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f9e458b4d9d96e52e802028d72e6fd863c18c509111774a555e0a4bc0431811a",
+        "observation_sha256": "sha256:e0560a474a6977c1c10a23f9fbe53f82e40c9691babb26e8ea4dc9f5fa0dab9a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7936f564f06d858c6ed9ec6dbf65cae16facc3c42051d6d143364fd8d6ba30ae",
+        "observation_sha256": "sha256:8f75ea194f6344098620bb11a434ea9a5555557ea6846d36a7b8b866378ef235",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a158b353845c440e14be83b3863102b54a9d325c873f1971ab400c6591646b32",
+        "observation_sha256": "sha256:1c4668122d1005bbf517c0a63fa0f21837de645fafdff6e8644c5ce21b98015c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a6b2be4e8e54f671c018e56b9059423f2a5de310ab8d7ce70dadc0b03d87eea7",
+        "observation_sha256": "sha256:2530b7d0572f1569f8aa15f1123fc0d8a8ce1ed6398eebc7dd661a1f5a92809f",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:df98673c013d57d3fe9dc1e5904ea9453f96360a56b93f7025c051e5b74aee52",
+        "observation_sha256": "sha256:ff36b8fd787289cbccc2dfa6b7407b03b107896109ac781b6fd33e1349a16ac8",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c550958e608d429143890078aeffdbabf43b8302b514a085e94e72aca8878b98",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:451e270a407f0f8d444047a0119224ea395e3a3eed7fd0a12d130af41c67bb17",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:650df42ab455b697e0ecb95ae02a69008a90ff92547dadbcffb5a0acaeddb29a",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6cdc0f5f1fa6682bb0379926ed6163acfbc0e789ee408dcc552f345f905a697f",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:bf37ccca34904fbf4c7013b37f352a0736b2e0bd84c912e775edb4d0c4de1872",
+        "observation_sha256": "sha256:96eb413eadd528ebad2b1f7299f6549296b8bf2ed2a0010a5e4d064fbe2fdfcb",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:873a8c5755be451ca5184e3f907f67995c6fa9997b331c6313878a3e526d6ebb",
+        "observation_sha256": "sha256:351a87de6e5c3a8e7a9a8407e11adb3e489614ce0db83a0868b9170fd9ae9057",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:852fce06f20dcf05d783a34070b86abb665ab61eb8326eb8db04b5c1f91c7fb7",
+        "observation_sha256": "sha256:a1e71c490a37ca590f0d7db1f364d56082f3e016ce6a3ac31b6ae65774af1cd7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:bc7da1c231533f262d29602aa8ec62f43908df77c7c09739cdd59e619fb030a3",
+        "observation_sha256": "sha256:2ba8d258427ea71c091b19b27bb08947ddf39dc2a13f0d40012aae3df17f0bb7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:123132ae02636a146a69859cf40b2ce3865aa142f7d80148b61924be8f2639b2",
+        "observation_sha256": "sha256:2ba8d258427ea71c091b19b27bb08947ddf39dc2a13f0d40012aae3df17f0bb7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3ac8bd0c8fb6a95e9733f9cbf64794330c0fb4642d78070b77c0de54aca9946c",
+        "observation_sha256": "sha256:68addde49725ed6b4ce2236c6aae566119e984d041c5cd86f19a943dc8585b85",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f28f5cf8311e07bd3bdbd2c95a92ed30154519d00c140005d235b418577d0cf7",
+        "observation_sha256": "sha256:2d5ba5219c0f7bd4c3a22a18c84ad17ce650cebbce328bfb9d58fbc73ea97d9e",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b0ef158a71cd3ea5741c08126c9320f1a9c41ccb2ae37fbdc342a946fe8bb862",
+        "observation_sha256": "sha256:aff93f96ae8b2b5e3111f4aa19d6ceba212cc59d06d9e47964fc36b2e0185bbb",
+        "fault": false,
+        "process_exit_code": 0
+      }
+    ],
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-cx70to7t\\\\target\\\\source.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-cx70to7t\\\\leaf.img'"
+      }
+    ],
+    "scope": "Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission."
+  },
+  "ntfs_cases": 73,
+  "inputs_unchanged": true,
+  "checkout_status_after": "",
+  "status": "pass"
+}

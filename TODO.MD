@@ -27,10 +27,11 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
-- [ ] DE-W081 active: held ordinary-file NTFS bootstrap and automatic/explicit
-  profiles pass 73 working responses/nine methods, including a native offset above
-  4GiB. Exact-source and worker/frontend admission remain; unavailable leaf-file
-  symlink privilege is unverified rather than passed.
+- [x] DE-W081 available ordinary-file scope: exact `777fd71f` passes 73 responses/
+  nine methods on x64 and isolated x86/WOW64, including real native offsets above
+  4GiB, source/ancestor access refusals and release.18 selected x64 groups/five
+  headers/242 tooling(two skips) and two x86 groups/two headers pass. Actual file
+  symlink privilege, contained worker/frontend and full original scope remain.
 
 - [x] DE-W079 available supplied-reader scope: exact `000ecb77` passes 154
   bootstrap cases, 16 selected x64 groups, three headers and 242 tooling tests/two

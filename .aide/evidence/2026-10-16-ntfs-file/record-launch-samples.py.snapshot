@@ -1,0 +1,60 @@
+from pathlib import Path
+import importlib.util
+import tempfile
+import subprocess
+import json
+import hashlib
+import ctypes
+from ctypes import wintypes
+
+root=Path.cwd();out=root/'.aide/evidence/2026-10-16-ntfs-file/launch-samples';out.mkdir()
+spec=importlib.util.spec_from_file_location('ntfs_fixture',root/'tests/images/test_ntfs_capture.py')
+fixture=importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture)
+hashfile=lambda path:'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+times=ctypes.windll.kernel32.GetProcessTimes
+times.argtypes=[wintypes.HANDLE]+[ctypes.POINTER(wintypes.FILETIME)]*4;times.restype=wintypes.BOOL
+summary=[]
+with tempfile.TemporaryDirectory(prefix='disked-ntfs-launch-') as folder:
+    owned=Path(folder).resolve();assert owned.parent==Path(tempfile.gettempdir()).resolve()
+    for arch,build in [('x64',root/'.aide-local/ntfs-file-qualified-777fd71f/build'),('x86',root/'.aide-local/ntfs-file-win32-777fd71f/build')]:
+        for minor,profile in [(0,'auto'),(1,'3.1')]:
+            name=arch+'-'+profile.replace('.','')+'-volume3'+str(minor)
+            directory=out/name;directory.mkdir()
+            volume=fixture.Volume(minor=minor,offset=173)
+            path=owned/(name+'.img')
+            with path.open('xb') as stream:
+                stream.truncate(int(volume.input['source_bytes']))
+                for region in volume.input['regions']:
+                    stream.seek(int(region['offset']));stream.write(bytes.fromhex(region['hex']))
+            before=hashfile(path)
+            row=dict(path=str(path),offset=volume.input['offset'],length=volume.input['length'],profile=profile,release_check=True)
+            data=json.dumps([row]).encode();(directory/'request.json').write_bytes(data)
+            exe=build/'Release/ntfs_file_probe.exe'
+            child=subprocess.Popen([str(exe)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            try:stdout,stderr=child.communicate(data,timeout=30)
+            except subprocess.TimeoutExpired:
+                child.kill();child.communicate();raise
+            (directory/'stdout.json').write_bytes(stdout);(directory/'stderr.log').write_bytes(stderr)
+            stamps=[wintypes.FILETIME() for _ in range(4)]
+            assert times(int(child._handle),*(ctypes.byref(t) for t in stamps))
+            created=(stamps[0].dwHighDateTime<<32)|stamps[0].dwLowDateTime
+            assert child.returncode==0 and not stderr
+            result=json.loads(stdout)[0];assert 'refusal' not in result
+            capture=result['result']['capture'];observation=result['result']['observation']
+            assert observation['applicable'] and capture['observed_stable'] and capture['replay_equal']
+            assert capture['process_id']==str(child.pid) and capture['process_created']==str(created)
+            assert capture['selected_profile']=='3.'+str(minor)
+            assert int(capture['retained_replays'])==(2 if minor==0 else 1)
+            assert [(int(r['offset']),int(r['requested'])) for r in result['regions']]==volume.initial_reads*2
+            assert all(r['opened'] for r in result['released_access'])
+            after=hashfile(path);assert before==after
+            receipt=dict(name=name,source_revision='777fd71fe509c8b9961ffec4f726b32dce2305f1',argv=[str(exe)],
+                executable_sha256=hashfile(exe),pid=child.pid,process_created=created,exit_code=child.returncode,
+                source_before_sha256=before,source_after_sha256=after,source_bytes=path.stat().st_size,
+                live_reads=len(result['regions']),retained_replays=int(capture['retained_replays']),
+                current_source_authority=False,product_dispatch_admitted=False)
+            (directory/'process.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8',newline='\n')
+            summary.append(receipt)
+    assert owned.parent==Path(tempfile.gettempdir()).resolve()
+(out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8',newline='\n')
+print('Four full launch samples retain independent process creation, source hashes, exact live reads and profile decisions.')
