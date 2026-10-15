@@ -148,6 +148,7 @@ class Joiner {
         }
         const auto input = available_.find(ordinal);
         if (input == available_.end()) {
+            charge(64);
             missing_.push_back(reference);
             stop("ntfs_join_record_missing");
         }
@@ -213,9 +214,9 @@ class Joiner {
         return a.form ? native(a.lowest_vcn) : 0;
     }
     void select() {
-        auto &base = load(request_.base_reference);
         if (request_.type == 0x20)
             stop("ntfs_join_list_query_unsupported");
+        auto &base = load(request_.base_reference);
         const de_ntfs_attribute *list = nullptr;
         for (const auto &a : base.attributes)
             if (a.type == 0x20) {
@@ -246,6 +247,12 @@ class Joiner {
                                         static_cast<unsigned>(request_.limits.list_entries),
                                         &cursor));
         std::set<std::pair<std::uint64_t, unsigned>> keys;
+        struct Entry {
+            std::uint64_t reference, lowest_vcn;
+            unsigned instance;
+        };
+        std::vector<Entry> plan;
+        std::map<std::uint64_t, unsigned> generations;
         while (de_ntfs_attr_list_next(&cursor, &entry) == DE_OK) {
             if (entry.issues & DE_NTFS_LIST_BUDGET)
                 stop("ntfs_join_list_budget");
@@ -257,27 +264,43 @@ class Joiner {
                 continue;
             const auto ordinal = native(entry.record_number),
                        reference = native(entry.segment_reference);
+            const auto generation = generations.emplace(ordinal, entry.sequence);
+            if (!generation.second && generation.first->second != entry.sequence)
+                stop("ntfs_join_reference_ambiguous");
             if (!keys.emplace(ordinal, entry.attribute_id).second)
                 stop("ntfs_join_list_duplicate");
-            auto &record = load(reference);
-            const de_ntfs_attribute *attribute = nullptr;
-            for (const auto &a : record.attributes)
-                if (a.instance == entry.attribute_id)
-                    attribute = &a;
-            if (!attribute)
-                stop("ntfs_join_instance_missing");
-            if (!matches(*attribute) || low(*attribute) != native(entry.lowest_vcn))
-                stop("ntfs_join_entry_mismatch");
-            selected_.push_back(Selected{&record, attribute});
+            plan.push_back(Entry{reference, native(entry.lowest_vcn), entry.attribute_id});
         }
         if (!cursor.terminated || cursor.issues & ~DE_NTFS_LIST_TYPE)
             stop("ntfs_join_list");
-        if (selected_.empty())
+        if (plan.empty())
             stop("ntfs_join_attribute_missing");
+        std::set<std::uint64_t> missing;
+        for (const auto &dependency : plan) {
+            if (!available_.count(dependency.reference & record_mask)) {
+                if (missing.insert(dependency.reference).second) {
+                    charge(64);
+                    missing_.push_back(dependency.reference);
+                }
+                continue;
+            }
+            auto &record = load(dependency.reference);
+            const de_ntfs_attribute *attribute = nullptr;
+            for (const auto &a : record.attributes)
+                if (a.instance == dependency.instance)
+                    attribute = &a;
+            if (!attribute)
+                stop("ntfs_join_instance_missing");
+            if (!matches(*attribute) || low(*attribute) != dependency.lowest_vcn)
+                stop("ntfs_join_entry_mismatch");
+            selected_.push_back(Selected{&record, attribute});
+        }
         for (const auto &record : loaded_)
             for (const auto &a : record.second->attributes)
                 if (matches(a) && !keys.count({record.first, a.instance}))
                     stop("ntfs_join_unlisted_attribute");
+        if (!missing_.empty())
+            stop("ntfs_join_record_missing");
     }
     void join() {
         std::sort(selected_.begin(), selected_.end(), [&](const Selected &a, const Selected &b) {
@@ -421,6 +444,8 @@ class Joiner {
             join();
         } catch (const Stop &failure) {
             diagnostic = failure.code;
+            if (std::string(diagnostic) != "ntfs_join_record_missing")
+                missing_.clear();
         }
         NtfsStreamJoinResult result;
         result.required_records = missing_;

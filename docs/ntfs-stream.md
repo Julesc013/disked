@@ -3,9 +3,10 @@
 DE-W085 verifies one exact type/raw-name stream across supplied captured FILE
 records. The [execution contract](../spec/catalog/ntfs-join-prototype.json) fixes
 sequence/owner/instance matching, coverage, budgets and result ownership before
-implementation/evaluation. The working native corpus passes287 protected-record
+implementation/evaluation. The working native corpus passes298 protected-record
 cases and ownership/build checks; clean source qualification remains pending.
-Missing-record outcomes name the full unresolved reference without granting
+Missing-record outcomes name every unique unresolved selected reference, after
+full list and present-record validation, without granting
 acquisition authority. Result ownership is checked after freeing every input.
 
 Capture contexts are asserted input, not proven native provenance. A typed

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "cmake",
+      "--build",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+      "--config",
+      "Release",
+      "--parallel",
+      "4",
+      "--target",
+      "ntfs_stream_probe",
+      "disked_ntfs_stream_headers"
+    ],
+    "exit_code": 0,
+    "seconds": 2.763320100028068,
+    "inputs_unchanged": true
+  },
+  {
+    "name": "native",
+    "command": [
+      "ctest",
+      "--test-dir",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build",
+      "-C",
+      "Release",
+      "-R",
+      "^image.ntfs_stream$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-join-working-all-dependencies-final\\native.xml"
+    ],
+    "exit_code": 8,
+    "seconds": 0.29086200008168817,
+    "inputs_unchanged": true
+  }
+]

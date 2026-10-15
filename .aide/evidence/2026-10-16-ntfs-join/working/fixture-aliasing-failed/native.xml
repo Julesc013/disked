@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="1"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="0"
+	timestamp="2026-10-16T07:43:01"
+	>
+	<testcase name="image.ntfs_stream" classname="image.ntfs_stream" time="0.251525" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 235, in &lt;module&gt;
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\images\test_ntfs_stream.py", line 218, in main
+    assert observed['usable']==(wanted is not None),(name,wanted,observed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('deduplicate-missing-record-with-two-instances', None, {'observation': {'allocated_bytes': '28672', 'atomic_snapshot': False, 'attribute_count': '4', 'attribute_list_present': True, 'base_reference': '1407374883553280', 'complete': True, 'context_matches': True, 'current_source_authority': False, 'data_bytes': '24576', 'diagnostic': '', 'effects_authorized': False, 'epoch': '17', 'initialized_bytes': '20480', 'list_entry_count': '3', 'name_hex': '', 'parts': [{'highest_vcn': '1', 'instance': '11', 'lowest_vcn': '0', 'reference': '1407374883553280'}, {'highest_vcn': '4', 'instance': '13', 'lowest_vcn': '2', 'reference': '2533274790395911'}, {'highest_vcn': '6', 'instance': '17', 'lowest_vcn': '5', 'reference': '2533274790395911'}], 'record_count': '2', 'records': [{'base_reference': '0', 'issues': '0', 'number': '0', 'sequence': '5', 'sha256': 'sha256:9d5ac44bf0c15af1819fda855b19fda2877a7130e3e3063e0d58f8879f251e4f'}, {'base_reference': '1407374883553280', 'issues': '0', 'number': '7', 'sequence': '9', 'sha256': 'sha256:c4a0193a682ff07ba962ea3407543d3d8a893fd52ee4102ceafde95dfb7f51ba'}], 'required_records': [], 'resident': False, 'run_count': '3', 'runs': [{'clusters': '2', 'lcn': '30', 'vcn': '0'}, {'clusters': '3', 'lcn': '50', 'vcn': '2'}, {'clusters': '2', 'lcn': '80', 'vcn': '5'}], 'schema': 'org.disked.ntfs-stream-join-observation-prototype/1', 'source_id': 'generated-ntfs-stream', 'type': '128', 'value_sha256': None, 'volume_bytes': '16777216', 'volume_offset': '4096'}, 'refusal': '', 'required_records': [], 'source_unchanged': True, 'stream': {'allocated_bytes': '28672', 'data_bytes': '24576', 'initialized_bytes': '20480', 'name': '', 'parts': [{'highest_vcn': '1', 'instance': '11', 'lowest_vcn': '0', 'reference': '1407374883553280'}, {'highest_vcn': '4', 'instance': '13', 'lowest_vcn': '2', 'reference': '2533274790395911'}, {'highest_vcn': '6', 'instance': '17', 'lowest_vcn': '5', 'reference': '2533274790395911'}], 'resident': False, 'runs': [{'clusters': '2', 'lcn': '30', 'vcn': '0'}, {'clusters': '3', 'lcn': '50', 'vcn': '2'}, {'clusters': '2', 'lcn': '80', 'vcn': '5'}], 'type': '128', 'value': ''}, 'usable': True})
+</system-out>
+	</testcase>
+</testsuite>

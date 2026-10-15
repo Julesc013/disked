@@ -83,7 +83,7 @@ def main():
         summary['ntfs_list_cases'] = json.loads((build / 'ntfs-list-cases.json').read_bytes())['count']
         assert summary['ntfs_list_cases'] == 561
         summary['ntfs_stream_cases'] = json.loads((build / 'ntfs-stream-cases.json').read_bytes())['count']
-        assert summary['ntfs_stream_cases'] == 287
+        assert summary['ntfs_stream_cases'] == 298
         assert run('c90-version', ['gcc', '--version']) == 0
         assert run('c90', ['gcc', '-std=c90', '-pedantic-errors', '-Wall', '-Wextra', '-Werror', '-fsyntax-only', '-Isource',
                            *sorted(str(p.relative_to(root)) for p in (root / 'source/portable/ntfs').glob('*.c'))]) == 0

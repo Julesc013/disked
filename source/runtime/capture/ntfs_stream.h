@@ -47,7 +47,7 @@ struct NtfsJoinedStream {
 struct NtfsStreamJoinResult {
     // Nonnull only for a complete supplied ordinary stream. Contains no views.
     std::unique_ptr<const NtfsJoinedStream> stream;
-    // First unresolved dependency only; neither a retry nor source-access grant.
+    // Unique unresolved selected references; neither retries nor source-access grants.
     std::vector<std::uint64_t> required_records;
     json::Value observation;
 };

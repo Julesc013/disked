@@ -69,7 +69,7 @@ def split(name=b'',reverse=False,extension_options=None,first_options=None,list_
     return request([row(base_record),row(extension_record,7)],name=name.hex()),expected
 
 def scenarios():
-    def case(name,value,expected=None,diagnostic='',refusal='',missing=()):return name,value,expected,diagnostic,refusal,[str(n) for n in missing]
+    def case(name,value,expected=None,diagnostic='',refusal='',missing=()):return name,copy.deepcopy(value),copy.deepcopy(expected),diagnostic,refusal,[str(n) for n in missing]
     plain=request([row(record([resident()]))]);plain_expected=stream(b'original\0bytes',parts=[(BASE,11,0,0)])
     yield case('resident-base',plain,plain_expected)
     yield case('missing-base',request([]),diagnostic='ntfs_join_record_missing',missing=[BASE])
@@ -83,6 +83,38 @@ def scenarios():
     for minor in ('0','1'):
         v,w=split();v['minor']=minor;yield case('split-version-'+minor,v,w)
     v,w=split(reverse=True);yield case('list-order-is-not-vcn-order',v,w)
+    other=ref(13,12)
+    first=nonresident(allocated=7*CLUSTER,data=6*CLUSTER,initialized=5*CLUSTER)
+    second=nonresident(low=2,runs=((3,50),),instance=13)
+    third=nonresident(low=5,runs=((2,80),),instance=17)
+    descriptors=[entry(),entry(EXT,13,2),entry(other,17,5)]
+    def many(entries=descriptors):
+        return request([row(record([first,resident(b''.join(entries),kind=0x20,instance=1)])),
+                        row(record([second],number=7,sequence=9,base=BASE),7),
+                        row(record([third],number=13,sequence=12,base=BASE),13)])
+    expected=stream(parts=[(BASE,11,0,1),(EXT,13,2,4),(other,17,5,6)],runs=[(0,2,30),(2,3,50),(5,2,80)],allocated=7*CLUSTER,data=6*CLUSTER,initialized=5*CLUSTER)
+    yield case('three-complete-extents',many(),expected)
+    for reverse in (False,True):
+        order=list(reversed(descriptors)) if reverse else descriptors
+        v=many(order);v['records']=v['records'][:1]
+        yield case('all-missing-reordered-'+str(reverse),v,diagnostic='ntfs_join_record_missing',missing=[other,EXT] if reverse else [EXT,other])
+    v=many();v['records']=v['records'][:2]
+    yield case('only-last-reference-missing',v,diagnostic='ntfs_join_record_missing',missing=[other])
+    v=many([descriptors[0],entry(EXT,13,2),entry(EXT,17,5)]);v['records']=v['records'][:1]
+    yield case('deduplicate-missing-record-with-two-instances',v,diagnostic='ntfs_join_record_missing',missing=[EXT])
+    v['records'].append(row(record([second,third],number=7,sequence=9,base=BASE),7))
+    same_record_expected=copy.deepcopy(expected);same_record_expected['parts'][2]['reference']=str(EXT)
+    yield case('two-extents-in-one-extension-record',v,same_record_expected)
+    v=many([descriptors[0],entry(EXT,13,2),entry(ref(7,10),17,5)]);v['records']=v['records'][:1]
+    yield case('conflicting-missing-generations',v,diagnostic='ntfs_join_reference_ambiguous')
+    v=many();v['records']=v['records'][:1]
+    list_bytes=b''.join(descriptors)+b'\0';v['records'][0]['hex']=record([first,resident(list_bytes,kind=0x20,instance=1)]).hex()
+    yield case('malformed-list-after-missing-reference',v,diagnostic='ntfs_join_list')
+    v=many();v['records']=[v['records'][0],v['records'][2]]
+    raw=bytearray.fromhex(v['records'][1]['hex']);struct.pack_into('<H',raw,16,11);v['records'][1]['hex']=raw.hex()
+    yield case('present-stale-clears-missing-suggestions',v,diagnostic='ntfs_join_sequence')
+    v=many(descriptors[1:]);v['records']=v['records'][:1]
+    yield case('known-unlisted-clears-missing-suggestions',v,diagnostic='ntfs_join_unlisted_attribute')
     for low,count,label in [(3,2,'gap'),(1,4,'overlap')]:
         v,_=split(list_transform=lambda rows:[rows[0],entry(EXT,13,low)])
         v['records'][1]['hex']=record([nonresident(low=low,runs=((count,50),),instance=13)],number=7,sequence=9,base=BASE).hex()
@@ -151,6 +183,7 @@ def scenarios():
     for attrs,code in [([resident(entry(),kind=0x20,instance=1,name=b'N\0')],'list_unsupported'),([resident(entry(),kind=0x20,instance=1,flags=0x4000)],'list_unsupported'),([nonresident(kind=0x20,instance=1)],'nonresident_list_unsupported'),([resident(entry(),kind=0x20,instance=1),resident(entry(),kind=0x20,instance=2)],'list_ambiguous')]:
         yield case('unsupported-'+code,request([row(record([resident(),*attrs]))]),diagnostic='ntfs_join_'+code)
     v=copy.deepcopy(plain);v['type']='32';yield case('list-stream-query',v,diagnostic='ntfs_join_list_query_unsupported')
+    v=request([],type='32');yield case('unsupported-query-never-suggests-acquisition',v,diagnostic='ntfs_join_list_query_unsupported')
     for field,value in [('allocated',6*CLUSTER),('data',5*CLUSTER+1),('initialized',16001)]:
         v,_=split(first_options={field:value});yield case('first-size-'+field,v,diagnostic='ntfs_join_allocation' if field=='allocated' else 'ntfs_join_attributes')
     for name,second,code in [('gap',nonresident(low=3,runs=((2,50),),instance=13),'entry_mismatch'),('overlap',nonresident(low=1,runs=((4,50),),instance=13),'entry_mismatch'),('physical',nonresident(low=2,runs=((3,31),),instance=13),'physical_overlap'),('sparse',nonresident(low=2,runs=((3,None),),instance=13),'mapping'),('mixed',resident(instance=13),'entry_mismatch')]:
