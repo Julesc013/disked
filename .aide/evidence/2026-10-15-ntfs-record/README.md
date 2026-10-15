@@ -34,3 +34,17 @@ not a Linux product run. This is not the entire native suite, a DOS/OS2/Win32
 qualification, an atomic NTFS acquisition, an attribute/runlist reader or a
 writer/recovery qualification. DE-W075/report-preparation failures remain open.
 The original all-platform/storage0.1.0 scope, owner and release gates remain.
+
+The clean `c0749e22` run passes the native/portable/header, C90 syntax,
+structural/context/source and 242 tooling checks (two skips), but its overall
+status remains **fail** because of the byte manifest. Four expected hashes bound
+CRLF working copies while Git stores LF. The diagnosed `ce5efdae` correction
+changes only manifest entries; fresh clean manifest/index/structure/source-map
+and context checks pass. All 989 registered/build/source inputs are identical
+between those revisions. Native tests were not repeated to erase the failure.
+
+See [applicability](applicability.json), [implementing-agent review](REVIEW.md),
+[original exact run](campaign-c0749e22/summary.json) and
+[manifest correction](manifest-ce5efdae/summary.json). These qualify the bounded
+private primitive, with owner, full native/product and original release gates
+remaining separate.

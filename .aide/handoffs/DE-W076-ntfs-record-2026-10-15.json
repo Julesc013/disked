@@ -1,0 +1,99 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W076",
+  "base_revision": "5507c4121481fb3acdd39ef4696332a27ebcd482",
+  "spec_manifest_digest": "sha256:39a841f6c6e0caf2b8c6ac428896d9d83c9d1705242c4d264f0024a4f3cfdab6",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/work/units.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/architecture/languages-and-build.md",
+    "docs/source-map.md",
+    "docs/code-structure.md",
+    "spec/catalog/ntfs-record-prototype.json",
+    "source/portable/primitives/checked.h",
+    "source/portable/primitives/view.h",
+    "CMakeLists.txt",
+    "spec/catalog/source-maintenance-prototype.json"
+  ],
+  "files_changed": [
+    "source/portable/ntfs/ntfs.h",
+    "source/portable/ntfs/record.c",
+    "tests/unit/ntfs_record_probe.cpp",
+    "tests/property/test_ntfs_record.py",
+    "CMakeLists.txt",
+    "tools/build-inputs.json",
+    "spec/catalog/ntfs-record-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/work/units.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "docs/ntfs-record.md",
+    "docs/source-map.md",
+    "docs/development-plan.md",
+    "docs/structure-review.md",
+    "TODO.MD",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide\\evidence\\2026-10-15-ntfs-record"
+  ],
+  "summary": "Private supplied-byte NTFS FILE envelope/fixup primitive reaches local implementing-agent review. Exact c0749e22 passes964 generated cases/8 API argument checks per probe launch,11 portable groups,one header,242 tooling(two skips),C90 syntax/import/context/source checks; overall campaign fails byte manifest only. ce5efdae corrects canonical LF manifest and passes fresh clean metadata/context checks with all989 registered/build/source inputs identical. All failures retained. No full native/product/main/owner/storage/release completion.",
+  "tests": [
+    {
+      "command": "reproduce.py clean c0749e22 complete finite selected campaign",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-c0749e22",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-record\\campaign-c0749e22\\summary.json"
+    },
+    {
+      "command": "11 selected portable groups including964 native NTFS cases and API guard checks",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-c0749e22",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-record\\campaign-c0749e22\\portable-junit.xml"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-c0749e22",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-record\\campaign-c0749e22\\tooling.log"
+    },
+    {
+      "command": "fresh clean ce5efdae manifest/index/structure/source-map/context and989 input identity comparison",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-ce5efdae",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-record\\manifest-ce5efdae\\summary.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-record\\applicability.json",
+      "sha256": "sha256:625a7b0c6c10907ca4293d81bea88688636dc47bf05433c11037056092699a06"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-record\\campaign-c0749e22\\summary.json",
+      "sha256": "sha256:a26b158deb173d1b088d2aa9f82aa4ec62560943ceb7eda5a3f8d08c669908b7"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-record\\manifest-ce5efdae\\summary.json",
+      "sha256": "sha256:47c08bafe8de0bad0fba70238064a6931fe448d1422bc83ee266971a84d58391"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-record\\REVIEW.md",
+      "sha256": "sha256:caca036855a8f10afbf301b77fce6cd5b4d85e4f49b95d7545d56b8d15f9b6bb"
+    }
+  ],
+  "blockers": [
+    "W075/report-preparation native failure remains unresolved; main integration withheld.",
+    "NTFS boot/MFT/attributes/runlists and provider/frontend/original-platform/storage scope remain.",
+    "Owner acceptance, physical writer/recovery, licensing and release gates remain separate."
+  ],
+  "next_safe_step": "Advance original NTFS supplied-byte boot/MFT and attribute/runlist contracts; retain W075/report traces for diagnosis. Continue under the existing local grant; no physical access or publication.",
+  "performed_remote_writes": true
+}

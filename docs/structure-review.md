@@ -6,6 +6,12 @@ Keep the five source owners, consistent model names and dedicated CLI folder.
 The map now covers 291 files once, including the private supplied-byte
 [NTFS record decoder](ntfs-record.md). DE-W076 advances the original NTFS scope
 independently; it neither admits an NTFS volume/provider nor completes DE-W075.
+Its [available-scope evidence](../.aide/evidence/2026-10-15-ntfs-record/applicability.json)
+records 964 cases, 11 portable groups, one header and 242 tooling tests/two skips
+at `c0749e22`. That overall campaign failed its byte manifest. `ce5efdae` corrects
+the manifest and passes fresh clean metadata/context verification; all 989
+registered/build/source inputs match. The [review](../.aide/evidence/2026-10-15-ntfs-record/REVIEW.md)
+retains both audit/manifest failures and describes the distinct evidence.
 The complete 145-group campaign at `11e6f625` retained 144 passes and one failed
 joined-report preparation. Later test-only phase traces also retained an unjoined
 12-second preparation timeout. Their cause remains unproven. No unchanged full

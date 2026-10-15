@@ -1,0 +1,84 @@
+{
+  "observed_at": "2026-10-15T01:27:11.731151+00:00",
+  "source_revision": "ce5efdaef96f5973d78c9cc021f5de2d4d13e38a",
+  "previous_native_revision": "c0749e221b06f89c0aff78bc0af3eceed01b0f84",
+  "changed_tracked_files": [
+    "spec/manifest.json"
+  ],
+  "identical_registered_build_source_inputs": 989,
+  "scope": "Fresh clean checkout manifest correction and context/structure checks; native/tooling evidence remains at c0749e22. No repeated native campaign or erased failure.",
+  "stages": [
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W076",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-manifest-lf\\context",
+        "--byte-budget",
+        "700000"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-manifest-lf\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-ce5efdae",
+      "exit_code": 0
+    }
+  ],
+  "owner_accepted": false,
+  "full_native_suite_run": false,
+  "full_0_1_0_complete": false,
+  "checkout_status_after": "",
+  "status": "pass"
+}

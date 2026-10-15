@@ -53,6 +53,23 @@ Every filesystem/media capability MUST bind exact operation and feature predicat
 
 **Verification:** Present known format with an unknown critical feature, a tape target and a consumer-incompatible format request; refuse the affected action without hiding inspection.
 
+## DE-W076 supplied-byte NTFS FILE envelopes
+
+The [private record contract](../catalog/ntfs-record-prototype.json) advances
+NTFS inspection through the existing C90 checked layer. It observes a supplied
+NTFS3.0/3.1 FILE envelope and validates every update-sequence tail before restoring
+tail words into a separate caller-owned RAM buffer. Raw flags/identifiers and
+malformed observations remain data. This is not boot/MFT addressing, attribute
+or runlist traversal, volume recognition, mounting, creation or writer admission.
+
+Repository evidence `.aide/evidence/2026-10-15-ntfs-record/applicability.json`
+binds 964 independent cases, 11 selected portable groups, one header and 242
+tooling tests/two skips to `c0749e22`. Its overall campaign failed byte-manifest
+verification; `ce5efdae` corrects the LF manifest and passes fresh clean metadata
+checks with all 989 registered/build/source inputs unchanged. Both failures and
+the correction are retained. Other NTFS capabilities, original platforms/storage,
+owner, physical writer/recovery and full release qualification remain open.
+
 ## DE-W058 supplied-byte exFAT metadata
 
 After local DE-W057 qualification, the [exFAT reader contract](../catalog/exfat-reader-prototype.json)
