@@ -1,0 +1,28 @@
+{
+  "status": "working-pass",
+  "work_id": "DE-W081",
+  "base_revision": "e400c0c865cabd015a04e874ca535501dd7f4820",
+  "cases": 73,
+  "methods": 9,
+  "unverified": [
+    {
+      "check": "actual-file-symlink",
+      "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-ne7avrz6\\\\target\\\\source.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-ne7avrz6\\\\leaf.img'"
+    }
+  ],
+  "inputs": {
+    "source/providers/image/ntfs_file.cpp": "sha256:91bdeef6a27d1e00e91fb3bbf424ead107d32fa0e93c18b54fdb76a39c2139a8",
+    "source/providers/image/ntfs_file.h": "sha256:e0cd24b5cab250827d0c09958f8496b5748eaa5c24b0afd01799b62cdb3ec210",
+    "tests/images/ntfs_file_probe.cpp": "sha256:0c862ad6abce128a07604d62500b2ce5551728ba216ae7beaab474aa2f0320c9",
+    "tests/images/test_ntfs_file.py": "sha256:8c77b4980d6528ee936e0b32f1053081ebe2a2f6ad4a561d53e9d83313a138de",
+    "spec/catalog/ntfs-file-prototype.json": "sha256:4bac96ed7a13c80ba6ed9a633f2cdce7f23f6e80b8c6aa01b15fd8d90b865018"
+  },
+  "artifacts": {
+    ".aide-local\\ntfs-file-working\\Release\\ntfs_file_probe.exe": "sha256:aa2bafb5eed12fb7ea722c5c5bd3e49c197d52702d136ac93f675e146c3599f7",
+    ".aide-local\\ntfs-file-working\\Release\\ntfs_file_fault.exe": "sha256:392f018dd7e613a59f4ee98aa49d9dfeb27fd12ec746364ea84dcc2ea71408c4"
+  },
+  "exact_source_qualified": false,
+  "full_native_suite_run": false,
+  "owner_accepted": false,
+  "scope": "Generated ordinary files and copied trusted test controls; no raw devices, native retry, public dispatch or write admission."
+}

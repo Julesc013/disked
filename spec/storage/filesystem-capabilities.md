@@ -474,3 +474,10 @@ mandatory rereads. This bounded observation does not replace a damaged primary
 with its mirror or prove allocation ownership/current-source authority. Original
 attribute-list/payload/namespace/content, held-source/worker/frontend and target
 qualification remain required; a bootstrap is not admission of full NTFS support.
+
+The private [NTFS ordinary-file contract](../catalog/ntfs-file-prototype.json)
+holds the exact source and ancestor bindings through native bootstrap reads,
+supported profile selection and retained replay. No source/effect authority or
+atomicity follows from a stable finite observation. Synchronous native waits
+remain outside public frontend admission until actual process containment is
+qualified. Full attribute-list/namespace/content and original target scope remain.

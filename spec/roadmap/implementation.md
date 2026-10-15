@@ -461,3 +461,10 @@ diagnostics qualify only the collected regions. Attribute-list joins, additional
 payload/namespace/content handling, held sources, workers and frontends remain
 required original NTFS work. This does not clear the retained W075 integration
 failure or any owner, physical, recovery, platform or release gate.
+
+DE-W081 binds the [NTFS bootstrap to held ordinary image files](../catalog/ntfs-file-prototype.json)
+using the shared file/path identity mechanisms. Automatic3.0/3.1 selection must
+agree with retained-only decoding and must not retry native reads or override an
+explicit profile. Source generations, native read provenance, metadata and replay
+are separate evidence. Contained-worker/frontend admission and the remaining
+original NTFS/platform/storage scope still require implementation and qualification.

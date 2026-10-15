@@ -7372,6 +7372,127 @@
         "source/portable/hash/sha256.cpp",
         "AGENTS.md"
       ]
+    },
+    {
+      "id": "DE-W081",
+      "title": "Bind NTFS bootstrap profiles to held ordinary image files",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W079",
+        "DE-W024"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/providers/image/**",
+        "tests/images/**",
+        "tests/tools/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Bind the existing NTFS bootstrap observer to a held Windows ordinary image file, with explicit/observed3.0/3.1 profile selection and retained-region replay. No public dispatch, physical source, namespace/content or writer admission.",
+        "Own the complete request, expected-source value, stop callback and test-control object before any callback. Request profile is Automatic, Version30 or Version31; reject unknown enum values. Validate finite NtfsCaptureLimits, a volume length>=512 and offset+length inside signed native seek range, plus bounded expected-source null/object encoding, before opening or callbacks. Expected-source metadata is a comparison precondition, not read/write authority.",
+        "Use existing local_file path resolution, fixed-local path profile, parent pins/generations, ordinary-file checks and exact opened-path binding. Open source GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, OPEN_REPARSE_POINT with no weaker fallback. Reject physical/device/UNC/stream/reserved/reparse/directory/hardlink/offline paths through that shared mechanism. Compare complete expected source metadata before data reads. Validate the actual source/window against observed file size. Preserve source bytes and all pin/handle lifetime through capture, profile selection, replay and final checks.",
+        "Before and after each bounded native read, validate cancellation, parent generations, ordinary handle/path and current source metadata against the initial binding. Preserve one response for every requested region, including binding refusal, native seek/read attempt flags, native error/refusal and available bytes. Check exact callback source/window/absolute extents; never infer target by disk number or reopen a substitute source. Native seek and ReadFile attempts are separate facts. Source/reader errors retain the observed prefix. Cooperative stop is not a native I/O deadline or physical quiescence proof.",
+        "Explicit3.0/3.1 performs one live bootstrap using that expected profile; observed mismatch remains inapplicable without switching. Automatic probes the supported common NTFS3 bootstrap using3.1. If its only completed semantic refusal is ntfs_volume_version and observed volume information is3.0, rerun the existing observer under3.0 from retained responses. Require identical request order/count and full result equality after only requested_minor, volume_information.profile_matches, applicable and diagnostic are adjusted in the expected probe view. This is a checked common-layout profile selection, not blind JSON relabelling or native retry. Version3.1 uses the initial result directly. Unsupported/unknown observed versions remain explicit and inapplicable.",
+        "Run a final pure observer replay under the selected/probe profile over exactly the retained responses, with no file reads or cancellation callbacks in replay. Require complete response consumption, identical extents, error semantics and exact result equality. For automatic3.0, account for both retained-only passes. Repeat source/pin/metadata checks after replay; any binding, metadata, profile or replay disagreement withdraws applicability while retaining measured completion/reread facts and typed binding diagnostics.",
+        "Return owned observation plus capture metadata before/after/final, parent generations, actual process ID/creation, nonwrapping provider-domain sequence, profile probe/selection facts, replay counts/equality, sticky binding/cancellation diagnostics and response provenance. Domain hash binds source metadata, process identity/sequence, window, selector/selected profile and limits. Metadata completeness and equality are distinct. All current-source/effect/atomic-snapshot/product-dispatch permissions remain false; observations are live-uncoordinated finite metadata reads.",
+        "Runtime read-request/read-byte limits include all live rereads. Adapter stores at most those bounded live responses; each retained-only replay separately uses the same observer limits. Raw response retention is at most the2MiB live-read cap, with bounded replay copies and record scratch. Outer JSON is bounded to4MiB. This is not an OS heap quota or wall-time guarantee; contained-worker admission remains required before frontends.",
+        "Separate test-only library/probe compiles callback controls; normal code exposes no environment or request fault protocol. Controls can inject short/native-error/refused/changed responses, metadata disagreement, cancellation/throws, replay corruption and caller-request mutation. Controls are copied before callbacks and cannot replace the selected path/profile/limits/expected source. Actual generated-file tests exercise held source/ancestor write/delete/rename refusals and release after return."
+      ],
+      "acceptance": [
+        "Generated actual ordinary files reproduce independent NTFS geometries/record/run mappings, nonzero windows, version3.0/3.1 and old/new headers; automatic and explicit profiles have exact expected reads, version facts and deterministic retained replay. No unrequested native retry.",
+        "Real missing/directory/hardlink/leaf-parent junction/stream/device/UNC paths and invalid/out-of-file/native-seek requests refuse without writes or fallback. Unavailable symlink privileges are explicitly unverified.",
+        "Test-only controls cover native read prefixes, short/error/throw, final source binding, metadata/replay disagreement, cancellation at early/read/late stages and request/callback mutation. Normal code ignores those test fields/environment names. Source bytes and existing executable/fixture files remain unchanged.",
+        "Source-bound native builds, standalone header/import/graph checks, relevant existing local-file/exFAT/NTFS regressions, tooling/context/manifest/source freshness and implementing-agent review. No complete native/physical/other-host/owner/full0.1.0 claim. W075 main-integration failure remains open."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "cmake --build --preset windows-bootstrap --target bootstrap_registry ntfs_file_probe ntfs_file_fault disked_ntfs_file_headers ntfs_capture_probe --parallel 4",
+        "ctest --preset windows-bootstrap -R \"^image.ntfs_(file|capture)$\" --output-on-failure",
+        "python tools/check-build-boundaries.py --build build/windows-bootstrap --output build/windows-bootstrap/build-boundaries.json",
+        "python spec/tools/specctl.py context --work DE-W081 --output .aide-local/context/ntfs-file --byte-budget 700000 --artifact-byte-budget 16777216"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-file-prototype.json",
+        "source/providers/image/ntfs_file.h",
+        "source/providers/image/ntfs_file.cpp",
+        "tests/images/ntfs_file_probe.cpp",
+        "tests/images/test_ntfs_file.py",
+        "docs/ntfs-file.md",
+        ".aide/evidence/2026-10-16-ntfs-file/reproduce.py",
+        "spec/catalog/ntfs-capture-prototype.json",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "tests/unit/ntfs_capture_probe.cpp",
+        "tests/images/test_ntfs_capture.py",
+        "docs/ntfs-capture.md",
+        ".aide/evidence/2026-10-16-ntfs-capture/reproduce.py",
+        "spec/catalog/ntfs-attributes-prototype.json",
+        "source/portable/ntfs/attribute.c",
+        "source/portable/ntfs/runlist.c",
+        "tests/unit/ntfs_attributes_probe.cpp",
+        "tests/property/test_ntfs_attributes.py",
+        "tests/property/test_ntfs_runlist.py",
+        "docs/ntfs-attributes.md",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/record.c",
+        "source/portable/ntfs/boot.c",
+        "source/portable/primitives/checked.h",
+        "source/portable/primitives/checked.c",
+        "source/portable/primitives/view.h",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/unit/ntfs_record_probe.cpp",
+        "tests/unit/ntfs_boot_probe.cpp",
+        "tests/property/test_ntfs_record.py",
+        "tests/property/test_ntfs_boot.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        ".aide/evidence/2026-10-15-ntfs-attributes/reproduce.py",
+        "source/runtime/capture/region_reader.h",
+        "source/portable/hash/sha256.h",
+        "source/portable/hash/sha256.cpp",
+        "AGENTS.md",
+        "source/providers/image/local_file.cpp",
+        "source/providers/image/local_file.h",
+        "spec/catalog/exfat-file-prototype.json",
+        "source/providers/image/exfat_file.cpp"
+      ]
     }
   ]
 }
