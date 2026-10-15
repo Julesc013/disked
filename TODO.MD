@@ -18,6 +18,10 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
+- [ ] DE-W077: qualify supplied NTFS boot geometry, signed encodings and checked
+  initial MFT/mirror candidates. The first working 1,729 boot and 964 record
+  cases pass; exact qualification/review remains in progress.
+
 - [x] DE-W076 available supplied-byte scope: exact `c0749e22` passes964 cases,
   11 portable groups, one header,242 tooling tests/two skips and strict C90 checks. This does not qualify an NTFS volume,
   provider, writer or legacy platform.

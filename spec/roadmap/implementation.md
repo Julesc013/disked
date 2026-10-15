@@ -436,3 +436,11 @@ compiler/host and actual fixtures; boot/MFT addressing, attributes/runlists,
 held-source/provider/frontend integration, other platforms, storage effects and
 the complete original0.1.0 remain required work. DE-W075's failed broad campaign
 and report-preparation diagnostics remain retained and do not become passes.
+
+DE-W077 follows the locally reviewed record primitive with supplied-byte
+[NTFS boot geometry and bootstrap candidates](../catalog/ntfs-boot-prototype.json).
+Its expected contract separates raw sector fields, data/media/backup bounds,
+signed cluster/record encodings, record budgets and seed validity. It does not
+derive later fragmented MFT records from a contiguous offset formula. Actual
+attributes/runlists, held-source/provider/frontend, other original platforms and
+storage, owner, physical writer/recovery and release qualification remain open.
