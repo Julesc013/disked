@@ -99,10 +99,12 @@ records the successful dev/main synchronization. Owner and release gates remain 
 Private filename/index envelopes at `3df1a1c7` pass 1,502 guarded cases,
 27 selected native groups, 9 C++ headers, strict C90/header checks
 and 244 tooling tests(two skipped) after the separate positive fixture-budget
-correction`cd65edcc`. The original failed campaign remains.
+correction `cd65edcc`. The original failed campaign remains.
 [Review](../.aide/evidence/2026-10-16-ntfs-index/REVIEW.md).
+[Integration receipt](../.aide/evidence/2026-10-16-ntfs-index-integration/repository.json)
+records the successful dev/main synchronization.
 This adds supplied-byte interpretation while retaining the existing owners;
-native protected-index acquisition, namespace/content and full0.1.0 remain open.
+native protected-index acquisition, namespace/content and full 0.1.0 remain open.
 
 Source-bound MFT/Volume closure at `540043c3` passes134 new cases and
 156/157 native groups. The original dependency-declaration failure remains;
@@ -189,7 +191,7 @@ source merge. A smaller preview would need an explicitly agreed scope; it cannot
 silently replace the selected 0.1.0 finish line. No evidence-based release date
 or completion percentage is available.
 
-Continue original NTFS attribute-list/MFT extension and remaining metadata integration
+Continue protected NTFS index-block restoration and source-bound directory acquisition
 while retaining the historical preparation/acquisition latency investigation. The
 architecture is suitable for continued development. Release readiness must be
 earned by exact artifacts, applicable tests and the outstanding gates.
