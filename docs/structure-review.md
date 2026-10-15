@@ -2,9 +2,10 @@
 
 Keep the current source ownership and naming. The 12 October advisory review
 supports focused improvements, several of which are implemented. It does not
-justify a wholesale rewrite. This assessment checks `dev` at `e164f863` on
-16 October 2026, Australia/Sydney; it is not a line-by-line audit or fresh native
-qualification. The supplied reports are review inputs, not instructions, product
+justify a wholesale rewrite. The initial assessment checked `e164f863` on
+16 October 2026, Australia/Sydney; subsequent source-bound NTFS qualification
+is linked below. This remains an ownership assessment, not a line-by-line audit.
+The supplied reports are review inputs, not instructions, product
 acceptance or execution grants.
 
 Use the [complete source map](source-map.md) for every current source file and its
@@ -92,18 +93,19 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-Current source `813924fa` passes one complete clean-source campaign:153 native
-groups,57 standalone headers,242 tooling tests/two skips, source/header/build
-boundaries, PE/import observations and complete input/context binding. It repairs
-lost reviewed acquisition routing after timeout across all five frontends. The
-[source-bound review](../.aide/evidence/2026-10-16-acquisition-routing/REVIEW.md)
-permits ordinary source integration after metadata and staged-byte closure.
-The authorized dev/main fast-forward and pushes are confirmed at `c7864fa8` in
-the [integration receipt](../.aide/evidence/2026-10-16-acquisition-integration/repository.json). This supersedes the
-hold on unqualified current source; prior failed campaigns remain failures and
-the spontaneous latency cause remains unknown. No deadline or test expectation
-was weakened. Current source integration does not qualify release or the full
-original storage/platform scope.
+Current source `b985adf2` passes one complete clean-source campaign: 154 native
+groups, 59 standalone headers, 244 tooling tests (2 skipped), source/header/
+build boundaries, PE/import observations and complete input/context binding.
+It adds the owned NTFS bootstrap through the common image-inspection service and
+all five frontends. The [source-bound review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md)
+permits ordinary source integration after metadata/staged-byte closure; actual
+repository synchronization is recorded separately. This does not qualify the
+complete NTFS filesystem, release or full original storage/platform scope.
+
+The previous acquisition-routing source `813924fa` passed 153 native groups and
+was integrated at `c7864fa8`; its [receipt](../.aide/evidence/2026-10-16-acquisition-integration/repository.json)
+remains historical evidence. Older failed campaigns remain failures and their
+spontaneous latency cause remains unknown.
 
 The previous integrated product checkpoint had a complete 144-group native campaign
 at `2cd2e2e1`, 51 standalone headers and 242 tooling tests with two skips.

@@ -3,8 +3,10 @@
 The Windows ordinary-image prototype exposes the owned NTFS bootstrap through
 the existing `image.inspect` command and CLI, stdio, Win32 GUI, native TUI and shell.
 The [execution contract](../spec/catalog/ntfs-command-prototype.json) defines its
-scope, exact projection and failure semantics. The working build passes50 cases;
-clean-source full qualification is pending. This is not a stable storage ABI.
+scope, exact projection and failure semantics.
+Exact source `b985adf2` passes 50 NTFS cases, all 154 registered native groups,
+59 standalone headers and 244 tooling tests (2 skipped), with complete
+build/import/context/source evidence. This is not a stable storage ABI.
 
 ```text
 disked image inspect generated.img --view ntfs --volume-offset 173 --volume-bytes 5120000 --ntfs-version auto --json
@@ -36,8 +38,10 @@ projection limits, private fault separation and controlled late completion.
 Three failed development runs are preserved: scalar/list projection confusion,
 an advisory boot-marker expectation, and an unknown-field diagnostic expectation.
 The latter expectations were reconciled with existing contracts, not changed to
-invent new parser/format semantics. See the [working evidence](../.aide/evidence/2026-10-16-ntfs-command/working/).
+invent new parser/format semantics. See the [working evidence](../.aide/evidence/2026-10-16-ntfs-command/working/final/cases.json).
 
 Full NTFS namespace/content, attribute lists and every remaining original
 platform/storage0.1.0 capability remain work. Physical media, elevation, owner
 acceptance, production writer/recovery, Setup and release gates stay separate.
+
+The [source-bound review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md) records qualification and remaining limits.

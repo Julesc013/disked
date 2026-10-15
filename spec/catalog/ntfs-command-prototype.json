@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.ntfs-command-profile/1",
   "work_id": "DE-W083",
-  "status": "pre-evaluation-execution-contract",
+  "status": "locally-qualified-windows-x64-prototype",
   "base_revision": "0be854c924e4fe6478c6547d23c0a32b9c8f2056",
   "scope": "Expose the existing owned ordinary-file NTFS bootstrap through image.inspect and common CLI/stdio/GUI/TUI/shell actions. Continue the original full platform/storage scope; namespace, contents, attribute-list traversal, storage effects and other hosts retain their work and gates.",
   "ownership": "runtime/capture owns typed NTFS inspection request/read/port, validation, bounded projection and command outcomes. Move the existing private NtfsFileProfile enum into the existing runtime/capture/ntfs_capture.h so both the provider and inspection port consume one inward-owned type. platform/windows/storage binds the existing NtfsWorker; apps/disked composes it and Windows entry selects its compiled role. Extend the existing catalog/schema, not a second registry or scheduler.",
@@ -29,5 +29,17 @@
   "protocol_reconciliation": {
     "reason": "The extended working test confirms identity binding and both invalid protocol relationships, then incorrectly expects the generic invalid_parameter code for an unknown field. Preserve the existing command preflight unexpected_parameter outcome; no runtime or exit-policy change.",
     "failure": ".aide/evidence/2026-10-16-ntfs-command/working/protocol-expectation-failed/native-identity.log"
+  },
+  "qualification": {
+    "source_revision": "b985adf2f05281b3cfa82db7f47799f128b8fbdd",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-command/qualified-b985adf2/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-command/REVIEW.md",
+    "native_groups": 154,
+    "ntfs_cases": 50,
+    "standalone_headers": 59,
+    "tooling_tests": 244,
+    "tooling_skipped": 2,
+    "owner_accepted": false,
+    "full_0_1_0_complete": false
   }
 }

@@ -946,5 +946,7 @@ explicit volume offset/length and optional `--ntfs-version auto|3.0|3.1`.
 It exposes the owned reader's boot/MFT0/mirror0/volume-information facts through
 the common CLI/stdio/GUI/TUI/shell service. It keeps original run counts and
 bounded attribute/run detail, source/process identities and honest uncertainty.
-The [NTFS guide](ntfs-inspection.md) records scope and current evidence. A working
-50-case pass is not clean-source or complete NTFS/platform/release qualification.
+The [NTFS guide](ntfs-inspection.md) records scope and current evidence.
+Exact `b985adf2` passes 50 NTFS cases, all 154 native groups, 59 standalone
+headers and 244 tooling tests (2 skipped), with build/import/context/source
+evidence. Complete NTFS/platform/release qualification remains outstanding.

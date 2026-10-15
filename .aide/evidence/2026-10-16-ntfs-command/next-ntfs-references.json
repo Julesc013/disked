@@ -1,0 +1,31 @@
+{
+  "status": "read-only-preparation-for-future-work",
+  "current_tested_source": "b985adf2f05281b3cfa82db7f47799f128b8fbdd",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/attribute-list-entry",
+      "kind": "primary-format-documentation",
+      "observed": "NTFS3.0/3.1 entry definition; declared record size, optional Unicode name, lowest VCN and MFT segment reference; quadword-aligned ordered list. Documentation labels the name-offset and final16-bit field reserved. Do not infer that either must be zero."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/torvalds/linux/0fcb05b72344f40806cbe810de8872f1698bf053/fs/ntfs3/ntfs.h",
+      "kind": "pinned-primary-reader-layout-reference",
+      "observed": "The attribute-list entry layout places type at0, length at4, name length/offset at6/7, VCN at8, MFT reference at16, attribute identifier at24 and variable name from26. Its size helper rounds the name-bearing entry to8 bytes. The name accessor follows the declared offset. No implementation is imported or executed."
+    }
+  ],
+  "repository_basis": [
+    "spec/catalog/ntfs-attributes-prototype.json",
+    "source/portable/ntfs/attribute.c",
+    "source/portable/ntfs/ntfs.h",
+    "source/runtime/capture/ntfs_capture.cpp"
+  ],
+  "current_gap": "The existing bootstrap explicitly stops on ntfs_mft_attribute_list_unsupported. Attribute-list entry decoding and cross-record extension joining are absent.",
+  "next_contract_questions": [
+    "Preserve raw name units, reference, VCN and identifier/reserved bits; separate bounded structural interpretation from cross-record authority and volume name collation.",
+    "Specify exact declared-length/name-span/alignment, truncation, overflow and finite-cursor rules with independent fixtures before implementation.",
+    "Do not use a parsed list alone to claim stream completeness, sequence/reference validity or permission to read another source. Extension joining requires its own source-bound record/mapping checks."
+  ],
+  "implementation_started": false,
+  "owner_accepted": false,
+  "authorizes_effects": false
+}
