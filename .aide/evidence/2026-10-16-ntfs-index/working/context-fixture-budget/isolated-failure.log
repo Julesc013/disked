@@ -1,0 +1,21 @@
+test_native_bootstrap_context_binds_build_source_and_acceptance_fixture (test_corrective.ContextCorrections.test_native_bootstrap_context_binds_build_source_and_acceptance_fixture) ... ERROR
+
+======================================================================
+ERROR: test_native_bootstrap_context_binds_build_source_and_acceptance_fixture (test_corrective.ContextCorrections.test_native_bootstrap_context_binds_build_source_and_acceptance_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\spec/tools/tests\test_corrective.py", line 212, in test_native_bootstrap_context_binds_build_source_and_acceptance_fixture
+    self.pack_context('DE-W010')
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec/tools/tests\test_corrective.py", line 174, in pack_context
+    self.bundle.context(work,self.pack,self.context_budget)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\spec\tools\specctl.py", line 1329, in context
+    if sum(map(len,artifacts.values()))>artifact_byte_budget:raise SpecError('Required artifacts exceed artifact byte budget; no files were truncated')
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+specctl.SpecError: Required artifacts exceed artifact byte budget; no files were truncated
+
+----------------------------------------------------------------------
+Ran 1 test in 5.901s
+
+FAILED (errors=1)

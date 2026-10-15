@@ -153,6 +153,8 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
     # Positive binding/freshness fixtures follow the copied repository's size,
     # rather than freezing an unrelated capacity as its work catalog grows.
     # Two copies allow the selected work definition and presentation wrappers.
+    # Positive packs explicitly budget both content and artifact delivery; the
+    # default production artifact cap is deliberately finite as the repo grows.
     # Production budgets are untouched; payload/artifact refusal tests retain
     # their explicitly undersized limits and require no partial output.
     def setUp(self):
@@ -171,7 +173,7 @@ class TemporaryCorrectiveFixture(unittest.TestCase):
         self.context_budget=2*sum(p.stat().st_size for p in self.repo.rglob('*') if p.is_file())
     def tearDown(self):self.temp.cleanup()
     def pack_context(self,work='DE-W012'):
-        self.bundle.context(work,self.pack,self.context_budget)
+        self.bundle.context(work,self.pack,self.context_budget,artifact_byte_budget=self.context_budget)
 
 class ContextCorrections(TemporaryCorrectiveFixture):
     def binary_input(self, delivery):

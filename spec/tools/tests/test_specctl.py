@@ -282,6 +282,7 @@ class TemporaryBundleTests(unittest.TestCase):
                     shutil.copy2(source,destination)
         self.bundle=sc.Bundle(self.root)
         # Positive freshness/determinism fixtures follow copied input growth.
+        # Budget both content and artifacts explicitly in positive fixtures.
         # This capacity is test-local; production and the 100-byte refusal
         # case below retain their explicit limits and no-truncation guards.
         self.context_budget=2*sum(p.stat().st_size for p in self.repo.rglob('*') if p.is_file())
@@ -365,30 +366,31 @@ class TemporaryBundleTests(unittest.TestCase):
 
     def test_context_is_deterministic_without_git(self):
         one=Path(self.temp.name)/'one';two=Path(self.temp.name)/'two'
-        self.bundle.context('DE-W010',one,self.context_budget);self.bundle.context('DE-W010',two,self.context_budget)
+        self.bundle.context('DE-W010',one,self.context_budget,artifact_byte_budget=self.context_budget);self.bundle.context('DE-W010',two,self.context_budget,artifact_byte_budget=self.context_budget)
         self.assertEqual((one/'context.md').read_bytes(),(two/'context.md').read_bytes())
         self.assertEqual((one/'manifest.json').read_bytes(),(two/'manifest.json').read_bytes())
         self.assertEqual('PASS',self.bundle.verify_context(one)['status'])
 
     def test_context_detects_source_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,self.context_budget)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,self.context_budget,artifact_byte_budget=self.context_budget)
         with (self.root/'foundation/charter.md').open('a') as f:f.write('\nChanged source.\n')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
     def test_context_detects_payload_change(self):
-        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,self.context_budget)
+        out=Path(self.temp.name)/'context';self.bundle.context('DE-W010',out,self.context_budget,artifact_byte_budget=self.context_budget)
         with (out/'context.md').open('a') as f:f.write('tampered')
         with self.assertRaises(sc.SpecError):self.bundle.verify_context(out)
 
     def test_context_will_not_truncate_to_budget(self):
         out=Path(self.temp.name)/'context'
-        with self.assertRaises(sc.SpecError):self.bundle.context('DE-W010',out,100)
+        with self.assertRaisesRegex(sc.SpecError,'Required context .* exceeds budget 100'):self.bundle.context('DE-W010',out,100,artifact_byte_budget=self.context_budget)
         self.assertFalse(out.exists())
 
     def test_context_refuses_populated_destination(self):
         out=Path(self.temp.name)/'context';out.mkdir();(out/'keep').write_text('x')
-        with self.assertRaisesRegex(sc.SpecError,'destination must be empty'):self.bundle.context('DE-W010',out,self.context_budget)
+        with self.assertRaisesRegex(sc.SpecError,'destination must be empty'):self.bundle.context('DE-W010',out,self.context_budget,artifact_byte_budget=self.context_budget)
         self.assertFalse((out/'manifest.json').exists())
+        self.assertEqual('x',(out/'keep').read_text())
 
     def test_aide_exports_all_planned_non_authorizing(self):
         out=Path(self.temp.name)/'aide';result=self.bundle.aide_export(out)
