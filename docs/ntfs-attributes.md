@@ -38,3 +38,9 @@ streams/namespace, decompress/decrypt, open files/devices or admit a provider,
 mount/boot capability, writer or recovery operation. Exact results and untested
 environments belong in source-bound evidence. Original full platform/storage
 scope and owner/release gates remain open.
+
+DE-W078's [exact-source results](../.aide/evidence/2026-10-15-ntfs-attributes/qualified-6daed9fd/summary.json)
+and [review](../.aide/evidence/2026-10-15-ntfs-attributes/REVIEW.md) bind the finite
+scope to `6daed9fd`: 259 attribute/632 mapping cases plus original NTFS and
+selected portable/tooling regressions. The pre-qualification signed-field
+false positives, correction and unverified product scope remain explicit.

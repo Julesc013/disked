@@ -85,6 +85,22 @@ groups, one header and 242 tooling tests/two skips, with imports, C90 syntax and
 source/context/manifest freshness. No full native, NTFS volume/provider/frontend,
 other original platform/storage, owner or release qualification follows.
 
+## DE-W078 supplied-byte NTFS attributes and mappings
+
+The [attribute contract](../catalog/ntfs-attributes-prototype.json) reuses actual
+FILE restoration before traversing attribute envelopes. It preserves opaque
+features and continuation fields, validates applicable signed counters/VCNs,
+bounds original names/values and keeps mapping prefixes, sparse encoding and
+coverage distinct. A terminated bounded list is not a complete stream/namespace.
+
+Repository evidence `.aide/evidence/2026-10-15-ntfs-attributes/qualified-6daed9fd/summary.json`
+records exact clean `6daed9fd`: 259 attribute/632 mapping/1,729 boot/964 record
+cases, 14 selected portable groups, one header and 242 tooling tests/two skips.
+The baseline signed-field false positives and correction remain retained.
+Attribute-list joining, payload interpretation, coherent source/provider/frontend,
+original platforms/storage, owner, physical writer/recovery and full release
+qualification remain open. There is no new source or effect authority.
+
 ## DE-W058 supplied-byte exFAT metadata
 
 After local DE-W057 qualification, the [exFAT reader contract](../catalog/exfat-reader-prototype.json)

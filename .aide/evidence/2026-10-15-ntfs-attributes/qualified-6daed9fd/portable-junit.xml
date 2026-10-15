@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="14"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="25"
+	timestamp="2026-10-16T00:37:47"
+	>
+	<testcase name="portable.gpt" classname="portable.gpt" time="3.74346" status="run">
+		<properties/>
+		<system-out>test_synthetic_and_encoding_cases (__main__.Gpt.test_synthetic_and_encoding_cases) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.518s
+
+OK
+Checked 1022 synthetic GPT/encoding cases.
+</system-out>
+	</testcase>
+	<testcase name="portable.gpt_guard" classname="portable.gpt_guard" time="0.0221493" status="run">
+		<properties/>
+		<system-out>GPT C/C++ linkage and protected header/array boundaries passed.
+</system-out>
+	</testcase>
+	<testcase name="portable.ntfs_record" classname="portable.ntfs_record" time="1.0087" status="run">
+		<properties/>
+		<system-out>964 supplied-byte NTFS record cases passed; guard-page/read-only input; no volume/provider claim
+</system-out>
+	</testcase>
+	<testcase name="portable.ntfs_boot" classname="portable.ntfs_boot" time="1.4653" status="run">
+		<properties/>
+		<system-out>1729 NTFS boot/seed cases passed; protected read-only bytes; no volume/provider claim
+</system-out>
+	</testcase>
+	<testcase name="portable.ntfs_attributes" classname="portable.ntfs_attributes" time="0.540739" status="run">
+		<properties/>
+		<system-out>259 post-fixup NTFS attribute cases passed; no volume/content authority
+</system-out>
+	</testcase>
+	<testcase name="portable.ntfs_runlist" classname="portable.ntfs_runlist" time="0.62457" status="run">
+		<properties/>
+		<system-out>632 canonical NTFS mapping cases passed; no source/content authority
+</system-out>
+	</testcase>
+	<testcase name="portable.exfat" classname="portable.exfat" time="14.3075" status="run">
+		<properties/>
+		<system-out>test_cells_do_not_claim_bitmap_allocation (__main__.ExfatTests.test_cells_do_not_claim_bitmap_allocation) ... ok
+test_checksum_every_word_and_excluded_fields (__main__.ExfatTests.test_checksum_every_word_and_excluded_fields) ... ok
+test_extended_reserved_and_undefined_metadata (__main__.ExfatTests.test_extended_reserved_and_undefined_metadata) ... ok
+test_geometry_profiles_and_high_address_counts (__main__.ExfatTests.test_geometry_profiles_and_high_address_counts) ... ok
+test_invalid_shifts_truncation_and_overlong_output_conservation (__main__.ExfatTests.test_invalid_shifts_truncation_and_overlong_output_conservation) ... ok
+test_minimum_volume_and_maximum_byte_conversion (__main__.ExfatTests.test_minimum_volume_and_maximum_byte_conversion) ... ok
+test_rehashed_structural_mutations_and_u64_overflow (__main__.ExfatTests.test_rehashed_structural_mutations_and_u64_overflow) ... ok
+test_seeded_valid_geometry_and_data_boundaries (__main__.ExfatTests.test_seeded_valid_geometry_and_data_boundaries) ... ok
+
+---------...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="portable.exfat_guard" classname="portable.exfat_guard" time="0.0187148" status="run">
+		<properties/>
+		<system-out>guard passed
+</system-out>
+	</testcase>
+	<testcase name="portable.fat" classname="portable.fat" time="1.86048" status="run">
+		<properties/>
+		<system-out>test_all_entry_marker_classes_and_high_nibble (__main__.FatTests.test_all_entry_marker_classes_and_high_nibble) ... ok
+test_capacity_and_budget_errors (__main__.FatTests.test_capacity_and_budget_errors) ... ok
+test_chain_cycle_precedes_unseen_budget_and_truncation (__main__.FatTests.test_chain_cycle_precedes_unseen_budget_and_truncation) ... ok
+test_chain_terminal_and_start_dispositions (__main__.FatTests.test_chain_terminal_and_start_dispositions) ... ok
+test_cluster_thresholds_all_sector_and_cluster_units (__main__.FatTests.test_cluster_thresholds_all_sector_and_cluster_units) ... ok
+test_conflicting_fat_copies_remain_explicit_observations (__main__.FatTests.test_conflicting_fat_copies_remain_explicit_observations) ... ok
+test_counter_and_type_shape_conflicts (__main__.FatTests.test_counter_and_type_shape_conflicts) ... ok
+test_entry_shape_index_and_truncation_errors_preserve_output (__main__.FatTests.test_entry_shape_index_and_truncation_errors_preserve_output) ... ok
+test_fat32_extended_features_and_auxil...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="portable.fat_guard" classname="portable.fat_guard" time="0.0205674" status="run">
+		<properties/>
+		<system-out>FAT C/C++ linkage, protected read-only bounds and capacity-before-read checks passed.
+</system-out>
+	</testcase>
+	<testcase name="portable.mbr_ebr" classname="portable.mbr_ebr" time="1.31996" status="run">
+		<properties/>
+		<system-out>test_constructed_and_mutated_images (__main__.Mbr.test_constructed_and_mutated_images) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.170s
+
+OK
+Checked 1296 independently constructed/mutated synthetic image cases.
+</system-out>
+	</testcase>
+	<testcase name="portable.mbr_guard" classname="portable.mbr_guard" time="0.0188427" status="run">
+		<properties/>
+		<system-out>C MBR/EBR linkage, immutable pages and 512 truncated boundaries passed.
+</system-out>
+	</testcase>
+	<testcase name="portable.checked" classname="portable.checked" time="0.327075" status="run">
+		<properties/>
+		<system-out>test_aliases_and_invalid_internal_objects (__main__.Portable.test_aliases_and_invalid_internal_objects) ... ok
+test_bounded_views (__main__.Portable.test_bounded_views) ... ok
+test_checked_arithmetic (__main__.Portable.test_checked_arithmetic) ... ok
+test_endian_reads_writes (__main__.Portable.test_endian_reads_writes) ... ok
+test_extents_and_units (__main__.Portable.test_extents_and_units) ... ok
+test_space_geometry_and_overlap (__main__.Portable.test_space_geometry_and_overlap) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.137s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="portable.c_cpp_linkage" classname="portable.c_cpp_linkage" time="0.0454414" status="run">
+		<properties/>
+		<system-out>C/C++ linkage and actual read-only/no-access page boundaries passed.
+</system-out>
+	</testcase>
+</testsuite>

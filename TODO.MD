@@ -18,9 +18,9 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
-- [ ] DE-W078: qualify post-fixup NTFS attribute envelopes and checked mapping
-  pairs. Working 259 attribute and 632 mapping cases pass, with original
-  boot/record regressions; exact qualification/review remains in progress.
+- [x] DE-W078 available supplied-byte scope: exact `6daed9fd` passes 259
+  attribute/632 mapping/1,729 boot/964 record cases, 14 portable groups, one header
+  and 242 tooling tests/two skips. Coherent source and complete NTFS remain.
 
 - [x] DE-W077 available supplied-byte scope: exact `aefee4cd` passes 1,729 boot
   and 964 record cases, 12 portable groups, one header and 242 tooling tests/two skips.

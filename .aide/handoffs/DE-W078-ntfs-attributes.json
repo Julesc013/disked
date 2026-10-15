@@ -1,0 +1,105 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W078",
+  "base_revision": "008579532f2fa1c9b3793867a2d15992917c025a",
+  "spec_manifest_digest": "sha256:a52c9776ea4ede5fc0a12c28e602657f200a48ca83470caae31d596eabdb3583",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/storage/filesystem-capabilities.md",
+    "spec/catalog/ntfs-attributes-prototype.json",
+    "source/portable/ntfs/ntfs.h",
+    "source/portable/ntfs/record.c",
+    "source/portable/primitives/checked.c",
+    "tests/unit/ntfs_probe_support.h"
+  ],
+  "files_changed": [
+    "source/portable/ntfs/ntfs.h",
+    "source/portable/ntfs/attribute.c",
+    "source/portable/ntfs/runlist.c",
+    "tests/unit/ntfs_probe_support.h",
+    "tests/unit/ntfs_attributes_probe.cpp",
+    "tests/property/test_ntfs_attributes.py",
+    "tests/property/test_ntfs_runlist.py",
+    "CMakeLists.txt",
+    "tools/build-inputs.json",
+    "spec/catalog/ntfs-attributes-prototype.json",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/work/units.json",
+    "spec/catalog/index.md",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/storage/filesystem-capabilities.md",
+    "docs/ntfs-attributes.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "TODO.MD",
+    ".aide/programmes/disked-0.1.0.json",
+    ".aide\\evidence\\2026-10-15-ntfs-attributes"
+  ],
+  "summary": "Private post-fixup NTFS attribute and canonical mapping-pair cursors reach local review. Signed-negative size/VCN false-positive envelopes at ab33609d were reproduced, retained and diagnosed by the correction. Exact clean6daed9fd passes259 attribute/632 mapping/1729 boot/964 record cases,14 selected portable groups,one header,242 tooling(two skips),strict C90/import/build-boundary/manifest/context checks with unchanged source inputs. No full native/source/provider/owner/physical/release qualification.",
+  "tests": [
+    {
+      "command": "finite reproduce.py qualification at exact clean6daed9fd",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-6daed9fd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\summary.json"
+    },
+    {
+      "command": "14 selected portable groups including native protected-buffer and API checks",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-6daed9fd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\portable-junit.xml"
+    },
+    {
+      "command": "python -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:/Projects/DiskEd/disked/.aide-local/ntfs-record-exact-6daed9fd",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\tooling.log"
+    },
+    {
+      "command": "signed-field baseline/correction semantic probes over generated records",
+      "cwd": "D:/Projects/DiskEd/disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\signed-correction\\signed-field-correction.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\summary.json",
+      "sha256": "sha256:410f72f34d62d4fffa1221b110a1b003e59d9f72ca59e9e020f2f5310219b97b"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\ntfs-attributes-cases.json",
+      "sha256": "sha256:d616cde7ac0ae3fa73b2a520055e29fb354a532a48b7891666c938a59875416f"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\qualified-6daed9fd\\ntfs-runlist-cases.json",
+      "sha256": "sha256:93b8a77ee682b7e98ed9e8e950235908faa15949b3d313c4b26e8ef471593859"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\signed-correction\\signed-field-baseline.json",
+      "sha256": "sha256:69d2c271d54bc174e14a2ae8703dc781e01c4247081e39aba4da72d94877b309"
+    },
+    {
+      "path": ".aide\\evidence\\2026-10-15-ntfs-attributes\\REVIEW.md",
+      "sha256": "sha256:400a1c271a18372047c43f19e098cb6483657132568ebd2bdd2c9bb4b06075cd"
+    }
+  ],
+  "blockers": [
+    "Prior W075/report-preparation native failures remain unresolved; main integration withheld.",
+    "Attribute-list joining, payload interpretation and coherent source/provider/frontend plus original platforms/storage remain.",
+    "Owner, licensing, physical writer/recovery and release gates remain separate."
+  ],
+  "next_safe_step": "Advance coherent supplied-reader NTFS bootstrap/record/attribute/run observations, then actual held-source and payload/extension handling under owning contracts. Retain W075/report diagnostics; no physical access or publication.",
+  "performed_remote_writes": true
+}

@@ -1,5 +1,18 @@
 # Source structure and release review follow-up
 
+## NTFS attribute and mapping checkpoint
+
+The source map covers 294 files with the same owners. Private `attribute.c` and
+`runlist.c` add supplied-byte interpretation beside the existing NTFS boot/record
+primitives; no competing parser, native opener or new runtime framework appears.
+[Exact `6daed9fd` evidence](../.aide/evidence/2026-10-15-ntfs-attributes/qualified-6daed9fd/summary.json)
+passes 259 attribute/632 mapping/1,729 boot/964 record cases, 14 selected portable
+groups, one header and 242 tooling tests/two skips, plus C90/import/context checks.
+The retained signed-field baseline explains the pre-qualification correction.
+This is not a complete native/product campaign: W075/report-preparation remains
+unresolved, and whole-branch integration, coherent NTFS source/provider/frontend,
+other original targets/storage, owner, writer/recovery and release remain open.
+
 ## NTFS boot checkpoint: 15 October 2026
 
 Keep the existing owners and compact names. The map covers 292 source files;

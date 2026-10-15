@@ -34,3 +34,12 @@ streams or namespaces. Compression/encryption, attribute-list joining, payloads,
 held-source/provider/frontend, original targets/storage, owner and writer/recovery
 or release qualification remain open. Earlier W075/report failures are retained
 and are not cleared by this independent primitive.
+
+Exact clean `6daed9fd` passes the finite qualification: 259 attribute, 632
+mapping, 1,729 boot and 964 record cases, fourteen selected portable groups,
+one header and 242 tooling tests/two skips. Imports/security, strict syntax for
+all four C90 sources and structural/manifest/context checks pass. All declared
+inputs remain unchanged. See [results](qualified-6daed9fd/summary.json) and
+[implementing-agent review](REVIEW.md) for identities, commands and limits.
+The signed-field false-positive baseline is retained; this is not a fresh
+complete native/product or original0.1.0 qualification.
