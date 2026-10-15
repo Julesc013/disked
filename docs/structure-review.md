@@ -2,7 +2,7 @@
 
 Keep the current source ownership and naming. The 12 October advisory review
 supports focused improvements, several of which are implemented. It does not
-justify a wholesale rewrite. This assessment checks `dev` at `d473a63f` on
+justify a wholesale rewrite. This assessment checks `dev` at `000ecb77` on
 16 October 2026, Australia/Sydney; it is not a line-by-line audit or fresh native
 qualification. The supplied reports are review inputs, not instructions, product
 acceptance or execution grants.
@@ -32,13 +32,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **294 current source files**: 30 portable, 127 runtime, 64 provider,
+There are **296 current source files**: 30 portable, 129 runtime, 64 provider,
 59 platform and 14 application files. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Observation and exact inventory](../.aide/evidence/2026-10-16-structure-status/observation.json).
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-capture/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -92,7 +92,7 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-Remote `dev` is `d473a63f`; remote `main` is `c03c2d5e` at this observation.
+The pushed source checkpoint is `000ecb77` on `dev`; `main` remains `c03c2d5e`.
 Development checkpoints are being pushed. Whole-branch integration is withheld
 because DE-W075's exact `11e6f625` campaign passed 144 of 145 native groups and
 failed joined-report preparation with `request_wait_expired`. Later test-only
@@ -105,11 +105,13 @@ qualification and perform agent review before promoting the branch.
 The last integrated product checkpoint has a complete 144-group native campaign
 at `2cd2e2e1`, 51 standalone headers and 242 tooling tests with two skips.
 [Exact-source evidence](../.aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json).
-Later NTFS primitives at `6daed9fd` pass 259 attribute, 632 mapping, 1,729 boot and
-964 record cases, 14 selected portable groups, one header and 242 tooling tests
-with two skips, plus C90/import/context checks. Those are narrower retained
-results, not a new complete native campaign or NTFS provider admission.
-[Exact NTFS evidence](../.aide/evidence/2026-10-15-ntfs-attributes/qualified-6daed9fd/summary.json).
+The later NTFS supplied-reader checkpoint at `000ecb77` passes 154 bootstrap
+cases, 16 selected x64 groups, three headers and 242 tooling tests/two skips,
+with supplementary 154-case/five-group/two-header x86/WOW64 evidence. Original
+NTFS primitive corpora also pass. The retained three-case false-applicability
+baseline explains its mapping-error correction. This qualifies finite bootstrap
+observations, not a complete native campaign, full NTFS provider, Win32 product
+or original0.1.0. [Exact source review](../.aide/evidence/2026-10-16-ntfs-capture/REVIEW.md).
 
 Both GitHub branches currently report protection disabled. The specified required
 PR/check policy is still an outstanding governance task; this documentation pass
@@ -133,7 +135,7 @@ source merge. A smaller preview would need an explicitly agreed scope; it cannot
 silently replace the selected 0.1.0 finish line. No evidence-based release date
 or completion percentage is available.
 
-Continue coherent NTFS collection through the existing supplied-reader boundary
+Continue original NTFS held-source/profile and remaining metadata integration
 while retaining the report-preparation issue as an integration blocker. The
 architecture is suitable for continued development. Release readiness must be
 earned by exact artifacts, applicable tests and the outstanding gates.

@@ -27,10 +27,11 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
-- [ ] DE-W079 active: coherent supplied-reader NTFS boot/FILE0/mapping/FILE3
-  observations pass 154 corrected working cases. Retained probes reproduce three
-  false-applicability cases at `e37848a5`; complete corrected exact qualification and
-  implementing-agent review before claiming this bounded scope; full NTFS remains.
+- [x] DE-W079 available supplied-reader scope: exact `000ecb77` passes 154
+  bootstrap cases, 16 selected x64 groups, three headers and 242 tooling tests/two
+  skips. Supplementary x86/WOW64 passes the same 154 cases, five NTFS groups and
+  two headers. False-applicability probes/correction remain retained. Complete
+  NTFS, held-source/worker/frontend and full product/platform admission remain.
 
 - [x] DE-W078 available supplied-byte scope: exact `6daed9fd` passes 259
   attribute/632 mapping/1,729 boot/964 record cases, 14 portable groups, one header

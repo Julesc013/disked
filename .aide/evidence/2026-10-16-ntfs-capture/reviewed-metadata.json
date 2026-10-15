@@ -1,0 +1,95 @@
+{
+  "status": "pass",
+  "source_revision": "000ecb77359bad835522f6a5d488c13baea0ef94",
+  "native_and_contract_bytes_unchanged": true,
+  "stages": [
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-index.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-structural.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-source-map.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-manifest.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-verify-manifest.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W079",
+        "--output",
+        ".aide-local/context/ntfs-capture-reviewed",
+        "--byte-budget",
+        "700000"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-context.log"
+    },
+    {
+      "argv": [
+        ".aide-local/venv/Scripts/python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/ntfs-capture-reviewed"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-capture/reviewed-verify-context.log"
+    }
+  ],
+  "local_links_checked": 321,
+  "original_counterexample_inputs_equal_qualified_cases": [
+    {
+      "name": "additional-MFT-malformed-mapping",
+      "request_sha256": "sha256:20c552faf18100b61638bbf40a47fcd97739760dc65c3931dfe0842a3504851f",
+      "passed": true
+    },
+    {
+      "name": "additional-volume-malformed-mapping",
+      "request_sha256": "sha256:98226210889dc090ebcc4704bc0669af3165f866fc68e2c5bf58cebff8a13640",
+      "passed": true
+    },
+    {
+      "name": "additional-MFT-short-coverage",
+      "request_sha256": "sha256:db8418eb025876f3b541acf0a913639b46203909b47facd8040bde14574743b2",
+      "passed": true
+    }
+  ],
+  "scope": "Metadata review closure and exact counterexample-input applicability; native/tooling qualification remains bound to the retained source campaign, not a fresh full product run."
+}

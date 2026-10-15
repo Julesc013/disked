@@ -38,5 +38,11 @@ Pre-qualification review found three cases where `e37848a5` reported applicabili
 despite retaining a failed mapping in an additional metadata attribute. The
 [original probe results](../.aide/evidence/2026-10-16-ntfs-capture/mapping-baseline-e37848a5/summary.json)
 remain retained. The correction distinguishes completed attribute headers from
-valid ordinary mappings and propagates failure to the selected record. Corrected
-working tests pass 154 cases; a new exact-source qualification is still required.
+valid ordinary mappings and propagates failure to the selected record. Exact clean `000ecb77` passes 154 bootstrap cases, all 16 selected x64 native
+groups, three headers, 242 tooling tests/two skips and dependency/import/context
+checks. GCC/Clang syntax checks cover the C90 primitives and C++14 collector.
+Supplementary x86 probes pass the same 154 bootstrap cases, five NTFS groups and
+two headers on the recorded Windows x64 host/WOW64. Both architectures also pass
+259 attribute/632 mapping/1,729 boot/964 record cases. This is not a complete native
+campaign, full Win32 product or older-host qualification.
+[Evidence and implementing-agent review](../.aide/evidence/2026-10-16-ntfs-capture/REVIEW.md).

@@ -1,0 +1,107 @@
+{
+  "source_revision": "000ecb77359bad835522f6a5d488c13baea0ef94",
+  "host": "Windows-10-10.0.19045-SP0",
+  "scope": "Selected x86 NTFS probes and two headers running on the recorded Windows x64 host/WOW64; not a full Win32 product, older OS, provider or release qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\build",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "Win32,version=10.0.19041.0",
+        "-T",
+        "v143,version=14.44.35207,host=x64",
+        "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-000ecb77",
+      "exit_code": 0,
+      "seconds": 4.795
+    },
+    {
+      "name": "build",
+      "argv": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\build",
+        "--config",
+        "Release",
+        "--target",
+        "ntfs_capture_probe",
+        "ntfs_attributes_probe",
+        "ntfs_boot_probe",
+        "ntfs_record_probe",
+        "ntfs_fixture_headers",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-000ecb77",
+      "exit_code": 0,
+      "seconds": 10.309
+    },
+    {
+      "name": "native",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\native-junit.xml",
+        "-R",
+        "^(image\\.ntfs_capture|portable\\.ntfs_(record|boot|attributes|runlist))$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-000ecb77",
+      "exit_code": 0,
+      "seconds": 5.682
+    },
+    {
+      "name": "imports",
+      "argv": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\build\\Release\\ntfs_capture_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-000ecb77",
+      "exit_code": 0,
+      "seconds": 0.07
+    },
+    {
+      "name": "headers",
+      "argv": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-capture-win32-fixture-000ecb77\\build\\Release\\ntfs_capture_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-000ecb77",
+      "exit_code": 0,
+      "seconds": 0.052
+    }
+  ],
+  "owner_accepted": false,
+  "full_native_suite": false,
+  "fixture_origin": "Finite compiled source closure and two header translation units derived from the exact-source qualified x64 CMake codemodel. Root product gate remains x64-only.",
+  "imports": [
+    "KERNEL32.dll"
+  ],
+  "artifact_sha256": "sha256:799892cc61e0557a2cd666eacca68a7a0c3fd47d39f3a0e50a8835297831f784",
+  "native_groups": 5,
+  "cases": {
+    "capture": 154,
+    "attributes": 259,
+    "runlist": 632,
+    "boot": 1729,
+    "record": 964
+  },
+  "inputs_unchanged": true,
+  "checkout_clean": true,
+  "status": "pass"
+}
