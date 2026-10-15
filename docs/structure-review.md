@@ -2,7 +2,7 @@
 
 Keep the current source ownership and naming. The 12 October advisory review
 supports focused improvements, several of which are implemented. It does not
-justify a wholesale rewrite. This assessment checks `dev` at `777fd71f` on
+justify a wholesale rewrite. This assessment checks `dev` at `e164f863` on
 16 October 2026, Australia/Sydney; it is not a line-by-line audit or fresh native
 qualification. The supplied reports are review inputs, not instructions, product
 acceptance or execution grants.
@@ -32,13 +32,13 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **298 current source files**: 30 portable, 129 runtime, 66 provider,
-59 platform and 14 application files. The longest repository-relative source
+There are **302 current source files**: 30 portable, 129 runtime, 68 provider,
+61 platform and 14 application files. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-file/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-worker/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -92,7 +92,7 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-The pushed source checkpoint is `777fd71f` on `dev`; `main` remains `c03c2d5e`.
+The pushed source checkpoint is `e164f863` on `dev`; `main` remains `c03c2d5e`.
 Development checkpoints are being pushed. Whole-branch integration is withheld
 because DE-W075's exact `11e6f625` campaign passed 144 of 145 native groups and
 failed joined-report preparation with `request_wait_expired`. Later test-only
@@ -105,25 +105,37 @@ qualification and perform agent review before promoting the branch.
 The last integrated product checkpoint has a complete 144-group native campaign
 at `2cd2e2e1`, 51 standalone headers and 242 tooling tests with two skips.
 [Exact-source evidence](../.aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json).
-The later NTFS ordinary-file checkpoint at `777fd71f` passes 73 responses/nine
+The NTFS ordinary-file checkpoint at `777fd71f` passes 73 responses/nine
 methods on x64 and isolated x86/WOW64, including actual native offsets above4GiB,
 file/ancestor access refusals and release.18 selected x64 groups/five headers/
 242 tooling tests(two skips), and two x86 groups/two headers pass. Four launch
 samples retain actual process/source/profile evidence. Original NTFS primitives
-and the154-case bootstrap also pass. Actual file-symlink privilege, worker/public
-transport/frontends, full NTFS/Win32/other hosts and original0.1.0 remain open.
+and the154-case bootstrap also pass. That checkpoint leaves worker/public
+transport and the remaining original filesystem/platform scope open.
 [Exact source review](../.aide/evidence/2026-10-16-ntfs-file/REVIEW.md).
 
-Both GitHub branches currently report protection disabled. The specified required
+The owned NTFS reader at `e164f863` passes 106 cases/eight methods, 20 selected
+x64 native groups, eight headers and 242 tooling tests/two skips. Four complete
+launch samples retain source/frame/process evidence. Actual exited-child
+publication, strict parent replay and retention after teardown pass. Public
+NTFS frontend admission, complete filesystem interpretation, actual file-symlink
+qualification and original platform/storage scope remain open. This campaign
+does not qualify x86 or the complete native product suite.
+[Owned-reader review](../.aide/evidence/2026-10-16-ntfs-worker/REVIEW.md).
+
+At the retained 16 October observation, both GitHub branches report protection
+disabled. The specified required
 PR/check policy is still an outstanding governance task; this documentation pass
 does not change repository settings or establish that gate.
 
-Universal Setup [draft PR #237](https://github.com/Julesc013/universal-setup/pull/237)
-is at `67fa57c9`. Six checks have succeeded; `native-windows` is still running in
+At that retained observation, Universal Setup
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237)
+is at `67fa57c9`. Six checks have succeeded; `native-windows` is running in
 [run 38744081610](https://github.com/Julesc013/universal-setup/actions/runs/38744081610).
 Its main/dev file trees are identical, with one synchronization commit difference.
-Both projects' GitHub release collection queries return empty lists at the
-observation time. This is hosted status, not local Setup execution, an independently
+Both projects' GitHub release collection queries return empty lists at that
+observation time. These are dated observations, not refreshed upstream status,
+local Setup execution, an independently
 diagnosed fix or live DiskEd lifecycle qualification.
 [Retained read-only observation](../.aide/evidence/2026-10-16-structure-status/observation.json).
 

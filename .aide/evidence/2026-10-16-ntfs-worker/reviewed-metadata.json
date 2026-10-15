@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "source_revision": "e164f86335f16e87f5e40ab7077cd550acb1aa5a",
+  "native_and_contract_bytes_unchanged": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-structural.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W082",
+        "--output",
+        ".aide-local/context/ntfs-worker-review-20261015T162853348903",
+        "--byte-budget",
+        "700000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local/context/ntfs-worker-review-20261015T162853348903"
+      ],
+      "exit_code": 0,
+      "log": ".aide/evidence/2026-10-16-ntfs-worker/reviewed-verify-context.log"
+    }
+  ],
+  "local_links_checked": 328,
+  "scope": "Metadata, source map, manifest and fresh context closure; exact native/tooling campaign remains source-bound. No full product/owner qualification."
+}

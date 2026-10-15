@@ -1,0 +1,17 @@
+from pathlib import Path
+import json,shutil
+root=Path.cwd();src=root/'.aide-local/ntfs-worker-qualified-e164f863';out=root/'.aide/evidence/2026-10-16-ntfs-worker/qualified-e164f863'
+summary=json.loads((src/'summary.json').read_bytes());assert summary['status']=='pass'
+assert summary['source_revision']=='e164f86335f16e87f5e40ab7077cd550acb1aa5a'
+assert summary['inputs_unchanged'] and not summary['checkout_status_after']
+out.mkdir(exist_ok=False)
+for p in src.iterdir():
+    if p.is_file():shutil.copyfile(p,out/p.name)
+shutil.copyfile(src/'context/manifest.json',out/'context-manifest.json')
+for name in ['ntfs-worker-cases.json','ntfs-file-cases.json','ntfs-capture-cases.json','ntfs-attributes-cases.json','ntfs-boot-cases.json','ntfs-record-cases.json','ntfs-runlist-cases.json','exfat-capture-cases.json','exfat-file-cases.json','exfat-worker-cases.json','private-header-usage.json','CMakeCache.txt']:
+    p=src/'build'/name;assert p.is_file(),p;shutil.copyfile(p,out/name)
+for pattern in ['CMakeFiles/*/CMakeCCompiler.cmake','CMakeFiles/*/CMakeCXXCompiler.cmake']:
+    for p in (src/'build').glob(pattern):shutil.copyfile(p,out/p.name)
+for target in ['disked_ntfs_snapshot','disked_ntfs_worker']:
+    for p in (src/'build/header-checks'/target).glob('*.cpp'):shutil.copyfile(p,out/p.name)
+print('Retained clean qualification; no executable, image or build tree added to Git.')

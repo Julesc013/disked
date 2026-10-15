@@ -27,6 +27,12 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
+- [x] DE-W082 owned NTFS reader/frame scope: exact `e164f863` passes 106 cases/
+  eight methods,20 selected x64 groups/eight headers,242 tooling(two skips) and
+  four full launches. Actual exited-child publication and retained replay pass.
+  Shared frontend/fullNTFS/other-host and original scope remain; diagnose W075
+  report-preparation before whole-branch main promotion.
+
 - [x] DE-W081 available ordinary-file scope: exact `777fd71f` passes 73 responses/
   nine methods on x64 and isolated x86/WOW64, including real native offsets above
   4GiB, source/ancestor access refusals and release.18 selected x64 groups/five
@@ -459,5 +465,3 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 
 - [x] Add DE-W034 test-only preparation phase observations and streamed prefixes; normal modes reject tracing, caller mutation cannot replace selected inputs, and preparation stays inert. Retain the original three-group run's unjoined preparation timeout and subsequent two instrumented fixture passes with unchanged bounds.
 - [ ] Diagnose spontaneous preparation stalls using actual retained phase evidence; preserve request/test bounds, failures and uncertain dependencies. No full native or release qualification follows from the diagnostic tool.
-
-- DE-W082: owned NTFS reader/frame implementation and initial native tests pass locally; exact-source qualification and agent review pending. Continue shared frontend admission and original NTFS scope afterward; retain W075/main and owner/platform/storage/release gates.

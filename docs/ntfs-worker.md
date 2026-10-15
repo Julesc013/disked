@@ -20,5 +20,10 @@ selected NTFS3.0/3.1 bootstrap remains incomplete filesystem interpretation.
 Public command/frontend admission, attribute lists, namespace/content, physical
 access, mutation, other hosts and full0.1.0 qualification remain outstanding.
 
-Implementation and native qualification are in progress. W075/report-preparation
-still prevents whole-branch promotion to main. Owner acceptance is separate.
+Exact clean `e164f863` passes 106 cases/eight methods, 20 selected x64 native
+groups, eight headers and 242 tooling tests/two skips. Four full launch records
+retain actual process/source/frame identities. See the [implementing-agent review](../.aide/evidence/2026-10-16-ntfs-worker/REVIEW.md)
+and [qualification](../.aide/evidence/2026-10-16-ntfs-worker/qualified-e164f863/summary.json).
+No full native, x86/old/other-host or public NTFS admission is claimed. The existing
+file-symlink privilege gap and W075/report-preparation/main gate remain open.
+Owner acceptance is separate.

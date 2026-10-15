@@ -1,0 +1,59 @@
+"""Retain complete real worker launches against the exact qualified source/build."""
+from pathlib import Path
+import ctypes
+from ctypes import wintypes
+import hashlib,json,subprocess,sys,tempfile,time
+
+root=Path.cwd();source=root/'.aide-local/ntfs-record-exact-e164f863'
+build=root/'.aide-local/ntfs-worker-qualified-e164f863/build'
+out=root/'.aide-local/ntfs-worker-launch-samples';out.mkdir(exist_ok=False)
+sys.path.insert(0,str(source/'tests/images'))
+from test_ntfs_capture import Volume
+from test_ntfs_file import canonical,file_digest,digest
+
+def save(name,v):(out/name).write_bytes(json.dumps(v,indent=2).encode()+b'\n')
+get_times=ctypes.windll.kernel32.GetProcessTimes
+get_times.argtypes=[wintypes.HANDLE]+[ctypes.POINTER(wintypes.FILETIME)]*4
+get_times.restype=wintypes.BOOL
+samples=[]
+with tempfile.TemporaryDirectory(prefix='disked-ntfs-worker-launch-') as directory:
+    fixture_root=Path(directory).resolve()
+    for index,(minor,profile,fixture) in enumerate([(0,'auto',None),(1,'3.1',None),(2,'auto',None),(1,'auto',{'reply_fault':'hold'})]):
+        folder=out/str(index);folder.mkdir()
+        volume=Volume(minor=minor,offset=173);path=fixture_root/f'generated-{index}.img'
+        with path.open('xb') as f:
+            f.truncate(int(volume.input['source_bytes']))
+            for region in volume.input['regions']:
+                f.seek(int(region['offset']));f.write(bytes.fromhex(region['hex']))
+        before=file_digest(path);size=path.stat().st_size
+        request=dict(path=str(path),offset=volume.input['offset'],length=volume.input['length'],capture_epoch='91',profile=profile)
+        if fixture:request.update(fixture=fixture,mode='publication-live')
+        executable=build/('Release/ntfs_worker_fault.exe' if fixture else 'Release/ntfs_worker_probe.exe')
+        raw=canonical(request)+b'\n';(folder/'stdin.jsonl').write_bytes(raw)
+        start=time.monotonic();p=subprocess.Popen([str(executable)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=source)
+        stdout,stderr=p.communicate(raw,timeout=35)
+        (folder/'stdout.jsonl').write_bytes(stdout);(folder/'stderr.log').write_bytes(stderr)
+        clocks=[wintypes.FILETIME() for _ in range(4)]
+        assert get_times(int(p._handle),*(ctypes.byref(t) for t in clocks))
+        created=(clocks[0].dwHighDateTime<<32)|clocks[0].dwLowDateTime
+        assert p.returncode==0 and not stderr,(p.returncode,stderr)
+        reply=json.loads(stdout);assert 'error' not in reply,reply
+        assert file_digest(path)==before and path.stat().st_size==size
+        measured=reply['independent_process'];observed=reply['retirement']['worker']
+        assert measured['pid']==observed['pid'] and measured['created']==observed['created'] and measured['in_job']
+        assert reply['retirement']['retired'] and observed['observation']=='exited'
+        if fixture:
+            assert not reply['has_snapshot'] and reply['before']['diagnostic']=='ntfs_worker_exit_pending'
+        else:
+            assert reply['has_snapshot'] and reply['retained_unchanged']
+            assert reply['context']['pid']==measured['pid'] and reply['context']['created']==measured['created']
+            assert digest(canonical(reply['frame']))==reply['context']['frame_sha256']
+            assert reply['snapshot']['observation']['applicable']==(minor in (0,1))
+        row=dict(name=str(index),command=[str(executable)],cwd=str(source),input_sha256=digest(raw),stdout_sha256=digest(stdout),
+                 executable_sha256=file_digest(executable),exit_code=p.returncode,elapsed_seconds=time.monotonic()-start,
+                 probe_pid=p.pid,probe_process_created=str(created),worker=measured,source_bytes=str(size),source_before=before,source_after=file_digest(path),
+                 selected_profile=reply.get('snapshot',{}).get('capture',{}).get('selected_profile'),has_snapshot=reply['has_snapshot'])
+        save(str(index)+'/observation.json',row);samples.append(row)
+save('summary.json',dict(status='pass',source_revision='e164f86335f16e87f5e40ab7077cd550acb1aa5a',samples=samples,
+                        scope='Four complete exact-source owned-process launches, source hashes and independent process identity observations; no full product/physical/platform/owner qualification.',owner_accepted=False,full_0_1_0_complete=False))
+print('Four full worker launches retained; complete frame, live-publication refusal and process/source identities verified.')

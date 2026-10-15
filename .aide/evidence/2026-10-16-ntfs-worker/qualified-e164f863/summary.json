@@ -1,0 +1,2241 @@
+{
+  "schema": "org.disked.ntfs-worker-qualification/1",
+  "observed_at": "2026-10-15T16:18:02.903001+00:00",
+  "source_revision": "e164f86335f16e87f5e40ab7077cd550acb1aa5a",
+  "checkout_status": "",
+  "root": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "Selected Windows x64 owned-process NTFS frames and bootstrap, existing primitives and exFAT reader/file/worker regressions. No full native suite or other-host/product qualification.",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 11.056,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build",
+        "--config",
+        "Release",
+        "--target",
+        "bootstrap_registry",
+        "ntfs_worker_probe",
+        "ntfs_worker_fault",
+        "disked_ntfs_snapshot_headers",
+        "disked_ntfs_worker_headers",
+        "exfat_worker_probe",
+        "exfat_worker_fault",
+        "disked_exfat_worker_headers",
+        "ntfs_file_probe",
+        "ntfs_file_fault",
+        "exfat_file_probe",
+        "exfat_file_fault",
+        "disked_ntfs_file_headers",
+        "disked_exfat_file_headers",
+        "ntfs_capture_probe",
+        "ntfs_attributes_probe",
+        "exfat_capture_probe",
+        "ntfs_boot_probe",
+        "ntfs_record_probe",
+        "disked_ntfs_headers",
+        "disked_ntfs_capture_headers",
+        "disked_exfat_capture_headers",
+        "portable_probe",
+        "portable_cpp",
+        "gpt_probe",
+        "mbr_probe",
+        "fat_probe",
+        "exfat_probe",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 69.837,
+      "log": "build.log"
+    },
+    {
+      "name": "portable-regression",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\portable-junit.xml",
+        "-R",
+        "^(image\\.(ntfs_worker|exfat_worker|ntfs_file|exfat_file|ntfs_capture|exfat_capture)|portable\\.(checked|c_cpp_linkage|ntfs_record|ntfs_boot|ntfs_attributes|ntfs_runlist|gpt|gpt_guard|mbr_ebr|mbr_guard|fat|fat_guard|exfat|exfat_guard))$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 76.925,
+      "log": "portable-regression.log"
+    },
+    {
+      "name": "probe-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build\\Release\\ntfs_worker_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 0.042,
+      "log": "probe-imports.log"
+    },
+    {
+      "name": "probe-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build\\Release\\ntfs_worker_probe.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 0.04,
+      "log": "probe-headers.log"
+    },
+    {
+      "name": "fault-imports",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/DEPENDENTS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build\\Release\\ntfs_worker_fault.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 0.048,
+      "log": "fault-imports.log"
+    },
+    {
+      "name": "fault-headers",
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/HEADERS",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build\\Release\\ntfs_worker_fault.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 0.051,
+      "log": "fault-headers.log"
+    },
+    {
+      "name": "build-boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 4.925,
+      "log": "build-boundaries.log"
+    },
+    {
+      "name": "source-map",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 0.112,
+      "log": "source-map.log"
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 1.579,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 2.964,
+      "log": "structural.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 294.208,
+      "log": "tooling.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 1.014,
+      "log": "manifest.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W082",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\context",
+        "--byte-budget",
+        "700000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 2.034,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-worker-qualified-e164f863\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-record-exact-e164f863",
+      "exit_code": 0,
+      "seconds": 4.845,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "original_failures_cleared": false,
+  "full_0_1_0_complete": false,
+  "physical_devices": false,
+  "compiler": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+  "compiler_configuration_sha256": "sha256:09367b2d3dd6af024fef102881b25351073c031ce6314d4a6feecad6f69b9131",
+  "probe_imports": [
+    "kernel32.dll"
+  ],
+  "probe_import_check": true,
+  "probe_security_check": true,
+  "fault_imports": [
+    "kernel32.dll"
+  ],
+  "fault_import_check": true,
+  "fault_security_check": true,
+  "artifacts": {
+    "Release/disked_exfat.lib": "sha256:3aa079bd45d63042d5bcf6253486fb2dff6fb17f459c9e6299473fd4d4ab377f",
+    "Release/disked_exfat_capture.lib": "sha256:91666e65618f947ee754631b0e6d7c8236b851b9c46cfbe68f74ed4f6a5be527",
+    "Release/disked_exfat_file.lib": "sha256:b410d55d14154953242ca3427aa1bb6cc90517187031d4ebe6c40a4d2222ee2b",
+    "Release/disked_exfat_file_fault.lib": "sha256:004669c333eacbbd1ae32281a9b044b2d960b0ca16b201699734ed2751e0d7d9",
+    "Release/disked_exfat_namespace.lib": "sha256:ff6af3326eaed3ced65a0c7284ae4330c7446f557491fd684bd66a261bbef9f3",
+    "Release/disked_exfat_snapshot.lib": "sha256:73995d7ea347b06bb258b56afef48375cdf348ea3743cdf273295de1e478c576",
+    "Release/disked_exfat_snapshot_fault.lib": "sha256:f9f16be73bd73fdd882e65941d08da62077fe02eda853151f6fec076da152906",
+    "Release/disked_exfat_tree.lib": "sha256:6caa5f0053af86122f9b52ebe818149d091007a9ce9fe52a2d9c77b64f5f1eda",
+    "Release/disked_exfat_upcase.lib": "sha256:1b1dcadf9ede50722905ba1e7ea26c5f9cda7698684410232be4f60d63b40073",
+    "Release/disked_exfat_worker.lib": "sha256:01a6eda9a2c92f22a55f108b91fbdf731a9e79e26a554180f68c96d6ada50450",
+    "Release/disked_exfat_worker_fault.lib": "sha256:235c0133cf1ad8b6296f8d0af39ce4045c28b02a6e59a7f1e4061644c95324d4",
+    "Release/disked_fat.lib": "sha256:dfc38c9d7497c4b842d12a1f0cc03f63574c8b0d6d5ea4e30e0296df2a930f63",
+    "Release/disked_gpt.lib": "sha256:0893034efb92637791baa9b1dab01cdbfcad9b4581893e225db3fb3b20ea1614",
+    "Release/disked_hash.lib": "sha256:69a6a4bebb5e665029f8ee7eb703dac0d185256832a43e5db23b9d9dbe029f5b",
+    "Release/disked_json.lib": "sha256:90c86baf725bbdc9f7c63f4e53f5125416ae2bd5812536fcf940b19538296960",
+    "Release/disked_local_file.lib": "sha256:d1bf37501a3cba57e81c109955fcfc9abb4196bcb9272d79d92fa1d933d411d8",
+    "Release/disked_mbr.lib": "sha256:ebbb7f9d9ebd81357001975a80e5c37403c5f43fd398d21dfc9bb9ee0b4c2516",
+    "Release/disked_ntfs.lib": "sha256:d7839f7ae007cb6dfc377df8a67ad8bbc1feaece31b8412bd198b5e6c23a9d59",
+    "Release/disked_ntfs_capture.lib": "sha256:57cf81f3c492d49e394de985d5b873671e2dd32ba391c66c04a4531440edbe89",
+    "Release/disked_ntfs_file.lib": "sha256:ad828d55b30f7f513d12aaad0a02f7d4cd5d011add92ccaef7c79b6b65736ca5",
+    "Release/disked_ntfs_file_fault.lib": "sha256:3b5608767767d5fb1a70a953844b51750be45db70aef5dff7796db24b3ff821e",
+    "Release/disked_ntfs_snapshot.lib": "sha256:9b6442c93b3eb12d4e74af42983543e6ff57e04dc6185c29e6729f5215bd00e7",
+    "Release/disked_ntfs_snapshot_fault.lib": "sha256:1fa391af38c127803be38d603a98ab04b3915e2e7d3921fc2d1ac276ebbeb4a0",
+    "Release/disked_ntfs_worker.lib": "sha256:39cf46c44df485ea234242bed240793b183142bc483158b3e7dcfeb3e11aebc9",
+    "Release/disked_ntfs_worker_fault.lib": "sha256:c7e31318614133eb36014a34b44adea38ffbae32d444ad28f39e9f9dc5b9e7e2",
+    "Release/disked_observation_worker.lib": "sha256:2eff0cee69a215f33035843fea8244d3ac06726d4e90e6f9eb7c71a7bd693e01",
+    "Release/disked_observation_worker_fault.lib": "sha256:ab0957e32f1e12fa0b97c565de0f47f62a1a78f0e7dd8bc378679425fe80c67c",
+    "Release/disked_primitives.lib": "sha256:03bdf988a763d2f07d6f1dffa0fcdc12bd875a8d66bda5c7d523c5a90bd32212",
+    "Release/exfat_capture_probe.exe": "sha256:d7a88e10b938e2a9596f19125b1bdb1e6c5e9644780d70a9f6bc688a1e8b7af3",
+    "Release/exfat_file_fault.exe": "sha256:2212d17e31ae2b450873c7a3375c021ab4b96146c0ef339df8040107fd1150cf",
+    "Release/exfat_file_probe.exe": "sha256:de66a3576e9607ead784d0b6d94299339cc163ae697c3ff9c8480838efcb3477",
+    "Release/exfat_probe.exe": "sha256:1305f53310ee84a89701aa6fc0cfc826234843a960fe41c53f0b2807d19711be",
+    "Release/exfat_worker_fault.exe": "sha256:8559f1bc730c4b9c7b61dc2b6759ff92d42fd615a96bf3577c2fe92809a8a781",
+    "Release/exfat_worker_probe.exe": "sha256:21d181b115edd0f20dcfd42da1f989511f12ff502e9afc6167e5dabb3824c9c7",
+    "Release/fat_probe.exe": "sha256:a5cc06f33926605c23e1ec85e07670e8c8b40e1d707b7c405d1a52113ba216a3",
+    "Release/gpt_probe.exe": "sha256:dc151f400515ccad337aa31665fbf8462467e8f357af26fcca2931e81320f697",
+    "Release/mbr_probe.exe": "sha256:db19cb61cdeb98334a88097867aed705f63a653fc32582cec508db65e1a714ae",
+    "Release/ntfs_attributes_probe.exe": "sha256:fa080243bb65d80c182597fb555bda4d1916a8dcedf845f6d53a11815bb7c85c",
+    "Release/ntfs_boot_probe.exe": "sha256:f262ee59d515ab8bd1cb8472218270dee06a1b691816c7cb66b7c34c82d5ceb5",
+    "Release/ntfs_capture_probe.exe": "sha256:6c907130d1a8522a5d5db49ff77bceae3fdba24e1f0bbd2479a6e179341d7e3c",
+    "Release/ntfs_file_fault.exe": "sha256:0c7085907aed511e57a79fd6df895b60c722197c5048856593b62fe96841da3b",
+    "Release/ntfs_file_probe.exe": "sha256:212e39963cdb39c5407e93f4ccfc6810a96f7a09ddb401bb466be18fd8088fd0",
+    "Release/ntfs_record_probe.exe": "sha256:e82930d62ded694a806586bb414ab5581c461cbc118fd6d239dfe8ce895e221c",
+    "Release/ntfs_worker_fault.exe": "sha256:36d8144ad78d731f2de66b817a5cebbb5263154f58b006ae129d6632eb8d326c",
+    "Release/ntfs_worker_probe.exe": "sha256:1bc656f05a063f01a79868fa7045ee8cbbc90bf934590b53b0772665f3a6fdc7",
+    "Release/portable_cpp.exe": "sha256:38094ab02e2acddb6475edd905581404cba49c0661df933a93ae668e41aa48e4",
+    "Release/portable_probe.exe": "sha256:af2de50ffe57539845ca6c44abf367f5e92ab6a113ef6e32ef98a2d07242073e"
+  },
+  "ntfs_record_cases": 964,
+  "ntfs_boot_cases": 1729,
+  "ntfs_runlist_cases": 632,
+  "ntfs_attribute_cases": 259,
+  "ntfs_capture_cases": 154,
+  "ntfs_file_result": {
+    "cases": 73,
+    "methods": 9,
+    "failures": 0,
+    "errors": 0,
+    "receipts": [
+      {
+        "input_sha256": "sha256:03bd9b187216e4bb0288bc3c2b82dd15a35a6ab411596da794cfa199a39fe0e2",
+        "observation_sha256": "sha256:e0a61f1903a1ae36397079dc0cd6fc335b89da9cdadfaf9ce27d2b768950dfd8",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3f885ab9b8fe38c3f3c323236803047b499f58ed206b346619813c20f1618c9c",
+        "observation_sha256": "sha256:efbece97c584b0144486da60b6238fdd60eddc26791e04a98add9568142f020c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f16df910270d44623206352818215ce098c286dcc9723b6a05f7d0867bcd49ee",
+        "observation_sha256": "sha256:bf9f4df1fde02cf7187ff611b889a905dc3b534c18fa9f56152e200e2575371a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:33df52eb881091153ab47568016410427f76e633ba0a4e111b3f060231443473",
+        "observation_sha256": "sha256:dafa0059d38e3af5f5c5f58910d1d06b9428146a0c1be42c5c41f427f8df0efb",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:189374eeb01d8f94c6338778087e09a49f289456be27a41c049503d1c6a1a10f",
+        "observation_sha256": "sha256:5a971e8da37b271ac70cee5f1c80bc02df8ac5b1038d8bef8b703785cda41ebe",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:8de6fbda131ae61b08c5ccebb6ede3747c21f1f3384178e1074c07f0ff98444b",
+        "observation_sha256": "sha256:ee6d8bbdb8f74976ab3435c2c5f6d4594abf85f76d49f2d92cfeeeb45e0e3b6a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:423ba71749af047be8a44a3840aafc2cbc04bc802d422cc0c308cd955d92f550",
+        "observation_sha256": "sha256:cd2d9072b7144b52ebef71901928393f1ef16ac47711588b9375b4787cdf1b84",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:aa4879dd504263dbbbd17966ac2a199ea79bb40d0bbc6fdf9842370938c20427",
+        "observation_sha256": "sha256:c6a80901a86efbc2cb8128f596850176fec2b7743bdf440640e0a470ef0972cb",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:900629e65f5718e96244c7d1547ec907539d7a3bf0e81536bccfac1ebca621b0",
+        "observation_sha256": "sha256:829feb0502ef3edfdea06b7f0dd119bf4ae88f057d9961d2db085908c17184ce",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f9e1eb7c9ac86f60b9b359605cae14e3e84bedfa42d5d9cca040caefd8cb54c0",
+        "observation_sha256": "sha256:72b84998c3eb5238a9d2bae2e94a8eaec2e4ab2381eb738faba90d68d251d0c6",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:361b8106cc8cbf73f549feb297fe505659db0f5428677b2c3388d57a9f7b7102",
+        "observation_sha256": "sha256:88adbc84d0d9e839c8b928cf77182aa0f449576d2f205a84bdfb667613ffda5c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:63846af02cbf32dbb436a2d94a5de2866e7f7e9f0a7ddeb3c5497fde7167360d",
+        "observation_sha256": "sha256:08c0a2b3785df2964102dbb613f9b0671847be1f82547767e31333a6bf61819e",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4321a42476ddc719f8799145f07f097a6a11850e82819edc7b49723ac2af4827",
+        "observation_sha256": "sha256:f87878e381770a7947563e94dd74718914a4e217b5b428b249976781a9437ba1",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:38b27304c1840d3a57e6a082a0866f8f7030d4b4150278b31c1bffd16b416e39",
+        "observation_sha256": "sha256:3a50c5c833e927509b773edaef64123585245ed132d03a20b209b1df0abb1185",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:00efc292075125e6821b281996dceff375e3f2ef557b72123cb8c1c77f76629f",
+        "observation_sha256": "sha256:3a394a19c310800477cd565c76652e836846a14c9950c4e2930b294341cabacd",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:190ee5a4388dede25cf5649774d6912052ec92bec010cd50b4c54a478db8717b",
+        "observation_sha256": "sha256:afa82c53e7e767ca4cc6ea833cdddd020e19db74bc5ee722fc3471f17033e554",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:92c033f8237bfe15b4732a059657daa30a6b4269805707a0610a9a1f1fc16194",
+        "observation_sha256": "sha256:e03d0f716ad36b41fe367a8da4f50c599405b1d4bbfd4061826ccddb89877ccc",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3c98d74ee3f9022077254be6e3646eb43a524a2f88aa19418a2d91e828862aab",
+        "observation_sha256": "sha256:a61c02bd5435cd307bdba1a0d59b70bd5bfe15ef0fddd190f7ca58c08974d661",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:97e82c9656eda6a3860003d87ac966b866b50fd14b08342fcef9f75c32b461ef",
+        "observation_sha256": "sha256:a61c02bd5435cd307bdba1a0d59b70bd5bfe15ef0fddd190f7ca58c08974d661",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:190ee5a4388dede25cf5649774d6912052ec92bec010cd50b4c54a478db8717b",
+        "observation_sha256": "sha256:ed30a5715107cffe51842e970385ed6d6d228a7f54d5558631649a02cc7bf795",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:190ee5a4388dede25cf5649774d6912052ec92bec010cd50b4c54a478db8717b",
+        "observation_sha256": "sha256:fc290d805a837c1771d53e766822ac004bb4604e4c36f3cf671a3a591397da71",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:06a2d0e91b5d9795390f0edfc4d6e5c3186f6d3a48b7ab03299cb67147dbf605",
+        "observation_sha256": "sha256:ad5c61be74007d961d8747f44e84f221802290607774779fad74b5f91ae72b39",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6e253221181cc31458b831468ecbde0e5c794ab365debecbe8b1522878724dc6",
+        "observation_sha256": "sha256:4fb073116c24be14831f33599e30f219b818545169ca2a4ddd735a5274cd5a8a",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5561963d0e74df4fac61030588f40fe92d289f8152b097312e81a85acb2093a2",
+        "observation_sha256": "sha256:810ba8548ffe46d61012f69c5274dbe1ae328f2c150716c0c6f8279d56371240",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:40d11f8458e0e27b4656e934c1fb50fc6b324e66fcf3525ba3e9f4475ffdc610",
+        "observation_sha256": "sha256:a43e7145a555c64c92f2243905d09ba002519fdf8914dd7ead8d6ad7848f965c",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ffd061f7f6294528f22d6a00aaafd6a0865dccbd3a2dc390f9379eee4ab562ee",
+        "observation_sha256": "sha256:1a87b6bf872027d87089d6e8f7cfe7cdd0271ae73f32343f1442d8802a3c2c26",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:de92f5d7a5bb529ce1ae0574a02ae270ae99905ce1f40a20f1502a02f34ba119",
+        "observation_sha256": "sha256:997315b796057939c041507034d622c8cf2eccba8e27ed8e7bedd61e2352d975",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:20dc6eb317be9ec48863f1d35da99ef0300f88cc2bfbabae9232ad245c261686",
+        "observation_sha256": "sha256:1ce837d6e00e73c586e0c55330a14e13e7200a16e5fcbbfae0008ed3269be615",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c81a76766a676acf5d6a2998f9587220c5f79f9751040aa5bccb3aaffbdbdbe1",
+        "observation_sha256": "sha256:2ee0b26947501549fa2b1e8197115d15f230d489b5da9f3e5480208dc497d187",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f135dcf3bb50dd7f24f3479c638642a36cd06fcedb27bdbf7647ac66b4773b92",
+        "observation_sha256": "sha256:cae2ae7f0955904e8c32a813bef4b4c43c2a643385a04f61ff506c7a2edad5e9",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:205ffe0c043d101c766c0cd535af023b205d36ea405005c506e7283a156a1141",
+        "observation_sha256": "sha256:f3c51a8495a2a5d8cf47db74dcc9770340eb099635098a1c0d8b77d32d77d448",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:01eb5081513afbab631f7a85e675f8d2dadb44ef448ac768447bb707c71e5252",
+        "observation_sha256": "sha256:7efa46ca3c4aee85556e2149e717d6aab3168863659223935108d53810a22be1",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:734b2de6315490154a0c23d09dd93b4042ca792b58d4156a4bddc79d4d5dca54",
+        "observation_sha256": "sha256:d616342bf7eeb5eadff20bcc5abcd282784e7141aa7f7e2f45ef7326eda9efc1",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:63b3354286dd4dfdab2e16b050dedf17ac68abe87ef65fbef10d768dc6b81442",
+        "observation_sha256": "sha256:49b1c8be57b2a75b57770981033efc1284f17d1810ca0aee3815af322aeeccba",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:caea986040350ad17b8c0258d8773ee458b330848d1aad54797af2cad710532a",
+        "observation_sha256": "sha256:aa5c0bd6d7ef3f66ab6dca9ca498437920a6340f7e5dec9df43d086ca63998cc",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b36aa38f1d67564a563dd329aa150bb1c3f291624f4204f320cb2aba306a1a1e",
+        "observation_sha256": "sha256:e4dc6f655b5d285c802a8636e5cd05e10d2a3469619ec6cbaff4c1a837d9cce9",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d6bfa30f3320df72de4d07bcb722c3acb27fc4b925fb250ed848325d408fbc1b",
+        "observation_sha256": "sha256:3d3f0fc746b207732b6859e2abc9908856157a2703c8ab988c3f29c4debfbedc",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:62f90f486eb912d253683d58abbdf0b8201afc293f9455ed4cb17d5c6397dc87",
+        "observation_sha256": "sha256:13079ba6c73d13a00a0428eb3b28d54991d04de3e415df293f880cd6275a7f5a",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:1b98379b928047eea5a23e666de00ebb85686f1ce0d39e9344c2f99989fb18c8",
+        "observation_sha256": "sha256:9cfe9ccf5cb84983804e2affa029fc115fd271f612c3cb36f1df3470ff30a8b8",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:dbfaee365b3295eccd1b54c97cf993e4164449c556dbd18934d04f4c3517a479",
+        "observation_sha256": "sha256:62ef4a9e806bcea6cf56554aa3a293f85e8dd060bee1f4d6f02fbf41984327fc",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e0ce6f403bbee1b210821216bf0473c36cda1b87e018caa3c1fce9322caec248",
+        "observation_sha256": "sha256:e0e14f71613934c06a2da157b2e55a6bc02eb3dce9403f903bd2be3aabb8ba11",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:97f0da22d0b6e422e99adfb2c973827f4c6ac4a66965484d9a6ffa4ade50a94c",
+        "observation_sha256": "sha256:2c840cf3c63d07f111dcf77df90931d8ec2823ae1ea18335809e84e659c818a5",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5868d8780eedf9ad9cb9f2c2ba89264a3138108f796ef67cccc87333e105c230",
+        "observation_sha256": "sha256:e0e14f71613934c06a2da157b2e55a6bc02eb3dce9403f903bd2be3aabb8ba11",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ce2365a475400c1ecb5eac04c57de17bd8755b8f83ebe1e675faad3d1b072fd7",
+        "observation_sha256": "sha256:53319cbd0f241da60643339a25763dda8489631d2eeb359cae0d52d66893a6b5",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ea70dcdd9bfea2c08ea3118a9ff1f36a726874cee3bc15c67f2380bfb0aaf256",
+        "observation_sha256": "sha256:bd68efbfa7e8326576f8dcfe3ebb6e3a8c487ae07386fcd635852110e3893916",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:95e5e7cbf5bee0bcfde9320ee11575cae63a4961dfa5332d64e47f4bc7876f33",
+        "observation_sha256": "sha256:c7041ddcb9cbb2a2a6b275e36f77410bf80461d6386a79d44e1af690e8023a36",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d87c92c46a4410d23742306142b197ad108f0714ecb471fbb3983bc4cb13e3f9",
+        "observation_sha256": "sha256:b80c1dda131f08f76502cbf4102b54a6d0549e85ad23b83a444d73a8c112d2e0",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:fb0e960e88d0c12188b888761d67316536dff98cb36b334ab7f256e06cd74e89",
+        "observation_sha256": "sha256:47a845e30ea492f485a8eae6b10b561efce103bd78f1e2b7cf03a3e12f2c017a",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:23dd412cad11ad4a18ac1cb06968b82d116a2e4829fa5bea3c586a9278af59dc",
+        "observation_sha256": "sha256:2082ff2ccd249411214076dc569b0c1c6ed2c65bec97f01b2d8c108e86cca539",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7739ae40c64df2af3be56a2ca6e3943c4992785026305ac29b2741e7c1770c0f",
+        "observation_sha256": "sha256:474f6d464793ba596d3e8b3b6526a4d0cf019021d425a55637121853cd460759",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6eef6dd5bddfbddea8fb4d4041c4c551ba7f83d4afe7cac6610e080d5f9ad27d",
+        "observation_sha256": "sha256:0093ffc4ec127dba79fa9a51c0cec0c6f26294f57814b5641ff873f8812286ab",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b84c5ca6f844f9e895a59784c59a766cc866a074a91abf67615669155bc883d0",
+        "observation_sha256": "sha256:abc9d13b6ac609681a4943ec3c6483ba4781bc54351665777c1587886b5651fe",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:744784fa0ed9056d389856f4a3c4f1b2e7d7f6d6a48ef8881339bcf0c3c84878",
+        "observation_sha256": "sha256:6b27acec627e0e82bb380f86f88b314b564be36dcd23449d5fc12e1c7e300e31",
+        "fault": true,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:96780e258c49d5c8eba331035ab96df82568b7f70609d16f59d9f5f75e2f78c8",
+        "observation_sha256": "sha256:de6e30edc36fa3225a04fb37f31891391beee6e0465c596c78676099a3e76314",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:fac06bc3719bcc35d7ec023863fa40fa938200f15b7ddffa868171091822de33",
+        "observation_sha256": "sha256:48b9d7d610fab2653fba50f778e07376c2b1229d8fb8fd007fd1b008bb26bacc",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f872e4b6ba6241a73b47a820d97a2cc24f8e56c47395b38ad29c77834ec96ec1",
+        "observation_sha256": "sha256:e0560a474a6977c1c10a23f9fbe53f82e40c9691babb26e8ea4dc9f5fa0dab9a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7650cd7fcf88bd285c48529edf3c05f9cb0dbbb8f5a4d49a3084dcee471f1dac",
+        "observation_sha256": "sha256:e0560a474a6977c1c10a23f9fbe53f82e40c9691babb26e8ea4dc9f5fa0dab9a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4f1b746690fb7bb7ba4053f50e79a0654ce14ce22b60dbf90bcee714c0edb3ed",
+        "observation_sha256": "sha256:8f75ea194f6344098620bb11a434ea9a5555557ea6846d36a7b8b866378ef235",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c025cdc7a2f2ed0f2c3822120822cef95a5fb22be3412817dbf7a322c4168e4c",
+        "observation_sha256": "sha256:1c4668122d1005bbf517c0a63fa0f21837de645fafdff6e8644c5ce21b98015c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:31e453499b1ba7b6d6952af7801cd6ffb0a1c4d1cf860b0af8a00efba3006d3f",
+        "observation_sha256": "sha256:2530b7d0572f1569f8aa15f1123fc0d8a8ce1ed6398eebc7dd661a1f5a92809f",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:4683dcde6c5ba5e8470c31e68a9c5f3a4c57c2787df74b65a5e0c98fed16871c",
+        "observation_sha256": "sha256:ff36b8fd787289cbccc2dfa6b7407b03b107896109ac781b6fd33e1349a16ac8",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b5f41a6dafd80aa37e36dec5990ad598274cf3790f8c6a37340a57e070bba8db",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:451e270a407f0f8d444047a0119224ea395e3a3eed7fd0a12d130af41c67bb17",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:650df42ab455b697e0ecb95ae02a69008a90ff92547dadbcffb5a0acaeddb29a",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6cdc0f5f1fa6682bb0379926ed6163acfbc0e789ee408dcc552f345f905a697f",
+        "observation_sha256": "sha256:e3c0818f2ec5e7e5d1c5544046eaaf89a9305157eba8040f96d8769eb6c4578b",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6998cc8f51d2e14d39d4f66791ec03c535bfa6113d99079fd028f73d3bb74b28",
+        "observation_sha256": "sha256:96eb413eadd528ebad2b1f7299f6549296b8bf2ed2a0010a5e4d064fbe2fdfcb",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d1b225107b11b8a5fea406e763a8b6e99615c32e2a8bf82fe3aff9190f8512a3",
+        "observation_sha256": "sha256:351a87de6e5c3a8e7a9a8407e11adb3e489614ce0db83a0868b9170fd9ae9057",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:dd959c5b165d173c8c662be3fc1e26acddc1e4bf2d5494bb4ca737b36b24f5b5",
+        "observation_sha256": "sha256:a1e71c490a37ca590f0d7db1f364d56082f3e016ce6a3ac31b6ae65774af1cd7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b8776bf2e0329da12ebc6c5f3d144b62fff922f6c6d119a3014baa170c43cbbc",
+        "observation_sha256": "sha256:2ba8d258427ea71c091b19b27bb08947ddf39dc2a13f0d40012aae3df17f0bb7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:895de1907092b5fb1a84b6fa3825fd1ab3a702077f8ef2f11fed61ef67f5ddf9",
+        "observation_sha256": "sha256:2ba8d258427ea71c091b19b27bb08947ddf39dc2a13f0d40012aae3df17f0bb7",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6f237aa2d52eba4b150837624c1eba82f2e80501d03d70d29aba2bfc0c450db4",
+        "observation_sha256": "sha256:a15fc344e4e8bec2a2a17c38f0db06af130450b06890febdbf87a6532129687a",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:dabfbb3cc5a3251b20eed71c4a75899a2f31799bc5d0b127a3c27cc4cfca670f",
+        "observation_sha256": "sha256:06ef7c0bd77d81a5531e20315308be3b7ea447f285a5a96dc6ec57038143e45c",
+        "fault": false,
+        "process_exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:60f94a93e05660a66e4ef67c421ba4d3f9bae2a7571ec9a49f9adac0118e8150",
+        "observation_sha256": "sha256:19339616024a49a53c6b817e06e372f7728e48d2ce602509a9ae55e9ec88412b",
+        "fault": false,
+        "process_exit_code": 0
+      }
+    ],
+    "unverified": [
+      {
+        "check": "actual-file-symlink",
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-0n55jp37\\\\target\\\\source.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-ntfs-owned-0n55jp37\\\\leaf.img'"
+      }
+    ],
+    "scope": "Generated Windows ordinary-file NTFS bootstrap only; no public/physical/full-product admission."
+  },
+  "ntfs_worker_result": {
+    "status": "pass",
+    "tests": 8,
+    "cases": 106,
+    "receipts": [
+      {
+        "input_sha256": "sha256:e41c8e52f5af684205fbaf5437b1dce6a164b01568804613ca7abf4c3fbb946d",
+        "output_sha256": "sha256:ff0d97f7d71b5e94cc99e284432566f03008bdf3dbc00b3f93effe3ec9886a1b",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:818fb07dcd6aaf36e525f887d7810ffd815aefae088128e5738821b8f7d7dd62",
+        "output_sha256": "sha256:aeaa1f2c907746726d6a3e47b0d2f796386da557e7c281d691228c532d144297",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:bb5e54a18016485edc7e618dff689e9ad4aab22a09b1cd5df6f20c98103296bc",
+        "output_sha256": "sha256:5d22174bab5fd859328f3700ed859b177951d293df97447d321a463904b70155",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:942471dec7ff36fe5e9c1357207b5caed585936871f0be1691df9880b2c993e2",
+        "output_sha256": "sha256:f78f87fe7c19d3d79b122ff5fd179c7af3b5a9381285927f1be9b0b83f57325e",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:8f5ac6b861c00054d1e828bfc730702e009ffacbaad6e25ac17967d6920a696a",
+        "output_sha256": "sha256:b441f8460489395c76608fd15fa38c4a6b15e964b4d29c97a7da47c26084cebc",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e1c4a8b9fb82b3d205a90bbb35e58a90c87fb622b4466dda446bf516a2d06ca4",
+        "output_sha256": "sha256:ca1247cee74b86cb8af34dd0a6a436f9d2ab3d7d8ffbb52fffbdfc50048e07bb",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:decc913cfc734ce1f83ea661b7e2c708ad809ce140813ed6bae2d34043f8f979",
+        "output_sha256": "sha256:f4cc4d078f2fcddf0bf63c8f453ee9249e890cf8561a07046d52cdcf1d384e6f",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:9ec4cbb09f28405448e8be25c155e5fc40dae53ec02b6d329f20fdebe7737de2",
+        "output_sha256": "sha256:7af614d63d02413b413b1d1f19094b11f2092aa04d40e18adc84a2bd5e1ffdd0",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:780130862bb46a5c592b9b9356be4ee332c1c7c754a8bf0194c04a7cc1b275dc",
+        "output_sha256": "sha256:debd3289126cf97085bf4ca8b9b163a04c0c61a979809cfcda3288b8067fec7d",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e0a87786b4be79066c6ed065629f029bb130da2529f047a2d6e361e0702f1233",
+        "output_sha256": "sha256:b0706b6d7f3cc355c0dedc499f9396dd88ce83fe4e6061ad00a36fb34d1b5def",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:27888269f2e07d74bea079812fad91df9af11c9855c4783463bb1ffa3c0700e9",
+        "output_sha256": "sha256:8f0c9af1fff450853dc46b0087d4d4fce77c10b31383df9052f4ba821d0cd181",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:660c4343d6039faf57cf5bb1896020cb2e21dc93c2db47c69debdd99dc521ebb",
+        "output_sha256": "sha256:96191a7e720e0e02657958cf813a43cc140cdfd64b531cfae3a84f1e784b0616",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:aa8089889f24fe39f82e656fbea8d3af0712e8e799997c63e63b6861a547cb06",
+        "output_sha256": "sha256:121d7cc1fc26d259932c6b7541305a30de0b045926a7d7a010ae07d5f41f3f04",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:992ef49ec68b2f3147f1601f76e346b9599308e1b1315de48b8b09e22255e297",
+        "output_sha256": "sha256:571b68f199b5ff6db48c9cf34747d74b1f4c30d65ef5e79e755f0cb26cb96d88",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3413999c8567758e1fc94533121eed0fd4c4466d50099cd0cbcf05e6f7253e51",
+        "output_sha256": "sha256:0ba513da34c0eeaceab607a687e366ba72747649650f5708362687720b2ac124",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b7098461519c0c8ea6f1eb14f0b428556f19db48186db4c21b8278e798ba471d",
+        "output_sha256": "sha256:c7f3b4c3c9fd3b722c467386b2e695847c89e784d52e2faf0761aa4e17655da8",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c7fcc04353ed226232e61845e627c9763088091b8d78f95279101f09ab76e030",
+        "output_sha256": "sha256:a7e03c51b4c8b3d413e3b41127cd80690c8c84fc61f5d60004f78e4b06104738",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5902136b2a270fee8b9977ba0e81daa554338ec6ec25acf8ebc35cd67fa6b08e",
+        "output_sha256": "sha256:7da79eaf91c85ed01ebdd4433821596157971d5ba2386ad24d657c940e26e992",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a17589075ae71f441c781f8b1c1ad77f4fbd5c5de523ddb12983bdd753e9246f",
+        "output_sha256": "sha256:f96bf6c8e3d2af25c35af0b24e53d6c63a99a681d6538cca169ac214f5c3f97e",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f966e843d41c0a8993e2136090a1e5c049100e1656828adba5e6b888fffb10ab",
+        "output_sha256": "sha256:fa1cf49863cee46de05e65056b9223b349c7d33ac4c5af0eb03098cfd1d278ed",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:9e662e289475eb8354800d082ccea196353e332e4c884802af9022f135722e11",
+        "output_sha256": "sha256:aa9455bbd4beba3cb0514194957ae76e38108e810e519ad97b0ed43245e60893",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:34ee858f407bc4e88ab09965347421a11f2ef7a9d0609fa66418f3d1cf2768b1",
+        "output_sha256": "sha256:777b7d6a5eb3296ff0d34e444c7a8ab53908b50fa3f58d234ee0898b3e1e27e1",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5841cdf977d3090d97ecb5b1d8b29df395059544f1e98eb665195f290ba14e94",
+        "output_sha256": "sha256:7d41a541a7bec9565c7d804b7a26cce3825cddb0a9ec436f45e98203aacef640",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5ba40760e2f958eb23b96b8846a1e332c7982a8f1b994d6324b4bc2517c8b5aa",
+        "output_sha256": "sha256:358b6bd653e9981dfd298056b39309e003fea22503abb564eb22fc6b5292cdcb",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2216cefaa3cda4aa52481df8e3e56c112997b394afb3dac411ee4fe0064df73e",
+        "output_sha256": "sha256:912fa313d2d9527080cbe3891216e9cb2c24113d0bd80161d810a3728d3f7010",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:fdd0436eb9c3adebf75ab7b2d848e1499cb3974817c776b29e9c7ee7dc922b7a",
+        "output_sha256": "sha256:ad43d0fe1bc89d6ac5ff8a3386178e041bfcd0784eb363a2d62dd75e41661c85",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2ca330a5af06cee7895c963c8996dee433238235090977b01aec506ceff54814",
+        "output_sha256": "sha256:9ba02e25cb26d953cd2ebce5155efa51241e9c77546673d14bdcd73aa3d13c52",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d9e5a641c04ba5e1fb4e6b60d457e55f6a6c676d8059a618c8322a7e0abcae46",
+        "output_sha256": "sha256:c3eea0edc1c706173701ecac0f1982d91a4c5fe7bb57f5d9daab358e58848563",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e72d12423156d3eeddf3d5e392f0a97ef890a37f6a6ff21539a1352719ca9033",
+        "output_sha256": "sha256:ad8440c4eec294cef635ce7e7d8226f1ce1b01f201b1b8b79d8961be5b291774",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d192d67f1a80fd7eaeaf455f484ee5f391f3dd616eb330512399ecbe685b0e40",
+        "output_sha256": "sha256:0b73469b01b5185a6d40020c8d63a606ff7d0b65eb87f3b067ec148a4038eb18",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f22b50feeb67533dfcbc1a86dcf42908132fbaa76dff02297458610b5b81016e",
+        "output_sha256": "sha256:53c6902ea74f25427586dd95301874cc7495e984c393854370a7a2af80167669",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:af59c1ba5c37da31a9ea6f98214d044218883ad27f4f4991deb11dfb125af1ae",
+        "output_sha256": "sha256:fa6f94c6d4a50591b69b077c398406c2d9432a044737b09680ee23f0114b2230",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ef51bde36d7c041c869f851aa5fdf12bc11de7e70c6f9dc9fac0b5dcc9122605",
+        "output_sha256": "sha256:31b06273f786439608c80c31e09d79518f62012ab452f30fa27eefed9f5af79b",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:70537d2b284051edb4ffdebe4ca855451acedd399dde0cb5fc27210346c17405",
+        "output_sha256": "sha256:971b56073feaf4af25a7f53485abffcce9f8a1e440d6d8d2c8ffc944b4876b3a",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d8d953c73d9c9ee3c0d5cebb928053d3bddac172b53dd18b1c04e4700a70d011",
+        "output_sha256": "sha256:a40e4035bc41a13098b637c83839aebac164edc046cd91b7623b11ac93e2ef45",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d1d539182043d685dbb44c6ed8ce569bf26f6913a6975288fd37c98c95e7f7b4",
+        "output_sha256": "sha256:4b836a04210a0247dcf012707196bf125a9c9dd38d816ab06a760e0f84887f90",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:65193e93e877337530ee805f69bcc88b8e4b19828b13570478eb72dc7c952957",
+        "output_sha256": "sha256:7330bcc8739e42bf644e9dd282acbf5f7d70000648cacfbfef9138a3ee5676e4",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d16c35fbdc946901e9926baaef91be62cad1d2e07a2f57b8918b872b635c0fa5",
+        "output_sha256": "sha256:1f9eb7f167622c3342c8f4a942482d1a37f9faa1c442bdfbbd8dfee501475db7",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d16c35fbdc946901e9926baaef91be62cad1d2e07a2f57b8918b872b635c0fa5",
+        "output_sha256": "sha256:a70ae1872c8e20abdff458dcd1ca3c5f6aad4094efab85dff10ac8974f16fe3e",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d16c35fbdc946901e9926baaef91be62cad1d2e07a2f57b8918b872b635c0fa5",
+        "output_sha256": "sha256:7e73902afc9da6eafdb0a0f2bd617874ffc81bd1687f522800adce5cd5d4ed75",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d16c35fbdc946901e9926baaef91be62cad1d2e07a2f57b8918b872b635c0fa5",
+        "output_sha256": "sha256:0930c99110f0d4f43b7aba3d0d0ae6ec97bb3b8d06231daf2497f5773f905115",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:89331848f5c37825be859272bff1f42371a40126f43590f5aa7cf225e46a609c",
+        "output_sha256": "sha256:b6bde25777f8f7c178c5d9bf13c7863a9d0419f73cb659b9d03c16e5ecd631b5",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:760be362fe3312ceb0555c3197165f15f31c9119ca3bc52ac8f4baa8ff729880",
+        "output_sha256": "sha256:b65c917f0bd057b9fa98beb3752a78640f58b7d410e832a9e0a995692c91c0ed",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f90bd347e0d624fa9b7d67b0c1829e0d05afb5bfdfd09fce8ffb620642b780e4",
+        "output_sha256": "sha256:1aac72b50973aa41548a831e809825061514fc907ffeb0280fe098c2fb79d39a",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:6ee3229a8751b7757ef921043ad8c3bd7545a73433fadddde53a74e3f9ac5985",
+        "output_sha256": "sha256:9f111c5686506aeb84499d00038d535906b91f960dc1e4fd75910fb0ed251053",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:187eaf6927ebd50d0fd3909d6231cbf074c09a2f8cfa026d9ca0a884fe1933da",
+        "output_sha256": "sha256:a2c845870b2b5aaafd285c36729df728d2cc03f5c4d987bd874ceee416f351a5",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b8e1ffba27512e1c43296780eed4e89b0ff3b3c9723f3a787cf9d63170195364",
+        "output_sha256": "sha256:35936451dc7fb801f9433b90f2cc44dd8b40437af2160898334677370679a18d",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:af24700b3030dd7208530f40a9cc691f199d87ef7dba1bbb029f957846dee9ab",
+        "output_sha256": "sha256:ec53e7dedbe7f8cf03cb7edf8299b332024afe563e9299fa91a826e739dab097",
+        "fault": true,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:641424cb2af1a82b9cdeab2498c1f264f370cc6db7295275aff0d053b99e908e",
+        "output_sha256": "sha256:b4d43aa08e89b4abb51f1d6ca8ae991028269c7ec95ddb92f388e3a91e03f477",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:45c1faccf28f9c954cdf9d5901c34ae3698971097e3d3dbde6715f3b4cda05fe",
+        "output_sha256": "sha256:17742c625bfbbcd4785398d357af27b09f96e4349f72ddc5b2ed4cfd6c05058c",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a8398d6c39cceff6f4afa86653a93616397a3ada2c567e1eda4de183fa3de079",
+        "output_sha256": "sha256:626b7d5bddbdb24cad6497beb76afefbfb6eacf698e3aa1453f0ab315b2858e2",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:31f4fa005f77838f06f98be6b5054a16eecc6e724f765f280468137770e994b9",
+        "output_sha256": "sha256:e13f92a9137b21dc3f490d99a8d0ad5ed9e80c7a2f8aef758365837917464080",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c32f0dab5fa5952905492e8f8a3337028fd208e90c9b4bb68c3f51f1edcf7e00",
+        "output_sha256": "sha256:dfaf4daa81eee9c5e21d73f9a7b6e6efa401ecbf79e0f3ea7bd9a59c6dc4c4a4",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e6262c46341939c500cfc226d0bf649b064f90a215c21a3d7c788084a08ea4f1",
+        "output_sha256": "sha256:d31fd28aff58039d8c88bee9e2939cd81e8c47a5d342508f028c294a06e3a8c1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:f7866e1735da6a9ab4e8bb5ad54d7647e2f8cd95828b6016a1d50f5a111cfcd9",
+        "output_sha256": "sha256:d31fd28aff58039d8c88bee9e2939cd81e8c47a5d342508f028c294a06e3a8c1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:439e8b3c747b74fc6d616f5f9a7376fbfaca1ea76d497dd8ca0ea3471d8ff103",
+        "output_sha256": "sha256:d31fd28aff58039d8c88bee9e2939cd81e8c47a5d342508f028c294a06e3a8c1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c0520438e9299b4d08b1078204e1b129ebf7539986fbb3ca4ddab37c421a668a",
+        "output_sha256": "sha256:f6849a9e73d7f33319685fbb433449df2936c8de33f1b25c6bd1e444f5ca30eb",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:83116036c1767e3a454f8f40679dce6cab9a70e538379775ee17037a926c94a7",
+        "output_sha256": "sha256:8919991c75537f2ce9feec0ba2963d604ddcec9c81365c15943efad49765af54",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:189b691d0dd389df851f41872a7636358c59de3240da7c92caca1e53ba368e33",
+        "output_sha256": "sha256:8919991c75537f2ce9feec0ba2963d604ddcec9c81365c15943efad49765af54",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:8f603e2022b919d4978798b4ac92739f8a3685b7dc703dd66aff6663b6eabb14",
+        "output_sha256": "sha256:d1b737a800b66ac03ce65a0962f05da4d3e369d77bd76f15c1659d60bcef6033",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:59774e2184654219ab9b5382cec12ad628e488ecff1110bc47b07a94a94f146e",
+        "output_sha256": "sha256:da4fe5f30d426322bbbb611340701515d07b6dd85406f72a3d08c1a513347f91",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ead2b5c9fa02e3ef8a80b055632b8bd6ade85631673f6c94082477ae8ae2c179",
+        "output_sha256": "sha256:377720b971d4d370c5a09e617366787a93b8aef35527f7f1b6543a6b0b8f0f23",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5eff9f763b2783a43f3c996545e94a74358e11b94079db20beeb9f3324286430",
+        "output_sha256": "sha256:cf0604cbefbbd14dc40ee601708adadcab9e813c32949d5b0662d4f955748914",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a0cca6bf38ee8dfa984b001d338af2507b772d26a0b0f3338ea1bfcd8dbcb0a8",
+        "output_sha256": "sha256:165e39c08bf6c57f4c320b171f27977b9b3734db9f1697b64d4454852f22182c",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:fe6c4a3d2b2f089f516f02f9993f10c1477306ad3edc63f81e74e7a7858877f7",
+        "output_sha256": "sha256:9802815cbb2309be31762c2f7b17ab71062076447d27220612b58da353680d2f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:03f59af1ccf585a2676ae5e93c469beb9c3fba652f1a6f08aed48559c58198cc",
+        "output_sha256": "sha256:d83f2f4fa89f7bbcbd5cd3a849d168ba15909d7ad286c354e0772dab4c03fd52",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2d09abb0fe0923a7be5a75fc09eab51d0d96e2d889c824a14a19821b05e63ed5",
+        "output_sha256": "sha256:ede5e77f22a8ae30959f79b94dcd75a3ea40a075de0d0ec8e701bd8db9873c01",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c6830b72a49ee61f467cdc3ed09c0ad963053892a7aca0dd0c449550a8127344",
+        "output_sha256": "sha256:00ac6efa9a3ec7596c5e738b4cf9583eccc2a1ecf24db98b1df03d00234ed31e",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b614f772e8e5d1c28b391a64be67c7e3c06d2ebbf011f105c347d6fad1000907",
+        "output_sha256": "sha256:00ac6efa9a3ec7596c5e738b4cf9583eccc2a1ecf24db98b1df03d00234ed31e",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c01c5e722036e97acfe2aa46e78d7463a3396a5d840d67dd062ff20556689ec7",
+        "output_sha256": "sha256:c95cdeff6aafb03a4dee7fad313faa57444a54e47b0d602ea2bc729e6e72a911",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:773f1e32b99feaf73101a96ad43c04b402f9779d62ca922f852b8b2bf5a138f0",
+        "output_sha256": "sha256:e8b4d394a1b9e15b8563b2ef3a36c2d15f22923fc0039ec88fb89e8851d495cf",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:59aea4429d18ad1fd11eea2aae68accc96456960f0ab9868ac850fa26614b9ed",
+        "output_sha256": "sha256:e8b4d394a1b9e15b8563b2ef3a36c2d15f22923fc0039ec88fb89e8851d495cf",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:db37123ebec6f32a161f65041110ba03a2976f4ad17c6247a60acba22a754e5d",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c599c4ffa736d6ff567c5af40cd2bc6623aa3f08c5fdebec1ee113425cf17ce4",
+        "output_sha256": "sha256:3fbdd47d8584dd8af3b02c8460fbad132d38a14c18b64ec4f29ad6ffc16739cd",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:1c93ac085d78c8311d2154080fa9e536edea8d59ffa548191c443353db6b307d",
+        "output_sha256": "sha256:da4fe5f30d426322bbbb611340701515d07b6dd85406f72a3d08c1a513347f91",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:04e104c7b8aa85045b2f2ce3eb5003b0a03e943c9d79e46b8279d2bbb783347d",
+        "output_sha256": "sha256:d505a6a93ee886d52804e50fc7d50cb06e95a6cbc653c27d951e7e49468611aa",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:470260682954fa8821910f16013c4ef076a0f6e457a828ecd85a4a964e1ef785",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:229827ed1ee9788fd421b5be18e633ab01c749f184148401967b589fad85a132",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e411fdec25c6ca656ce4480ccad407a5c41dd035960a6db76d9f1396dd37d271",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:7fdc1f897360a20b30744e5ef2e0247c4fb639383291b44f64e8f6d5b0171531",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a911b3bed1bbfc2d7c87fa09c310f9437129108e687a3a49d961bb03c94c2521",
+        "output_sha256": "sha256:c830392833a5915c2516249110c415416315ea7527bcfc562421f0107863ce9f",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:56aabe4513b142fcb33ec16d5bbf3cb7c6e078a25e26c0ad95f6ee52c97eee5c",
+        "output_sha256": "sha256:e8b4d394a1b9e15b8563b2ef3a36c2d15f22923fc0039ec88fb89e8851d495cf",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2b4885076a7b8c1b3f43c47a4c81043f440ac67d605bf71ae657b59845ab4473",
+        "output_sha256": "sha256:e8b4d394a1b9e15b8563b2ef3a36c2d15f22923fc0039ec88fb89e8851d495cf",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:66298d5997f1526803dafb369aea27cbea8eb4d6a493df8a29e179d615f42598",
+        "output_sha256": "sha256:4069c261ba1a9fc53bcdbc94c44f4deb5cae6973392b0bad93d490ce7ec966d5",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c602589b280e37dc276bcdb9b86cb0aef511fc1d39de5313cf1491370e9a2f36",
+        "output_sha256": "sha256:8919991c75537f2ce9feec0ba2963d604ddcec9c81365c15943efad49765af54",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:5397cd91867630777048fca7caf5026de09b678ccf0deaef96c10313ed64232c",
+        "output_sha256": "sha256:bc7a547f2e2fa35398f7b7380c997ee19b12ab39dd307b606cccc1719b5537e1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:588f43e5bda5ed8beb2eb636c9d8375ad9a3f30cdbcb69fb33f4c6b89827b25d",
+        "output_sha256": "sha256:bc7a547f2e2fa35398f7b7380c997ee19b12ab39dd307b606cccc1719b5537e1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:ed9c9957f907092a5ba6fdd1706c9a7ef5764c8e90d411af752460139e68744d",
+        "output_sha256": "sha256:390a94d2e3e9b3aa60a6344b54f91675d874ad8ffc0b1903b5658e348f56c399",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:3c5e2a2ea816bebb0869e12edff07e7bfee924888894affbccff8816905b32f4",
+        "output_sha256": "sha256:390a94d2e3e9b3aa60a6344b54f91675d874ad8ffc0b1903b5658e348f56c399",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:289d9b17772d7c92ac83903660204c47d1daeb712a4324c80af9265fd5fd6221",
+        "output_sha256": "sha256:bc7a547f2e2fa35398f7b7380c997ee19b12ab39dd307b606cccc1719b5537e1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:dfd0a475ebe342a36bb0cf405a1d6bfa56463a75a464200c7bfebaea127fe7a9",
+        "output_sha256": "sha256:a4fb0e2e85cf051f9e137b9bddfe2821c91e86eff05557cc1cd8bb6fdd54dd31",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:c1749e17c3ee41eb16a87577ed1388eace38fe0a2d254e5f754f36e6ff71020c",
+        "output_sha256": "sha256:fe48cb19b785184ea8cbcdedb9e0d3a1308bee3ec7e239af4152f3ce453cd165",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:9d5b50574826307ce87b4b8bce487bb36e8a5e26ae355c0566e76496401735f9",
+        "output_sha256": "sha256:fe48cb19b785184ea8cbcdedb9e0d3a1308bee3ec7e239af4152f3ce453cd165",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:265bf0d7b4bc13485419c58c3386cec0778670481648217ae781cfe97810ad3f",
+        "output_sha256": "sha256:fe48cb19b785184ea8cbcdedb9e0d3a1308bee3ec7e239af4152f3ce453cd165",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:e9e45d348b12b16456105bd0f961b11dffbba73b72d9a6e24eee6a825aec926d",
+        "output_sha256": "sha256:4069c261ba1a9fc53bcdbc94c44f4deb5cae6973392b0bad93d490ce7ec966d5",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:75e1b2cb562993ccc45b1075949dbc53726f294d07a36a550c58f814cf60dd6f",
+        "output_sha256": "sha256:4069c261ba1a9fc53bcdbc94c44f4deb5cae6973392b0bad93d490ce7ec966d5",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:a7e3622193d3adfdf998c665040a79e0077694c6b1956b41044c2a715981d4d9",
+        "output_sha256": "sha256:f73da0ec54bdae6556f8aacf41e78151aa3c21f35be5658aec3b850f98a09c89",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:0296c887f327e6ffcbb0343d432e186c5ebe2dda79d6e8d098d868395e065531",
+        "output_sha256": "sha256:b1e9c325e90392de00d7f2db2038d344f1476e0a861d65697e7b545fd91227b9",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:b049449d8b2d8ba6304e16692b3766df133bd40bdb0bd131d79d8b1b5f89fff5",
+        "output_sha256": "sha256:847ae6ae842aa580c795522d202a2ffc96fa4b9697e0514a3c4e87666152db01",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:03e0e42d8700253b05844abaae1f75bef5e0c6a579550e6a0cc3401a5b32c07f",
+        "output_sha256": "sha256:f33cc78e064621ddbbf22472131a35693c5bd78289910675819e1bacc2a48083",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:56b18c4780a40dfb54db6cb54ce03b2b578f00849f72d74e66755cfc0600c89c",
+        "output_sha256": "sha256:b5610fe2afcd4c0b9080c26e80d6e7b9fbe2ebed8a69e1161b61f520e6005cbd",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:d610887261a1e3716922be83ae598d0b0e5c900a39bc4cdadf0b96edb059a26a",
+        "output_sha256": "sha256:7202fbd41ca73e92f409baa3fcbb1c5588f61f2efe2df35c7791293fed26fbf4",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:2848a8ea345c1359a722d18e4e19c9f557d16c00fcc4c7c72aec1c19e0e4c310",
+        "output_sha256": "sha256:1cc0a988a369d320006d5560aceaeba70bdaf2e3c1d4b6209ed509cd8596d90c",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:fd7f8e90d4143aaca6d9eff9fcb7851953293903d5a28318b85f722c41206369",
+        "output_sha256": "sha256:2e7a36de42dbf39bdaef13746477fcc41a8a12fc68a022635accaedd323e066b",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:1c096e98488e090d175dae8165d5df09d0fbfe0ebeb90c0bcc3fa2871ad65763",
+        "output_sha256": "sha256:2c03e87a972d338bd89e837dd2943fc41c48907787a6545e8755b0bdd7d82fb1",
+        "fault": false,
+        "exit_code": 0
+      },
+      {
+        "input_sha256": "sha256:de710109fbeb237ca30dd441eaa22c50f2fa5b12ec02acd2d5a172e17f7edc34",
+        "output_sha256": "sha256:947d577c57cbff0445ac631242d128c47439d50dbc7403c232d400751657f197",
+        "fault": false,
+        "exit_code": 0
+      }
+    ],
+    "workers": [
+      {
+        "worker": {
+          "created": "134365548346281941",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "18328"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548346281941",
+          "in_job": true,
+          "pid": "18328"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548346945178",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "59788"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548346945178",
+          "in_job": true,
+          "pid": "59788"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548347599335",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "16176"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548347599335",
+          "in_job": true,
+          "pid": "16176"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548348366669",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "26940"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548348366669",
+          "in_job": true,
+          "pid": "26940"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548349181088",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "39256"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548349181088",
+          "in_job": true,
+          "pid": "39256"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548349949398",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "28568"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548349949398",
+          "in_job": true,
+          "pid": "28568"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548350677866",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "20736"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548350677866",
+          "in_job": true,
+          "pid": "20736"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548351434231",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "5412"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548351434231",
+          "in_job": true,
+          "pid": "5412"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548352066869",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "52900"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548352066869",
+          "in_job": true,
+          "pid": "52900"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548352865011",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "56912"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548352865011",
+          "in_job": true,
+          "pid": "56912"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548353621700",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "59868"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548353621700",
+          "in_job": true,
+          "pid": "59868"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548354450438",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "33672"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548354450438",
+          "in_job": true,
+          "pid": "33672"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548355212273",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "59028"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548355212273",
+          "in_job": true,
+          "pid": "59028"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548356000838",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "60992"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548356000838",
+          "in_job": true,
+          "pid": "60992"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548356770424",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "47912"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548356770424",
+          "in_job": true,
+          "pid": "47912"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548357644173",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "12020"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548357644173",
+          "in_job": true,
+          "pid": "12020"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548358718345",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "45408"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548358718345",
+          "in_job": true,
+          "pid": "45408"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548359572973",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "21828"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548359572973",
+          "in_job": true,
+          "pid": "21828"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548360371560",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "43356"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548360371560",
+          "in_job": true,
+          "pid": "43356"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548361199884",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "30812"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548361199884",
+          "in_job": true,
+          "pid": "30812"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548361990218",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "43032"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548361990218",
+          "in_job": true,
+          "pid": "43032"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548362758980",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "29952"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548362758980",
+          "in_job": true,
+          "pid": "29952"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548363942155",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "46216"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548363942155",
+          "in_job": true,
+          "pid": "46216"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548364972442",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "1120"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548364972442",
+          "in_job": true,
+          "pid": "1120"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548365943457",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "56704"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548365943457",
+          "in_job": true,
+          "pid": "56704"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548367469150",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "40068"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548367469150",
+          "in_job": true,
+          "pid": "40068"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548368753063",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "1968"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548368753063",
+          "in_job": true,
+          "pid": "1968"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548369583878",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "40404"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548369583878",
+          "in_job": true,
+          "pid": "40404"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548370883375",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "59532"
+        },
+        "retired": true,
+        "independent": null,
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548371226098",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "57620"
+        },
+        "retired": true,
+        "independent": null,
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548371583531",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "38616"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548371583531",
+          "in_job": true,
+          "pid": "38616"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548372753462",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "37332"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548372753462",
+          "in_job": true,
+          "pid": "37332"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548373994246",
+          "exit_code": "91",
+          "observation": "exited",
+          "pid": "42760"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548373994246",
+          "in_job": true,
+          "pid": "42760"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548374668062",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "41712"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548374668062",
+          "in_job": true,
+          "pid": "41712"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548375309519",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "35276"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548375309519",
+          "in_job": true,
+          "pid": "35276"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548378166352",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "47044"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548378166352",
+          "in_job": true,
+          "pid": "47044"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548378994599",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "464"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548378994599",
+          "in_job": true,
+          "pid": "464"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548380229477",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "22552"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548380229477",
+          "in_job": true,
+          "pid": "22552"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548381434603",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "60308"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548381434603",
+          "in_job": true,
+          "pid": "60308"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548382673462",
+          "exit_code": "31",
+          "observation": "exited",
+          "pid": "31604"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548382673462",
+          "in_job": true,
+          "pid": "31604"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548384016498",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "11804"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548384016498",
+          "in_job": true,
+          "pid": "11804"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548384839257",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "25212"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548384839257",
+          "in_job": true,
+          "pid": "25212"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548385595110",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "43300"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548385595110",
+          "in_job": true,
+          "pid": "43300"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548386413118",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "64072"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548386413118",
+          "in_job": true,
+          "pid": "64072"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548387231852",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "45652"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548387231852",
+          "in_job": true,
+          "pid": "45652"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548388003400",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "27604"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548388003400",
+          "in_job": true,
+          "pid": "27604"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548388676310",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "58480"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548388676310",
+          "in_job": true,
+          "pid": "58480"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548394527865",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "53968"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548394527865",
+          "in_job": true,
+          "pid": "53968"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548404697028",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "58968"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548404697028",
+          "in_job": true,
+          "pid": "58968"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548405847064",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "36128"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548405847064",
+          "in_job": true,
+          "pid": "36128"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548406724876",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "22288"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548406724876",
+          "in_job": true,
+          "pid": "22288"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548407836299",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "62452"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548407836299",
+          "in_job": true,
+          "pid": "62452"
+        },
+        "has_snapshot": false
+      },
+      {
+        "worker": {
+          "created": "134365548408629751",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "24920"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548408629751",
+          "in_job": true,
+          "pid": "24920"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548409553192",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "34648"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548409553192",
+          "in_job": true,
+          "pid": "34648"
+        },
+        "has_snapshot": true
+      },
+      {
+        "worker": {
+          "created": "134365548410733147",
+          "exit_code": "0",
+          "observation": "exited",
+          "pid": "64020"
+        },
+        "retired": true,
+        "independent": {
+          "created": "134365548410733147",
+          "in_job": true,
+          "pid": "64020"
+        },
+        "has_snapshot": false
+      }
+    ],
+    "full_0_1_0_complete": false
+  },
+  "ntfs_cases": 106,
+  "inputs_unchanged": true,
+  "checkout_status_after": "",
+  "status": "pass"
+}
