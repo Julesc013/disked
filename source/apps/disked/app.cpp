@@ -18,6 +18,7 @@
 #include "providers/image/file_capture.h"
 #include "platform/windows/storage/fat_reader.h"
 #include "platform/windows/storage/exfat_reader.h"
+#include "platform/windows/storage/ntfs_reader.h"
 #include "platform/windows/storage/fat_tree_sessions.h"
 #ifndef DISKED_RECURSIVE_DISABLED
 #include "platform/windows/storage/fat_tree_actions.h"
@@ -74,7 +75,8 @@ Outcome image_action(const std::string& request,const std::string& command,const
         if(GetEnvironmentVariableW(L"DISKED_FAT_COMMAND_TEST_GATE",nullptr,0))image_test_wait();
 #endif
         return inspect_fat_image(input);
-    },&observations->captures,[](const ExfatInspectionRequest& input){return inspect_exfat_image(input);});
+    },&observations->captures,[](const ExfatInspectionRequest& input){return inspect_exfat_image(input);},
+    [](const NtfsInspectionRequest& input){return inspect_ntfs_image(input);});
 }
 bool acquisition_identity(const Value& parameters) {
     const auto id=parameters.find("operation_id");return id && id->kind==Value::Kind::string && id->text.compare(0,9,"image-op:")==0;
@@ -153,6 +155,7 @@ std::size_t request_bytes(const std::string& command,const Value& parameters) {
     if(command=="filesystem.tree.extract" || recursive_identity(parameters))return 2097151;
     if(command=="filesystem.tree.inspect" || (command=="image.inspect" && fat_inspection_parameters(parameters)))return fat_inspection_response_bytes;
     if(command=="image.inspect" && exfat_inspection_parameters(parameters))return exfat_inspection_response_bytes;
+    if(command=="image.inspect" && ntfs_inspection_parameters(parameters))return ntfs_inspection_response_bytes;
     return command=="evidence.export" || command=="image.verify" || verification_identity(parameters) || report_identity(parameters) || (command=="operation.watch" && acquisition_identity(parameters))?1048575:65536;
 }
 Outcome operation_action(const std::string& request,const std::string& command,const Value& parameters) {

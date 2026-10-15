@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="1"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="1"
+	timestamp="2026-10-16T05:32:15"
+	>
+	<testcase name="image.ntfs_commands" classname="image.ntfs_commands" time="1.76078" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>CASE cli-profile-0
+CASE stdio-profile-0
+CASE cli-profile-1
+CASE stdio-profile-1
+CASE cli-profile-2
+CASE stdio-profile-2
+CASE cli-profile-3
+CASE stdio-profile-3
+CASE cli-profile-4
+CASE stdio-profile-4
+CASE cli-profile-5
+CASE stdio-profile-5
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 186, in &lt;module&gt;
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 75, in main
+    value=launch('cli-profile-'+str(index),['--json','image','inspect',str(path),*options(v,selector)],expected)
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 35, in launch
+    assert p.returncode==expected and not p.stderr,(name,p.returncode,p.stdout[:3000],p.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('cli-profile-6', 0, b'{"diagnostics":[],"evidence":[],"operation_id":null,"request_id":"cli","result":{"applicability_scope":"boot-mft0-mirror0-volume-information","authorizes_effects":false,"capture":{"atomic_snapshot":false,"binding_checks":"25","binding_checks_ok":true,"binding_error":"","binding_platform_error":"0","cancel_observed":false,"capture_domain":"sha256:5fc99d94b338c323669930c41f853d5aedf0cb3038031a63c8e5b8f49489e8a5","domain":{"limits":{"attributes":"256","output_bytes":"1048576","read_bytes":"1048576","read_requests":"128","retained_bytes":"262144","runs":"512"},"process_created":"134365627371293825","process_id":"16264","provider":"ntfs-file-prototype","selected_profile":"3.1","selector":"auto","sequence":"1","source":{"attributes":"32","bytes":"5120173","changed":"134365627370866366","created":"134365627370826362","file_id":"22e3140000006a030000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134365627370866366"},"volume_bytes":"5120000","volume_offset":"173"},"metadata_complete":true,"metadata_equal":true,"observed_stable":true,"parent_generations":[{"created":"132201830244609777","file_id":"05000000000005000000000000000000","volume_id":"8302240993133592026"},{"created":"132201830245394998","file_id":"6f060000000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439722109","file_id":"66d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"71d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"85d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134160965439945628","file_id":"86d10100000001000000000000000000","volume_id":"8302240993133592026"},{"created":"134365627356178788","file_id":"129e1300000085090000000000000000","volume_id":"8302240993133592026"}],"process_created":"134365627371293825","process_id":"16264","profile_probe_diagnostic":"","profile_probe_minor":"1","profile_selection_equal":true,"replay_calls":"10","replay_equal":true,"retained_replays":"1","selected_profile":"3.1","selector":"auto","sequence":"1","source_after":{"attributes":"32","bytes":"5120173","changed":"134365627370866366","created":"134365627370826362","file_id":"22e3140000006a030000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134365627370866366"},"source_before":{"attributes":"32","bytes":"5120173","changed":"134365627370866366","created":"134365627370826362","file_id":"22e3140000006a030000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134365627370866366"},"source_consistency":"live-uncoordinated","source_final":{"attributes":"32","bytes":"5120173","changed":"134365627370866366","created":"134365627370826362","file_id":"22e3140000006a030000000000000000","hardlinks":"1","volume_id":"8302240993133592026","written":"134365627370866366"},"source_identity_digest":"sha256:2a7654a860d9201feff404d42b56b706fab83ea623794e5624e24a650c8', b'')
+</system-out>
+	</testcase>
+</testsuite>

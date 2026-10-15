@@ -176,7 +176,13 @@ std::string validate_shape(const Registry& registry,const Value& shape,const Val
         const auto* first=value.find(window->items[0].text),*length=value.find(window->items[1].text);
         if(first && length) {
             if(first->kind!=Value::Kind::string || length->kind!=Value::Kind::string || !json::decimal_u64(first->text) || !json::decimal_u64(length->text))return "invalid_parameter";
-            if(std::stoull(first->text)>UINT64_MAX-std::stoull(length->text))return "invalid_parameter";
+            std::uint64_t maximum=UINT64_MAX;
+            if(const auto* selected=shape.find("x-disked-window-maximum")) {
+                if(selected->kind!=Value::Kind::string || !json::decimal_u64(selected->text))return "schema_unavailable";
+                maximum=std::stoull(selected->text);
+            }
+            const auto start=std::stoull(first->text),count=std::stoull(length->text);
+            if(start>maximum || count>maximum-start)return "invalid_parameter";
         }
     }
     for(const auto& child:array(shape,"allOf")) {const auto error=validate_shape(registry,child,value,depth+1,help);if(!error.empty())return error;}

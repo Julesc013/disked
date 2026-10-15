@@ -22,7 +22,8 @@
       "enum": [
         "map",
         "fat",
-        "exfat"
+        "exfat",
+        "ntfs"
       ]
     },
     "volume_offset": {
@@ -144,6 +145,14 @@
         "compressed",
         "literal"
       ]
+    },
+    "ntfs_version": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "3.0",
+        "3.1"
+      ]
     }
   },
   "required": [
@@ -170,7 +179,8 @@
           "lookup": false,
           "allocation_window": false,
           "retain_capture": false,
-          "upcase_format": false
+          "upcase_format": false,
+          "ntfs_version": false
         }
       }
     },
@@ -192,7 +202,8 @@
         ],
         "properties": {
           "logical_block_bytes": false,
-          "upcase_format": false
+          "upcase_format": false,
+          "ntfs_version": false
         }
       }
     },
@@ -256,8 +267,50 @@
             "maxLength": 20,
             "x-disked-scalar": "decimal-u64",
             "x-disked-minimum": 512
-          }
+          },
+          "ntfs_version": false
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "view": {
+            "const": "ntfs"
+          }
+        },
+        "required": [
+          "view"
+        ]
+      },
+      "then": {
+        "required": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "properties": {
+          "logical_block_bytes": false,
+          "fat_copy": false,
+          "allocation_scan": false,
+          "auxiliary_checks": false,
+          "name_code_page": false,
+          "lookup": false,
+          "allocation_window": false,
+          "retain_capture": false,
+          "upcase_format": false,
+          "volume_bytes": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$",
+            "maxLength": 20,
+            "x-disked-scalar": "decimal-u64",
+            "x-disked-minimum": 512
+          }
+        },
+        "x-disked-u64-window": [
+          "volume_offset",
+          "volume_bytes"
+        ],
+        "x-disked-window-maximum": "9223372036854775807"
       }
     }
   ],

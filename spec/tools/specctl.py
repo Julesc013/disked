@@ -302,6 +302,8 @@ def semantic_validate(kind: str | None, value: dict):
             count=bounded_u64(value['byte_count'],'FAT retained byte count')
             if not 1<=count<=196608:raise SpecError('FAT retained chunk outside bounds')
     elif kind == 'fat-inspect-parameters':
+        if value.get('view')=='ntfs' and bounded_u64(value['volume_bytes'],'NTFS volume bytes')<512:
+            raise SpecError('NTFS volume window is smaller than512 bytes')
         if 'allocation_window' in value:
             window=value['allocation_window']
             first=bounded_u64(window['first_cluster'],'FAT allocation first cluster')
@@ -319,8 +321,9 @@ def semantic_validate(kind: str | None, value: dict):
                 except UnicodeError as exc:raise SpecError('Invalid FAT query encoding') from exc
                 if not encoded or len(encoded)>510:raise SpecError('FAT query exceeds255 UTF-16 units')
             if len(canonical(lookup))>16384:raise SpecError('FAT lookup object exceeds byte bound')
-        if 'volume_offset' in value and 'volume_bytes' in value and int(value['volume_offset'])+int(value['volume_bytes'])>U64_MAX:
-            raise SpecError('FAT inspection window overflows u64')
+        if 'volume_offset' in value and 'volume_bytes' in value:
+            maximum=(1<<63)-1 if value.get('view')=='ntfs' else U64_MAX
+            if int(value['volume_offset'])+int(value['volume_bytes'])>maximum:raise SpecError('Image inspection volume range overflows')
     elif kind in ('export-command-parameters','export-preparation-result','export-operation-result'):
         from export_contracts import validate
         try:validate(kind,value,acquisition_record_bytes,semantic_validate)

@@ -14105,6 +14105,134 @@
         "DE-103",
         "DE-022"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-command-prototype.json",
+      "path": "spec/catalog/ntfs-command-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "docs/ntfs-inspection.md",
+      "path": "docs/ntfs-inspection.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_inspection.h",
+      "path": "source/runtime/capture/ntfs_inspection.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_inspection.cpp",
+      "path": "source/runtime/capture/ntfs_inspection.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/ntfs_reader.h",
+      "path": "source/platform/windows/storage/ntfs_reader.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "source/platform/windows/storage/ntfs_reader.cpp",
+      "path": "source/platform/windows/storage/ntfs_reader.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/unit/ntfs_inspection_probe.cpp",
+      "path": "tests/unit/ntfs_inspection_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_ntfs_commands.py",
+      "path": "tests/frontend/test_ntfs_commands.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json",
+        "spec/schemas/command-image-inspect-parameters.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": "spec/tools/tests/test_ntfs_command.py",
+      "path": "spec/tools/tests/test_ntfs_command.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json",
+        "spec/schemas/command-image-inspect-parameters.schema.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-command/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-command/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-022",
+        "DE-031"
+      ]
     }
   ]
 }

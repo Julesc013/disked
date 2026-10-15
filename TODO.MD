@@ -22,6 +22,12 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W083: owned NTFS bootstrap command/frontend integration has50 working
+  cases and standalone/build-boundary evidence. Preserve scalar MFT counts,
+  advisory marker semantics and existing typed diagnostics. Complete the exact
+  clean-source full campaign and agent review; other NTFS/platform/storage work
+  and owner/release gates remain.
+
 Scope: every currently specified platform and storage operation at base `40ac8ec`.
 Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is

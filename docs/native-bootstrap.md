@@ -937,3 +937,14 @@ leases bound their total to 512 MiB. Controllers preserve their two-process/
 capabilities identify the lease and legacy guard by kernel-object comparison.
 There is no caller-job removal or breakaway. Query observers also retain names;
 tests close their own query handles before checking disconnect and reclamation.
+
+
+## Explicit NTFS bootstrap inspection (DE-W083)
+
+The dev.62 Windows image prototype adds `image.inspect --view ntfs` with an
+explicit volume offset/length and optional `--ntfs-version auto|3.0|3.1`.
+It exposes the owned reader's boot/MFT0/mirror0/volume-information facts through
+the common CLI/stdio/GUI/TUI/shell service. It keeps original run counts and
+bounded attribute/run detail, source/process identities and honest uncertainty.
+The [NTFS guide](ntfs-inspection.md) records scope and current evidence. A working
+50-case pass is not clean-source or complete NTFS/platform/release qualification.

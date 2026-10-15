@@ -10,6 +10,7 @@
 #include "output.h"
 #include "platform/windows/storage/fat_worker.h"
 #include "platform/windows/storage/exfat_worker.h"
+#include "platform/windows/storage/ntfs_worker.h"
 #include "platform/windows/storage/fat_tree_worker.h"
 #ifndef DISKED_RECURSIVE_DISABLED
 #include "platform/windows/storage/fat_tree_controller.h"
@@ -29,6 +30,7 @@ int windows_entry(int argc,wchar_t** argv) {
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_tree_reader_worker")==0)return nt_inventory::fat_tree_worker_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_fat_reader_worker")==0)return nt_inventory::fat_worker_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_exfat_reader_worker")==0)return nt_inventory::exfat_worker_role(argc,argv);
+    if(argc>1 && std::wcscmp(argv[1],L"__disked_ntfs_reader_worker")==0)return nt_inventory::ntfs_worker_role(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_verification_worker")==0)return run_verification_worker(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_report_worker")==0)return run_report_worker(argc,argv);
     if(argc>1 && std::wcscmp(argv[1],L"__disked_acquisition_worker")==0)return run_acquisition_worker(argc,argv);

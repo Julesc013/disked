@@ -1,0 +1,22 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/report-phases-build
+    Start 1: image.ntfs_commands
+1/1 Test #1: image.ntfs_commands ..............***Failed    0.44 sec
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 186, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 75, in main
+    value=launch('cli-profile-'+str(index),['--json','image','inspect',str(path),*options(v,selector)],expected)
+  File "D:\Projects\DiskEd\disked\tests\frontend\test_ntfs_commands.py", line 35, in launch
+    assert p.returncode==expected and not p.stderr,(name,p.returncode,p.stdout[:3000],p.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('cli-profile-0', 4, b'{"diagnostics":[{"code":"internal_error","message_key":"disked.internal_error","parameters":{},"platform_code":null,"remediation":[],"severity":"error"}],"evidence":[],"operation_id":null,"request_id":"cli","result":null,"schema":"org.disked.response/1","status":"failed"}\n', b'')
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.46 sec
+
+The following tests FAILED:
+	  1 - image.ntfs_commands (Failed)
+Errors while running CTest

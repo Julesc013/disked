@@ -4,7 +4,6 @@
 #include <vector>
 
 namespace disked {
-enum class NtfsFileProfile { Automatic, Version30, Version31 };
 struct NtfsFileRequest {
     std::string path;
     std::uint64_t volume_offset = 0, volume_bytes = 0;
