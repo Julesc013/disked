@@ -39,7 +39,7 @@ path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_work
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-join/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-closure/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -92,6 +92,14 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Source-bound MFT/Volume closure at `540043c3` passes134 new cases and
+156/157 native groups. The original dependency-declaration failure remains;
+metadata `fb562480` corrects three transitive closures and passes both
+boundary groups with source/build/test inputs and binary hashes unchanged.
+60 headers and244 tooling tests(two skipped) pass.
+[Two-phase review](../.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md). No remote CI or full0.1.0
+qualification is inferred.
 
 The captured-stream joiner at `23ceeb24` passes 298 protected-record cases,
 25 selected native groups, 9 standalone headers and 244 tooling tests

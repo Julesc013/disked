@@ -98,10 +98,11 @@
     "DE-W082",
     "DE-W083",
     "DE-W084",
-    "DE-W085"
+    "DE-W085",
+    "DE-W086"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Observe existing native campaign session83774 to terminal status; do not restart it. Retain complete original outcome. Check all runtime/build/test inputs unchanged before evaluating the three-declaration metadata correction. Retest the failed build boundary group with corrected clean metadata, close context/tooling/manifest/staged bytes and review before dev/main integration. Do not claim the original full campaign passed if it failed.",
+  "next_action": "Close metadata/context/staged bytes and integrate reviewed source. Then define and implement bounded NTFS record/namespace decoders/access through existing source/worker ownership. CI is not qualified; original all-platform/storage0.1.0 and separate owner/privilege/release gates remain.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1330,6 +1331,19 @@
       "review": ".aide/evidence/2026-10-16-ntfs-join/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Native MFT/nonresident-list acquisition and provenance, namespace/content and original full platform/storage0.1.0; storage/owner/release gates."
+    },
+    {
+      "work_id": "DE-W086",
+      "scope": "Source-bound NTFS MFT/Volume list/extension closure;134 new cases;157-group full campaign plus exact-input metadata-only boundary correction.",
+      "source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+      "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+      "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+      "original_campaign_passed": false,
+      "all_applicable_group_failures_resolved": true,
+      "owner_accepted": false,
+      "remaining": "General MFT/namespace/content, original all-platform/storage0.1.0, production writer/recovery, CI/Setup and separate owner/privilege/release gates."
     }
   ],
   "runner_status_observation": {
@@ -1417,31 +1431,37 @@
     "work_id": "DE-W086",
     "base_revision": "09d37ee3448016a56997c1621dea47012f35e728",
     "contract": "spec/catalog/ntfs-closure-prototype.json",
-    "state": "Full clean native build passed;157-group campaign remains running. A stale transitive build-declaration failure is retained and the metadata-only correction passes the current build checker; complete campaign and final applicability review remain pending.",
+    "state": "Source-bound NTFS closure agent-reviewed;original full campaign156/157 passed and metadata-only boundary failure resolved by exact-input clean retest. Metadata/source integration pending.",
     "grant": "Existing local implementation/build/test/repair across agent-reviewed units and authorized dev/main source synchronization. Generated ordinary images only; physical/elevation/customer/install/signing/release and owner authority remain separate.",
     "owner_accepted": false,
-    "full_native_suite_run": false,
+    "full_native_suite_run": true,
     "full_0_1_0_complete": false,
     "working_evidence": ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/summary.json",
     "native_campaign": {
-      "status": "running",
+      "status": "failed-original-boundary-declaration-corrected",
       "source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
-      "exec_session": 83774,
-      "source_checkout": ".aide-local/ntfs-closure-exact-540043c3",
-      "output": ".aide-local/ntfs-closure-qualified-540043c3",
       "expected_native_groups": 157,
-      "configure_passed": true,
-      "full_build_passed": true,
-      "completed_suite_claim": false,
-      "observed_at": "2026-10-15T21:50:04.778098+00:00",
-      "next_action": "Observe the existing campaign to terminal status. Do not restart or qualify an incomplete/failed campaign. Finish/review and close metadata only after the retained summary proves every required stage passed.",
-      "completed_groups_observed": 30,
-      "failed_groups_observed": [
+      "native_passed": 156,
+      "native_failed": [
         "build.boundaries"
       ],
-      "metadata_repair": ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/correction-applicability.json",
-      "runtime_build_test_inputs_unchanged": true
-    }
+      "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+      "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+      "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+      "all_applicable_group_failures_resolved": true,
+      "session_terminal": true,
+      "owner_accepted": false
+    },
+    "source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+    "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+    "correction_evidence": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+    "native_closure_cases": 134,
+    "native_groups": 157,
+    "native_passed_original": 156,
+    "standalone_headers": 60,
+    "tooling_tests": 244
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1767,21 +1787,22 @@
     }
   ],
   "integration_review": {
-    "tested_source_revision": "23ceeb24bfca3cce9b2a06eaeca2a9d5f18f5a7a",
-    "status": "source-integrated",
-    "review": ".aide/evidence/2026-10-16-ntfs-join/REVIEW.md",
+    "tested_source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+    "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+    "status": "agent-reviewed-eligible-after-metadata-closure",
+    "review": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+    "original_campaign_passed": false,
+    "all_applicable_group_failures_resolved": true,
     "historical_delay_cause_established": false,
     "owner_accepted": false,
-    "release_qualified": false,
-    "checkpoint_revision": "1b219792b9c11caaa91defb4e92765aa28d322ba",
-    "receipt": ".aide/evidence/2026-10-16-ntfs-join-integration/repository.json"
+    "release_qualified": false
   },
   "next_work_preparation": {
-    "scope": "Source-bound NTFS MFT record and nonresident-list acquisition",
-    "prerequisite": "DE-W085 verifies supplied capture contexts, references/owners and complete ordinary stream coverage, with typed missing-reference observations.",
-    "references": ".aide/evidence/2026-10-16-ntfs-join/next-source-preparation.json",
+    "scope": "Supplied-byte NTFS FILE_NAME and directory index envelopes, then source-bound record/namespace access",
+    "references": ".aide/evidence/2026-10-16-ntfs-closure/next-namespace-preparation.json",
     "implementation_started": false,
     "execution_contract_defined": false,
     "authorizes_effects": false
-  }
+  },
+  "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json"
 }

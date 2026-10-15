@@ -1,0 +1,591 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W086",
+  "base_revision": "09d37ee3448016a56997c1621dea47012f35e728",
+  "spec_manifest_digest": "sha256:5e19205acba3f672bc15444ed678489761e39191b7ed6a98dbe0a021d7d4f614",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/work/units.json",
+    "spec/catalog/ntfs-closure-prototype.json",
+    "spec/catalog/ntfs-capture-prototype.json",
+    "spec/catalog/ntfs-join-prototype.json",
+    "spec/catalog/ntfs-command-prototype.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_stream.h",
+    "source/runtime/capture/ntfs_stream.cpp",
+    "source/runtime/capture/ntfs_inspection.cpp",
+    "tests/images/test_ntfs_capture.py",
+    "tests/images/test_ntfs_stream.py",
+    "tests/images/test_ntfs_file.py",
+    "tests/images/test_ntfs_worker.py",
+    "tests/frontend/test_ntfs_commands.py",
+    "tests/images/ntfs_closure_fixture.py",
+    "tests/images/test_ntfs_closure.py",
+    "tests/unit/ntfs_stream_probe.cpp",
+    "CMakeLists.txt",
+    "docs/source-map.md",
+    "docs/code-structure.md",
+    "docs/structure-review.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-16-ntfs-closure/.gitattributes",
+    ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/boundaries.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/build-boundaries.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/checkout-corrected-metadata.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/index.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/native-failed-group-retest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/retest-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/structural.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/tooling.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/expectation-changes.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/boundaries.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-boundaries.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/CMakeCache.txt",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/CMakeFiles/4.2.3/CMakeCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/CMakeFiles/4.2.3/CMakeCXXCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/CMakeFiles/4.2.3/CMakeRCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/Testing/Temporary/LastTest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/generated/build-identity.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/ntfs_capture_probe.vcxproj",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/ntfs_stream_probe.vcxproj",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build-observations/private-header-usage.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/index.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-artifacts.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-attributes-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-boot-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-capture-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-closure-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-command-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-file-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-list-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-record-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-runlist-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-stream-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-details/ntfs-worker-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/registered.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/source-map.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/structural.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/tooling.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/inventory.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-check.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-closure.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-index.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-source-map.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/metadata-verify-manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/native-artifact-applicability.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/next-namespace-preparation.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/references.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/reproduce.py",
+    ".aide/evidence/2026-10-16-ntfs-closure/reviewed-context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/source-inventory.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/campaign-build.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/campaign-configure.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/campaign-inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/campaign-registered.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/campaign-summary.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/corrected-boundaries.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/corrected-boundaries.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/correction-applicability.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/native-prefix.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/resolution.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/build-declarations/source-maintenance-before.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/current-input-hashes.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-capture-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-closure-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-closure-working-build2.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-closure-working-configure2.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-closure-working-corrected.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-closure-working-first.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-command-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-file-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-stream-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/ntfs-worker-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/corrected/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/fixture-failures/native.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/fixture-failures/resolution.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/fixture-failures/test_ntfs_capture.py",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/fixture-failures/test_ntfs_commands.py",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/build.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/cases.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/failure.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/ntfs_stream-before.cpp",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/pass.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/resolution.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/superseded-campaign/build.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/superseded-campaign/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/superseded-campaign/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-closure/working/run-quota/superseded-campaign/summary.json",
+    ".aide/handoffs/DE-W086-ntfs-closure-in-progress.json",
+    ".aide/handoffs/DE-W086-ntfs-closure.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/ntfs-capture.md",
+    "docs/ntfs-closure.md",
+    "docs/ntfs-inspection.md",
+    "docs/ntfs-stream.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_inspection.cpp",
+    "source/runtime/capture/ntfs_stream.cpp",
+    "source/runtime/capture/ntfs_stream.h",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/native-bootstrap.json",
+    "spec/catalog/ntfs-capture-prototype.json",
+    "spec/catalog/ntfs-closure-prototype.json",
+    "spec/catalog/ntfs-command-prototype.json",
+    "spec/catalog/ntfs-join-prototype.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/frontend/test_ntfs_commands.py",
+    "tests/images/ntfs_closure_fixture.py",
+    "tests/images/test_ntfs_capture.py",
+    "tests/images/test_ntfs_closure.py",
+    "tests/images/test_ntfs_file.py",
+    "tests/images/test_ntfs_worker.py",
+    "tests/unit/ntfs_stream_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Source-bound NTFS MFT/Volume closure implemented and agent-reviewed at 540043c3253d71a221f89428a0ad88534cd67c9c.134 new closure/binding cases pass. Original full157-group campaign has156 passes and one stale boundary-declaration failure; it remains failed. The metadata-only correction at fb562480671eb72a81d24d5b3b3b72fa06a205cb passes both boundary groups and full tooling with native source/build/test/runtime parameters and binary hashes unchanged. All required checks are resolved across these explicit phases; no full green original campaign is claimed. 60 standalone headers and 244 tooling tests/two skips pass. Original fixture/quota failures remain retained. General namespace/content, original full0.1.0, CI/Setup and owner/privilege/release gates remain.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/build.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/registered.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build -C Release --parallel 1 --output-on-failure --output-junit D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\native-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "fail",
+      "exit_code": 8,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/native.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/disked_ntfs_test-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_inspection_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_capture_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_stream_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_file_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/ntfs_worker_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "fail",
+      "exit_code": 1,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/boundaries.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W086 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\context --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/verify-context.log"
+    },
+    {
+      "command": "git checkout --detach fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/checkout-corrected-metadata.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build -C Release --parallel 1 --output-on-failure -R ^build\\.(boundaries|boundary_checker)$ --output-junit D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\retest-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/native-failed-group-retest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/boundaries.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W086 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\context --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/verify-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W086 --output .aide-local\\context\\ntfs-closure-reviewed-20261015T222702Z --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local\\context\\ntfs-closure-reviewed-20261015T222702Z",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-verify-context.log"
+    },
+    {
+      "command": "Other-platform, physical storage, production recovery and Setup release qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/REVIEW.md",
+      "sha256": "sha256:59601c2b5892caae21f588864761ac3cec7c77140f9c8e4883e21c8eb577ff07"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/summary.json",
+      "sha256": "sha256:d93168910dc33cc9b828bcf2298376fe8b91fa0177bf391327b8610fa6b709f5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/full-campaign-540043c3/inputs.json",
+      "sha256": "sha256:467526ca5d14eed9e5991e08f96bcbd46f829404dad377190dd40143df192cc6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/build-correction-fb562480/summary.json",
+      "sha256": "sha256:5bdd763632f90812bc72e2838672fde4888f48a7377f916bdcb0713e012917e5"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/reviewed-context-manifest.json",
+      "sha256": "sha256:376e5a3714f0b9b0ba2c9be07d0cc8c771fe16e935503ac0d03d5b160dc40c65"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/metadata-closure.json",
+      "sha256": "sha256:899123459472a362cae2b4d1507bbe621fc5af01ec51c00882d1094a14ce8ee1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-closure/native-artifact-applicability.json",
+      "sha256": "sha256:9a67deb97c2602c4b5a6da20be4ff23cca5fcaf41dc110bbcced83b80f603bc4"
+    }
+  ],
+  "blockers": [
+    "General NTFS MFT/namespace/content, compressed/encrypted/sparse streams and original all-platform/storage0.1.0 remain incomplete.",
+    "Two tooling symlink cases skip; prior selected native file-symlink evidence is unavailable with Windows error1314.",
+    "Physical/elevation/customer/install/signing/release authority, owner acceptance, production writer/recovery and Setup qualification remain separate."
+  ],
+  "next_safe_step": "Integrate after staged-byte closure; continue bounded NTFS record/namespace work through the existing source and owned-worker lifecycle with independent fixtures and exact identity/reread evidence.",
+  "performed_remote_writes": true
+}

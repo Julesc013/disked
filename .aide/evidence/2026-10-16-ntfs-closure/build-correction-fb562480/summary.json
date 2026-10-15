@@ -1,0 +1,174 @@
+{
+  "status": "pass",
+  "work_id": "DE-W086",
+  "observed_at": "2026-10-15T22:19:53.498717+00:00",
+  "native_source_revision": "540043c3253d71a221f89428a0ad88534cd67c9c",
+  "correction_revision": "fb562480671eb72a81d24d5b3b3b72fa06a205cb",
+  "original_full_campaign_status": "fail",
+  "original_native_groups": 157,
+  "original_native_passed": 156,
+  "original_native_failed": [
+    "build.boundaries"
+  ],
+  "correction": "Three expected transitive closure additions only; no compiler/source/build/test/runtime parameter change.",
+  "changed_registered_inputs": [
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/source-maintenance-prototype.json"
+  ],
+  "unchanged_registered_inputs": 1059,
+  "targets": [
+    "disked_ntfs_file",
+    "disked_ntfs_snapshot",
+    "disked_ntfs_worker"
+  ],
+  "binary_source_identity": "540043c3253d71a221f89428a0ad88534cd67c9c",
+  "binary_rebuilt": false,
+  "full_green_campaign_claim": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false,
+  "stages": [
+    {
+      "name": "checkout-corrected-metadata",
+      "command": [
+        "git",
+        "checkout",
+        "--detach",
+        "fb562480671eb72a81d24d5b3b3b72fa06a205cb"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 0.7872275998815894,
+      "log": "checkout-corrected-metadata.log"
+    },
+    {
+      "name": "native-failed-group-retest",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "-R",
+        "^build\\.(boundaries|boundary_checker)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\retest-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 5.4040894999634475,
+      "log": "native-failed-group-retest.log"
+    },
+    {
+      "name": "boundaries",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-build-boundaries.py",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-qualified-540043c3\\build",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\build-boundaries.json"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 5.206799499923363,
+      "log": "boundaries.log"
+    },
+    {
+      "name": "index",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 1.2350894000846893,
+      "log": "index.log"
+    },
+    {
+      "name": "structural",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 3.0052441000007093,
+      "log": "structural.log"
+    },
+    {
+      "name": "manifest",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 0.9816366999875754,
+      "log": "manifest.log"
+    },
+    {
+      "name": "tooling",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 341.9582382000517,
+      "log": "tooling.log"
+    },
+    {
+      "name": "context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W086",
+        "--output",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\context",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 6.9450143000576645,
+      "log": "context.log"
+    },
+    {
+      "name": "verify-context",
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-build-correction-fb562480\\context"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-closure-exact-540043c3",
+      "exit_code": 0,
+      "seconds": 7.120224100071937,
+      "log": "verify-context.log"
+    }
+  ],
+  "retest_groups": [
+    "build.boundaries",
+    "build.boundary_checker"
+  ],
+  "native_artifacts_unchanged": true,
+  "unchanged_nonmetadata_inputs": true,
+  "corrected_checkout_clean": true
+}
