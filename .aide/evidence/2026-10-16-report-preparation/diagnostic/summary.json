@@ -1,0 +1,103 @@
+{
+  "status": "diagnostic-only-with-captured-noncompleted-call",
+  "experiments": [
+    {
+      "name": "report-prepare-tail-46b7dba5",
+      "status": "complete",
+      "samples": 1000,
+      "slow": [],
+      "longest_seconds": 0.6189709999598563,
+      "source_preserved": true,
+      "no_effects": true,
+      "original_timeout_cause_established": false,
+      "original_deadline_changed": false,
+      "qualification": false
+    },
+    {
+      "name": "report-cli-tail-46b7dba5",
+      "status": "noncompleted-captured",
+      "samples": 13,
+      "longest_seconds": 4.915277000050992,
+      "longest_child_lifetime": 4.8198973,
+      "source_preserved": true,
+      "no_effects": true,
+      "original_deadlines_changed": false,
+      "original_timeout_cause_established": false,
+      "qualification": false
+    },
+    {
+      "name": "report-cli-tail-warm-46b7dba5",
+      "status": "complete",
+      "samples": 200,
+      "longest_seconds": 0.16014249995350838,
+      "longest_child_lifetime": 0.1570131,
+      "source_preserved": true,
+      "no_effects": true,
+      "original_deadlines_changed": false,
+      "original_timeout_cause_established": false,
+      "qualification": false
+    },
+    {
+      "name": "report-cli-tail-capture-46b7dba5",
+      "status": "complete",
+      "samples": 2000,
+      "longest_seconds": 0.16593290003947914,
+      "longest_child_lifetime": 0.1636727,
+      "source_preserved": true,
+      "no_effects": true,
+      "original_deadlines_changed": false,
+      "original_timeout_cause_established": false,
+      "qualification": false
+    },
+    {
+      "name": "report-dump-control-46b7dba5",
+      "exit_code": 0,
+      "pid": 11944,
+      "before": {
+        "cpu_observed": true,
+        "created": "134365560715659941",
+        "kernel": "0",
+        "user": "156250",
+        "io_observed": true,
+        "io": {
+          "read_operations": "5",
+          "write_operations": "21",
+          "other_operations": "675",
+          "read_bytes": "1501",
+          "write_bytes": "2086",
+          "other_bytes": "22052"
+        }
+      },
+      "after": {
+        "cpu_observed": true,
+        "created": "134365560715659941",
+        "kernel": "0",
+        "user": "625000",
+        "io_observed": true,
+        "io": {
+          "read_operations": "23",
+          "write_operations": "29",
+          "other_operations": "4581",
+          "read_bytes": "1737901",
+          "write_bytes": "12922",
+          "other_bytes": "237698"
+        }
+      },
+      "dump": {
+        "success": true,
+        "error": 0,
+        "bytes": 140,
+        "type": "MiniDumpWithThreadInfo"
+      },
+      "dump_seconds": 0.04322170000523329,
+      "actual_dump_bytes": 40958,
+      "sha256": "sha256:46673e94477676d6f285fd7f31d4a7ebeea12630c7d788bc1536bbd9101f38d5",
+      "scope": "Controlled six-second sleep, not original stall diagnosis."
+    }
+  ],
+  "source_base": "46b7dba5ef68ae0abb1bcc415b00c0856af1573f",
+  "interpretation": "The first CLI run captured request_wait_expired after a pre-dump delay; dump collection is potentially intrusive and did not retain usable thread contexts. Controlled sleep validates the reader; later fast samples do not explain the original failure.",
+  "dump_size_correction": "Original runner records the output file pointer after MiniDumpWriteDump under bytes. This is not file length; raw-dump-reference.json records actual stat size and hash.",
+  "original_timeout_cause_established": false,
+  "main_gate_cleared": false
+}

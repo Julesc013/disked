@@ -194,6 +194,7 @@ def main():
         # Exact named gates give the observer a real occupied channel across
         # timeout; release its actual callback, never replace it or invent exit.
         K.CreateEventW.argtypes=[C.c_void_p,W.BOOL,W.BOOL,W.LPCWSTR];K.CreateEventW.restype=W.HANDLE;K.SetEvent.argtypes=[W.HANDLE];K.SetEvent.restype=W.BOOL
+        K.ResetEvent.argtypes=[W.HANDLE];K.ResetEvent.restype=W.BOOL
         gate='Local\\DiskEdReportTest-'+uuid.uuid4().hex;entered=K.CreateEventW(None,True,False,gate+'.entered');release=K.CreateEventW(None,True,False,gate+'.release');assert entered and release
         folder,p=fixture('bounded-wait');folder2,p2=fixture('busy');process=None
         q=grants(cli(command(p),exe=fault)['result'])
@@ -207,7 +208,20 @@ def main():
             thread=threading.Thread(target=read,daemon=True);thread.start()
             def exchange(id,cmd,parameters):
                 frame=dict(schema='org.disked.request/1',request_id=id,command=cmd,parameters=parameters,required_features=[]);started=time.monotonic();process.stdin.write(canonical(frame)+b'\n');process.stdin.flush();raw=inbox.get(timeout=8);assert raw is not None;value=json.loads(raw);assert value['request_id']==id;validate(value);return value,time.monotonic()-started
-            first,elapsed=exchange('expired','evidence.export',q);check('bounded-wait-preserves-routing',first['status']=='unknown' and first['result']['state_directory']==p['state_directory'] and first['result']['definition_digest']==q['definition_digest'] and 3.8<=elapsed<6 and K.WaitForSingleObject(entered,0)==0 and no_effects(p),elapsed_seconds=elapsed)
+            preparation,elapsed=exchange('expired-prepare','evidence.export',p)
+            check('bounded-preparation-retains-phase',preparation['status']=='unknown' and preparation['result']['request_kind']=='export-preparation' and preparation['operation_id'] is None and preparation['result']['state_directory']==p['state_directory'] and 3.8<=elapsed<6 and K.WaitForSingleObject(entered,0)==0 and no_effects(p) and no_effects(p2),elapsed_seconds=elapsed)
+            cached_prepare,_=exchange('prepare-cached','command.list',{})
+            check('cached-discovery-during-live-preparation',cached_prepare['status']=='completed')
+            assert K.SetEvent(release)
+            end=time.monotonic()+10
+            while True:
+                fresh,_=exchange('after-preparation','evidence.export',p2)
+                if fresh['status']!='refused' or fresh['diagnostics'][0]['code']!='request_resource_limit':break
+                assert time.monotonic()<end,'retain occupied preparation';time.sleep(.02)
+            check('late-preparation-remains-inert',fresh['status']=='completed' and fresh['result']['phase']=='prepare' and not fresh['result']['execution_admitted'] and fresh['result']['definition']['export']['effect']['resources']['destination']['location']==p2['destination'] and no_effects(p) and no_effects(p2))
+            journeys.append(dict(frontend='stdio',phase='occupied-preparation-timeout',expired=preparation,cached=cached_prepare,fresh=fresh))
+            assert K.ResetEvent(entered) and K.ResetEvent(release)
+            first,elapsed=exchange('expired','evidence.export',q);check('bounded-wait-preserves-routing',first['status']=='unknown' and first['result']['request_kind']=='export-execution' and first['result']['state_directory']==p['state_directory'] and first['result']['definition_digest']==q['definition_digest'] and 3.8<=elapsed<6 and K.WaitForSingleObject(entered,0)==0 and no_effects(p),elapsed_seconds=elapsed)
             cached,elapsed=exchange('cached','command.list',{});check('cached-discovery-during-live-call',cached['status']=='completed' and elapsed<1)
             busy,elapsed=exchange('busy','evidence.export',p2);check('occupied-slot-refuses-second-effect',busy['status']=='refused' and busy['diagnostics'][0]['code']=='request_resource_limit' and elapsed<1 and no_effects(p2))
             assert K.SetEvent(release)

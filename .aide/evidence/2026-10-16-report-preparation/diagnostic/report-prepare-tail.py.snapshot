@@ -1,0 +1,76 @@
+"""Finite diagnostic: existing generated metadata, exact retained probe, unchanged12s deadline."""
+from pathlib import Path
+import ctypes as C
+from ctypes import wintypes as W
+import hashlib,json,os,subprocess,time,sys
+root=Path.cwd();out=root/'.aide-local/report-prepare-tail-46b7dba5';out.mkdir(exist_ok=False)
+exe=root/'.aide-local/report-phases-build/Release/report_worker_fault.exe'
+original=root/'.aide/evidence/2026-10-15-report-prepare-phases/working/summary.json'
+record=json.loads(original.read_bytes())
+sha=lambda p:'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+assert sha(exe)==record['artifacts'][str(exe)]
+for name,expected in record['source_inputs'].items():assert sha(root/name)==expected,name
+request=json.loads((root/'.aide-local/report-phases-observations-final/fault-standard-input.json').read_bytes())
+fixture=Path(request['case_directory']).parent
+assert fixture.name.startswith('disked-acq-worker-') and '.aide-local' in fixture.parts
+sources=[Path(request['case_directory'])/'acquisition.request',Path(request['case_directory'])/'acquisition.records',Path(request['collection_path'])]
+hashes={str(p):sha(p) for p in sources}
+state=out/'state';state.mkdir();request['state_directory']=str(state);request['destination']=str(out/'never-created.json')
+K=C.WinDLL('kernel32',use_last_error=True)
+K.GetProcessTimes.argtypes=[W.HANDLE]+[C.POINTER(W.FILETIME)]*4;K.GetProcessTimes.restype=W.BOOL
+class Io(C.Structure):_fields_=[(x,C.c_ulonglong) for x in ['read_operations','write_operations','other_operations','read_bytes','write_bytes','other_bytes']]
+K.GetProcessIoCounters.argtypes=[W.HANDLE,C.POINTER(Io)];K.GetProcessIoCounters.restype=W.BOOL
+def cpu(handle):
+    stamps=[W.FILETIME() for _ in range(4)];io=Io()
+    ok=K.GetProcessTimes(handle,*(C.byref(s) for s in stamps));io_ok=K.GetProcessIoCounters(handle,C.byref(io))
+    tick=lambda s:(s.dwHighDateTime<<32)|s.dwLowDateTime
+    return dict(cpu_observed=bool(ok),created=str(tick(stamps[0])),kernel=str(tick(stamps[2])),user=str(tick(stamps[3])),io_observed=bool(io_ok),io={k:str(getattr(io,k)) for k,_ in Io._fields_})
+def dump(process,folder):
+    # Only the still-held handle returned by our Popen, never an arbitrary PID.
+    import msvcrt
+    D=C.WinDLL(str(Path(os.environ['SystemRoot'])/'System32/dbghelp.dll'),use_last_error=True)
+    fn=D.MiniDumpWriteDump;fn.argtypes=[W.HANDLE,W.DWORD,W.HANDLE,W.DWORD,C.c_void_p,C.c_void_p,C.c_void_p];fn.restype=W.BOOL
+    with (folder/'owned-probe.dmp').open('xb') as f:
+        result=fn(int(process._handle),process.pid,msvcrt.get_osfhandle(f.fileno()),0x1000,None,None,None)
+        return dict(success=bool(result),error=0 if result else C.get_last_error(),bytes=f.tell(),type='MiniDumpWithThreadInfo')
+def save(name,value):(out/name).write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n')
+save('contract.json',dict(scope='Read-only preparation diagnosis on generated repository fixtures; not native/current-product qualification.',samples=1000,deadline_seconds=12,slow_seconds=4,
+    executable=str(exe),sha256=sha(exe),producer_source_state=record['source_state'],source_inputs=record['source_inputs'],inputs=hashes,
+    restrictions='No physical devices, elevation, customer data, executable retry, effects or deadline increase.',
+    documentation='https://learn.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump'))
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')};samples=[];status='complete';slow=[]
+for n in range(1000):
+    folder=out/str(n);folder.mkdir();value=dict(request,mode='prepare-joined-trace-stream' if n%2 else 'prepare-trace-stream')
+    if n%2==0:value.pop('collection_path');value.pop('collection_digest')
+    raw=json.dumps(value,sort_keys=True,separators=(',',':')).encode();(folder/'input.json').write_bytes(raw)
+    start=time.monotonic();metrics=[];snapshot=None
+    with (folder/'stdout.jsonl').open('wb') as stdout,(folder/'stderr.log').open('wb') as stderr:
+        process=subprocess.Popen([str(exe)],stdin=subprocess.PIPE,stdout=stdout,stderr=stderr,cwd=root,env=env)
+        process.stdin.write(raw);process.stdin.close();initial=cpu(int(process._handle));killed=False
+        while process.poll() is None:
+            elapsed=time.monotonic()-start
+            if elapsed>=12:
+                killed=True;process.kill();process.wait(timeout=10);break
+            if elapsed>=4 and snapshot is None:
+                metrics.append(dict(elapsed_seconds=elapsed,**cpu(int(process._handle))))
+                snapshot=dump(process,folder)
+                print('SLOW',n,elapsed,snapshot,flush=True)
+            try:process.wait(timeout=min(.25,max(.001,12-elapsed)))
+            except subprocess.TimeoutExpired:metrics.append(dict(elapsed_seconds=time.monotonic()-start,**cpu(int(process._handle))))
+        final=cpu(int(process._handle))
+    elapsed=time.monotonic()-start
+    frames=[json.loads(line) for line in (folder/'stdout.jsonl').read_bytes().splitlines()]
+    row=dict(sample=n,joined=bool(n%2),pid=process.pid,created=initial['created'],exit_code=process.returncode,elapsed_seconds=elapsed,killed=killed,metrics=metrics,final=final,dump=snapshot,
+             phases=frames[:-1] if frames and 'phase_trace' in frames[-1] else frames,stdout_sha256=sha(folder/'stdout.jsonl'))
+    if snapshot or killed:slow.append(n)
+    samples.append(row)
+    with (out/'samples.jsonl').open('a',encoding='utf-8',newline='\n') as f:f.write(json.dumps(row,separators=(',',':'))+'\n')
+    assert all(sha(Path(p))==h for p,h in hashes.items())
+    assert not Path(value['destination']).exists() and not list(state.iterdir())
+    if killed or process.returncode or not frames or 'definition' not in frames[-1]:status='failed-original-deadline-or-result';break
+    assert len(frames)==11 and frames[-1]['phase_trace']==frames[:-1]
+    if n%50==0:print('SAMPLE',n,'seconds',round(elapsed,4),'longest',round(max(s['elapsed_seconds'] for s in samples),4),flush=True)
+    if snapshot:status='slow-captured';break
+save('summary.json',dict(status=status,samples=len(samples),slow=slow,longest_seconds=max(s['elapsed_seconds'] for s in samples),source_preserved=True,no_effects=True,
+                        original_timeout_cause_established=False,original_deadline_changed=False,qualification=False))
+print(status,len(samples),'longest',max(s['elapsed_seconds'] for s in samples),flush=True)

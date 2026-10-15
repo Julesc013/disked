@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="3"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="BlackGlass-Win10"
+	time="38"
+	timestamp="2026-10-16T03:48:23"
+	>
+	<testcase name="frontend.product_export" classname="frontend.product_export" time="17.4276" status="run">
+		<properties/>
+		<system-out>{"passed": true, "joined": false, "checks": 112, "verified_outputs": [{"frontend": "cli", "operation_id": "report-op:78fe96d6eb9982f7464c7ab9a8203ca7", "bytes": "790", "sha256": "sha256:3b0da3dc51b78a8170ff98f71d82ffbeaf010eeda06d6bef17fcbc002361d5d2", "definition_digest": "sha256:e69eb9d418603fe6856833f06ac407c974dae20b8bb76dd11da622a8348ec15c"}, {"frontend": "stdio", "operation_id": "report-op:81b8e36d281b2e566ba7ebb4bbbb5742", "bytes": "790", "sha256": "sha256:3b0da3dc51b78a8170ff98f71d82ffbeaf010eeda06d6bef17fcbc002361d5d2", "definition_digest": "sha256:0f10e29624e6753544a8c8eb28076e00f5f87afb7cf244cdd66a5212d6ceb9de"}, {"frontend": "gui", "operation_id": "report-op:a54953959b029d17a081c1ecb4df95b8", "bytes": "790", "sha256": "sha256:3b0da3dc51b78a8170ff98f71d82ffbeaf010eeda06d6bef17fcbc002361d5d2", "definition_digest": "sha256:641b35cc9ef2aae0d621a4218c4db5bf090a587d9f2e0829237dfe65f1ac2147"}, {"frontend": "tui", "operation_id": "report-op:d5a34cbcc4c56915faa4c8691e805409", "bytes": "790", "sha256": "sha...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="frontend.joined_report" classname="frontend.joined_report" time="20.0862" status="run">
+		<properties/>
+		<system-out>{"passed": true, "joined": true, "checks": 273, "verified_outputs": [{"frontend": "cli", "operation_id": "report-op:afa170f257a701db6a3cca559390ca25", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:16830d7c452af22fa9202ca3b74bcf24a51e14e96abd733dc8626978a7af1f7d"}, {"frontend": "stdio", "operation_id": "report-op:60d44f016cd46d89074784ad6efd776d", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:2690fa1f66b9510ac0482a5d21c198981630d004583416d6442b6438e33daf08"}, {"frontend": "gui", "operation_id": "report-op:46e5923e7c1d42a0e1fc6bc9b38fd9a6", "bytes": "2787", "sha256": "sha256:f678889931bc7060c06099a9a154b7b56ded865fa5fa0d1eac5d8c9538259bb7", "definition_digest": "sha256:2d2b749d8cff07f9490baeac35a61c0a5277dd7dcbc63b081482b2be27aa9b31"}, {"frontend": "tui", "operation_id": "report-op:01c53e3928eb098852f54e837f01e106", "bytes": "2787", "sha256": "...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="evidence.export_commands" classname="evidence.export_commands" time="0.850451" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 172, in &lt;module&gt;
+    if __name__=='__main__':raise SystemExit(main())
+                                             ~~~~^^
+  File "D:\Projects\DiskEd\disked\tests\evidence\test_export_commands.py", line 40, in main
+    check('expired-'+phase+'-kind',out['response']['result']['request_kind']==kind and out['response']['request_id']=='expired-'+phase and out['response']['operation_id'] is None and out['response']['result']['state_directory']=='generated-state')
+                                   ~~~^^^^^^^^^^^^
+KeyError: 'response'
+</system-out>
+	</testcase>
+</testsuite>

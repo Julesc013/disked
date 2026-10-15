@@ -1,0 +1,50 @@
+"""Finite original-executable CLI preparation diagnosis, original4s/15s bounds."""
+from pathlib import Path
+import ctypes as C
+from ctypes import wintypes as W
+import hashlib,json,os,subprocess,time,sys
+root=Path.cwd();out=root/'.aide-local/report-cli-tail-46b7dba5';out.mkdir(exist_ok=False)
+sha=lambda p:'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+artifacts=json.loads((root/'.aide/evidence/2026-10-15-native-delays/failed-11e6f625/artifact-identities.json').read_bytes())
+identity=next(a for a in artifacts if a['path'].endswith('Release\\disked.exe'));exe=Path(identity['path']);assert sha(exe)==identity['sha256']
+request=json.loads((root/'.aide-local/report-phases-observations-final/fault-standard-input.json').read_bytes())
+sources=[Path(request['case_directory'])/'acquisition.request',Path(request['case_directory'])/'acquisition.records',Path(request['collection_path'])]
+hashes={str(p):sha(p) for p in sources}
+helper=(root/'.aide-local/report-prepare-tail.py').read_text(encoding='utf-8')
+exec(compile(helper[helper.index("K=C.WinDLL"):helper.index('def save(')],'owned-counters-and-dump','exec'))
+def stamps(handle):
+    clocks=[W.FILETIME() for _ in range(4)];assert K.GetProcessTimes(handle,*(C.byref(t) for t in clocks))
+    native=lambda t:(t.dwHighDateTime<<32)|t.dwLowDateTime
+    return dict(created=str(native(clocks[0])),exited=str(native(clocks[1])),lifetime_seconds=(native(clocks[1])-native(clocks[0]))/1e7 if native(clocks[1]) else None)
+def save(n,v):(out/n).write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+save('contract.json',dict(samples=200,scope='Original failed11e6f625 executable, ordinary generated metadata, read-only joined/unjoined CLI preparations; diagnostic not qualification.',
+    original_frontend_bound_ms=4000,outer_deadline_seconds=15,dump_threshold_seconds=2.5,executable=identity,inputs=hashes,
+    dump_note='An owned-process dump after the threshold is potentially intrusive. Samples with a dump are diagnostic; no original failure cause is inferred.'))
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')};rows=[];status='complete'
+state=out/'state';state.mkdir();destination=out/'never-created.json'
+for n in range(200):
+    folder=out/str(n);folder.mkdir()
+    command=[str(exe),'--json','evidence','export','prepare',request['operation_id'],str(destination),'--case-state-dir',request['case_directory'],'--state-dir',str(state)]
+    if n%2:command+=['--collection',request['collection_path'],'--collection-digest',request['collection_digest']]
+    save(str(n)+'/command.json',command);start=time.monotonic();metrics=[];snapshot=None;killed=False
+    with (folder/'stdout.json').open('wb') as stdout,(folder/'stderr.log').open('wb') as stderr:
+        process=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=stdout,stderr=stderr,cwd=root,env=env)
+        while process.poll() is None:
+            elapsed=time.monotonic()-start
+            if elapsed>=15:process.kill();process.wait(timeout=10);killed=True;break
+            if elapsed>=2.5 and snapshot is None:
+                snapshot=dump(process,folder);print('SLOW',n,elapsed,snapshot,flush=True)
+            try:process.wait(timeout=min(.25,max(.001,15-elapsed)))
+            except subprocess.TimeoutExpired:metrics.append(dict(elapsed_seconds=time.monotonic()-start,**cpu(int(process._handle))))
+        lifetime=stamps(int(process._handle));final=cpu(int(process._handle))
+    elapsed=time.monotonic()-start;raw=(folder/'stdout.json').read_bytes();reply=json.loads(raw) if raw else None
+    row=dict(sample=n,joined=bool(n%2),pid=process.pid,exit_code=process.returncode,elapsed_seconds=elapsed,killed=killed,dump=snapshot,metrics=metrics,final=final,**lifetime,stdout_sha256=sha(folder/'stdout.json'))
+    rows.append(row)
+    with (out/'samples.jsonl').open('a',encoding='utf-8',newline='\n') as f:f.write(json.dumps(row,separators=(',',':'))+'\n')
+    assert all(sha(Path(p))==h for p,h in hashes.items()) and not destination.exists() and not list(state.iterdir())
+    if process.returncode or not reply or reply.get('status')!='completed':status='noncompleted-captured';break
+    if snapshot:status='slow-captured';break
+    if n%25==0:print('SAMPLE',n,'seconds',round(elapsed,4),'life',lifetime['lifetime_seconds'],flush=True)
+save('summary.json',dict(status=status,samples=len(rows),longest_seconds=max(r['elapsed_seconds'] for r in rows),longest_child_lifetime=max(r['lifetime_seconds'] for r in rows),
+                        source_preserved=True,no_effects=True,original_deadlines_changed=False,original_timeout_cause_established=False,qualification=False))
+print(status,len(rows),'longest',max(r['elapsed_seconds'] for r in rows),flush=True)

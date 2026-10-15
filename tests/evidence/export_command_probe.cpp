@@ -66,6 +66,7 @@ int wmain(int argc,wchar_t** argv) {
         if(mode=="request" || mode=="audit" || mode=="event-request" || mode=="closed-event-request")out=disked::process_request(registry,disked::json::dump(get(v,"request"),limits),
             [&](const std::string& id,const std::string& command,const V& p,const std::string&) {return command=="evidence.export"?disked::dispatch_export(registry,id,p,ports):disked::dispatch_report_operation(id,command,p);},
             queue?disked::Handler{[queue](const std::string& id,const std::string&,const V& p,const std::string&) {return disked::watch_report_worker(id,p,queue);}}:disked::Handler{});
+        else if(mode=="unresolved")out=disked::export_unresolved_request(text(v,"request_id"),get(v,"parameters"));
         else if(mode=="cli") {
             std::vector<std::string> args;for(const auto& s:get(v,"argv").items) {if(s.kind!=V::Kind::string)throw std::runtime_error("probe_input");args.push_back(s.text);}
             const auto parsed=disked::parse_invocation(registry,args);

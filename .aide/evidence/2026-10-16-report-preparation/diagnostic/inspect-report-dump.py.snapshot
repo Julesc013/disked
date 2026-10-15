@@ -1,0 +1,79 @@
+from pathlib import Path
+import struct as S,json,hashlib,sys,os,bisect
+path=Path(sys.argv[1]) if len(sys.argv)>1 else Path('.aide-local/report-cli-tail-46b7dba5/12/owned-probe.dmp');raw=path.read_bytes()
+def unpack(f,o):return S.unpack_from('<'+f,raw,o)
+assert raw[:4]==b'MDMP';count,directory=unpack('II',8)
+streams={}
+for n in range(count):
+    kind,size,at=unpack('III',directory+n*12);streams[kind]=dict(size=size,offset=at)
+modules=[]
+if 4 in streams:
+    at=streams[4]['offset'];n,=unpack('I',at)
+    for i in range(n):
+        base,size,checksum,stamp,name=unpack('QIIII',at+4+108*i);length,=unpack('I',name)
+        modules.append(dict(base=base,size=size,path=raw[name+4:name+4+length].decode('utf-16-le'),timestamp=stamp))
+def exports(module):
+    path=Path(module['path']);system=Path(os.environ['SystemRoot']).resolve()
+    if not path.resolve().is_relative_to(system):return []
+    data=path.read_bytes();pe=S.unpack_from('<I',data,60)[0];assert data[pe:pe+4]==b'PE\0\0'
+    machine,n,stamp,_,_,optional_size,_=S.unpack_from('<HHIIIHH',data,pe+4)
+    if stamp!=module['timestamp']:return []
+    optional=pe+24;magic=S.unpack_from('<H',data,optional)[0]
+    directory=optional+(112 if magic==0x20b else 96)
+    export,size=S.unpack_from('<II',data,directory)
+    sections=[]
+    for i in range(n):
+        pos=optional+optional_size+i*40
+        virtual_size,virtual,raw_size,raw_offset=S.unpack_from('<IIII',data,pos+8)
+        sections.append((virtual,max(virtual_size,raw_size),raw_offset))
+    def file_offset(rva):
+        for base,length,offset in sections:
+            if base<=rva<base+length:return offset+rva-base
+        raise ValueError('unmapped PE RVA')
+    def ctext(at):return data[at:data.index(b'\0',at)].decode('ascii')
+    if not export:return []
+    table=S.unpack_from('<IIHHIIIIIII',data,file_offset(export));result=[]
+    _,_,_,_,_,_,nf,nn,functions,names,ordinals=table
+    for i in range(nn):
+        name=S.unpack_from('<I',data,file_offset(names)+i*4)[0]
+        ordinal=S.unpack_from('<H',data,file_offset(ordinals)+i*2)[0]
+        if ordinal>=nf:continue
+        function=S.unpack_from('<I',data,file_offset(functions)+ordinal*4)[0]
+        if not export<=function<export+size:result.append((function,ctext(file_offset(name))))
+    return sorted(result)
+for module in modules:
+    try:module['exports']=exports(module)
+    except (OSError,ValueError,S.error):module['exports']=[]
+def address(addr):
+    for m in modules:
+        if m['base']<=addr<m['base']+m['size']:
+            rva=addr-m['base'];found=dict(module=m['path'],offset=hex(rva))
+            entries=m['exports'];index=bisect.bisect_right(entries,(rva,chr(0x10ffff)))-1
+            if index>=0:found.update(nearest_export=entries[index][1],export_displacement=rva-entries[index][0])
+            return found
+    return None
+threads=[]
+if 3 in streams:
+    at=streams[3]['offset'];n,=unpack('I',at)
+    for i in range(n):
+        p=at+4+i*48;tid,suspend,priorityclass,priority,teb,start,size,stack,context_bytes,context=unpack('IIIIQQIIII',p)
+        row=dict(tid=tid,suspend=suspend,context_bytes=context_bytes,stack_bytes=size)
+        if context_bytes>=256:
+            rip,=unpack('Q',context+248);rsp,=unpack('Q',context+152)
+            row.update(rip=hex(rip),rsp=hex(rsp),instruction=address(rip))
+            candidates=[]
+            for pos in range(0,size-7,8):
+                value,=unpack('Q',stack+pos);found=address(value)
+                if found:candidates.append(dict(stack_offset=pos,address=hex(value),**found))
+            row['stack_address_candidates_not_unwound']=candidates[:100]
+        threads.append(row)
+info=[]
+if 17 in streams:
+    at=streams[17]['offset'];header_size,entry_size,n=unpack('III',at)
+    for i in range(n):
+        fields=unpack('IIIIQQQQQQ',at+header_size+i*entry_size)
+        info.append(dict(zip(['tid','flags','error','exit_status','created','exited','kernel','user','start','affinity'],fields)))
+for module in modules:module.pop('exports')
+value=dict(path=str(path),bytes=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest(),streams=streams,modules=modules,threads=threads,thread_info=info)
+(path.parent/'dump-inspection.json').write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8',newline='\n')
+print(json.dumps(dict(bytes=len(raw),streams=streams,threads=[{k:v for k,v in r.items() if not k.startswith('stack_address')} for r in threads],thread_info=info),indent=2))

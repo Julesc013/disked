@@ -1,0 +1,7 @@
+from pathlib import Path
+import ctypes as C,os
+warm=C.WinDLL(str(Path(os.environ['SystemRoot'])/'System32/dbghelp.dll'),use_last_error=True)
+s=Path('.aide-local/report-cli-tail.py').read_text(encoding='utf-8')
+s=s.replace('report-cli-tail-46b7dba5','report-cli-tail-warm-46b7dba5').replace('dump_threshold_seconds=2.5','dump_threshold_seconds=1.0').replace('elapsed>=2.5','elapsed>=1.0')
+s=s.replace("snapshot=dump(process,folder);print('SLOW',n,elapsed,snapshot,flush=True)","dump_start=time.monotonic();snapshot=dump(process,folder);snapshot.update(actual_bytes=(folder/'owned-probe.dmp').stat().st_size,dump_seconds=time.monotonic()-dump_start,started_elapsed=elapsed);print('SLOW',n,elapsed,snapshot,flush=True)")
+exec(compile(s,'prewarmed-owned-cli-diagnostic','exec'))

@@ -34,6 +34,13 @@ def main():
     def product_call(args,exits=(0,5)):
         p=subprocess.run([str(product),'--json',*args],capture_output=True,cwd=root,env=env,timeout=15)
         assert p.returncode in exits and not p.stderr,(p.returncode,p.stdout,p.stderr);return json.loads(p.stdout)
+    for phase,kind in [('prepare','export-preparation'),('execute','export-execution')]:
+        pending=dict(phase=phase,state_directory='generated-state')
+        out=call('expired-'+phase,dict(mode='unresolved',request_id='expired-'+phase,parameters=pending),exits=(6,))
+        check('expired-'+phase+'-kind',out['result']['request_kind']==kind and out['request_id']=='expired-'+phase and out['operation_id'] is None and out['result']['state_directory']=='generated-state')
+    selected='report-op:'+'1'*32
+    out=call('expired-observation',dict(mode='unresolved',request_id='expired-observation',parameters=dict(operation_id=selected)),exits=(6,))
+    check('expired-observation-retains-identity',out['result']['request_kind']=='operation-observation' and out['operation_id']==selected)
     scratch=root/'.aide-local';scratch.mkdir(exist_ok=True)
     with fixture_directory(scratch) as owned:
         folder=owned/'case';folder.mkdir();case=folder/'state';case.mkdir();src=folder/'generated.img';dst=folder/'copy.img';mapping=folder/'copy.map';expected=source_bytes(65537);src.write_bytes(expected)

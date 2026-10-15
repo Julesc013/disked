@@ -86,7 +86,9 @@ Outcome export_unresolved_request(const std::string& request,const V& p) {
             if(text(p,"definition_digest")==r::digest(*d))value=export_claims(value,*d).put("state_directory",get(get(*d,"store"),"path"));
         }catch(const std::exception&) {} // Never guess a source profile.
     }
-    value.put("request_kind",V::string(observing?"operation-observation":"export-execution"));
+    const auto phase=p.find("phase");
+    const bool preparing=phase && phase->kind==V::Kind::string && phase->text=="prepare";
+    value.put("request_kind",V::string(observing?"operation-observation":preparing?"export-preparation":"export-execution"));
     auto out=completed(request,value);out.exit_code=6;out.response.put("status",V::string("unknown"));
     if(observing)out.response.put("operation_id",*id);out.response.fields["diagnostics"].items.push_back(diagnostic("request_wait_expired"));return out;
 }

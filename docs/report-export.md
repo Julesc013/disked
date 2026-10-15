@@ -15,6 +15,14 @@ require directory list/read access with write/delete sharing
 denied; metadata-only handles do not prevent rename on the tested host. Failure
 to acquire those stronger handles refuses preparation.
 
+A bounded frontend preparation timeout returns `unknown`/exit6 with
+`request_kind: export-preparation`; execution retains `export-execution`, and
+an existing report operation retains `operation-observation`. A pending reader
+does not establish execution admission, effects or quiescence. The
+[command profile](../spec/catalog/export-command-prototype.json) owns this
+distinction. It does not explain or clear the retained spontaneous timing failure.
+
+
 Execution requires the exact definition digest plus explicit report-write and
 host-effect flags. The
 native session executes once. It creates a new file with exclusive sharing,

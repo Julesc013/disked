@@ -1,0 +1,23 @@
+from pathlib import Path
+import ctypes as C
+from ctypes import wintypes as W
+import hashlib,json,os,subprocess,time
+root=Path.cwd();out=root/'.aide-local/report-dump-control-46b7dba5';out.mkdir(exist_ok=False)
+helper=(root/'.aide-local/report-prepare-tail.py').read_text(encoding='utf-8')
+exec(compile(helper[helper.index('K=C.WinDLL'):helper.index('def save(')],'owned-dump-helpers','exec'))
+warm=C.WinDLL(str(Path(os.environ['SystemRoot'])/'System32/dbghelp.dll'),use_last_error=True)
+request=json.loads((root/'.aide-local/report-phases-observations-final/fault-standard-input.json').read_bytes())
+request['mode']='prepare-joined-trace-stream-wait';state=out/'state';state.mkdir();request.update(state_directory=str(state),destination=str(out/'never-created.json'))
+exe=root/'.aide-local/report-phases-build/Release/report_worker_fault.exe'
+raw=json.dumps(request,sort_keys=True,separators=(',',':')).encode();(out/'input.json').write_bytes(raw)
+with (out/'stdout.jsonl').open('wb') as stdout,(out/'stderr.log').open('wb') as stderr:
+    p=subprocess.Popen([str(exe)],stdin=subprocess.PIPE,stdout=stdout,stderr=stderr)
+    p.stdin.write(raw);p.stdin.close();p.wait(timeout=.5) if p.poll() is not None else time.sleep(.5)
+    assert p.poll() is None
+    before=cpu(int(p._handle));start=time.monotonic();result=dump(p,out);duration=time.monotonic()-start
+    p.wait(timeout=8);after=cpu(int(p._handle))
+assert p.returncode==0 and not (out/'stderr.log').read_bytes()
+dumpfile=out/'owned-probe.dmp'
+(out/'summary.json').write_text(json.dumps(dict(exit_code=p.returncode,pid=p.pid,before=before,after=after,dump=result,dump_seconds=duration,actual_dump_bytes=dumpfile.stat().st_size,
+    sha256='sha256:'+hashlib.sha256(dumpfile.read_bytes()).hexdigest(),scope='Controlled six-second sleep, not original stall diagnosis.'),indent=2)+'\n',encoding='utf-8',newline='\n')
+print((out/'summary.json').read_text())
