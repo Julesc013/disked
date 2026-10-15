@@ -96,6 +96,8 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 The private list decoder at `65ca67d9` passes 561 protected-byte cases,
 24 selected native groups, 59 standalone headers, strict C90 syntax and
 244 tooling tests (two skipped). [Exact-source review](../.aide/evidence/2026-10-16-ntfs-list/REVIEW.md).
+[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-list-integration/repository.json)
+records the successful dev/main synchronization. This changes no owner or release gate.
 It advances the existing portable owner without a tree restructure. It does not
 yet join MFT extension records or change the bootstrap-only NTFS command scope.
 This is a selected regression campaign; the previous complete campaign remains
