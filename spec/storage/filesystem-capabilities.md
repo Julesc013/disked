@@ -466,3 +466,11 @@ owned process/creation/attempt/code/request/capture binding, not passive schema
 or hash validity. Cancellation/completion and confirmed exit remain separate.
 This expected contract does not claim worker implementation; namespace/tree/content,
 other platforms/storage and original full release remain subsequent required work.
+
+The private NTFS [bootstrap capture contract](../catalog/ntfs-capture-prototype.json)
+connects supplied-byte decoders through `RegionReader`. Primary/mirror FILE0 and
+mapped FILE3 volume information retain exact region hashes, finite budgets and
+mandatory rereads. This bounded observation does not replace a damaged primary
+with its mirror or prove allocation ownership/current-source authority. Original
+attribute-list/payload/namespace/content, held-source/worker/frontend and target
+qualification remain required; a bootstrap is not admission of full NTFS support.

@@ -452,3 +452,12 @@ encoding, bounded prefixes and checked signed deltas. Physical cluster zero is
 not automatically sparse. These primitives do not join attribute-list extensions,
 interpret every payload, acquire real source authority or admit storage effects;
 those original capabilities retain their own implementation and qualification.
+
+DE-W079 binds these primitives through the existing supplied-region port using
+the [NTFS capture contract](../catalog/ntfs-capture-prototype.json). It observes
+primary/mirror FILE0 independently, validates the MFT mapping and reads FILE3
+through that mapping for observed volume version. Exact rereads and partial
+diagnostics qualify only the collected regions. Attribute-list joins, additional
+payload/namespace/content handling, held sources, workers and frontends remain
+required original NTFS work. This does not clear the retained W075 integration
+failure or any owner, physical, recovery, platform or release gate.

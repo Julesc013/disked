@@ -27,6 +27,10 @@ Continue local implementation after tests and agent review; owner acceptance and
 release/storage authority remain separate. The programme record is
 `.aide/programmes/disked-0.1.0.json`. No partial milestone means 0.1.0 is finished.
 
+- [ ] DE-W079 active: coherent supplied-reader NTFS boot/FILE0/mapping/FILE3
+  observations pass 150 working cases. Complete exact-source qualification and
+  implementing-agent review before claiming this bounded scope; full NTFS remains.
+
 - [x] DE-W078 available supplied-byte scope: exact `6daed9fd` passes 259
   attribute/632 mapping/1,729 boot/964 record cases, 14 portable groups, one header
   and 242 tooling tests/two skips. Coherent source and complete NTFS remain.
