@@ -34,7 +34,7 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **307 current source files**: 31 portable, 131 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W084 list decoder awaiting exact-source qualification. The longest repository-relative source
+63 platform and 14 application files. This includes the private DE-W084 list decoder; its selected exact-source qualification is recorded below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
@@ -93,7 +93,15 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-Current source `b985adf2` passes one complete clean-source campaign: 154 native
+The private list decoder at `65ca67d9` passes 561 protected-byte cases,
+24 selected native groups, 59 standalone headers, strict C90 syntax and
+244 tooling tests (two skipped). [Exact-source review](../.aide/evidence/2026-10-16-ntfs-list/REVIEW.md).
+It advances the existing portable owner without a tree restructure. It does not
+yet join MFT extension records or change the bootstrap-only NTFS command scope.
+This is a selected regression campaign; the previous complete campaign remains
+bound to its own revision below.
+
+The preceding product source `b985adf2` passes one complete clean-source campaign: 154 native
 groups, 59 standalone headers, 244 tooling tests (2 skipped), source/header/
 build boundaries, PE/import observations and complete input/context binding.
 It adds the owned NTFS bootstrap through the common image-inspection service and
@@ -133,6 +141,11 @@ At the retained 16 October observation, both GitHub branches report protection
 disabled. The specified required
 PR/check policy is still an outstanding governance task; this documentation pass
 does not change repository settings or establish that gate.
+
+Universal Setup `main` at `c048f7f1` and `dev` at `2b7a4d01` still have the
+same file tree. The comparison reports one synchronization commit and zero
+changed files; there is no pending content promotion between those branches.
+[Dated branch comparison](../.aide/evidence/2026-10-16-ntfs-list/setup-branches.json).
 
 The latest read-only Universal Setup observation finds
 [draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) at `1060e995`.

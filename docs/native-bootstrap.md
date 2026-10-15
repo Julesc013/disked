@@ -5,12 +5,16 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.55 prototype selects 26 command identities, including read-only
+The current dev.63 prototype selects 26 command identities, including read-only
 GPT repair previews, recorded acquisition support export, contained historical
 acquired-image verification and create-only ordinary-image recursive FAT extraction.
 The [recursive command guide](fat-recursive-command.md) describes its separate
 review/grants and retained operation lifecycle. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
+
+The private NTFS attribute-list decoder has a separate
+[source-bound selected campaign](ntfs-list.md). It does not expand the current
+bootstrap-only NTFS inspection view into MFT extension or namespace support.
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.
@@ -74,7 +78,9 @@ application-boundary checks, not a system-call trace or storage qualification.
 Historical [DE-W010 evidence](../.aide/evidence/2026-10-06-native-bootstrap/) applies
 only to its original human subset; subsequent work retains separate evidence.
 Windows 10 x64 build 19045 is the current exercised host. Other platforms, clean
-VMs, Explorer/Windows Terminal routing and all storage operations remain unverified.
+VMs and Explorer/Windows Terminal routing remain unverified. Storage evidence is
+limited to the exact generated/ordinary-image slices linked from the programme;
+physical devices and the full specified storage scope remain unqualified.
 DE-W011 tests cover direct/detached launches, cmd/PowerShell and an inherited child
 in a hidden test-owned console. `mode explain` preserves unknown host facts and
 reports why interactive modes are unavailable. Startup observation does not attach, detach, hide, resize or change the console
@@ -888,7 +894,7 @@ The exact clean DE-W038 source is `57cfd113`, with 62 command cases, 97 native g
 `image.inspect --view fat` accepts `--allocation-window-json` with exactly
 `{"first_cluster":"800000","clusters":"1024"}` for an explicit data-cluster
 interval. Choose values that fit the image's actual geometry; this example
-requires a sufficiently large FAT32 volume. Count is 1–8192, starting at cluster
+requires a sufficiently large FAT32 volume. Count is 1â€“8192, starting at cluster
 2 or later. The volume byte window remains explicit. The interval conflicts with
 `--allocation-scan yes`; the default global prefix scan keeps its existing meaning
 and limits. GUI/TUI/shell use the same bounded typed field.

@@ -22,12 +22,18 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [x] DE-W084 private attribute-list decoder: source `65ca67d9` passes 561
+  protected-byte cases, 24 selected native groups, 59 standalone headers,
+  strict C90 and 244 tooling tests (two skipped), with implementing-agent review.
+  MFT reference/extension joining, namespace/content and original full0.1.0 remain.
+  [Evidence](.aide/evidence/2026-10-16-ntfs-list/REVIEW.md).
+
 - [x] DE-W083 local scope: exact `b985adf2` passes 50 NTFS command/frontend
   cases, all 154 native groups, 59 standalone headers and 244 tooling tests
   (2 skipped), plus build/import/context/source checks and agent review.
-  Three development failures remain retained. Current source integration is
-  eligible after metadata closure; complete NTFS/original0.1.0 and owner/release
-  gates remain open.
+  Three development failures remain retained. Source integration is recorded in
+  `.aide/evidence/2026-10-16-ntfs-command-integration/repository.json`; complete
+  NTFS/original0.1.0 and owner/release gates remain open.
 
 Scope: every currently specified platform and storage operation at base `40ac8ec`.
 Continue local implementation after tests and agent review; owner acceptance and
