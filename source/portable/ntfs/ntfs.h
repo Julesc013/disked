@@ -34,6 +34,64 @@
 #define DE_NTFS_BOOT_CHECKSUM 0x4000UL
 #define DE_NTFS_BOOT_LENGTH 0x8000UL
 #define DE_NTFS_MAX_CLUSTER 2097152UL
+#define DE_NTFS_MAX_ITEMS 4096U
+#define DE_NTFS_ATTR_TRUNCATED 0x0001UL
+#define DE_NTFS_ATTR_LENGTH 0x0002UL
+#define DE_NTFS_ATTR_FORM 0x0004UL
+#define DE_NTFS_ATTR_NAME 0x0008UL
+#define DE_NTFS_ATTR_VALUE 0x0010UL
+#define DE_NTFS_ATTR_FEATURE 0x0020UL
+#define DE_NTFS_ATTR_VCN 0x0040UL
+#define DE_NTFS_ATTR_SIZE 0x0080UL
+#define DE_NTFS_ATTR_MAPPING 0x0100UL
+#define DE_NTFS_ATTR_TYPE 0x0200UL
+#define DE_NTFS_ATTR_BUDGET 0x0400UL
+#define DE_NTFS_ATTR_END 0x0800UL
+#define DE_NTFS_RUN_TRUNCATED 0x0001UL
+#define DE_NTFS_RUN_WIDTH 0x0002UL
+#define DE_NTFS_RUN_LENGTH 0x0004UL
+#define DE_NTFS_RUN_OVERFLOW 0x0008UL
+#define DE_NTFS_RUN_RANGE 0x0010UL
+#define DE_NTFS_RUN_COVERAGE 0x0020UL
+#define DE_NTFS_RUN_SPARSE 0x0040UL
+#define DE_NTFS_RUN_BUDGET 0x0080UL
+
+typedef struct de_ntfs_attribute {
+    de_view raw, name, value, mapping;
+    de_u64 lowest_vcn, highest_vcn, cluster_span;
+    de_u64 allocated_size, data_size, initialized_size, total_allocated;
+    de_u32 type, record_length, value_length, issues;
+    unsigned short flags, instance, name_offset, value_offset, mapping_offset;
+    unsigned short compression_unit;
+    unsigned char form, name_length, resident_flags;
+    int present, end_marker, variant_fields, envelope_valid;
+    int sizes_applicable, has_total_allocated, empty_stream, ordinary_mapping;
+} de_ntfs_attribute;
+
+typedef struct de_ntfs_attr_cursor {
+    de_view logical;
+    size_t offset;
+    unsigned int limit, count;
+    de_u32 issues;
+    int terminated, stopped;
+} de_ntfs_attr_cursor;
+
+typedef struct de_ntfs_run {
+    de_view raw;
+    de_u64 vcn, next_vcn, length, lcn, lcn_end;
+    de_u32 issues;
+    unsigned char length_width, offset_width;
+    int present, end_marker, sparse, negative_delta, valid;
+} de_ntfs_run;
+
+typedef struct de_ntfs_run_cursor {
+    de_view pairs;
+    de_u64 next_vcn, end_vcn, previous_lcn, volume_clusters;
+    size_t offset;
+    unsigned int limit, count;
+    de_u32 issues;
+    int allow_sparse, terminated, stopped;
+} de_ntfs_run_cursor;
 
 typedef struct de_ntfs_boot {
     de_view raw;
@@ -70,6 +128,14 @@ int de_ntfs_record_read(const de_view *raw, unsigned int major, unsigned int min
 /* Validate before writing. Source and written output spans must be disjoint. */
 int de_ntfs_record_restore(const de_view *raw, unsigned int major, unsigned int minor,
                            const de_buffer *output, de_ntfs_record *out);
+int de_ntfs_attributes_begin(const de_view *original, unsigned int major, unsigned int minor,
+                             const de_buffer *restored, unsigned int limit,
+                             de_ntfs_attr_cursor *out);
+int de_ntfs_attributes_next(de_ntfs_attr_cursor *cursor, de_ntfs_attribute *out);
+int de_ntfs_runs_begin(const de_view *pairs, const de_u64 *first_vcn, const de_u64 *count,
+                       const de_u64 *volume_clusters, int allow_sparse, unsigned int limit,
+                       de_ntfs_run_cursor *out);
+int de_ntfs_runs_next(de_ntfs_run_cursor *cursor, de_ntfs_run *out);
 #ifdef __cplusplus
 }
 #endif

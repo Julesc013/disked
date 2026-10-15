@@ -63,11 +63,13 @@ struct Guard {
     unsigned char *base = nullptr;
     unsigned char *data = nullptr;
     std::size_t bytes = 0;
-    explicit Guard(const std::vector<unsigned char> &raw) {
+    std::size_t readable = 0;
+    explicit Guard(const std::vector<unsigned char> &raw, bool read_only = true) {
         SYSTEM_INFO info{};
         GetSystemInfo(&info);
         const auto page = static_cast<std::size_t>(info.dwPageSize);
         bytes = ((raw.size() + page - 1) / page + 1) * page;
+        readable = bytes - page;
         base = static_cast<unsigned char *>(
             VirtualAlloc(nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
         need(base != nullptr);
@@ -76,8 +78,13 @@ struct Guard {
             std::memcpy(data, raw.data(), raw.size());
         DWORD old = 0;
         need(VirtualProtect(base + bytes - page, page, PAGE_NOACCESS, &old) != FALSE);
-        if (bytes > page)
-            need(VirtualProtect(base, bytes - page, PAGE_READONLY, &old) != FALSE);
+        if (read_only)
+            seal();
+    }
+    void seal() {
+        DWORD old = 0;
+        if (readable)
+            need(VirtualProtect(base, readable, PAGE_READONLY, &old) != FALSE);
     }
     ~Guard() {
         if (base)

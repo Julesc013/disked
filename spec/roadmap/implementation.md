@@ -444,3 +444,11 @@ signed cluster/record encodings, record budgets and seed validity. It does not
 derive later fragmented MFT records from a contiguous offset formula. Actual
 attributes/runlists, held-source/provider/frontend, other original platforms and
 storage, owner, physical writer/recovery and release qualification remain open.
+
+DE-W078 advances original NTFS inspection with [post-fixup attributes and mapping
+pairs](../catalog/ntfs-attributes-prototype.json). Its expected contract preserves
+opaque features, initialized-length and continuation distinctions, actual sparse
+encoding, bounded prefixes and checked signed deltas. Physical cluster zero is
+not automatically sparse. These primitives do not join attribute-list extensions,
+interpret every payload, acquire real source authority or admit storage effects;
+those original capabilities retain their own implementation and qualification.
