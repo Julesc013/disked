@@ -100,6 +100,10 @@ static V observe(const V &input) {
         }
     }
     const auto membership_input = input.find("membership");
+    const auto upcase_input = input.find("upcase");
+    if (upcase_input)
+        need(upcase_input->kind == V::Kind::boolean && upcase_input->boolean && !directory_input &&
+             !membership_input);
     disked::NtfsMembershipFileRequest membership;
     membership.directory = directory;
     if (membership_input) {
@@ -202,13 +206,16 @@ static V observe(const V &input) {
 #endif
     try {
 #ifdef DISKED_NTFS_FILE_TESTING
-        auto read = membership_input
+        auto read = upcase_input ? disked::capture_ntfs_upcase_file_testing(request, stop, control)
+                    : membership_input
                         ? disked::capture_ntfs_membership_file_testing(membership, stop, control)
                     : directory_input
                         ? disked::capture_ntfs_directory_file_testing(directory, stop, control)
                         : disked::capture_ntfs_file_testing(request, stop, control);
 #else
-        auto read = membership_input  ? disked::capture_ntfs_membership_file_owned(membership, stop)
+        auto read = upcase_input ? disked::capture_ntfs_upcase_file_owned(request, stop)
+                    : membership_input
+                        ? disked::capture_ntfs_membership_file_owned(membership, stop)
                     : directory_input ? disked::capture_ntfs_directory_file_owned(directory, stop)
                                       : disked::capture_ntfs_file_owned(request, stop);
 #endif

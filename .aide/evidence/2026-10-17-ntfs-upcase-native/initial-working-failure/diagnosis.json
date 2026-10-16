@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-16T16:46:32.438180+00:00",
+  "status": "fail",
+  "held_file_passed": true,
+  "worker_failures": 2,
+  "causes": [
+    {
+      "test": "test_every_table_context_digest_and_profile_receipt_is_reconstructed",
+      "cause": "New test sets table epoch to 1, equal to original per-process capture sequence1. The frame is unchanged and correctly verifies.",
+      "repair": "Increment original decimal values; assert every replacement differs before invoking verification."
+    },
+    {
+      "test": "test_real_worker_forgery_faults_never_admit_a_snapshot",
+      "cause": "Metadata after-hook is an authentic metadata disagreement, not forged content. Existing W101 outcomes and old directory/membership contracts retain a nonapplicable immutable snapshot.",
+      "repair": "Require retained snapshot with metadata_equalfalse,observed_stablefalse,applicablefalse and binding diagnostic; do not weaken any production gate."
+    }
+  ],
+  "production_changes_required": false,
+  "deadlines_changed": false,
+  "qualification": false
+}

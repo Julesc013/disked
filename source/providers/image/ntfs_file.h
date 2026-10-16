@@ -37,6 +37,8 @@ struct NtfsMembershipFileRequest {
 // before frontend admission; no physical opening or future source/effect grant.
 NtfsFileRead capture_ntfs_file_owned(const NtfsFileRequest &,
                                      const std::function<bool()> &stop = {});
+NtfsFileRead capture_ntfs_upcase_file_owned(const NtfsFileRequest &,
+                                            const std::function<bool()> &stop = {});
 NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &,
                                                const std::function<bool()> &stop = {});
 NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest &,
@@ -50,6 +52,9 @@ struct NtfsFileTestControl {
 };
 NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &, const std::function<bool()> &,
                                        const NtfsFileTestControl &);
+NtfsFileRead capture_ntfs_upcase_file_testing(const NtfsFileRequest &,
+                                              const std::function<bool()> &,
+                                              const NtfsFileTestControl &);
 NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest &,
                                                  const std::function<bool()> &,
                                                  const NtfsFileTestControl &);

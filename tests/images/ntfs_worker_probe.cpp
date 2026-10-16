@@ -73,6 +73,11 @@ V exercise(const V &input) {
             throw std::invalid_argument("ntfs_probe_membership");
         request.kind = disked::NtfsSnapshotKind::Membership;
     }
+    if (const auto *upcase = input.find("upcase")) {
+        if (upcase->kind != V::Kind::boolean || !upcase->boolean || directory || membership)
+            throw std::invalid_argument("ntfs_probe_upcase");
+        request.kind = disked::NtfsSnapshotKind::Upcase;
+    }
     if (input.find("nonmember_target_limit")) {
         const auto cap = integer(input, "nonmember_target_limit");
         request.target_limit = cap > 256 ? 257 : static_cast<std::size_t>(cap);

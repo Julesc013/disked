@@ -128,11 +128,14 @@ bool graph_mode(const NtfsSnapshotInput &input) {
         throw std::invalid_argument("ntfs_snapshot_kind");
     if (input.kind == NtfsSnapshotKind::Directory)
         return true;
-    if (input.kind != NtfsSnapshotKind::Bootstrap || input.directory_reference ||
-        input.directory_limits.entries != 4096 || input.directory_limits.blocks != 64 ||
-        input.directory_limits.bitmap_bytes != 65536)
+    if ((input.kind != NtfsSnapshotKind::Bootstrap && input.kind != NtfsSnapshotKind::Upcase) ||
+        input.directory_reference || input.directory_limits.entries != 4096 ||
+        input.directory_limits.blocks != 64 || input.directory_limits.bitmap_bytes != 65536)
         throw std::invalid_argument("ntfs_snapshot_kind");
     return false;
+}
+bool prefix_mode(const NtfsSnapshotInput &input) {
+    return graph_mode(input) || input.kind == NtfsSnapshotKind::Upcase;
 }
 V directory_limits_value(const NtfsDirectoryLimits &l) {
     return V::object()
@@ -140,7 +143,7 @@ V directory_limits_value(const NtfsDirectoryLimits &l) {
         .put("blocks", number(l.blocks))
         .put("bitmap_bytes", number(l.bitmap_bytes));
 }
-V directory_foundation(const V &v) {
+V profile_foundation(const V &v) {
     auto value = V::object();
     for (const auto k : {"schema",
                          "source_id",
@@ -171,6 +174,9 @@ V directory_foundation(const V &v) {
         info.put("profile_matches", V::boolean_value(true));
     if (const auto *limit = v.find("requested_target_limit"))
         value.put("requested_target_limit", *limit);
+    for (const auto key : {"upcase_record", "upcase"})
+        if (const auto *item = v.find(key))
+            value.put(key, *item);
     auto closures = V::object();
     if (const auto *all = v.find("record_closures"))
         for (const auto k : {"mft", "volume"})
@@ -178,7 +184,7 @@ V directory_foundation(const V &v) {
                 closures.put(k, *p);
     return value.put("record_closures", std::move(closures));
 }
-void directory_frame_bounds(const V &frame) {
+void prefix_frame_bounds(const V &frame) {
     auto limits = ntfs_snapshot_json_limits();
     limits.bytes = limits.string_bytes = 131072;
     json::dump(field(frame, "input"), limits);
@@ -270,6 +276,7 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
                                                "profile_hash_changed",
                                                "membership_changed",
                                                "target_changed",
+                                               "upcase_changed",
                                                "claims"};
         const std::set<std::string> captures = {
             "short", "error", "changed", "metadata", "binding", "replay_bytes", "replay_offset"};
@@ -282,6 +289,9 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
         if (p.first == "worker_fault" &&
             (p.second.text == "membership_changed" || p.second.text == "target_changed") &&
             input.kind != NtfsSnapshotKind::Membership)
+            throw std::invalid_argument("ntfs_snapshot_fixture");
+        if (p.first == "worker_fault" && p.second.text == "upcase_changed" &&
+            input.kind != NtfsSnapshotKind::Upcase)
             throw std::invalid_argument("ntfs_snapshot_fixture");
         if (p.first == "capture_call") {
             if (!json::decimal_u64(p.second.text) || !std::stoull(p.second.text) ||
@@ -306,11 +316,13 @@ V ntfs_snapshot_input_value(const NtfsSnapshotInput &input) {
     validate_ntfs_snapshot_input(input);
     const bool graph = graph_mode(input);
     const bool membership = input.kind == NtfsSnapshotKind::Membership;
+    const bool upcase = input.kind == NtfsSnapshotKind::Upcase;
     auto value =
         V::object()
-            .put("schema", V::string(membership ? "org.disked.ntfs-membership-source-request/1"
-                                     : graph    ? "org.disked.ntfs-directory-source-request/1"
-                                                : "org.disked.ntfs-source-request/1"))
+            .put("schema", V::string(upcase       ? "org.disked.ntfs-upcase-source-request/1"
+                                     : membership ? "org.disked.ntfs-membership-source-request/1"
+                                     : graph      ? "org.disked.ntfs-directory-source-request/1"
+                                                  : "org.disked.ntfs-source-request/1"))
             .put("path", V::string(input.path))
             .put("expected_source", input.expected_source)
             .put("volume_offset", number(input.volume_offset))
@@ -333,8 +345,10 @@ NtfsSnapshotInput ntfs_snapshot_input_from(const V &h) {
     std::set<std::string> keys = {"schema",       "path",    "expected_source", "volume_offset",
                                   "volume_bytes", "profile", "limits",          "fixture"};
     const auto schema = text(v, "schema");
-    if (schema == "org.disked.ntfs-membership-source-request/1" ||
-        schema == "org.disked.ntfs-directory-source-request/1") {
+    if (schema == "org.disked.ntfs-upcase-source-request/1")
+        input.kind = NtfsSnapshotKind::Upcase;
+    else if (schema == "org.disked.ntfs-membership-source-request/1" ||
+             schema == "org.disked.ntfs-directory-source-request/1") {
         input.kind = schema == "org.disked.ntfs-membership-source-request/1"
                          ? NtfsSnapshotKind::Membership
                          : NtfsSnapshotKind::Directory;
@@ -456,13 +470,17 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
         if (n == (call ? call : 1) && mode == "replay_offset")
             ++row.offset;
     };
-    auto read = held.kind == NtfsSnapshotKind::Membership
+    auto read = held.kind == NtfsSnapshotKind::Upcase
+                    ? capture_ntfs_upcase_file_testing(r, selected_stop, control)
+                : held.kind == NtfsSnapshotKind::Membership
                     ? capture_ntfs_membership_file_testing(membership, selected_stop, control)
                 : graph_mode(held)
                     ? capture_ntfs_directory_file_testing(directory, selected_stop, control)
                     : capture_ntfs_file_testing(r, selected_stop, control);
 #else
-    auto read = held.kind == NtfsSnapshotKind::Membership
+    auto read = held.kind == NtfsSnapshotKind::Upcase
+                    ? capture_ntfs_upcase_file_owned(r, selected_stop)
+                : held.kind == NtfsSnapshotKind::Membership
                     ? capture_ntfs_membership_file_owned(membership, selected_stop)
                 : graph_mode(held) ? capture_ntfs_directory_file_owned(directory, selected_stop)
                                    : capture_ntfs_file_owned(r, selected_stop);
@@ -481,7 +499,9 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
     const auto pid = field(receipt, "process_id"), created = field(receipt, "process_created");
     auto out =
         V::object()
-            .put("schema", V::string(held.kind == NtfsSnapshotKind::Membership
+            .put("schema", V::string(held.kind == NtfsSnapshotKind::Upcase
+                                         ? "org.disked.ntfs-upcase-region-frame/1"
+                                     : held.kind == NtfsSnapshotKind::Membership
                                          ? "org.disked.ntfs-membership-region-frame/1"
                                      : graph_mode(held) ? "org.disked.ntfs-directory-region-frame/1"
                                                         : "org.disked.ntfs-region-frame/1"))
@@ -492,22 +512,25 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
             .put("result", std::move(read.result))
             .put("regions", std::move(regions));
     encode(out);
-    if (graph_mode(held))
-        directory_frame_bounds(out);
+    if (prefix_mode(held))
+        prefix_frame_bounds(out);
     return out;
 }
 V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     validate_ntfs_snapshot_input(input);
     const bool graph = graph_mode(input);
     const bool membership = input.kind == NtfsSnapshotKind::Membership;
+    const bool upcase = input.kind == NtfsSnapshotKind::Upcase;
+    const bool prefix = prefix_mode(input);
     encode(frame);
-    if (graph)
-        directory_frame_bounds(frame);
+    if (prefix)
+        prefix_frame_bounds(frame);
     exact(frame, {"schema", "input", "capture_epoch", "process_id", "process_created", "result",
                   "regions"});
-    if (text(frame, "schema") != (membership ? "org.disked.ntfs-membership-region-frame/1"
-                                  : graph    ? "org.disked.ntfs-directory-region-frame/1"
-                                             : "org.disked.ntfs-region-frame/1") ||
+    if (text(frame, "schema") != (upcase       ? "org.disked.ntfs-upcase-region-frame/1"
+                                  : membership ? "org.disked.ntfs-membership-region-frame/1"
+                                  : graph      ? "org.disked.ntfs-directory-region-frame/1"
+                                               : "org.disked.ntfs-region-frame/1") ||
         !same(field(frame, "input"), ntfs_snapshot_input_value(input)) ||
         integer(frame, "capture_epoch") != input.capture_epoch || !integer(frame, "process_id") ||
         integer(frame, "process_id") > 0xffffffffULL || !integer(frame, "process_created"))
@@ -515,9 +538,10 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     const auto &result = field(frame, "result");
     exact(result,
           {"schema", "observation", "capture", "authorizes_effects", "product_dispatch_admitted"});
-    if (text(result, "schema") != (membership ? "org.disked.ntfs-membership-file-capture/1"
-                                   : graph    ? "org.disked.ntfs-directory-file-capture/1"
-                                              : "org.disked.ntfs-file-capture/1") ||
+    if (text(result, "schema") != (upcase       ? "org.disked.ntfs-upcase-file-capture/1"
+                                   : membership ? "org.disked.ntfs-membership-file-capture/1"
+                                   : graph      ? "org.disked.ntfs-directory-file-capture/1"
+                                                : "org.disked.ntfs-file-capture/1") ||
         boolean(result, "authorizes_effects") || boolean(result, "product_dispatch_admitted"))
         throw std::invalid_argument("ntfs_snapshot_claims");
     const auto &c = field(result, "capture");
@@ -549,7 +573,7 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
                                           "observed_stable",
                                           "atomic_snapshot",
                                           "source_consistency"};
-    if (graph)
+    if (prefix)
         for (const auto k : {"profile_probe_response_count", "profile_probe_sha256",
                              "profile_prefix_validation_attempted", "profile_prefix_validated",
                              "profile_prefix_boundary", "profile_prefix_continued",
@@ -642,7 +666,9 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
             return de_view{r.bytes.data(), r.bytes.size()};
         };
         V observed;
-        if (graph) {
+        if (upcase)
+            observed = observe_ntfs_upcase(request, reader);
+        else if (graph) {
             NtfsDirectoryRequest r;
             r.capture = request;
             r.reference = input.directory_reference;
@@ -661,7 +687,7 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
         return Replay{std::move(observed), used, boundary};
     };
     auto initial =
-        replay(regions.size(), false, graph && input.profile == NtfsFileProfile::Automatic);
+        replay(regions.size(), false, prefix && input.profile == NtfsFileProfile::Automatic);
     const auto probe = std::move(initial.value);
     auto observed = probe;
     bool selected = input.profile != NtfsFileProfile::Automatic || version(probe, "1");
@@ -670,7 +696,7 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     bool prefix_attempted = false, prefix_boundary = false;
     std::size_t prefix_used = 0;
     V prefix_hash, probe_foundation_hash, selected_foundation_hash;
-    if (graph && input.profile == NtfsFileProfile::Automatic &&
+    if (prefix && input.profile == NtfsFileProfile::Automatic &&
         text(probe, "diagnostic") == "ntfs_volume_version" && version(probe, "0")) {
         request.minor = 0;
         prefix_attempted = true;
@@ -678,8 +704,8 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
         auto choice = replay(prefix_used, true, false);
         prefix_boundary = choice.boundary;
         prefix_hash = V::string(hash(choice.value));
-        const auto before = directory_foundation(probe),
-                   after_prefix = directory_foundation(choice.value);
+        const auto before = profile_foundation(probe),
+                   after_prefix = profile_foundation(choice.value);
         probe_foundation_hash = V::string(hash(before));
         selected_foundation_hash = V::string(hash(after_prefix));
         if (!same(before, after_prefix))
@@ -691,7 +717,7 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     } else {
         if (initial.used != regions.size())
             throw std::invalid_argument("ntfs_snapshot_order");
-        if (!graph && input.profile == NtfsFileProfile::Automatic && boolean(probe, "complete") &&
+        if (!prefix && input.profile == NtfsFileProfile::Automatic && boolean(probe, "complete") &&
             text(probe, "diagnostic") == "ntfs_volume_version" && version(probe, "0")) {
             request.minor = 0;
             observed = replay(regions.size(), false, false).value;
@@ -707,23 +733,24 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
             selected = true;
         }
     }
-    if (graph && (integer(c, "profile_probe_response_count") != initial.used ||
-                  text(c, "profile_probe_sha256") != hash(probe) ||
-                  boolean(c, "profile_prefix_validation_attempted") != prefix_attempted ||
-                  boolean(c, "profile_prefix_validated") != prefix_attempted ||
-                  boolean(c, "profile_prefix_boundary") != prefix_boundary ||
-                  boolean(c, "profile_prefix_continued") != prefix_boundary ||
-                  integer(c, "profile_prefix_validation_calls") != prefix_used ||
-                  integer(c, "profile_prefix_reused") != (prefix_boundary ? prefix_used : 0) ||
-                  !same(field(c, "profile_prefix_validation_sha256"), prefix_hash) ||
-                  !same(field(c, "profile_probe_foundation_sha256"), probe_foundation_hash) ||
-                  !same(field(c, "profile_selected_foundation_sha256"), selected_foundation_hash)))
+    if (prefix && (integer(c, "profile_probe_response_count") != initial.used ||
+                   text(c, "profile_probe_sha256") != hash(probe) ||
+                   boolean(c, "profile_prefix_validation_attempted") != prefix_attempted ||
+                   boolean(c, "profile_prefix_validated") != prefix_attempted ||
+                   boolean(c, "profile_prefix_boundary") != prefix_boundary ||
+                   boolean(c, "profile_prefix_continued") != prefix_boundary ||
+                   integer(c, "profile_prefix_validation_calls") != prefix_used ||
+                   integer(c, "profile_prefix_reused") != (prefix_boundary ? prefix_used : 0) ||
+                   !same(field(c, "profile_prefix_validation_sha256"), prefix_hash) ||
+                   !same(field(c, "profile_probe_foundation_sha256"), probe_foundation_hash) ||
+                   !same(field(c, "profile_selected_foundation_sha256"), selected_foundation_hash)))
         throw std::invalid_argument("ntfs_snapshot_prefix_receipt");
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
     auto domain = V::object()
-                      .put("provider", V::string(membership ? "ntfs-membership-file-prototype"
-                                                 : graph    ? "ntfs-directory-file-prototype"
-                                                            : "ntfs-file-prototype"))
+                      .put("provider", V::string(upcase       ? "ntfs-upcase-file-prototype"
+                                                 : membership ? "ntfs-membership-file-prototype"
+                                                 : graph      ? "ntfs-directory-file-prototype"
+                                                              : "ntfs-file-prototype"))
                       .put("process_id", field(frame, "process_id"))
                       .put("process_created", field(frame, "process_created"))
                       .put("sequence", number(serial))

@@ -226,11 +226,13 @@ std::shared_ptr<const NtfsFileSnapshot> NtfsWorker::snapshot(bool retain_frame) 
     context.put("pid", field(process, "pid"))
         .put("created", field(process, "created"))
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
-        .put("image_profile", V::string(impl_->input.kind == NtfsSnapshotKind::Membership
-                                            ? "ordinary-file-ntfs-membership"
-                                        : impl_->input.kind == NtfsSnapshotKind::Directory
-                                            ? "ordinary-file-ntfs-directory"
-                                            : "ordinary-file-ntfs"));
+        .put("image_profile",
+             V::string(impl_->input.kind == NtfsSnapshotKind::Upcase ? "ordinary-file-ntfs-upcase"
+                       : impl_->input.kind == NtfsSnapshotKind::Membership
+                           ? "ordinary-file-ntfs-membership"
+                       : impl_->input.kind == NtfsSnapshotKind::Directory
+                           ? "ordinary-file-ntfs-directory"
+                           : "ordinary-file-ntfs"));
     // C++14 does not sequence constructor arguments: copy result before moving frame.
     auto result = field(captured, "result");
     auto retained = retain_frame ? std::move(captured) : V{};
@@ -307,6 +309,24 @@ int ntfs_worker_role(int argc, wchar_t **argv) {
                             .put("capture_domain",
                                  V::string("sha256:" + w::hash(json::dump(
                                                            domain, ntfs_snapshot_json_limits()))));
+                    }
+                    if (fault == "upcase_changed") {
+                        auto &table = captured.fields.at("result")
+                                          .fields.at("observation")
+                                          .fields.at("upcase");
+                        auto encoded = table.fields.at("table_hex").text;
+                        auto digit = [](char c) {
+                            return static_cast<unsigned>(c <= '9' ? c - '0' : c - 'a' + 10);
+                        };
+                        std::string bytes;
+                        for (std::size_t i = 0; i < encoded.size(); i += 2)
+                            bytes.push_back(
+                                static_cast<char>(digit(encoded[i]) * 16 + digit(encoded[i + 1])));
+                        bytes.at(0) ^= 1;
+                        const char alphabet[] = "0123456789abcdef";
+                        encoded.at(1) = alphabet[digit(encoded.at(1)) ^ 1U];
+                        table.put("table_hex", V::string(encoded))
+                            .put("table_sha256", V::string("sha256:" + w::hash(bytes)));
                     }
 #endif
                     const auto bytes = json::dump(captured, ntfs_snapshot_json_limits());
