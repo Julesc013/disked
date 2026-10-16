@@ -98,7 +98,8 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 Private membership source `a1271115` passes all 165 x64 native groups,193
 membership/247 filename/298 stream cases,67 headers/C90/thirteen imports and 247
 tooling tests (two skips). The selected Win32 supplement passes ten groups/ten
-headers/seven executables. [Review](../.aide/evidence/2026-10-16-ntfs-membership/REVIEW.md)
+headers/seven executables. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-membership-integration/repository.json)
+records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-membership/REVIEW.md)
 supports source integration after metadata closure; it does not grant owner
 acceptance, native membership admission or release qualification. The original
 fixture failure remains retained. The programme owns subsequent work state.
