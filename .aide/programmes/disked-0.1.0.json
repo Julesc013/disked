@@ -119,10 +119,11 @@
     "DE-W096",
     "DE-W097",
     "DE-W098",
-    "DE-W099"
+    "DE-W099",
+    "DE-W100"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Implement and qualify W100 actual retained-volume table capture using existing MFT/list/stream/read/reread owners; then bind native provenance and namespace policy before lookup. Preserve original scope and all owner/privilege/release gates.",
+  "next_action": "Close W100 metadata/context and integrate reviewed source through dev/main,then bind exact table acquisition to existing held ordinary-image source and owned reader before namespace/lookup admission. Preserve original scope,retained availability failures and all owner/privilege/release gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1549,6 +1550,15 @@
       "review": ".aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md",
       "owner_accepted": false,
       "remaining": "Actual volume-bound FILE10 capture,namespace/index/alias policy,lookup/content and original all-platform/storage0.1.0."
+    },
+    {
+      "work_id": "DE-W100",
+      "scope": "Actual complete NTFS FILE10/uppercase table through supplied-region MFT/list/stream closure",
+      "source_revision": "b613ccae030123ec0ba7985e9c01068bdc1261fb",
+      "evidence": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/summary.json",
+      "review": ".aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md",
+      "owner_accepted": false,
+      "remaining": "Native held-file/worker/frontend binding,namespace/index/alias/lookup/content and every original platform/storage/release gate."
     }
   ],
   "runner_status_observation": {
@@ -1647,10 +1657,12 @@
     "work_id": "DE-W100",
     "base_revision": "3c22f8f5b51071e2af436595fd03dc57a1568e51",
     "contract": "spec/catalog/ntfs-upcase-capture-prototype.json",
-    "state": "Actual FILE10/table capture implemented in existing Observer. Working158 independent cases pass after retained large-FILE fixture correction and binding-coverage review. Full171 native and isolated Win32 qualification pending.",
-    "qualification_pending": true,
+    "state": "Actual supplied-region table capture qualified and implementing-agent reviewed at b613ccae: all171 native groups,158 new cases,67 headers/C90/14 imports and249 tooling(two skips). Private Win32 nine groups/five headers/four imports pass. Source integration pending.",
+    "qualification_pending": false,
     "owner_accepted": false,
-    "full_0_1_0_complete": false
+    "full_0_1_0_complete": false,
+    "working_evidence": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/summary.json",
+    "review": ".aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md"
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1860,12 +1872,10 @@
   },
   "retained_incomplete_work": [],
   "integration_review": {
-    "work_id": "DE-W099",
-    "status": "source-integrated",
-    "checkpoint_revision": "1182a7dff7af244e65d62bf3fef417cf2af326ce",
-    "tested_native_source_revision": "ff74ccae18764ef54a6ad16a472ec59779e87b1c",
-    "review": ".aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md",
-    "receipt": ".aide/evidence/2026-10-17-ntfs-upcase-integration/repository.json",
+    "work_id": "DE-W100",
+    "status": "agent-reviewed-source-integration-pending",
+    "tested_native_source_revision": "b613ccae030123ec0ba7985e9c01068bdc1261fb",
+    "review": ".aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md",
     "owner_accepted": false
   },
   "next_work_preparation": {
@@ -2018,15 +2028,12 @@
     "original_delay_cause_established": false
   },
   "latest_hosted_observation": {
-    "evidence": ".aide/evidence/2026-10-17-ntfs-upcase/hosted-final-observations.json",
-    "observed_at": "2026-10-16T14:50:33.462369+00:00",
+    "evidence": ".aide/evidence/2026-10-17-ntfs-upcase-capture/hosted-observations.json",
+    "observed_at": "2026-10-16T16:05:10.001886+00:00",
     "setup_head": "8b9082e260b2d34551cbeb52329c1b382865aafb",
     "setup_checks_passed": 6,
-    "setup_not_success": [
-      {
-        "name": "native-windows",
-        "state": "IN_PROGRESS"
-      }
+    "setup_completed_non_success": [
+      "native-windows"
     ],
     "local_setup_qualified": false,
     "upstream_writes": false

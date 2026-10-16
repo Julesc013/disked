@@ -22,3 +22,7 @@ manages acquisition and coherence. The C90 table mechanics remain in
 `portable/ntfs/upcase.c`. No production file or directory is added. Native held-file
 and worker binding, namespace/index/alias policy, lookup/content, all original
 platforms/storage and owner/release gates remain required.
+
+The [agent review](../.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md)
+links exact source,complete current x64 and selected private Win32 results,retained
+fixture failures and unverified capabilities. Owner acceptance remains pending.

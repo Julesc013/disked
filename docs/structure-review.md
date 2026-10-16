@@ -94,6 +94,12 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Retained NTFS table source `b613ccae` passes all171 registered x64 groups,158 new
+capture cases,67 headers/C90/14 imports and249 tooling tests(two skips). Its private
+Win32 supplement passes nine groups/five headers/four imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md)
+records exact table/context/reference/reread scope. No native table source,worker,
+frontend,namespace or lookup admission follows; original0.1.0 remains incomplete.
+
 Private NTFS table source `ff74ccae` passes21/170 selected x64 groups,327680
 mapping observations,2520 comparisons and78 guard cases, plus67 headers/C90/four
 imports and249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
@@ -187,15 +193,14 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase/hosted-final-observations.json)
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-capture/hosted-observations.json)
 records draft/open/unmerged [PR237](https://github.com/Julesc013/universal-setup/pull/237)
-at `8b9082e2`, observed `2026-10-16T14:50:33.462369+00:00`. Six checks succeeded;
-remaining check state: native-windows=IN_PROGRESS. This candidate is not qualified by pending
-checks. The separately retained `da8666a0` candidate failed native Windows with
-missing-artifact and receipt-file-count errors; the underlying repair/recovery
-cause was not established. Its failure remains failed. Both queried release
-collections are empty. DiskEd's Setup source pin remains `2e64f654`; no upstream
-writes,installation or local lifecycle qualification were performed.
+at `8b9082e2`, observed `2026-10-16T16:05:10.001886+00:00`. Six checks
+succeeded; native Windows failed. Its retained failed-job output reports missing
+artifacts and receipt-count errors,which do not establish the underlying cause.
+Earlier candidates and failures remain retained at their exact revisions. Both
+queried release collections are empty. No upstream writes,installation or local
+Setup lifecycle qualification were performed.
 
 The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

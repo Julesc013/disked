@@ -1,0 +1,742 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W100",
+  "base_revision": "3c22f8f5b51071e2af436595fd03dc57a1568e51",
+  "spec_manifest_digest": "sha256:de8adf3976389416465a5f8bbb007f97f05ec477695da89fd66d61a422d9676a",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    "spec/catalog/ntfs-upcase-capture-prototype.json",
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_stream.cpp",
+    "tests/images/ntfs_closure_fixture.py"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/.gitattributes",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/activation-error.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/binding-review.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-binding-review.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-fixture-correction.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-before-implementation.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/fixture-correction.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/grant.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/hosted-observations.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/inventory.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure-initial.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/context-archive.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/context.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/context.zip",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/index.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/manifest.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/source-map.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/structural.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/verify-context.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/metadata-closure/verify-manifest.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/native-unverified.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/path-audit.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/preimplementation.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/prior-goal-turn.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build-observations/CMakeCache.txt",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build-observations/Testing/Temporary/LastTest.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build-observations/build-boundaries.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build-observations/generated/build-identity.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build-observations/private-header-usage.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-header-fixup.h.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-header-ntfs.h.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-version.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/configure.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/context.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/context.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/context.zip",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/fixup.h.c",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/index.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/inputs.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/manifest.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-allocation-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-directory-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-namespace-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-tree-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-tree-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-upcase-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/exfat-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-allocation-scan-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-auxiliary-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-content-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-content-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-content-stream-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-directory-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-extraction-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-extraction-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-metadata-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-namespace-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-recursive-failure-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-recursive-product-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-retention-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-traversal-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-admission-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-content-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-controller-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-extraction-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-extraction-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-history-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-metadata-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-reconnect-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-review-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-session-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-tree-watch-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-walk-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-window-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-window-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/fat-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/logical-extraction-evidence-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-attributes-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-block-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-boot-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-closure-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-directory-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-directory-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-directory-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-directory-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-index-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-list-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-membership-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-membership-command-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-membership-file-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-membership-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-names-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-record-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-runlist-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-stream-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-upcase-capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-upcase-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/ntfs-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/verification-worker-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-details/worker-ancestry-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native-junit.xml",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs.h.c",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/recipe.snapshot.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/registered.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/selected-registration.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/source-map.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/structural.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/summary.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/tooling.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/verify-context.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/references.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce-win32.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/setup-failed-job.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/setup-failed-job.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/source-inventory.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/unverified.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/build-observations/CMakeCache.txt",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/build-observations/Testing/Temporary/LastTest.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/build.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/configure.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-CMakeLists.txt",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-header.c",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-header.cpp",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-ntfs_capture.cpp",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-ntfs_names.cpp",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-ntfs_stream.cpp",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/fixture-sources.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/inputs.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-closure-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-directory-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-membership-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-names-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-stream-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-upcase-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-details/ntfs-upcase_capture-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native-junit.xml",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/native.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_capture_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_capture_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_capture_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_names_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_names_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_names_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_stream_probe-dependents.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_stream_probe-headers.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/ntfs_stream_probe-imports.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/recipe.snapshot.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/summary.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-corrected/ntfs-upcase-capture-working-second-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-corrected/ntfs-upcase-capture-working-third-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-build.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-cases.failure-input.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-cases.failure-response.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-cases.failure-stderr.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-cases.json",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/ntfs-upcase-capture-working-configure.log",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/recipe.snapshot.py",
+    ".aide/evidence/2026-10-17-ntfs-upcase-capture/working-first/source-inputs.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/ntfs-upcase-capture.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_capture.h",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/ntfs-upcase-capture-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/work/units.json",
+    "tests/images/test_ntfs_upcase_capture.py",
+    "tests/unit/ntfs_capture_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Actual retained NTFS table acquisition qualified at b613ccae with all171 current x64 native groups,158 new cases and private Win32 nine-group supplement. Existing capture/MFT/list/stream/coherence owners reused; no new production file or native/frontend/effect admission. Implementing-agent review only; original full0.1.0 and owner/platform/storage/release gates remain.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/build.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/registered.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build -C Release --show-only=json-v1 -R ^(acquisition\\.fat_metadata|acquisition\\.fat_tree_review|artifacts\\.archive_completeness|build\\.boundaries|build\\.boundary_checker|capture\\.fat_content_stream|capture\\.tree_session_rules|command\\.compiled_registry|command\\.syntax|disked\\.acceptance|disked\\.invocation|disked_provider_guard\\.acceptance|disked_provider_guard\\.invocation|evidence\\.acquired_image_verification|evidence\\.acquisition_case|evidence\\.acquisition_export|evidence\\.case_model|evidence\\.export_commands|evidence\\.export_model|evidence\\.fat_tree_history|evidence\\.file_export|evidence\\.image_verification_collection|evidence\\.image_verification_observation|evidence\\.logical_extraction|evidence\\.report_process_identity|evidence\\.report_watch|evidence\\.report_worker|evidence\\.verification_case_export|evidence\\.verification_commands|evidence\\.verification_worker|frontend\\.acquisition_forms|frontend\\.acquisition_interactive|frontend\\.acquisition_timeout|frontend\\.fat_extraction|frontend\\.fat_recursive_failures|frontend\\.fat_recursive_product|frontend\\.fat_tree_sessions|frontend\\.gui_capture|frontend\\.gui_model|frontend\\.gui_windows|frontend\\.joined_report|frontend\\.product_export|frontend\\.product_verification|frontend\\.service|frontend\\.shared_presentation|frontend\\.transport|frontend\\.tui_model|frontend\\.tui_windows|health\\.command|health\\.observation_model|image\\.acquisition_commands|image\\.acquisition_operations|image\\.acquisition_pipeline|image\\.acquisition_worker|image\\.exfat_capture|image\\.exfat_commands|image\\.exfat_file|image\\.exfat_namespace|image\\.exfat_tree|image\\.exfat_tree_file|image\\.exfat_worker|image\\.fat_allocation_scan|image\\.fat_allocation_windows|image\\.fat_auxiliary|image\\.fat_capture|image\\.fat_commands|image\\.fat_content|image\\.fat_content_file|image\\.fat_extraction|image\\.fat_namespace|image\\.fat_retention_commands|image\\.fat_retention_store|image\\.fat_traversal|image\\.fat_tree_admission|image\\.fat_tree_commands|image\\.fat_tree_content|image\\.fat_tree_controller|image\\.fat_tree_extraction|image\\.fat_tree_extraction_worker|image\\.fat_tree_file|image\\.fat_tree_metadata|image\\.fat_tree_reconnect|image\\.fat_tree_watch|image\\.fat_window_commands|image\\.fat_worker|image\\.file_acquisition|image\\.file_capture|image\\.gpt_fixture_execution|image\\.gpt_fixture_restoration|image\\.gpt_repair_command|image\\.gpt_restoration_inspection|image\\.map_observation|image\\.ntfs_capture|image\\.ntfs_closure|image\\.ntfs_commands|image\\.ntfs_directory|image\\.ntfs_directory_commands|image\\.ntfs_directory_file|image\\.ntfs_directory_worker|image\\.ntfs_file|image\\.ntfs_membership|image\\.ntfs_membership_commands|image\\.ntfs_membership_file|image\\.ntfs_membership_worker|image\\.ntfs_names|image\\.ntfs_stream|image\\.ntfs_upcase_capture|image\\.ntfs_worker|image\\.parent_pins|image\\.shared_commands|invocation\\.policy|journal\\.binary_codec|journal\\.guarded_model|journal\\.model_binary_producer|journal\\.plan_definitions|journal\\.repeated_crash_audit|journal\\.semantic_reader|operation\\.directory_pins|operation\\.reducer|operation\\.watch|operation\\.watch_reader|operation\\.worker|planner\\.gpt_repair|portable\\.c_cpp_linkage|portable\\.checked|portable\\.exfat|portable\\.exfat_allocation|portable\\.exfat_allocation_guard|portable\\.exfat_directory|portable\\.exfat_directory_guard|portable\\.exfat_guard|portable\\.exfat_upcase|portable\\.exfat_upcase_guard|portable\\.fat|portable\\.fat_auxiliary_guard|portable\\.fat_cell_guard|portable\\.fat_directory|portable\\.fat_directory_guard|portable\\.fat_guard|portable\\.fat_walk|portable\\.fat_walk_guard|portable\\.gpt|portable\\.gpt_guard|portable\\.mbr_ebr|portable\\.mbr_guard|portable\\.ntfs_attributes|portable\\.ntfs_block|portable\\.ntfs_boot|portable\\.ntfs_index|portable\\.ntfs_list|portable\\.ntfs_record|portable\\.ntfs_runlist|portable\\.ntfs_upcase|portable\\.ntfs_upcase_guard|protocol\\.compatible_reader|protocol\\.json_codec|provider_guard\\.positive_control|recovery\\.gpt_fixture_harness|resilience\\.capture|resilience\\.capture_campaign|resilience\\.console_waiting|resilience\\.frontend_memory|resilience\\.gui_waiting|resilience\\.output_waiting|resilience\\.request_channel|resilience\\.request_waiting|resilience\\.store_failures|resilience\\.worker_ancestry|resilience\\.worker_budget|shell\\.model|shell\\.windows)$",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/selected-registration.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build -C Release --parallel 1 --output-on-failure --stop-on-failure -R ^(acquisition\\.fat_metadata|acquisition\\.fat_tree_review|artifacts\\.archive_completeness|build\\.boundaries|build\\.boundary_checker|capture\\.fat_content_stream|capture\\.tree_session_rules|command\\.compiled_registry|command\\.syntax|disked\\.acceptance|disked\\.invocation|disked_provider_guard\\.acceptance|disked_provider_guard\\.invocation|evidence\\.acquired_image_verification|evidence\\.acquisition_case|evidence\\.acquisition_export|evidence\\.case_model|evidence\\.export_commands|evidence\\.export_model|evidence\\.fat_tree_history|evidence\\.file_export|evidence\\.image_verification_collection|evidence\\.image_verification_observation|evidence\\.logical_extraction|evidence\\.report_process_identity|evidence\\.report_watch|evidence\\.report_worker|evidence\\.verification_case_export|evidence\\.verification_commands|evidence\\.verification_worker|frontend\\.acquisition_forms|frontend\\.acquisition_interactive|frontend\\.acquisition_timeout|frontend\\.fat_extraction|frontend\\.fat_recursive_failures|frontend\\.fat_recursive_product|frontend\\.fat_tree_sessions|frontend\\.gui_capture|frontend\\.gui_model|frontend\\.gui_windows|frontend\\.joined_report|frontend\\.product_export|frontend\\.product_verification|frontend\\.service|frontend\\.shared_presentation|frontend\\.transport|frontend\\.tui_model|frontend\\.tui_windows|health\\.command|health\\.observation_model|image\\.acquisition_commands|image\\.acquisition_operations|image\\.acquisition_pipeline|image\\.acquisition_worker|image\\.exfat_capture|image\\.exfat_commands|image\\.exfat_file|image\\.exfat_namespace|image\\.exfat_tree|image\\.exfat_tree_file|image\\.exfat_worker|image\\.fat_allocation_scan|image\\.fat_allocation_windows|image\\.fat_auxiliary|image\\.fat_capture|image\\.fat_commands|image\\.fat_content|image\\.fat_content_file|image\\.fat_extraction|image\\.fat_namespace|image\\.fat_retention_commands|image\\.fat_retention_store|image\\.fat_traversal|image\\.fat_tree_admission|image\\.fat_tree_commands|image\\.fat_tree_content|image\\.fat_tree_controller|image\\.fat_tree_extraction|image\\.fat_tree_extraction_worker|image\\.fat_tree_file|image\\.fat_tree_metadata|image\\.fat_tree_reconnect|image\\.fat_tree_watch|image\\.fat_window_commands|image\\.fat_worker|image\\.file_acquisition|image\\.file_capture|image\\.gpt_fixture_execution|image\\.gpt_fixture_restoration|image\\.gpt_repair_command|image\\.gpt_restoration_inspection|image\\.map_observation|image\\.ntfs_capture|image\\.ntfs_closure|image\\.ntfs_commands|image\\.ntfs_directory|image\\.ntfs_directory_commands|image\\.ntfs_directory_file|image\\.ntfs_directory_worker|image\\.ntfs_file|image\\.ntfs_membership|image\\.ntfs_membership_commands|image\\.ntfs_membership_file|image\\.ntfs_membership_worker|image\\.ntfs_names|image\\.ntfs_stream|image\\.ntfs_upcase_capture|image\\.ntfs_worker|image\\.parent_pins|image\\.shared_commands|invocation\\.policy|journal\\.binary_codec|journal\\.guarded_model|journal\\.model_binary_producer|journal\\.plan_definitions|journal\\.repeated_crash_audit|journal\\.semantic_reader|operation\\.directory_pins|operation\\.reducer|operation\\.watch|operation\\.watch_reader|operation\\.worker|planner\\.gpt_repair|portable\\.c_cpp_linkage|portable\\.checked|portable\\.exfat|portable\\.exfat_allocation|portable\\.exfat_allocation_guard|portable\\.exfat_directory|portable\\.exfat_directory_guard|portable\\.exfat_guard|portable\\.exfat_upcase|portable\\.exfat_upcase_guard|portable\\.fat|portable\\.fat_auxiliary_guard|portable\\.fat_cell_guard|portable\\.fat_directory|portable\\.fat_directory_guard|portable\\.fat_guard|portable\\.fat_walk|portable\\.fat_walk_guard|portable\\.gpt|portable\\.gpt_guard|portable\\.mbr_ebr|portable\\.mbr_guard|portable\\.ntfs_attributes|portable\\.ntfs_block|portable\\.ntfs_boot|portable\\.ntfs_index|portable\\.ntfs_list|portable\\.ntfs_record|portable\\.ntfs_runlist|portable\\.ntfs_upcase|portable\\.ntfs_upcase_guard|protocol\\.compatible_reader|protocol\\.json_codec|provider_guard\\.positive_control|recovery\\.gpt_fixture_harness|resilience\\.capture|resilience\\.capture_campaign|resilience\\.console_waiting|resilience\\.frontend_memory|resilience\\.gui_waiting|resilience\\.output_waiting|resilience\\.request_channel|resilience\\.request_waiting|resilience\\.store_failures|resilience\\.worker_ancestry|resilience\\.worker_budget|shell\\.model|shell\\.windows)$ --output-junit D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\native-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/native.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_upcase_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_upcase_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_upcase_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_upcase_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_capture_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_index_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_file_fault-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_fault.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_worker_fault-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked_ntfs_test.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/disked_ntfs_test-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_inspection_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_inspection_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_stream_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_stream_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_names_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_names_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_names_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_names_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_block_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/ntfs_attributes_probe-dependents.log"
+    },
+    {
+      "command": "gcc --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-version.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource source\\portable\\ntfs\\attribute.c source\\portable\\ntfs\\attribute_list.c source\\portable\\ntfs\\boot.c source\\portable\\ntfs\\filename.c source\\portable\\ntfs\\fixup.c source\\portable\\ntfs\\index.c source\\portable\\ntfs\\index_block.c source\\portable\\ntfs\\record.c source\\portable\\ntfs\\runlist.c source\\portable\\ntfs\\upcase.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\ntfs.h.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-header-ntfs.h.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\fixup.h.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/c90-header-fixup.h.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W100 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\context --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/qualified-b613ccae/verify-context.log"
+    },
+    {
+      "command": "Same-source isolated private Win32/WOW64 nine-group/five-header campaign",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/win32-b613ccae/summary.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked.exe",
+      "sha256": "sha256:2f1ddae285c9819573d3b81991210a9a0ef24738caa9730c160ffa21f4fcaf50"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_upcase_probe.exe",
+      "sha256": "sha256:b60008faa7d1a0ff6d7407f4aaf31f7d8a4bb61f654143b742f9878ce2695843"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_capture_probe.exe",
+      "sha256": "sha256:29e212a2a577ba55ffe6441090f432108c23d89598b890c2ebc0f81c21ececc5"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_index_probe.exe",
+      "sha256": "sha256:e30c3e020455eb40843f98c4ab573f02eaa21b597011a16782385369df804fe9"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_probe.exe",
+      "sha256": "sha256:129fc2f06ab0afb863eb8ba8ba3ce3536a72fde2065a5ba720f2036a37403d56"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_file_fault.exe",
+      "sha256": "sha256:8aed0ed676d22ed0175096b0b28ad3cc57ed9f0279b9c944147df931c9f8d9ad"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_probe.exe",
+      "sha256": "sha256:9549c402d459bd7b41887c198bd34e87dc63b16e35a5e8404a2b3eb7f901c6b8"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_worker_fault.exe",
+      "sha256": "sha256:3c08ffb3f3b2fee0acaa82fdd5c9c1e8a435a5c519be2688cfda9e19e4258835"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\disked_ntfs_test.exe",
+      "sha256": "sha256:6e00491cb590122103a8d09f2e6454ca86e766d6ef2e2ddf32fe781ebba6c1b1"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_inspection_probe.exe",
+      "sha256": "sha256:19d10f1b6dcf54744a62bddcedd258859ad6dbe0634718e494c3e0f44b606183"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_stream_probe.exe",
+      "sha256": "sha256:b360675f65a65db91927bfa4043c6188a23ede032b479eb4e6fe4f80b45f2be7"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_names_probe.exe",
+      "sha256": "sha256:5be5fd4e39ab48feec54676f2ca8f7b2ef8f4ed1435f43b9004aab5d0ef643c7"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_block_probe.exe",
+      "sha256": "sha256:d0d53b8ad683f8e3520ab6093547849c16e1fe0a2f5bade846a2369bbc5b33de"
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-capture-qualification-b613ccae\\build\\Release\\ntfs_attributes_probe.exe",
+      "sha256": "sha256:a849f48ea9e2d20fa2ad053c9998937c92014fa64eb58ab9df53ac8cf2139a82"
+    }
+  ],
+  "blockers": [
+    "Native held-file/worker/frontend binding and namespace/index/alias/lookup/content remain required.",
+    "Other original platforms/storage,owner acceptance,independent safety and release gates remain.",
+    "Earlier retained availability failures remain unexplained; unavailable fixture/host checks stay unverified."
+  ],
+  "next_safe_step": "Integrate reviewed W100 source/evidence through the authorized dev/main workflow,then bind actual table acquisition to the existing held ordinary-image source and owned reader. Preserve original scope and separate gates.",
+  "performed_remote_writes": true
+}
