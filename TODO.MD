@@ -22,9 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W094: collect distinct captured NTFS filename instances under bounded
-  shared FILE/list identity validation, then qualify without changing stream or
-  frontend semantics. [Contract](spec/catalog/ntfs-names-prototype.json).
+- [x] DE-W094 captured filename instances: exact `18980169` passes all 164
+  x64 native groups, 247 filename/298 unchanged stream cases, 65 headers/C90/
+  thirteen imports and 247 tooling tests (two skips). Private Win32 nine groups/
+  eight headers pass. Native membership, namespace/collation/content and full
+  original 0.1.0 remain. [Review](.aide/evidence/2026-10-16-ntfs-names/REVIEW.md).
 
 - [x] DE-W093 directory-index command/frontends: exact `6efc9a5b` passes
   all 163 x64 native groups, 100 new/58 bootstrap checks, 63 headers/C90/eleven

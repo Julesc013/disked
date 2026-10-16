@@ -95,6 +95,14 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Filename source `18980169` passes all 164 registered x64 native groups, 247 new
+filename/298 unchanged stream cases, 65 headers/C90/thirteen unique executable
+import checks and 247 tooling tests (two skips). The private Win32 supplement
+passes nine groups/eight headers. [Review](../.aide/evidence/2026-10-16-ntfs-names/REVIEW.md)
+records the shared private selector, four actual new files (321 total), preflight
+defects and unchanged public/storage authority. Native membership, collation,
+namespace/content, full original 0.1.0 and release gates remain.
+
 Directory-command source `6efc9a5b` passes all 163 registered x64 native groups,
 100 new/58 bootstrap command checks, 63 headers, strict C90, eleven distinct
 executable import closures and 247 tooling tests (two skips). Eight private
@@ -138,17 +146,17 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The read-only Universal Setup snapshot at `2026-10-16T03:40:42.810046+00:00` finds
+The read-only Universal Setup snapshot at `2026-10-16T06:51:49.341462+00:00` finds
 [draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
-`6869eb32`. All seven checks have finished: six passed and native Windows failed.
-The failed Windows log reports `receipt file count differs` twice. The candidate
-remains unqualified. This updates the earlier pending observation; it does not
-establish a local runtime cause or qualify the repair/recovery lifecycle.
-[Hosted snapshot](../.aide/evidence/2026-10-16-ntfs-directory-worker/hosted-observations.json)
-and [failed log](../.aide/evidence/2026-10-16-ntfs-directory-worker/setup-38837873974-failed.log)
-retain the exact result. Setup main/dev remain protected, with the same file tree
-and one synchronization commit. Both queried GitHub release collections are
-empty. These observations are not local Setup or DiskEd lifecycle qualification.
+`23cf102c`. All seven checks finished: six passed and native Windows failed.
+The exact [hosted snapshot](../.aide/evidence/2026-10-16-ntfs-names/hosted-observations-23cf102c.json) and
+[failed job](../.aide/evidence/2026-10-16-ntfs-names/setup-38858710758-116835894498-failed.log) retain that result; no local runtime cause or
+repair/recovery qualification follows. Earlier `ac19f3ef`/`6869eb32` observations
+and failed logs remain retained in DE-W094/DE-W092 evidence. Setup main/dev are
+protected and share the same file tree `b836676c`. Both queried
+GitHub release collections are empty. DiskEd's inspected source pin remains
+`2e64f654`; no upstream branch, pin or settings were changed. These are hosted
+observations, not local lifecycle qualification.
 
 The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

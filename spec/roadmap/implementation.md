@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.10
+  version: 0.1.5-proposed.11
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-16T05:21:17.700229+00:00'
-  scope: DE-W093 source-bound directory-command qualification; original namespace/platform/storage/release gates remain open
+  at: '2026-10-16T06:49:37.170466+00:00'
+  scope: DE-W094 private filename qualification; native membership and original platform/storage/release gates remain
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -46,8 +46,11 @@ retained in the implementation repository at
 `.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md`. The
 [execution contract](../catalog/ntfs-directory-command-prototype.json) fixes the
 bounded view and its retained source/process/profile/reference evidence.
-Complete namespace, name/target membership, collation, lookup and content remain
-required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
+DE-W094 subsequently adds a private captured filename-instance inventory and
+shared FILE/list selection at `18980169`, with all 164 native groups passing.
+See `catalog/ntfs-names-prototype.json` and retained DE-W094 review for its
+bounded scope. Native name/target membership, collation, complete namespace,
+lookup and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
 repository. Later exFAT and full native qualification supersede W075's old failure
 as an active integration blocker; the original failed campaigns and unknown
 causes remain. Owner, original platforms/storage 0.1.0, recovery and release
