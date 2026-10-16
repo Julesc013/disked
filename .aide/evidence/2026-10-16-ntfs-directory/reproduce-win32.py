@@ -76,7 +76,7 @@ try:
     tests=ET.parse(out/'native-junit.xml').getroot().findall('.//testcase')
     assert len(tests)==4 and all(t.find('failure') is None and t.find('error') is None and t.find('skipped') is None for t in tests)
     summary['cases']={p.name:json.loads(p.read_bytes())['count'] for p in build.glob('ntfs-*-cases.json')}
-    assert summary['cases']=={'ntfs-directory-cases.json':227,'ntfs-capture-cases.json':154,'ntfs-stream-cases.json':298,'ntfs-closure-cases.json':134}
+    assert summary['cases']=={'ntfs-directory-cases.json':227,'ntfs-capture-cases.json':155,'ntfs-stream-cases.json':298,'ntfs-closure-cases.json':134}
     clfile=next((build/'CMakeFiles').glob('*/CMakeCXXCompiler.cmake'))
     cl=Path(re.search(r'set\(CMAKE_CXX_COMPILER "([^"]+)"\)',clfile.read_text())[1])
     summary['artifacts']=[]

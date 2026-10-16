@@ -1,0 +1,75 @@
+{
+  "status": "fail",
+  "source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+  "host": "Windows-10-10.0.19045-SP0",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "-S",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-win32-7bb6153a\\fixture",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-win32-7bb6153a\\build",
+        "-G",
+        "Visual Studio 17 2022",
+        "-A",
+        "Win32,version=10.0.19041.0",
+        "-T",
+        "v143,version=14.44.35207,host=x64",
+        "-DCMAKE_SYSTEM_VERSION=10.0.19041.0",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-exact-7bb6153a",
+      "exit_code": 0,
+      "seconds": 7.464410800021142,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-win32-7bb6153a\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-exact-7bb6153a",
+      "exit_code": 0,
+      "seconds": 12.506539900088683,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-win32-7bb6153a\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-win32-7bb6153a\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-exact-7bb6153a",
+      "exit_code": 0,
+      "seconds": 22.801146800164133,
+      "log": "native.log"
+    }
+  ],
+  "scope": "Four private supplied-reader/stream probes on Win32/WOW64, derived from exact x64 codemodel; not a full Win32 product or historical host qualification.",
+  "recipe_sha256": "sha256:4e3037bf5dd908d8acc3f1e6b1850a1a10a8fa2b2fce45dfa2c5f4ca690eea2b",
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "cases": {
+    "ntfs-capture-cases.json": 155,
+    "ntfs-closure-cases.json": 134,
+    "ntfs-directory-cases.json": 227,
+    "ntfs-stream-cases.json": 298
+  },
+  "error": "AssertionError()"
+}
