@@ -179,10 +179,33 @@ void project_membership(V &observation) {
         return;
     if (field(membership, "schema").text != "org.disked.ntfs-name-correspondence/1")
         throw std::invalid_argument("ntfs_result_shape");
+    const auto &targets = field(membership, "targets"), &edges = field(membership, "edges");
+    if (targets.kind != V::Kind::array || edges.kind != V::Kind::array)
+        throw std::invalid_argument("ntfs_result_shape");
+    // Parent reconstruction establishes the source observation. This port must
+    // still reject malformed row shapes before reporting successful projection.
+    for (const auto &target : targets.items) {
+        if (!(integer(target, "reference") >> 48))
+            throw std::invalid_argument("ntfs_result_reference");
+        const bool complete = flag(target, "inventory_complete");
+        const auto *inventory = target.find("inventory");
+        if ((!inventory || inventory->kind == V::Kind::null)
+                ? complete
+                : flag(*inventory, "complete") != complete)
+            throw std::invalid_argument("ntfs_result_inventory");
+    }
+    for (const auto &edge : edges.items) {
+        const auto header = integer(edge, "header_number"), index = integer(edge, "target_index"),
+                   instances = integer(edge, "matching_instances");
+        if (!header || header > 4096 || index >= targets.items.size() ||
+            integer(edge, "reference") !=
+                integer(targets.items[static_cast<std::size_t>(index)], "reference") ||
+            flag(edge, "corresponds") != (instances != 0))
+            throw std::invalid_argument("ntfs_result_reference");
+    }
     membership.put("original_schema", field(membership, "schema"))
         .put("schema", V::string("org.disked.ntfs-name-correspondence-projection/1"))
         .put("name_display_encoding", V::string("escaped-utf16le-code-units/1"));
-    const auto &targets = field(membership, "targets");
     auto projected = targets;
     for (auto &target : projected.items) {
         if (target.find("record"))
@@ -216,7 +239,6 @@ void project_membership(V &observation) {
     }
     auto selected = rows(targets, projected, 131072, 64);
     membership.put("targets", std::move(selected));
-    const auto &edges = field(membership, "edges");
     auto edge_rows = rows(edges, edges, 32768, 256);
     membership.put("edges", std::move(edge_rows));
 }

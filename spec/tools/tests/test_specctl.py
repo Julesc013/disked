@@ -275,13 +275,14 @@ class TemporaryBundleTests(unittest.TestCase):
         shutil.copytree(ROOT,self.root,ignore=shutil.ignore_patterns('__pycache__','.pytest_cache'))
         for item in sc.read_json(ROOT/'catalog/input-dependencies.json')['inputs']:
             name=item['path']
-            if not name.startswith('spec/') and name not in ('AGENTS.md','CLAUDE.md'):
+            if not name.startswith('spec/'):
                 source=ROOT.parent/name
                 if source.is_file():
                     destination=self.repo/name;destination.parent.mkdir(parents=True,exist_ok=True)
                     shutil.copy2(source,destination)
         self.bundle=sc.Bundle(self.root)
-        # Positive freshness/determinism fixtures follow copied input growth.
+        # Positive freshness/determinism fixtures include declared instructions.
+        # Bootstrap cases remove their owned destinations explicitly below.
         # Budget both content and artifacts explicitly in positive fixtures.
         # This capacity is test-local; production and the 100-byte refusal
         # case below retain their explicit limits and no-truncation guards.

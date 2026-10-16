@@ -261,13 +261,23 @@ def main():
             assert len(canonical(detailed))<8*1024*1024
             selected=pure(params(v,path),detailed);assert selected['exit_code']==0;projection(selected['response']['result'],detailed)
             assert int(selected['response']['result']['observation']['membership']['targets']['omitted'])>0
-            for field in ('domain-target','request-target','inner-target','schema','name','membership-schema'):
+            for field in ('domain-target','request-target','inner-target','schema','name','membership-schema',
+                          'scalar-target','missing-reference','missing-inventory-flag','scalar-edge',
+                          'missing-edge-corresponds','edge-target-index','edge-reference','edge-correspondence'):
                 bad=copy.deepcopy(full);parameters=params(v,path)
                 if field=='domain-target':bad['capture']['domain']['target_limit']='1'
                 elif field=='request-target':parameters['ntfs_target_limit']='1'
                 elif field=='inner-target':bad['observation']['membership']['target_limit']='1'
                 elif field=='schema':bad['schema']='org.disked.ntfs-directory-file-capture/1'
                 elif field=='membership-schema':bad['observation']['membership']['schema']='wrong'
+                elif field=='scalar-target':bad['observation']['membership']['targets'][0]='malformed'
+                elif field=='missing-reference':del bad['observation']['membership']['targets'][0]['reference']
+                elif field=='missing-inventory-flag':del bad['observation']['membership']['targets'][0]['inventory_complete']
+                elif field=='scalar-edge':bad['observation']['membership']['edges'][0]='malformed'
+                elif field=='missing-edge-corresponds':del bad['observation']['membership']['edges'][0]['corresponds']
+                elif field=='edge-target-index':bad['observation']['membership']['edges'][0]['target_index']=str((1<<64)-1)
+                elif field=='edge-reference':bad['observation']['membership']['edges'][0]['reference']='1'
+                elif field=='edge-correspondence':bad['observation']['membership']['edges'][0]['corresponds']=False
                 else:bad['observation']['membership']['targets'][0]['inventory']['names'][0]['name_hex']='0'
                 out=pure(parameters,bad);assert out['exit_code']==4 and out['response']['diagnostics'][0]['code']=='internal_error'
             boundary=copy.deepcopy(full);boundary['capture']['padding']=[]
@@ -302,29 +312,57 @@ def main():
                 if diagnostic:assert diagnostic in [d['code'] for d in result['diagnostics']],result
             launch('normal-fault-isolation',['--json','image','inspect',str(path),*options(v)],settings={'DISKED_NTFS_COMMAND_TEST_HANG':'1'})
             gate=Gate();process=subprocess.Popen([str(a.fault),'protocol','serve','--format=ndjson'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=a.root,env=dict(env,DISKED_NTFS_COMMAND_TEST_GATE=gate.name));messages=queue.Queue()
-            threading.Thread(target=lambda:[messages.put(json.loads(line)) for line in process.stdout],daemon=True).start()
-            def send(request):process.stdin.write(canonical(request)+b'\n');process.stdin.flush()
+            late_start=time.monotonic();late_lock=threading.Lock();late_frames=[]
+            late_log=a.output.with_name(a.output.stem+'-late-trace.jsonl')
+            def late_event(kind,**values):
+                with late_lock:
+                    with late_log.open('a',encoding='utf-8',newline='\n') as log:
+                        log.write(json.dumps(dict(seconds=time.monotonic()-late_start,kind=kind,**values))+'\n')
+            def receive_late():
+                try:
+                    for raw in process.stdout:
+                        frame=a.output.with_name(a.output.stem+'-late-frame-'+str(len(late_frames))+'.json')
+                        frame.write_bytes(raw);late_frames.append(frame.name);value=json.loads(raw)
+                        late_event('frame',request_id=value.get('request_id'),status=value.get('status'),diagnostics=value.get('diagnostics'),raw=frame.name)
+                        messages.put(value)
+                except BaseException as error:late_event('receiver_error',error=repr(error))
+            threading.Thread(target=receive_late,daemon=True).start()
+            def send(request):
+                late_event('send',request_id=request['request_id'],command=request['command'])
+                process.stdin.write(canonical(request)+b'\n');process.stdin.flush()
+            def get_message(timeout):
+                value=messages.get(timeout=timeout)
+                late_event('dequeue',request_id=value.get('request_id'),status=value.get('status'),remaining=messages.qsize())
+                return value
             try:
-                before=file_digest(path);send(wire(params(v,path)));gate.entered();expired=messages.get(timeout=6)
+                before=file_digest(path);send(wire(params(v,path)));gate.entered();late_event('gate_entered');expired=get_message(6)
                 assert expired['status']=='unknown' and expired['diagnostics'][0]['code']=='request_wait_expired'
                 try:
                     with path.open('r+b'):raise AssertionError('Source writable before actual completion')
                 except PermissionError:pass
-                send(wire(params(v,path),'busy'));assert messages.get(timeout=2)['diagnostics'][0]['code']=='request_resource_limit'
-                essential=wire({},'essential');essential['command']='command.list';send(essential);assert messages.get(timeout=2)['status']=='completed'
-                gate.release();after=None
+                send(wire(params(v,path),'busy'));assert get_message(2)['diagnostics'][0]['code']=='request_resource_limit'
+                essential=wire({},'essential');essential['command']='command.list';send(essential);assert get_message(2)['status']=='completed'
+                late_event('gate_release');gate.release();after=None
                 for _ in range(35):
-                    time.sleep(.1);send(wire(params(v,path),'fresh'));after=messages.get(timeout=3)
+                    time.sleep(.1);send(wire(params(v,path),'fresh'));after=get_message(3)
                     if after['status']=='completed':break
                     assert after['diagnostics'][0]['code']=='request_resource_limit'
+                late_event('final_assertion',has_after=after is not None,after_status=after and after['status'],queue_empty=messages.empty(),queued=messages.qsize())
                 assert after and after['status']=='completed' and messages.empty()
-                process.stdin.close();assert process.wait(timeout=8)==6 and not process.stderr.read()
-                assert file_digest(path)==before;record('late-retains-source-slot',expired=expired)
+                process.stdin.close();code=process.wait(timeout=8);stderr=process.stderr.read()
+                late_event('normal_exit_observation',code=code,stderr_bytes=len(stderr))
+                assert code==6 and not stderr
+                assert file_digest(path)==before;record('late-retains-source-slot',expired=expired,trace=str(late_log),frames=late_frames)
+            except BaseException as error:
+                late_event('failure',error=repr(error),parent_returncode=process.poll(),queued=messages.qsize())
+                raise
             finally:
                 gate.release();gate.close()
                 if process.poll() is None:
                     if not process.stdin.closed:process.stdin.close()
-                    process.wait(timeout=15)
+                    try:code=process.wait(timeout=15);late_event('failure_exit_observation',code=code)
+                    except subprocess.TimeoutExpired:late_event('parent_still_running',pid=process.pid);raise
+                late_event('teardown_observation',parent_returncode=process.poll(),queued=messages.qsize())
             for argv in (['help','--json'],['build','inspect','--json'],['command','list','--json']):
                 launch('essential-'+argv[0],argv,exe=a.fault,settings={'DISKED_NTFS_COMMAND_TEST_OPEN_GUARD':'1'})
             passed=True

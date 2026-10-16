@@ -123,7 +123,7 @@ def main():
         assert all(r['before_sha256']==r['after_sha256'] for r in member_worker['source_receipts'])
         summary['membership_worker_cases']=member_worker['cases']
         command_membership=json.loads((build/'ntfs-membership-command-cases.json').read_bytes())
-        assert command_membership['passed'] and command_membership['cases']==118
+        assert command_membership['passed'] and command_membership['cases']==126
         assert all(r['before_sha256']==r['after_sha256'] for r in command_membership['source_receipts'])
         assert any(r['bytes']>2**32 for r in command_membership['source_receipts'])
         summary['membership_command_cases']=command_membership['cases']

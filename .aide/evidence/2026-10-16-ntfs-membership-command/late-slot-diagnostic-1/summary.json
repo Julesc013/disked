@@ -1,0 +1,164 @@
+{
+  "recorded_at": "2026-10-16T13:08:16.721327+00:00",
+  "status": "pass",
+  "error": null,
+  "command": [
+    "D:\\Projects\\DiskEd\\disked\\.aide-local\\report-phases-build\\Release\\disked_ntfs_test.exe",
+    "protocol",
+    "serve",
+    "--format=ndjson"
+  ],
+  "cwd": "D:\\Projects\\DiskEd\\disked",
+  "binary_sha256": "sha256:8f457140702fdf6dc442ba9ba4d836f2cfd47cc9bf2127dc8d26a9623983ce71",
+  "source_before": "sha256:165695ece97d523da54b885fa497ea57c66a4d1d76c338206f499b5b9f336c3e",
+  "source_after": "sha256:165695ece97d523da54b885fa497ea57c66a4d1d76c338206f499b5b9f336c3e",
+  "source_unchanged": true,
+  "parent_returncode": 6,
+  "timeout_policy": "Original1000ms gate-enter/6s expiry/35x0.1s fresh poll/3s receive/8s normal exit expectations unchanged.15s failure observation is diagnostic teardown, not added admission time.",
+  "events": [
+    {
+      "seconds": 0.0047785998322069645,
+      "kind": "send",
+      "request_id": "membership:req",
+      "command": "image.inspect"
+    },
+    {
+      "seconds": 0.0229628998786211,
+      "kind": "gate_entered"
+    },
+    {
+      "seconds": 4.0280155998189,
+      "kind": "frame",
+      "request_id": "membership:req",
+      "status": "unknown",
+      "diagnostics": [
+        {
+          "code": "request_wait_expired",
+          "message_key": "disked.request_wait_expired",
+          "parameters": {},
+          "platform_code": null,
+          "remediation": [],
+          "severity": "error"
+        }
+      ],
+      "raw": "frame-0.json"
+    },
+    {
+      "seconds": 4.028271599905565,
+      "kind": "dequeue",
+      "request_id": "membership:req",
+      "status": "unknown",
+      "remaining": 0
+    },
+    {
+      "seconds": 4.02849409985356,
+      "kind": "source_remains_pinned"
+    },
+    {
+      "seconds": 4.028928499901667,
+      "kind": "send",
+      "request_id": "busy",
+      "command": "image.inspect"
+    },
+    {
+      "seconds": 4.02955470001325,
+      "kind": "frame",
+      "request_id": "busy",
+      "status": "refused",
+      "diagnostics": [
+        {
+          "code": "request_resource_limit",
+          "message_key": "disked.request_resource_limit",
+          "parameters": {},
+          "platform_code": null,
+          "remediation": [],
+          "severity": "error"
+        }
+      ],
+      "raw": "frame-1.json"
+    },
+    {
+      "seconds": 4.029680499807,
+      "kind": "dequeue",
+      "request_id": "busy",
+      "status": "refused",
+      "remaining": 0
+    },
+    {
+      "seconds": 4.029825399862602,
+      "kind": "send",
+      "request_id": "essential",
+      "command": "command.list"
+    },
+    {
+      "seconds": 4.03235699981451,
+      "kind": "frame",
+      "request_id": "essential",
+      "status": "completed",
+      "diagnostics": [],
+      "raw": "frame-2.json"
+    },
+    {
+      "seconds": 4.032510299934074,
+      "kind": "dequeue",
+      "request_id": "essential",
+      "status": "completed",
+      "remaining": 0
+    },
+    {
+      "seconds": 4.032640299992636,
+      "kind": "gate_release"
+    },
+    {
+      "seconds": 4.132982699899003,
+      "kind": "send",
+      "request_id": "fresh",
+      "command": "image.inspect"
+    },
+    {
+      "seconds": 4.227604300016537,
+      "kind": "frame",
+      "request_id": "fresh",
+      "status": "completed",
+      "diagnostics": [],
+      "raw": "frame-3.json"
+    },
+    {
+      "seconds": 4.227777199819684,
+      "kind": "dequeue",
+      "request_id": "fresh",
+      "status": "completed",
+      "remaining": 0
+    },
+    {
+      "seconds": 4.227928799809888,
+      "kind": "attempt",
+      "attempt": 0,
+      "status": "completed",
+      "pending": 0
+    },
+    {
+      "seconds": 4.228029299993068,
+      "kind": "final_assertion",
+      "has_after": true,
+      "after_status": "completed",
+      "queue_empty": true,
+      "pending": 0
+    },
+    {
+      "seconds": 4.233671399997547,
+      "kind": "teardown_observation",
+      "parent_returncode": 6,
+      "receiver_alive": false,
+      "queued": 0
+    }
+  ],
+  "frames": [
+    "frame-0.json",
+    "frame-1.json",
+    "frame-2.json",
+    "frame-3.json"
+  ],
+  "original_working_failure_cause_established": false,
+  "owner_accepted": false
+}
