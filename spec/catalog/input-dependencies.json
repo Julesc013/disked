@@ -1291,7 +1291,10 @@
         "tests/unit/portable_cpp.cpp",
         "tests/unit/portable_probe.c",
         "tools/build-bootstrap.py",
-        "tools/check-build-boundaries.py"
+        "tools/check-build-boundaries.py",
+        "tests/frontend/test_ntfs_upcase_commands.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce-win32.py"
       ],
       "spec_ids": [
         "DE-021",
@@ -1490,7 +1493,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "spec/catalog/joined-report-public-prototype.json"
+        "spec/catalog/joined-report-public-prototype.json",
+        "spec/catalog/ntfs-upcase-command-prototype.json"
       ],
       "spec_ids": [
         "DE-021",
@@ -10167,7 +10171,9 @@
       "path": "spec/schemas/command-image-inspect-parameters.schema.json",
       "kind": "schema",
       "delivery": "artifact",
-      "depends_on": [],
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
       "spec_ids": [
         "DE-037",
         "DE-023",
@@ -14172,7 +14178,8 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
-        "spec/catalog/ntfs-command-prototype.json"
+        "spec/catalog/ntfs-command-prototype.json",
+        "spec/catalog/ntfs-upcase-command-prototype.json"
       ],
       "spec_ids": [
         "DE-022",
@@ -16376,6 +16383,163 @@
         "DE-012",
         "DE-015",
         "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "spec/catalog/ntfs-upcase-command-prototype.json",
+      "path": "spec/catalog/ntfs-upcase-command-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-upcase-command.md",
+      "path": "docs/ntfs-upcase-command.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/frontend/test_ntfs_upcase_commands.py",
+      "path": "tests/frontend/test_ntfs_upcase_commands.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json",
+        "tests/frontend/protocol_trace.py",
+        "tests/frontend/test_ntfs_commands.py",
+        "tests/frontend/test_ntfs_directory_commands.py",
+        "tests/images/test_ntfs_capture.py",
+        "tests/images/test_ntfs_file.py",
+        "tests/images/test_ntfs_upcase_capture.py"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-implementation.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-implementation.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/references.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/references.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-evaluation.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-evaluation.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-implementation.json",
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-fixture-review.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-fixture-review.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-evaluation.json",
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-complete-input-review.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-complete-input-review.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-fixture-review.json",
+        "spec/catalog/ntfs-upcase-command-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
         "DE-037"
       ]
     }

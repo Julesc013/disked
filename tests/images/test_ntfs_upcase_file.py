@@ -166,8 +166,8 @@ class Tests(unittest.TestCase):
         self.assertTrue(all(r.get("opened", r.get("moved", False)) for r in value["released_access"]))
         self.assertTrue(all(r["opened"] for group in value["released_parent_access"] for r in group))
 
-    def test_public_inspection_rejects_private_kind(self):
-        process = subprocess.run([str(INSPECTION)], input=held.canonical(dict(private_kind="upcase")),
+    def test_public_inspection_rejects_unknown_kind(self):
+        process = subprocess.run([str(INSPECTION)], input=held.canonical(dict(private_kind="unknown")),
                                  capture_output=True, timeout=10)
         self.assertEqual(process.returncode, 0, process.stderr)
         self.assertEqual(json.loads(process.stdout), dict(rejected=True, diagnostic="ntfs_inspection_kind"))

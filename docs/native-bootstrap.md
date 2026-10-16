@@ -5,21 +5,26 @@ static command discovery, actual host/mode inspection and contextual help. `prot
 build/command and fake-graph requests over stdin/stdout. The compiled fake graph
 includes cloned labels, aliases, shared/cyclic layers and denied/stale/unknown
 observations. A native console TUI provides screen and linear presentation.
-The current dev.65 prototype selects 26 command identities, including read-only
+The selected development composition has 26 command identities, including read-only
 GPT repair previews, recorded acquisition support export, contained historical
 acquired-image verification and create-only ordinary-image recursive FAT extraction.
 The [recursive command guide](fat-recursive-command.md) describes its separate
 review/grants and retained operation lifecycle. Earlier versioned development notes below describe
 their original scope; current report semantics are in [acquisition-cases.md](acquisition-cases.md).
 
-NTFS inspection includes the existing bootstrap and the new bounded
-[directory-index view](ntfs-directory-command.md). The current working corpus
-passes 100 directory command/frontend checks; exact `6efc9a5b` passes all
+NTFS inspection includes bootstrap, bounded [directory-index](ntfs-directory-command.md)
+and [raw name-correspondence](ntfs-membership-command.md) views. The directory corpus
+at `6efc9a5b` passes 100 command/frontend checks and all
 163 x64 native groups. [Qualification](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md)
 records target, toolchain and remaining limits. The private [attribute-list](ntfs-list.md), [stream](ntfs-stream.md),
 [protected-index](ntfs-block.md) and [directory](ntfs-directory.md) APIs retain
 their own source-bound evidence. An observed index does not establish a complete
 namespace, lookup, target membership, collation, content or storage authority.
+
+DE-W102 adds the [complete table view](ntfs-upcase-command.md) through the same
+actions. Its working corpus passes 119 cases, including all table bytes, eight
+bounded chunks, authentic partial evidence and common frontends. Exact-source
+qualification remains pending; this does not qualify namespace ordering or lookup.
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.

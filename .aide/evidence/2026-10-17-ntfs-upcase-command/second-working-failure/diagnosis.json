@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-10-16T19:03:08.722717+00:00",
+  "status": "fail",
+  "completed_records": 98,
+  "cause": "The structurally complete lookup still omitted its existing cross-field name_code_page requirement. The canonical allOf lookup dependency precedes view-specific prohibition and correctly returns missing_parameter. This requirement was overlooked in the first fixture repair.",
+  "repair": "Add existing name_code_page437 for this lookup fixture. All nested and cross-field lookup prerequisites are then satisfied; unchanged invalid_parameter assertion isolates forbidden Upcase controls. No native/canonical policy,assertion,case count or deadline changed.",
+  "production_changed": false,
+  "first_repair_incomplete": true,
+  "qualification": false
+}

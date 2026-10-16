@@ -10518,6 +10518,124 @@
         ".aide/evidence/2026-10-17-ntfs-upcase-native/expected-after-test-review.json",
         ".aide/evidence/2026-10-17-ntfs-upcase-native/complete-post-native.py"
       ]
+    },
+    {
+      "id": "DE-W102",
+      "title": "Admit complete NTFS uppercase-table inspection through common frontends",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W101",
+        "DE-W098",
+        "DE-W099"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-015",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/ntfs_inspection.h",
+        "source/runtime/capture/ntfs_inspection.cpp",
+        "source/runtime/command/protocol.cpp",
+        "source/platform/windows/storage/ntfs_reader.cpp",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Admit the qualified NTFS FILE10 uppercase-table observation through existing image.inspect and common CLI/stdio/GUI/TUI/shell actions. Preserve the complete observed table, exact source/context identities and partial outcomes. This is table observation, not namespace ordering, Unicode correctness, case-insensitive lookup, global allocation health, current-source authority or mutation. The original all-platform/storage0.1.0 remains the goal.",
+        "Extend existing runtime/capture/ntfs_inspection, shared response classifier, canonical command parameter schema and tooling semantics. The existing native reader already copies the typed kind and limits into the existing owned worker. No new production file, directory, source opener, worker host, command registry, frontend model or public ABI freeze.",
+        "Existing image.inspect PATH adds --view ntfs-upcase. Require canonical decimal-u64 volume-offset and volume-bytes>=512 with sum<=9223372036854775807. Preserve --ntfs-version auto|3.0|3.1 default auto. Reject directory_reference,ntfs_target_limit,upcase_format and all unrelated controls even when equal to another view's default, before native source or port access. C++ Upcase requests require directory_reference0 and default target_limit64. Old view names, schemas, defaults and outcomes remain compatible.",
+        "Use existing wide NTFS capture caps unchanged:512 read requests,2097152 requested bytes,524288 retained bytes,4096 attributes/runs,1048576 observation bytes. Upcase keeps default graph controls, including directory block limit64; do not apply graph-only block128 policy. Preserve source/ancestor pins, expected metadata, profile-prefix validation/reuse, parent retained-byte reconstruction, actual code/PID/creation/capture/exit identities, anonymous publication bounds, worker/job deadlines and source/slot retention. No new native effect authority follows.",
+        "The shared port requires the Upcase file/observation schemas, false effect/admission/atomic/current-source claims, exact request window/profile/fixed-cap domain and provider ntfs-upcase-file-prototype. Domain hash must match its canonical value; observation source_id/epoch match capture source_identity_digest/sequence. Non-null table uses org.disked.ntfs-upcase-table-observation/1, table_bytes131072, and the same source_id/epoch/window. Its volume_serial is a canonical u64 preserved from the parent-verified retained boot bytes; the existing boot summary has no duplicate serial field and projection must not invent one. Its base_reference is FILE10 with a nonzero sequence matching observed upcase_record.sequence, and base_record_sha256 matches its raw_sha256. Complete tables require exactly262144 lowercase hex digits and a matching SHA256; incomplete tables require null table_hex/table_sha256. Null/unreached table is legitimate only for a nonapplicable observation; applicable or observed_stable requires a reached complete table. A complete table does not force outer success. Parent-owned exact replay remains the source authenticity boundary; pure projection does not authenticate an arbitrary self-consistent producer or inspect a live file.",
+        "Result org.disked.ntfs-upcase-inspection/1, scope ordinary-local-file-ntfs-upcase, applicability_scope volume-uppercase-table, requested_version. Observation org.disked.ntfs-upcase-projection/1 preserves original_schema, original scalar facts, complete file/capture digests and capture/context/retirement. Retain all table context and original table digest. Replace table schema by org.disked.ntfs-upcase-table-projection/1 with original_schema, remove table_hex, add table_data. For a complete table, table_data is org.disked.ntfs-upcase-bytes-projection/1, encoding hex-chunks/1, bytes131072, sha256 equal to table_sha256, complete true and exactly eight chunks. Chunk i has byte_offset i*16384, byte_count16384 and exactly32768 lowercase hex characters from that consecutive original byte span. No table byte is omitted, sampled, normalized or interpreted as text. Incomplete table_data is null. Global observation completeness/applicability is independent of complete table bytes observed before a later failure.",
+        "Table view alone uses compact variable metadata: regions prefix64/16384 bytes; primary/mirror/volume_record/upcase_record attributes16/8192 and each runs16/2048; closure extensions8/8192 with the same compact record projection; closure join records/parts/runs/required_records each8/2048; attribute-list entries64/8192 where present. Prefixes retain complete original-array SHA256, decimal total/returned/omitted; charge canonical projected row plus one delimiter. Preserve existing bootstrap/directory/membership projection budgets and representations. Typed report-limit failure is still required if the complete result cannot fit; never silently discard table data or enlarge global limits.",
+        "Complete/applicable/source-agreeing stable results return completed0. Partial,unsupported,quota,malformed-source or explicit-version mismatch return failed4 ntfs_capture_incomplete with precise retained observation diagnostic. Source/binding disagreement returns failed4 ntfs_source_changed; the Upcase mode also classifies the exact ntfs_source_changed reread diagnostic this way, with ntfs_capture_incomplete retained for its incomplete observation. Old modes keep their outcomes. A complete table can remain represented while the outer result fails. Unresolved lifecycle returns unknown6; missing/denied/unavailable source rejected3; invalid parameter2 without source/port access; malformed bound result internal_error4; response overflow ntfs_report_limit4. No durable operation identity or effect permission is introduced.",
+        "Add the Upcase scope to the existing ntfs_inspection_response classifier so all frontends share the same action/response and limits. Keep full canonical response<=524287 bytes plus framing LF,65536 values,depth48,each string<=32768 bytes and existing GUI wrapper allowances. Human output uses the existing escaped serialization; raw table bytes never become terminal instructions. Static discovery/help/build remain source-free. No other command limit or native deadline changes.",
+        "DE-W101 intentionally rejected the private Upcase kind at its checkpoint. This new public contract admits that known kind; replace the current W101 negative probe with explicit unknown kind99 rejection and retain its diagnostic/exit assertion. Add a positive Upcase validation assertion under this contract. Keep original W101 expectations,failed attempts and revision-bound results unchanged. Bind the evolved native guard recipe separately in W102 evidence."
+      ],
+      "acceptance": [
+        "Define independent source/read/table/chunk expectations and public outcomes before native evaluation. Cover both versions/auto/explicit mismatch,fragmented MFT/table,list closure,old/large FILE headers,actual offset above4GiB,malformed/partial and quota source results. Reassemble every chunk and compare every byte/hash/reference/context against original generated data and actual parent-verified worker results. Verify every compact nested prefix against original arrays and original-list hashes; cover omissions without changing observation semantics. Reject each malformed table/context/digest/type/claim/domain/request relationship; complete/incomplete table contradictions; unknown kind; source-free statuses and invalid inputs. Exercise exact524288-byte framed result and one-byte overflow. Launch actual CLI human/JSON,stdio JSON/NDJSON,GUI,TUI and shell; compare stable results, actual worker identity/exit, source hashes and escaped output. Exercise fault-only source-open guard,metadata/read/reply/hang failures,normal/fault isolation,late-result/source/slot retention and essential commands. Retain raw outputs,process/queue state and failures before assertions; preserve existing deadlines.",
+        "Exact clean-source pinned Windows x64 all-target build and all registered native groups after the common schema/projection/classifier change. Retain all67 standalone headers,strict C90,product/private executable import hashes,full tooling/generated/manifest/context checks and unavailable observations. Same-source Win32 private file/worker/capture regressions verify evolved unknown-kind guard; not full Win32 product or other-host/hardware qualification. Diagnose failures before any fresh campaign; a passing later campaign does not explain historical availability failures. Record genuine agent review and authorized dev/main synchronization separately from owner acceptance and releases."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "Run exact-source all-target/current174 x64 native and isolated private Win32 recipes; retain actual commands,logs,identities,unavailable checks and review."
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-upcase-command-prototype.json",
+        "docs/ntfs-upcase-command.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-implementation.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/references.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/reproduce-win32.py",
+        "spec/catalog/ntfs-upcase-native-prototype.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json",
+        "spec/catalog/ntfs-membership-command-prototype.json",
+        "spec/catalog/commands.json",
+        "spec/schemas/command-image-inspect-parameters.schema.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/runtime/capture/ntfs_inspection.h",
+        "source/runtime/capture/ntfs_inspection.cpp",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "source/providers/image/ntfs_file.h",
+        "source/providers/image/ntfs_file.cpp",
+        "source/providers/image/ntfs_snapshot.h",
+        "source/providers/image/ntfs_snapshot.cpp",
+        "source/platform/windows/storage/ntfs_worker.cpp",
+        "source/platform/windows/storage/ntfs_reader.cpp",
+        "source/runtime/command/protocol.cpp",
+        "tests/frontend/test_ntfs_upcase_commands.py",
+        "tests/images/test_ntfs_upcase_file.py",
+        "tests/images/test_ntfs_upcase_worker.py",
+        "tests/unit/ntfs_inspection_probe.cpp",
+        "spec/tools/tests/test_ntfs_command.py",
+        "tests/frontend/test_ntfs_membership_commands.py",
+        "tests/frontend/test_ntfs_directory_commands.py",
+        "tests/frontend/test_ntfs_commands.py",
+        "tests/frontend/protocol_trace.py",
+        "tests/frontend/image_console_fixture.py",
+        "tests/images/test_ntfs_upcase_capture.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        "spec/catalog/native-bootstrap.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-before-evaluation.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-fixture-review.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-complete-input-review.json"
+      ]
     }
   ]
 }

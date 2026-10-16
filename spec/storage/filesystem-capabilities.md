@@ -484,3 +484,12 @@ qualified. Full attribute-list/namespace/content and original target scope remai
 
 
 DE-W082 defines the private owned NTFS reader over the existing observation-worker host. Strict input/source/process/domain binding and retained-region replay precede an immutable observation, available only after actual child exit. This is a bootstrap transport boundary; public command admission, attribute-list/metadata/namespace/content, physical/writer and original-platform qualification remain separate.
+
+DE-W102's [table inspection profile](../catalog/ntfs-upcase-command-prototype.json)
+binds the later qualified FILE10/uppercase-table capture to common frontend
+actions. Its bounded representation preserves every table byte and retains exact
+source/context/reference/digest relationships. Complete table data and outer
+observation applicability remain separate. This profile does not establish
+semantic Unicode correctness, namespace ordering, case-insensitive lookup,
+global allocation health, content or mutation authority. Its native evidence
+must qualify the actual composition; no platform claim follows from its schema.

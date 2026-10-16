@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W102 public NTFS table observation: complete table chunks and bounded
+  metadata through existing shared inspection/frontends. Contract and expected
+  source/chunk relationships defined before implementation; qualification pending.
+
 - [x] DE-W101 native NTFS table binding: exact `0b67e4c7` passes all 173 native
   groups,434 held-file/274 worker cases,67 headers/C90/14 imports and 249 tooling
   tests(two skips). Private Win32 fifteen groups/eleven headers/nine imports pass.

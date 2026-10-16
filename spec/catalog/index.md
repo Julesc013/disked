@@ -106,6 +106,7 @@
 - [ntfs-names-prototype.json](ntfs-names-prototype.json)
 - [ntfs-record-prototype.json](ntfs-record-prototype.json)
 - [ntfs-upcase-capture-prototype.json](ntfs-upcase-capture-prototype.json)
+- [ntfs-upcase-command-prototype.json](ntfs-upcase-command-prototype.json)
 - [ntfs-upcase-native-prototype.json](ntfs-upcase-native-prototype.json)
 - [ntfs-upcase-prototype.json](ntfs-upcase-prototype.json)
 - [ntfs-worker-prototype.json](ntfs-worker-prototype.json)

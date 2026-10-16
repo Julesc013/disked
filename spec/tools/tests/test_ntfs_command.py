@@ -10,6 +10,25 @@ class NtfsCommand(unittest.TestCase):
     @classmethod
     def setUpClass(cls):cls.bundle=sc.Bundle(Path(__file__).resolve().parents[2])
 
+    def test_upcase_profile_and_signed_window(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        value=dict(path='generated.img',view='ntfs-upcase',volume_offset='0',volume_bytes='512')
+        for version in (None,'auto','3.0','3.1'):
+            row=dict(value)
+            if version is not None:row['ntfs_version']=version
+            self.bundle.validate(schema,row)
+        self.bundle.validate(schema,dict(value,volume_offset=str((1<<63)-1-512)))
+        for key,invalid in [('volume_bytes','511'),('volume_offset',str((1<<63)-512)),('volume_bytes',str(1<<64)),('volume_offset','00'),('ntfs_version',True),('ntfs_version','2.0')]:
+            with self.subTest(key=key,value=invalid),self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema,dict(value,**{key:invalid}))
+
+    def test_upcase_rejects_graph_and_other_view_controls(self):
+        schema='urn:disked:schema:command-image-inspect-parameters:1'
+        value=dict(path='generated.img',view='ntfs-upcase',volume_offset='0',volume_bytes='512')
+        for key,invalid in [('directory_reference','0'),('directory_reference',str(1<<48)),('ntfs_target_limit','64'),('upcase_format','auto'),('logical_block_bytes','512'),('fat_copy','0'),('allocation_scan','no'),('retain_capture','no'),('lookup',{}),('allocation_window',{})]:
+            with self.subTest(key=key),self.assertRaises(sc.SpecError):
+                self.bundle.validate(schema,dict(value,**{key:invalid}))
+
     def test_version_choices_and_signed_window(self):
         schema='urn:disked:schema:command-image-inspect-parameters:1'
         value=dict(path='generated.img',view='ntfs',volume_offset='173',volume_bytes='512')

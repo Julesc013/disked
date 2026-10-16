@@ -26,12 +26,14 @@ int main() {
         limits.depth = 48;
         const auto request = disked::json::parse(input, limits);
         if (const auto *kind = request.find("private_kind")) {
-            if (kind->kind != V::Kind::string || kind->text != "upcase")
+            if (kind->kind != V::Kind::string ||
+                (kind->text != "upcase" && kind->text != "unknown"))
                 throw std::invalid_argument("probe_kind");
             disked::NtfsInspectionRequest selected;
             selected.path = "not-opened";
             selected.volume_bytes = 512;
-            selected.kind = disked::NtfsSnapshotKind::Upcase;
+            selected.kind = kind->text == "upcase" ? disked::NtfsSnapshotKind::Upcase
+                                                   : static_cast<disked::NtfsSnapshotKind>(99);
             auto result = V::object().put("rejected", V::boolean_value(false));
             try {
                 disked::validate_ntfs_inspection_request(selected);
