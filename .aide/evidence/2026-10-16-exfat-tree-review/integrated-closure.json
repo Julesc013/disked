@@ -1,0 +1,57 @@
+{
+  "observed_at": "2026-10-16T02:08:41.045095+00:00",
+  "status": "pass",
+  "source_build_test_and_other_catalog_inputs_unchanged": true,
+  "validation_projection_exception": "spec/catalog/exfat-tree-file-prototype.json",
+  "exception_changes_no_contract_parameters": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "integrated-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": "integrated-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W075",
+        "--output",
+        ".aide-local\\context\\exfat-tree-integrated-20261016T020828Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": "integrated-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\exfat-tree-integrated-20261016T020828Z"
+      ],
+      "exit_code": 0,
+      "log": "integrated-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "release_published": false,
+  "full_0_1_0_complete": false
+}
