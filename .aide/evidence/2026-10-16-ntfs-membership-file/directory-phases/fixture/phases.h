@@ -1,0 +1,15 @@
+#pragma once
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <cstdio>
+inline void ntfs_phase(const char *name) {
+    FILETIME c{}, e{}, k{}, u{}; LARGE_INTEGER q{}, f{};
+    GetProcessTimes(GetCurrentProcess(), &c, &e, &k, &u);
+    QueryPerformanceCounter(&q); QueryPerformanceFrequency(&f);
+    const auto cpu = ((static_cast<unsigned long long>(k.dwHighDateTime) << 32) | k.dwLowDateTime)
+                   + ((static_cast<unsigned long long>(u.dwHighDateTime) << 32) | u.dwLowDateTime);
+    std::fprintf(stderr,"{\"phase\":\"%s\",\"pid\":%lu,\"ticks\":%lld,\"frequency\":%lld,\"cpu_100ns\":%llu}\n",name,GetCurrentProcessId(),q.QuadPart,f.QuadPart,cpu);
+    std::fflush(stderr);
+}

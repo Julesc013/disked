@@ -120,6 +120,6 @@ try:
     assert summary['inputs_unchanged'] and summary['checkout_clean']
     summary.update(status='pass',native_groups=11)
 except BaseException as e:
-    summary.update(status='fail',error=repr(e));save(out/'summary.json',summary);raise
+    summary.update(status='fail',error=repr(e),inputs_unchanged=all(sha(root/n)==h for n,h in before.items()),checkout_clean=not subprocess.check_output(['git','status','--porcelain'],cwd=root));save(out/'summary.json',summary);raise
 save(out/'summary.json',summary)
 print('Eleven Win32/WOW64 private held-file membership/filename/reader/worker groups pass; product x64 gate unchanged.',flush=True)

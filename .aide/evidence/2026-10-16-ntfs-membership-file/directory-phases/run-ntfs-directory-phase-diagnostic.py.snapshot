@@ -1,0 +1,32 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import json,hashlib,os,subprocess,sys,time
+
+repo=Path.cwd();source=repo/'.aide-local/ntfs-membership-file-exact-9fac1bde';qualified=repo/'.aide-local/ntfs-membership-file-qualification-9fac1bde'
+out=repo/'.aide/evidence/2026-10-16-ntfs-membership-file/directory-phases'
+assert json.loads((out/'summary.json').read_bytes())['status']=='diagnostic-build-pass'
+sys.path[:0]=[str(source/'tests/frontend'),str(source/'tests/images')]
+from test_ntfs_directory_commands import large_volume,canonical,write,file_digest
+
+volume=large_volume();path=out/'generated-large-second.img';assert not path.exists();write(volume,path)
+before=file_digest(path)
+parameters=dict(path=str(path.resolve()),view='ntfs-directory',volume_offset=volume.input['offset'],volume_bytes=volume.input['length'])
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')}
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+save(out/'fixture-recipe.json',dict(input=volume.input,parameters=parameters,source_before_sha256=before,bytes=path.stat().st_size,expected_status='completed',expected_exit_code=0,original_failed_source_unavailable=True,not_same_source_as_failed_campaign=True))
+exe=json.loads((out/'summary.json').read_bytes())['executable']
+runs=[]
+for name,command,data in [('instrumented',[exe],canonical(parameters)),('exact-human',[qualified/'build/Release/disked.exe','--cli','image','inspect',path.resolve(),'--view','ntfs-directory','--volume-offset',volume.input['offset'],'--volume-bytes',volume.input['length']],b''),('instrumented-after',[exe],canonical(parameters))]:
+ start=time.monotonic();p=subprocess.run(list(map(str,command)),input=data,capture_output=True,env=env,cwd=source,timeout=30)
+ elapsed=time.monotonic()-start
+ (out/(name+'.stdout.json')).write_bytes(p.stdout);(out/(name+'.stderr.jsonl')).write_bytes(p.stderr)
+ save(out/(name+'-process.json'),dict(command=list(map(str,command)),exit_code=p.returncode,seconds=elapsed,stdout_bytes=len(p.stdout),stderr_bytes=len(p.stderr)))
+ response=json.loads(p.stdout)
+ row=dict(name=name,command=list(map(str,command)),executable_sha256='sha256:'+hashlib.sha256(Path(command[0]).read_bytes()).hexdigest(),exit_code=p.returncode,seconds=elapsed,status=response['status'],diagnostics=response['diagnostics'],response_bytes=len(p.stdout),stdout_sha256='sha256:'+hashlib.sha256(p.stdout).hexdigest(),stderr_sha256='sha256:'+hashlib.sha256(p.stderr).hexdigest(),meets_expected=p.returncode==0 and response['status']=='completed')
+ if name.startswith('instrumented'):
+  phases=[json.loads(line) for line in p.stderr.splitlines()];row['phases']=phases
+  row['intervals']=[dict(after=a['phase'],before=b['phase'],seconds=(b['ticks']-a['ticks'])/a['frequency'],cpu_seconds=(b['cpu_100ns']-a['cpu_100ns'])/1e7) for a,b in zip(phases,phases[1:]) if a['pid']==b['pid']]
+ runs.append(row);save(out/'measurement.json',dict(recorded_at=datetime.now(timezone.utc).isoformat(),not_qualification=True,runs=runs,source_before_sha256=before,source_after_sha256=file_digest(path),source_unchanged=file_digest(path)==before))
+ print(json.dumps({k:row[k] for k in ('name','exit_code','seconds','status','meets_expected')}),flush=True)
+ if 'intervals' in row:print(json.dumps(sorted(row['intervals'],key=lambda r:r['seconds'],reverse=True)[:6]),flush=True)
+assert file_digest(path)==before

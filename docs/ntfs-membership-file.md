@@ -22,3 +22,12 @@ qualification, implementing-agent review and source integration remain pending.
 
 Worker and frontend admission, namespace/collation/lookup/content, every original
 0.1.0 platform/storage requirement and owner/release/storage privileges remain.
+
+The first clean selected campaign at `9fac1bde` remains failed: one group passed,
+the existing large-directory human CLI request expired, and 29 selected groups
+were not run. Independent phase runs on new generated sources take about 0.16
+and 0.19 seconds; the unchanged product binary takes 0.17 seconds. The focused
+unchanged-binary 100-case frontend recheck passes. These diagnostics do not
+explain the original delay or qualify the product. Existing launch assertions
+and deadlines stay unchanged; actual duration/outcome is now retained before
+asserting. [Retained failure and diagnostic review](../.aide/evidence/2026-10-16-ntfs-membership-file/diagnostic-review.json).

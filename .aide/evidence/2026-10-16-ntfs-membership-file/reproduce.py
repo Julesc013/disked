@@ -149,6 +149,8 @@ def main():
     except BaseException as error:
         summary['status'] = 'fail'
         summary['error'] = repr(error)
+        summary['inputs_unchanged'] = all(sha(root / name) == digest for name, digest in before.items())
+        summary['source_status_after'] = subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True)
         save()
         raise
     save()

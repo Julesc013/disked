@@ -1,0 +1,18 @@
+#include "phases.h"
+#include "platform/windows/storage/ntfs_reader.h"
+#include "platform/windows/storage/ntfs_worker.h"
+#include <iostream>
+#include <iterator>
+int wmain(int argc, wchar_t **argv) {
+ if(argc>1 && std::wcscmp(argv[1],L"__disked_ntfs_reader_worker")==0)
+  return disked::nt_inventory::ntfs_worker_role(argc,argv);
+ const std::string raw{std::istreambuf_iterator<char>(std::cin),std::istreambuf_iterator<char>()};
+ ntfs_phase("dispatch.begin");
+ const auto parameters=disked::json::parse(raw);
+ const auto result=disked::dispatch_ntfs_inspection("phase-diagnostic",parameters,disked::inspect_ntfs_image);
+ ntfs_phase("dispatch.projected");
+ auto limits=disked::ntfs_snapshot_json_limits(); limits.bytes=524287; limits.values=65536;
+ const auto output=disked::json::dump(result.response,limits);
+ ntfs_phase("dispatch.encoded"); std::cout<<output<<"\n";
+ return result.exit_code;
+}

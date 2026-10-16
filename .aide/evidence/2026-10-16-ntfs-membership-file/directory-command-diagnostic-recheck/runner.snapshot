@@ -1,0 +1,18 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import json,hashlib,subprocess,sys,time
+
+root=Path('.aide/evidence/2026-10-16-ntfs-membership-file');out=root/'directory-command-diagnostic-recheck';out.mkdir()
+build=Path('.aide-local/ntfs-membership-file-qualification-9fac1bde/build').resolve();source=Path('.aide-local/ntfs-membership-file-exact-9fac1bde').resolve()
+def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+paths=[Path('tests/frontend/test_ntfs_directory_commands.py')]+[build/'Release'/(n+'.exe') for n in ('disked','disked_ntfs_test','ntfs_worker_probe','ntfs_inspection_probe')]
+before={str(p):sha(p) for p in paths}
+(out/'test.snapshot').write_bytes(paths[0].read_bytes())
+command=[sys.executable,str(paths[0]),'--exe',str(paths[1]),'--fault',str(paths[2]),'--worker',str(paths[3]),'--probe',str(paths[4]),'--root',str(source),'--output',str((out/'cases.json').resolve())]
+start=time.monotonic()
+with (out/'native.log').open('wb') as log:p=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+receipt=dict(recorded_at=datetime.now(timezone.utc).isoformat(),not_qualification=True,source_revision='9fac1bde5203020e0d1fd4dc92c3bd6b03d78f84',command=command,cwd=str(Path.cwd()),exit_code=p.returncode,seconds=time.monotonic()-start,inputs=before,inputs_unchanged=all(sha(Path(n))==h for n,h in before.items()),scope='Complete existing directory-command group with unchanged exact product/worker binaries and launch diagnostic-only test changes. Original failed campaign remains failed.')
+save(out/'summary.json',receipt)
+print(json.dumps(receipt),flush=True)
+sys.exit(p.returncode or (0 if receipt['inputs_unchanged'] else 1))

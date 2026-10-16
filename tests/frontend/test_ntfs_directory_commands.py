@@ -65,13 +65,20 @@ def main():
         return dict(schema='org.disked.request/1',request_id=id,command='image.inspect',parameters=parameters,required_features=[])
     def launch(name,argv,expected=0,exe=None,settings=None,data=b'',human=False):
         command=[str(exe or a.exe),*argv]
+        started=time.monotonic()
         p=subprocess.run(command,input=data,capture_output=True,env=dict(env,**(settings or {})),cwd=a.root,timeout=25)
+        details=dict(command=command,exit_code=p.returncode,expected_exit_code=expected,
+                     elapsed_seconds=time.monotonic()-started,bytes=len(p.stdout),
+                     response_sha256='sha256:'+hashlib.sha256(p.stdout).hexdigest(),stderr_bytes=len(p.stderr))
+        if p.returncode!=expected or p.stderr:
+            details.update(failed_stdout_prefix=p.stdout[:2500].decode(errors='replace'),
+                           failed_stderr_prefix=p.stderr[:2500].decode(errors='replace'))
+        record(name,**details)
         assert p.returncode==expected and not p.stderr,(name,p.returncode,p.stdout[:2500],p.stderr)
         assert len(p.stdout)<=524288
         assert not any(n<32 and n not in (9,10,13) for n in p.stdout),name
         value=json.loads(p.stdout);assert value['operation_id'] is None
         if human:assert p.stdout.isascii()
-        record(name,command=command,exit_code=p.returncode,bytes=len(p.stdout),response_sha256='sha256:'+hashlib.sha256(p.stdout).hexdigest())
         return value
     def pure(parameters,file=None,status='captured',**extra):
         payload=dict(parameters=parameters,status=status,**extra)

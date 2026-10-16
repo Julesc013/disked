@@ -1,0 +1,84 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys,time
+
+repo=Path.cwd();source=repo/'.aide-local/ntfs-membership-file-exact-9fac1bde';qualified=repo/'.aide-local/ntfs-membership-file-qualification-9fac1bde'
+out=repo/'.aide/evidence/2026-10-16-ntfs-membership-file/directory-phases';out.mkdir();fixture=out/'fixture';fixture.mkdir()
+build=repo/'.aide-local/ntfs-membership-file-directory-phases-build'
+def save(p,v):p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+def sha(p):return 'sha256:'+hashlib.sha256(p.read_bytes()).hexdigest()
+before=json.loads((qualified/'inputs.json').read_bytes());assert all(sha(source/n)==h for n,h in before.items())
+save(out/'expected.json',dict(base_revision='9fac1bde5203020e0d1fd4dc92c3bd6b03d78f84',purpose='Diagnostic phase measurements before any qualification retry',not_qualification=True,production_deadlines_unchanged=True,source_inputs_unchanged_before=True,expected='Generated independent large_directory fixture must produce the same completed observation as the canonical command oracle; any refusal/timeout stays failed. Record exact per-phase monotonic and process CPU times; do not assert an invented timing threshold.',scope='One read-only generated ordinary source; temporary instrumented copies only. No canonical source edits, privilege, physical or upstream effects.'))
+(fixture/'phases.h').write_text('''#pragma once
+#include <windows.h>
+#include <cstdio>
+inline void ntfs_phase(const char *name) {
+    FILETIME c{}, e{}, k{}, u{}; LARGE_INTEGER q{}, f{};
+    GetProcessTimes(GetCurrentProcess(), &c, &e, &k, &u);
+    QueryPerformanceCounter(&q); QueryPerformanceFrequency(&f);
+    const auto cpu = ((static_cast<unsigned long long>(k.dwHighDateTime) << 32) | k.dwLowDateTime)
+                   + ((static_cast<unsigned long long>(u.dwHighDateTime) << 32) | u.dwLowDateTime);
+    std::fprintf(stderr,"{\\"phase\\":\\"%s\\",\\"pid\\":%lu,\\"ticks\\":%lld,\\"frequency\\":%lld,\\"cpu_100ns\\":%llu}\\n",name,GetCurrentProcessId(),q.QuadPart,f.QuadPart,cpu);
+    std::fflush(stderr);
+}
+''',encoding='utf-8',newline='\n')
+reader=(source/'source/platform/windows/storage/ntfs_reader.cpp').read_text();reader='#include "phases.h"\n'+reader.replace('#include "ntfs_reader.h"','#include "platform/windows/storage/ntfs_reader.h"').replace('#include "ntfs_worker.h"','#include "platform/windows/storage/ntfs_worker.h"')
+replacements={
+'NtfsInspectionRead inspect_ntfs_image(const NtfsInspectionRequest &request) {':'NtfsInspectionRead inspect_ntfs_image(const NtfsInspectionRequest &request) {\n ntfs_phase("reader.begin");',
+'source.reset(new Source(request.path));':'source.reset(new Source(request.path)); ntfs_phase("reader.source_bound");',
+'worker = nt_inventory::NtfsWorker::prepare(input);':'worker = nt_inventory::NtfsWorker::prepare(input); ntfs_phase("reader.prepared");',
+'worker->launch();':'ntfs_phase("reader.launch.begin"); worker->launch(); ntfs_phase("reader.launch.end");',
+'worker->release();':'ntfs_phase("reader.entered"); worker->release(); ntfs_phase("reader.released");',
+'observed = worker->observe(100);':'ntfs_phase("reader.observe.begin"); observed = worker->observe(100); ntfs_phase("reader.observe.end");',
+'const auto snapshot = worker->snapshot();':'ntfs_phase("reader.snapshot.begin"); const auto snapshot = worker->snapshot(); ntfs_phase("reader.snapshot.end");',
+'const auto retired = finish_exit(*worker);':'ntfs_phase("reader.retire.begin"); const auto retired = finish_exit(*worker); ntfs_phase("reader.retire.end");',
+'result.worker = retired;':'result.worker = retired; ntfs_phase("reader.copied");'}
+for old,new in replacements.items():assert reader.count(old)==1,old;reader=reader.replace(old,new)
+(fixture/'ntfs_reader.cpp').write_text(reader,encoding='utf-8',newline='\n')
+snapshot=(source/'source/providers/image/ntfs_snapshot.cpp').read_text();snapshot='#include "phases.h"\n'+snapshot.replace('#include "ntfs_snapshot.h"','#include "providers/image/ntfs_snapshot.h"').replace('#include "local_file.h"','#include "providers/image/local_file.h"')
+start=snapshot.index('V verify_ntfs_snapshot_frame(');snapshot=snapshot[:start]+snapshot[start:].replace('    validate_ntfs_snapshot_input(input);','    ntfs_phase("frame.verify.begin");\n    validate_ntfs_snapshot_input(input);',1)
+at=snapshot.rindex('    return result;');snapshot=snapshot[:at]+'    ntfs_phase("frame.verify.end");\n'+snapshot[at:]
+(fixture/'ntfs_snapshot.cpp').write_text(snapshot,encoding='utf-8',newline='\n')
+(fixture/'main.cpp').write_text('''#include "phases.h"
+#include "platform/windows/storage/ntfs_reader.h"
+#include "platform/windows/storage/ntfs_worker.h"
+#include <iostream>
+#include <iterator>
+int wmain(int argc, wchar_t **argv) {
+ if(argc>1 && std::wcscmp(argv[1],L"__disked_ntfs_reader_worker")==0)
+  return disked::nt_inventory::ntfs_worker_role(argc,argv);
+ const std::string raw{std::istreambuf_iterator<char>(std::cin),std::istreambuf_iterator<char>()};
+ ntfs_phase("dispatch.begin");
+ const auto parameters=disked::json::parse(raw);
+ const auto result=disked::dispatch_ntfs_inspection("phase-diagnostic",parameters,disked::inspect_ntfs_image);
+ ntfs_phase("dispatch.projected");
+ const auto output=disked::json::dump(result.response);
+ ntfs_phase("dispatch.encoded"); std::cout<<output<<"\\n";
+ return result.exit_code;
+}
+''',encoding='utf-8',newline='\n')
+reply=qualified/'build/.cmake/api/v1/reply';model=json.loads(next(reply.glob('codemodel-v2-*.json')).read_bytes());targets={r['id']:r for r in model['configurations'][0]['targets']};names={r['name']:r for r in targets.values()}
+def data(n):return json.loads((reply/names[n]['jsonFile']).read_bytes())
+def closure(n,seen=None):
+ seen=set() if seen is None else seen
+ if n in seen:return set()
+ seen.add(n);result={source/p['path'] if not Path(p['path']).is_absolute() else Path(p['path']) for p in data(n).get('sources',[]) if Path(p['path']).suffix in ('.c','.cpp')}
+ for edge in data(n).get('dependencies',[]):result|=closure(targets[edge['id']]['name'],seen)
+ return result
+paths=closure('disked_ntfs_reader');assert all(p.is_relative_to(source/'source') for p in paths)
+paths-={source/'source/platform/windows/storage/ntfs_reader.cpp',source/'source/providers/image/ntfs_snapshot.cpp'}
+q=lambda p:'"'+p.as_posix()+'"'
+cmake=['cmake_minimum_required(VERSION 3.27)','project(NtfsDirectoryPhases LANGUAGES C CXX)','set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "diagnostic" FORCE)','set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)','set(CMAKE_C_STANDARD 90)','set(CMAKE_CXX_STANDARD 14)','add_executable(ntfs_phases '+' '.join(q(p) for p in sorted(paths))+' main.cpp ntfs_reader.cpp ntfs_snapshot.cpp)','target_include_directories(ntfs_phases PRIVATE '+q(source/'source')+' '+q(fixture)+')','target_compile_definitions(ntfs_phases PRIVATE _WIN32_WINNT=0x0A00)','target_compile_options(ntfs_phases PRIVATE /W4 /WX /GS /sdl /guard:cf "$<$<COMPILE_LANGUAGE:CXX>:/permissive-;/utf-8>")','target_link_options(ntfs_phases PRIVATE /DYNAMICBASE /NXCOMPAT /HIGHENTROPYVA /guard:cf)','target_link_libraries(ntfs_phases PRIVATE advapi32 userenv)']
+(fixture/'CMakeLists.txt').write_text('\n'.join(cmake)+'\n',encoding='utf-8',newline='\n')
+save(out/'inputs.json',{str(p):sha(p) for p in sorted(paths|set(fixture.iterdir()))})
+summary=dict(status='running',not_qualification=True,recorded_at=datetime.now(timezone.utc).isoformat(),stages=[])
+def run(name,command):
+ start=time.monotonic()
+ with (out/(name+'.log')).open('wb') as log:p=subprocess.run(list(map(str,command)),stdout=log,stderr=subprocess.STDOUT)
+ summary['stages'].append(dict(command=list(map(str,command)),exit_code=p.returncode,seconds=time.monotonic()-start,log=name+'.log'));save(out/'summary.json',summary);print(name,p.returncode,flush=True);assert p.returncode==0
+try:
+ run('configure',['cmake','-S',fixture,'-B',build,'-G','Visual Studio 17 2022','-A','x64,version=10.0.19041.0','-T','v143,version=14.44.35207,host=x64','-DCMAKE_SYSTEM_VERSION=10.0.19041.0'])
+ run('build',['cmake','--build',build,'--config','Release','--parallel','4'])
+ summary.update(status='diagnostic-build-pass',executable=str(build/'Release/ntfs_phases.exe'),executable_sha256=sha(build/'Release/ntfs_phases.exe'))
+except BaseException as e:summary.update(status='failed',error=repr(e));save(out/'summary.json',summary);raise
+summary['source_inputs_unchanged']=all(sha(source/n)==h for n,h in before.items());assert summary['source_inputs_unchanged'];save(out/'summary.json',summary)
