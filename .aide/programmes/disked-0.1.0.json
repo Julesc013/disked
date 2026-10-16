@@ -131,7 +131,7 @@
     "DE-W093"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Commit/freeze the dependency-corrected source; run a fresh all-target/full164 x64 campaign with stop-on-failure. After it finishes, run the private9-group Win32 supplement. Retain all original failures and unknown timeout cause; do not integrate until complete source/metadata review passes.",
+  "next_action": "Poll live x64 exec85804 and existing outputs without restart. If it passes, launch recorded private9-group/8-header Win32 supplement for18980169. On failure retain actual partial counts and diagnose; keep deadlines/outcomes and original timeout history. Review/metadata closure precede dev/main integration.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1567,7 +1567,7 @@
   "in_progress_slice": {
     "work_id": "DE-W094",
     "base_revision": "df1754652a89eb6751a95f7440c65cba7fd64468",
-    "state": "Two actual direct test/header dependencies corrected; four working groups including both boundary checks pass, with247 filename/298 stream cases unchanged. Original d2e51792 boundary/NDJSON failures retained; targeted100-case and12 serial observations pass, timeout cause unknown. Fresh complete source qualification pending.",
+    "state": "Dependency-corrected18980169 fresh x64/all-target/full164 campaign running with first-failure stop. Win32 supplement queued after x64 to avoid overlapping own qualification workers. Original d2e51792 failures and unknown timeout cause retained.",
     "contract": "spec/catalog/ntfs-names-prototype.json",
     "qualification_pending": true,
     "owner_accepted": false,
@@ -1597,7 +1597,28 @@
         "evidence": ".aide/evidence/2026-10-16-ntfs-names/win32-d2e51792/summary.json"
       }
     },
-    "last_failed_source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e"
+    "last_failed_source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
+    "tested_source_revision": "189801696f022929257873c394e9a6b8d7d49dfc",
+    "campaigns": {
+      "x64": {
+        "session_id": 85804,
+        "status": "running",
+        "output": ".aide-local/ntfs-names-qualification-18980169",
+        "driver_log": ".aide-local/ntfs-names-qualification-18980169.log",
+        "expected_native_groups": 164,
+        "stop_on_failure": true,
+        "exec_session_closed": false,
+        "exit_code": null
+      },
+      "win32": {
+        "status": "queued-after-x64",
+        "output": ".aide-local/ntfs-names-win32-18980169",
+        "expected_native_groups": 9,
+        "expected_headers": 8,
+        "exec_session_closed": false,
+        "exit_code": null
+      }
+    }
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1834,9 +1855,9 @@
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {
-    "revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
+    "revision": "189801696f022929257873c394e9a6b8d7d49dfc",
     "verified": true,
-    "source": "Authorized dev push succeeded; origin/dev is d2e51792. Main remains reviewed df175465 until fresh qualification/review."
+    "source": "Authorized dev push succeeded at18980169; main remains reviewed df175465 pending fresh qualification/review."
   },
   "historical_native_campaigns": [
     {
