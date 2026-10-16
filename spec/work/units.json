@@ -10210,6 +10210,90 @@
         "spec/tools/tests/test_specctl.py",
         "tests/frontend/protocol_trace.py"
       ]
+    },
+    {
+      "id": "DE-W099",
+      "title": "Decode supplied NTFS uppercase tables and compare raw and mapped names",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R1",
+      "dependencies": [
+        "DE-W098",
+        "DE-W087"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ],
+      "allowed_paths": [
+        "source/portable/ntfs/**",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Private C90 supplied-byte NTFS3.0/3.1 uppercase-table envelope, exact code-unit mapping and independent raw/mapped name comparison. A prerequisite for volume-bound namespace/collation/lookup, not those complete capabilities. No native I/O, allocation, source authority, command change or public ABI admission. Original all-platform/storage0.1.0 remains required.",
+        "Add one concrete implementation source, portable/ntfs/upcase.c, to existing disked_ntfs. Keep its private types/functions in ntfs.h and independent native probe/property recipes in existing tests owners. No new production directory, generic Unicode service or duplicate exFAT decoder.",
+        "A complete table envelope has65536 unsigned16-bit little-endian mapping entries,131072 bytes. Represent it as exactly256 borrowed page views, each512 bytes containing256 consecutive entries. Page index is code_unit/256 and byte offset2*(code_unit%256). This requires no contiguous128KiB C object or size_t value above512 for a page; cumulative constants and code-unit controls use de_u32. Descriptors and bytes must remain stable and valid throughout the borrowed handle's lifetime. Pages need not be physically contiguous or aligned. No compression, checksum, default table, implicit identity suffix or host Unicode/locale fallback is invented. Partial/oversized tables are refused as unsupported by this complete-envelope profile, with unchanged outputs. This is an envelope, not a verdict that a volume's table is canonical, correctly sourced or semantically healthy.",
+        "de_ntfs_upcase_init(pages,page_count,major,minor,out) requires nonnull descriptors/output and major3/minor0or1. Mapping and comparison require a handle satisfying the same complete-envelope checks; validate all256 descriptors before reading any mapping or publishing results. Null required pointers, unsupported version and null nonempty page/name views return DE_INVALID. Wrong page count/size, code unit above65535, odd name byte count or name longer than510 bytes return DE_BOUNDS. Required API/control/output objects are valid and disjoint from borrowed descriptors/bytes, consistent with existing private C APIs. No output writes on any error. This is not a hostile C-caller boundary.",
+        "de_ntfs_upcase_read(table,code_unit,out) reads exactly one supplied little-endian word, including ASCII. Apply a mapping once; do not recursively map its result, enforce idempotence, substitute a host table or special-case ASCII. Preserve zero, controls, unpaired surrogates, noncharacters and arbitrary word mappings as supplied. These observations do not legalize a filename or qualify a table's source.",
+        "de_ntfs_name_compare(table,left,right,out) accepts0..255 UTF16LE units per supplied view, including empty sequences. It returns raw_order and upcase_order independently as-1,0or1. Each is lexicographic unsigned-code-unit order with shorter equal prefix first; mapped order applies exactly one supplied mapping per unit. Embedded zero is data, not termination. Do not decode surrogate pairs, normalize, expand characters or consult the host. A raw difference must not prevent evaluating the mapped order. Do not apply an automatic raw tie-break: the caller's future namespace/index policy must explicitly choose it. Mapped equality alone is not namespace uniqueness, directory membership, DOS-alias resolution, lookup admission or full NTFS index collation.",
+        "Acquire actual FILE10 unnamed DATA through the qualified stream/MFT closure, bind original table bytes to the same volume/capture/source epoch and retain profile/unsupported findings before namespace or lookup admission. Explicitly settle index ordering, namespace case policy, aliases and partial collection separately. Production and historical target admission retain their existing gates."
+      ],
+      "acceptance": [
+        "Independent expected mappings and raw/mapped orders agree, including supplied nonstandard ASCII and non-idempotent tables; bounds/control errors preserve outputs and source bytes. No host fallback, native source or namespace authority is introduced.",
+        "Exact clean-source all-target x64 build; selected affected regressions, strict C90 syntax and C/C++ private headers, generated boundaries/source-map/context/manifest and full tooling. Independently specified all65536 code-unit mappings for several supplied tables, raw/mapped comparisons including deliberately different ASCII tables, word/page boundaries, zero/surrogates/noncharacters/lengths, algebraic comparison properties, readonly/guard pages and invalid-control/output-preservation cases. Also run isolated private Win32/WOW64 probe from the same source. A Win32 probe is not full Win32 product, DOS,16-bit compiler, big-endian or other-host qualification. No complete native-suite claim for the selected groups. Preserve and diagnose any failure before another qualification; unchanged old timing failures remain historical failures, not explained by this primitive."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "Run the exact recorded x64 and isolated Win32 qualification recipes; preserve actual commands, source hashes, outputs and unavailable checks."
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-upcase-prototype.json",
+        "docs/ntfs-upcase.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase/references.json",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/primitives/view.h",
+        "source/portable/primitives/checked.h",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/property/test_ntfs_upcase.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        "source/portable/ntfs/upcase.c",
+        "tests/unit/ntfs_upcase_probe.cpp",
+        ".aide/evidence/2026-10-17-ntfs-upcase/reproduce.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase/reproduce-win32.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json"
+      ]
     }
   ]
 }

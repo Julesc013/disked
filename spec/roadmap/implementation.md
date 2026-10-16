@@ -510,3 +510,9 @@ gate. Later source-bound qualification, linked above, supersedes that status whi
 preserving the failed campaigns. DE-W091/W092 extend the private boundary to
 directory files/workers. DE-W093 subsequently admits bounded directory-index
 inspection; it does not qualify complete namespace, lookup or content support.
+
+DE-W099 adds supplied-table uppercase mapping and independent raw/mapped code-unit
+comparison as a bounded prerequisite for remaining NTFS namespace and lookup.
+Its [contract](../catalog/ntfs-upcase-prototype.json) requires exact volume-table
+bytes without host fallback; this first primitive does not acquire FILE10 or
+qualify namespace policy. All original platform/storage and release gates remain.

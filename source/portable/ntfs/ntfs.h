@@ -80,6 +80,25 @@
 #define DE_NTFS_INDEX_END 0x0200UL
 #define DE_NTFS_INDEX_BUDGET 0x0400UL
 
+#define DE_NTFS_UPCASE_PAGES 256U
+#define DE_NTFS_UPCASE_PAGE_BYTES 512U
+#define DE_NTFS_UPCASE_UNITS 65536UL
+#define DE_NTFS_UPCASE_BYTES 131072UL
+
+/* Borrowed complete table envelope, not table/source/namespace authority.
+ * Each page contains256 consecutive little-endian mapping words. Descriptors
+ * and bytes remain stable; no contiguous128KiB object is required.
+ */
+typedef struct de_ntfs_upcase {
+    const de_view *pages;
+    size_t page_count;
+    unsigned int major, minor;
+} de_ntfs_upcase;
+
+typedef struct de_ntfs_name_order {
+    int raw_order, upcase_order;
+} de_ntfs_name_order;
+
 typedef struct de_ntfs_filename {
     de_view raw, duplicated_information, name, suffix;
     de_u64 parent_reference, parent_record;
@@ -206,6 +225,11 @@ typedef struct de_ntfs_record {
 #ifdef __cplusplus
 extern "C" {
 #endif
+int de_ntfs_upcase_init(const de_view *pages, size_t page_count, unsigned int major,
+                       unsigned int minor, de_ntfs_upcase *out);
+int de_ntfs_upcase_read(const de_ntfs_upcase *table, de_u32 code_unit, unsigned short *out);
+int de_ntfs_name_compare(const de_ntfs_upcase *table, const de_view *left, const de_view *right,
+                         de_ntfs_name_order *out);
 int de_ntfs_boot_read(const de_view *raw, const de_u64 *available, unsigned int major,
                       unsigned int minor, de_ntfs_boot *out);
 int de_ntfs_record_read(const de_view *raw, unsigned int major, unsigned int minor,

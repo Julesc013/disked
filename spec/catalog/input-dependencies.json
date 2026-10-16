@@ -1093,6 +1093,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase/reproduce-win32.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase/reproduce.py",
         "CMakeLists.txt",
         "CMakePresets.json",
         "source/apps/disked/cli.cpp",
@@ -1129,6 +1132,7 @@
         "source/portable/hash/sha256.h",
         "source/portable/mbr/mbr.c",
         "source/portable/mbr/mbr.h",
+        "source/portable/ntfs/upcase.c",
         "source/portable/primitives/checked.c",
         "source/portable/primitives/checked.h",
         "source/portable/primitives/extent.c",
@@ -1174,6 +1178,7 @@
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
         "spec/catalog/native-bootstrap.json",
+        "spec/catalog/ntfs-upcase-prototype.json",
         "spec/fixtures/command-syntax.json",
         "spec/fixtures/invocation.json",
         "spec/fixtures/native-bootstrap.json",
@@ -1249,6 +1254,7 @@
         "tests/operation/watch_probe.cpp",
         "tests/property/test_gpt.py",
         "tests/property/test_mbr.py",
+        "tests/property/test_ntfs_upcase.py",
         "tests/property/test_primitives.py",
         "tests/resilience/capture_campaign.cpp",
         "tests/resilience/capture_probe.cpp",
@@ -1270,6 +1276,7 @@
         "tests/tools/test_build_boundaries.py",
         "tests/unit/gpt_probe.cpp",
         "tests/unit/mbr_probe.cpp",
+        "tests/unit/ntfs_upcase_probe.cpp",
         "tests/unit/portable_cpp.cpp",
         "tests/unit/portable_probe.c",
         "tools/build-bootstrap.py",
@@ -13455,7 +13462,8 @@
         "spec/catalog/ntfs-record-prototype.json",
         "source/portable/primitives/view.h",
         "spec/catalog/ntfs-boot-prototype.json",
-        "spec/catalog/ntfs-attributes-prototype.json"
+        "spec/catalog/ntfs-attributes-prototype.json",
+        "spec/catalog/ntfs-upcase-prototype.json"
       ],
       "spec_ids": [
         "DE-012",
@@ -15919,6 +15927,139 @@
         "DE-037",
         "DE-042",
         "DE-045"
+      ]
+    },
+    {
+      "id": "spec/catalog/ntfs-upcase-prototype.json",
+      "path": "spec/catalog/ntfs-upcase-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-upcase.md",
+      "path": "docs/ntfs-upcase.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase/references.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase/references.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/property/test_ntfs_upcase.py",
+      "path": "tests/property/test_ntfs_upcase.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/portable/ntfs/upcase.c",
+      "path": "source/portable/ntfs/upcase.c",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/unit/ntfs_upcase_probe.cpp",
+      "path": "tests/unit/ntfs_upcase_probe.cpp",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase/reproduce.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase/reproduce-win32.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
       ]
     }
   ]

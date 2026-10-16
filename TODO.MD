@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W099 supplied NTFS uppercase table and raw/mapped comparison: contract
+  and independent expected recipe defined; native qualification pending. Actual
+  volume-table capture, namespace/lookup/content and original0.1.0 remain.
+
 - [x] DE-W098 common NTFS correspondence command: exact `01feae81` passes
   53/168 selected x64 groups, 126 new cases, 67 headers/C90/13 imports and
   249 tooling tests (two skips). Namespace/lookup/content, original platforms/
