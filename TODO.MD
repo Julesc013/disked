@@ -22,6 +22,9 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W104 native held-file/owned-worker binding for same-capture name ordering.
+  [Contract](spec/catalog/ntfs-name-order-native-prototype.json); independent expected
+  results, implementation and qualification pending.
 - [x] DE-W103 same-capture NTFS primary name-order observations: exact `77abe061`
   passes all 175 x64 groups, 172 new cases, 68 headers/C90/14 imports and 251 tooling
   tests (two skips). Private Win32 sixteen groups/twelve headers/nine imports pass.
