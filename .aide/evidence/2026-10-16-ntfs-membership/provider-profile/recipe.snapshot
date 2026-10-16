@@ -1,0 +1,62 @@
+"""Two bounded provider measurements on new outputs; no qualification or timeout change."""
+from pathlib import Path
+from datetime import datetime,timezone
+import ctypes,hashlib,json,os,subprocess,sys,time
+
+root=Path.cwd()
+output=root/'.aide-local/ntfs-membership-extraction-profile-a1271115';output.mkdir()
+source_record=root/'.aide/evidence/2026-10-16-ntfs-membership/failed-a1271115/extraction-state/acquisition.request'
+header=json.loads(source_record.read_bytes());request=header['definition']['request']
+source=Path(request['source']);build=root/'.aide-local/ntfs-membership-qualification-a1271115/build/Release'
+sys.path.insert(0,str(root/'tests/images'))
+from test_fat_content import fixture
+from test_acquisition_worker import map_check
+
+def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+def save(name,v):(output/name).write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+def sha(path):
+ h=hashlib.sha256()
+ with path.open('rb') as stream:
+  for block in iter(lambda:stream.read(1048576),b''):h.update(block)
+ return 'sha256:'+h.hexdigest()
+_,expected=fixture(16,unit=4096,per=16,chain=(3,8,5,11,7,15,4,20,9,24,6,28,10,32,12,35,13,39))
+assert len(expected)==1179629==int(request['logical_source']['expected_file_bytes'])
+old_destination=Path(request['destination']);assert old_destination.read_bytes()==expected
+map_check(Path(request['map']),expected)
+old_state=Path(request['map']).parent/'state/acquisition.records'
+last=json.loads(old_state.read_bytes().splitlines()[-1])['state'];assert last['phase']=='finished' and last['quiescent']
+source_hash=sha(source)
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')}
+receipts=[]
+save('initial.json',dict(recorded_at=datetime.now(timezone.utc).isoformat(),qualification=False,source=str(source),source_bytes=source.stat().st_size,source_sha256=source_hash,original_completed_output_sha256=sha(old_destination),original_completed_output_matches_independent_recipe=True,original_operation_not_reexecuted=True,source_binary_revision='a12711156d9c28ca91971c6d5cc51be7dc71bf41'))
+for name,binary,extra in [('normal','file_acquisition_probe',{}),('timed','file_acquisition_fault',{'DISKED_ACQ_TEST_TIMING':'1'})]:
+ dest=output/(name+'.bin');mapping=output/(name+'.map')
+ row=dict(source=str(source),destination=str(dest),map=str(mapping),mode='start',options={k:request[k] for k in ('chunk_bytes','retry_limit','read_policy','substitution')},logical_source=request['logical_source'])
+ raw=canonical(row);(output/(name+'-input.json')).write_bytes(raw)
+ started=time.monotonic();print('BEGIN',name,flush=True)
+ with (output/(name+'-stdout.jsonl')).open('wb') as stdout,(output/(name+'-stderr.log')).open('wb') as stderr:
+  process=subprocess.Popen([str(build/(binary+'.exe'))],stdin=subprocess.PIPE,stdout=stdout,stderr=stderr,cwd=root,env=dict(env,**extra))
+  try:process.communicate(raw,timeout=90)
+  except subprocess.TimeoutExpired:
+   receipts.append(dict(name=name,status='unresolved',pid=process.pid,elapsed_seconds=time.monotonic()-started,terminated=False,dependencies_retained=True));save('commands.json',receipts);raise
+ elapsed=time.monotonic()-started
+ assert process.returncode==0 and not (output/(name+'-stderr.log')).read_bytes()
+ rows=[json.loads(line) for line in (output/(name+'-stdout.jsonl')).read_bytes().splitlines()]
+ result,frames=rows[-1],rows[:-1]
+ assert result['outcome']['status']=='completed' and dest.read_bytes()==expected
+ map_check(mapping,expected)
+ assert sha(source)==source_hash
+ spans={}
+ for begin,end,label in [('logical-metadata-start','logical-metadata-end','metadata'),('logical-content-start','logical-content-end','content'),('map-flush-start','map-flushed','map_flush'),('destination-flush-start','destination-flushed','destination_flush')]:
+  opening=None;measurements=[]
+  for frame in frames:
+   assert frame['schema']=='org.disked.acquisition-test-timing/1' and frame['cpu_observed']
+   if frame['phase']==begin:opening=frame
+   elif frame['phase']==end and opening:
+    measurements.append(dict(wall_ms=int(frame['ticks_ms'])-int(opening['ticks_ms']),cpu_ms=(int(frame['kernel_100ns'])+int(frame['user_100ns'])-int(opening['kernel_100ns'])-int(opening['user_100ns']))/10000));opening=None
+  spans[label]=measurements
+ receipt=dict(name=name,status='completed',command=[str(build/(binary+'.exe'))],pid=process.pid,cwd=str(root),input=name+'-input.json',environment=extra,exit_code=process.returncode,elapsed_seconds=elapsed,diagnostic_ceiling_seconds=90,terminated=False,output_sha256=sha(dest),source_preserved=True,trace_frames=len(frames),spans=spans)
+ receipts.append(receipt);save('commands.json',receipts)
+ print('END',name,round(elapsed,3),'seconds',flush=True)
+save('summary.json',dict(status='completed',qualification=False,original_failure_cause_established=False,original_operation_not_reexecuted=True,source_preserved=True,original_output_matches_independent_recipe=True,commands=receipts,source_binary_revision='a12711156d9c28ca91971c6d5cc51be7dc71bf41'))
+print('Two independent new-output measurements completed; product deadlines and assertions unchanged.',flush=True)

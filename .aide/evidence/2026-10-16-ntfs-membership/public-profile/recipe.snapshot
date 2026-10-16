@@ -1,0 +1,65 @@
+"""Two new disposable operations; measure existing public responses without changing tests."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,os,subprocess,sys,time
+
+root=Path.cwd();out=root/'.aide-local/ntfs-membership-public-extraction-a1271115';out.mkdir()
+old=root/'.aide/evidence/2026-10-16-ntfs-membership/failed-a1271115/extraction-state/acquisition.request'
+request=json.loads(old.read_bytes())['definition']['request']
+source=Path(request['source']);assert source.resolve().is_relative_to(root/'.aide-local/ntfs-membership-exact-a1271115/.aide-local')
+exe=root/'.aide-local/ntfs-membership-qualification-a1271115/build/Release/disked.exe'
+sys.path.insert(0,str(root/'tests/images'))
+from test_fat_content import fixture
+from test_acquisition_worker import map_check,owned_process,K
+_,expected=fixture(16,unit=4096,per=16,chain=(3,8,5,11,7,15,4,20,9,24,6,28,10,32,12,35,13,39))
+env={k:v for k,v in os.environ.items() if not k.startswith('DISKED_')}
+def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+def save(name,v):(out/name).write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
+receipts=[]
+def run(name,args,wire=None):
+ command=[str(exe),*args];start=time.monotonic()
+ with (out/(name+'-stdout.json')).open('wb') as stdout,(out/(name+'-stderr.log')).open('wb') as stderr:
+  process=subprocess.Popen(command,stdin=subprocess.PIPE if wire is not None else subprocess.DEVNULL,stdout=stdout,stderr=stderr,env=env,cwd=root)
+  try:process.communicate(None if wire is None else canonical(wire)+b'\n',timeout=30)
+  except subprocess.TimeoutExpired:
+   receipts.append(dict(name=name,command=command,pid=process.pid,status='unresolved',terminated=False,elapsed_seconds=time.monotonic()-start));save('commands.json',receipts);raise
+ elapsed=time.monotonic()-start
+ data=json.loads((out/(name+'-stdout.json')).read_bytes());assert not (out/(name+'-stderr.log')).read_bytes()
+ receipts.append(dict(name=name,command=command,pid=process.pid,exit_code=process.returncode,elapsed_seconds=elapsed,response_status=data['status'],operation_id=data.get('operation_id'),input=wire))
+ save('commands.json',receipts)
+ return process.returncode,data
+for mode in ('cli','json'):
+ folder=out/mode;folder.mkdir();store=folder/'state';store.mkdir();dest=folder/'copy.bin';mapping=folder/'copy.map'
+ print('BEGIN',mode,flush=True)
+ code,prepared=run(mode+'-prepare',['--json','filesystem','extract','prepare',str(source),str(dest),'--map',str(mapping),'--state-dir',str(store),'--chunk-bytes',request['chunk_bytes'],'--selection-json',canonical(request['logical_source']).decode()])
+ assert code==0 and prepared['status']=='completed'
+ d=prepared['result'];assert not dest.exists() and not mapping.exists() and not list(store.iterdir())
+ parameters=dict(phase='execute',definition=d['definition'],definition_digest=d['definition_digest'],allow_source_read=True,allow_destination_write=True,allow_map_write=True,allow_host_effects=True)
+ if mode=='cli':
+  code,started=run(mode+'-execute',['--json','filesystem','extract','execute','--definition-json',canonical(d['definition']).decode(),'--definition-digest',d['definition_digest'],'--allow-source-read','--allow-destination-write','--allow-map-write','--allow-host-effects'])
+ else:
+  wire=dict(schema='org.disked.request/1',request_id='membership-extraction-timing',command='filesystem.extract',parameters=parameters,required_features=[])
+  code,started=run(mode+'-execute',['protocol','serve','--format','json'],wire)
+ assert code in (0,5,6) # Observation only; original regression still requires0/5.
+ ident=started.get('operation_id');end=time.monotonic()+30;number=0;finished=False
+ while time.monotonic()<end:
+  if not ident:
+   header=store/'acquisition.request'
+   if header.exists():
+    h=json.loads(header.read_bytes());assert h['definition_digest']==d['definition_digest'];ident=h['operation_id']
+  if ident:
+   number+=1
+   _,observed=run(mode+'-observe-'+str(number),['--json','operation','inspect',ident,'--state-dir',str(store)])
+   state=observed.get('result',{}).get('state',{})
+   if state.get('phase')=='finished' and state.get('quiescent'):
+    assert state['outcome']['status']=='completed'
+    handle=owned_process(state,str(exe))
+    if handle:
+     try:assert K.WaitForSingleObject(handle,3000)==0
+     finally:K.CloseHandle(handle)
+    finished=True;break
+  time.sleep(.05)
+ assert finished,'Retain unresolved diagnostic operation and all dependencies'
+ assert dest.read_bytes()==expected;map_check(mapping,expected)
+ print('END',mode,'execute exit',code,'seconds',round(next(r['elapsed_seconds'] for r in receipts if r['name']==mode+'-execute'),3),flush=True)
+save('summary.json',dict(status='completed',qualification=False,original_cause_established=False,original_operation_not_reexecuted=True,expected_bytes=len(expected),source_binary_revision='a12711156d9c28ca91971c6d5cc51be7dc71bf41',commands=receipts))
