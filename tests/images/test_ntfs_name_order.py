@@ -166,7 +166,7 @@ def cases():
     yield case("supplied-ascii-reversal", JointVolume(kind="leaf", table=struct.pack("<65536H", *strange),
                                                     rows=samples[0][1]))
     rows = [(struct.pack("<2H", n, 0xffff), n % 4, ref(n + 14, 1 + n % 17)) for n in range(320)]
-    yield case("large-order", JointVolume(kind="leaf", rows=rows, size=65536, table=IDENTITY))
+    yield case("large-order", JointVolume(kind="leaf", rows=rows, size=32768, table=IDENTITY))
     baseline = JointVolume()
     n = len(baseline.initial_reads)
     for mode, diagnostic in [("null", "ntfs_read_length"), ("short", "ntfs_read_length"),

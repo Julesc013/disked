@@ -1,4 +1,5 @@
 #include "runtime/capture/ntfs_capture.h"
+#include "runtime/capture/ntfs_name_order.h"
 #include "runtime/capture/ntfs_directory.h"
 #include "runtime/capture/ntfs_membership.h"
 #include "ntfs_probe_support.h"
@@ -129,7 +130,12 @@ static V observe(const V &input) {
     V report;
     std::string refusal;
     try {
-        if (const auto *upcase = input.find("upcase")) {
+        if (const auto *name_order = input.find("name_order")) {
+            need(name_order->kind == V::Kind::boolean && name_order->boolean && directory_input &&
+                 !membership_input && !input.find("upcase"));
+            directory.capture = request;
+            report = disked::observe_ntfs_name_order(directory, reader);
+        } else if (const auto *upcase = input.find("upcase")) {
             need(upcase->kind == V::Kind::boolean && upcase->boolean && !membership_input &&
                  !directory_input);
             report = disked::observe_ntfs_upcase(request, reader);

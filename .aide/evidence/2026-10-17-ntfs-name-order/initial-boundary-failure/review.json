@@ -1,0 +1,25 @@
+{
+  "status": "fail",
+  "passed_groups": [
+    "build.boundary_checker"
+  ],
+  "failed_groups": [
+    "build.boundaries"
+  ],
+  "diagnosis": "Canonical exact source policy still listed three files; CMake now compiles the fourth private helper explicitly specified by W103 before implementation.",
+  "owning_contract": "spec/catalog/source-maintenance-prototype.json",
+  "authorizing_execution_contract": "spec/catalog/ntfs-name-order-prototype.json",
+  "before_sources": [
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_directory.cpp",
+    "source/runtime/capture/ntfs_membership.cpp"
+  ],
+  "after_sources": [
+    "source/runtime/capture/ntfs_capture.cpp",
+    "source/runtime/capture/ntfs_directory.cpp",
+    "source/runtime/capture/ntfs_membership.cpp",
+    "source/runtime/capture/ntfs_name_order.cpp"
+  ],
+  "repair": "Add only the named fourth source to the exact allowlist. Keep dependency closure,include ownership,flags,standards and forbidden-layer checks unchanged.",
+  "qualification": false
+}

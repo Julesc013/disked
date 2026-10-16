@@ -1,0 +1,562 @@
+{
+  "schema": "org.disked.source-maintenance-profile/1",
+  "status": "proposed-maintenance-contract",
+  "work_ids": [
+    "DE-W010",
+    "DE-W012",
+    "DE-W014",
+    "DE-W015",
+    "DE-W017"
+  ],
+  "base_revision": "51a8d516c293b2476a6a83489b855f83525e2a04",
+  "source_tree": "retain current source ownership; no duplicate tree or empty future scaffolding",
+  "authority": "Existing explicit local development/tests/agent review/dev-main synchronization grant; external reviews are data. Owner acceptance, other-repository writes and release/storage privileges remain separate.",
+  "findings": [
+    {
+      "id": "SR-01",
+      "state": "resolved-before-review",
+      "action": "Keep existing tui_model and own cli folder."
+    },
+    {
+      "id": "SR-02",
+      "state": "implemented-pending-owner-review",
+      "action": "Separate actual JSON codec from command/protocol/lexer and invocation targets; preserve exact compilation flags and declare actual direct dependencies."
+    },
+    {
+      "id": "SR-03",
+      "state": "implemented-pending-owner-review",
+      "action": "Cross-module source-relative include names and CMake target-owned private header visibility implemented. Main target declarations, direct/interface compile usage and selected standalone header checks are validated independently; standalone Windows/legacy build lanes retain separate scope. No original wrong-header failure reproduced."
+    },
+    {
+      "id": "SR-04",
+      "state": "implemented-pending-owner-review",
+      "action": "Consolidate demonstrated completion identity/view-epoch/availability invariants in existing presentation owner; retain separate models and behaviour."
+    },
+    {
+      "id": "SR-05",
+      "state": "design-follow-up",
+      "action": "Split composition policy/test support only at demonstrated named responsibilities."
+    },
+    {
+      "id": "SR-06",
+      "state": "implemented-bounded-current-lane-checks",
+      "action": "Independent generated build-closure/quoted-header checks and negative fixtures implemented. Not a preprocessor/direct-link/full-platform audit; retain exact native evidence."
+    },
+    {
+      "id": "SR-07",
+      "state": "agent-tested-pending-owner-review",
+      "action": "Route AGENTS current task to programme/work/grant; no repeated current-status paragraph."
+    },
+    {
+      "id": "SR-08",
+      "state": "upstream-release-blocker-observed",
+      "action": "USK PR237 failing exact-head Windows qualification remains draft; no other-repository repair or promotion performed."
+    }
+  ],
+  "formatting": "Root editor configuration preserves existing general/Python conventions, adds C/C++ four-space policy and preserves archive bytes. clang-format19.1.5 parses the shared C/C++ configuration. Existing tree has not been reformatted or certified formatter-clean.",
+  "validation": "Clarity/configuration phase: exact source-map/spec/index/manifest/tooling checks and formatter parse. Subsequent source/build refactors require fresh exact-source build/import and relevant native regression; changes must preserve fixed command IDs/behaviour, ABI ownership, private product/probe separation and old evidence.",
+  "owner_accepted": false,
+  "unit_complete": false,
+  "full_010_complete": false,
+  "release_ready": false,
+  "build_phase_base_revision": "9de2b2156e51d31919cb2c93012c06237db65544",
+  "build_checks": {
+    "scope": "Pinned current-Windows Release BUILD_TESTING=ON lane; private core targets and CMake-selected standalone header checks, not SDK admission. Initial core/presentation contract has seven checks; later campaigns record additional headers and exact counts.",
+    "core_targets": {
+      "disked_json": {
+        "sources": [
+          "source/runtime/command/json.cpp"
+        ],
+        "build_closure": []
+      },
+      "disked_command": {
+        "sources": [
+          "source/runtime/command/command.cpp",
+          "source/runtime/command/protocol.cpp",
+          "source/runtime/command/shell_lexer.cpp"
+        ],
+        "build_closure": [
+          "disked_json"
+        ]
+      },
+      "disked_invocation": {
+        "sources": [
+          "source/runtime/invocation/policy.cpp"
+        ],
+        "build_closure": [
+          "disked_json"
+        ]
+      },
+      "disked_fat_tree_history": {
+        "sources": [
+          "source/runtime/evidence/fat_tree_history.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_review": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_review.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_operation": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_operation.cpp"
+        ],
+        "build_closure": [
+          "disked_fat_tree_review",
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_watch": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_watch.cpp"
+        ],
+        "build_closure": [
+          "disked_fat_tree_operation",
+          "disked_fat_tree_review",
+          "disked_json",
+          "disked_hash"
+        ]
+      },
+      "disked_fat_tree_commands": {
+        "sources": [
+          "source/runtime/acquisition/fat_tree_commands.cpp"
+        ],
+        "build_closure": [
+          "disked_command",
+          "disked_fat",
+          "disked_fat_metadata",
+          "disked_fat_tree_review",
+          "disked_hash",
+          "disked_json",
+          "disked_primitives"
+        ]
+      },
+      "disked_exfat": {
+        "sources": [
+          "source/portable/exfat/boot.c",
+          "source/portable/exfat/directory.c",
+          "source/portable/exfat/allocation.c",
+          "source/portable/exfat/upcase.c"
+        ],
+        "build_closure": [
+          "disked_primitives"
+        ],
+        "language_standard": "90",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_capture": {
+        "sources": [
+          "source/runtime/capture/exfat_capture.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives",
+          "disked_exfat_upcase"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_file": {
+        "sources": [
+          "source/providers/image/exfat_file.cpp"
+        ],
+        "build_closure": [
+          "disked_exfat",
+          "disked_exfat_capture",
+          "disked_exfat_namespace",
+          "disked_exfat_tree",
+          "disked_exfat_upcase",
+          "disked_hash",
+          "disked_json",
+          "disked_local_file",
+          "disked_primitives"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_upcase": {
+        "sources": [
+          "source/runtime/capture/exfat_upcase.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_namespace": {
+        "sources": [
+          "source/runtime/capture/exfat_namespace.cpp"
+        ],
+        "build_closure": [
+          "disked_exfat_upcase",
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_exfat_tree": {
+        "sources": [
+          "source/runtime/capture/exfat_tree.cpp"
+        ],
+        "build_closure": [
+          "disked_exfat_capture",
+          "disked_exfat_namespace",
+          "disked_exfat_upcase",
+          "disked_json",
+          "disked_exfat",
+          "disked_hash",
+          "disked_primitives"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs": {
+        "sources": [
+          "source/portable/ntfs/attribute.c",
+          "source/portable/ntfs/attribute_list.c",
+          "source/portable/ntfs/boot.c",
+          "source/portable/ntfs/record.c",
+          "source/portable/ntfs/runlist.c",
+          "source/portable/ntfs/filename.c",
+          "source/portable/ntfs/index.c",
+          "source/portable/ntfs/index_block.c",
+          "source/portable/ntfs/fixup.c",
+          "source/portable/ntfs/upcase.c"
+        ],
+        "build_closure": [
+          "disked_primitives"
+        ],
+        "language_standard": "90",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_capture": {
+        "sources": [
+          "source/runtime/capture/ntfs_capture.cpp",
+          "source/runtime/capture/ntfs_directory.cpp",
+          "source/runtime/capture/ntfs_membership.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_hash",
+          "disked_ntfs_stream"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_file": {
+        "sources": [
+          "source/providers/image/ntfs_file.cpp"
+        ],
+        "build_closure": [
+          "disked_ntfs_capture",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_json",
+          "disked_hash",
+          "disked_local_file",
+          "disked_ntfs_stream"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_snapshot": {
+        "sources": [
+          "source/providers/image/ntfs_snapshot.cpp"
+        ],
+        "build_closure": [
+          "disked_ntfs_file",
+          "disked_ntfs_capture",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_json",
+          "disked_hash",
+          "disked_local_file",
+          "disked_ntfs_stream"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_worker": {
+        "sources": [
+          "source/platform/windows/storage/ntfs_worker.cpp"
+        ],
+        "build_closure": [
+          "disked_observation_worker",
+          "disked_ntfs_snapshot",
+          "disked_ntfs_file",
+          "disked_ntfs_capture",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_json",
+          "disked_hash",
+          "disked_local_file",
+          "disked_ntfs_stream"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      },
+      "disked_ntfs_stream": {
+        "sources": [
+          "source/runtime/capture/ntfs_stream.cpp",
+          "source/runtime/capture/ntfs_attributes_detail.cpp",
+          "source/runtime/capture/ntfs_names.cpp"
+        ],
+        "build_closure": [
+          "disked_json",
+          "disked_ntfs",
+          "disked_primitives",
+          "disked_hash"
+        ],
+        "language_standard": "14",
+        "required_compile_flags": [
+          "/W4",
+          "/WX",
+          "/permissive-",
+          "/utf-8",
+          "/GS",
+          "/sdl",
+          "/guard:cf",
+          "/MT"
+        ]
+      }
+    },
+    "required_compile_flags": [
+      "/W4",
+      "/WX",
+      "/permissive-",
+      "/utf-8",
+      "/GS",
+      "/sdl",
+      "/guard:cf",
+      "/MT"
+    ],
+    "isolated_consumers": {
+      "json_codec_probe": [
+        "disked_command",
+        "disked_invocation"
+      ],
+      "invocation_policy_probe": [
+        "disked_command"
+      ],
+      "command_parser_probe": [
+        "disked_invocation"
+      ],
+      "protocol_reader_probe": [
+        "disked_invocation"
+      ],
+      "disked_fat_test": [
+        "disked_fat_file",
+        "disked_fat_snapshot",
+        "disked_fat_worker"
+      ],
+      "fat_tree_file_fault": [
+        "disked_fat_tree_snapshot",
+        "disked_fat_tree_file",
+        "disked_fat_tree_worker"
+      ],
+      "disked_tree_test": [
+        "disked_fat_tree_sessions",
+        "disked_fat_tree_worker",
+        "disked_fat_tree_file",
+        "disked_fat_tree_snapshot"
+      ],
+      "fat_tree_content_fault": [
+        "disked_fat_tree_file",
+        "disked_fat_tree_snapshot"
+      ],
+      "fat_tree_extraction_worker_fault": [
+        "disked_fat_tree_extraction_worker",
+        "disked_observation_worker"
+      ],
+      "fat_tree_admission_fault": [
+        "disked_fat_tree_store",
+        "disked_fat_tree_admission",
+        "disked_fat_tree_extraction_worker",
+        "disked_observation_worker"
+      ]
+    },
+    "header_compile_checks": [
+      "json.h",
+      "command.h",
+      "protocol.h",
+      "shell_lexer.h",
+      "policy.h",
+      "requests.h",
+      "session.h"
+    ],
+    "layer_checks": "Portable depends only on portable; runtime on portable/runtime; providers do not depend on product apps; frontend models do not depend on concrete providers/platform hosts. Product compositions and platform frontend hosts intentionally wire models and selected mechanisms.",
+    "header_checks": "Lexical quoted includes resolve under actual compile-group include paths without ambiguity/wrong case; independent translation units compile five core and two presentation headers using actual target usage requirements.",
+    "limitations": "CMake codemodel dependencies are transitive/order build closure, not direct link declarations. The qualified_include_phase adds a separate direct/interface compile-usage projection and source namespace enforcement for the main composition. Lexical checking uses only the declared compile-only guard rules; it does not perform complete preprocessing, validate all declarations, inspect system angle includes or qualify all platforms. Broader standalone header compilation and adapter ownership enforcement remain open.",
+    "test_commands": [
+      "cmake --preset windows-bootstrap",
+      "cmake --build --preset windows-bootstrap --parallel 4",
+      "ctest --preset windows-bootstrap --parallel 4 --output-on-failure",
+      "python tools/check-build-boundaries.py --build build/windows-bootstrap --output build/windows-bootstrap/build-boundaries.json",
+      "python -m unittest discover -s tests/tools -v"
+    ],
+    "evidence": "Reproduce using .aide/evidence/2026-10-12-build-boundaries/reproduce.py. Qualification follows the exact source-bound commands/results retained there; this contract record alone asserts no campaign result.",
+    "qualified_includes": true,
+    "compile_only_include_guards": [
+      "DISKED_MODEL_BINARY_PROJECTION",
+      "DISKED_FAT_TREE_CONTROLLER_PROBE",
+      "DISKED_RECURSIVE_DISABLED"
+    ]
+  },
+  "shared_presentation": {
+    "base_revision": "7813f45d5934cc0f607f5eb724899895a8e3c050",
+    "status": "private-maintenance-contract",
+    "owners": [
+      "source/runtime/presentation/requests.*",
+      "source/runtime/presentation/session.*"
+    ],
+    "correlation": "PendingRequestView stores only a pending UI request identity and its submitted local view epoch. begin rejects empty identities and second pending registration without replacing the first. poll returns NoResult/CurrentView/EarlierView; successful matching delivery releases the UI slot and preserves the exact outcome. Missing, non-string, mismatched, unsolicited or duplicate request IDs refuse before local correlation/output mutation. False/throwing callback leaves local correlation/output unchanged; this does not roll back a callback or recover a consumed response.",
+    "view_policy": "Compare exact local epochs for equality, including u64 maximum; do not rebase an old request onto a newer view. GUI/TUI retain earlier outcomes separately and keep current interaction/navigation local. Local view epochs are not worker/capture epochs, source authenticity or durable operation IDs.",
+    "availability": "view_command_available is GUI/TUI command-view eligibility based on the compiled composition discovery. Only an exact unique string ID with string availability=available is eligible; protocol.serve/shell.open/shell.close and empty IDs are excluded. Missing/mistyped discovery or matching duplicate records fail closed. Unknown observational background is ignored. Parameter form support, provider admission and operator grants remain separately checked.",
+    "behaviour_changes": "Normal valid inputs, command IDs, schemas and GUI/TUI navigation remain unchanged. Malformed/duplicate private discovery now deterministically fails closed rather than dereferencing missing data or choosing a duplicate. Non-string request identity cannot match a string even if its native text field is equal.",
+    "tests": [
+      "tests/frontend/presentation_probe.cpp",
+      "tests/frontend/test_shared_presentation.py",
+      "tests/frontend/test_gui_model.py",
+      "tests/frontend/test_tui_model.py",
+      "tests/resilience/test_gui_waiting.py",
+      "tests/resilience/test_console_waiting.py"
+    ],
+    "test_expected": "34 direct native rule cases plus8Python regression tests spanning both GUI/TUI models; original callbacks/limits/wait/effect guards remain unchanged. Seven independent header compilations and existing generated boundary checks. Fresh clean native full suite required for source changes.",
+    "scope": "No new scheduler, frontend base class, physical provider, privilege, installation, production broker/journal/recovery or owner acceptance. Product/probe source boundaries remain intact."
+  },
+  "qualified_include_phase": {
+    "base_revision": "c3782b63a941f758cdd011456df1498c22027b45",
+    "status": "private-maintenance-contract",
+    "namespace": "Cross-module project headers use source-relative layer/module paths; same-folder sibling includes and generated registry headers remain local.",
+    "ownership": "CMake disked_internal HEADERS file sets derive paired headers from actual target implementation sources, with explicit capture_port/text_input ownership. Inline Windows worker file utilities retain one interface mechanism target and per-executable macro definitions.",
+    "visibility": "CMake projects actual direct and interface compile-usage edges plus owned/exported headers; LINK_ONLY edges do not export header access. The checker requires source headers in the consumer compile-usage closure and corroborates owned headers against codemodel sources.",
+    "limits": "The source namespace root is a shared compiler search root, not filesystem/C++ access control. CMake/CI checks enforce ownership; lexical quoted-header checking is not preprocessing or full platform/ABI qualification. Current literal dependencies supported; unknown generator expressions fail closed pending an explicit projection rule.",
+    "behaviour": "Private include/build declarations only; no command/API/ABI/algorithm/effect/resource changes. Old specification input IDs and historical evidence stay at exact revisions.",
+    "conditional_scope": "Only explicit compile-only DISKED_MODEL_BINARY_PROJECTION ifdef/ifndef uses CMake definitions for visibility; source redefinitions/undefinitions refuse. Other expressions/platform macros/elif remain conservative, not full preprocessing.",
+    "coverage": "At qualified source 3598ac40: 97 source headers keep paths.80 are declared by current main composition targets;17 belong to standalone Windows adapter lanes. Current main/standalone include names are migrated; header visibility conformance is enforced for the main CMake composition. Standalone adapter compile does not authorize or execute physical queries.",
+    "test_expected": "29 checker tests include compile-vs-build visibility, private link non-export, qualified naming, CMake ownership, unknown edges and bounded compile-only guard conditions. Clean main native85groups and tooling215runs required; standalone Windows targets compile without device access."
+  },
+  "review_followup": {
+    "observed_at": "2026-10-12T23:41:56.659806+00:00",
+    "base_revision": "607d68a7c6edefeea93bf17218c2685e787683e2",
+    "guide": "docs/structure-review.md",
+    "evidence": ".aide/evidence/2026-10-13-structure-followup/validation.json",
+    "native_evidence": ".aide/evidence/2026-10-13-fat-window/summary.json",
+    "scope": "Current-guide count and parser-owner clarification; dated review disposition and read-only upstream observations. No new native, owner, public ABI or release qualification."
+  }
+}

@@ -201,7 +201,8 @@ target_link_libraries(disked_ntfs_stream PUBLIC disked_json disked_primitives PR
 set_target_properties(disked_ntfs_stream PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_ntfs_stream PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
 add_library(disked_ntfs_capture STATIC source/runtime/capture/ntfs_capture.cpp
-  source/runtime/capture/ntfs_directory.cpp source/runtime/capture/ntfs_membership.cpp)
+  source/runtime/capture/ntfs_directory.cpp source/runtime/capture/ntfs_membership.cpp
+  source/runtime/capture/ntfs_name_order.cpp)
 target_link_libraries(disked_ntfs_capture PUBLIC disked_region_reader disked_json PRIVATE disked_ntfs disked_hash disked_ntfs_stream)
 set_target_properties(disked_ntfs_capture PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 target_compile_options(disked_ntfs_capture PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)
@@ -604,7 +605,8 @@ if(BUILD_TESTING)
   target_link_libraries(disked_ntfs_stream_headers PRIVATE disked_ntfs)
   private_header_check(disked_ntfs_capture runtime/capture/ntfs_capture.h
     runtime/capture/ntfs_directory.h runtime/capture/ntfs_directory_detail.h
-    runtime/capture/ntfs_membership.h runtime/capture/ntfs_membership_detail.h)
+    runtime/capture/ntfs_membership.h runtime/capture/ntfs_membership_detail.h
+    runtime/capture/ntfs_name_order.h)
   target_link_libraries(disked_ntfs_capture_headers PRIVATE disked_ntfs_stream)
   private_header_check(disked_exfat_capture runtime/capture/exfat_capture.h)
   private_header_check(disked_exfat_tree runtime/capture/exfat_tree.h)
@@ -1213,6 +1215,8 @@ if(BUILD_TESTING)
   set_tests_properties(image.ntfs_membership PROPERTIES TIMEOUT 180)
   add_test(NAME image.ntfs_upcase_capture COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_upcase_capture.py" --probe "$<TARGET_FILE:ntfs_capture_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-upcase-capture-cases.json")
   set_tests_properties(image.ntfs_upcase_capture PROPERTIES TIMEOUT 180)
+  add_test(NAME image.ntfs_name_order COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_name_order.py" --probe "$<TARGET_FILE:ntfs_capture_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-name-order-cases.json")
+  set_tests_properties(image.ntfs_name_order PROPERTIES TIMEOUT 180)
   target_link_libraries(exfat_probe PRIVATE disked_exfat disked_json)
   set_target_properties(exfat_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(exfat_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)

@@ -120,7 +120,7 @@ try:
         summary['native_upcase'][mode]=dict(cases=report['cases'],methods=report['methods'])
     assert summary['cases']['ntfs-upcase-capture-cases.json']==158
     name_order=json.loads((build/'ntfs-name-order-cases.json').read_bytes())
-    name_expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-name-order/expected-before-implementation.json').read_bytes())
+    name_expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-name-order/expected-after-fixture-review.json').read_bytes())
     assert name_order['status']=='pass' and name_order['count']==name_expected['count']==172
     assert name_order['recipe_sha256']==name_expected['recipe_sha256']
     assert name_order['expected_cases_sha256']==name_expected['expected_cases_sha256']

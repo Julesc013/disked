@@ -4,6 +4,7 @@
 #include "ntfs_stream.h"
 #include "ntfs_membership.h"
 #include "ntfs_membership_detail.h"
+#include "ntfs_name_order.h"
 #include "portable/hash/sha256.h"
 #include "portable/ntfs/ntfs.h"
 #include <algorithm>
@@ -124,7 +125,7 @@ struct Closure {
     std::size_t join_bytes = 0;
 };
 enum class RecordKind { File, Directory, Extension, Target };
-enum class CaptureKind { Bootstrap, Directory, Membership, Upcase };
+enum class CaptureKind { Bootstrap, Directory, Membership, Upcase, NameOrder };
 class Observer {
     // Own both controls before the first callback; callbacks cannot widen scope.
     const NtfsCaptureRequest request_;
@@ -152,6 +153,7 @@ class Observer {
     std::vector<ntfs_directory_detail::Edge> directory_edges_;
     std::vector<Mapping> membership_list_runs_;
     V membership_facts_;
+    V name_order_facts_;
     std::size_t reads_ = 0, bytes_ = 0, retained_ = 0, attributes_ = 0, runs_ = 0;
     std::size_t output_ = 8192, reread_start_ = 0;
     bool rereading_ = false, reread_equal_ = false, complete_ = false;
@@ -159,13 +161,17 @@ class Observer {
     std::string diagnostic_;
 
     bool directory_mode() const {
-        return kind_ == CaptureKind::Directory || kind_ == CaptureKind::Membership;
+        return kind_ == CaptureKind::Directory || kind_ == CaptureKind::Membership ||
+               kind_ == CaptureKind::NameOrder;
     }
     bool membership_mode() const {
         return kind_ == CaptureKind::Membership;
     }
     bool upcase_mode() const {
-        return kind_ == CaptureKind::Upcase;
+        return kind_ == CaptureKind::Upcase || kind_ == CaptureKind::NameOrder;
+    }
+    bool name_order_mode() const {
+        return kind_ == CaptureKind::NameOrder;
     }
     void charge(std::size_t n) {
         if (n > request_.limits.output_bytes - output_)
@@ -497,6 +503,10 @@ class Observer {
                     if (!other->empty())
                         physical_ranges(list->runs, other, "ntfs_membership_physical_alias");
             }
+            if (name_order_mode() && &closure == &upcase_closure_)
+                for (const auto *other : {&directory_closure_.list_runs, &directory_stream_runs_})
+                    if (!other->empty())
+                        physical_ranges(list->runs, other, "ntfs_name_order_physical_alias");
             closure.list_runs = list->runs;
             closure.list_value = logical_read(list->runs, 0, static_cast<std::size_t>(data));
             value = de_view{closure.list_value.data(), closure.list_value.size()};
@@ -824,6 +834,10 @@ class Observer {
                  {&mft_closure_.list_runs, &volume_closure_.list_runs, &upcase_closure_.list_runs})
                 if (!other->empty())
                     physical_ranges(runs, other, "ntfs_upcase_physical_alias");
+            if (name_order_mode())
+                for (const auto *other : {&directory_closure_.list_runs, &directory_stream_runs_})
+                    if (!other->empty())
+                        physical_ranges(runs, other, "ntfs_name_order_physical_alias");
             upcase_facts_ =
                 V::object()
                     .put("schema", V::string("org.disked.ntfs-upcase-table-observation/1"))
@@ -1036,6 +1050,10 @@ class Observer {
             collect_membership(data);
         if (upcase_mode())
             collect_upcase(data);
+        if (name_order_mode())
+            ntfs_name_order_detail::collect(
+                directory_request_, directory_facts_, upcase_facts_,
+                [&](std::size_t bytes) { charge(bytes); }, name_order_facts_);
         rereading_ = true;
         reread_start_ = reads_;
         for (const auto &region : regions_) {
@@ -1055,6 +1073,8 @@ class Observer {
             diagnostic_ = "ntfs_volume_version";
         else if (membership_mode())
             diagnostic_ = membership_facts_.fields.at("diagnostic").text;
+        else if (name_order_mode() && !name_order_facts_.fields.at("mapped_nondecreasing").boolean)
+            diagnostic_ = "ntfs_name_order_mapped_descent";
     }
     V closure_report(const Closure &closure) const {
         auto extensions = V::array();
@@ -1076,7 +1096,8 @@ class Observer {
             V::object()
                 .put("schema",
                      V::string(
-                         upcase_mode()       ? "org.disked.ntfs-upcase-observation-prototype/1"
+                         name_order_mode()   ? "org.disked.ntfs-name-order-observation-prototype/1"
+                         : upcase_mode()     ? "org.disked.ntfs-upcase-observation-prototype/1"
                          : membership_mode() ? "org.disked.ntfs-membership-observation-prototype/1"
                          : directory_mode()  ? "org.disked.ntfs-directory-observation-prototype/1"
                                              : "org.disked.ntfs-bootstrap-observation-prototype/1"))
@@ -1131,6 +1152,8 @@ class Observer {
                 .put("membership", membership_facts_);
         if (upcase_mode())
             value.put("upcase_record", upcase_record_.report).put("upcase", upcase_facts_);
+        if (name_order_mode())
+            value.put("name_order", name_order_facts_);
         return value;
     }
 
@@ -1145,9 +1168,9 @@ class Observer {
         checked(de_space_from_bytes(request_.source_id.data(), request_.source_id.size(), &size, 1,
                                     &source_));
     }
-    Observer(const NtfsDirectoryRequest &request, const RegionReader &reader)
-        : request_(request.capture), reader_(reader), kind_(CaptureKind::Directory),
-          directory_request_(request) {
+    Observer(const NtfsDirectoryRequest &request, const RegionReader &reader,
+             CaptureKind kind = CaptureKind::Directory)
+        : request_(request.capture), reader_(reader), kind_(kind), directory_request_(request) {
         validate_ntfs_directory_request(directory_request_);
         if (!reader_)
             throw std::invalid_argument("ntfs_capture_reader");
@@ -1202,5 +1225,8 @@ V observe_ntfs_membership(const NtfsMembershipRequest &request, const RegionRead
 }
 V observe_ntfs_directory(const NtfsDirectoryRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();
+}
+V observe_ntfs_name_order(const NtfsDirectoryRequest &request, const RegionReader &reader) {
+    return Observer(request, reader, CaptureKind::NameOrder).run();
 }
 } // namespace disked
