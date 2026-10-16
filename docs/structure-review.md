@@ -34,13 +34,13 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **317 current source files**: 36 portable, 136 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W089 directory collector; its source-bound qualification is below. The longest repository-relative source
+63 platform and 14 application files. This includes the directory collector and native file binding; their source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-directory/source-inventory.json) and
-[current path checks](../.aide/evidence/2026-10-16-ntfs-directory/path-audit.json) bind these observations;
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-directory-file/source-inventory.json) and
+[current path checks](../.aide/evidence/2026-10-16-ntfs-directory-file/path-audit.json) bind these observations;
 the earlier assessment remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
@@ -94,6 +94,14 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Native directory-file source `4156accf` passes 550 responses/12 methods, an all-target
+x64 build, 31 selected groups of 161, 63 headers, strict C90/import checks and 244
+tooling tests (two skips). Six private Win32 groups/four headers also pass.
+[Review](../.aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md) retains the
+original fixture/selector failures and exact resume provenance. This qualifies
+the private synchronous file binding, with worker/frontend admission outstanding.
+It is not a full 161-group current-native or full original 0.1.0 qualification.
 
 Source `7bb6153a` passes 227 guarded directory cases, all 160 registered x64 native
 groups, 63 C++ headers, strict C90 sources/headers and 244 tooling tests (two skips).

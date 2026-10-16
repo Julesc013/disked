@@ -22,23 +22,24 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W091 native directory-file binding: working550 native responses/12
-  methods and five old NTFS groups pass. Automatic3.0 validates and reuses its
-  captured bootstrap prefix with no duplicate native reads. Clean selected/full-
-  target and Win32 qualification remain pending. Worker/frontend and full
-  original0.1.0 scope remain. [Contract](spec/catalog/ntfs-directory-file-prototype.json).
+- [x] DE-W091 native directory-file scope: exact `4156accf` passes 550 responses/
+  12 methods, all-target build, 31 selected x64 groups of 161, 63 headers, strict
+  C90 and 244 tooling tests (two skips). Six Win32 groups/four headers pass.
+  Original fixture/selector failures remain; corrected `1e8d1087` qualifier reuses
+  verified unchanged build artifacts. Worker/frontend, namespace/content and
+  full original 0.1.0 remain. [Review](.aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md).
 
 - [x] DE-W089 supplied-reader NTFS directory scope: exact `7bb6153a` passes
   227 guarded cases, all 160 registered x64 native groups, 63 headers, strict C90
   and 244 tooling tests (two skipped). Four Win32 groups/four headers pass after
   a receipt-only counter correction; the original failure remains. Agent review
   permits ordinary source integration; native file/worker/frontend, namespace/
-  content and the full original0.1.0 remain required.
+  content and the full original 0.1.0 remain required.
   [Review](.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md).
 
 - [x] DE-W088 private protected INDX scope: exact `1a5f4f70` passes
   1,230 guarded cases, existing FILE/index corpora, all 159 native x64 groups,
-  61 headers, strict C90 and 244 tooling tests(two skipped). Three
+  61 headers, strict C90 and 244 tooling tests (two skipped). Three
   Win32/WOW64 probes/two headers also pass. Agent-reviewed local scope;
   source-bound namespace and full original 0.1.0 remain.
   [Review](.aide/evidence/2026-10-16-ntfs-block/REVIEW.md).
@@ -46,7 +47,7 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 - [x] DE-W087 private filename/index envelopes: exact `3df1a1c7` passes
   1,502 guarded cases, 27 selected native groups, 9 C++ headers,
   strict C90/standalone C header; fixture correction`cd65edcc`
-  passes 244 tooling tests(two skipped) with native inputs/artifacts unchanged.
+  passes 244 tooling tests (two skipped) with native inputs/artifacts unchanged.
   Agent-reviewed supplied-byte scope; protected INDX/native acquisition and
   original 0.1.0 remain. [Evidence](.aide/evidence/2026-10-16-ntfs-index/REVIEW.md).
 
@@ -59,7 +60,7 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 - [x] DE-W085 captured-stream joining: exact `23ceeb24` passes 298 protected-record
   cases, 25 selected native groups, 9 standalone headers and 244 tooling
-  tests(two skipped), with implementing-agent review. The typed result owns its
+  tests (two skipped), with implementing-agent review. The typed result owns its
   data; missing full references remain dependencies, not acquisition grants.
   DE-W086 connects native MFT/nonresident-list acquisition. Namespace/content
   and original full 0.1.0 remain. [Evidence](.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
