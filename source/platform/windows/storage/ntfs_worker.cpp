@@ -226,7 +226,9 @@ std::shared_ptr<const NtfsFileSnapshot> NtfsWorker::snapshot(bool retain_frame) 
     context.put("pid", field(process, "pid"))
         .put("created", field(process, "created"))
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
-        .put("image_profile", V::string(impl_->input.kind == NtfsSnapshotKind::Directory
+        .put("image_profile", V::string(impl_->input.kind == NtfsSnapshotKind::Membership
+                                            ? "ordinary-file-ntfs-membership"
+                                        : impl_->input.kind == NtfsSnapshotKind::Directory
                                             ? "ordinary-file-ntfs-directory"
                                             : "ordinary-file-ntfs"));
     // C++14 does not sequence constructor arguments: copy result before moving frame.
@@ -287,6 +289,25 @@ int ntfs_worker_role(int argc, wchar_t **argv) {
                     if (fault == "profile_hash_changed")
                         captured.fields.at("result").fields.at("capture").put(
                             "profile_probe_sha256", V::string("sha256:" + std::string(64, '0')));
+                    if (fault == "membership_changed")
+                        captured.fields.at("result")
+                            .fields.at("observation")
+                            .fields.at("membership")
+                            .fields.at("edges")
+                            .items.at(0)
+                            .put("matching_instances", V::string("999"));
+                    if (fault == "target_changed") {
+                        auto &result = captured.fields.at("result");
+                        result.fields.at("observation")
+                            .put("requested_target_limit", V::string("1"));
+                        auto &receipt = result.fields.at("capture");
+                        auto domain = field(receipt, "domain");
+                        domain.put("target_limit", V::string("1"));
+                        receipt.put("domain", domain)
+                            .put("capture_domain",
+                                 V::string("sha256:" + w::hash(json::dump(
+                                                           domain, ntfs_snapshot_json_limits()))));
+                    }
 #endif
                     const auto bytes = json::dump(captured, ntfs_snapshot_json_limits());
                     if (bytes.size() > ntfs_snapshot_payload_bytes)

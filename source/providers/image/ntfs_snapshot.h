@@ -1,5 +1,6 @@
 #pragma once
 #include "providers/image/ntfs_file.h"
+#include <cstddef>
 #include <memory>
 #include <utility>
 
@@ -17,6 +18,7 @@ struct NtfsSnapshotInput {
     NtfsSnapshotKind kind = NtfsSnapshotKind::Bootstrap;
     std::uint64_t directory_reference = 0;
     NtfsDirectoryLimits directory_limits;
+    std::size_t target_limit = 64;
 };
 constexpr std::size_t ntfs_snapshot_payload_bytes = 8U * 1024U * 1024U;
 json::Limits ntfs_snapshot_json_limits();

@@ -15703,6 +15703,62 @@
         "DE-037",
         "DE-045"
       ]
+    },
+    {
+      "id": "tests/images/test_ntfs_membership_worker.py",
+      "path": "tests/images/test_ntfs_membership_worker.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-worker-prototype.json",
+        "tests/images/ntfs_membership_fixture.py",
+        "tests/images/test_ntfs_membership.py",
+        "tests/images/test_ntfs_membership_file.py",
+        "tests/images/test_ntfs_file.py",
+        "tests/images/test_ntfs_worker.py",
+        "tests/images/test_ntfs_directory_file.py",
+        "tests/images/ntfs_worker_probe.cpp"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-036",
+        "DE-037",
+        "DE-045"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-membership-worker/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-membership-worker/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-worker-prototype.json",
+        "tests/images/test_ntfs_membership_worker.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037",
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-membership-worker/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-membership-worker/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-worker-prototype.json",
+        "tests/images/test_ntfs_membership_worker.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037",
+        "DE-074"
+      ]
     }
   ]
 }

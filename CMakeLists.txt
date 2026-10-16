@@ -1317,6 +1317,10 @@ if(BUILD_TESTING)
   set_tests_properties(image.ntfs_worker PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   add_test(NAME image.ntfs_directory_worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_directory_worker.py" --probe "$<TARGET_FILE:ntfs_worker_probe>" --fault "$<TARGET_FILE:ntfs_worker_fault>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-directory-worker-cases.json")
   set_tests_properties(image.ntfs_directory_worker PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME image.ntfs_membership_worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_membership_worker.py"
+    --probe "$<TARGET_FILE:ntfs_worker_probe>" --fault "$<TARGET_FILE:ntfs_worker_fault>"
+    --pure "$<TARGET_FILE:ntfs_capture_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-membership-worker-cases.json")
+  set_tests_properties(image.ntfs_membership_worker PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   target_link_libraries(fat_probe PRIVATE disked_fat disked_json)
   set_target_properties(fat_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(fat_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)

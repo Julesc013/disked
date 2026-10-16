@@ -2,8 +2,8 @@
 
 DE-W097's [execution contract](../spec/catalog/ntfs-membership-worker-prototype.json)
 extends the existing reader and immutable snapshot boundary. DE-W096's held-file
-implementation is source-integrated and remains the only native membership
-capture entrypoint until this work is verified.
+implementation is source-integrated. This work adds its contained process and
+immutable snapshot boundary; qualification state is recorded below.
 
 The existing snapshot owner seals input, reconstructs exact retained responses,
 and checks profile/prefix/domain/report relationships in the parent. The existing
@@ -23,5 +23,7 @@ is also required. This does not become a full current-suite or full Win32 run.
 Earlier request/worker availability failures remain retained and unexplained;
 raw failure state must be saved before assertions. No thresholds are relaxed.
 
-Implementation, native evaluation and implementing-agent review are pending.
+The working native run passes 310 cases across twelve methods and both existing
+bootstrap/directory worker regression groups. Fresh exact-source qualification
+and implementing-agent review remain pending.
 Owner acceptance and every original 0.1.0 platform/storage/release gate remain.

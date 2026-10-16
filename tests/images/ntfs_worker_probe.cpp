@@ -67,6 +67,16 @@ V exercise(const V &input) {
         if (directory->find("reference"))
             request.directory_reference = integer(*directory, "reference");
     }
+    const auto *membership = input.find("membership");
+    if (membership) {
+        if (membership->kind != V::Kind::object)
+            throw std::invalid_argument("ntfs_probe_membership");
+        request.kind = disked::NtfsSnapshotKind::Membership;
+    }
+    if (input.find("nonmember_target_limit")) {
+        const auto cap = integer(input, "nonmember_target_limit");
+        request.target_limit = cap > 256 ? 257 : static_cast<std::size_t>(cap);
+    }
     if (input.find("invalid_kind"))
         request.kind = static_cast<disked::NtfsSnapshotKind>(99);
     if (input.find("bootstrap_directory_controls")) {
@@ -74,6 +84,9 @@ V exercise(const V &input) {
         request.directory_reference = 1;
     }
     auto value = disked::ntfs_snapshot_input_value(request);
+    if (membership)
+        if (const auto *cap = membership->find("targets"))
+            value.put("target_limit", *cap);
     if (const auto *limits = input.find("limits"))
         for (const auto &p : limits->fields)
             value.fields.at("limits").put(p.first, p.second);
@@ -112,6 +125,7 @@ V exercise(const V &input) {
         request.kind = static_cast<disked::NtfsSnapshotKind>(99);
         request.directory_reference = 1;
         request.directory_limits.entries = 0;
+        request.target_limit = 0;
         request.expected_source = V{};
         request.limits.read_requests = 0;
         request.fixture = V::object().put("worker_fault", V::string("hang"));
