@@ -22,11 +22,12 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W093 directory-index command/frontend scope: 100 working checks pass,
-  including an 82KiB report in actual CLI/stdio/GUI/TUI/shell, exact frame limits,
-  full references and source/process/epoch binding. Full 163-group clean x64 and
-  selected private Win32 qualification are pending. Namespace/content and all
-  original 0.1.0 remain. [Contract](spec/catalog/ntfs-directory-command-prototype.json).
+- [x] DE-W093 directory-index command/frontends: exact `6efc9a5b` passes
+  all 163 x64 native groups, 100 new/58 bootstrap checks, 63 headers/C90/eleven
+  unique imports and 247 tooling tests (two skips). Eight private Win32 groups/
+  six headers pass; full Win32 product/frontends remain unqualified. Membership,
+  namespace/collation, lookup/content and original 0.1.0 remain.
+  [Review](.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md).
 
 - [x] DE-W092 private directory worker: exact `1001d463` passes 235 cases/
   12 methods on x64 and Win32/WOW64. All-target x64 build, 35 selected groups

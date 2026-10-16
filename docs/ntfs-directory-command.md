@@ -31,8 +31,10 @@ The working corpus passes 100 checks through actual CLI JSON/human, JSON/NDJSON,
 GUI/TUI/shell and independent worker/port comparisons. It covers both versions,
 full references, exact 128-block graph, actual reads above 4GiB, complete unchanged
 source hashes, an 82KiB display, nested projection limits, exact frame boundary,
-invalid controls, lifecycle faults and late results. Clean-source qualification
-is pending. Two GUI fixture API/response-shape failures remain in
+invalid controls, lifecycle faults and late results. Exact clean source `6efc9a5b` passes all 163 x64 native groups, 63 C++
+headers, C90/import checks and 247 tooling tests (two skips). Eight private
+Win32 reader/worker groups and six headers pass; the new Win32 frontend is
+unqualified. [Review and exact evidence](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md). Two GUI fixture API/response-shape failures remain in
 [working evidence](../.aide/evidence/2026-10-16-ntfs-directory-command/working/).
 
 This is one bounded directory index, with namespace/collation/target-membership/

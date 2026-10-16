@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.9
+  version: 0.1.5-proposed.10
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-16T04:02:35.538833+00:00'
-  scope: Reconcile current DE-W092 and later W075 integration evidence; preserve original scope and separate owner/platform/storage/release gates
+  at: '2026-10-16T05:21:17.700229+00:00'
+  scope: DE-W093 source-bound directory-command qualification; original namespace/platform/storage/release gates remain open
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -39,22 +39,19 @@ sources:
 
 # Implementation sequence and first usable release
 
-Current development position, 16 October 2026: private NTFS directory collection,
-held-file acquisition and owned-worker reconstruction have revision-bound
-DE-W092 evidence at source `1001d463`; its
-[execution contract](../catalog/ntfs-directory-worker-prototype.json) defines the
-private boundary. In the implementation repository, see
-`.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md`.
-Directory command/frontend admission, full namespace traversal and content remain
-required; a captured index is not a complete filesystem tree. The programme at
-`.aide/programmes/disked-0.1.0.json` owns current work state in that repository.
-The later exFAT review at
-`.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md`
-and full 160-group campaign at `7bb6153a` in
-`.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md`
-supersede W075's old failure as a current integration blocker. Those historical
-failures and their unknown causes remain retained. This is not a full current
-162-group campaign, owner acceptance or completion of original 0.1.0 scope.
+Current development position, 16 October 2026: DE-W093 admits bounded NTFS
+directory-index inspection through the existing common Windows x64 frontends.
+Exact source `6efc9a5b` passes all 163 registered native groups; qualification is
+retained in the implementation repository at
+`.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md`. The
+[execution contract](../catalog/ntfs-directory-command-prototype.json) fixes the
+bounded view and its retained source/process/profile/reference evidence.
+Complete namespace, name/target membership, collation, lookup and content remain
+required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
+repository. Later exFAT and full native qualification supersede W075's old failure
+as an active integration blocker; the original failed campaigns and unknown
+causes remain. Owner, original platforms/storage 0.1.0, recovery and release
+gates remain separate. A bounded index is not a verified filesystem namespace.
 
 DE-W062 adds a private product-bound read-only H, exact finalized D and finite
 offline ZIP fixture with nonrecursive bindings. Generated servicing previews
@@ -495,5 +492,5 @@ before shared frontend admission, then continue original NTFS metadata/namespace
 content. Its initial checkpoint retained W075/report-preparation as an integration
 gate. Later source-bound qualification, linked above, supersedes that status while
 preserving the failed campaigns. DE-W091/W092 extend the private boundary to
-directory files/workers; they do not qualify public directory or full namespace
-and content support.
+directory files/workers. DE-W093 subsequently admits bounded directory-index
+inspection; it does not qualify complete namespace, lookup or content support.

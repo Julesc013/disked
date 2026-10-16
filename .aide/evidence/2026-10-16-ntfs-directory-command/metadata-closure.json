@@ -1,0 +1,116 @@
+{
+  "status": "pass",
+  "observed_at": "2026-10-16T05:21:32.724517+00:00",
+  "tested_native_source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
+  "implementation_build_native_test_and_contract_parameters_unchanged": true,
+  "all_other_recorded_inputs_unchanged": true,
+  "metadata_only_exceptions": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/development-plan.md",
+    "docs/index.md",
+    "docs/native-bootstrap.md",
+    "docs/ntfs-directory-command.md",
+    "docs/structure-review.md",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/work/units.json"
+  ],
+  "qualification_recipe_exception": {
+    "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
+    "source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
+    "source_sha256": "sha256:f9a6d91d8908d0e2e05a82f48bf0c8e044b45877b8be46445b4729af8e7589bd",
+    "effective_revision": "235c168df739cf227b892cbf7da29c6dcb1344b3",
+    "effective_sha256": "sha256:e7c56334cac4827474ca6f872527cebeeb1419947c54479272b6ac4d9e43194d",
+    "reason": "Correct stale reporting count 50 to unchanged actual 58 and add verified native-stage reuse; production code, fixtures and native test expectations unchanged.",
+    "failed_phase": "failed-counter/summary.json",
+    "reused_artifacts_unchanged": true
+  },
+  "work_definition_only_status_changed": true,
+  "original_goal_and_authority_unchanged": true,
+  "full_native_suite_run": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W093",
+        "--output",
+        ".aide-local\\context\\ntfs-directory-command-reviewed-20261016T052117Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-directory-command-reviewed-20261016T052117Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false
+}

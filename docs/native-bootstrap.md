@@ -14,8 +14,9 @@ their original scope; current report semantics are in [acquisition-cases.md](acq
 
 NTFS inspection includes the existing bootstrap and the new bounded
 [directory-index view](ntfs-directory-command.md). The current working corpus
-passes 100 directory command/frontend checks; clean-source qualification is
-pending. The private [attribute-list](ntfs-list.md), [stream](ntfs-stream.md),
+passes 100 directory command/frontend checks; exact `6efc9a5b` passes all
+163 x64 native groups. [Qualification](../.aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md)
+records target, toolchain and remaining limits. The private [attribute-list](ntfs-list.md), [stream](ntfs-stream.md),
 [protected-index](ntfs-block.md) and [directory](ntfs-directory.md) APIs retain
 their own source-bound evidence. An observed index does not establish a complete
 namespace, lookup, target membership, collation, content or storage authority.
