@@ -78,6 +78,12 @@ V exercise(const V &input) {
             throw std::invalid_argument("ntfs_probe_upcase");
         request.kind = disked::NtfsSnapshotKind::Upcase;
     }
+    if (const auto *name_order = input.find("name_order")) {
+        if (name_order->kind != V::Kind::boolean || !name_order->boolean || !directory ||
+            membership || input.find("upcase"))
+            throw std::invalid_argument("ntfs_probe_name_order");
+        request.kind = disked::NtfsSnapshotKind::NameOrder;
+    }
     if (input.find("nonmember_target_limit")) {
         const auto cap = integer(input, "nonmember_target_limit");
         request.target_limit = cap > 256 ? 257 : static_cast<std::size_t>(cap);

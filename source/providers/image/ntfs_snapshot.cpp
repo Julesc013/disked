@@ -2,6 +2,7 @@
 #include "local_file.h"
 #include "portable/hash/sha256.h"
 #include "runtime/capture/ntfs_membership.h"
+#include "runtime/capture/ntfs_name_order.h"
 #include <set>
 
 namespace disked {
@@ -126,7 +127,7 @@ bool graph_mode(const NtfsSnapshotInput &input) {
         return true;
     if (input.target_limit != 64)
         throw std::invalid_argument("ntfs_snapshot_kind");
-    if (input.kind == NtfsSnapshotKind::Directory)
+    if (input.kind == NtfsSnapshotKind::Directory || input.kind == NtfsSnapshotKind::NameOrder)
         return true;
     if ((input.kind != NtfsSnapshotKind::Bootstrap && input.kind != NtfsSnapshotKind::Upcase) ||
         input.directory_reference || input.directory_limits.entries != 4096 ||
@@ -174,7 +175,7 @@ V profile_foundation(const V &v) {
         info.put("profile_matches", V::boolean_value(true));
     if (const auto *limit = v.find("requested_target_limit"))
         value.put("requested_target_limit", *limit);
-    for (const auto key : {"upcase_record", "upcase"})
+    for (const auto key : {"upcase_record", "upcase", "name_order"})
         if (const auto *item = v.find(key))
             value.put(key, *item);
     auto closures = V::object();
@@ -277,6 +278,8 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
                                                "membership_changed",
                                                "target_changed",
                                                "upcase_changed",
+                                               "name_order_changed",
+                                               "name_order_directory_changed",
                                                "claims"};
         const std::set<std::string> captures = {
             "short", "error", "changed", "metadata", "binding", "replay_bytes", "replay_offset"};
@@ -291,7 +294,12 @@ void validate_ntfs_snapshot_input(const NtfsSnapshotInput &input) {
             input.kind != NtfsSnapshotKind::Membership)
             throw std::invalid_argument("ntfs_snapshot_fixture");
         if (p.first == "worker_fault" && p.second.text == "upcase_changed" &&
-            input.kind != NtfsSnapshotKind::Upcase)
+            input.kind != NtfsSnapshotKind::Upcase && input.kind != NtfsSnapshotKind::NameOrder)
+            throw std::invalid_argument("ntfs_snapshot_fixture");
+        if (p.first == "worker_fault" &&
+            (p.second.text == "name_order_changed" ||
+             p.second.text == "name_order_directory_changed") &&
+            input.kind != NtfsSnapshotKind::NameOrder)
             throw std::invalid_argument("ntfs_snapshot_fixture");
         if (p.first == "capture_call") {
             if (!json::decimal_u64(p.second.text) || !std::stoull(p.second.text) ||
@@ -317,9 +325,11 @@ V ntfs_snapshot_input_value(const NtfsSnapshotInput &input) {
     const bool graph = graph_mode(input);
     const bool membership = input.kind == NtfsSnapshotKind::Membership;
     const bool upcase = input.kind == NtfsSnapshotKind::Upcase;
+    const bool name_order = input.kind == NtfsSnapshotKind::NameOrder;
     auto value =
         V::object()
-            .put("schema", V::string(upcase       ? "org.disked.ntfs-upcase-source-request/1"
+            .put("schema", V::string(name_order   ? "org.disked.ntfs-name-order-source-request/1"
+                                     : upcase     ? "org.disked.ntfs-upcase-source-request/1"
                                      : membership ? "org.disked.ntfs-membership-source-request/1"
                                      : graph      ? "org.disked.ntfs-directory-source-request/1"
                                                   : "org.disked.ntfs-source-request/1"))
@@ -348,10 +358,12 @@ NtfsSnapshotInput ntfs_snapshot_input_from(const V &h) {
     if (schema == "org.disked.ntfs-upcase-source-request/1")
         input.kind = NtfsSnapshotKind::Upcase;
     else if (schema == "org.disked.ntfs-membership-source-request/1" ||
-             schema == "org.disked.ntfs-directory-source-request/1") {
-        input.kind = schema == "org.disked.ntfs-membership-source-request/1"
-                         ? NtfsSnapshotKind::Membership
-                         : NtfsSnapshotKind::Directory;
+             schema == "org.disked.ntfs-directory-source-request/1" ||
+             schema == "org.disked.ntfs-name-order-source-request/1") {
+        input.kind =
+            schema == "org.disked.ntfs-name-order-source-request/1"   ? NtfsSnapshotKind::NameOrder
+            : schema == "org.disked.ntfs-membership-source-request/1" ? NtfsSnapshotKind::Membership
+                                                                      : NtfsSnapshotKind::Directory;
         if (input.kind == NtfsSnapshotKind::Membership)
             keys.insert("target_limit");
         keys.insert("directory_reference");
@@ -470,7 +482,9 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
         if (n == (call ? call : 1) && mode == "replay_offset")
             ++row.offset;
     };
-    auto read = held.kind == NtfsSnapshotKind::Upcase
+    auto read = held.kind == NtfsSnapshotKind::NameOrder
+                    ? capture_ntfs_name_order_file_testing(directory, selected_stop, control)
+                : held.kind == NtfsSnapshotKind::Upcase
                     ? capture_ntfs_upcase_file_testing(r, selected_stop, control)
                 : held.kind == NtfsSnapshotKind::Membership
                     ? capture_ntfs_membership_file_testing(membership, selected_stop, control)
@@ -478,7 +492,9 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
                     ? capture_ntfs_directory_file_testing(directory, selected_stop, control)
                     : capture_ntfs_file_testing(r, selected_stop, control);
 #else
-    auto read = held.kind == NtfsSnapshotKind::Upcase
+    auto read = held.kind == NtfsSnapshotKind::NameOrder
+                    ? capture_ntfs_name_order_file_owned(directory, selected_stop)
+                : held.kind == NtfsSnapshotKind::Upcase
                     ? capture_ntfs_upcase_file_owned(r, selected_stop)
                 : held.kind == NtfsSnapshotKind::Membership
                     ? capture_ntfs_membership_file_owned(membership, selected_stop)
@@ -499,7 +515,9 @@ V read_ntfs_snapshot_frame(const NtfsSnapshotInput &input, const std::function<b
     const auto pid = field(receipt, "process_id"), created = field(receipt, "process_created");
     auto out =
         V::object()
-            .put("schema", V::string(held.kind == NtfsSnapshotKind::Upcase
+            .put("schema", V::string(held.kind == NtfsSnapshotKind::NameOrder
+                                         ? "org.disked.ntfs-name-order-region-frame/1"
+                                     : held.kind == NtfsSnapshotKind::Upcase
                                          ? "org.disked.ntfs-upcase-region-frame/1"
                                      : held.kind == NtfsSnapshotKind::Membership
                                          ? "org.disked.ntfs-membership-region-frame/1"
@@ -521,13 +539,15 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     const bool graph = graph_mode(input);
     const bool membership = input.kind == NtfsSnapshotKind::Membership;
     const bool upcase = input.kind == NtfsSnapshotKind::Upcase;
+    const bool name_order = input.kind == NtfsSnapshotKind::NameOrder;
     const bool prefix = prefix_mode(input);
     encode(frame);
     if (prefix)
         prefix_frame_bounds(frame);
     exact(frame, {"schema", "input", "capture_epoch", "process_id", "process_created", "result",
                   "regions"});
-    if (text(frame, "schema") != (upcase       ? "org.disked.ntfs-upcase-region-frame/1"
+    if (text(frame, "schema") != (name_order   ? "org.disked.ntfs-name-order-region-frame/1"
+                                  : upcase     ? "org.disked.ntfs-upcase-region-frame/1"
                                   : membership ? "org.disked.ntfs-membership-region-frame/1"
                                   : graph      ? "org.disked.ntfs-directory-region-frame/1"
                                                : "org.disked.ntfs-region-frame/1") ||
@@ -538,7 +558,8 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
     const auto &result = field(frame, "result");
     exact(result,
           {"schema", "observation", "capture", "authorizes_effects", "product_dispatch_admitted"});
-    if (text(result, "schema") != (upcase       ? "org.disked.ntfs-upcase-file-capture/1"
+    if (text(result, "schema") != (name_order   ? "org.disked.ntfs-name-order-file-capture/1"
+                                   : upcase     ? "org.disked.ntfs-upcase-file-capture/1"
                                    : membership ? "org.disked.ntfs-membership-file-capture/1"
                                    : graph      ? "org.disked.ntfs-directory-file-capture/1"
                                                 : "org.disked.ntfs-file-capture/1") ||
@@ -673,7 +694,9 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
             r.capture = request;
             r.reference = input.directory_reference;
             r.limits = input.directory_limits;
-            if (membership) {
+            if (name_order)
+                observed = observe_ntfs_name_order(r, reader);
+            else if (membership) {
                 NtfsMembershipRequest selected;
                 selected.directory = r;
                 selected.targets = input.target_limit;
@@ -747,7 +770,8 @@ V verify_ntfs_snapshot_frame(const V &frame, const NtfsSnapshotInput &input) {
         throw std::invalid_argument("ntfs_snapshot_prefix_receipt");
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
     auto domain = V::object()
-                      .put("provider", V::string(upcase       ? "ntfs-upcase-file-prototype"
+                      .put("provider", V::string(name_order   ? "ntfs-name-order-file-prototype"
+                                                 : upcase     ? "ntfs-upcase-file-prototype"
                                                  : membership ? "ntfs-membership-file-prototype"
                                                  : graph      ? "ntfs-directory-file-prototype"
                                                               : "ntfs-file-prototype"))

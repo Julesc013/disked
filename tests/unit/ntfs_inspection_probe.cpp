@@ -27,13 +27,15 @@ int main() {
         const auto request = disked::json::parse(input, limits);
         if (const auto *kind = request.find("private_kind")) {
             if (kind->kind != V::Kind::string ||
-                (kind->text != "upcase" && kind->text != "unknown"))
+                (kind->text != "upcase" && kind->text != "name_order" && kind->text != "unknown"))
                 throw std::invalid_argument("probe_kind");
             disked::NtfsInspectionRequest selected;
             selected.path = "not-opened";
             selected.volume_bytes = 512;
             selected.kind = kind->text == "upcase" ? disked::NtfsSnapshotKind::Upcase
-                                                   : static_cast<disked::NtfsSnapshotKind>(99);
+                            : kind->text == "name_order"
+                                ? disked::NtfsSnapshotKind::NameOrder
+                                : static_cast<disked::NtfsSnapshotKind>(99);
             auto result = V::object().put("rejected", V::boolean_value(false));
             try {
                 disked::validate_ntfs_inspection_request(selected);

@@ -227,12 +227,13 @@ std::shared_ptr<const NtfsFileSnapshot> NtfsWorker::snapshot(bool retain_frame) 
         .put("created", field(process, "created"))
         .put("frame_sha256", field(field(observed, "result"), "sha256"))
         .put("image_profile",
-             V::string(impl_->input.kind == NtfsSnapshotKind::Upcase ? "ordinary-file-ntfs-upcase"
-                       : impl_->input.kind == NtfsSnapshotKind::Membership
-                           ? "ordinary-file-ntfs-membership"
-                       : impl_->input.kind == NtfsSnapshotKind::Directory
-                           ? "ordinary-file-ntfs-directory"
-                           : "ordinary-file-ntfs"));
+             V::string(
+                 impl_->input.kind == NtfsSnapshotKind::NameOrder ? "ordinary-file-ntfs-name-order"
+                 : impl_->input.kind == NtfsSnapshotKind::Upcase  ? "ordinary-file-ntfs-upcase"
+                 : impl_->input.kind == NtfsSnapshotKind::Membership
+                     ? "ordinary-file-ntfs-membership"
+                 : impl_->input.kind == NtfsSnapshotKind::Directory ? "ordinary-file-ntfs-directory"
+                                                                    : "ordinary-file-ntfs"));
     // C++14 does not sequence constructor arguments: copy result before moving frame.
     auto result = field(captured, "result");
     auto retained = retain_frame ? std::move(captured) : V{};
@@ -327,6 +328,29 @@ int ntfs_worker_role(int argc, wchar_t **argv) {
                         encoded.at(1) = alphabet[digit(encoded.at(1)) ^ 1U];
                         table.put("table_hex", V::string(encoded))
                             .put("table_sha256", V::string("sha256:" + w::hash(bytes)));
+                        if (input.kind == NtfsSnapshotKind::NameOrder)
+                            captured.fields.at("result")
+                                .fields.at("observation")
+                                .fields.at("name_order")
+                                .put("table_sha256", field(table, "table_sha256"));
+                    }
+                    if (fault == "name_order_changed")
+                        captured.fields.at("result")
+                            .fields.at("observation")
+                            .fields.at("name_order")
+                            .fields.at("order")
+                            .items.at(0)
+                            .put("header_number", V::string("999"));
+                    if (fault == "name_order_directory_changed") {
+                        auto &observed = captured.fields.at("result").fields.at("observation");
+                        auto &directory = observed.fields.at("directory");
+                        directory.fields.at("entries").items.at(0).put("name_hex",
+                                                                       V::string("5a00"));
+                        observed.fields.at("name_order")
+                            .put("directory_sha256",
+                                 V::string(
+                                     "sha256:" +
+                                     w::hash(json::dump(directory, ntfs_snapshot_json_limits()))));
                     }
 #endif
                     const auto bytes = json::dump(captured, ntfs_snapshot_json_limits());

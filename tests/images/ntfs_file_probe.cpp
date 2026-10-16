@@ -83,6 +83,7 @@ static V observe(const V &input) {
 #undef LOAD
     }
     const auto directory_input = input.find("directory");
+    const auto name_order_input = input.find("name_order");
     disked::NtfsDirectoryFileRequest directory;
     directory.file = request;
     if (directory_input) {
@@ -104,6 +105,9 @@ static V observe(const V &input) {
     if (upcase_input)
         need(upcase_input->kind == V::Kind::boolean && upcase_input->boolean && !directory_input &&
              !membership_input);
+    if (name_order_input)
+        need(name_order_input->kind == V::Kind::boolean && name_order_input->boolean &&
+             directory_input && !membership_input && !upcase_input);
     disked::NtfsMembershipFileRequest membership;
     membership.directory = directory;
     if (membership_input) {
@@ -206,14 +210,18 @@ static V observe(const V &input) {
 #endif
     try {
 #ifdef DISKED_NTFS_FILE_TESTING
-        auto read = upcase_input ? disked::capture_ntfs_upcase_file_testing(request, stop, control)
+        auto read = name_order_input
+                        ? disked::capture_ntfs_name_order_file_testing(directory, stop, control)
+                    : upcase_input
+                        ? disked::capture_ntfs_upcase_file_testing(request, stop, control)
                     : membership_input
                         ? disked::capture_ntfs_membership_file_testing(membership, stop, control)
                     : directory_input
                         ? disked::capture_ntfs_directory_file_testing(directory, stop, control)
                         : disked::capture_ntfs_file_testing(request, stop, control);
 #else
-        auto read = upcase_input ? disked::capture_ntfs_upcase_file_owned(request, stop)
+        auto read = name_order_input ? disked::capture_ntfs_name_order_file_owned(directory, stop)
+                    : upcase_input   ? disked::capture_ntfs_upcase_file_owned(request, stop)
                     : membership_input
                         ? disked::capture_ntfs_membership_file_owned(membership, stop)
                     : directory_input ? disked::capture_ntfs_directory_file_owned(directory, stop)

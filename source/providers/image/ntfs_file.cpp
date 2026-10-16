@@ -1,4 +1,5 @@
 #include "ntfs_file.h"
+#include "runtime/capture/ntfs_name_order.h"
 #include "local_file.h"
 #include "runtime/capture/ntfs_membership.h"
 #include "portable/hash/sha256.h"
@@ -109,7 +110,7 @@ V profile_foundation(const V &value) {
         info.put("profile_matches", flag(true));
     if (const auto limit = value.find("requested_target_limit"))
         out.put("requested_target_limit", *limit);
-    for (const auto key : {"upcase_record", "upcase"})
+    for (const auto key : {"upcase_record", "upcase", "name_order"})
         if (const auto item = value.find(key))
             out.put(key, *item);
     auto closures = V::object();
@@ -137,10 +138,15 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
 #endif
                      ,
                      const NtfsDirectoryFileRequest *directory_input = nullptr,
-                     const std::size_t *targets_input = nullptr, bool upcase_mode = false) {
+                     const std::size_t *targets_input = nullptr,
+                     NtfsSnapshotKind kind = NtfsSnapshotKind::Bootstrap) {
     const NtfsFileRequest held = input;
-    const bool directory_mode = directory_input != nullptr;
-    const bool membership_mode = targets_input != nullptr;
+    const bool directory_mode = kind == NtfsSnapshotKind::Directory ||
+                                kind == NtfsSnapshotKind::Membership ||
+                                kind == NtfsSnapshotKind::NameOrder;
+    const bool membership_mode = kind == NtfsSnapshotKind::Membership;
+    const bool upcase_mode = kind == NtfsSnapshotKind::Upcase;
+    const bool name_order_mode = kind == NtfsSnapshotKind::NameOrder;
     const bool prefix_mode = directory_mode || upcase_mode;
     const auto directory = directory_input ? *directory_input : NtfsDirectoryFileRequest{};
     const std::size_t target_limit = targets_input ? *targets_input : 64;
@@ -149,10 +155,14 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     const auto control = control_input ? *control_input : NtfsFileTestControl{};
 #endif
     const auto selector = std::string(profile_name(held.profile));
-    if (membership_mode && !directory_mode)
+    if (membership_mode && !directory_input)
         throw std::invalid_argument("ntfs_file_membership_inputs");
-    if (upcase_mode && (directory_mode || membership_mode))
+    if (upcase_mode && (directory_input || targets_input))
         throw std::invalid_argument("ntfs_file_upcase_inputs");
+    if ((!directory_mode && !upcase_mode && kind != NtfsSnapshotKind::Bootstrap) ||
+        directory_mode != (directory_input != nullptr) ||
+        membership_mode != (targets_input != nullptr))
+        throw std::invalid_argument("ntfs_file_kind");
     const auto maximum = static_cast<std::uint64_t>(MAXLONGLONG);
     if (held.volume_offset > maximum || held.volume_bytes > maximum - held.volume_offset)
         throw std::invalid_argument("ntfs_file_seek_range");
@@ -174,6 +184,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
         selected_directory.capture = selected;
         selected_directory.reference = directory.reference;
         selected_directory.limits = directory.limits;
+        if (name_order_mode)
+            return observe_ntfs_name_order(selected_directory, source);
         if (membership_mode) {
             NtfsMembershipRequest membership;
             membership.directory = selected_directory;
@@ -478,7 +490,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
     auto domain =
         V::object()
-            .put("provider", V::string(upcase_mode       ? "ntfs-upcase-file-prototype"
+            .put("provider", V::string(name_order_mode   ? "ntfs-name-order-file-prototype"
+                                       : upcase_mode     ? "ntfs-upcase-file-prototype"
                                        : membership_mode ? "ntfs-membership-file-prototype"
                                        : directory_mode  ? "ntfs-directory-file-prototype"
                                                          : "ntfs-file-prototype"))
@@ -546,7 +559,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     NtfsFileRead result;
     result.result =
         V::object()
-            .put("schema", V::string(upcase_mode       ? "org.disked.ntfs-upcase-file-capture/1"
+            .put("schema", V::string(name_order_mode   ? "org.disked.ntfs-name-order-file-capture/1"
+                                     : upcase_mode     ? "org.disked.ntfs-upcase-file-capture/1"
                                      : membership_mode ? "org.disked.ntfs-membership-file-capture/1"
                                      : directory_mode  ? "org.disked.ntfs-directory-file-capture/1"
                                                        : "org.disked.ntfs-file-capture/1"))
@@ -577,7 +591,7 @@ NtfsFileRead capture_ntfs_upcase_file_owned(const NtfsFileRequest &request,
                    nullptr
 #endif
                    ,
-                   nullptr, nullptr, true);
+                   nullptr, nullptr, NtfsSnapshotKind::Upcase);
 }
 NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &request,
                                                const std::function<bool()> &stop) {
@@ -587,7 +601,17 @@ NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &r
                    nullptr
 #endif
                    ,
-                   &request);
+                   &request, nullptr, NtfsSnapshotKind::Directory);
+}
+NtfsFileRead capture_ntfs_name_order_file_owned(const NtfsDirectoryFileRequest &request,
+                                                const std::function<bool()> &stop) {
+    return capture(request.file, stop
+#ifdef DISKED_NTFS_FILE_TESTING
+                   ,
+                   nullptr
+#endif
+                   ,
+                   &request, nullptr, NtfsSnapshotKind::NameOrder);
 }
 NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest &request,
                                                 const std::function<bool()> &stop) {
@@ -597,7 +621,7 @@ NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest 
                    nullptr
 #endif
                    ,
-                   &request.directory, &request.targets);
+                   &request.directory, &request.targets, NtfsSnapshotKind::Membership);
 }
 #ifdef DISKED_NTFS_FILE_TESTING
 NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &request,
@@ -608,17 +632,23 @@ NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &request,
 NtfsFileRead capture_ntfs_upcase_file_testing(const NtfsFileRequest &request,
                                               const std::function<bool()> &stop,
                                               const NtfsFileTestControl &control) {
-    return capture(request, stop, &control, nullptr, nullptr, true);
+    return capture(request, stop, &control, nullptr, nullptr, NtfsSnapshotKind::Upcase);
 }
 NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest &request,
                                                  const std::function<bool()> &stop,
                                                  const NtfsFileTestControl &control) {
-    return capture(request.file, stop, &control, &request);
+    return capture(request.file, stop, &control, &request, nullptr, NtfsSnapshotKind::Directory);
+}
+NtfsFileRead capture_ntfs_name_order_file_testing(const NtfsDirectoryFileRequest &request,
+                                                  const std::function<bool()> &stop,
+                                                  const NtfsFileTestControl &control) {
+    return capture(request.file, stop, &control, &request, nullptr, NtfsSnapshotKind::NameOrder);
 }
 NtfsFileRead capture_ntfs_membership_file_testing(const NtfsMembershipFileRequest &request,
                                                   const std::function<bool()> &stop,
                                                   const NtfsFileTestControl &control) {
-    return capture(request.directory.file, stop, &control, &request.directory, &request.targets);
+    return capture(request.directory.file, stop, &control, &request.directory, &request.targets,
+                   NtfsSnapshotKind::Membership);
 }
 #endif
 } // namespace disked

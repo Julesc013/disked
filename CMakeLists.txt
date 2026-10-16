@@ -1306,6 +1306,11 @@ if(BUILD_TESTING)
     --pure "$<TARGET_FILE:ntfs_capture_probe>" --inspection "$<TARGET_FILE:ntfs_inspection_probe>"
     --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-upcase-file-cases.json")
   set_tests_properties(image.ntfs_upcase_file PROPERTIES TIMEOUT 240)
+  add_test(NAME image.ntfs_name_order_file COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_name_order_file.py"
+    --probe "$<TARGET_FILE:ntfs_file_probe>" --fault "$<TARGET_FILE:ntfs_file_fault>"
+    --pure "$<TARGET_FILE:ntfs_capture_probe>" --inspection "$<TARGET_FILE:ntfs_inspection_probe>"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-name-order-file-cases.json")
+  set_tests_properties(image.ntfs_name_order_file PROPERTIES TIMEOUT 240)
   add_test(NAME image.exfat_tree_file COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_exfat_tree_file.py"
     --probe "$<TARGET_FILE:exfat_file_probe>" --fault "$<TARGET_FILE:exfat_file_fault>"
     --pure "$<TARGET_FILE:exfat_tree_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/exfat-tree-file-cases.json")
@@ -1355,6 +1360,11 @@ if(BUILD_TESTING)
     --pure "$<TARGET_FILE:ntfs_capture_probe>"
     --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-upcase-worker-cases.json")
   set_tests_properties(image.ntfs_upcase_worker PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
+  add_test(NAME image.ntfs_name_order_worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_name_order_worker.py"
+    --probe "$<TARGET_FILE:ntfs_worker_probe>" --fault "$<TARGET_FILE:ntfs_worker_fault>"
+    --pure "$<TARGET_FILE:ntfs_capture_probe>"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-name-order-worker-cases.json")
+  set_tests_properties(image.ntfs_name_order_worker PROPERTIES TIMEOUT 240 RESOURCE_LOCK disked_fake_workers)
   target_link_libraries(fat_probe PRIVATE disked_fat disked_json)
   set_target_properties(fat_probe PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
   target_compile_options(fat_probe PRIVATE /W4 /WX /permissive- /utf-8 /GS /sdl /guard:cf)

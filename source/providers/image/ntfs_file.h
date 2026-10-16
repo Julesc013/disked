@@ -41,6 +41,8 @@ NtfsFileRead capture_ntfs_upcase_file_owned(const NtfsFileRequest &,
                                             const std::function<bool()> &stop = {});
 NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &,
                                                const std::function<bool()> &stop = {});
+NtfsFileRead capture_ntfs_name_order_file_owned(const NtfsDirectoryFileRequest &,
+                                                const std::function<bool()> &stop = {});
 NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest &,
                                                 const std::function<bool()> &stop = {});
 #ifdef DISKED_NTFS_FILE_TESTING
@@ -58,6 +60,9 @@ NtfsFileRead capture_ntfs_upcase_file_testing(const NtfsFileRequest &,
 NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest &,
                                                  const std::function<bool()> &,
                                                  const NtfsFileTestControl &);
+NtfsFileRead capture_ntfs_name_order_file_testing(const NtfsDirectoryFileRequest &,
+                                                  const std::function<bool()> &,
+                                                  const NtfsFileTestControl &);
 NtfsFileRead capture_ntfs_membership_file_testing(const NtfsMembershipFileRequest &,
                                                   const std::function<bool()> &,
                                                   const NtfsFileTestControl &);

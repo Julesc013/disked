@@ -7,7 +7,13 @@
 
 namespace disked {
 enum class NtfsFileProfile { Automatic, Version30, Version31 };
-enum class NtfsSnapshotKind { Bootstrap, Directory, Membership, Upcase };
+enum class NtfsSnapshotKind {
+    Bootstrap = 0,
+    Directory = 1,
+    Membership = 2,
+    Upcase = 3,
+    NameOrder = 4
+};
 struct NtfsCaptureLimits {
     std::size_t read_requests = 128, read_bytes = 1048576, retained_bytes = 262144;
     std::size_t attributes = 256, runs = 512, output_bytes = 1048576;
