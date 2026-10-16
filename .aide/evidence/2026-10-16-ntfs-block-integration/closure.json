@@ -1,0 +1,82 @@
+{
+  "observed_at": "2026-10-16T00:22:54.958559+00:00",
+  "implementation_build_test_parameter_inputs_unchanged": true,
+  "compared_inputs": 752,
+  "validation_metadata_exception": "spec/catalog/input-dependencies.json",
+  "exception_matches_reviewed_checkpoint": "97ae80c8f4594535aabb2e757b94b62ac4003550",
+  "supplementary_recipe_matches_tested_hash": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W088",
+        "--output",
+        ".aide-local\\context\\ntfs-block-integrated-20261016T002240Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-block-integrated-20261016T002240Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "release_published": false,
+  "full_0_1_0_complete": false
+}

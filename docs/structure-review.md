@@ -102,6 +102,8 @@ Protected INDX blocks and shared FILE fixups at `1a5f4f70` pass 1,230 new cases,
 all 159 registered x64 native groups, 61 C++ headers, strict C90 sources/
 headers and 244 tooling tests(two skipped). Three Win32/WOW64 parser probes
 and two headers also pass. [Review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md).
+[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-block-integration/repository.json)
+records the successful dev/main synchronization. Owner and release gates remain separate.
 This qualifies supplied framing/restoration on those lanes; source-bound directory
 acquisition and the original platform/storage 0.1.0 remain open.
 
