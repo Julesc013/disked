@@ -100,8 +100,9 @@ groups, 63 C++ headers, strict C90 sources/headers and 244 tooling tests (two sk
 The selected Win32 supplement passes four groups/four headers after a receipt-only
 counter correction; the original failure remains.
 [Implementing-agent review](../.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md)
-supports ordinary source integration after metadata/staged-byte closure. It does
-not qualify native directory file/worker/frontend admission or complete NTFS.
+supports ordinary source integration. [Verified dev/main synchronization](../.aide/evidence/2026-10-16-ntfs-directory-integration/repository.json)
+records the actual repository writes. This does not qualify native directory
+file/worker/frontend admission or complete NTFS.
 
 The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 [closure review](../.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md) and
