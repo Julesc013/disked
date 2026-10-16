@@ -23,8 +23,10 @@ namespace, lookup, target membership, collation, content or storage authority.
 
 DE-W102 adds the [complete table view](ntfs-upcase-command.md) through the same
 actions. Its working corpus passes 119 cases, including all table bytes, eight
-bounded chunks, authentic partial evidence and common frontends. Exact-source
-qualification remains pending; this does not qualify namespace ordering or lookup.
+bounded chunks, authentic partial evidence and common frontends. Exact `61f8f2f2` passes all 174 current x64 native groups;
+[review](../.aide/evidence/2026-10-17-ntfs-upcase-command/REVIEW.md) records source,
+qualification limits and the unresolved original startup failure. This does not
+qualify namespace ordering or lookup.
 
 The explicit Win32 GUI exposes the same fake service. DE-W016 adds a self-spawned, reconnectable fake operation. DE-W019 adds a bounded explicit command shell. Physical storage and table mutation remain unavailable. The [command contract](../spec/interaction/commands.md)
 and [protocol contract](../spec/interaction/protocol.md) define the current subset.

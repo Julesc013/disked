@@ -33,14 +33,14 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **325 source files** at `0b67e4c7`: 37 portable,143 runtime,68 provider,
-63 platform and14 application files. The supplied NTFS table primitive stays in its portable owner; the native binding
+There are **325 source files** at `61f8f2f2`: 37 portable, 143 runtime, 68 provider,
+63 platform and 14 application files. The supplied NTFS table primitive stays in its portable owner; the native binding
 adds no production file or directory. The
-longest repository-relative source path remains62 characters. Case,Windows reserved
+longest repository-relative source path remains 62 characters. Case, Windows reserved
 basename and trailing space/dot checks pass. These measurements do not qualify
 every legacy filesystem,compiler or generated build path.
-[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase-native/source-inventory.json) and
-[path checks](../.aide/evidence/2026-10-17-ntfs-upcase-native/path-audit.json) bind these facts.
+[Inventory](../.aide/evidence/2026-10-17-ntfs-upcase-command/source-inventory.json) and
+[path checks](../.aide/evidence/2026-10-17-ntfs-upcase-command/path-audit.json) bind these facts.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -94,8 +94,15 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Complete public NTFS table observation at `61f8f2f2` passes all 174 current x64
+groups, 119 command cases, 67 headers/C90/14 imports and 251 tooling tests (two skips).
+The private Win32 supplement passes 15 groups/11 headers/9 imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-command/REVIEW.md)
+records unchanged production ownership,complete table chunks,retained partials and
+the unresolved original startup failure. No production file or directory was added;
+namespace/lookup/content and original all-platform/storage 0.1.0 remain unfinished.
+
 Native held-file/owned-reader table source `0b67e4c7` passes all 173 registered
-x64 groups,434 held-file/274 worker cases,67 headers/C90/14 imports and 249 tooling
+x64 groups,434 held-file/274 worker cases, 67 headers/C90/14 imports and 249 tooling
 tests(two skips). Its private Win32 supplement passes 15 groups/11 headers/9 imports.
 [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-native/REVIEW.md) records exact
 source/profile/replay/process scope and retained test corrections. No production
@@ -103,17 +110,17 @@ file or directory was added. Public table admission,namespace/lookup/content and
 the original all-platform/storage 0.1.0 remain incomplete.
 
 Retained NTFS table source `b613ccae` passes all171 registered x64 groups,158 new
-capture cases,67 headers/C90/14 imports and 249 tooling tests(two skips). Its private
+capture cases, 67 headers/C90/14 imports and 249 tooling tests(two skips). Its private
 Win32 supplement passes nine groups/five headers/four imports. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase-capture/REVIEW.md)
 records exact table/context/reference/reread scope. No native table source,worker,
-frontend,namespace or lookup admission follows; original0.1.0 remains incomplete.
+frontend,namespace or lookup admission follows; original 0.1.0 remains incomplete.
 
 Private NTFS table source `ff74ccae` passes21/170 selected x64 groups,327680
 mapping observations,2520 comparisons and78 guard cases, plus67 headers/C90/four
 imports and 249 tooling tests(two skips). Both isolated Win32 groups/two C+C++
 headers pass. [Agent review](../.aide/evidence/2026-10-17-ntfs-upcase/REVIEW.md)
 records the complete scope. This adds no command or namespace/lookup admission.
-The full current suite,other platforms and all original0.1.0 remain unqualified.
+The full current suite,other platforms and all original 0.1.0 remain unqualified.
 
 Common membership command `01feae81` passes all 53 selected x64 groups of
 168 registered, 126 new command/frontend cases, 67 headers/C90/13 imports
@@ -134,14 +141,14 @@ Git state. Public admission is qualified separately by DE-W098 above. Earlier un
 failures and native file-symlink limitations remain retained and unresolved.
 
 Held-file correspondence at `c1511f80` passes the predefined 31/166 affected
-x64 groups,496 new cases,67 headers/C90/13 imports and 247 tooling tests (two
+x64 groups,496 new cases, 67 headers/C90/13 imports and 247 tooling tests (two
 skips), plus eleven private Win32 groups/ten headers/seven executables.
 [Review](../.aide/evidence/2026-10-16-ntfs-membership-file/REVIEW.md) supports source integration after metadata
 closure. At that source revision, worker/public membership admission and all original release requirements
 remain; the older full-suite observations below retain their exact revisions.
 
 Private membership source `a1271115` passes all 165 x64 native groups,193
-membership/247 filename/298 stream cases,67 headers/C90/thirteen imports and 247
+membership/247 filename/298 stream cases, 67 headers/C90/thirteen imports and 247
 tooling tests (two skips). The selected Win32 supplement passes ten groups/ten
 headers/seven executables. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-membership-integration/repository.json)
 records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-membership/REVIEW.md)
@@ -201,21 +208,21 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-native/hosted-observations.json)
-records draft/open/unmerged [PR237](https://github.com/Julesc013/universal-setup/pull/237)
-at `2d6ebd6e`, observed `2026-10-16T18:15:05.145169+00:00`. Of the
-7 reported checks,6 succeeded,0
-were running and0 queued. Completed non-success conclusions remain
-in the exact observation. Earlier failed candidates are retained. Both queried
-release collections are empty. No upstream writes,installation or local Setup
-lifecycle qualification were performed.
+The [read-only Setup snapshot](../.aide/evidence/2026-10-17-ntfs-upcase-command/hosted-observations.json)
+records [PR237](https://github.com/Julesc013/universal-setup/pull/237) at
+`5a849695`, observed `2026-10-16T20:13:50.727151+00:00`: state
+open,draft=True,merged=False.
+6 of 7 reported checks succeeded.
+Completed non-success checks: native-windows(failure).
+Queried release counts: Setup 0,DiskEd 0. Earlier candidates and failures remain
+retained; no upstream writes,installation or local Setup lifecycle qualification occurred.
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining
 filesystem/storage/platform implementations and compatibility/safety evidence,
 Setup qualification, licensing and actual owner/release authority. No defensible
 release date follows from the current evidence. Keep those gates separate from
-ordinary source merges; do not reduce0.1.0 to the current prototype.
+ordinary source merges; do not reduce 0.1.0 to the current prototype.
 
 The first clean `a1346c4e` campaign stopped after 38 passes at the existing
 verification-worker admission assertion; 126 groups were not run. The original

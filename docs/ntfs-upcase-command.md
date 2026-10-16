@@ -15,3 +15,8 @@ The command shares existing CLI, stdio, GUI, TUI and shell actions. It does not
 establish namespace ordering, semantic Unicode correctness, lookup, content or
 current-source authority. No new production file, source opener or worker host is
 needed. The original platform, storage, owner and release gates remain separate.
+
+The [agent review](../.aide/evidence/2026-10-17-ntfs-upcase-command/REVIEW.md) binds
+source `61f8f2f2`, all 174 x64 groups, 119 command cases and the 15-group private
+Win32 supplement. Failed campaigns, diagnostics and unavailable checks remain
+retained; owner acceptance and full 0.1.0 qualification remain pending.
