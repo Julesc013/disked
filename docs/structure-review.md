@@ -33,14 +33,14 @@ this page explains the assessment without maintaining another work graph.
 | `runtime/capture/` | Shared observation meaning and bounded orchestration through reader ports. It does not choose a concrete device or OS. |
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
-There are **317 current source files**: 36 portable, 136 runtime, 68 provider,
-63 platform and 14 application files. This includes the directory collector and native file/worker binding; their source-bound qualification is below. The longest repository-relative source
+There are **324 current source files** at `a1346c4e`: 36 portable, 143 runtime, 68 provider,
+63 platform and 14 application files. This includes the private membership collector; its working checks and pending full qualification are below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-directory-worker/source-inventory.json) and
-[current path checks](../.aide/evidence/2026-10-16-ntfs-directory-worker/path-audit.json) bind these observations;
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-membership/source-inventory.json) and
+[current path checks](../.aide/evidence/2026-10-16-ntfs-membership/path-audit.json) bind these observations;
 the earlier assessment remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
@@ -94,6 +94,15 @@ historical Windows or other hosts. No naming scheme can guarantee zero future
 refactoring; useful boundaries keep changes local and preserve unrelated contracts.
 
 ## Development integration and release
+
+Private membership source `a1346c4e` is pushed to dev and passes193 independently
+authored supplied-reader cases plus the existing three pure capture/closure/
+directory groups. The new files use the existing capture owner and preserve old
+native/public forms. The retained fixture error and repair are in the
+[working record](../.aide/evidence/2026-10-16-ntfs-membership/working-review.json).
+Clean all165-group x64 qualification,67 headers/imports/tooling and the selected
+Win32 supplement are still pending. It has not been promoted to main or accepted
+by the owner; the previous reviewed slice below remains integrated.
 
 Filename source `18980169` passes all 164 registered x64 native groups, 247 new
 filename/298 unchanged stream cases, 65 headers/C90/thirteen unique executable
