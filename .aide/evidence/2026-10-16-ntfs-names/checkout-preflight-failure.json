@@ -1,0 +1,14 @@
+{
+  "stage": "Frozen checkout byte comparison",
+  "exit_code": 1,
+  "source_revision": "d2e517925b4fba1d948e8263f4bcf72861fb166e",
+  "difference": ".gitignore",
+  "cause": "The extra root ignore file was checked out as CRLF under core.autocrlf; all registered/build inputs already matched.",
+  "source_blob_matches_root": true,
+  "source_code_or_test_difference": false,
+  "action": "Check out the canonical Git blob for this one file using a per-command core.autocrlf=false override; no Git settings changed.",
+  "canonical_checkout_attempt_exit": 0,
+  "raw_eol_difference_retained": true,
+  "second_extra_file_guard_exit": 1,
+  "resolution": "Registered/build/source/spec raw input bytes all match. The extra root .gitignore is Git-text-equivalent but retains CRLF; it is outside the qualification input set. Do not claim every extra root file is raw-byte-identical. Qualification uses the clean source and unchanged hashed inputs; no frozen source or tests were modified."
+}
