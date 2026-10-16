@@ -14742,6 +14742,148 @@
         "DE-031",
         "DE-037"
       ]
+    },
+    {
+      "id": "spec/catalog/ntfs-directory-prototype.json",
+      "path": "spec/catalog/ntfs-directory-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-directory.md",
+      "path": "docs/ntfs-directory.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory/references.json",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory/references.json",
+      "kind": "evidence",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_directory.h",
+      "path": "source/runtime/capture/ntfs_directory.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_directory_detail.h",
+      "path": "source/runtime/capture/ntfs_directory_detail.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_directory.cpp",
+      "path": "source/runtime/capture/ntfs_directory.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/ntfs_directory_fixture.py",
+      "path": "tests/images/ntfs_directory_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json",
+        "tests/images/test_ntfs_capture.py",
+        "tests/images/ntfs_closure_fixture.py",
+        "tests/images/test_ntfs_stream.py",
+        "tests/property/test_ntfs_index.py",
+        "tests/property/test_ntfs_block.py",
+        "tests/property/test_ntfs_boot.py",
+        "tests/property/test_ntfs_attributes.py"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/test_ntfs_directory.py",
+      "path": "tests/images/test_ntfs_directory.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json",
+        "tests/images/ntfs_directory_fixture.py"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-directory/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-directory/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-directory-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
     }
   ]
 }

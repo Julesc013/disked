@@ -1,0 +1,53 @@
+{
+  "scope": "Working checks only; not clean-source qualification",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        ".aide-local/report-phases-build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "exit_code": 0,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        ".aide-local/report-phases-build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4",
+        "--target",
+        "ntfs_capture_probe",
+        "ntfs_stream_probe",
+        "disked_ntfs_capture_headers"
+      ],
+      "exit_code": 0,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        ".aide-local/report-phases-build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "-R",
+        "^image.ntfs_(directory|capture|closure|stream)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-directory\\working\\20261016T005412Z\\native-junit.xml"
+      ],
+      "exit_code": 0,
+      "log": "native.log"
+    }
+  ]
+}

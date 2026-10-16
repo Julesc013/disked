@@ -1,0 +1,40 @@
+{
+  "scope": "Expanded working corpus only, not clean-source qualification",
+  "stages": [
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        ".aide-local/report-phases-build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4",
+        "--target",
+        "ntfs_capture_probe",
+        "ntfs_stream_probe",
+        "disked_ntfs_capture_headers"
+      ],
+      "exit_code": 0,
+      "log": "build.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        ".aide-local/report-phases-build",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "-R",
+        "^image.ntfs_(directory|capture|closure|stream)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide\\evidence\\2026-10-16-ntfs-directory\\working\\20261016T010519Z\\native-junit.xml"
+      ],
+      "exit_code": 0,
+      "log": "native.log"
+    }
+  ]
+}

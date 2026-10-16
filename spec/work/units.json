@@ -8314,6 +8314,119 @@
         ".aide/evidence/2026-10-16-ntfs-block/reproduce.py",
         ".aide/evidence/2026-10-16-ntfs-block/reproduce-win32.py.snapshot"
       ]
+    },
+    {
+      "id": "DE-W089",
+      "title": "Acquire bounded source-bound NTFS directory index graphs",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R1",
+      "dependencies": [
+        "DE-W086",
+        "DE-W087",
+        "DE-W088"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/**",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Collect a bounded source-context-bound NTFS3.0/3.1 directory index through the existing supplied RegionReader. Support resident roots, multi-level nonresident INDX graphs, resident/nonresident index bitmaps and ATTRIBUTE_LIST extension records. This is acquisition/framing, not full namespace, collation, target-FILE membership, native held-file/worker/public command, physical access or original0.1.0 completion.",
+        "Reuse the existing ntfs_capture Observer for immutable source controls, boot/MFT/Volume validation, checked mappings, record/list closure, retained regions and final rereads. Add a separate ntfs_directory.cpp for directory graph/bitmap semantics, ntfs_directory.h for the private request API and ntfs_directory_detail.h for the actual two-translation-unit collaboration. Keep the existing disked_ntfs_capture library and portable NTFS decoders. No duplicate opener, parser, scheduler, generic filesystem framework or empty hierarchy.",
+        "NtfsDirectoryRequest owns a NtfsCaptureRequest, full reference and directory limits before the first reader callback. All existing capture controls remain mandatory. reference0 selects only reserved root ordinal5 and discovers its nonzero sequence from that exact mapped FILE; every other reference must include a nonzero high16 sequence. Invalid reference/limits/reader refuse before callbacks. Entries1..4096(default4096), distinct queued INDX blocks1..128(default64), bitmap bytes1..65536(default65536). Existing source read/byte/retention/attribute/run/output quotas remain global and unchanged.",
+        "Preserve default observe_ntfs_bootstrap output and read order. The new directory entrypoint uses a separate prototype schema and may acquire a directory only after usable boot/MFT geometry, agreeing primary/mirror used payload and matching Volume version. Derive every FILE span from the complete MFT mapping and initialized/data coverage; no contiguous guess, mirror fallback or requested ordinal alone as identity. Directory base flags must be3 with base_reference0, exact optional record number and nonzero/matching sequence. Extension records permit supported flags1/3 without inferring their kind; bind full owner/reference/sequence. Existing MFT/Volume flag policy stays unchanged. Directory acquisition independently requires a known power-of-two boot index size512..49152. Unsupported index geometry is a typed partial observation before the directory FILE read; bootstrap usability alone does not promise index usability.",
+        "Select exact original UTF16LE $I30 names for type0x90 root,0xA0 allocation and0xB0 bitmap. Reuse the existing stream joiner and source-bound resident/nonresident ATTRIBUTE_LIST path; fetch validated missing extension references with finite progress/quota and cache them. Root must be one complete resident ordinary stream. Optional allocation/bitmap absence is distinct from malformed/missing listed records. Allocation must be ordinary nonresident with index-aligned data size; bitmap may be resident or ordinary nonresident and must be fully initialized. Allocation and bitmap are either both absent or both present. Root children require the pair.",
+        "Before reading selected nonresident directory payloads, validate complete physical mapping coverage/allocation and reject self-overlap, sparse/unsupported mappings and aliasing with boot, mirror, MFT, known MFT/Volume/directory list runs and other selected directory streams. Lists validate against known mappings when acquired; later discoveries must cross-check prior list ranges and withdraw completion on alias. Reuse checked multiply/add and outer volume/source bounds. An index bitmap is not global cluster allocation.",
+        "After bootstrap, acquire/validate the directory FILE/list/root stream, validate the root header and decode root entries while collecting child requests. Then resolve allocation and bitmap streams, read/hash the complete bounded bitmap, and acquire distinct child INDX blocks in breadth-first encounter order. Copy each callback response before another callback. All newly retained regions participate in overlap checks and the same final exact reread sequence. Root-only data is not substituted for larger directories.",
+        "Use the root decoder with boot cluster/index sizes. Count every complete header including terminal/malformed headers against one global entry quota across root and all INDX blocks. Validate keys/child flags through existing decoders. Every nonterminal FILE_NAME parent reference must equal the full directory reference; preserve target full references, original UTF16LE names, namespace codes and key hashes without following target records or rendering names. Duplicate target references are legal for distinct name edges. Child VBN must be nonnegative, multiply exactly by the derived cluster-or512-byte unit, align to index size, fit allocation initialized/data bounds and have its bitmap bit set before reading. Bind each INDX header to expected size/VBN, restore separately before decoding, and preserve original/restored hashes. Repeated child VBNs, cycles/shared children and inconsistent leaf depth stop with a typed partial observation. No collation/key-range/uniqueness or target membership claim.",
+        "Bitmap bits are little-endian logical index-block ordinals. Require capacity for allocation data blocks; set bits beyond that span are invalid. Bound bitmap bytes before allocating/reading it. Scan all bounded bytes and reject set-bit counts above the block quota; retain a scan-completeness flag. A complete collection requires the reachable set to equal the set bits. Unallocated/preallocated stream regions are not read. A leaf root may retain an empty/all-zero allocation pair, but unexplained set bits are not silently ignored.",
+        "Queue insertion refuses a new distinct child before exceeding the block limit; retain the decoded header prefix. Before decoding another header at the global entry limit, use the existing cursor budget observation without advancing/counting that header. Exact terminal-at-limit succeeds if no further nodes need decoding. All failures preserve observed prefixes and stop additional reads; no retry loop or automatic scope/budget increase. Variable report items are charged against the existing global output cap before retention. Derived memory bounds are not native OS heap enforcement. A spent global header budget with queued children refuses after root decoding before resolving/reading child allocation or bitmap streams.",
+        "The new org.disked.ntfs-directory-observation-prototype/1 embeds the unchanged bootstrap facts plus directory FILE/closure and bounded index-collection prefixes. Source ID/epoch/window remain assertions of the supplied reader. Top-level complete/applicable require successful collection, bootstrap agreement and final rereads; local index_complete and bitmap_complete are separate properties. Always report atomic_snapshot/current_source_authority/effects_authorized false and namespace/collation/target-membership/global-cluster-allocation unverified. Reader failures propagate their existing diagnostics while retaining directory prefixes. Returned JSON owns values independently of source buffers.",
+        "Independent generated sparse images and exact byte/read-order/hash/count expectations before evaluation: root-only and empty roots, fragmented MFT/root/list/allocation/bitmap, multi-level/sibling INDX graphs, both versions and child-unit geometries, nonzero offsets above4GiB/2^53, record and index sizes, resident/nonresident lists/bitmaps and extension ownership. Exercise stale references, named-stream ambiguity, unsupported attributes, aliases, cycles/shared children, parent/sequence/key/USA/terminal/leaf-depth/bitmap failures; each source/entry/block/bitmap/output quota and exact boundary; every read failure/reread change; mutated request/callback controls and immutable guard sources. Preserve all existing bootstrap/closure/stream results. Run clean full native composition, standalone headers, imports, build boundaries, full tooling and input/context/manifest checks. Retain failures, unavailable checks and exact revisions."
+      ],
+      "acceptance": [
+        "Independent source layouts, exact read traces/hashes and directory graph/bitmap/name/reference facts agree under finite controls and guarded immutable sources. Root-only capture is not used as larger-directory completion.",
+        "Old bootstrap/closure/stream observations remain compatible. Fresh full native/tooling/header/import/context evidence is retained; no untested host, native provider, full namespace or original0.1.0 admission."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "cmake --preset windows-bootstrap",
+        "Build the complete Windows Release native composition and headers with recorded exact commands.",
+        "ctest --test-dir EXACT_BUILD -C Release --parallel 1 --output-on-failure"
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-directory-prototype.json",
+        "docs/ntfs-directory.md",
+        ".aide/evidence/2026-10-16-ntfs-directory/references.json",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "source/runtime/capture/ntfs_stream.h",
+        "source/runtime/capture/ntfs_stream.cpp",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/index.c",
+        "source/portable/ntfs/index_block.c",
+        "tests/unit/ntfs_capture_probe.cpp",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/images/test_ntfs_capture.py",
+        "tests/images/ntfs_closure_fixture.py",
+        "tests/images/test_ntfs_closure.py",
+        "tests/images/test_ntfs_stream.py",
+        "tests/property/test_ntfs_index.py",
+        "tests/property/test_ntfs_block.py",
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-join-prototype.json",
+        "spec/catalog/ntfs-closure-prototype.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        "source/runtime/capture/ntfs_directory.h",
+        "source/runtime/capture/ntfs_directory_detail.h",
+        "source/runtime/capture/ntfs_directory.cpp",
+        "tests/images/ntfs_directory_fixture.py",
+        "tests/images/test_ntfs_directory.py",
+        "tests/property/test_ntfs_boot.py",
+        "tests/property/test_ntfs_attributes.py",
+        "spec/catalog/ntfs-index-prototype.json",
+        "spec/catalog/ntfs-block-prototype.json",
+        ".aide/evidence/2026-10-16-ntfs-directory/reproduce.py",
+        ".aide/evidence/2026-10-16-ntfs-directory/reproduce-win32.py"
+      ]
     }
   ]
 }

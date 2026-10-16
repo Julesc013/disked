@@ -1,4 +1,5 @@
 #include "runtime/capture/ntfs_capture.h"
+#include "runtime/capture/ntfs_directory.h"
 #include "ntfs_probe_support.h"
 #include <algorithm>
 #include <memory>
@@ -20,6 +21,7 @@ struct Region {
 };
 static V observe(const V &input) {
     NtfsCaptureRequest request;
+    disked::NtfsDirectoryRequest directory;
     request.source_id = get(input, "source_id").text;
     if (input.find("invalid_utf8_id"))
         request.source_id.assign(1, static_cast<char>(255));
@@ -44,6 +46,20 @@ static V observe(const V &input) {
 #undef LOAD
     }
     std::vector<Region> regions;
+    const auto *directory_input = input.find("directory");
+    if (directory_input) {
+        if (const auto *value = directory_input->find("reference"))
+            directory.reference = integer(*value);
+        if (const auto *limits = directory_input->find("limits")) {
+#define LOAD_DIRECTORY(name)                                                                       \
+    if (const auto *v = limits->find(#name))                                                       \
+    directory.limits.name = static_cast<std::size_t>(integer(*v))
+            LOAD_DIRECTORY(entries);
+            LOAD_DIRECTORY(blocks);
+            LOAD_DIRECTORY(bitmap_bytes);
+#undef LOAD_DIRECTORY
+        }
+    }
     for (const auto &item : get(input, "regions").items)
         regions.push_back(Region{integer(get(item, "offset")), unhex(get(item, "hex"))});
     const auto original = regions;
@@ -71,6 +87,8 @@ static V observe(const V &input) {
             request.volume_bytes = 512;
             request.limits.attributes = request.limits.runs = request.limits.read_requests = 1;
             request.major = 99;
+            directory.reference = 1;
+            directory.limits.entries = directory.limits.blocks = directory.limits.bitmap_bytes = 1;
             reader = {};
         }
         const auto length = static_cast<std::size_t>(last - first);
@@ -101,7 +119,12 @@ static V observe(const V &input) {
     V report;
     std::string refusal;
     try {
-        report = disked::observe_ntfs_bootstrap(request, reader);
+        if (directory_input) {
+            directory.capture = request;
+            report = disked::observe_ntfs_directory(directory, reader);
+        } else {
+            report = disked::observe_ntfs_bootstrap(request, reader);
+        }
     } catch (const std::exception &error) {
         refusal = error.what();
     }
