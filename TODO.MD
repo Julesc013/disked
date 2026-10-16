@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W097: contain exact NTFS name correspondence in the existing owned
+  reader and reconstruct its sealed frame/receipts in the parent. Public W098,
+  namespace/content and original 0.1.0 remain. [Contract](spec/catalog/ntfs-membership-worker-prototype.json).
+
 - [x] DE-W096 private held-file correspondence: exact `c1511f80` passes 31/166
   affected x64 groups/496 new cases/67 headers/C90/13 imports/247 tooling tests
   (two skips), plus private Win32 eleven groups/ten headers. Worker/frontend,

@@ -1,0 +1,19 @@
+index 0
+check 0
+manifest 0
+verify-manifest 0
+context 0
+verify-context 0
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\verify-directory-command-staged.py", line 25, in <module>
+    assert 'sha256:' + hashlib.sha256(data).hexdigest() == digest, name
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: spec/catalog/index.md
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\close-membership-worker-precode.py", line 26, in <module>
+    subprocess.run([sys.executable,'.aide-local/verify-directory-command-staged.py',str(root)],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe', '.aide-local/verify-directory-command-staged.py', '.aide\\evidence\\2026-10-16-ntfs-membership-worker']' returned non-zero exit status 1.
