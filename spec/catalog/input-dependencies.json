@@ -1093,6 +1093,9 @@
       "kind": "build",
       "delivery": "artifact",
       "depends_on": [
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-binding-review.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce-win32.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce.py",
         ".aide/evidence/2026-10-17-ntfs-upcase/expected-before-implementation.json",
         ".aide/evidence/2026-10-17-ntfs-upcase/reproduce-win32.py",
         ".aide/evidence/2026-10-17-ntfs-upcase/reproduce.py",
@@ -1178,6 +1181,7 @@
         "spec/catalog/components.json",
         "spec/catalog/compositions.json",
         "spec/catalog/native-bootstrap.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json",
         "spec/catalog/ntfs-upcase-prototype.json",
         "spec/fixtures/command-syntax.json",
         "spec/fixtures/invocation.json",
@@ -1229,6 +1233,7 @@
         "tests/frontend/test_tui_model.py",
         "tests/frontend/test_tui_windows.py",
         "tests/frontend/tui_probe.cpp",
+        "tests/images/test_ntfs_upcase_capture.py",
         "tests/interaction/console_shell_fixture.py",
         "tests/interaction/shell_probe.cpp",
         "tests/interaction/test_shell_model.py",
@@ -13775,7 +13780,8 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
-        "spec/catalog/ntfs-capture-prototype.json"
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
       ],
       "spec_ids": [
         "DE-012",
@@ -13789,7 +13795,8 @@
       "kind": "metadata",
       "delivery": "artifact",
       "depends_on": [
-        "spec/catalog/ntfs-capture-prototype.json"
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
       ],
       "spec_ids": [
         "DE-012",
@@ -13803,7 +13810,8 @@
       "kind": "fixture",
       "delivery": "artifact",
       "depends_on": [
-        "spec/catalog/ntfs-capture-prototype.json"
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
       ],
       "spec_ids": [
         "DE-012",
@@ -16073,6 +16081,121 @@
       "spec_ids": [
         "DE-012",
         "DE-031"
+      ]
+    },
+    {
+      "id": "spec/catalog/ntfs-upcase-capture-prototype.json",
+      "path": "spec/catalog/ntfs-upcase-capture-prototype.json",
+      "kind": "catalog",
+      "delivery": "artifact",
+      "depends_on": [],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "docs/ntfs-upcase-capture.md",
+      "path": "docs/ntfs-upcase-capture.md",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-capture/references.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/references.json",
+      "kind": "metadata",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-before-implementation.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-before-implementation.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/test_ntfs_upcase_capture.py",
+      "path": "tests/images/test_ntfs_upcase_capture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce-win32.py",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-binding-review.json",
+      "path": ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-binding-review.json",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json"
+      ],
+      "spec_ids": [
+        "DE-012",
+        "DE-031",
+        "DE-037"
       ]
     }
   ]

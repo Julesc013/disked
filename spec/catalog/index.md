@@ -105,6 +105,7 @@
 - [ntfs-membership-worker-prototype.json](ntfs-membership-worker-prototype.json)
 - [ntfs-names-prototype.json](ntfs-names-prototype.json)
 - [ntfs-record-prototype.json](ntfs-record-prototype.json)
+- [ntfs-upcase-capture-prototype.json](ntfs-upcase-capture-prototype.json)
 - [ntfs-upcase-prototype.json](ntfs-upcase-prototype.json)
 - [ntfs-worker-prototype.json](ntfs-worker-prototype.json)
 - [observation-frontend-prototype.json](observation-frontend-prototype.json)

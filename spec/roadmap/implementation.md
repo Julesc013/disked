@@ -39,7 +39,14 @@ sources:
 
 # Implementation sequence and first usable release
 
-Current development position, 17 October 2026: DE-W093 admits bounded NTFS
+Current development position, 17 October 2026: DE-W099 supplied-table mapping
+and raw/mapped comparison are qualified at `ff74ccae`; DE-W100 now acquires the
+actual table through the existing supplied-region MFT/list/stream closure.
+See [the capture contract](../catalog/ntfs-upcase-capture-prototype.json) and
+`.aide/programmes/disked-0.1.0.json` for current status. Native binding,namespace/
+lookup/content, all original platforms/storage and release gates remain open.
+
+Retained prerequisite history: DE-W093 admits bounded NTFS
 directory-index inspection through the existing common Windows x64 frontends.
 Exact source `6efc9a5b` passes all 163 registered native groups; qualification is
 retained in the implementation repository at

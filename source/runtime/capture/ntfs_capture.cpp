@@ -124,7 +124,7 @@ struct Closure {
     std::size_t join_bytes = 0;
 };
 enum class RecordKind { File, Directory, Extension, Target };
-enum class CaptureKind { Bootstrap, Directory, Membership };
+enum class CaptureKind { Bootstrap, Directory, Membership, Upcase };
 class Observer {
     // Own both controls before the first callback; callbacks cannot widen scope.
     const NtfsCaptureRequest request_;
@@ -140,6 +140,10 @@ class Observer {
     Record primary_, mirror_, volume_;
     Bytes volume_original_;
     Closure mft_closure_, volume_closure_;
+    Record upcase_record_;
+    Bytes upcase_original_;
+    Closure upcase_closure_;
+    V upcase_facts_;
     Record directory_record_;
     Bytes directory_original_;
     Closure directory_closure_;
@@ -155,10 +159,13 @@ class Observer {
     std::string diagnostic_;
 
     bool directory_mode() const {
-        return kind_ != CaptureKind::Bootstrap;
+        return kind_ == CaptureKind::Directory || kind_ == CaptureKind::Membership;
     }
     bool membership_mode() const {
         return kind_ == CaptureKind::Membership;
+    }
+    bool upcase_mode() const {
+        return kind_ == CaptureKind::Upcase;
     }
     void charge(std::size_t n) {
         if (n > request_.limits.output_bytes - output_)
@@ -476,7 +483,8 @@ class Observer {
             physical_ranges(list->runs, &mft_runs);
             if (!mft_closure_.list_runs.empty() && &closure != &mft_closure_)
                 physical_ranges(list->runs, &mft_closure_.list_runs);
-            if (&closure == &directory_closure_ && !volume_closure_.list_runs.empty())
+            if ((&closure == &directory_closure_ || &closure == &upcase_closure_) &&
+                !volume_closure_.list_runs.empty())
                 physical_ranges(list->runs, &volume_closure_.list_runs);
             if (membership_mode()) {
                 if (&closure != &volume_closure_ && !volume_closure_.list_runs.empty())
@@ -728,7 +736,7 @@ class Observer {
             .put("runs", exact(a.runs.size()));
         return StreamMapping{a.runs, allocated, data, initialized};
     }
-    static std::vector<Mapping> directory_mapping(const NtfsJoinedStream &stream) {
+    static std::vector<Mapping> stream_runs(const NtfsJoinedStream &stream) {
         std::vector<Mapping> runs;
         for (const auto &run : stream.runs)
             runs.push_back(Mapping{run.vcn, run.clusters, run.lcn, false});
@@ -742,7 +750,7 @@ class Observer {
             if (joined.stream) {
                 const auto &stream = *joined.stream;
                 if (!stream.resident && type != 0x90) {
-                    const auto runs = directory_mapping(stream);
+                    const auto runs = stream_runs(stream);
                     physical_ranges(runs, &mft.runs, "ntfs_directory_physical_alias");
                     for (const auto *other :
                          {&mft_closure_.list_runs, &volume_closure_.list_runs,
@@ -770,7 +778,7 @@ class Observer {
                             RecordKind::Extension);
         }
     }
-    void collect_directory(const StreamMapping &mft) {
+    void require_profile() const {
         if (mirror_.mapping_error)
             stop("ntfs_mirror_mapping");
         if (!mirror_.good)
@@ -779,6 +787,76 @@ class Observer {
             stop("ntfs_mirror_disagreement");
         if (!version_matches_)
             stop("ntfs_volume_version");
+    }
+    void collect_upcase(const StreamMapping &mft) {
+        require_profile();
+        const auto start = mul(10, boot_.record_bytes);
+        const auto end = add(start, boot_.record_bytes);
+        if (end > mft.data || end > mft.initialized)
+            stop("ntfs_upcase_reference_bounds");
+        charge(1024);
+        upcase_original_ = logical_read(mft.runs, start, boot_.record_bytes);
+        parse(upcase_record_, upcase_original_, 10);
+        if (upcase_record_.mapping_error)
+            stop("ntfs_upcase_mapping");
+        if (!upcase_record_.good)
+            stop("ntfs_upcase_record");
+        upcase_closure_.base_reference = reference(upcase_record_);
+        acquire_list(upcase_closure_, upcase_record_, mft.runs);
+        for (;;) {
+            auto joined = join_records(upcase_record_, upcase_closure_, 0x80);
+            if (!joined.stream) {
+                const auto &code = joined.observation.fields.at("diagnostic").text;
+                if (code != "ntfs_join_record_missing")
+                    stop("ntfs_upcase_" + code.substr(5));
+                fetch_reachable(upcase_closure_, joined.required_records, mft, "upcase");
+                continue;
+            }
+            const auto &stream = *joined.stream;
+            if (stream.resident)
+                stop("ntfs_upcase_stream_form");
+            if (stream.data_bytes != DE_NTFS_UPCASE_BYTES ||
+                stream.initialized_bytes != DE_NTFS_UPCASE_BYTES)
+                stop("ntfs_upcase_stream_size");
+            const auto runs = stream_runs(stream);
+            physical_ranges(runs, &mft.runs, "ntfs_upcase_physical_alias");
+            for (const auto *other :
+                 {&mft_closure_.list_runs, &volume_closure_.list_runs, &upcase_closure_.list_runs})
+                if (!other->empty())
+                    physical_ranges(runs, other, "ntfs_upcase_physical_alias");
+            upcase_facts_ =
+                V::object()
+                    .put("schema", V::string("org.disked.ntfs-upcase-table-observation/1"))
+                    .put("source_id", V::string(request_.source_id))
+                    .put("epoch", exact(request_.epoch))
+                    .put("volume_offset", exact(request_.volume_offset))
+                    .put("volume_bytes", exact(request_.volume_bytes))
+                    .put("volume_serial", exact(native(boot_.serial)))
+                    .put("base_reference", exact(reference(upcase_record_)))
+                    .put("base_record_sha256",
+                         V::string(digest(upcase_original_.data(), upcase_original_.size())))
+                    .put("table_bytes", exact(DE_NTFS_UPCASE_BYTES))
+                    .put("complete", flag(false))
+                    .put("table_sha256", V{})
+                    .put("table_hex", V{});
+            charge(upcase_facts_);
+            charge(2 * DE_NTFS_UPCASE_BYTES + 128); // Complete hex/hash before content reads.
+            const auto bytes = logical_read(runs, 0, DE_NTFS_UPCASE_BYTES);
+            de_view pages[DE_NTFS_UPCASE_PAGES];
+            for (std::size_t i = 0; i < DE_NTFS_UPCASE_PAGES; ++i)
+                pages[i] = de_view{bytes.data() + i * DE_NTFS_UPCASE_PAGE_BYTES,
+                                   DE_NTFS_UPCASE_PAGE_BYTES};
+            de_ntfs_upcase table{};
+            checked(de_ntfs_upcase_init(pages, DE_NTFS_UPCASE_PAGES, request_.major, request_.minor,
+                                        &table));
+            upcase_facts_.put("complete", flag(true))
+                .put("table_sha256", V::string(digest(bytes.data(), bytes.size())))
+                .put("table_hex", V::string(hex(bytes.data(), bytes.size())));
+            return;
+        }
+    }
+    void collect_directory(const StreamMapping &mft) {
+        require_profile();
         if (!boot_.index_size_known || boot_.index_bytes < 512 ||
             boot_.index_bytes > DE_NTFS_MAX_RECORD || (boot_.index_bytes & (boot_.index_bytes - 1)))
             stop("ntfs_directory_index_size");
@@ -801,7 +879,7 @@ class Observer {
                 count > stream.data_bytes - offset || offset > stream.initialized_bytes ||
                 count > stream.initialized_bytes - offset)
                 stop("ntfs_directory_stream_bounds");
-            return logical_read(directory_mapping(stream), offset, count);
+            return logical_read(stream_runs(stream), offset, count);
         };
         port.charge = [&](std::size_t bytes) { charge(bytes); };
         const ntfs_directory_detail::Geometry geometry{reference(directory_record_),
@@ -956,6 +1034,8 @@ class Observer {
             collect_directory(data);
         if (membership_mode())
             collect_membership(data);
+        if (upcase_mode())
+            collect_upcase(data);
         rereading_ = true;
         reread_start_ = reads_;
         for (const auto &region : regions_) {
@@ -994,10 +1074,11 @@ class Observer {
     V report() const {
         auto value =
             V::object()
-                .put("schema", V::string(membership_mode()
-                                             ? "org.disked.ntfs-membership-observation-prototype/1"
-                                         : directory_mode()
-                                             ? "org.disked.ntfs-directory-observation-prototype/1"
+                .put("schema",
+                     V::string(
+                         upcase_mode()       ? "org.disked.ntfs-upcase-observation-prototype/1"
+                         : membership_mode() ? "org.disked.ntfs-membership-observation-prototype/1"
+                         : directory_mode()  ? "org.disked.ntfs-directory-observation-prototype/1"
                                              : "org.disked.ntfs-bootstrap-observation-prototype/1"))
                 .put("source_id", V::string(request_.source_id))
                 .put("epoch", exact(request_.epoch))
@@ -1027,7 +1108,8 @@ class Observer {
                 .put("runs", exact(runs_))
                 .put("reread_requests", exact(rereading_ ? reads_ - reread_start_ : 0));
         if (mft_closure_.active || volume_closure_.active ||
-            (directory_mode() && directory_record_.good)) {
+            (directory_mode() && directory_record_.good) ||
+            (upcase_mode() && upcase_record_.good)) {
             auto closures = V::object();
             if (mft_closure_.active)
                 closures.put("mft", closure_report(mft_closure_));
@@ -1035,6 +1117,8 @@ class Observer {
                 closures.put("volume", closure_report(volume_closure_));
             if (directory_mode() && directory_record_.good)
                 closures.put("directory", closure_report(directory_closure_));
+            if (upcase_mode() && upcase_record_.good)
+                closures.put("upcase", closure_report(upcase_closure_));
             value.put("record_closures", std::move(closures));
         }
         if (directory_mode())
@@ -1045,12 +1129,15 @@ class Observer {
         if (membership_mode())
             value.put("requested_target_limit", exact(membership_request_.targets))
                 .put("membership", membership_facts_);
+        if (upcase_mode())
+            value.put("upcase_record", upcase_record_.report).put("upcase", upcase_facts_);
         return value;
     }
 
   public:
-    Observer(const NtfsCaptureRequest &request, const RegionReader &reader)
-        : request_(request), reader_(reader) {
+    Observer(const NtfsCaptureRequest &request, const RegionReader &reader,
+             CaptureKind kind = CaptureKind::Bootstrap)
+        : request_(request), reader_(reader), kind_(kind) {
         validate_ntfs_capture_request(request_);
         if (!reader_)
             throw std::invalid_argument("ntfs_capture_reader");
@@ -1106,6 +1193,9 @@ void validate_ntfs_capture_request(const NtfsCaptureRequest &r) {
 }
 V observe_ntfs_bootstrap(const NtfsCaptureRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();
+}
+V observe_ntfs_upcase(const NtfsCaptureRequest &request, const RegionReader &reader) {
+    return Observer(request, reader, CaptureKind::Upcase).run();
 }
 V observe_ntfs_membership(const NtfsMembershipRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();

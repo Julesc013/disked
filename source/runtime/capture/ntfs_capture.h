@@ -22,4 +22,5 @@ struct NtfsCaptureRequest {
 // equal region rereads are neither a snapshot nor a current-source/effect grant.
 void validate_ntfs_capture_request(const NtfsCaptureRequest &);
 json::Value observe_ntfs_bootstrap(const NtfsCaptureRequest &, const RegionReader &);
+json::Value observe_ntfs_upcase(const NtfsCaptureRequest &, const RegionReader &);
 } // namespace disked

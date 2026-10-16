@@ -10296,6 +10296,109 @@
         "spec/catalog/source-maintenance-prototype.json",
         ".aide/evidence/2026-10-17-ntfs-upcase/audit-boundary-correction.py"
       ]
+    },
+    {
+      "id": "DE-W100",
+      "title": "Capture the volume NTFS uppercase table through existing MFT and stream closure",
+      "phase": "M2",
+      "status": "active",
+      "risk": "R2",
+      "dependencies": [
+        "DE-W099",
+        "DE-W098",
+        "DE-W086"
+      ],
+      "decision_gates": [],
+      "context": [
+        "DE-012",
+        "DE-023",
+        "DE-031",
+        "DE-037",
+        "DE-044"
+      ],
+      "allowed_paths": [
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "tests/**",
+        "CMakeLists.txt",
+        "tools/**",
+        "spec/**",
+        "docs/**",
+        "TODO.MD",
+        ".aide/**"
+      ],
+      "forbidden_paths": [
+        "customer-data/**",
+        "secrets/**",
+        "signing-keys/**",
+        ".git/**"
+      ],
+      "forbidden_operations": [
+        "raw physical-device access",
+        "administrator/root execution",
+        "customer-data access",
+        "release signing",
+        "unrequested GitHub mutation",
+        "automatic protected-branch promotion",
+        "executing fetched scripts",
+        "claiming unrun tests passed"
+      ],
+      "deliverables": [
+        "Collect the actual complete NTFS 3.0/3.1 uppercase table through the existing supplied-region MFT/stream closure. Bind original table bytes to this asserted source/window/epoch and observed volume serial, FILE10 reference, record and stream facts. This is a prerequisite for remaining namespace/collation/lookup/content work, not its completion. Native provenance, file/worker/frontend admission, other original platforms/storage and all effect/release gates remain required.",
+        "Extend existing runtime/capture/ntfs_capture.h/.cpp and its Observer, checked reads, copied regions, MFT/Volume/list closure, budgets and final rereads. Expose observe_ntfs_upcase(NtfsCaptureRequest,RegionReader). Add only a private internal capture kind; do not admit a new NtfsSnapshotKind, native frame, source request or public command. Existing bootstrap/directory/membership results and read sequences stay unchanged. No new production file, directory, native opener, parser, scheduler or generic Unicode layer.",
+        "Existing NtfsCaptureRequest validation and finite maxima apply unchanged: read_requests1..512, read_bytes1..2097152, retained_bytes1..524288, attributes/runs1..4096, output_bytes16384..1048576. Source ID is nonempty valid UTF8 at most128 bytes without NUL; epoch positive, supported requested version and volume window wholly inside source. Copy request and reader before the first callback. Invalid controls/empty reader throw their existing diagnostic before any callback. Supplied context assertions are not proof of native source identity or an access grant.",
+        "Use existing boot, primary/mirror FILE0, fragmented MFT and FILE3 volume information collection. Before any FILE10/table acquisition require valid matching mirror used payload and observed version equal to request; retain exact existing ntfs_mirror_mapping,ntfs_mirror_record,ntfs_mirror_disagreement or ntfs_volume_version failures. Share this existing gate with directory collection without changing its semantics. Never use a mirror fallback or host case table.",
+        "Require the complete logical FILE10 span within MFT data and initialized lengths; otherwise ntfs_upcase_reference_bounds before its read. Acquire it only through checked MFT runs, splitting run/49152-byte boundaries. Validate FILE/fixups/attributes, in-use nondirectory base flags1, nonzero observed sequence, base_reference0 and optional header record number10. Discover and retain the full sequence/reference; do not assume sequence10 or address it by a transient device ordinal. A decoded mapping error returns ntfs_upcase_mapping, another unsupported record identity/envelope returns ntfs_upcase_record.",
+        "Resolve exactly the unnamed type0x80 DATA stream with the existing joiner and supported resident/nonresident ATTRIBUTE_LIST and extension closure. Use full extension references, base ownership, initialized MFT bounds and finite quotas. Preserve exact join failure diagnostic with ntfs_upcase_ role prefix replacing the initial ntfs_; missing records trigger only finite reachable closure reads, never an alternative source. This complete-table profile requires an ordinary nonresident stream, data_bytes=initialized_bytes=131072 and allocated mapping coverage from the joiner. Unsupported resident form returns ntfs_upcase_stream_form; wrong data/initialized length returns ntfs_upcase_stream_size before table content reads. Supported FILE sizes cannot hold the full131072-byte resident table. Named streams cannot replace the unnamed table; compression,encryption,sparse or unresolved features are explicit unsupported outcomes.",
+        "Before table content reads reject allocated stream self-aliases and overlap with boot sector, mirror FILE0, validated MFT allocation or retained MFT/Volume/UpCase nonresident attribute-list allocations. Reuse physical_ranges and existing mapping checks; table-vs-MFT/list overlaps use ntfs_upcase_physical_alias, boot/mirror/self aliases retain existing metadata diagnostics. UpCase nonresident list acquisition also checks Volume lists, as directory list acquisition already does. This observes the selected resources, not global allocation ownership or filesystem health.",
+        "Acquire all131072 exact initialized logical bytes through selected mappings, copying before another callback and retaining exact source regions. Use the qualified C90 table envelope as256 borrowed512-byte views over the owned copy. No compression, host fallback, ASCII shortcut, normalization, recursive mapping or semantic Unicode-table health claim. Do not read allocation padding or synthesize uninitialized data. Output and retained/read quotas remain finite; charge the complete hex representation before table content acquisition, so an insufficient output budget stops without those content reads.",
+        "Root org.disked.ntfs-upcase-observation-prototype/1 preserves existing capture context, bootstrap facts, raw region identities and attempted counters; add upcase_record and upcase. Add record_closures.upcase when a good table record was reached, retaining join_current, exact list/extension/stream facts and discovered base reference. Null upcase means no table stream metadata was reached. Otherwise org.disked.ntfs-upcase-table-observation/1 contains source_id,epoch,volume_offset,volume_bytes,volume_serial,base_reference,base_record_sha256,table_bytes,complete,table_sha256,table_hex. Table complete becomes true and exact lowercase hex/digest are published only after full ordinary capture/envelope check. The table is still retained as observed evidence if a later reread fails; outer applicable remains false. No borrowed pointer/callback escapes. Exact table digest is a byte identity, not source authentication.",
+        "Reread every retained boot/record/list/table region under the same original budgets and compare exact bytes. Root complete/applicable require successful collection and final rereads with no diagnostic. Short,null,oversized,throwing or changed callbacks and exhausted quotas retain an explicit partial prefix without authority. Equal finite rereads are not an atomic snapshot or future freshness. atomic_snapshot,current_source_authority,effects_authorized remain false. No ordinary source file or physical device is opened by this supplied-region API."
+      ],
+      "acceptance": [
+        "Define independent sparse source layouts, physical read/region/hash expectations and failure prefixes before evaluation. Cover both profiles, sector/cluster/record and above4GiB offsets, fragmented MFT/table, actual extension/list joins including nonresident lists and reversed descriptors, optional old FILE headers, all selected identity/length/alias/feature errors, exact quotas and one-short controls, every callback fault/reread mutation, request/reader mutation and retired readonly/guard callback buffers. Expected tables include nonstandard ASCII and non-idempotent entries with exact original bytes, not a host Unicode oracle. Run exact clean-source all-target x64 build and the entire registered native suite after this shared Observer change, all67 standalone headers, strict C90, relevant executable imports, full tooling/context/generated/manifest checks. Run the same private supplied-reader/stream/table probes and selected dependencies on pinned Win32/WOW64; that is not full Win32 product or historical-host qualification. Retain and diagnose every failure before another fresh campaign; later passes do not explain earlier intermittent availability failures.",
+        "Original bytes/context/reference/stream and final reread relationships match independent expected facts. Existing modes retain outputs/read sequences and no new native/frontend/effect authority appears."
+      ],
+      "validation_commands": [
+        "python spec/tools/specctl.py check",
+        "python -m unittest discover -s spec/tools/tests -v",
+        "Execute the recorded exact-source all-target x64/full-native and isolated Win32 qualification recipes with actual logs and artifact hashes."
+      ],
+      "stop_state": "needs_review",
+      "authorization": "separate-grant-required",
+      "required_inputs": [
+        "spec/catalog/ntfs-upcase-capture-prototype.json",
+        "docs/ntfs-upcase-capture.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/references.json",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-before-implementation.json",
+        "spec/catalog/ntfs-upcase-prototype.json",
+        "spec/catalog/ntfs-capture-prototype.json",
+        "spec/catalog/ntfs-closure-prototype.json",
+        "spec/catalog/ntfs-join-prototype.json",
+        "spec/catalog/source-maintenance-prototype.json",
+        "source/runtime/capture/ntfs_capture.h",
+        "source/runtime/capture/ntfs_capture.cpp",
+        "source/runtime/capture/ntfs_stream.h",
+        "source/runtime/capture/ntfs_stream.cpp",
+        "source/runtime/capture/ntfs_attributes_detail.h",
+        "source/runtime/capture/ntfs_attributes_detail.cpp",
+        "source/portable/ntfs/ntfs.h",
+        "source/portable/ntfs/upcase.c",
+        "tests/unit/ntfs_capture_probe.cpp",
+        "tests/unit/ntfs_probe_support.h",
+        "tests/images/test_ntfs_capture.py",
+        "tests/images/test_ntfs_stream.py",
+        "tests/images/ntfs_closure_fixture.py",
+        "tests/images/test_ntfs_upcase_capture.py",
+        "CMakeLists.txt",
+        "CMakePresets.json",
+        "tools/build-inputs.json",
+        "docs/source-map.md",
+        "AGENTS.md",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/reproduce-win32.py",
+        ".aide/evidence/2026-10-17-ntfs-upcase-capture/expected-after-binding-review.json"
+      ]
     }
   ]
 }

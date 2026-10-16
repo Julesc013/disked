@@ -129,7 +129,11 @@ static V observe(const V &input) {
     V report;
     std::string refusal;
     try {
-        if (membership_input) {
+        if (const auto *upcase = input.find("upcase")) {
+            need(upcase->kind == V::Kind::boolean && upcase->boolean && !membership_input &&
+                 !directory_input);
+            report = disked::observe_ntfs_upcase(request, reader);
+        } else if (membership_input) {
             directory.capture = request;
             membership.directory = directory;
             report = disked::observe_ntfs_membership(membership, reader);

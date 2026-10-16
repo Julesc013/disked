@@ -22,6 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W100 actual NTFS FILE10/table capture: expected contract and157
+  independent supplied-source cases recorded before implementation. Full native
+  and isolated Win32 qualification pending; native provenance/namespace/lookup
+  and all original0.1.0 remain.
+
 - [x] DE-W099 private supplied NTFS table: exact `ff74ccae` passes21/170
   selected x64 groups,327680 mappings,2520 comparisons,78 guard cases,67 headers/
   C90/four imports and249 tooling(two skips); private Win32 two groups/two headers.

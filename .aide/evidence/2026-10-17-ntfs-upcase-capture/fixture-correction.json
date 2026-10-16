@@ -1,0 +1,15 @@
+{
+  "initial_working_status": "fail",
+  "diagnostic": "ntfs_mft_seed_mapping",
+  "cause": "The large-FILE positive fixture mapped only one cluster contiguously at FILE0; the remaining seed bytes crossed to a discontinuous MFT run. Existing collector correctly rejected it.",
+  "correction": "Require the independently constructed initial MFT run to cover the complete FILE0 seed. Only the two32768-byte FILE layouts/read expectations change; all157 success/diagnostic/refusal/table expectations remain unchanged.",
+  "changed_fixtures": [
+    "geometry-0-4096-32768",
+    "geometry-1-4096-32768"
+  ],
+  "old_recipe": "working-first/recipe.snapshot.py",
+  "current_expected": "expected-after-fixture-correction.json",
+  "production_checks_changed": false,
+  "deadlines_changed": false,
+  "qualification": false
+}
