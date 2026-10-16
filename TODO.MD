@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W096: bind exact name correspondence to a held ordinary file, with
+  sealed controls, profile-prefix reuse and exact replay. Worker/public admission
+  and full original 0.1.0 remain. [Contract](spec/catalog/ntfs-membership-file-prototype.json).
+
 - [x] DE-W095 supplied-source directory/name correspondence: exact `a1271115`
   passes all 165 x64 groups,193 membership cases,67 headers/C90/thirteen imports
   and 247 tooling tests (two skips); private Win32 ten groups/ten headers pass.

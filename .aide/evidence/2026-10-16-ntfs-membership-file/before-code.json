@@ -1,0 +1,83 @@
+{
+  "work_id": "DE-W096",
+  "base_revision": "887af8ed615bf18a7b0dbeb9f1a37a161ec6d550",
+  "recorded_at": "2026-10-16T09:53:59.126628+00:00",
+  "status": "pre-code-contract-and-context-verified",
+  "selected_native_groups": 31,
+  "expected_registered_groups": 166,
+  "full_native_suite_planned": false,
+  "implementation_started": false,
+  "native_tests_run": false,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W096",
+        "--output",
+        ".aide-local\\context\\ntfs-membership-file-before-code",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-membership-file-before-code"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "before-code-verify-context.log"
+    }
+  ],
+  "owner_accepted": false
+}
