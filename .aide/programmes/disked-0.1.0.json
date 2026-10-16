@@ -117,10 +117,11 @@
     "DE-W088",
     "DE-W089",
     "DE-W075",
-    "DE-W091"
+    "DE-W091",
+    "DE-W092"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Commit/push the DE-W092 development checkpoint, qualify the exact clean source with the recorded x64 and Win32/WOW64 recipes, repair actual failures and review before main integration. Then directory frontend/namespace/content work; retain original full0.1.0 scope and owner/release/storage gates.",
+  "next_action": "Integrate the reviewed DE-W092 source after metadata/staged-byte closure. Define bounded directory-index command/frontend admission through existing NTFS actions and owned snapshots; keep namespace/tree and content claims separate. Continue every original0.1.0 platform/storage requirement with owner/release/storage gates intact.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1416,6 +1417,17 @@
       "full_native_suite_run": false,
       "owner_accepted": false,
       "remaining": "Owned directory worker/snapshot/frontend admission and namespace/content; all original platforms/storage and separate owner/release/privilege gates."
+    },
+    {
+      "work_id": "DE-W092",
+      "scope": "Private NTFS directory retained-frame reconstruction and owned Windows worker",
+      "source_revision": "1001d4638b2cded0df29f76469d7e3bda44cd8b7",
+      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/qualified-1001d463/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/win32-1001d463/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md",
+      "full_native_suite_run": false,
+      "owner_accepted": false,
+      "remaining": "Public directory/frontend admission and namespace/content; original platforms/storage0.1.0 and separate owner/release/storage gates."
     }
   ],
   "runner_status_observation": {
@@ -1516,14 +1528,42 @@
     "work_id": "DE-W092",
     "base_revision": "a31a72d6a0ace8bdf7f69a627e47ad11c1c92160",
     "contract": "spec/catalog/ntfs-directory-worker-prototype.json",
-    "state": "Directory mode implemented;235 working cases/12 methods pass. First fixture code-hash encoding mismatch retained. Clean-source x64/all-target and selected Win32/WOW64 owned-worker qualification recipes defined before evaluation.",
+    "state": "Implemented and agent-reviewed at1001d463:235 cases/12 methods, all-target x64 build,35 selected groups of162,63 headers/C90/imports/244 tooling(two skips); eight Win32 groups/six headers pass. Metadata closure/integration pending.",
     "grant": "Existing local implementation/build/test/repair across agent-reviewed units and dev/main synchronization; generated ordinary disposable files only. Owner/physical/elevation/customer/install/signing/publication gates remain separate.",
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "working_evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/working/20261016T033937Z-expanded-pass/summary.json",
     "source_files": 317,
     "max_source_path": 62,
-    "qualification_pending": true
+    "qualification_pending": false,
+    "campaigns": {
+      "source_revision": "1001d4638b2cded0df29f76469d7e3bda44cd8b7",
+      "x64": {
+        "status": "pass",
+        "session_id": 45744,
+        "summary": ".aide-local/ntfs-directory-worker-qualification-1001d463/summary.json",
+        "all_target_build_exit_code": 0,
+        "exit_code": 0,
+        "exec_session_closed": true,
+        "native_groups": 35,
+        "registered_groups": 162,
+        "full_native_suite_run": false,
+        "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/qualified-1001d463/summary.json"
+      },
+      "win32": {
+        "status": "pass",
+        "exit_code": 0,
+        "summary": ".aide-local/ntfs-directory-worker-win32-1001d463/summary.json",
+        "native_groups": 8,
+        "headers": 6,
+        "exec_session_closed": true,
+        "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/win32-1001d463/summary.json"
+      }
+    },
+    "tested_source_revision": "1001d4638b2cded0df29f76469d7e3bda44cd8b7",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/qualified-1001d463/summary.json",
+    "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/win32-1001d463/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md"
   },
   "w058_final_qualification": {
     "source_revision": "1e93836989ea2a9a4e163d0c9644511877455d0e",
@@ -1733,20 +1773,19 @@
   },
   "retained_incomplete_work": [],
   "integration_review": {
-    "tested_source_revision": "4156accfa906943ad14e61061954b01c48e08207",
-    "status": "source-integrated",
-    "review": ".aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md",
+    "tested_source_revision": "1001d4638b2cded0df29f76469d7e3bda44cd8b7",
+    "status": "agent-reviewed-pending-metadata-closure",
+    "review": ".aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md",
     "owner_accepted": false,
-    "release_qualified": false,
-    "historical_delay_cause_established": false,
-    "checkpoint_revision": "139524a331b49c571d6a2b500cdfce959ada1b31",
-    "receipt": ".aide/evidence/2026-10-16-ntfs-directory-file-integration/repository.json"
+    "release_qualified": false
   },
   "next_work_preparation": {
-    "work_id": "DE-W092",
-    "execution_contract_defined": true,
-    "implementation_started": true,
-    "authorizes_effects": false
+    "candidate_work_id": "DE-W093",
+    "scope": "Bounded NTFS directory-index command and common frontend admission",
+    "execution_contract_defined": false,
+    "implementation_started": false,
+    "authorizes_effects": false,
+    "evidence": ".aide/evidence/2026-10-16-ntfs-directory-worker/next-command-preparation.json"
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {

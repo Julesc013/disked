@@ -26,9 +26,11 @@ source-repository synchronization, with owner acceptance and release artifact
 publication, installation, signing and storage privileges still separate.
 
 Current work is routed through the programme. The shared NTFS bootstrap, stream,
-record closure and private directory prototypes have source-bound evidence;
-native directory file/worker/frontend admission and complete namespace/content
-remain. The [current exFAT adapter review](../.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md)
+record closure, private directory collector, held-file binding and owned worker
+have source-bound evidence. [DE-W092's review](../.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md)
+records the exact x64 and selected Win32 results. Public directory/frontend
+admission, complete namespace traversal and content support remain. The
+[current exFAT adapter review](../.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md)
 supersedes older failed campaigns as an active integration blocker while retaining
 their failures and unknown causes. The [structure/release assessment](structure-review.md)
 links exact current evidence and remaining gates without reducing 0.1.0 scope.

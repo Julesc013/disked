@@ -13,7 +13,7 @@ status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.8
+  version: 0.1.5-proposed.9
   authority: proposed-normative
   review: pending
   risk: R2
@@ -26,8 +26,8 @@ disked:
   - DE-REQ-080-02
 updated:
   by: codex
-  at: '2026-10-12T23:20:49.605178+00:00'
-  scope: DE-W039 source-bound interval evidence; owner and full platform-storage-release gates remain open
+  at: '2026-10-16T04:02:35.538833+00:00'
+  scope: Reconcile current DE-W092 and later W075 integration evidence; preserve original scope and separate owner/platform/storage/release gates
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -38,6 +38,23 @@ sources:
 ---
 
 # Implementation sequence and first usable release
+
+Current development position, 16 October 2026: private NTFS directory collection,
+held-file acquisition and owned-worker reconstruction have revision-bound
+DE-W092 evidence at source `1001d463`; its
+[execution contract](../catalog/ntfs-directory-worker-prototype.json) defines the
+private boundary. In the implementation repository, see
+`.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md`.
+Directory command/frontend admission, full namespace traversal and content remain
+required; a captured index is not a complete filesystem tree. The programme at
+`.aide/programmes/disked-0.1.0.json` owns current work state in that repository.
+The later exFAT review at
+`.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md`
+and full 160-group campaign at `7bb6153a` in
+`.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md`
+supersede W075's old failure as a current integration blocker. Those historical
+failures and their unknown causes remain retained. This is not a full current
+162-group campaign, owner acceptance or completion of original 0.1.0 scope.
 
 DE-W062 adds a private product-bound read-only H, exact finalized D and finite
 offline ZIP fixture with nonrecursive bindings. Generated servicing previews
@@ -459,8 +476,10 @@ primary/mirror FILE0 independently, validates the MFT mapping and reads FILE3
 through that mapping for observed volume version. Exact rereads and partial
 diagnostics qualify only the collected regions. Attribute-list joins, additional
 payload/namespace/content handling, held sources, workers and frontends remain
-required original NTFS work. This does not clear the retained W075 integration
-failure or any owner, physical, recovery, platform or release gate.
+required original NTFS work. At the W079 checkpoint this did not clear the
+retained W075 integration failure. Its later integration evidence is linked in
+the current-position paragraph; owner, physical, recovery, platform and release
+gates remain separate.
 
 DE-W081 binds the [NTFS bootstrap to held ordinary image files](../catalog/ntfs-file-prototype.json)
 using the shared file/path identity mechanisms. Automatic3.0/3.1 selection must
@@ -470,4 +489,11 @@ are separate evidence. Contained-worker/frontend admission and the remaining
 original NTFS/platform/storage scope still require implementation and qualification.
 
 
-DE-W082 follows held-file NTFS bootstrap with an owned reader process, strict retained frame and parent replay using the existing host. Qualify this boundary before shared frontend admission, then continue original NTFS metadata/namespace/content. W075/report-preparation remains a whole-branch main-integration gate.
+DE-W082 follows held-file NTFS bootstrap with an owned reader process, strict
+retained frame and parent replay using the existing host. Qualify this boundary
+before shared frontend admission, then continue original NTFS metadata/namespace/
+content. Its initial checkpoint retained W075/report-preparation as an integration
+gate. Later source-bound qualification, linked above, supersedes that status while
+preserving the failed campaigns. DE-W091/W092 extend the private boundary to
+directory files/workers; they do not qualify public directory or full namespace
+and content support.

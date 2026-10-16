@@ -95,6 +95,14 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
+Owned-directory source `1001d463` passes 235 cases/12 methods on x64 and selected
+Win32/WOW64 probes. All-target x64 build, 35 selected groups of 162, 63 C++ headers,
+C90/import checks and 244 tooling tests (two skips) pass. Eight Win32 groups/six
+headers pass. [Review](../.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md)
+retains exact source, fixture failure and working-receipt limitations. This
+qualifies private directory snapshots/workers; frontend, namespace/content and
+full original 0.1.0 remain. This is not a full 162-group current-native campaign.
+
 Native directory-file source `4156accf` passes 550 responses/12 methods, an all-target
 x64 build, 31 selected groups of 161, 63 headers, strict C90/import checks and 244
 tooling tests (two skips). Six private Win32 groups/four headers also pass.

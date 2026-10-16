@@ -22,11 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W092 owned NTFS directory mode:235 working cases/12 methods pass;
-  exact-source x64 and selected Win32/WOW64 qualification remains pending.
-  Preserve bootstrap v1, source-free prefix reconstruction, finite budgets and
-  actual-exit publication. Public directory/frontend and namespace/content
-  admission remain separate. [Contract](spec/catalog/ntfs-directory-worker-prototype.json).
+- [x] DE-W092 private directory worker: exact `1001d463` passes 235 cases/
+  12 methods on x64 and Win32/WOW64. All-target x64 build, 35 selected groups
+  of 162, 63 headers/C90/imports and 244 tooling tests (two skips) pass. Eight
+  Win32 groups/six headers pass. Public directory/frontend, namespace/content
+  and original 0.1.0 remain. [Review](.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md).
 
 - [x] DE-W091 native directory-file scope: exact `4156accf` passes 550 responses/
   12 methods, all-target build, 31 selected x64 groups of 161, 63 headers, strict
@@ -83,7 +83,7 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
   (2 skipped), plus build/import/context/source checks and agent review.
   Three development failures remain retained. Source integration is recorded in
   `.aide/evidence/2026-10-16-ntfs-command-integration/repository.json`; complete
-  NTFS/original0.1.0 and owner/release gates remain open.
+  NTFS/original 0.1.0 and owner/release gates remain open.
 
 Scope: every currently specified platform and storage operation at base `40ac8ec`.
 Continue local implementation after tests and agent review; owner acceptance and
@@ -531,7 +531,7 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 - [x] Retain exact `39d514f1` full145 failure (137 passes/eight failures),51 headers and242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
 - [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
 - [x] Qualify exact `813924fa` shared-mechanism source:153 native groups/57 headers/242 tooling(two skips), imports/context/source checks and agent review pass. Earlier failures remain retained.
-- [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original0.1.0 work.
+- [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original 0.1.0 work.
 
 ## Report preparation investigation
 

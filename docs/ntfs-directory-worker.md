@@ -20,13 +20,15 @@ immutable snapshot. Cancellation, a timeout or an uncertain live child does not
 establish completion or writer quiescence. Test controls exist only in separately
 built fault compositions.
 
-The working corpus passes235 cases/12 methods, including both supported versions,
-fragmented record/list/bitmap layouts, an exact128-block graph, actual reads
-above4GiB, source removal, copied inputs, malformed frames, corruption of every
-new prefix receipt and actual process lifecycle failures. These are working-tree
-results; clean-source x64 and selected Win32/WOW64 qualification is pending.
-The first code-hash fixture mismatch and its correction remain in
-[working evidence](../.aide/evidence/2026-10-16-ntfs-directory-worker/working/).
+Exact source `1001d463` passes 235 cases/12 methods on x64 and Win32/WOW64,
+including source removal, copied inputs, every new receipt corruption, real process
+lifecycle, exact 128-block graph and actual reads above 4GiB with unchanged source
+hashes. The clean x64 campaign builds all targets and passes 35 selected groups
+of 162, 63 standalone headers, C90/import checks and 244 tooling tests (two skips).
+The Win32 supplement passes eight groups/six headers; it is not the full Win32
+product. [Review and evidence](../.aide/evidence/2026-10-16-ntfs-directory-worker/REVIEW.md)
+retain the first fixture failure and the unavailable expanded-working exit receipt.
+Clean qualification records actual exit codes; no result is manufactured.
 
 This private adapter has no public directory command, namespace/tree traversal,
 content extraction, physical-device or writer admission. It does not complete

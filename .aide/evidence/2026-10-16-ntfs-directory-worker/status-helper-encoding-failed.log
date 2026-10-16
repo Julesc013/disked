@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\close-directory-worker-status-docs.py", line 8, in <module>
+    path=Path('spec/roadmap/implementation.md');s=path.read_text();s=s.replace("  at: '2026-10-16T04:03:00+00:00'","  at: '"+datetime.now(timezone.utc).isoformat()+"'");path.write_text(s,encoding='utf-8',newline='\n')
+                                                  ~~~~~~~~~~~~~~^^
+  File "C:\Program Files\Python314\Lib\pathlib\__init__.py", line 788, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "C:\Program Files\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 3088: character maps to <undefined>
