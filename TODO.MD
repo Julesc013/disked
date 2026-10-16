@@ -22,6 +22,10 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W098: expose bounded NTFS raw-name correspondence through existing
+  common command/frontends with explicit target limits, projections and outcomes.
+  [Contract](spec/catalog/ntfs-membership-command-prototype.json).
+
 - [x] DE-W097 owned NTFS correspondence reader: exact `06b63a89` passes 34/167
   selected x64 groups/310 worker cases/67 headers/C90/13 imports/247 tooling tests
   (two skips), plus private Win32 twelve groups/ten headers. Public W098 and every
