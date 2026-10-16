@@ -100,7 +100,7 @@ def main():
         assert capture["recipe_sha256"] == capture_expected["recipe_sha256"]
         assert len(capture["cases"]) == 158 and all(c["passed"] for c in capture["cases"])
         summary["upcase_capture_cases"] = capture["count"]
-        native_expected = json.loads((root / ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-complete-input-review.json").read_bytes())
+        native_expected = json.loads((root / ".aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-startup-review.json").read_bytes())
         summary["native_upcase"] = {}
         for mode, methods in (("file", 8), ("worker", 10)):
             report = json.loads((build / ("ntfs-upcase-" + mode + "-cases.json")).read_bytes())

@@ -109,7 +109,7 @@ try:
     assert all(t.find('failure') is None and t.find('error') is None and t.find('skipped') is None for t in actual)
     summary['cases']={p.name:json.loads(p.read_bytes()).get('count',json.loads(p.read_bytes()).get('cases')) for p in build.glob('ntfs-*-cases.json')}
     for n,v in {'membership-worker':310,'membership-file':496,'membership':193,'names':247,'directory':227,'capture':155,'stream':298,'closure':134,'file':79,'directory-file':550,'directory-worker':235}.items():assert summary['cases']['ntfs-'+n+'-cases.json']==v
-    expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-complete-input-review.json').read_bytes())
+    expected=json.loads((root/'.aide/evidence/2026-10-17-ntfs-upcase-command/expected-after-startup-review.json').read_bytes())
     summary['native_upcase']={}
     for mode,methods in [('file',8),('worker',10)]:
         report=json.loads((build/('ntfs-upcase-'+mode+'-cases.json')).read_bytes())

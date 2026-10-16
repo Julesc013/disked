@@ -132,6 +132,10 @@ def main():
         body=dict(parameters=parameters,status=status,**extra)
         if full is not None: body['file']=full
         return run('pure-projection',[a.probe],data=canonical(body))
+    def retain_observation(name, value, **extra):
+        raw=a.output.with_name(a.output.stem+'-observation-'+str(len(records))+'.json')
+        raw.write_bytes(canonical(value))
+        record(name,raw_observation=str(raw),response_sha256=digest(value),**extra)
     def worker(v, path, version=None, fixture=None):
         body=dict(path=str(path),offset=v.input['offset'],length=v.input['length'],capture_epoch='9',upcase=True,limits=CAPS)
         if version is not None:body['profile']=version
@@ -200,14 +204,16 @@ def main():
             try:
                 ui.click(109);assert ui.details()['reviewed'] and 'status' not in ui.details()
                 ui.click(110);report=wait(lambda:ui.details() if 'status' in ui.details() else None)
-                compare(value,report);assert 'presentation_unavailable' not in ui.text(101);record('gui',response_sha256=digest(report))
+                retain_observation('gui',report)
+                compare(value,report);assert 'presentation_unavailable' not in ui.text(101)
             finally:ui.close()
             assert ui.code==0 and not ui.error and ui.created_files==[]
             for frontend in ('tui','shell'):
                 report=folder/(frontend+'.json');startup=subprocess.STARTUPINFO();startup.dwFlags=1;startup.wShowWindow=0
                 command=[sys.executable,str(a.root/'tests/frontend/image_console_fixture.py'),str(a.exe),frontend,'image.inspect',str(path),'-',str(report),json.dumps(options(v)),'8000']
                 p=subprocess.run(command,cwd=folder,env=env,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=startup,timeout=40)
-                assert p.returncode==0;result=json.loads(report.read_bytes());compare(value,result['response']);record(frontend,response_sha256=digest(result['response']))
+                result=json.loads(report.read_bytes());retain_observation(frontend,result,exit_code=p.returncode)
+                assert p.returncode==0;compare(value,result['response'])
             for field in ('source_id','epoch','volume_offset','volume_bytes','base_reference','base_record_sha256','schema','table_bytes','table_sha256','volume_serial'):
                 bad=copy.deepcopy(full);table=bad['observation']['upcase'];old=table[field]
                 table[field]='wrong' if field in ('source_id','schema','table_sha256','base_record_sha256') else str(int(old)+1)

@@ -124,7 +124,9 @@ V exercise(const V &input) {
             .put("frame", captured)
             .put("verified", disked::verify_ntfs_snapshot_frame(captured, request));
     }
+    const auto prepare_begin = GetTickCount64();
     auto worker = n::NtfsWorker::prepare(request);
+    const auto prepare_ms = GetTickCount64() - prepare_begin;
     if (input.find("mutate_after_prepare")) {
         request.path = "invalid-mutated-path";
         request.kind = static_cast<disked::NtfsSnapshotKind>(99);
@@ -137,18 +139,32 @@ V exercise(const V &input) {
     }
     if (mode == "construction")
         return V::object().put("never_launched", V::boolean_value(worker->never_launched()));
+    auto startup = V::object()
+                       .put("prepare_ms", V::string(std::to_string(prepare_ms)))
+                       .put("wait_entered_ran", V::boolean_value(false));
     auto out = V::object();
+    const auto launch_begin = GetTickCount64();
     try {
         worker->launch();
     } catch (const std::exception &error) {
-        out.put("startup_error", V::string(error.what()))
+        startup.put("launch_ms", V::string(std::to_string(GetTickCount64() - launch_begin)));
+        out.put("startup", std::move(startup))
+            .put("startup_error", V::string(error.what()))
             .put("never_launched", V::boolean_value(worker->never_launched()))
             .put("before", worker->observe());
         if (!worker->never_launched())
             out.put("retirement", worker->retire());
         return out;
     }
-    if (!worker->wait_entered(1000)) {
+    startup.put("launch_ms", V::string(std::to_string(GetTickCount64() - launch_begin)));
+    const auto entered_begin = GetTickCount64();
+    const bool entered = worker->wait_entered(1000);
+    startup.put("wait_entered_ran", V::boolean_value(true))
+        .put("wait_entered", V::boolean_value(entered))
+        .put("wait_entered_budget_ms", V::string("1000"))
+        .put("wait_entered_ms", V::string(std::to_string(GetTickCount64() - entered_begin)));
+    out.put("startup", std::move(startup));
+    if (!entered) {
         const auto before = worker->observe();
         const auto retirement = worker->retire();
         return out.put("before", before)
