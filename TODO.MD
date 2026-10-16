@@ -22,10 +22,11 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W095: acquire exact directory-name/target correspondence through one
-  bounded source context and final reread. Native transport/public admission,
-  namespace/content and all original 0.1.0 remain.
-  [Contract](spec/catalog/ntfs-membership-prototype.json).
+- [x] DE-W095 supplied-source directory/name correspondence: exact `a1271115`
+  passes all 165 x64 groups,193 membership cases,67 headers/C90/thirteen imports
+  and 247 tooling tests (two skips); private Win32 ten groups/ten headers pass.
+  Native binding/worker/frontend, namespace/content and all original 0.1.0 remain.
+  [Review](.aide/evidence/2026-10-16-ntfs-membership/REVIEW.md).
 
 - [x] DE-W094 captured filename instances: exact `18980169` passes all 164
   x64 native groups, 247 filename/298 unchanged stream cases, 65 headers/C90/
@@ -135,7 +136,7 @@ release/storage authority remain separate. The programme record is
   Attributes/runlists are covered by DE-W078; source/provider/frontend and
   original release remain.
 
-- [x] DE-W076 available supplied-byte scope: exact `c0749e22` passes964 cases,
+- [x] DE-W076 available supplied-byte scope: exact `c0749e22` passes 964 cases,
   11 portable groups, one header,242 tooling tests/two skips and strict C90 checks. This does not qualify an NTFS volume,
   provider, writer or legacy platform. Its overall campaign failed the byte
   manifest; `ce5efdae` corrected metadata and passed fresh clean verification
@@ -400,7 +401,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   Partial; implementer review in
   `.aide/evidence/2026-10-12-inventory-advance/`.
 - [ ] Investigate the retained joined-report worker exit wait failure; preserve
-  the original3000-ms wait and distinguish finished receipts from actual exit.
+  the original 3000-ms wait and distinguish finished receipts from actual exit.
 - [x] DE-W030 private screen TUI delivery and escaping callback teardown `b42c23fd`:
   62 controllers/113 readers per architecture; 350 total processes,
   9190 assertions, fresh dev.41 x64 launch/imports, 77 serial product groups,
@@ -421,23 +422,23 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
   retain the exact 3000-ms wait and require actual process exit independently of
   receipts. Keep full 0.1.0 scope and all owner/storage/platform/release gates.
 
-- [x] Private report exit-wait diagnostics `b5d6ddfc`:18 owned-process and286 joined-export checks,213toolpasses/twoskips/1075structure. Exact unchanged3000ms/raw result/timing/identity guards; native producer remains `f7b4376f`. Original parallel cause remains unknown; partial evidence in `.aide/evidence/2026-10-12-report-exit-diagnostics/`.
+- [x] Private report exit-wait diagnostics `b5d6ddfc`:18 owned-process and 286 joined-export checks,213toolpasses/twoskips/1075structure. Exact unchanged 3000ms/raw result/timing/identity guards; native producer remains `f7b4376f`. Original parallel cause remains unknown; partial evidence in `.aide/evidence/2026-10-12-report-exit-diagnostics/`.
 
 - [x] DE-W041 private supplied-capture GPT repair planning `6b025fdc`:16tests/107native runs, exact immutable before/after patches and independent byte/CRC oracles;78parallel product groups,213toolpasses/twoskips/1077structure. Public command/writer/recovery/other-host/owner/full-unit gates remain open.
 - [x] Independent compatible caller memory jobs `98a5b593`:12native cases, actual256MiB fresh child/inherited64MiB denial, real protocol/discovery coexistence, all guards/host policies and shared4-worker quotas retained;78product/213tools/twoskips/1079structure. Exact scoped evidence in `.aide/evidence/2026-10-12-job-coexistence/`; arbitrary/legacy/worker/storage admission remains separate.
 
-- [x] Weekly AIDE source review2026-10-12: exactdev `6f2abc4c`, unchanged queue schema and36passive WorkUnit validations; Lite1.0.0 publication/scope recorded separately. No upstream execution/install/import/stable-consumer qualification.
+- [x] Weekly AIDE source review2026-10-12: exactdev `6f2abc4c`, unchanged queue schema and 36passive WorkUnit validations; Lite1.0.0 publication/scope recorded separately. No upstream execution/install/import/stable-consumer qualification.
 
-- [x] DE-W041 read-only ordinary-image GPT repair preview: explicit source/selection binding, bounded capture/rereads, immutable patch digests, native CLI/stdio/GUI/linear TUI/shell and timeout-slot evidence at `3ff136f1`. Clean79product groups and59focused cases; [evidence](.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation/recovery, owner acceptance and full 0.1.0 remain open.
+- [x] DE-W041 read-only ordinary-image GPT repair preview: explicit source/selection binding, bounded capture/rereads, immutable patch digests, native CLI/stdio/GUI/linear TUI/shell and timeout-slot evidence at `3ff136f1`. Clean79product groups and 59focused cases; [evidence](.aide/evidence/2026-10-12-gpt-repair-command/README.md). Mutation/recovery, owner acceptance and full 0.1.0 remain open.
 
 - [x] DE-W041 private create-only GPT effects: actual owned-image write/flush/backup/intention/completion and read-only interrupted-state evidence at `b890f9d3`.190cases/70process exits/80native groups; [evidence](.aide/evidence/2026-10-12-gpt-owned-effects/README.md). Existing-target/product writer, production journal, power-loss/recovery, owner and full 0.1.0 remain open.
 
 - [x] DE-W042 private owned-image restoration: exact reverse patches, fresh review/grant and attempt journal, original-artifact preservation and interrupted multi-chunk recovery at `b2c6a4e3`.138 restoration/190 execution cases and 81 native groups; [evidence](.aide/evidence/2026-10-12-gpt-restoration/README.md). Product/production recovery, power-loss, independent protection, owner and full 0.1.0 qualification remain open.
 
-- [x] DE-W042 private read-only restoration history:121 semantic/framing/current-state cases and124 existing-store inspections, with138 restoration/190 execution cases and82 native groups at `6c4393b9`; [evidence](.aide/evidence/2026-10-12-gpt-restoration-inspection/README.md). Broader recovery, historical generations, product/production, hardware/owner and full 0.1.0 remain open.
+- [x] DE-W042 private read-only restoration history:121 semantic/framing/current-state cases and 124 existing-store inspections, with 138 restoration/190 execution cases and 82 native groups at `6c4393b9`; [evidence](.aide/evidence/2026-10-12-gpt-restoration-inspection/README.md). Broader recovery, historical generations, product/production, hardware/owner and full 0.1.0 remain open.
 
 - [ ] 2026-10-12 source maintenance: current-work/formatter clarity and core target separation/bounded generated header/dependency checks now have evidence. Module-qualified includes, compile-header visibility and shared frontend invariants now have bounded source evidence. Continue broader header/host coverage, composition policy and formatting work; preserve current tree/public contracts/historical evidence. See `spec/catalog/source-maintenance-prototype.json` and `.aide/evidence/2026-10-12-build-boundaries/README.md`.
-- [x] Core build boundaries `7f86f6bf`: clean build/launch/imports,84native groups,16checker fixtures,5standalone core headers,120generated targets/3435quoted include edges and213tooling passes/2skips. Bounded lexical/build-closure checks; full units/owner/release/all-platform-storage0.1.0 remain open.
+- [x] Core build boundaries `7f86f6bf`: clean build/launch/imports,84native groups,16checker fixtures,5standalone core headers,120generated targets/3435quoted include edges and 213tooling passes/2skips. Bounded lexical/build-closure checks; full units/owner/release/all-platform-storage0.1.0 remain open.
 
 - [x] Shared presentation055bd850: GUI/TUI request/view correlation and discovery eligibility consolidated in existing owners;34native rule cases/8cross-model tests,85native groups,7standalone headers,213tooling passes/2skips. SR-03/module-qualified headers, broader platform/storage and owner/release remain open; `.aide/evidence/2026-10-12-shared-presentation/README.md`.
 
@@ -463,13 +464,13 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] 2026-10-13 structure review follow-up: retain existing owners and implemented CLI/TUI/shell names; reconcile review dispositions and correct stale header-count/parser-placement wording. [Assessment](docs/structure-review.md) links exact native evidence and fresh tooling/upstream observations. Composition/test seams, Setup Windows qualification and full product/release remain open.
 
-- [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full 0.1.0 remain open.
+- [x] DE-W044 bounded retained FAT metadata at `4d3dc0a3`: source-independent exact-byte retrieval,68 command/frontend cases,91 store checks,101 native groups/18 headers and 224 tooling passes/two skips. [Evidence](.aide/evidence/2026-10-13-fat-retention/README.md). Current-process only; coherent larger traversal/extraction and full 0.1.0 remain open.
 
 - [x] Recheck the structure/release assessment at `f8a3eb84`: 220-file map, existing frontend/core-target/header improvements, synchronized main/dev and current Setup CI limitations. [Current assessment](docs/structure-review.md#current-checkpoint-13-october-2026). Preserve earlier evidence and full 0.1.0 gates; no wholesale source rewrite is justified by the supplied review.
 
 - [ ] DE-W045: qualify the [checked FAT content map/window component](docs/fat-content.md), then implement exact native source binding and contained public extraction. Private content mapping/windows are source-bound qualified at `b1a6772e`: 209 cases/14 methods, 102 native groups and 19 headers; native source/public extraction remains unfinished. The original full platform/storage 0.1.0 scope is unchanged.
 
-- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes59 cases/11 methods, with the209 supplied-reader cases and109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full 0.1.0 stay open.
+- [ ] DE-W046: qualify [held-source and contained FAT content](docs/fat-content-file.md): focused development passes 59 cases/11 methods, with the209 supplied-reader cases and 109 existing worker cases retained. Held-source/worker content is source-bound qualified at `955e26f3`: 59 cases/11 methods, 103 native groups and 20 headers; public extraction/destination and full 0.1.0 stay open.
 
 - [ ] DE-W047: review the qualified complete mapped FAT file extraction backend. Complete mapped-file backend is qualified at `20ecddbd`: 104 native groups, 20 selected headers and full logical-file/destination/resume evidence; public command admission and full 0.1.0 remain open. [Contract](docs/fat-extraction.md).
 
@@ -483,7 +484,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [ ] DE-W054: qualify held ordinary-file/owned worker tree paging. Focused development passes 57 cases and a stream over8MiB using one2MiB slot; Exact source `54376be5` passes 111 native groups and 24 selected headers. Public traversal/recursive metadata effects remain. [Contract](docs/fat-tree-file.md).
 
-- DE-W055: shared tree sessions and NDJSON streaming pass focused protocol/CLI/GUI/TUI/shell and worker-fault checks; Exact clean source `19aca432` passes113 native groups and26 selected headers. Recursive extraction, metadata restoration and broader platform/storage scope remain work.
+- DE-W055: shared tree sessions and NDJSON streaming pass focused protocol/CLI/GUI/TUI/shell and worker-fault checks; Exact clean source `19aca432` passes 113 native groups and 26 selected headers. Recursive extraction, metadata restoration and broader platform/storage scope remain work.
 
 - DE-W056: private recursive FAT extraction/controller/history inspection qualified at clean source 243f748e: 120 native groups, 32 selected headers and 236 tooling passes/two skips. Agent review recorded; owner acceptance, public/frontend lifecycle and broader storage/platform admission remain. [Evidence](.aide/evidence/2026-10-14-fat-recursive-qualification/README.md).
 
@@ -491,7 +492,7 @@ The DE-W010 checks cover only the essential native human subset and provider-ini
 
 - [x] DE-W057 local normal recursive command/operation qualification: exact clean source `087f95b4` passes full native/header/import/tooling and actual all-frontend/failure evidence; agent review retained. Owner, physical/other-host and full 0.1.0 release acceptance remain open.
 
-- [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full 0.1.0 remain unfinished.
+- [x] DE-W058 local qualification at1e938369: private C90 supplied-byte exFAT boot/checksum/geometry/allocation cells,2320oracle cases/130native groups/42headers/242tooling tests with 2skips and agent review. Bitmap/upcase/directory/tree/provider/host and full 0.1.0 remain unfinished.
 
 - [x] DE-W064 local exact-source qualification44c8b090:2316cases/9methods,10parser/guardgroups+boundaryfollowup,1header/C90/import/context and agentreview. Prior130native evidence separate; bitmap/upcase/source/tree/provider/fullrelease remain unfinished.
 
@@ -511,7 +512,7 @@ DE-W072 transport is locally reviewed at exact `33ee364a`. The new shared exFAT 
 
 W072 full exact60376a0e campaign failed:132/140native groups passed, eight failed. The command is not composition-qualified. [Retained failed campaign](.aide/evidence/2026-10-14-exfat-command-exact-failed/README.md) records actual launch error5, directory-copy contrasts and unresolved causes. Working repairs and a new exact campaign remain; main was not promoted.
 
-W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and15selected groups have recorded passing results. New exact141group qualification remains before main promotion.
+W072 worker lease repair: independent caller-job conflict reproduced; unchanged ceilings, disconnect retention and 15selected groups have recorded passing results. New exact141group qualification remains before main promotion.
 
 W072 exact e75602f8:139/141 groups pass; two preparation-quota harness failures retained. Both corrected groups pass with strict refusal/live-peer/retirement/source/output checks. New exact full qualification remains before main.
 
@@ -531,7 +532,7 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 ## Current exFAT coherent-tree development
 
 - [x] DE-W074 working owned root capture and bounded tree/logical-content reader; 40 independent cases, seven selected native groups and 51 headers pass.
-- [x] Retain the exact e7e3297f full144 failure (136 passes/eight failures) and qualify the private tree-limit correction at9c2d2b09 on x64/Win32 with tooling/import/context/source checks. This is partial qualification.
+- [x] Retain the exact e7e3297f full 144 failure (136 passes/eight failures) and qualify the private tree-limit correction at9c2d2b09 on x64/Win32 with tooling/import/context/source checks. This is partial qualification.
 - [ ] Retain the unresolved cause of the earlier worker/restoration/parser delays and investigate any recurrence; preserve deadlines and uncertain dependencies.
 - [x] Fresh exact2cd2e2e1 complete qualification:144 native groups,51 headers,242 tooling tests/two skips and imports/context/source checks. Previous delay cause remains unproven; failures retained.
 - [ ] Complete paging/backpressure, held-source/worker/frontend and remaining original platform/storage/release gates.
@@ -545,8 +546,8 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
   withheld by those historical campaigns. Paging/worker/frontend/platform and
   owner/privilege/release gates remain. [Review](.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md).
 
-- [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with89 existing root-file and44 supplied-tree cases.
-- [x] Retain exact `39d514f1` full145 failure (137 passes/eight failures),51 headers and242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
+- [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with 89 existing root-file and 44 supplied-tree cases.
+- [x] Retain exact `39d514f1` full 145 failure (137 passes/eight failures),51 headers and 242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
 - [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.
 - [x] Qualify exact `813924fa` shared-mechanism source:153 native groups/57 headers/242 tooling(two skips), imports/context/source checks and agent review pass. Earlier failures remain retained.
 - [ ] Complete contained tree transport and common frontend admission, paging/backpressure and all remaining original 0.1.0 work.

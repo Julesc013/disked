@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4D6D2F71-878F-336D-8230-71132F96D130}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>disked</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">disked.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">disked</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\generated;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ConformanceMode>true</ConformanceMode>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SDLCheck>true</SDLCheck>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\generated;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\generated;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Release\disked_fat_tree_actions.lib;Release\disked_fat_tree_reconnect.lib;Release\disked_fat_tree_controller.lib;Release\disked_fat_tree_extraction_worker.lib;Release\disked_fat_tree_sessions.lib;Release\disked_fat_tree_worker.lib;Release\disked_invocation.lib;Release\disked_tui.lib;Release\disked_gui.lib;Release\disked_shell.lib;Release\disked_image_actions.lib;Release\disked_file_acquisition.lib;Release\disked_acquisition_observation.lib;Release\disked_health_observation.lib;Release\disked_file_acquisition_export.lib;Release\disked_file_verification_case_export.lib;Release\disked_report_observation.lib;Release\disked_file_image_verification.lib;Release\disked_verification_observation.lib;Release\disked_fat_reader.lib;Release\disked_exfat_reader.lib;Release\disked_ntfs_reader.lib;Release\disked_image_capture.lib;Release\disked_fat_tree_commands.lib;Release\disked_fat_tree_watch.lib;Release\disked_fat_tree_operation.lib;Release\disked_fat_tree_admission.lib;Release\disked_fat_tree_extraction_worker.lib;Release\disked_fat_tree_store.lib;Release\disked_fat_tree_review.lib;Release\disked_fat_tree_extraction.lib;Release\disked_fat_tree_file.lib;Release\disked_fat_tree_snapshot.lib;Release\disked_fat_content_stream.lib;Release\disked_fat_native_metadata.lib;Release\disked_fat_metadata.lib;Release\disked_fat_tree_session.lib;Release\disked_fat_traversal.lib;Release\disked_acquisition_commands.lib;Release\disked_file_case_source.lib;Release\disked_file_report_export.lib;Release\disked_export_commands.lib;Release\disked_verification_commands.lib;Release\disked_report_export.lib;Release\disked_case_evidence.lib;Release\disked_health_observation.lib;Release\disked_acquisition.lib;Release\disked_fat_inspection.lib;Release\disked_fat_retention.lib;Release\disked_fat_worker.lib;Release\disked_fat_snapshot.lib;Release\disked_fat_file.lib;Release\disked_fat_capture.lib;Release\disked_fat_content_file.lib;Release\disked_fat_content.lib;Release\disked_fat.lib;Release\disked_windows_file_names.lib;Release\disked_fat_namespace.lib;Release\disked_exfat_inspection.lib;Release\disked_exfat_worker.lib;Release\disked_exfat_snapshot.lib;Release\disked_exfat_file.lib;Release\disked_exfat_tree.lib;Release\disked_exfat_capture.lib;Release\disked_exfat_namespace.lib;Release\disked_exfat_upcase.lib;Release\disked_exfat.lib;Release\disked_ntfs_inspection.lib;Release\disked_ntfs_worker.lib;Release\disked_observation_worker.lib;advapi32.lib;Release\disked_ntfs_snapshot.lib;Release\disked_ntfs_file.lib;Release\disked_ntfs_capture.lib;Release\disked_ntfs_stream.lib;Release\disked_ntfs.lib;Release\disked_local_file.lib;Release\disked_gpt_capture.lib;Release\disked_map_observation.lib;Release\disked_presentation.lib;Release\disked_command.lib;Release\disked_gpt_repair_planning.lib;Release\disked_hash.lib;Release\disked_json.lib;Release\disked_mbr.lib;Release\disked_gpt.lib;Release\disked_primitives.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /SUBSYSTEM:CONSOLE,10.00 /HIGHENTROPYVA /guard:cf</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projects/DiskEd/disked/.aide-local/ntfs-membership-qualification-a1271115-recheck1/build/Release/disked.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projects/DiskEd/disked/.aide-local/ntfs-membership-qualification-a1271115-recheck1/build/Release/disked.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Manifest>
+      <AdditionalManifestFiles>D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\disked.manifest;</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Projects/DiskEd/disked/.aide-local/ntfs-membership-exact-a1271115/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Projects/DiskEd/disked/.aide-local/ntfs-membership-exact-a1271115 -BD:/Projects/DiskEd/disked/.aide-local/ntfs-membership-qualification-a1271115-recheck1/build --check-stamp-file D:/Projects/DiskEd/disked/.aide-local/ntfs-membership-qualification-a1271115-recheck1/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCCompilerABI.c;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineCompilerSupport.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Diab-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Renesas-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TIClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-4.2\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-4.2\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeDetermineLinkerId.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\CMakeInspectCXXLinker.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.2\Templates\CTestScript.cmake.in;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\main.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\app.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\cli\cli.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\command_registry.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\bootstrap.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\graph.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\health_observer.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\entry.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\invocation.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\fake_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\output.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\memory_budget.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\console\terminal.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\ui\gui.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\acquisition_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\report_worker.cpp" />
+    <ClCompile Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\verification_worker.cpp" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\app.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\cli\cli.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\apps\disked\command_registry.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\bootstrap.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\graph.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\providers\fake\health_observer.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\invocation.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\fake_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\output.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\memory_budget.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\console\terminal.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\ui\gui.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\acquisition_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\report_worker.h" />
+    <ClInclude Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1271115\source\platform\windows\verification_worker.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\ZERO_CHECK.vcxproj">
+      <Project>{34D568EC-EDF3-3D3A-84C3-E2D55CF66FEA}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\bootstrap_registry.vcxproj">
+      <Project>{047A65FE-B85A-311F-B04F-027BF9C5451C}</Project>
+      <Name>bootstrap_registry</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_acquisition.vcxproj">
+      <Project>{84BBC27C-685E-3A3D-8DCD-C90C8A243F15}</Project>
+      <Name>disked_acquisition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_acquisition_commands.vcxproj">
+      <Project>{1DA3628C-3D66-3525-9724-F233E931DF64}</Project>
+      <Name>disked_acquisition_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_acquisition_observation.vcxproj">
+      <Project>{0B387BC5-E2DC-3EB6-8001-9167DE52F606}</Project>
+      <Name>disked_acquisition_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_case_evidence.vcxproj">
+      <Project>{0419EA43-ED5C-38A0-9F39-73660783BA03}</Project>
+      <Name>disked_case_evidence</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_command.vcxproj">
+      <Project>{8C72CF2A-C535-3445-8734-4C095E75290A}</Project>
+      <Name>disked_command</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat.vcxproj">
+      <Project>{C035D08A-3B34-35B2-934E-BE77A6866272}</Project>
+      <Name>disked_exfat</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_capture.vcxproj">
+      <Project>{BBA4FE5F-7253-3B39-91A6-546905EAFBBA}</Project>
+      <Name>disked_exfat_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_file.vcxproj">
+      <Project>{F5242720-E14B-3FCB-BD5E-3EED56682043}</Project>
+      <Name>disked_exfat_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_inspection.vcxproj">
+      <Project>{865FFF2D-298E-36C8-9212-9CC0AEBF59F6}</Project>
+      <Name>disked_exfat_inspection</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_namespace.vcxproj">
+      <Project>{B694AD86-C1E5-315D-B383-8230CE2ED912}</Project>
+      <Name>disked_exfat_namespace</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_reader.vcxproj">
+      <Project>{160AB2E8-435F-3845-9CE1-A668BDD49B02}</Project>
+      <Name>disked_exfat_reader</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_snapshot.vcxproj">
+      <Project>{9B40DE5D-2D15-33A8-B985-86D2862B9896}</Project>
+      <Name>disked_exfat_snapshot</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_tree.vcxproj">
+      <Project>{E58BFE93-D0EA-3997-9BA3-42B62472AC00}</Project>
+      <Name>disked_exfat_tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_upcase.vcxproj">
+      <Project>{963BEF30-9452-372D-A1EC-D449FB3420AC}</Project>
+      <Name>disked_exfat_upcase</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_exfat_worker.vcxproj">
+      <Project>{7C74710F-CB85-3870-BD4F-6137562B727A}</Project>
+      <Name>disked_exfat_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_export_commands.vcxproj">
+      <Project>{B5DDDBC1-3A79-3CAF-9B0B-915328AFAA90}</Project>
+      <Name>disked_export_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat.vcxproj">
+      <Project>{FDA43543-B256-3A72-9F40-B7E4EC57740C}</Project>
+      <Name>disked_fat</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_capture.vcxproj">
+      <Project>{565EC4FD-4E8A-3E99-89C7-EDF576366482}</Project>
+      <Name>disked_fat_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_content.vcxproj">
+      <Project>{85C1F8EA-A627-3A2C-B828-35F1DC817BD8}</Project>
+      <Name>disked_fat_content</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_content_file.vcxproj">
+      <Project>{C399AE8D-2A22-3D54-BD79-2CBF42EE058E}</Project>
+      <Name>disked_fat_content_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_content_stream.vcxproj">
+      <Project>{D8081202-1043-343F-9411-8C97409FCF92}</Project>
+      <Name>disked_fat_content_stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_file.vcxproj">
+      <Project>{3A2AA2FB-F965-35E9-9299-669599887FD4}</Project>
+      <Name>disked_fat_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_inspection.vcxproj">
+      <Project>{2216E537-EEB2-3968-98EB-0235B19E24F7}</Project>
+      <Name>disked_fat_inspection</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_metadata.vcxproj">
+      <Project>{74E8B76B-7528-3484-9745-017BF6DBEE30}</Project>
+      <Name>disked_fat_metadata</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_namespace.vcxproj">
+      <Project>{3C27A7C4-78F8-3F86-84AE-5C71B7D3450C}</Project>
+      <Name>disked_fat_namespace</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_native_metadata.vcxproj">
+      <Project>{64E8BDC9-8E5C-3112-A254-A38B690757FE}</Project>
+      <Name>disked_fat_native_metadata</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_reader.vcxproj">
+      <Project>{AECD6699-E210-3B7D-9BD5-071BC7AA3764}</Project>
+      <Name>disked_fat_reader</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_retention.vcxproj">
+      <Project>{01883762-0832-3B62-8240-DF70551B5D78}</Project>
+      <Name>disked_fat_retention</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_snapshot.vcxproj">
+      <Project>{073B480E-4318-329D-B742-E887016ADBE5}</Project>
+      <Name>disked_fat_snapshot</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_traversal.vcxproj">
+      <Project>{7B9FD28A-3B4A-3DC9-A896-2BD322787682}</Project>
+      <Name>disked_fat_traversal</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_actions.vcxproj">
+      <Project>{1A784C7E-DD06-3AE6-9403-FC56C2AE13E0}</Project>
+      <Name>disked_fat_tree_actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_admission.vcxproj">
+      <Project>{B5093E2D-A279-34A7-8117-F6C4A045B14E}</Project>
+      <Name>disked_fat_tree_admission</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_commands.vcxproj">
+      <Project>{D1523426-EFD6-3058-8A43-768B3999DB94}</Project>
+      <Name>disked_fat_tree_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_controller.vcxproj">
+      <Project>{3E91D1B8-7CD6-3FE2-A2C3-5C6DC1A524E1}</Project>
+      <Name>disked_fat_tree_controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_extraction.vcxproj">
+      <Project>{064ECCA0-B166-3553-B481-358E6FE21120}</Project>
+      <Name>disked_fat_tree_extraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_extraction_worker.vcxproj">
+      <Project>{17F58E77-4D93-38C6-9D1B-CD7715329956}</Project>
+      <Name>disked_fat_tree_extraction_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_file.vcxproj">
+      <Project>{7BA13BB2-01A4-3BD5-ACB2-90993F098173}</Project>
+      <Name>disked_fat_tree_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_operation.vcxproj">
+      <Project>{7FCA84FB-10DC-32C1-96BB-79595EB2D383}</Project>
+      <Name>disked_fat_tree_operation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_reconnect.vcxproj">
+      <Project>{ED6DA0EE-659A-338A-956F-37D304EC4338}</Project>
+      <Name>disked_fat_tree_reconnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_review.vcxproj">
+      <Project>{F3D73F6C-A413-3449-8126-8FB03DB6EAA3}</Project>
+      <Name>disked_fat_tree_review</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_session.vcxproj">
+      <Project>{116705B2-A014-31A9-9804-17D2A92079E8}</Project>
+      <Name>disked_fat_tree_session</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_sessions.vcxproj">
+      <Project>{60EB16E3-4751-3F79-9C25-F00EF743A109}</Project>
+      <Name>disked_fat_tree_sessions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_snapshot.vcxproj">
+      <Project>{8623E42E-941D-3689-B705-ADB437DA2768}</Project>
+      <Name>disked_fat_tree_snapshot</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_store.vcxproj">
+      <Project>{D12AF591-DDCB-3CD6-9260-B34BF5C98EA0}</Project>
+      <Name>disked_fat_tree_store</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_watch.vcxproj">
+      <Project>{6BD18880-F85F-39CB-8280-6936B3386AE3}</Project>
+      <Name>disked_fat_tree_watch</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_tree_worker.vcxproj">
+      <Project>{339C4069-22E6-3914-BD60-ADC2B88F26E6}</Project>
+      <Name>disked_fat_tree_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_fat_worker.vcxproj">
+      <Project>{D455F522-2765-366E-894F-0D1D669B144E}</Project>
+      <Name>disked_fat_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_acquisition.vcxproj">
+      <Project>{499B3C5D-4BC4-355B-9673-9961E5E04477}</Project>
+      <Name>disked_file_acquisition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_acquisition_export.vcxproj">
+      <Project>{5D9EF3EC-77B9-35A3-A795-E0CF6854837E}</Project>
+      <Name>disked_file_acquisition_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_case_source.vcxproj">
+      <Project>{31CCBD52-A9A9-3DD4-BF13-16EEC7BC9AB3}</Project>
+      <Name>disked_file_case_source</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_image_verification.vcxproj">
+      <Project>{677A83D1-D655-3A03-B7FF-90AAF4565375}</Project>
+      <Name>disked_file_image_verification</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_report_export.vcxproj">
+      <Project>{F724C910-48E3-3866-B594-1E9273489312}</Project>
+      <Name>disked_file_report_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_file_verification_case_export.vcxproj">
+      <Project>{568E2E19-D80F-32CA-AD0C-425F01A2334D}</Project>
+      <Name>disked_file_verification_case_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_gpt.vcxproj">
+      <Project>{66711314-84E4-37C4-9B2E-D32D7C42F19F}</Project>
+      <Name>disked_gpt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_gpt_capture.vcxproj">
+      <Project>{40A761F1-AC35-3E3F-AB42-F43FAE7B13D6}</Project>
+      <Name>disked_gpt_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_gpt_repair_planning.vcxproj">
+      <Project>{88BA4287-B160-3935-9D83-C185FCF74F12}</Project>
+      <Name>disked_gpt_repair_planning</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_gui.vcxproj">
+      <Project>{F85BE55F-3BF2-3FE3-810F-B3E92A37DCE4}</Project>
+      <Name>disked_gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_hash.vcxproj">
+      <Project>{DF2E7420-3DBD-3210-B48B-E4540F18A987}</Project>
+      <Name>disked_hash</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_health_observation.vcxproj">
+      <Project>{FCFDF0A9-76EA-3D64-A5FC-120F09A33C91}</Project>
+      <Name>disked_health_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_image_actions.vcxproj">
+      <Project>{3CD3E1E5-1E83-324D-8A25-ACC6A7E9A38E}</Project>
+      <Name>disked_image_actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_image_capture.vcxproj">
+      <Project>{9FF42066-1CDE-351A-96C2-5928CC9FBC1D}</Project>
+      <Name>disked_image_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_invocation.vcxproj">
+      <Project>{A7F4F575-2D06-3F15-B841-FFFFABF8FF62}</Project>
+      <Name>disked_invocation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_json.vcxproj">
+      <Project>{4B68F12F-FC5E-3611-BB62-E95F78AEE266}</Project>
+      <Name>disked_json</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_local_file.vcxproj">
+      <Project>{036F53C6-0EF5-3328-B5E3-BE5F51EF7559}</Project>
+      <Name>disked_local_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_map_observation.vcxproj">
+      <Project>{539B6E72-122C-3F95-8308-E7B2F85736A9}</Project>
+      <Name>disked_map_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_mbr.vcxproj">
+      <Project>{76ADD8E5-6BFB-3270-8FF6-F419431193AB}</Project>
+      <Name>disked_mbr</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs.vcxproj">
+      <Project>{32287CF3-E0F1-38A9-A17C-4714D8441CE2}</Project>
+      <Name>disked_ntfs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_capture.vcxproj">
+      <Project>{A4377B0A-5EF1-3339-875D-CE03517667ED}</Project>
+      <Name>disked_ntfs_capture</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_file.vcxproj">
+      <Project>{8AB2FEEE-FE81-3BD9-A687-FC06387DEDA0}</Project>
+      <Name>disked_ntfs_file</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_inspection.vcxproj">
+      <Project>{E1173825-DA1E-31A0-81EB-0EB1001AE515}</Project>
+      <Name>disked_ntfs_inspection</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_reader.vcxproj">
+      <Project>{81C2D595-9D01-3AC3-9A64-A97817888823}</Project>
+      <Name>disked_ntfs_reader</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_snapshot.vcxproj">
+      <Project>{0523F3A9-8F63-3F92-A9AF-8F7558D040F5}</Project>
+      <Name>disked_ntfs_snapshot</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_stream.vcxproj">
+      <Project>{44429006-70BD-3A91-AEE4-950BB601E6DD}</Project>
+      <Name>disked_ntfs_stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_ntfs_worker.vcxproj">
+      <Project>{04E2C89E-3493-3910-A97F-E6AA450EDB90}</Project>
+      <Name>disked_ntfs_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_observation_worker.vcxproj">
+      <Project>{9354404E-4ABF-39D2-99E5-065F015ED980}</Project>
+      <Name>disked_observation_worker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_presentation.vcxproj">
+      <Project>{2B3671DE-ECE2-38E8-A53D-707D10F87747}</Project>
+      <Name>disked_presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_primitives.vcxproj">
+      <Project>{624618B4-5B45-31B5-B4C7-B8BFA93AEC17}</Project>
+      <Name>disked_primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_region_reader.vcxproj">
+      <Project>{9455DC0D-FD89-3600-AAB4-A44817E1D0EB}</Project>
+      <Name>disked_region_reader</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_report_export.vcxproj">
+      <Project>{E2C46077-5EF0-3710-94AC-C438387229C4}</Project>
+      <Name>disked_report_export</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_report_observation.vcxproj">
+      <Project>{94379DCD-AE93-3341-B964-7750BD8404FD}</Project>
+      <Name>disked_report_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_shell.vcxproj">
+      <Project>{95E4646B-36B7-3C47-A205-73E5B994ADA2}</Project>
+      <Name>disked_shell</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_tui.vcxproj">
+      <Project>{A643BE7D-F2B9-3751-83DC-B4330382D21D}</Project>
+      <Name>disked_tui</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_verification_commands.vcxproj">
+      <Project>{DA20B07E-FB1B-3E9F-BEB0-D9D9990E9B0E}</Project>
+      <Name>disked_verification_commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_verification_observation.vcxproj">
+      <Project>{A918B4AD-4CD8-34E7-A99F-92E45E28AF90}</Project>
+      <Name>disked_verification_observation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_windows_file_names.vcxproj">
+      <Project>{2B077611-B0A4-3790-BE33-CBBE62319E49}</Project>
+      <Name>disked_windows_file_names</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-qualification-a1271115-recheck1\build\disked_windows_files.vcxproj">
+      <Project>{79AB2A1E-CF62-3101-920F-986B17F618C6}</Project>
+      <Name>disked_windows_files</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,104 @@
+{
+  "status": "pass",
+  "recorded_at": "2026-10-16T09:34:37.108826+00:00",
+  "tested_native_source_revision": "a12711156d9c28ca91971c6d5cc51be7dc71bf41",
+  "implementation_build_native_test_and_contract_parameters_unchanged": true,
+  "all_other_recorded_inputs_unchanged": true,
+  "work_definition_only_status_changed": true,
+  "metadata_only_exceptions": [
+    ".aide/programmes/disked-0.1.0.json",
+    "TODO.MD",
+    "docs/index.md",
+    "docs/ntfs-membership.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "spec/generated/index.json",
+    "spec/manifest.json",
+    "spec/roadmap/implementation.md",
+    "spec/work/units.json"
+  ],
+  "hosted_snapshot_observed_at": "2026-10-16T09:32:34.494248+00:00",
+  "upstream_writes": false,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W095",
+        "--output",
+        ".aide-local\\context\\ntfs-membership-final-20261016T093415Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-membership-final-20261016T093415Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "log": "final-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}

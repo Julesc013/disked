@@ -8,12 +8,12 @@ tags:
 - roadmap
 generated:
   by: chatgpt/gpt-6-astra-pro
-  at: '2026-09-17T12:00:00Z'
+  at: '2026-10-16T09:28:49.646226+00:00'
 status: draft
 disked:
   id: DE-080
   profile: disked-spec/1
-  version: 0.1.5-proposed.11
+  version: 0.1.5-proposed.12
   authority: proposed-normative
   review: pending
   risk: R2
@@ -27,7 +27,7 @@ disked:
 updated:
   by: codex
   at: '2026-10-16T06:49:37.170466+00:00'
-  scope: DE-W094 private filename qualification; native membership and original platform/storage/release gates remain
+  scope: DE-W095 supplied-source membership qualification; native and original platform/storage/release gates remain
 sources:
 - id: review-inputs-2026-10-04
   resource: ../references/sources.json#review-inputs-2026-10-04
@@ -49,8 +49,11 @@ bounded view and its retained source/process/profile/reference evidence.
 DE-W094 subsequently adds a private captured filename-instance inventory and
 shared FILE/list selection at `18980169`, with all 164 native groups passing.
 See `catalog/ntfs-names-prototype.json` and retained DE-W094 review for its
-bounded scope. Native name/target membership, collation, complete namespace,
-lookup and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
+bounded scope. DE-W095 adds private supplied-source exact name/target correspondence at
+`a1271115`, with all 165 native groups and 193 independent membership cases
+passing. See `catalog/ntfs-membership-prototype.json` and DE-W095 review.
+Native held-file/worker/frontend membership admission, collation, complete
+namespace, lookup and content remain required. Current work state lives at `.aide/programmes/disked-0.1.0.json` in the
 repository. Later exFAT and full native qualification supersede W075's old failure
 as an active integration blocker; the original failed campaigns and unknown
 causes remain. Owner, original platforms/storage 0.1.0, recovery and release
@@ -328,7 +331,7 @@ DE-W038 implements the shared explicit FAT image-inspection prototype at `57cfd1
 
 DE-W039 explicit larger FAT allocation windows at 543826fe have 34 interval cases, 44 actual command cases and 99 native groups. Evidence: `.aide/evidence/2026-10-13-fat-window/`. Continue coherent multi-window and directory/namespace coverage, retrieval/extraction and further platform/storage work under the original full 0.1.0 goal.
 
-DE-W044 exact FAT frame retention/retrieval at `4d3dc0a3` has68 command/frontend cases and101 native groups. Evidence: `.aide/evidence/2026-10-13-fat-retention`. Continue coherent larger directory/namespace/multi-window coverage, extraction and the original full platform/storage programme; owner/production/release gates remain separate.
+DE-W044 exact FAT frame retention/retrieval at `4d3dc0a3` has68 command/frontend cases and 101 native groups. Evidence: `.aide/evidence/2026-10-13-fat-retention`. Continue coherent larger directory/namespace/multi-window coverage, extraction and the original full platform/storage programme; owner/production/release gates remain separate.
 
 DE-W045 implements the checked FAT file-content mapping/window algorithm through
 a supplied region port. Qualify its exact bytes, complete selected-chain/copy
@@ -423,7 +426,7 @@ leaf/ancestor junction and hardlink checks pass. The clean sparse checkout conta
 every registered/build input and current source/tests/spec/docs/tools/external
 files, excluding unused historical evidence. No fresh full native-suite or archive
 checkout claim. Repository evidence: `.aide/evidence/2026-10-14-exfat-file-qualified/`.
-Contained worker, coherent namespace/tree/content and original full0.1.0 remain.
+Contained worker, coherent namespace/tree/content and original full 0.1.0 remain.
 
 
 DE-W069 uses the [existing owned-reader host](../catalog/exfat-worker-prototype.json)
@@ -451,7 +454,7 @@ requires exact supplied-byte FILE envelopes and all-tail validation before RAM
 restoration, reusing DE-W020's checked primitives. Qualification covers the selected
 compiler/host and actual fixtures; boot/MFT addressing, attributes/runlists,
 held-source/provider/frontend integration, other platforms, storage effects and
-the complete original0.1.0 remain required work. DE-W075's failed broad campaign
+the complete original 0.1.0 remain required work. DE-W075's failed broad campaign
 and report-preparation diagnostics remain retained and do not become passes.
 
 DE-W077 follows the locally reviewed record primitive with supplied-byte
