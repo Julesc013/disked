@@ -98,7 +98,8 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 Native directory-file source `4156accf` passes 550 responses/12 methods, an all-target
 x64 build, 31 selected groups of 161, 63 headers, strict C90/import checks and 244
 tooling tests (two skips). Six private Win32 groups/four headers also pass.
-[Review](../.aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md) retains the
+[Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-directory-file-integration/repository.json)
+records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-directory-file/REVIEW.md) retains the
 original fixture/selector failures and exact resume provenance. This qualifies
 the private synchronous file binding, with worker/frontend admission outstanding.
 It is not a full 161-group current-native or full original 0.1.0 qualification.
