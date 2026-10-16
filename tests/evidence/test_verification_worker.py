@@ -186,7 +186,13 @@ def main():
             check('cancellation-observation-truth',s['cancellation_observation']==('not_observed' if name=='cancel-late' else 'observed'))
             if name=='cancel-during':check('partial-prefix-retained',0<int(s['outcome']['covered_bytes'])<len(expected))
         ad,ast=prepare('admission-timeout',fault);t=time.monotonic();started=start(ad,fault,{'DISKED_VERIFICATION_WORKER_TEST_ADMISSION_DELAY':'1'})
-        check('admission-wait-bounded',3<=time.monotonic()-t<4.5 and started['status']=='unknown' and started['operation_id'])
+        admission_elapsed=time.monotonic()-t
+        admission=dict(schema='org.disked.verification-admission-measurement/1',elapsed_seconds=admission_elapsed,
+            expected_minimum_seconds=3,expected_exclusive_maximum_seconds=4.5,reply=started)
+        if a.evidence:a.evidence.with_suffix('.admission.json').write_text(json.dumps(admission,indent=2)+'\n',encoding='utf-8')
+        check('admission-wait-bounded',3<=admission_elapsed<4.5 and started['status']=='unknown' and started['operation_id'],
+            elapsed_seconds=admission_elapsed,expected_minimum_seconds=3,expected_exclusive_maximum_seconds=4.5,
+            observed_status=started['status'],operation_id=started['operation_id'])
         repeated=start(ad,fault);check('timeout-no-replacement',repeated['operation_id']==started['operation_id'])
         cancelled=observe(started['operation_id'],ast,fault,'cancel');check('timeout-cancel-request-persists',cancelled['value']['cancellation_request']=='requested')
         ended=wait(started['operation_id'],ast,fault);s=ended['value']['state'];check('pre-provider-cancel-no-fabricated-outcome',s['disposition']=='cancelled' and s['outcome'] is None and s['retention']['state']=='empty')

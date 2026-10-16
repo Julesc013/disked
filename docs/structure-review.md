@@ -95,12 +95,12 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-Private membership source `a1346c4e` is pushed to dev and passes193 independently
+Private membership source `a1346c4e` is pushed to dev and passes 193 independently
 authored supplied-reader cases plus the existing three pure capture/closure/
 directory groups. The new files use the existing capture owner and preserve old
 native/public forms. The retained fixture error and repair are in the
 [working record](../.aide/evidence/2026-10-16-ntfs-membership/working-review.json).
-Clean all165-group x64 qualification,67 headers/imports/tooling and the selected
+Clean full x64 qualification across 165 groups, 67 headers/imports/tooling and the selected
 Win32 supplement are still pending. It has not been promoted to main or accepted
 by the owner; the previous reviewed slice below remains integrated.
 
@@ -174,3 +174,13 @@ filesystem/storage/platform implementations and compatibility/safety evidence,
 Setup qualification, licensing and actual owner/release authority. No defensible
 release date follows from the current evidence. Keep those gates separate from
 ordinary source merges; do not reduce0.1.0 to the current prototype.
+
+The first clean `a1346c4e` campaign stopped after 38 passes at the existing
+verification-worker admission assertion; 126 groups were not run. The original
+assertion omitted actual values, so its failed predicate/cause remains unknown.
+The [retained campaign](../.aide/evidence/2026-10-16-ntfs-membership/failed-a1346c4e/observation-summary.json)
+and [diagnostic recheck](../.aide/evidence/2026-10-16-ntfs-membership/diagnostic-review.json)
+are separate results. Added measurements retain the existing 3..4.5-second window
+and expected unknown reply/operation identity. The focused unchanged-binary run
+passes 236 checks with 3.134-second admission. Fresh full qualification is required;
+no main promotion or complete product/release claim follows from this recheck.

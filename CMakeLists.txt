@@ -912,7 +912,8 @@ if(BUILD_TESTING)
   target_compile_definitions(verification_worker_fault PRIVATE DISKED_VERIFICATION_WORKER_TESTING=1 DISKED_WORKER_TEST_STORE_FAULTS=1)
   add_test(NAME evidence.verification_worker COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/evidence/test_verification_worker.py"
     --probe "$<TARGET_FILE:verification_worker_probe>" --fault "$<TARGET_FILE:verification_worker_fault>" --product "$<TARGET_FILE:disked>"
-    --collection "$<TARGET_FILE:image_verification_collection_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}")
+    --collection "$<TARGET_FILE:image_verification_collection_probe>" --root "${CMAKE_CURRENT_SOURCE_DIR}"
+    --evidence "${CMAKE_CURRENT_BINARY_DIR}/verification-worker-cases.json")
   set_tests_properties(evidence.verification_worker PROPERTIES TIMEOUT 180 RESOURCE_LOCK disked_fake_workers)
 
   foreach(target verification_command_probe verification_command_fault)

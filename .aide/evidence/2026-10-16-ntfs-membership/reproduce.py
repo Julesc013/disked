@@ -111,6 +111,12 @@ def main():
         membership=json.loads((build/'ntfs-membership-cases.json').read_bytes())
         assert membership['count']==193 and all(c['passed'] for c in membership['cases'])
         summary['membership_cases']=membership['count']
+        verification=json.loads((build/'verification-worker-cases.json').read_bytes())
+        assert verification['status']=='passed'
+        admission=next(c for c in verification['checks'] if c['name']=='admission-wait-bounded')
+        assert admission['passed'] and 3<=admission['elapsed_seconds']<4.5
+        assert admission['observed_status']=='unknown' and admission['operation_id']
+        summary['verification_admission_measurement']=admission
         summary['directory_command_cases']=directory_command['cases']
         summary['bootstrap_command_cases']=bootstrap_command['cases']
         worker_cases=json.loads((build/'ntfs-directory-worker-cases.json').read_bytes())

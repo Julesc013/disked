@@ -1,0 +1,100 @@
+Test project D:/Projects/DiskEd/disked/.aide-local/ntfs-membership-qualification-a1346c4e/build
+        Start   1: image.ntfs_commands
+  1/165 Test   #1: image.ntfs_commands .......................   Passed   19.02 sec
+        Start   2: image.ntfs_directory_commands
+  2/165 Test   #2: image.ntfs_directory_commands .............   Passed   35.19 sec
+        Start   3: image.exfat_commands
+  3/165 Test   #3: image.exfat_commands ......................   Passed   20.30 sec
+        Start   4: resilience.worker_ancestry
+  4/165 Test   #4: resilience.worker_ancestry ................   Passed    5.09 sec
+        Start   5: acquisition.fat_metadata
+  5/165 Test   #5: acquisition.fat_metadata ..................   Passed    2.95 sec
+        Start   6: capture.fat_content_stream
+  6/165 Test   #6: capture.fat_content_stream ................   Passed    5.80 sec
+        Start   7: capture.tree_session_rules
+  7/165 Test   #7: capture.tree_session_rules ................   Passed    0.07 sec
+        Start   8: frontend.fat_recursive_product
+  8/165 Test   #8: frontend.fat_recursive_product ............   Passed   11.32 sec
+        Start   9: frontend.fat_recursive_failures
+  9/165 Test   #9: frontend.fat_recursive_failures ...........   Passed   40.10 sec
+        Start  10: frontend.fat_tree_sessions
+ 10/165 Test  #10: frontend.fat_tree_sessions ................   Passed   22.42 sec
+        Start  11: image.fat_tree_commands
+ 11/165 Test  #11: image.fat_tree_commands ...................   Passed    3.48 sec
+        Start  12: image.fat_tree_reconnect
+ 12/165 Test  #12: image.fat_tree_reconnect ..................   Passed    3.72 sec
+        Start  13: image.fat_tree_watch
+ 13/165 Test  #13: image.fat_tree_watch ......................   Passed    4.76 sec
+        Start  14: acquisition.fat_tree_review
+ 14/165 Test  #14: acquisition.fat_tree_review ...............   Passed    4.94 sec
+        Start  15: evidence.fat_tree_history
+ 15/165 Test  #15: evidence.fat_tree_history .................   Passed   67.94 sec
+        Start  16: image.fat_tree_extraction
+ 16/165 Test  #16: image.fat_tree_extraction .................   Passed   78.41 sec
+        Start  17: image.fat_content
+ 17/165 Test  #17: image.fat_content .........................   Passed    1.35 sec
+        Start  18: image.fat_retention_store
+ 18/165 Test  #18: image.fat_retention_store .................   Passed    0.35 sec
+        Start  19: image.fat_retention_commands
+ 19/165 Test  #19: image.fat_retention_commands ..............   Passed    9.00 sec
+        Start  20: build.boundaries
+ 20/165 Test  #20: build.boundaries ..........................   Passed    5.09 sec
+        Start  21: build.boundary_checker
+ 21/165 Test  #21: build.boundary_checker ....................   Passed    0.40 sec
+        Start  22: frontend.product_verification
+ 22/165 Test  #22: frontend.product_verification .............   Passed   37.78 sec
+        Start  23: frontend.product_export
+ 23/165 Test  #23: frontend.product_export ...................   Passed   19.23 sec
+        Start  24: frontend.joined_report
+ 24/165 Test  #24: frontend.joined_report ....................   Passed   24.11 sec
+        Start  25: frontend.gui_capture
+ 25/165 Test  #25: frontend.gui_capture ......................   Passed    1.19 sec
+        Start  26: evidence.report_process_identity
+ 26/165 Test  #26: evidence.report_process_identity ..........   Passed    3.43 sec
+        Start  27: operation.directory_pins
+ 27/165 Test  #27: operation.directory_pins ..................   Passed    0.38 sec
+        Start  28: evidence.acquisition_export
+ 28/165 Test  #28: evidence.acquisition_export ...............   Passed    3.65 sec
+        Start  29: evidence.verification_case_export
+ 29/165 Test  #29: evidence.verification_case_export .........   Passed   45.87 sec
+        Start  30: evidence.report_worker
+ 30/165 Test  #30: evidence.report_worker ....................   Passed   26.75 sec
+        Start  31: evidence.export_commands
+ 31/165 Test  #31: evidence.export_commands ..................   Passed   10.67 sec
+        Start  32: evidence.report_watch
+ 32/165 Test  #32: evidence.report_watch .....................   Passed   20.70 sec
+        Start  33: evidence.acquisition_case
+ 33/165 Test  #33: evidence.acquisition_case .................   Passed    8.29 sec
+        Start  34: evidence.export_model
+ 34/165 Test  #34: evidence.export_model .....................   Passed    2.41 sec
+        Start  35: evidence.file_export
+ 35/165 Test  #35: evidence.file_export ......................   Passed   10.62 sec
+        Start  36: evidence.acquired_image_verification
+ 36/165 Test  #36: evidence.acquired_image_verification ......   Passed    3.90 sec
+        Start  37: evidence.image_verification_observation
+ 37/165 Test  #37: evidence.image_verification_observation ...   Passed    4.56 sec
+        Start  38: evidence.image_verification_collection
+ 38/165 Test  #38: evidence.image_verification_collection ....   Passed    6.50 sec
+        Start  39: evidence.verification_worker
+ 39/165 Test  #39: evidence.verification_worker ..............***Failed   29.88 sec
+Failed fixture retained: D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1346c4e\.aide-local\disked-acq-worker-wkm3bisn
+Traceback (most recent call last):
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1346c4e\tests\evidence\test_verification_worker.py", line 216, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1346c4e\tests\evidence\test_verification_worker.py", line 189, in main
+    check('admission-wait-bounded',3<=time.monotonic()-t<4.5 and started['status']=='unknown' and started['operation_id'])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\DiskEd\disked\.aide-local\ntfs-membership-exact-a1346c4e\tests\evidence\test_verification_worker.py", line 20, in check
+    def check(name,value,**extra):assert value,(name,extra);checks.append(dict(name=name,passed=True,**extra))
+                                         ^^^^^
+AssertionError: ('admission-wait-bounded', {})
+
+
+97% tests passed, 1 tests failed out of 39
+
+Total Test time (real) = 601.68 sec
+
+The following tests FAILED:
+	 39 - evidence.verification_worker (Failed)
+Errors while running CTest
