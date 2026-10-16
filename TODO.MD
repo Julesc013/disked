@@ -507,6 +507,13 @@ W072 exact 75689f97: 141 native groups, 48 headers, 242 tooling tests (two skipp
 
 ## Held ordinary-image trees
 
+- [x] DE-W075 private held-file scope passes 46 generated-file cases/eight methods
+  in complete clean `7bb6153a`: all 160 native groups, 63 headers and 244 tooling
+  tests (two skips). The prior failed campaigns remain failed; their unknown
+  delay cause is not claimed fixed. Current source integration is no longer
+  withheld by those historical campaigns. Paging/worker/frontend/platform and
+  owner/privilege/release gates remain. [Review](.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md).
+
 - [x] Define DE-W075's execution contract before code and extend the shared held-file/replay mechanism;46 working native cases/eight methods pass, with89 existing root-file and44 supplied-tree cases.
 - [x] Retain exact `39d514f1` full145 failure (137 passes/eight failures),51 headers and242 tooling tests/two skips with imports/context/source evidence; integration withheld. A bounded fault-only timing probe verifies content/map/source preservation but does not establish the old delay's cause or a fix.
 - [x] Retain exact `11e6f625` complete145 result (144 passes/one joined-report prepare timeout),51 headers/242 tooling(two skips) and import/context/source checks. Six identical read-only preparations on its retained fixture complete in0.10-0.17s without effects; cause remains unproven. Do not retry unchanged full campaigns to obtain a pass.

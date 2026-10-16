@@ -1,0 +1,73 @@
+{
+  "observed_at": "2026-10-16T02:06:45.713932+00:00",
+  "status": "pass",
+  "source_build_and_native_test_inputs_unchanged": true,
+  "review_projection_and_editorial_changes_only": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log": "final-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "final-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": "final-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "exit_code": 0,
+      "log": "final-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W075",
+        "--output",
+        ".aide-local\\context\\exfat-tree-final-20261016T020632Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": "final-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\exfat-tree-final-20261016T020632Z"
+      ],
+      "exit_code": 0,
+      "log": "final-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "release_qualified": false
+}

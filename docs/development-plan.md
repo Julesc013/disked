@@ -25,14 +25,13 @@ push checkpoints on `dev`, then merge tested, agent-reviewed checkpoints to
 source-repository synchronization, with owner acceptance and release artifact
 publication, installation, signing and storage privileges still separate.
 
-Current work is routed through the programme, including retained incomplete units.
-DE-W076–078's supplied-byte NTFS record, boot, attribute and mapping primitives
-have retained bounded qualification. Coherent source/provider/frontend NTFS work
-remains. They are independent of DE-W075's held-image adapter and unresolved
-report-preparation failures; their selected tests do not clear whole-branch
-integration. Continue independent original-scope work while diagnosing that
-failure. The [current structure/release assessment](structure-review.md) explains
-the evidence and remaining gates without changing the original 0.1.0 scope.
+Current work is routed through the programme. The shared NTFS bootstrap, stream,
+record closure and private directory prototypes have source-bound evidence;
+native directory file/worker/frontend admission and complete namespace/content
+remain. The [current exFAT adapter review](../.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md)
+supersedes older failed campaigns as an active integration blocker while retaining
+their failures and unknown causes. The [structure/release assessment](structure-review.md)
+links exact current evidence and remaining gates without reducing 0.1.0 scope.
 
 DE-W060 begins with an [offline package fixture binding](setup-fixtures.md):
 exact local upstream schema/source identities, independent native payload

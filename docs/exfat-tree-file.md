@@ -14,7 +14,7 @@ callbacks. Changed binding, metadata or replay withdraws stability and retains
 observed prefixes. Tree completeness and observed source-region stability are
 different properties; neither grants current-source or mutation authority.
 
-Working native tests pass46 generated-file cases/eight methods, including nested
+The original working native tests passed 46 generated-file cases/eight methods, including nested
 fragmented/NoFatChain allocations, ValidDataLength zero filling, actual held-handle
 exclusion, invalid inputs, cancellation and replay disagreement. The original89
 root-file cases and44 supplied-tree cases pass. The first dependency check correctly
@@ -22,7 +22,7 @@ reported the new tree/namespace closure; its owning declaration is updated for
 the implemented shared API. The complete exact `39d514f1` native campaign has
 137 passes and eight failures in existing verification, export and extraction
 journeys. Its 51 headers, 242 tooling tests/two skips, structural checks, imports,
-context and source freshness pass. Native qualification and integration are
+context and source freshness pass. At that revision, native qualification and integration were
 withheld; those independent checks cannot clear the failed campaign.
 
 A bounded fault-build timing experiment independently verifies the same generated
@@ -38,11 +38,19 @@ The later complete exact `11e6f625` campaign passes 144 of145 native groups,
 Joined-report read-only preparation returns `request_wait_expired` in its failing
 group. Six subsequent bounded samples on that retained fixture return identical
 completed preparations in0.10-0.17 seconds, preserving inputs and creating no
-outputs. They do not reproduce or diagnose the earlier delay. Integration remains
-withheld; the full failed campaign is preserved alongside these observations.
+outputs. They do not reproduce or diagnose the earlier delay. Integration was withheld for that campaign; the full failed campaign is preserved alongside these observations.
 
 This is a synchronous private adapter. It creates no extracted files and is not
 admitted to normal worker/frontend dispatch. Paging/backpressure, contained
 transport and process retirement, other platforms/storage, owner acceptance and
-full original0.1.0 remain at their gates. No new fault environment protocol is
+full original 0.1.0 remain at their gates. No new fault environment protocol is
 available in normal code.
+
+Current clean `7bb6153a` passes 46 tree-file cases/eight methods and all 160 x64
+native groups, including every previously failing group. 63 standalone headers,
+244 tooling tests (two skips) and source/import/context/manifest checks pass.
+[Current-source review](../.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md)
+supersedes the historical campaigns as an active integration blocker. It retains
+both failures and does not establish their original delay cause or owner acceptance.
+The private synchronous boundary and later transport/platform/privilege gates above
+remain unchanged.

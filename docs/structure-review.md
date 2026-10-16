@@ -110,17 +110,22 @@ The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
 remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
 preserves the dated detail; the programme owns current work state.
 
-The refreshed 16 October read-only Universal Setup observation finds
+The read-only Universal Setup snapshot at `2026-10-16T02:04:37.572444+00:00` finds
 [draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
-`c0d768e5`. Six checks pass; `native-windows` fails in
-[run 38829055547](https://github.com/Julesc013/universal-setup/actions/runs/38829055547).
-Its log reports `ValueError: receipt file count differs` twice. No local runtime
-cause is established. Main/dev retain the same file tree with one synchronization
-commit and both branches report protected. Both queried GitHub release collections
-are empty. These are hosted observations, not local Setup or DiskEd lifecycle
-qualification. [Observation](../.aide/evidence/2026-10-16-ntfs-directory/hosted-observations.json)
-and [failed log](../.aide/evidence/2026-10-16-ntfs-directory/setup-38829055547-failed.log)
-retain exact provenance. Older heads' failures remain historical findings.
+`6869eb32`. Four checks have passed; native Windows, Win32 and Linux checks
+remain running. This candidate is **pending qualification**. The preceding
+`c0d768e5` Windows failure in
+[run 38829055547](https://github.com/Julesc013/universal-setup/actions/runs/38829055547)
+reported `receipt file count differs` twice; it remains an observation about
+that earlier head, without an established local runtime cause.
+
+Setup main/dev retain the same file tree with one synchronization commit; both
+branches report protected. Both queried GitHub release collections are empty.
+These are hosted observations, not local Setup or DiskEd lifecycle qualification.
+[Latest snapshot](../.aide/evidence/2026-10-16-exfat-tree-review/hosted-observations.json)
+and the [earlier failed log](../.aide/evidence/2026-10-16-ntfs-directory/setup-38829055547-failed.log)
+retain the exact observations. Do not infer a new candidate's result from an old
+head's failure or from a subset of completed checks.
 
 The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
 agent-reviewed source integration from dev to main. Release requires the remaining

@@ -24,9 +24,11 @@ not establish atomicity, allocation ownership, future source permission, health
 or writer authority. Expected metadata is a precondition, not a grant.
 
 Native tests use only generated ordinary files and separate test-only controls.
-Normal code exposes no environment fault protocol. Worker/public integration,
-attribute-list/extended records, namespace/content, other platforms, physical
-writer/recovery and the original all-platform/storage0.1.0 remain required.
+Normal code exposes no environment fault protocol. This unit's evidence alone
+does not qualify worker/public integration, extended records, namespace/content,
+other platforms, physical writer/recovery or the original full0.1.0. Subsequent
+bootstrap [worker](ntfs-worker.md) and [command admission](ntfs-inspection.md),
+and private [directory progress](ntfs-directory.md), have separate evidence.
 
 Exact clean `777fd71f` passes 73 file responses/nine methods, all 18 selected x64
 native groups, five headers and 242 tooling tests/two skips, with source/context,

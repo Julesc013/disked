@@ -1,7 +1,7 @@
 {
   "schema": "org.disked.exfat-tree-file-profile/1",
   "work_id": "DE-W075",
-  "status": "implemented-working-exact-native-regressions-failed",
+  "status": "implemented-current-native-scope-agent-reviewed",
   "base_revision": "c03c2d5e9fdc72a62cbb50984824e24288d06be2",
   "scope": "Bind the qualified supplied-reader exFAT tree and logical-content collector to an actual held ordinary Windows image file. This advances the original filesystem scope; it does not replace paging, contained-worker/frontend admission, other platforms/storage or the full original0.1.0 finish line.",
   "ownership": "Extend providers/image/exfat_file through the existing held-handle/read/metadata/replay mechanism. Keep root capture v1/v2 outputs and their read order compatible. Runtime/capture/exfat_tree owns collection and limit validation; portable/exfat remains the sole format decoder. No duplicate opener, parser, scheduler or empty source hierarchy.",
@@ -40,33 +40,33 @@
     "authorizes_effects": false
   },
   "exact_validation": {
-    "status": "fail",
+    "status": "pass",
     "work_id": "DE-W075",
-    "source_revision": "11e6f6258a966b716a58a3336ff07aea8bf60e70",
-    "native_groups": 145,
-    "native_failed": [
-      "frontend.joined_report"
-    ],
-    "native_passed": 144,
-    "full_native_qualified": false,
-    "header_compilations_fresh": 51,
+    "source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+    "native_groups": 160,
+    "native_passed": 160,
+    "native_failed": [],
+    "full_native_qualified": true,
+    "native_qualification_scope": "Complete currently registered Windows x64 composition; not full specified product/platform/storage qualification.",
+    "header_compilations_fresh": 63,
     "tree_file_cases": 46,
     "tree_file_methods": 8,
-    "tooling_tests_run": 242,
+    "tooling_tests_run": 244,
     "tooling_tests_skipped": 2,
     "source_state": "clean_sparse",
     "inputs_unchanged": true,
     "unverified": [
       {
         "check": "actual-file-symlink",
-        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-nys9y3wo\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-nys9y3wo\\\\owned-link.img'"
+        "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-9gnftdjn\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-9gnftdjn\\\\owned-link.img'"
       }
     ],
     "owner_accepted": false,
     "full_0_1_0_complete": false,
-    "scope": "Private held ordinary-image tree passes; full Windows regression campaign fails. Independent structural/tooling/import observations cannot clear native failures.",
-    "evidence": ".aide/evidence/2026-10-15-native-delays/failed-11e6f625/observation-summary.json",
-    "integration_withheld": true,
+    "scope": "Current private held ordinary-image tree scope passes, including all previously failing regression groups. Older campaigns remain failed; their original delay cause is not established.",
+    "evidence": ".aide/evidence/2026-10-16-ntfs-directory/qualified-7bb6153a/summary.json",
+    "review": ".aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md",
+    "integration_withheld": false,
     "original_failure_cause_established": false
   },
   "previous_exact_validations": [
@@ -104,6 +104,36 @@
       "full_0_1_0_complete": false,
       "scope": "Private held ordinary-image tree passes; full Windows regression campaign fails. Independent structural/tooling/import observations cannot clear native failures.",
       "evidence": ".aide/evidence/2026-10-15-native-delays/failed-39d514f1/observation-summary.json",
+      "integration_withheld": true,
+      "original_failure_cause_established": false
+    },
+    {
+      "status": "fail",
+      "work_id": "DE-W075",
+      "source_revision": "11e6f6258a966b716a58a3336ff07aea8bf60e70",
+      "native_groups": 145,
+      "native_failed": [
+        "frontend.joined_report"
+      ],
+      "native_passed": 144,
+      "full_native_qualified": false,
+      "header_compilations_fresh": 51,
+      "tree_file_cases": 46,
+      "tree_file_methods": 8,
+      "tooling_tests_run": 242,
+      "tooling_tests_skipped": 2,
+      "source_state": "clean_sparse",
+      "inputs_unchanged": true,
+      "unverified": [
+        {
+          "check": "actual-file-symlink",
+          "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-nys9y3wo\\\\owned-target\\\\image.img' -> 'C:\\\\Users\\\\Jules\\\\AppData\\\\Local\\\\Temp\\\\disked-exfat-owned-nys9y3wo\\\\owned-link.img'"
+        }
+      ],
+      "owner_accepted": false,
+      "full_0_1_0_complete": false,
+      "scope": "Private held ordinary-image tree passes; full Windows regression campaign fails. Independent structural/tooling/import observations cannot clear native failures.",
+      "evidence": ".aide/evidence/2026-10-15-native-delays/failed-11e6f625/observation-summary.json",
       "integration_withheld": true,
       "original_failure_cause_established": false
     }

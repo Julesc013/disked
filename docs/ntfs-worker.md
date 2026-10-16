@@ -17,13 +17,17 @@ transport and process allocation; source limits are unchanged.
 `Snapshot` names the retained immutable observation object. It is not an atomic
 filesystem snapshot or a grant to reopen the source. Explicit or automatically
 selected NTFS3.0/3.1 bootstrap remains incomplete filesystem interpretation.
-Public command/frontend admission, attribute lists, namespace/content, physical
-access, mutation, other hosts and full0.1.0 qualification remain outstanding.
+This unit's evidence alone does not qualify public command/frontend admission,
+attribute lists, namespace/content, physical access, mutation, other hosts or
+full0.1.0. Later bootstrap admission is documented in [NTFS inspection](ntfs-inspection.md);
+private directory progress is in [NTFS directory indexes](ntfs-directory.md).
 
 Exact clean `e164f863` passes 106 cases/eight methods, 20 selected x64 native
 groups, eight headers and 242 tooling tests/two skips. Four full launch records
 retain actual process/source/frame identities. See the [implementing-agent review](../.aide/evidence/2026-10-16-ntfs-worker/REVIEW.md)
 and [qualification](../.aide/evidence/2026-10-16-ntfs-worker/qualified-e164f863/summary.json).
 No full native, x86/old/other-host or public NTFS admission is claimed. The existing
-file-symlink privilege gap and W075/report-preparation/main gate remain open.
-Owner acceptance is separate.
+file-symlink privilege gap remains unverified. The later
+[current exFAT re-review](../.aide/evidence/2026-10-16-exfat-tree-review/REVIEW.md)
+supersedes the old failed campaigns as an active integration blocker while
+preserving their outcomes and unknown causes. Owner acceptance remains separate.

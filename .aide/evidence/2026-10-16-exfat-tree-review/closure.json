@@ -1,0 +1,155 @@
+{
+  "source_revision": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+  "observed_at": "2026-10-16T02:04:48.534833+00:00",
+  "status": "pass",
+  "source_build_and_test_inputs_unchanged": true,
+  "contract_parameters_unchanged": true,
+  "only_current_validation_projection_changed": true,
+  "stages": [
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/headers",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_probe.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_probe-headers.log"
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/imports",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_probe.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_probe-imports.log"
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/dependents",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_probe.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_probe-dependents.log"
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/headers",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_fault.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_fault-headers.log"
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/imports",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_fault.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_fault-imports.log"
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe",
+        "/dependents",
+        ".aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_fault.exe"
+      ],
+      "exit_code": 0,
+      "log": "exfat_file_fault-dependents.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "exit_code": 0,
+      "log": "index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "log": "check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "exit_code": 0,
+      "log": "manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "exit_code": 0,
+      "log": "verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "spec/tools/tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "tooling.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W075",
+        "--output",
+        ".aide-local\\context\\exfat-tree-reviewed-20261016T020439Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "exit_code": 0,
+      "log": "context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\exfat-tree-reviewed-20261016T020439Z"
+      ],
+      "exit_code": 0,
+      "log": "verify-context.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_probe.exe",
+      "sha256": "sha256:2c95c0cbac4a9c5699223c3fe0d14abbe0108b98daeb9b6d689d2806499f3c8e",
+      "bytes": 483840
+    },
+    {
+      "path": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-directory-qualified-7bb6153a\\build\\Release\\exfat_file_fault.exe",
+      "sha256": "sha256:12d73e33563b8e8d553481be00469bcfdc5b4e08c1b82e2688eb43a36f5cb74e",
+      "bytes": 496640
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false
+}
