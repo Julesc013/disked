@@ -34,7 +34,7 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **317 current source files**: 36 portable, 136 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W089 directory collector awaiting qualification; the preceding source-bound evidence is below. The longest repository-relative source
+63 platform and 14 application files. This includes the private DE-W089 directory collector; its source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
@@ -95,116 +95,35 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 ## Development integration and release
 
-[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-closure-integration/repository.json)
-records the successful dev/main synchronization. Owner and release gates remain separate.
+Source `7bb6153a` passes 227 guarded directory cases, all 160 registered x64 native
+groups, 63 C++ headers, strict C90 sources/headers and 244 tooling tests (two skips).
+The selected Win32 supplement passes four groups/four headers after a receipt-only
+counter correction; the original failure remains.
+[Implementing-agent review](../.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md)
+supports ordinary source integration after metadata/staged-byte closure. It does
+not qualify native directory file/worker/frontend admission or complete NTFS.
 
-Protected INDX blocks and shared FILE fixups at `1a5f4f70` pass 1,230 new cases,
-all 159 registered x64 native groups, 61 C++ headers, strict C90 sources/
-headers and 244 tooling tests(two skipped). Three Win32/WOW64 parser probes
-and two headers also pass. [Review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md).
-[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-block-integration/repository.json)
-records the successful dev/main synchronization. Owner and release gates remain separate.
-This qualifies supplied framing/restoration on those lanes; source-bound directory
-acquisition and the original platform/storage 0.1.0 remain open.
-
-Private filename/index envelopes at `3df1a1c7` pass 1,502 guarded cases,
-27 selected native groups, 9 C++ headers, strict C90/header checks
-and 244 tooling tests(two skipped) after the separate positive fixture-budget
-correction `cd65edcc`. The original failed campaign remains.
-[Review](../.aide/evidence/2026-10-16-ntfs-index/REVIEW.md).
-[Integration receipt](../.aide/evidence/2026-10-16-ntfs-index-integration/repository.json)
-records the successful dev/main synchronization.
-This adds supplied-byte interpretation while retaining the existing owners;
-native protected-index acquisition, namespace/content and full 0.1.0 remain open.
-
-Source-bound MFT/Volume closure at `540043c3` passes134 new cases and
-156/157 native groups. The original dependency-declaration failure remains;
-metadata `fb562480` corrects three transitive closures and passes both
-boundary groups with source/build/test inputs and binary hashes unchanged.
-60 headers and244 tooling tests(two skipped) pass.
-[Two-phase review](../.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md). No remote CI or full0.1.0
-qualification is inferred.
-
-The captured-stream joiner at `23ceeb24` passes 298 protected-record cases,
-25 selected native groups, 9 standalone headers and 244 tooling tests
-(two skipped). [Source-bound review](../.aide/evidence/2026-10-16-ntfs-join/REVIEW.md).
-[Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-join-integration/repository.json)
-records the successful dev/main synchronization. This changes no owner or release gate.
-It verifies supplied capture assertions and record/stream relationships, with an
-owned typed result only after complete checks. Its private joiner evidence does
-not establish native acquisition; DE-W086 connects that separate path. The prior entry
-decoder results remain in its owning guide and the programme's evidence history.
-
-The preceding product source `b985adf2` passes one complete clean-source campaign: 154 native
-groups, 59 standalone headers, 244 tooling tests (2 skipped), source/header/
-build boundaries, PE/import observations and complete input/context binding.
-It adds the owned NTFS bootstrap through the common image-inspection service and
-all five frontends. The [source-bound review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md)
-permits ordinary source integration after metadata/staged-byte closure; actual
-repository synchronization is confirmed in the
-[integration receipt](../.aide/evidence/2026-10-16-ntfs-command-integration/repository.json). This does not qualify the
-complete NTFS filesystem, release or full original storage/platform scope.
-
-The previous acquisition-routing source `813924fa` passed 153 native groups and
-was integrated at `c7864fa8`; its [receipt](../.aide/evidence/2026-10-16-acquisition-integration/repository.json)
-remains historical evidence. Older failed campaigns remain failures and their
-spontaneous latency cause remains unknown.
-
-The previous integrated product checkpoint had a complete 144-group native campaign
-at `2cd2e2e1`, 51 standalone headers and 242 tooling tests with two skips.
-[Exact-source evidence](../.aide/evidence/2026-10-15-exfat-tree/qualified-2cd2e2e1/summary.json).
-The NTFS ordinary-file checkpoint at `777fd71f` passes 73 responses/nine
-methods on x64 and isolated x86/WOW64, including actual native offsets above4GiB,
-file/ancestor access refusals and release.18 selected x64 groups/five headers/
-242 tooling tests(two skips), and two x86 groups/two headers pass. Four launch
-samples retain actual process/source/profile evidence. Original NTFS primitives
-and the154-case bootstrap also pass. That checkpoint did not qualify worker/public
-transport or the remaining original filesystem/platform scope.
-[Exact source review](../.aide/evidence/2026-10-16-ntfs-file/REVIEW.md).
-
-The owned NTFS reader at `e164f863` passes 106 cases/eight methods, 20 selected
-x64 native groups, eight headers and 242 tooling tests/two skips. Four complete
-launch samples retain source/frame/process evidence. Actual exited-child
-publication, strict parent replay and retention after teardown pass. That campaign
-did not establish public frontend admission, complete filesystem interpretation,
-actual file-symlink qualification or the original platform/storage scope. This campaign
-does not qualify x86 or the complete native product suite.
-[Owned-reader review](../.aide/evidence/2026-10-16-ntfs-worker/REVIEW.md).
-
-At the retained 16 October observation, both GitHub branches report protection
-disabled. The specified required
-PR/check policy is still an outstanding governance task; this documentation pass
-does not change repository settings or establish that gate.
-
-Universal Setup `main` at `c048f7f1` and `dev` at `2b7a4d01` still have the
-same file tree. The comparison reports one synchronization commit and zero
-changed files; there is no pending content promotion between those branches.
-[Dated branch comparison](../.aide/evidence/2026-10-16-ntfs-list/setup-branches.json).
+The preceding [INDX review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md),
+[closure review](../.aide/evidence/2026-10-16-ntfs-closure/REVIEW.md) and
+[product-command review](../.aide/evidence/2026-10-16-ntfs-command/REVIEW.md)
+remain revision-bound evidence. The [pre-update assessment](../.aide/evidence/2026-10-16-ntfs-directory/structure-review-before-w089.md)
+preserves the dated detail; the programme owns current work state.
 
 The refreshed 16 October read-only Universal Setup observation finds
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) still open at
-`ad659647`. Six checks pass; `native-windows` fails in
-[run 38818802475](https://github.com/Julesc013/universal-setup/actions/runs/38818802475).
-Its failed log reports `ValueError: receipt file count differs` twice. This does
-not establish a local runtime cause, and the older head's owned-SYSTEM failure
-is not promoted into a finding about this new head. Main/dev still have zero
-changed files and one synchronization commit; both Setup branches report
-protected. Both queried GitHub release collections remain empty. These are
-hosted observations, not local Setup execution or DiskEd lifecycle qualification.
-[Current observations](../.aide/evidence/2026-10-16-ntfs-block/hosted-setup-observations.json)
-and [failed job log](../.aide/evidence/2026-10-16-ntfs-block/setup-38818802475-failed.log)
-retain the current evidence; the earlier observation remains in its dated archive.
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) open at
+`c0d768e5`. Six checks pass; `native-windows` fails in
+[run 38829055547](https://github.com/Julesc013/universal-setup/actions/runs/38829055547).
+Its log reports `ValueError: receipt file count differs` twice. No local runtime
+cause is established. Main/dev retain the same file tree with one synchronization
+commit and both branches report protected. Both queried GitHub release collections
+are empty. These are hosted observations, not local Setup or DiskEd lifecycle
+qualification. [Observation](../.aide/evidence/2026-10-16-ntfs-directory/hosted-observations.json)
+and [failed log](../.aide/evidence/2026-10-16-ntfs-directory/setup-38829055547-failed.log)
+retain exact provenance. Older heads' failures remain historical findings.
 
-The original **all-platform/storage 0.1.0 remains unfinished**. Native Windows
-interfaces and bounded image work are real progress, but substantial original
-storage/platform work, production journal/writer/recovery qualification, live
-Setup integration, licensing/provenance and owner acceptance remain. Publication,
-signing, installation and physical-storage authority stay separate from a tested
-source merge. A smaller preview would need an explicitly agreed scope; it cannot
-silently replace the selected 0.1.0 finish line. No evidence-based release date
-or completion percentage is available.
-
-Continue protected NTFS index-block restoration and source-bound directory acquisition
-while retaining the historical preparation/acquisition latency investigation. The
-architecture is suitable for continued development. Release readiness must be
-earned by exact artifacts, applicable tests and the outstanding gates.
+The original **all-platform/storage0.1.0 remains unfinished**. Continue tested,
+agent-reviewed source integration from dev to main. Release requires the remaining
+filesystem/storage/platform implementations and compatibility/safety evidence,
+Setup qualification, licensing and actual owner/release authority. No defensible
+release date follows from the current evidence. Keep those gates separate from
+ordinary source merges; do not reduce0.1.0 to the current prototype.

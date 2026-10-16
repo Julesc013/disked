@@ -22,10 +22,13 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
-- [ ] DE-W089 source-bound NTFS directory graphs: working 227 guarded cases
-  and existing bootstrap/closure/stream regressions pass. Clean full native,
-  tooling, selected Win32 and review remain pending.
-  [Contract](spec/catalog/ntfs-directory-prototype.json).
+- [x] DE-W089 supplied-reader NTFS directory scope: exact `7bb6153a` passes
+  227 guarded cases, all 160 registered x64 native groups, 63 headers, strict C90
+  and 244 tooling tests (two skipped). Four Win32 groups/four headers pass after
+  a receipt-only counter correction; the original failure remains. Agent review
+  permits ordinary source integration; native file/worker/frontend, namespace/
+  content and the full original0.1.0 remain required.
+  [Review](.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md).
 
 - [x] DE-W088 private protected INDX scope: exact `1a5f4f70` passes
   1,230 guarded cases, existing FILE/index corpora, all 159 native x64 groups,

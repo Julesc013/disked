@@ -1,0 +1,250 @@
+DiskEd (ordinary-file image and fake native composition)
+Usage: disked <command-form> [operands] [options]
+id	contract_status	implementation_status	availability	reason	command	aliases
+build.inspect	planned	implemented	available	synchronous_native_subset	build inspect	
+  Inspect embedded target and build manifest
+mode.explain	planned	implemented	available	synchronous_native_subset	mode explain	
+  Explain invocation policy without storage effects
+command.list	planned	implemented	available	synchronous_native_subset	command list	commands
+  List descriptors and actual availability
+target.list	planned	implemented	available	synchronous_native_subset	target list	list, ls, list targets
+  Bounded target enumeration
+target.inspect	planned	implemented	available	synchronous_native_subset	target inspect	show
+  Inspect identity and source observations
+  operand: target_id
+topology.show	planned	implemented	available	synchronous_native_subset	topology show	
+  Show layered current topology
+table.verify	planned	implemented	available	ordinary_local_raw_file_subset	table verify	
+  Validate independent partition-map observations
+  operand: path
+  --logical-block-bytes logical_block_bytes
+image.inspect	planned	implemented	available	ordinary_local_raw_file_subset	image inspect	
+  Inspect image without mounting it
+  operand: path
+  --logical-block-bytes logical_block_bytes
+  --view view
+  --volume-offset volume_offset
+  --volume-bytes volume_bytes
+  --fat-copy fat_copy
+  --allocation-scan allocation_scan
+  --auxiliary-checks auxiliary_checks
+  --name-code-page name_code_page
+  --lookup-json lookup
+  --allocation-window-json allocation_window
+  --retain-capture retain_capture
+  --upcase-format upcase_format
+  --ntfs-version ntfs_version
+image.acquire	planned	implemented	available	ordinary_local_raw_file_acquisition	image acquire	
+  Prepare or explicitly grant an exact reviewed ordinary-file acquisition definition; prototype profile only
+  operand: phase
+  operand: source
+  operand: destination
+  --map map
+  --state-dir state_directory
+  --resume resume
+  --chunk-bytes chunk_bytes
+  --retry-limit retry_limit
+  --read-policy read_policy
+  --substitution substitution
+  --definition-json definition
+  --definition-digest definition_digest
+  --allow-source-read allow_source_read
+  --allow-destination-write allow_destination_write
+  --allow-map-write allow_map_write
+  --allow-host-effects allow_host_effects
+image.verify	planned	implemented	available	recorded_acquired_image_verification	image verify	
+  Verify image against explicit coverage
+  operand: phase
+  operand: case_operation_id
+  operand: image
+  --map map
+  --case-state-dir case_directory
+  --state-dir state_directory
+  --definition-json definition
+  --definition-digest definition_digest
+  --allow-case-read allow_case_read
+  --allow-image-read allow_image_read
+  --allow-map-read allow_map_read
+  --allow-store-write allow_store_write
+  --allow-host-effects allow_host_effects
+  --allow-private-metadata allow_private_metadata
+health.assess	planned	implemented	available	compiled_fake_health_fixtures_only	health assess	
+  Collect bounded health evidence
+  operand: target_id
+  --include-identifiers include_identifiers
+  --include-raw include_raw
+  --include-interpretations include_interpretations
+  --include-customer-data include_customer_data
+capability.explain	planned	implemented	available	synchronous_native_subset	capability explain	
+  Explain availability and refusals
+  operand: target_id
+  operand: operation
+provider.list	planned	planned	unavailable	not_implemented	provider list	
+  List included providers and qualification
+provider.inspect	planned	planned	unavailable	not_implemented	provider inspect	
+  Inspect exact provider/version closure
+evidence.export	planned	implemented	available	recorded_acquisition_case_support_export	evidence export	
+  Export reviewed/redacted evidence
+  operand: phase
+  operand: case_operation_id
+  operand: destination
+  --case-state-dir case_directory
+  --state-dir state_directory
+  --definition-json definition
+  --definition-digest definition_digest
+  --include-identifiers include_identifiers
+  --include-raw-values include_raw_values
+  --include-interpretations include_interpretations
+  --include-customer-data include_customer_data
+  --allow-case-read allow_case_read
+  --allow-report-write allow_report_write
+  --allow-store-write allow_store_write
+  --allow-host-effects allow_host_effects
+  --collection collection_path
+  --collection-digest collection_digest
+  --allow-collection-read allow_collection_read
+partition.resize.plan	planned	planned	unavailable	not_implemented	partition resize	part resize
+  Construct a typed size/start/end plan
+  operand: target_id
+  --length length
+partition.move.plan	planned	planned	unavailable	not_implemented	partition move	part move
+  Construct a separately qualified move plan
+table.gpt.repair.plan	planned	implemented	available	ordinary_local_raw_file_subset	table repair	
+  Propose explicit GPT-copy repair
+  operand: path
+  --logical-block-bytes logical_block_bytes
+  --authoritative-copy authoritative_copy
+  --selection-decision-digest selection_decision_digest
+filesystem.migrate.plan	planned	planned	unavailable	not_implemented	filesystem migrate	fs migrate
+  Plan metadata-aware migration
+plan.show	planned	planned	unavailable	not_implemented	plan show	
+  Review exact plan and its requirements
+plan.validate	planned	planned	unavailable	not_implemented	plan validate	
+  Validate current preconditions without effects
+plan.simulate	planned	implemented	available	fake_operation_subset	plan simulate	
+  Run a compiled fake fixture with explicit disposable operation evidence; general plan simulation remains provisional
+  operand: fixture_id
+  --state-dir state_directory
+plan.apply	planned	planned	unavailable	not_implemented	plan apply	
+  Apply exact admitted plan through broker
+operation.inspect	planned	implemented	available	ordinary_file_and_fake_operation_subset	operation inspect	op inspect
+  Inspect durable execution outcome
+  operand: operation_id
+  --state-dir state_directory
+operation.watch	planned	implemented	available	ordinary_file_and_fake_operation_subset	operation watch	op watch
+  Observe events with sequence continuity
+  operand: operation_id
+  --state-dir state_directory
+  --after-sequence after_sequence
+  --after-digest after_digest
+  --worker-epoch worker_epoch
+  --follow-ms follow_ms
+  --snapshot snapshot
+operation.cancel.request	planned	implemented	available	ordinary_file_and_fake_operation_subset	operation cancel	op cancel
+  Request cancellation at a safe checkpoint
+  operand: operation_id
+  --state-dir state_directory
+recovery.inspect	planned	planned	unavailable	not_implemented	recovery inspect	
+  Inspect journal/capsule without writes
+recovery.plan	planned	planned	unavailable	not_implemented	recovery plan	
+  Build a plan from observed interrupted state
+recovery.apply	planned	planned	unavailable	not_implemented	recovery apply	
+  Apply independently admitted recovery
+resource.list	planned	planned	unavailable	not_implemented	resource list	
+  List embedded resources and notices
+filesystem.format.plan	planned	planned	unavailable	not_implemented	filesystem format	fs format
+  Propose filesystem creation with exact feature, loss and discard policy
+setup.inspect	planned	planned	unavailable	not_implemented	setup inspect	
+  Inspect local declared software lifecycle ownership without installation effects
+provider.resolve	planned	planned	unavailable	not_implemented	provider resolve	
+  Explain candidate compatibility and missing providers without acquisition
+shell.open	planned	implemented	available	interactive_console_required	shell	
+  Open an explicit persistent DiskEd command session; no implicit storage effect
+  --history history
+shell.close	planned	implemented	available	shell_session_only	exit	quit
+  Close the current DiskEd shell without cancelling dispatched operations
+protocol.serve	planned	implemented	available	synchronous_native_subset	protocol serve	
+  Serve bounded synchronous requests over standard handles
+image.capture.inspect	planned	implemented	available	synchronous_native_subset	image capture inspect	
+  List or read bounded bytes of retained FAT captures
+  --phase phase
+  --capture-id capture_id
+  --byte-offset byte_offset
+  --byte-count byte_count
+image.capture.release	planned	implemented	available	synchronous_native_subset	image capture release	
+  Release one retained FAT capture without source effects
+  --capture-id capture_id
+filesystem.extract	planned	implemented	available	ordinary_local_fat_file_extraction	filesystem extract	
+  Prepare or explicitly grant complete selected FAT byte extraction into a new ordinary destination; prototype profile only
+  operand: phase
+  operand: source
+  operand: destination
+  --map map
+  --state-dir state_directory
+  --resume resume
+  --chunk-bytes chunk_bytes
+  --retry-limit retry_limit
+  --read-policy read_policy
+  --substitution substitution
+  --definition-json definition
+  --definition-digest definition_digest
+  --allow-source-read allow_source_read
+  --allow-destination-write allow_destination_write
+  --allow-map-write allow_map_write
+  --allow-host-effects allow_host_effects
+  --selection-json logical_source
+filesystem.tree.extract	planned	implemented	available	synchronous_native_subset	filesystem extract-tree	
+  Prepare and explicitly grant create-only ordinary-image recursive FAT extraction with retained operation observation
+  operand: phase
+  operand: source
+  operand: destination
+  --ledger ledger
+  --state-dir state_directory
+  --volume-offset volume_offset
+  --volume-bytes volume_bytes
+  --fat-copy fat_copy
+  --capture-epoch capture_epoch
+  --oem-code-page oem_code_page
+  --name-selection name_selection
+  --unrepresentable-name unrepresentable_name
+  --time-interpretation time_interpretation
+  --utc-offset-minutes utc_offset_minutes
+  --definition definition
+  --definition-digest definition_digest
+  --allow-source-read allow_source_read
+  --allow-destination-write allow_destination_write
+  --allow-ledger-write allow_ledger_write
+  --allow-operation-write allow_operation_write
+  --allow-host-effects allow_host_effects
+filesystem.tree.inspect	planned	implemented	available	process_lifetime_ordinary_local_fat_tree	filesystem tree	
+  Inspect source-bound paged FAT trees or stream one through NDJSON
+  --phase phase
+  --path path
+  --volume-offset volume_offset
+  --volume-bytes volume_bytes
+  --fat-copy fat_copy
+  --session-id session_id
+  --page-sequence page_sequence
+  --byte-offset byte_offset
+  --byte-count byte_count
+  --page-records page_records
+  --page-events page_events
+  --page-reads page_reads
+  --page-read-bytes page_read_bytes
+  --page-output-bytes page_output_bytes
+  --bitmap-bytes bitmap_bytes
+  --queued-directories queued_directories
+  --depth depth
+  --max-pages max_pages
+  --idle-ms idle_ms
+Global options (may precede, separate or follow command words before --):
+  --frontend auto cli tui gui plain
+  --format human json ndjson
+  --interactive auto yes no
+  --terminal auto linear screen
+  --cli
+  --tui
+  --gui
+  --json  -j
+  --headless
+  --help  -h

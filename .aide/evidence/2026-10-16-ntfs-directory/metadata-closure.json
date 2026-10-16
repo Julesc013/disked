@@ -1,0 +1,94 @@
+{
+  "observed_at": "2026-10-16T01:57:10.661759+00:00",
+  "tested_source": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+  "implementation_build_native_test_parameters_unchanged": true,
+  "compared_inputs": 759,
+  "qualification_recipe_exception": ".aide/evidence/2026-10-16-ntfs-directory/reproduce-win32.py",
+  "recipe_revision": "8ac4faa2ac413ddb20f281058c028f5ff00180cc",
+  "recipe_sha256": "sha256:d8aa699e77d01ffb4e6382d95131019ddcb9d1da5433c89e264647ea7b3edd31",
+  "exception_only_corrects_receipt_count": true,
+  "original_failed_supplement_retained": true,
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W089",
+        "--output",
+        ".aide-local\\context\\ntfs-directory-reviewed-20261016T015700Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-directory-reviewed-20261016T015700Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-directory/metadata-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false
+}

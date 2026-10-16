@@ -1,13 +1,21 @@
 # Source-bound NTFS directory indexes
 
-DE-W089 connects the supplied-reader bootstrap and stream closure to resident and
-nonresident directory indexes. The [execution contract](../spec/catalog/ntfs-directory-prototype.json)
-defines exact reference/name/mapping/bitmap/graph/quota outcomes before implementation
-and evaluation. The working collector passes 227 guarded cases, including multi-level
-indexes, bitmap/extension closure, malformed inputs, quotas and exact read traces.
-Existing bootstrap/closure/stream groups and the build boundary checker pass.
-Clean full-suite and selected Win32 qualification remain pending.
+DE-W089 connects the existing supplied-reader bootstrap/stream closure to
+resident roots, multi-level INDX graphs, resident/nonresident bitmaps and
+source-bound attribute-list extensions. Its [execution contract](../spec/catalog/ntfs-directory-prototype.json)
+defines exact references, raw names, mappings, graph/bitmap and quota outcomes.
+The source-owning capture Observer supplies checked streams/reads/budget charging;
+`ntfs_directory.cpp` owns bounded graph collection in the existing capture target.
 
-This is private source-context acquisition and framing. Native file/worker/frontend
-admission, full namespace/content, collation and the original platform/storage
-0.1.0 remain separate required work. No storage effect or owner acceptance follows.
+Exact source `7bb6153a9bc86710dff9972f493c9ff14280caed` passes 227 independently constructed guarded cases,
+all 160 registered x64 native groups, 63 standalone C++ headers, strict C90/header
+checks and 244 tooling tests (two skipped). The selected Win32/WOW64 supplement
+passes four groups and four headers. Its original failed receipt and corrected
+recipe provenance remain explicit. [Review and exact evidence](../.aide/evidence/2026-10-16-ntfs-directory/REVIEW.md).
+
+Local collection/bitmap completeness, successful final source rereads and
+applicability are separate properties. Supplied source identities are assertions,
+finite equal rereads are not atomic snapshots, and no namespace/collation,
+target membership, global cluster allocation or storage-effect authority follows.
+Native held-file/replay/worker/frontend admission, complete namespace/content,
+original platform/storage0.1.0 and owner/privilege/release gates remain required.

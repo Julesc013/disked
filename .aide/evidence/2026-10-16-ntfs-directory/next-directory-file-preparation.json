@@ -1,0 +1,21 @@
+{
+  "status": "planning-not-an-execution-contract",
+  "prepared_against": "7bb6153a9bc86710dff9972f493c9ff14280caed",
+  "next_available_candidate_id": "DE-W091",
+  "reserved_id_note": "DE-W090 already owns licensing/release criteria. Never reuse it.",
+  "purpose": "Connect the supplied-reader directory collector to the existing held ordinary-file source/replay mechanism without another opener or provider hierarchy.",
+  "existing_owners": ["source/providers/image/ntfs_file.h", "source/providers/image/ntfs_file.cpp", "source/runtime/capture/ntfs_directory.h", "source/runtime/capture/ntfs_capture.cpp", "source/runtime/capture/ntfs_directory.cpp"],
+  "proposed_boundary": "Private synchronous ordinary-file directory acquisition only. Reuse parent pins, read-only held handle, metadata checks, exact retained region/error replay, source/process/epoch domain and test-only callbacks. Contained worker/public frontend admission follows under its own contract.",
+  "required_contract_decisions_before_code": [
+    "Choose an exact public-to-this-private-call profile policy. Existing automatic bootstrap3.0 replay cannot directly support directory mode: its3.1 probe stops before directory acquisition. Either define a bounded source-bound profile-selection stage with global budgets/exact trace semantics or explicitly require Version30/Version31 and refuse Automatic before opening. Retain future automatic-profile work if using the latter boundary.",
+    "Copy nested file controls, directory reference/limits, stop predicate and test controls before callbacks. Validate all controls and signed native/window bounds before opening.",
+    "Define a separately identified directory observation/domain. Bind mode, full reference, directory limits, expected source/window/profile and process epoch. Preserve old bootstrap output/read order/domain exactly.",
+    "Use the existing native reader and final binding checks. Replay the exact full directory observer against retained responses, including incomplete/error prefixes, with complete trace consumption and no new native reads/cancellation callbacks.",
+    "Specify invalid controls, unsupported profile, real source/path refusal, partial/error/cancellation outcomes and stable/applicable distinctions before evaluating implementation. Keep source identities observational and effect/snapshot/namespace authority false.",
+    "Set independent generated-file oracles for resident/multi-level/fragmented/list/bitmap cases and native offsets above4GiB. Keep old bootstrap and local-file/root/worker/frontend regressions. Record unavailable symlink privileges and selected-architecture limitations honestly."
+  ],
+  "not_started": true,
+  "physical_or_privileged_authority": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}
