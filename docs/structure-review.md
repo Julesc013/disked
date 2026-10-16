@@ -68,7 +68,7 @@ is formatter-clean.
 | SR-05: composition and test seams | Remains a targeted improvement. `app.cpp` still contains command-specific routing, limits and test hooks. Extract a named service binding or test seam with a concrete contract and consumer, preserving one command registry. |
 | SR-06: inventory does not enforce dependencies | Independent CMake-derived build/header checks now accompany source-map coverage. They qualify their tested lane, not every target or public SDK. |
 | SR-07: stale first-task routing | Root guidance routes through the programme. This pass also makes the canonical start page distinguish an active checkout from an initial archive. |
-| SR-08: Setup qualification | The reviewed candidate failed Windows qualification. A newer candidate also fails Windows qualification; qualification remains open. See the exact observation below. |
+| SR-08: Setup qualification | Earlier candidates failed Windows qualification; the latest observed candidate is still awaiting native checks. Qualification remains open. See the exact snapshot below. |
 
 The original 1,043-line follow-up mixed many dated checkpoints with current
 guidance. Its [exact pre-consolidation contents](../.aide/evidence/2026-10-16-structure-status/structure-review-before.md)
