@@ -14,51 +14,45 @@
     "integration": "Merge tested and agent-reviewed checkpoints from dev to main and push origin/main without force-pushing or deleting the historical goal branch.",
     "boundary": "Repository synchronization is authorized. Owner acceptance, release artifact publication, signing, installation and storage privileges remain separate.",
     "latest_integration": {
-      "work_id": "DE-W093",
-      "checkpoint_revision": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-      "tested_native_source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
-      "qualification_recipe_exception": {
-        "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
-        "source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
-        "source_sha256": "sha256:f9a6d91d8908d0e2e05a82f48bf0c8e044b45877b8be46445b4729af8e7589bd",
-        "effective_revision": "235c168df739cf227b892cbf7da29c6dcb1344b3",
-        "effective_sha256": "sha256:e7c56334cac4827474ca6f872527cebeeb1419947c54479272b6ac4d9e43194d",
-        "reason": "Correct stale reporting count 50 to unchanged actual 58 and add verified native-stage reuse; production code, fixtures and native test expectations unchanged.",
-        "failed_phase": "failed-counter/summary.json",
-        "reused_artifacts_unchanged": true
-      },
-      "failed_phase": ".aide/evidence/2026-10-16-ntfs-directory-command/failed-counter-6efc9a5b/summary.json",
-      "recorded_at": "2026-10-16T05:22:16.522393+00:00",
+      "work_id": "DE-W094",
+      "checkpoint_revision": "db4f1d5af3847157d5314c68b6811557af866909",
+      "tested_native_source_revision": "189801696f022929257873c394e9a6b8d7d49dfc",
+      "recorded_at": "2026-10-16T06:56:08.191702+00:00",
       "execution_identity": "BLACKGLASS-WIN1\\Jules",
       "github_account": "Julesc013",
       "branches": {
-        "dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-        "main": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-        "origin/dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-        "origin/main": "b2f14be3bffeaee03865240fe738c8cb9ec31131"
+        "dev": "db4f1d5af3847157d5314c68b6811557af866909",
+        "main": "db4f1d5af3847157d5314c68b6811557af866909",
+        "origin/dev": "db4f1d5af3847157d5314c68b6811557af866909",
+        "origin/main": "db4f1d5af3847157d5314c68b6811557af866909"
       },
       "remote_refs": {
-        "refs/heads/dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-        "refs/heads/main": "b2f14be3bffeaee03865240fe738c8cb9ec31131"
+        "refs/heads/dev": "db4f1d5af3847157d5314c68b6811557af866909",
+        "refs/heads/main": "db4f1d5af3847157d5314c68b6811557af866909"
       },
       "source": "Authorized dev push, fast-forward main and main push succeeded; exact refs verified. No force push. Following receipt commit is metadata only.",
-      "evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/qualified-6efc9a5b/summary.json",
-      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/win32-6efc9a5b/summary.json",
-      "review": ".aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md",
-      "native_groups": 163,
-      "registered_native_groups": 163,
+      "evidence": ".aide/evidence/2026-10-16-ntfs-names/qualified-18980169/summary.json",
+      "win32_evidence": ".aide/evidence/2026-10-16-ntfs-names/win32-18980169/summary.json",
+      "review": ".aide/evidence/2026-10-16-ntfs-names/REVIEW.md",
+      "native_groups": 164,
+      "registered_native_groups": 164,
       "full_native_suite_run": true,
       "native_failed": [],
+      "filename_cases": 247,
+      "stream_cases": 298,
       "directory_command_cases": 100,
       "bootstrap_command_cases": 58,
-      "standalone_cpp_headers": 63,
+      "standalone_cpp_headers": 65,
       "strict_c90_and_c_headers": true,
-      "unique_x64_executables": 11,
+      "unique_x64_executables": 13,
       "tooling_tests": 247,
       "tooling_skipped": 2,
-      "private_win32_groups": 8,
-      "win32_headers": 6,
-      "full_win32_product_or_frontends_qualified": false,
+      "private_win32_groups": 9,
+      "win32_headers": 8,
+      "unique_win32_executables": 7,
+      "full_win32_product_qualified": false,
+      "retained_prior_failure": ".aide/evidence/2026-10-16-ntfs-names/failed-d2e51792/observation-summary.json",
+      "original_timeout_cause_established": false,
       "owner_accepted": false,
       "full_0_1_0_complete": false,
       "release_published": false
@@ -132,7 +126,7 @@
     "DE-W094"
   ],
   "completion_rule": "Every scoped capability has implementation and applicable real validation evidence; unavailable environments and missing required authority remain blockers, not passes. No completion claim from scaffolding, definitions or spec-only tests.",
-  "next_action": "Integrate reviewed DE-W094 after metadata/staged-byte closure. Define and implement source-bound NTFS index-name/target membership, then collation/namespace/content, retaining all original 0.1.0 platforms/storage and separate owner/release/storage gates.",
+  "next_action": "Define and implement source-bound NTFS index-name/target membership before collation/namespace/lookup/content admission; retain finite source/profile/epoch/replay/actual-exit rules, all original0.1.0 platforms/storage and separate owner/release/storage gates.",
   "verified_slices": [
     {
       "work_id": "DE-W012",
@@ -1529,51 +1523,45 @@
     "next_action": "Continue current_work and next_action; targeted app/service/test-seam cleanup and upstream Windows qualification remain. Historical delays retain their own failed evidence and unknown original cause."
   },
   "last_integration": {
-    "work_id": "DE-W093",
-    "checkpoint_revision": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-    "tested_native_source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
-    "qualification_recipe_exception": {
-      "path": ".aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py",
-      "source_revision": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
-      "source_sha256": "sha256:f9a6d91d8908d0e2e05a82f48bf0c8e044b45877b8be46445b4729af8e7589bd",
-      "effective_revision": "235c168df739cf227b892cbf7da29c6dcb1344b3",
-      "effective_sha256": "sha256:e7c56334cac4827474ca6f872527cebeeb1419947c54479272b6ac4d9e43194d",
-      "reason": "Correct stale reporting count 50 to unchanged actual 58 and add verified native-stage reuse; production code, fixtures and native test expectations unchanged.",
-      "failed_phase": "failed-counter/summary.json",
-      "reused_artifacts_unchanged": true
-    },
-    "failed_phase": ".aide/evidence/2026-10-16-ntfs-directory-command/failed-counter-6efc9a5b/summary.json",
-    "recorded_at": "2026-10-16T05:22:16.522393+00:00",
+    "work_id": "DE-W094",
+    "checkpoint_revision": "db4f1d5af3847157d5314c68b6811557af866909",
+    "tested_native_source_revision": "189801696f022929257873c394e9a6b8d7d49dfc",
+    "recorded_at": "2026-10-16T06:56:08.191702+00:00",
     "execution_identity": "BLACKGLASS-WIN1\\Jules",
     "github_account": "Julesc013",
     "branches": {
-      "dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-      "main": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-      "origin/dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-      "origin/main": "b2f14be3bffeaee03865240fe738c8cb9ec31131"
+      "dev": "db4f1d5af3847157d5314c68b6811557af866909",
+      "main": "db4f1d5af3847157d5314c68b6811557af866909",
+      "origin/dev": "db4f1d5af3847157d5314c68b6811557af866909",
+      "origin/main": "db4f1d5af3847157d5314c68b6811557af866909"
     },
     "remote_refs": {
-      "refs/heads/dev": "b2f14be3bffeaee03865240fe738c8cb9ec31131",
-      "refs/heads/main": "b2f14be3bffeaee03865240fe738c8cb9ec31131"
+      "refs/heads/dev": "db4f1d5af3847157d5314c68b6811557af866909",
+      "refs/heads/main": "db4f1d5af3847157d5314c68b6811557af866909"
     },
     "source": "Authorized dev push, fast-forward main and main push succeeded; exact refs verified. No force push. Following receipt commit is metadata only.",
-    "evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/qualified-6efc9a5b/summary.json",
-    "win32_evidence": ".aide/evidence/2026-10-16-ntfs-directory-command/win32-6efc9a5b/summary.json",
-    "review": ".aide/evidence/2026-10-16-ntfs-directory-command/REVIEW.md",
-    "native_groups": 163,
-    "registered_native_groups": 163,
+    "evidence": ".aide/evidence/2026-10-16-ntfs-names/qualified-18980169/summary.json",
+    "win32_evidence": ".aide/evidence/2026-10-16-ntfs-names/win32-18980169/summary.json",
+    "review": ".aide/evidence/2026-10-16-ntfs-names/REVIEW.md",
+    "native_groups": 164,
+    "registered_native_groups": 164,
     "full_native_suite_run": true,
     "native_failed": [],
+    "filename_cases": 247,
+    "stream_cases": 298,
     "directory_command_cases": 100,
     "bootstrap_command_cases": 58,
-    "standalone_cpp_headers": 63,
+    "standalone_cpp_headers": 65,
     "strict_c90_and_c_headers": true,
-    "unique_x64_executables": 11,
+    "unique_x64_executables": 13,
     "tooling_tests": 247,
     "tooling_skipped": 2,
-    "private_win32_groups": 8,
-    "win32_headers": 6,
-    "full_win32_product_or_frontends_qualified": false,
+    "private_win32_groups": 9,
+    "win32_headers": 8,
+    "unique_win32_executables": 7,
+    "full_win32_product_qualified": false,
+    "retained_prior_failure": ".aide/evidence/2026-10-16-ntfs-names/failed-d2e51792/observation-summary.json",
+    "original_timeout_cause_established": false,
     "owner_accepted": false,
     "full_0_1_0_complete": false,
     "release_published": false
@@ -1581,7 +1569,7 @@
   "in_progress_slice": {
     "work_id": "DE-W094",
     "base_revision": "df1754652a89eb6751a95f7440c65cba7fd64468",
-    "state": "dev.66 at 18980169 passes all 164 x64 native groups, 247 filename/298 stream cases, 65 headers/C90/thirteen unique imports and 247 tooling tests (two skips). Private Win32 supplement passes nine groups/eight headers. Agent review complete; metadata/source integration pending.",
+    "state": "Private captured NTFS filename instances and shared selection verified, agent-reviewed and source-integrated. Fresh18980169 all164 x64 groups/247 tooling (two skips) and private Win32 nine groups/eight headers pass. Original d2e51792 failures remain; timeout cause unknown. Full original0.1.0 incomplete.",
     "contract": "spec/catalog/ntfs-names-prototype.json",
     "qualification_pending": false,
     "owner_accepted": false,
@@ -1855,11 +1843,13 @@
   "retained_incomplete_work": [],
   "integration_review": {
     "tested_source_revision": "189801696f022929257873c394e9a6b8d7d49dfc",
-    "status": "agent-reviewed-pending-metadata-closure",
+    "status": "source-integrated",
     "review": ".aide/evidence/2026-10-16-ntfs-names/REVIEW.md",
     "original_timeout_cause_established": false,
     "owner_accepted": false,
-    "release_qualified": false
+    "release_qualified": false,
+    "checkpoint_revision": "db4f1d5af3847157d5314c68b6811557af866909",
+    "receipt": ".aide/evidence/2026-10-16-ntfs-names-integration/repository.json"
   },
   "next_work_preparation": {
     "candidate_work_id": "DE-W095",
@@ -1871,9 +1861,9 @@
   },
   "ci_observation": ".aide/evidence/2026-10-16-ntfs-closure/ci-observation.json",
   "latest_dev_push": {
-    "revision": "189801696f022929257873c394e9a6b8d7d49dfc",
+    "revision": "db4f1d5af3847157d5314c68b6811557af866909",
     "verified": true,
-    "source": "Authorized dev push succeeded at18980169; main remains reviewed df175465 pending fresh qualification/review."
+    "source": "Authorized dev/main source-and-evidence pushes succeeded and exact refs verified; following receipt commit is metadata only."
   },
   "historical_native_campaigns": [
     {

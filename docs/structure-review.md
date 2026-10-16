@@ -98,7 +98,8 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 Filename source `18980169` passes all 164 registered x64 native groups, 247 new
 filename/298 unchanged stream cases, 65 headers/C90/thirteen unique executable
 import checks and 247 tooling tests (two skips). The private Win32 supplement
-passes nine groups/eight headers. [Review](../.aide/evidence/2026-10-16-ntfs-names/REVIEW.md)
+passes nine groups/eight headers. [Source/evidence synchronization](../.aide/evidence/2026-10-16-ntfs-names-integration/repository.json)
+records verified dev/main writes. [Review](../.aide/evidence/2026-10-16-ntfs-names/REVIEW.md)
 records the shared private selector, four actual new files (321 total), preflight
 defects and unchanged public/storage authority. Native membership, collation,
 namespace/content, full original 0.1.0 and release gates remain.
