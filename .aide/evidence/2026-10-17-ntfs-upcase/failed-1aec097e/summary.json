@@ -1,0 +1,154 @@
+{
+  "status": "fail",
+  "work_id": "DE-W099",
+  "observed_at": "2026-10-16T14:29:55.865732+00:00",
+  "source_revision": "1aec097e67169c7166df963ab4d717fce43a39c9",
+  "source_status_before": "",
+  "host": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "stages": [
+    {
+      "name": "configure",
+      "command": [
+        "cmake",
+        "--preset",
+        "windows-bootstrap",
+        "-B",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\build",
+        "-DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 13.58784390008077,
+      "log": "configure.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "cmake",
+        "--build",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "4"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 249.77440940006636,
+      "log": "build.log"
+    },
+    {
+      "name": "registered",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\build",
+        "-C",
+        "Release",
+        "--show-only=json-v1"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 1.732643499970436,
+      "log": "registered.log"
+    },
+    {
+      "name": "selected-registration",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\build",
+        "-C",
+        "Release",
+        "--show-only=json-v1",
+        "-R",
+        "^(build\\.boundaries|build\\.boundary_checker|image\\.ntfs_capture|image\\.ntfs_closure|image\\.ntfs_directory|image\\.ntfs_membership|image\\.ntfs_names|image\\.ntfs_stream|portable\\.c_cpp_linkage|portable\\.checked|portable\\.exfat_upcase|portable\\.exfat_upcase_guard|portable\\.ntfs_attributes|portable\\.ntfs_block|portable\\.ntfs_boot|portable\\.ntfs_index|portable\\.ntfs_list|portable\\.ntfs_record|portable\\.ntfs_runlist|portable\\.ntfs_upcase|portable\\.ntfs_upcase_guard)$"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 0,
+      "seconds": 0.04009520006366074,
+      "log": "selected-registration.log"
+    },
+    {
+      "name": "native",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\build",
+        "-C",
+        "Release",
+        "--parallel",
+        "1",
+        "--output-on-failure",
+        "--stop-on-failure",
+        "-R",
+        "^(build\\.boundaries|build\\.boundary_checker|image\\.ntfs_capture|image\\.ntfs_closure|image\\.ntfs_directory|image\\.ntfs_membership|image\\.ntfs_names|image\\.ntfs_stream|portable\\.c_cpp_linkage|portable\\.checked|portable\\.exfat_upcase|portable\\.exfat_upcase_guard|portable\\.ntfs_attributes|portable\\.ntfs_block|portable\\.ntfs_boot|portable\\.ntfs_index|portable\\.ntfs_list|portable\\.ntfs_record|portable\\.ntfs_runlist|portable\\.ntfs_upcase|portable\\.ntfs_upcase_guard)$",
+        "--output-junit",
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-upcase-qualification-1aec097e\\native-junit.xml"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-member-source",
+      "exit_code": 8,
+      "seconds": 6.376788699999452,
+      "log": "native.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "full_native_suite_run": false,
+  "recipe_sha256": "sha256:86aaf68d8f8809c35beaf74ee74f5335684e90349458a2ec66bc2b6fd44b1583",
+  "scope": "Private supplied-table C90 mapping and independent raw/mapped comparison; all-target x64 build and selected affected regressions only. No source capture, namespace/lookup admission, other-platform or release qualification.",
+  "registered_native_groups": 170,
+  "selected_native_groups": [
+    "build.boundaries",
+    "build.boundary_checker",
+    "image.ntfs_capture",
+    "image.ntfs_closure",
+    "image.ntfs_directory",
+    "image.ntfs_membership",
+    "image.ntfs_names",
+    "image.ntfs_stream",
+    "portable.c_cpp_linkage",
+    "portable.checked",
+    "portable.exfat_upcase",
+    "portable.exfat_upcase_guard",
+    "portable.ntfs_attributes",
+    "portable.ntfs_block",
+    "portable.ntfs_boot",
+    "portable.ntfs_index",
+    "portable.ntfs_list",
+    "portable.ntfs_record",
+    "portable.ntfs_runlist",
+    "portable.ntfs_upcase",
+    "portable.ntfs_upcase_guard"
+  ],
+  "native_exit_code": 8,
+  "native_groups": 1,
+  "native_failed": [
+    "build.boundaries"
+  ],
+  "native_skipped": [],
+  "native_not_run": [
+    "build.boundary_checker",
+    "image.ntfs_capture",
+    "image.ntfs_closure",
+    "image.ntfs_directory",
+    "image.ntfs_membership",
+    "image.ntfs_names",
+    "image.ntfs_stream",
+    "portable.c_cpp_linkage",
+    "portable.checked",
+    "portable.exfat_upcase",
+    "portable.exfat_upcase_guard",
+    "portable.ntfs_attributes",
+    "portable.ntfs_block",
+    "portable.ntfs_boot",
+    "portable.ntfs_index",
+    "portable.ntfs_list",
+    "portable.ntfs_record",
+    "portable.ntfs_runlist",
+    "portable.ntfs_upcase",
+    "portable.ntfs_upcase_guard"
+  ],
+  "error": "AssertionError()"
+}

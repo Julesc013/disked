@@ -1,0 +1,15 @@
+{
+  "source_revision": "1aec097e67169c7166df963ab4d717fce43a39c9",
+  "x64_build": "pass",
+  "selected_native_passed": 0,
+  "selected_native_failed": [
+    "build.boundaries"
+  ],
+  "selected_native_not_run": 20,
+  "win32_groups_passed": 2,
+  "diagnosis": "The canonical exact compiled-source set in source-maintenance-prototype.json omitted upcase.c, which the preimplementation W099 contract explicitly requires. The unchanged checker correctly rejected it.",
+  "correction": "Add only the intended upcase.c source to the canonical exact NTFS set; retain exact matching and existing flags/layers/header checks. No production/test/deadline/expected mapping change.",
+  "qualification_complete": false,
+  "original_failure_retained": true,
+  "owner_accepted": false
+}
