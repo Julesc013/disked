@@ -21,15 +21,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--resume-counter-error', action='store_true')
     args = parser.parse_args()
     root, output = args.root.resolve(), args.output.resolve()
-    output.mkdir()
+    output.mkdir(exist_ok=args.resume_counter_error)
     build = output / 'build'
     inputs = set(json.loads((root / 'tools/build-inputs.json').read_bytes())['files'])
     inputs.update(row['path'] for row in json.loads((root / 'spec/catalog/input-dependencies.json').read_bytes())['inputs'])
     inputs.update(path.relative_to(root).as_posix() for path in (root / 'source').rglob('*') if path.is_file())
     before = {name: sha(root / name) for name in sorted(inputs)}
-    (output / 'inputs.json').write_text(json.dumps(before, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if args.resume_counter_error:
+        assert before == json.loads((output / 'inputs.json').read_bytes())
+    else:
+        (output / 'inputs.json').write_text(json.dumps(before, indent=2) + '\n', encoding='utf-8', newline='\n')
     summary = dict(status='running', work_id='DE-W093', observed_at=datetime.now(timezone.utc).isoformat(),
                    source_revision=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
                    source_status_before=subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True),
@@ -38,12 +42,45 @@ def main():
                    scope='Current Windows x64 image prototype, all targets built and complete registered native regressions and independent tooling/build/import/context evidence. Not full NTFS, all original platforms/storage or release qualification.')
     summary['qualification_recipe_sha256'] = sha(Path(__file__).resolve())
     summary['source_qualification_recipe_sha256'] = before['.aide/evidence/2026-10-16-ntfs-directory-command/reproduce.py']
+    reused = {}
+    built_artifacts = {}
+    if args.resume_counter_error:
+        previous = json.loads((output / 'summary.json').read_bytes())
+        assert previous['status'] == 'fail' and previous['error'] == 'AssertionError()'
+        assert previous['source_revision'] == summary['source_revision']
+        assert previous['native_passed'] == previous['native_groups'] == previous['registered_native_groups'] == 163
+        assert previous['native_exit_code'] == 0 and not previous['native_failed'] and not previous['native_skipped']
+        assert all(s['exit_code'] == 0 for s in previous['stages'])
+        native = ET.parse(output / 'native-junit.xml').getroot().findall('.//testcase')
+        assert len(native) == 163 and all(t.find('failure') is None and t.find('error') is None and t.find('skipped') is None for t in native)
+        command = json.loads((build / 'ntfs-command-cases.json').read_bytes())
+        directory = json.loads((build / 'ntfs-directory-command-cases.json').read_bytes())
+        assert command['passed'] and command['cases'] == len(command['records']) == 58
+        assert directory['passed'] and directory['cases'] == 100
+        assert len(previous['artifacts']) == len({p['path'] for p in previous['artifacts']}) == 11
+        assert all(sha(Path(p['path'])) == p['sha256'] for p in previous['artifacts'])
+        assert previous['stages'][-1]['name'] == 'ntfs_inspection_probe-dependents'
+        history = output / 'failed-counter'
+        history.mkdir()
+        for p in list(output.iterdir()):
+            if p.is_file():
+                shutil.copyfile(p, history / p.name)
+        summary['stages'] = previous['stages']
+        reused = {s['name']: s for s in summary['stages']}
+        assert len(reused) == len(summary['stages'])
+        built_artifacts = {p.relative_to(build).as_posix(): sha(p) for p in build.rglob('*') if p.is_file() and p.suffix in {'.exe', '.lib', '.obj'}}
+        summary['resumed_after'] = 'failed-counter/summary.json'
+        summary['reused_build_artifacts'] = built_artifacts
 
     def save():
         (output / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8', newline='\n')
 
     def run(name, command):
         command = list(map(str, command))
+        if name in reused:
+            assert reused[name]['command'] == command and reused[name]['cwd'] == str(root)
+            print('REUSE verified', name, flush=True)
+            return reused[name]['exit_code']
         print('BEGIN', name, flush=True)
         start = time.monotonic()
         with (output / (name + '.log')).open('wb') as log:
@@ -97,7 +134,7 @@ def main():
         directory_command=json.loads((build/'ntfs-directory-command-cases.json').read_bytes())
         bootstrap_command=json.loads((build/'ntfs-command-cases.json').read_bytes())
         assert directory_command['passed'] and bootstrap_command['passed']
-        assert directory_command['cases']==100 and bootstrap_command['cases']==50
+        assert directory_command['cases']==100 and bootstrap_command['cases']==58
         assert len(summary['artifacts'])==len({v['path'] for v in summary['artifacts']})==11
         assert len(directory_command['source_receipts'])==22
         assert all(v['before_sha256']==v['after_sha256'] for v in directory_command['source_receipts'])
@@ -128,6 +165,9 @@ def main():
                         '--byte-budget', '1200000', '--artifact-byte-budget', '16777216'])
         run('verify-context', [sys.executable, 'spec/tools/specctl.py', 'verify-context', output / 'context'])
         summary['inputs_unchanged'] = all(sha(root / name) == digest for name, digest in before.items())
+        if built_artifacts:
+            summary['reused_artifacts_unchanged'] = all(sha(build / name) == digest for name, digest in built_artifacts.items())
+            assert summary['reused_artifacts_unchanged']
         summary['source_status_after'] = subprocess.check_output(['git', 'status', '--porcelain'], cwd=root, text=True)
         summary['status'] = 'pass' if not summary['native_failed'] and not summary['native_skipped'] and all(s['exit_code'] == 0 for s in summary['stages']) and summary['inputs_unchanged'] and not summary['source_status_after'] else 'fail'
     except BaseException as error:

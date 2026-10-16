@@ -1,0 +1,57 @@
+{
+  "status": "research-not-execution-contract",
+  "candidate_work_id": "DE-W094",
+  "recorded_at": "2026-10-16T04:55:09.391348+00:00",
+  "repository_revision": "a3daab0cbc9925adaa9b6f6e046a3480f1853aa4",
+  "native_source_under_qualification": "6efc9a5bcae092fe56d05b3a73840e2a5e0d8c4d",
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-name",
+      "supports": "For NTFS3.0/3.1, FILE_NAME contains a parent directory reference, counted Unicode name and filename flags. Name attributes relate a file to directory entries; their presence alone is not current-source membership proof."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/mft-segment-reference",
+      "supports": "An MFT reference includes low/high segment-number fields and a nonzero reused sequence. Zero sequence is reserved; preserving only the record ordinal loses identity information."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/devnotes/file-record-segment-header",
+      "supports": "A referenced FILE header sequence must match its reference. The header distinguishes in-use and filename-index flags, and a base record has a zero base-file reference. These observations apply to the documented NTFS3.0/3.1 profile."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/b04c3bd0-79dc-4e58-b8ed-74f19fc2ea0a",
+      "supports": "The reserved UpCase file supplies uppercase data used for filename collation. This page does not establish the complete disk-table format, matching algorithm or every per-directory case policy."
+    }
+  ],
+  "local_inputs": {
+    "spec/storage/filesystem-capabilities.md": "sha256:73efeb0cfb427bc6346b23c4ec02b082f5eb77909ee538e1307f7cc7637ec506",
+    "spec/catalog/ntfs-directory-prototype.json": "sha256:1256b90cc58a06dc078a7a93199796ee601a015f5e6221c93a46ab2fa26638ce",
+    "spec/catalog/ntfs-index-prototype.json": "sha256:4e991f18d8ca46b4b43057040129304280f859fb201823834566c14759afb4a7",
+    "source/runtime/capture/ntfs_stream.h": "sha256:0aef9293d7aa5aec391756dc59f280f8bf0a71429648552e9b1261c8dee6da4c",
+    "source/runtime/capture/ntfs_stream.cpp": "sha256:1f6d00489144e2ef3e9f4a1227a2dc91c6736a03fa2c59a9f1a1054247a77b19",
+    "source/runtime/capture/ntfs_capture.cpp": "sha256:e2853c10427bdce11643b29a423ea441e66cd4d6414655b2c8c5c7ff5702fa23",
+    "source/portable/ntfs/filename.c": "sha256:87860272c828bc95318102582549de60047328575741af1b6676696bb312cf24",
+    "source/portable/ntfs/ntfs.h": "sha256:42511f97fa07afd957640c48513120bb3b798d625dfc859dfadff52a5f5bd494"
+  },
+  "local_findings": [
+    "Existing filename decoder preserves parent full reference, original UTF16LE name, namespace byte and opaque duplicated-information/suffix views. Reuse its checked bytes rather than a second parser.",
+    "The existing ordinary-stream joiner intentionally refuses multiple selected resident attributes. Enumerating filename attributes is a different responsibility: distinct filename/instance edges must not be collapsed into one resident data stream.",
+    "Directory index acquisition already binds its full directory reference, source/window/epoch, graph and retained bytes, while explicitly leaving target membership, collation and namespace unverified."
+  ],
+  "inferences_to_resolve_in_contract": [
+    "Verify each index name edge against a source-context-bound, in-use target FILE with the exact full reference and required base/extension ownership, then its relevant filename attributes. Define multiple names, hard links and DOS aliases explicitly.",
+    "Keep exact original-name/parent/namespace membership separate from case-folded lookup and ordering. Do not compare opaque duplicated-information bytes as undocumented authoritative fields.",
+    "Acquire declared attribute-list dependencies under finite global quotas; collecting name attributes needs instance-aware enumeration rather than the single ordinary-stream API.",
+    "Define how source record/extension data is acquired and independently replayed before any native membership claim. Supplied-context assertions alone grant no source access."
+  ],
+  "unresolved": [
+    "Full NTFS collation and UpCase validation/identity",
+    "Per-directory case-sensitivity and alias/uniqueness policy",
+    "Exact membership statuses, mixed/partial evidence, quotas and production wire admission",
+    "Namespace/tree completeness and content/extraction remain separate required work"
+  ],
+  "execution_contract_defined": false,
+  "implementation_started": false,
+  "authorizes_effects": false,
+  "owner_accepted": false,
+  "full_0_1_0_complete": false
+}
