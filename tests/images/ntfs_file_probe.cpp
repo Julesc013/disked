@@ -99,6 +99,17 @@ static V observe(const V &input) {
 #undef LOAD
         }
     }
+    const auto membership_input = input.find("membership");
+    disked::NtfsMembershipFileRequest membership;
+    membership.directory = directory;
+    if (membership_input) {
+        need(membership_input->kind == V::Kind::object);
+        if (const auto value = membership_input->find("targets")) {
+            const auto targets = integer(*value);
+            // Preserve rejection across pointer widths; never truncate a large wire value.
+            membership.targets = targets > 256 ? 257 : static_cast<std::size_t>(targets);
+        }
+    }
     std::function<bool()> stop;
     V held_access = V::array();
     std::size_t stop_calls = 0, read_calls = 0;
@@ -131,6 +142,8 @@ static V observe(const V &input) {
             directory.file = request;
             directory.reference = 1;
             directory.limits.entries = 0;
+            membership.directory = directory;
+            membership.targets = 0;
             stop = {};
             control = {};
         }
@@ -189,12 +202,15 @@ static V observe(const V &input) {
 #endif
     try {
 #ifdef DISKED_NTFS_FILE_TESTING
-        auto read = directory_input
+        auto read = membership_input
+                        ? disked::capture_ntfs_membership_file_testing(membership, stop, control)
+                    : directory_input
                         ? disked::capture_ntfs_directory_file_testing(directory, stop, control)
                         : disked::capture_ntfs_file_testing(request, stop, control);
 #else
-        auto read = directory_input ? disked::capture_ntfs_directory_file_owned(directory, stop)
-                                    : disked::capture_ntfs_file_owned(request, stop);
+        auto read = membership_input  ? disked::capture_ntfs_membership_file_owned(membership, stop)
+                    : directory_input ? disked::capture_ntfs_directory_file_owned(directory, stop)
+                                      : disked::capture_ntfs_file_owned(request, stop);
 #endif
         auto regions = V::array();
         for (const auto &region : read.regions)

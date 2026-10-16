@@ -1,5 +1,6 @@
 #include "ntfs_file.h"
 #include "local_file.h"
+#include "runtime/capture/ntfs_membership.h"
 #include "portable/hash/sha256.h"
 #include <atomic>
 #include <deque>
@@ -106,6 +107,8 @@ V directory_foundation(const V &value) {
     auto &info = out.fields.at("volume_information");
     if (info.kind == V::Kind::object)
         info.put("profile_matches", flag(true));
+    if (const auto limit = value.find("requested_target_limit"))
+        out.put("requested_target_limit", *limit);
     auto closures = V::object();
     if (const auto source = value.find("record_closures"))
         for (const auto key : {"mft", "volume"})
@@ -130,15 +133,20 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
                      const NtfsFileTestControl *control_input
 #endif
                      ,
-                     const NtfsDirectoryFileRequest *directory_input = nullptr) {
+                     const NtfsDirectoryFileRequest *directory_input = nullptr,
+                     const std::size_t *targets_input = nullptr) {
     const NtfsFileRequest held = input;
     const bool directory_mode = directory_input != nullptr;
+    const bool membership_mode = targets_input != nullptr;
     const auto directory = directory_input ? *directory_input : NtfsDirectoryFileRequest{};
+    const std::size_t target_limit = targets_input ? *targets_input : 64;
     const auto stop_callback = stop;
 #ifdef DISKED_NTFS_FILE_TESTING
     const auto control = control_input ? *control_input : NtfsFileTestControl{};
 #endif
     const auto selector = std::string(profile_name(held.profile));
+    if (membership_mode && !directory_mode)
+        throw std::invalid_argument("ntfs_file_membership_inputs");
     const auto maximum = static_cast<std::uint64_t>(MAXLONGLONG);
     if (held.volume_offset > maximum || held.volume_bytes > maximum - held.volume_offset)
         throw std::invalid_argument("ntfs_file_seek_range");
@@ -158,6 +166,12 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
         selected_directory.capture = selected;
         selected_directory.reference = directory.reference;
         selected_directory.limits = directory.limits;
+        if (membership_mode) {
+            NtfsMembershipRequest membership;
+            membership.directory = selected_directory;
+            membership.targets = target_limit;
+            return observe_ntfs_membership(membership, source);
+        }
         return observe_ntfs_directory(selected_directory, source);
     };
     if (directory_mode) {
@@ -165,7 +179,13 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
         checked_directory.capture = request;
         checked_directory.reference = directory.reference;
         checked_directory.limits = directory.limits;
-        validate_ntfs_directory_request(checked_directory);
+        if (membership_mode) {
+            NtfsMembershipRequest membership;
+            membership.directory = checked_directory;
+            membership.targets = target_limit;
+            validate_ntfs_membership_request(membership);
+        } else
+            validate_ntfs_directory_request(checked_directory);
     }
     if (held.expected_source.kind != V::Kind::null && held.expected_source.kind != V::Kind::object)
         throw std::invalid_argument("ntfs_file_expected_source");
@@ -449,8 +469,9 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     }
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
     auto domain = V::object()
-                      .put("provider", V::string(directory_mode ? "ntfs-directory-file-prototype"
-                                                                : "ntfs-file-prototype"))
+                      .put("provider", V::string(membership_mode  ? "ntfs-membership-file-prototype"
+                                                 : directory_mode ? "ntfs-directory-file-prototype"
+                                                                  : "ntfs-file-prototype"))
                       .put("process_id", exact(pid))
                       .put("process_created", exact(process_created))
                       .put("sequence", exact(request.epoch))
@@ -467,6 +488,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
                      .put("entries", exact(directory.limits.entries))
                      .put("blocks", exact(directory.limits.blocks))
                      .put("bitmap_bytes", exact(directory.limits.bitmap_bytes)));
+    if (membership_mode)
+        domain.put("target_limit", exact(target_limit));
     const auto capture_domain = digest(domain);
     auto capture = V::object()
                        .put("source_before", before)
@@ -513,8 +536,9 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     NtfsFileRead result;
     result.result =
         V::object()
-            .put("schema", V::string(directory_mode ? "org.disked.ntfs-directory-file-capture/1"
-                                                    : "org.disked.ntfs-file-capture/1"))
+            .put("schema", V::string(membership_mode  ? "org.disked.ntfs-membership-file-capture/1"
+                                     : directory_mode ? "org.disked.ntfs-directory-file-capture/1"
+                                                      : "org.disked.ntfs-file-capture/1"))
             .put("observation", std::move(observation))
             .put("capture", std::move(capture))
             .put("authorizes_effects", flag(false))
@@ -544,6 +568,16 @@ NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &r
                    ,
                    &request);
 }
+NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest &request,
+                                                const std::function<bool()> &stop) {
+    return capture(request.directory.file, stop
+#ifdef DISKED_NTFS_FILE_TESTING
+                   ,
+                   nullptr
+#endif
+                   ,
+                   &request.directory, &request.targets);
+}
 #ifdef DISKED_NTFS_FILE_TESTING
 NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &request,
                                        const std::function<bool()> &stop,
@@ -554,6 +588,11 @@ NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest 
                                                  const std::function<bool()> &stop,
                                                  const NtfsFileTestControl &control) {
     return capture(request.file, stop, &control, &request);
+}
+NtfsFileRead capture_ntfs_membership_file_testing(const NtfsMembershipFileRequest &request,
+                                                  const std::function<bool()> &stop,
+                                                  const NtfsFileTestControl &control) {
+    return capture(request.directory.file, stop, &control, &request.directory, &request.targets);
 }
 #endif
 } // namespace disked

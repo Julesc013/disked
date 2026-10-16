@@ -1,5 +1,6 @@
 #pragma once
 #include "runtime/capture/ntfs_directory.h"
+#include <cstddef>
 #include <functional>
 #include <vector>
 
@@ -28,12 +29,18 @@ struct NtfsDirectoryFileRequest {
     std::uint64_t reference = 0;
     NtfsDirectoryLimits limits;
 };
+struct NtfsMembershipFileRequest {
+    NtfsDirectoryFileRequest directory;
+    std::size_t targets = 64;
+};
 // Private synchronous ordinary-file observation. Native waits need containment
 // before frontend admission; no physical opening or future source/effect grant.
 NtfsFileRead capture_ntfs_file_owned(const NtfsFileRequest &,
                                      const std::function<bool()> &stop = {});
 NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &,
                                                const std::function<bool()> &stop = {});
+NtfsFileRead capture_ntfs_membership_file_owned(const NtfsMembershipFileRequest &,
+                                                const std::function<bool()> &stop = {});
 #ifdef DISKED_NTFS_FILE_TESTING
 struct NtfsFileTestControl {
     std::function<void(std::size_t)> before_binding;
@@ -46,5 +53,8 @@ NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &, const std::funct
 NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest &,
                                                  const std::function<bool()> &,
                                                  const NtfsFileTestControl &);
+NtfsFileRead capture_ntfs_membership_file_testing(const NtfsMembershipFileRequest &,
+                                                  const std::function<bool()> &,
+                                                  const NtfsFileTestControl &);
 #endif
 } // namespace disked
