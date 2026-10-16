@@ -82,6 +82,23 @@ static V observe(const V &input) {
         LOAD(output_bytes);
 #undef LOAD
     }
+    const auto directory_input = input.find("directory");
+    disked::NtfsDirectoryFileRequest directory;
+    directory.file = request;
+    if (directory_input) {
+        need(directory_input->kind == V::Kind::object);
+        if (const auto value = directory_input->find("reference"))
+            directory.reference = integer(*value);
+        if (const auto limits = directory_input->find("limits")) {
+#define LOAD(name)                                                                                 \
+    if (const auto *value = limits->find(#name))                                                   \
+    directory.limits.name = static_cast<std::size_t>(integer(*value))
+            LOAD(entries);
+            LOAD(blocks);
+            LOAD(bitmap_bytes);
+#undef LOAD
+        }
+    }
     std::function<bool()> stop;
     V held_access = V::array();
     std::size_t stop_calls = 0, read_calls = 0;
@@ -111,6 +128,9 @@ static V observe(const V &input) {
             request.profile = static_cast<disked::NtfsFileProfile>(99);
             request.expected_source = V{};
             request.limits.read_requests = 1;
+            directory.file = request;
+            directory.reference = 1;
+            directory.limits.entries = 0;
             stop = {};
             control = {};
         }
@@ -169,9 +189,12 @@ static V observe(const V &input) {
 #endif
     try {
 #ifdef DISKED_NTFS_FILE_TESTING
-        auto read = disked::capture_ntfs_file_testing(request, stop, control);
+        auto read = directory_input
+                        ? disked::capture_ntfs_directory_file_testing(directory, stop, control)
+                        : disked::capture_ntfs_file_testing(request, stop, control);
 #else
-        auto read = disked::capture_ntfs_file_owned(request, stop);
+        auto read = directory_input ? disked::capture_ntfs_directory_file_owned(directory, stop)
+                                    : disked::capture_ntfs_file_owned(request, stop);
 #endif
         auto regions = V::array();
         for (const auto &region : read.regions)

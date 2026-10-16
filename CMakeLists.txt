@@ -1251,6 +1251,8 @@ if(BUILD_TESTING)
   target_compile_definitions(ntfs_file_fault PRIVATE DISKED_NTFS_FILE_TESTING=1)
   add_test(NAME image.ntfs_file COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_file.py" --probe "$<TARGET_FILE:ntfs_file_probe>" --fault "$<TARGET_FILE:ntfs_file_fault>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-file-cases.json")
   set_tests_properties(image.ntfs_file PROPERTIES TIMEOUT 180)
+  add_test(NAME image.ntfs_directory_file COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_ntfs_directory_file.py" --probe "$<TARGET_FILE:ntfs_file_probe>" --fault "$<TARGET_FILE:ntfs_file_fault>" --pure "$<TARGET_FILE:ntfs_capture_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/ntfs-directory-file-cases.json")
+  set_tests_properties(image.ntfs_directory_file PROPERTIES TIMEOUT 180)
   add_test(NAME image.exfat_tree_file COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/images/test_exfat_tree_file.py"
     --probe "$<TARGET_FILE:exfat_file_probe>" --fault "$<TARGET_FILE:exfat_file_fault>"
     --pure "$<TARGET_FILE:exfat_tree_probe>" --output "${CMAKE_CURRENT_BINARY_DIR}/exfat-tree-file-cases.json")

@@ -75,6 +75,44 @@ bool version(const V &value, const char *minor) {
            minor_value->kind == V::Kind::string && major_value->text == "3" &&
            minor_value->text == minor;
 }
+// Exact common facts before the directory's first read. Completion, attempted
+// reads and requested minor are deliberately outside this profile comparison.
+V directory_foundation(const V &value) {
+    auto out = V::object();
+    for (const auto key : {"schema",
+                           "source_id",
+                           "epoch",
+                           "volume_offset",
+                           "volume_bytes",
+                           "requested_major",
+                           "atomic_snapshot",
+                           "current_source_authority",
+                           "effects_authorized",
+                           "boot",
+                           "primary",
+                           "mirror",
+                           "mirror_used_payload_equal",
+                           "mft",
+                           "volume_record",
+                           "volume_information",
+                           "regions",
+                           "retained_bytes",
+                           "attributes",
+                           "runs",
+                           "requested_directory_reference"}) {
+        const auto item = value.find(key);
+        out.put(key, item ? *item : V{});
+    }
+    auto &info = out.fields.at("volume_information");
+    if (info.kind == V::Kind::object)
+        info.put("profile_matches", flag(true));
+    auto closures = V::object();
+    if (const auto source = value.find("record_closures"))
+        for (const auto key : {"mft", "volume"})
+            if (const auto item = source->find(key))
+                closures.put(key, *item);
+    return out.put("record_closures", std::move(closures));
+}
 #ifdef DISKED_NTFS_FILE_TESTING
 template <class Callback> void test_callback(const Callback &callback) {
     try {
@@ -91,8 +129,11 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
                      ,
                      const NtfsFileTestControl *control_input
 #endif
-) {
+                     ,
+                     const NtfsDirectoryFileRequest *directory_input = nullptr) {
     const NtfsFileRequest held = input;
+    const bool directory_mode = directory_input != nullptr;
+    const auto directory = directory_input ? *directory_input : NtfsDirectoryFileRequest{};
     const auto stop_callback = stop;
 #ifdef DISKED_NTFS_FILE_TESTING
     const auto control = control_input ? *control_input : NtfsFileTestControl{};
@@ -110,6 +151,22 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     request.minor = held.profile == NtfsFileProfile::Version30 ? 0 : 1;
     request.limits = held.limits;
     validate_ntfs_capture_request(request);
+    auto observe = [&](const NtfsCaptureRequest &selected, const RegionReader &source) {
+        if (!directory_mode)
+            return observe_ntfs_bootstrap(selected, source);
+        NtfsDirectoryRequest selected_directory;
+        selected_directory.capture = selected;
+        selected_directory.reference = directory.reference;
+        selected_directory.limits = directory.limits;
+        return observe_ntfs_directory(selected_directory, source);
+    };
+    if (directory_mode) {
+        NtfsDirectoryRequest checked_directory;
+        checked_directory.capture = request;
+        checked_directory.reference = directory.reference;
+        checked_directory.limits = directory.limits;
+        validate_ntfs_directory_request(checked_directory);
+    }
     if (held.expected_source.kind != V::Kind::null && held.expected_source.kind != V::Kind::object)
         throw std::invalid_argument("ntfs_file_expected_source");
     try {
@@ -239,7 +296,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
             throw local_file::Error("ntfs_file_read", saved.error);
         return de_view{saved.bytes.data(), saved.bytes.size()};
     };
-    const auto probe = observe_ntfs_bootstrap(request, reader);
+    const auto probe = observe(request, reader);
+    const auto probe_responses = regions.size();
     V after, final;
     auto after_check = [&](V &value, bool hook) {
         try {
@@ -256,11 +314,51 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
             note_binding_error(error);
         }
     };
-    after_check(after, true);
+    if (!directory_mode)
+        after_check(after, true);
     std::size_t replay_passes = 0, replay_calls = 0;
     struct Replay {
         V value;
         bool equal = false;
+    };
+    auto retained_response = [&](const de_byte_extent &extent, std::size_t &used,
+                                 std::deque<NtfsFileRegion> &buffers, bool &trace_equal,
+                                 bool strict, std::size_t count) {
+        if (used == count) {
+            trace_equal = false;
+            throw std::runtime_error("ntfs_file_replay_missing");
+        }
+        const auto &original = regions[used++];
+        auto region = original;
+#ifdef DISKED_NTFS_FILE_TESTING
+        ++replay_calls;
+        if (control.before_replay) {
+            try {
+                control.before_replay(replay_calls, region);
+            } catch (...) {
+                trace_equal = false;
+                throw;
+            }
+        }
+#else
+        ++replay_calls;
+#endif
+        if (!same_region(original, region)) {
+            trace_equal = false;
+            if (strict)
+                throw std::runtime_error("ntfs_file_profile_prefix_changed");
+        }
+        const auto start = native(extent.start), end = native(extent.end);
+        if (start != region.offset || end < start || end - start != region.requested) {
+            trace_equal = false;
+            throw std::runtime_error("ntfs_file_replay_extent");
+        }
+        if (!region.refusal.empty())
+            throw local_file::Error(region.refusal.c_str(), region.error);
+        if (region.error)
+            throw local_file::Error("ntfs_file_read", region.error);
+        buffers.push_back(std::move(region));
+        return de_view{buffers.back().bytes.data(), buffers.back().bytes.size()};
     };
     auto replay = [&](const NtfsCaptureRequest &selected) {
         ++replay_passes;
@@ -268,47 +366,60 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
         std::size_t used = 0;
         bool trace_equal = true;
         RegionReader retained = [&](const de_byte_extent &extent) {
-            if (used == regions.size()) {
-                trace_equal = false;
-                throw std::runtime_error("ntfs_file_replay_missing");
-            }
-            const auto &original = regions[used++];
-            auto region = original;
-#ifdef DISKED_NTFS_FILE_TESTING
-            ++replay_calls;
-            if (control.before_replay) {
-                try {
-                    control.before_replay(replay_calls, region);
-                } catch (...) {
-                    trace_equal = false;
-                    throw;
-                }
-            }
-#else
-            ++replay_calls;
-#endif
-            if (!same_region(original, region))
-                trace_equal = false;
-            const auto start = native(extent.start), end = native(extent.end);
-            if (start != region.offset || end < start || end - start != region.requested) {
-                trace_equal = false;
-                throw std::runtime_error("ntfs_file_replay_extent");
-            }
-            if (!region.refusal.empty())
-                throw local_file::Error(region.refusal.c_str(), region.error);
-            if (region.error)
-                throw local_file::Error("ntfs_file_read", region.error);
-            buffers.push_back(std::move(region));
-            return de_view{buffers.back().bytes.data(), buffers.back().bytes.size()};
+            return retained_response(extent, used, buffers, trace_equal, false, regions.size());
         };
-        auto value = observe_ntfs_bootstrap(selected, retained);
+        auto value = observe(selected, retained);
         return Replay{std::move(value), trace_equal && used == regions.size()};
     };
     auto observation = probe;
     bool profile_equal = true;
     bool selected = held.profile != NtfsFileProfile::Automatic || version(probe, "1");
-    if (held.profile == NtfsFileProfile::Automatic && probe.fields.at("complete").boolean &&
+    bool prefix_attempted = false, prefix_validated = false, prefix_boundary = false;
+    bool prefix_continued = false, resume_equal = true;
+    std::size_t prefix_calls = 0, prefix_reused = 0;
+    V prefix_hash, probe_foundation_hash, selected_foundation_hash;
+    if (directory_mode && held.profile == NtfsFileProfile::Automatic &&
         probe.fields.at("diagnostic").text == "ntfs_volume_version" && version(probe, "0")) {
+        request.minor = 0;
+        prefix_attempted = true;
+        bool trace_equal = true;
+        std::deque<NtfsFileRegion> buffers;
+        RegionReader prefix = [&](const de_byte_extent &extent) {
+            if (prefix_calls == probe_responses) {
+                prefix_boundary = true;
+                throw std::runtime_error("ntfs_file_profile_prefix_boundary");
+            }
+            return retained_response(extent, prefix_calls, buffers, trace_equal, true,
+                                     probe_responses);
+        };
+        ++replay_passes;
+        auto choice = observe(request, prefix);
+        prefix_hash = V::string(digest(choice));
+        const auto expected = directory_foundation(probe);
+        const auto actual = directory_foundation(choice);
+        probe_foundation_hash = V::string(digest(expected));
+        selected_foundation_hash = V::string(digest(actual));
+        prefix_validated =
+            trace_equal && prefix_calls == probe_responses && encode(expected) == encode(actual);
+        profile_equal = selected = prefix_validated;
+        if (prefix_validated && prefix_boundary) {
+            prefix_continued = true;
+            std::deque<NtfsFileRegion> resumed;
+            RegionReader continuation = [&](const de_byte_extent &extent) {
+                if (!resume_equal)
+                    throw std::runtime_error("ntfs_file_profile_prefix_changed");
+                if (prefix_reused < probe_responses)
+                    return retained_response(extent, prefix_reused, resumed, resume_equal, true,
+                                             probe_responses);
+                return reader(extent);
+            };
+            observation = observe(request, continuation);
+            profile_equal = selected = resume_equal && prefix_reused == probe_responses;
+        } else
+            observation = std::move(choice);
+    } else if (!directory_mode && held.profile == NtfsFileProfile::Automatic &&
+               probe.fields.at("complete").boolean &&
+               probe.fields.at("diagnostic").text == "ntfs_volume_version" && version(probe, "0")) {
         request.minor = 0;
         auto choice = replay(request);
         auto expected = probe;
@@ -320,6 +431,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
         selected = profile_equal;
         observation = std::move(choice.value);
     }
+    if (directory_mode)
+        after_check(after, true);
     auto repeated = replay(request);
     const bool replay_equal = repeated.equal && encode(repeated.value) == encode(observation);
     after_check(final, false);
@@ -336,7 +449,8 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
     }
     const auto profile = selected ? V::string(request.minor ? "3.1" : "3.0") : V{};
     auto domain = V::object()
-                      .put("provider", V::string("ntfs-file-prototype"))
+                      .put("provider", V::string(directory_mode ? "ntfs-directory-file-prototype"
+                                                                : "ntfs-file-prototype"))
                       .put("process_id", exact(pid))
                       .put("process_created", exact(process_created))
                       .put("sequence", exact(request.epoch))
@@ -346,6 +460,13 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
                       .put("selector", V::string(selector))
                       .put("selected_profile", profile)
                       .put("limits", limits_value(request.limits));
+    if (directory_mode)
+        domain.put("directory_reference", exact(directory.reference))
+            .put("directory_limits",
+                 V::object()
+                     .put("entries", exact(directory.limits.entries))
+                     .put("blocks", exact(directory.limits.blocks))
+                     .put("bitmap_bytes", exact(directory.limits.bitmap_bytes)));
     const auto capture_domain = digest(domain);
     auto capture = V::object()
                        .put("source_before", before)
@@ -377,13 +498,27 @@ NtfsFileRead capture(const NtfsFileRequest &input, const std::function<bool()> &
                        .put("observed_stable", flag(stable))
                        .put("atomic_snapshot", flag(false))
                        .put("source_consistency", V::string("live-uncoordinated"));
+    if (directory_mode)
+        capture.put("profile_probe_response_count", exact(probe_responses))
+            .put("profile_probe_sha256", V::string(digest(probe)))
+            .put("profile_prefix_validation_attempted", flag(prefix_attempted))
+            .put("profile_prefix_validated", flag(prefix_validated))
+            .put("profile_prefix_boundary", flag(prefix_boundary))
+            .put("profile_prefix_continued", flag(prefix_continued))
+            .put("profile_prefix_validation_calls", exact(prefix_calls))
+            .put("profile_prefix_reused", exact(prefix_reused))
+            .put("profile_prefix_validation_sha256", prefix_hash)
+            .put("profile_probe_foundation_sha256", probe_foundation_hash)
+            .put("profile_selected_foundation_sha256", selected_foundation_hash);
     NtfsFileRead result;
-    result.result = V::object()
-                        .put("schema", V::string("org.disked.ntfs-file-capture/1"))
-                        .put("observation", std::move(observation))
-                        .put("capture", std::move(capture))
-                        .put("authorizes_effects", flag(false))
-                        .put("product_dispatch_admitted", flag(false));
+    result.result =
+        V::object()
+            .put("schema", V::string(directory_mode ? "org.disked.ntfs-directory-file-capture/1"
+                                                    : "org.disked.ntfs-file-capture/1"))
+            .put("observation", std::move(observation))
+            .put("capture", std::move(capture))
+            .put("authorizes_effects", flag(false))
+            .put("product_dispatch_admitted", flag(false));
     for (auto &region : regions)
         result.regions.push_back(std::move(region));
     encode(result.result);
@@ -399,11 +534,26 @@ NtfsFileRead capture_ntfs_file_owned(const NtfsFileRequest &request,
 #endif
     );
 }
+NtfsFileRead capture_ntfs_directory_file_owned(const NtfsDirectoryFileRequest &request,
+                                               const std::function<bool()> &stop) {
+    return capture(request.file, stop
+#ifdef DISKED_NTFS_FILE_TESTING
+                   ,
+                   nullptr
+#endif
+                   ,
+                   &request);
+}
 #ifdef DISKED_NTFS_FILE_TESTING
 NtfsFileRead capture_ntfs_file_testing(const NtfsFileRequest &request,
                                        const std::function<bool()> &stop,
                                        const NtfsFileTestControl &control) {
     return capture(request, stop, &control);
+}
+NtfsFileRead capture_ntfs_directory_file_testing(const NtfsDirectoryFileRequest &request,
+                                                 const std::function<bool()> &stop,
+                                                 const NtfsFileTestControl &control) {
+    return capture(request.file, stop, &control, &request);
 }
 #endif
 } // namespace disked

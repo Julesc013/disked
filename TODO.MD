@@ -22,6 +22,12 @@ Status: active all-platform/storage 0.1.0 development, with source-bound native 
 
 ## Active 0.1.0 goal
 
+- [ ] DE-W091 native directory-file binding: working550 native responses/12
+  methods and five old NTFS groups pass. Automatic3.0 validates and reuses its
+  captured bootstrap prefix with no duplicate native reads. Clean selected/full-
+  target and Win32 qualification remain pending. Worker/frontend and full
+  original0.1.0 scope remain. [Contract](spec/catalog/ntfs-directory-file-prototype.json).
+
 - [x] DE-W089 supplied-reader NTFS directory scope: exact `7bb6153a` passes
   227 guarded cases, all 160 registered x64 native groups, 63 headers, strict C90
   and 244 tooling tests (two skipped). Four Win32 groups/four headers pass after
