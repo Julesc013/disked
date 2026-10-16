@@ -34,12 +34,14 @@ this page explains the assessment without maintaining another work graph.
 | `providers/<backend>/` | Concrete byte acquisition, backend observations and effects behind those ports. A current Windows-specific provider does not establish cross-platform support. |
 
 There are **314 current source files**: 36 portable, 133 runtime, 68 provider,
-63 platform and 14 application files. This includes the private DE-W088 INDX and shared fixup files awaiting qualification; the preceding source-bound evidence is below. The longest repository-relative source
+63 platform and 14 application files. This includes the private DE-W088 INDX and shared fixup files; source-bound qualification is below. The longest repository-relative source
 path is 62 characters: `source/platform/windows/storage/fat_tree_extraction_worker.cpp`.
 The path check finds no case collisions, Windows reserved basenames or trailing
 space/dot components. These measurements do not qualify legacy path limits,
 build-output paths, every compiler or every filesystem.
-[Current source inventory](../.aide/evidence/2026-10-16-ntfs-block/source-inventory.json); the earlier path audit remains retained in the 16 October structure evidence.
+[Current source inventory](../.aide/evidence/2026-10-16-ntfs-block/source-inventory.json) and
+[current path checks](../.aide/evidence/2026-10-16-ntfs-block/path-audit.json) bind these observations;
+the earlier assessment remains retained in the 16 October structure evidence.
 
 Directories name owners; filenames name responsibilities. Short descriptive
 `snake_case` names, conventional `main.cpp`, subsystem namespaces and qualified
@@ -95,6 +97,13 @@ refactoring; useful boundaries keep changes local and preserve unrelated contrac
 
 [Source/evidence integration](../.aide/evidence/2026-10-16-ntfs-closure-integration/repository.json)
 records the successful dev/main synchronization. Owner and release gates remain separate.
+
+Protected INDX blocks and shared FILE fixups at `1a5f4f70` pass 1,230 new cases,
+all 159 registered x64 native groups, 61 C++ headers, strict C90 sources/
+headers and 244 tooling tests(two skipped). Three Win32/WOW64 parser probes
+and two headers also pass. [Review](../.aide/evidence/2026-10-16-ntfs-block/REVIEW.md).
+This qualifies supplied framing/restoration on those lanes; source-bound directory
+acquisition and the original platform/storage 0.1.0 remain open.
 
 Private filename/index envelopes at `3df1a1c7` pass 1,502 guarded cases,
 27 selected native groups, 9 C++ headers, strict C90/header checks
@@ -170,17 +179,19 @@ same file tree. The comparison reports one synchronization commit and zero
 changed files; there is no pending content promotion between those branches.
 [Dated branch comparison](../.aide/evidence/2026-10-16-ntfs-list/setup-branches.json).
 
-The latest read-only Universal Setup observation finds
-[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) at `1060e995`.
-Six checks pass; `native-windows` fails in
-[run 38784925435](https://github.com/Julesc013/universal-setup/actions/runs/38784925435).
-Its failed log reports owned SYSTEM fixture failures in source-free interrupted
-repair checks and receipt-count mismatches during evidence packaging. The
-underlying runtime cause is not established. Both queried GitHub release
-collections are empty. These are dated hosted observations, not local Setup
-execution or live DiskEd lifecycle qualification.
-[Retained observations](../.aide/evidence/2026-10-16-ntfs-list/hosted-observations.json)
-and [failed job log](../.aide/evidence/2026-10-16-ntfs-list/setup-38784925435-failed.log).
+The refreshed 16 October read-only Universal Setup observation finds
+[draft PR #237](https://github.com/Julesc013/universal-setup/pull/237) still open at
+`ad659647`. Six checks pass; `native-windows` fails in
+[run 38818802475](https://github.com/Julesc013/universal-setup/actions/runs/38818802475).
+Its failed log reports `ValueError: receipt file count differs` twice. This does
+not establish a local runtime cause, and the older head's owned-SYSTEM failure
+is not promoted into a finding about this new head. Main/dev still have zero
+changed files and one synchronization commit; both Setup branches report
+protected. Both queried GitHub release collections remain empty. These are
+hosted observations, not local Setup execution or DiskEd lifecycle qualification.
+[Current observations](../.aide/evidence/2026-10-16-ntfs-block/hosted-setup-observations.json)
+and [failed job log](../.aide/evidence/2026-10-16-ntfs-block/setup-38818802475-failed.log)
+retain the current evidence; the earlier observation remains in its dated archive.
 
 The original **all-platform/storage 0.1.0 remains unfinished**. Native Windows
 interfaces and bounded image work are real progress, but substantial original

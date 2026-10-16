@@ -1,0 +1,123 @@
+{
+  "observed_at": "2026-10-16T00:16:58.886423+00:00",
+  "tested_source": "1a5f4f701d33f2311298392e20388c132bed844f",
+  "implementation_build_native_test_parameters_unchanged": true,
+  "compared_inputs": 752,
+  "validation_metadata_exception": "spec/catalog/input-dependencies.json",
+  "exception_only_registers_supplementary_recipe": true,
+  "supplementary_recipe_sha256": "sha256:e85ad1dca14e0e5e15ed89633af5fae36cce10b0407d300216229fe6aea3fa4a",
+  "stages": [
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "index"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-index.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "check"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-check.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-manifest"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-manifest.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "tools/check-source-map.py"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-source-map.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W088",
+        "--output",
+        ".aide-local\\context\\ntfs-block-reviewed-20261016T001646Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-block-reviewed-20261016T001646Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "context",
+        "--work",
+        "DE-W088",
+        "--output",
+        ".aide-local\\context\\ntfs-block-final-summary-20261016T001826Z",
+        "--byte-budget",
+        "1200000",
+        "--artifact-byte-budget",
+        "16777216"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/final-context.log"
+    },
+    {
+      "command": [
+        "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+        "spec/tools/specctl.py",
+        "verify-context",
+        ".aide-local\\context\\ntfs-block-final-summary-20261016T001826Z"
+      ],
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/final-verify-context.log"
+    }
+  ],
+  "owner_accepted": false,
+  "full_0_1_0_complete": false,
+  "release_qualified": false,
+  "programme_setup_projection_preserves_existing_fields": true,
+  "final_context_manifest": ".aide/evidence/2026-10-16-ntfs-block/final-context-manifest.json"
+}

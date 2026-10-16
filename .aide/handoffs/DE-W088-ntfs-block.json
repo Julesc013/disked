@@ -1,0 +1,663 @@
+{
+  "schema": "org.disked.handoff/1",
+  "work_id": "DE-W088",
+  "base_revision": "f2a00aaa9f4b771ac7a70afd404093de71d6be12",
+  "spec_manifest_digest": "sha256:80b3d01ac9211180a3333f3c55d4fb1d04ebb6bd0a49bb88a83a9944e86f1748",
+  "status": "needs_review",
+  "files_read": [
+    "AGENTS.md",
+    "spec/START-HERE.md",
+    "spec/index.md",
+    "spec/work/units.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "spec/catalog/ntfs-block-prototype.json",
+    "spec/catalog/ntfs-index-prototype.json",
+    "source/portable/ntfs/record.c",
+    "source/portable/ntfs/index.c",
+    "source/portable/ntfs/index_block.c",
+    "source/portable/ntfs/fixup.c",
+    "source/portable/ntfs/fixup.h",
+    "source/portable/ntfs/ntfs.h",
+    "tests/unit/ntfs_block_probe.cpp",
+    "tests/property/test_ntfs_block.py",
+    "CMakeLists.txt",
+    "docs/source-map.md"
+  ],
+  "files_changed": [
+    ".aide/evidence/2026-10-16-ntfs-block/.gitattributes",
+    ".aide/evidence/2026-10-16-ntfs-block/REVIEW.md",
+    ".aide/evidence/2026-10-16-ntfs-block/before-code-context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-block/final-context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-block/final-context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/final-verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/hosted-setup-observations.json",
+    ".aide/evidence/2026-10-16-ntfs-block/inventory.json",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-check.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-closure.json",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-index.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-source-map.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-block/next-directory-preparation.json",
+    ".aide/evidence/2026-10-16-ntfs-block/path-audit.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/boundaries.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-boundaries.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/CMakeCache.txt",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeCXXCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeRCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/Testing/Temporary/LastTest.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/disked_ntfs.vcxproj",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/generated/build-identity.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/ntfs_block_probe.vcxproj",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build-observations/private-header-usage.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-header-fixup.h.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-header-ntfs.h.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-version.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/fixup.h.c",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/index.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/manifest.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-artifacts.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-attributes-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-block-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-boot-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-capture-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-closure-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-command-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-file-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-index-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-list-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-record-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-runlist-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-stream-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-details/ntfs-worker-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs.h.c",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/registered.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/source-map.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/structural.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/tooling.log",
+    ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/verify-context.log",
+    ".aide/evidence/2026-10-16-ntfs-block/references.json",
+    ".aide/evidence/2026-10-16-ntfs-block/reproduce-win32.py.snapshot",
+    ".aide/evidence/2026-10-16-ntfs-block/reproduce.py",
+    ".aide/evidence/2026-10-16-ntfs-block/reviewed-context-manifest.json",
+    ".aide/evidence/2026-10-16-ntfs-block/setup-38818802475-failed.log",
+    ".aide/evidence/2026-10-16-ntfs-block/source-inventory.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build-observations/CMakeCache.txt",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeCXXCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build-observations/CMakeFiles/4.2.3/CMakeRCCompiler.cmake",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build-observations/Testing/Temporary/LastTest.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/fixture-sources.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/fixture/CMakeLists.txt",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/fixture/header-0.cpp",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/fixture/header-1.cpp",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native-artifacts.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native-details/ntfs-block-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native-details/ntfs-index-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native-details/ntfs-record-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-dependents.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-headers.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-imports.log",
+    ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/build.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/c90.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/CMakeLists.txt",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/source/portable/ntfs/fixup.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/source/portable/ntfs/fixup.h",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/source/portable/ntfs/index_block.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/source/portable/ntfs/ntfs.h",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/source/portable/ntfs/record.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/spec/catalog/ntfs-block-prototype.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/tests/property/test_ntfs_block.py",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/inputs/tests/unit/ntfs_block_probe.cpp",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/native-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/native.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233328Z/summary.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/build.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/c90.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/configure.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/CMakeLists.txt",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/source/portable/ntfs/fixup.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/source/portable/ntfs/fixup.h",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/source/portable/ntfs/index_block.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/source/portable/ntfs/ntfs.h",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/source/portable/ntfs/record.c",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/spec/catalog/ntfs-block-prototype.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/tests/property/test_ntfs_block.py",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/inputs/tests/unit/ntfs_block_probe.cpp",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/native-junit.xml",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/native.log",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/ntfs-block-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/ntfs-index-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/ntfs-record-cases.json",
+    ".aide/evidence/2026-10-16-ntfs-block/working/20261015T233449Z/summary.json",
+    ".aide/handoffs/DE-W088-ntfs-block.json",
+    ".aide/programmes/disked-0.1.0.json",
+    "CMakeLists.txt",
+    "TODO.MD",
+    "docs/ntfs-block.md",
+    "docs/source-map.md",
+    "docs/structure-review.md",
+    "source/portable/ntfs/fixup.c",
+    "source/portable/ntfs/fixup.h",
+    "source/portable/ntfs/index_block.c",
+    "source/portable/ntfs/ntfs.h",
+    "source/portable/ntfs/record.c",
+    "spec/bundle.json",
+    "spec/catalog/index.md",
+    "spec/catalog/input-dependencies.json",
+    "spec/catalog/ntfs-block-prototype.json",
+    "spec/catalog/source-maintenance-prototype.json",
+    "spec/generated/index.json",
+    "spec/index.md",
+    "spec/manifest.json",
+    "spec/work/units.json",
+    "tests/property/test_ntfs_block.py",
+    "tests/unit/ntfs_block_probe.cpp",
+    "tools/build-inputs.json"
+  ],
+  "summary": "Private protected INDX block observation/restoration and entry cursor, with shared FILE fixup mechanics, implemented and agent-reviewed at 1a5f4f701d33f2311298392e20388c132bed844f.1230 INDX/964 FILE/1502 filename-index cases, all159 native x64 groups,61 C++headers, strict C90 and244 tooling(two skipped) pass. Three Win32/WOW64 probes/two headers pass; root product x64 gate unchanged. Subsequent metadata only registers its exact supplementary generator and closes current retrieval. No source-bound directory, historical host, fullNTFS, owner, privilege or full original0.1.0 qualification is manufactured.",
+  "tests": [
+    {
+      "command": "cmake --preset windows-bootstrap -B D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build --config Release --parallel 4",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/build.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build -C Release --show-only=json-v1",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/registered.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build -C Release --parallel 1 --output-on-failure --output-junit D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\native-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/native.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\disked.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/disked-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_block_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_record_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_attributes_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_attributes_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_capture_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_capture_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_file_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_file_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build\\Release\\ntfs_worker_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/ntfs_worker_probe-dependents.log"
+    },
+    {
+      "command": "gcc --version",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-version.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource source\\portable\\ntfs\\attribute.c source\\portable\\ntfs\\attribute_list.c source\\portable\\ntfs\\boot.c source\\portable\\ntfs\\filename.c source\\portable\\ntfs\\fixup.c source\\portable\\ntfs\\index.c source\\portable\\ntfs\\index_block.c source\\portable\\ntfs\\record.c source\\portable\\ntfs\\runlist.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\ntfs.h.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-header-ntfs.h.log"
+    },
+    {
+      "command": "gcc -std=c90 -pedantic-errors -Wall -Wextra -Werror -fsyntax-only -Isource D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\fixup.h.c",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/c90-header-fixup.h.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-build-boundaries.py --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\build-boundaries.json",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/boundaries.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index --check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/structural.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe -m unittest discover -s spec/tools/tests -v",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/tooling.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W088 --output D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\context --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-qualified-1a5f4f70\\context",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/verify-context.log"
+    },
+    {
+      "command": "cmake -S D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\fixture -B D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build -G Visual Studio 17 2022 -A Win32,version=10.0.19041.0 -T v143,version=14.44.35207,host=x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 -DPython3_EXECUTABLE=D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/configure.log"
+    },
+    {
+      "command": "cmake --build D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build --config Release --parallel 2",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/build.log"
+    },
+    {
+      "command": "ctest --test-dir D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build -C Release --parallel 1 --output-on-failure --output-junit D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\native-junit.xml",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/native.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_block_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_block_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_record_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_record_probe-dependents.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /headers D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-headers.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /imports D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-imports.log"
+    },
+    {
+      "command": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x86\\dumpbin.exe /dependents D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-win32-1a5f4f70\\build\\Release\\ntfs_index_probe.exe",
+      "cwd": "D:\\Projects\\DiskEd\\disked\\.aide-local\\ntfs-block-exact-1a5f4f70",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/ntfs_index_probe-dependents.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py index",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-index.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py check",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-check.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-manifest",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-manifest.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe tools/check-source-map.py",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-source-map.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W088 --output .aide-local\\context\\ntfs-block-reviewed-20261016T001646Z --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local\\context\\ntfs-block-reviewed-20261016T001646Z",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/metadata-verify-context.log"
+    },
+    {
+      "command": "Source-bound directory acquisition, historical hosts, production writer/recovery, physical/storage privileges and full0.1.0 qualification",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "not_run",
+      "exit_code": null,
+      "evidence_path": null
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py context --work DE-W088 --output .aide-local\\context\\ntfs-block-final-summary-20261016T001826Z --byte-budget 1200000 --artifact-byte-budget 16777216",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/final-context.log"
+    },
+    {
+      "command": "D:\\Projects\\DiskEd\\disked\\.aide-local\\venv\\Scripts\\python.exe spec/tools/specctl.py verify-context .aide-local\\context\\ntfs-block-final-summary-20261016T001826Z",
+      "cwd": "D:\\Projects\\DiskEd\\disked",
+      "status": "pass",
+      "exit_code": 0,
+      "evidence_path": ".aide/evidence/2026-10-16-ntfs-block/final-verify-context.log"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/REVIEW.md",
+      "sha256": "sha256:c4cc6192961e270552a847af15381aa7fcc2ebb3f056eaf04fd814ab092d18cc"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/summary.json",
+      "sha256": "sha256:09de0f8d92efe1f41db3c13762c1f09f1239b8a1d69ab20756f935e7de4d5c9e"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/qualified-1a5f4f70/inputs.json",
+      "sha256": "sha256:215178414f4066a8f0c6bfa98282663aa35e722e07034e7d1667cc6c3c4efd77"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/win32-1a5f4f70/summary.json",
+      "sha256": "sha256:6ecfaa98862b3531bfbf944faf346e1687ce6ae998553c1bec40f299ca1a2ae1"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/reproduce-win32.py.snapshot",
+      "sha256": "sha256:e85ad1dca14e0e5e15ed89633af5fae36cce10b0407d300216229fe6aea3fa4a"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/metadata-closure.json",
+      "sha256": "sha256:34310e5fb9d2350df8b7b8ecad62c74684f92dd6e54aee50732526dd65ed085f"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/reviewed-context-manifest.json",
+      "sha256": "sha256:bd4cfe4a7bdc2efa5eb4be3422b8c533f51f517094936020d2d08328062929d6"
+    },
+    {
+      "path": ".aide/evidence/2026-10-16-ntfs-block/final-context-manifest.json",
+      "sha256": "sha256:d4c964b5733faf46a2f6ee46af14cead9a5ce07eb944fb879cf435adf5b4d1d0"
+    }
+  ],
+  "blockers": [
+    "Source-bound NTFS directory/index/bitmap acquisition and complete namespace/content remain required.",
+    "Original platform/storage0.1.0, historical compiler/host qualification, production writer/recovery, Setup, licensing, owner and privilege/release gates remain open.",
+    "Two tooling symlink cases skip; Win32 evidence is parser-only. Historical native-delay causes remain unestablished."
+  ],
+  "next_safe_step": "Synchronize reviewed source after staged-byte closure, then settle and implement bounded source-bound directory acquisition using next-directory-preparation.json without widening storage authority.",
+  "performed_remote_writes": true
+}
