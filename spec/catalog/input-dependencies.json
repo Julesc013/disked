@@ -15305,6 +15305,114 @@
         "DE-031",
         "DE-037"
       ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_membership.h",
+      "path": "source/runtime/capture/ntfs_membership.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/ntfs_directory.h",
+        "source/runtime/capture/ntfs_names.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_membership.cpp",
+      "path": "source/runtime/capture/ntfs_membership.cpp",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/ntfs_directory.h",
+        "source/runtime/capture/ntfs_names.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "source/runtime/capture/ntfs_membership_detail.h",
+      "path": "source/runtime/capture/ntfs_membership_detail.h",
+      "kind": "build",
+      "delivery": "artifact",
+      "depends_on": [
+        "source/runtime/capture/ntfs_directory.h",
+        "source/runtime/capture/ntfs_names.h"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/ntfs_membership_fixture.py",
+      "path": "tests/images/ntfs_membership_fixture.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-prototype.json",
+        "tests/images/ntfs_directory_fixture.py",
+        "tests/images/test_ntfs_names.py"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": "tests/images/test_ntfs_membership.py",
+      "path": "tests/images/test_ntfs_membership.py",
+      "kind": "fixture",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-prototype.json",
+        "tests/images/ntfs_directory_fixture.py",
+        "tests/images/test_ntfs_names.py"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-membership/reproduce.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-membership/reproduce.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-prototype.json",
+        "tests/images/test_ntfs_membership.py",
+        "tests/images/ntfs_membership_fixture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037",
+        "DE-074"
+      ]
+    },
+    {
+      "id": ".aide/evidence/2026-10-16-ntfs-membership/reproduce-win32.py",
+      "path": ".aide/evidence/2026-10-16-ntfs-membership/reproduce-win32.py",
+      "kind": "generator",
+      "delivery": "artifact",
+      "depends_on": [
+        "spec/catalog/ntfs-membership-prototype.json",
+        "tests/images/test_ntfs_membership.py",
+        "tests/images/ntfs_membership_fixture.py",
+        "CMakeLists.txt",
+        "tools/build-inputs.json"
+      ],
+      "spec_ids": [
+        "DE-031",
+        "DE-037",
+        "DE-074"
+      ]
     }
   ]
 }

@@ -69,6 +69,7 @@ class Collector {
     const Geometry geometry_;
     const Port port_;
     V &out_;
+    std::vector<Edge> *edges_;
     std::vector<Child> queue_;
     std::set<std::uint64_t> seen_, allocated_;
     std::size_t headers_ = 0, names_ = 0, blocks_ = 0;
@@ -170,6 +171,12 @@ class Collector {
                                                          : "ntfs_directory_entry");
             if (!parent_matches)
                 stop("ntfs_directory_parent_reference");
+            if (edges_ && !entry.end_marker)
+                edges_->push_back(Edge{headers_, native(entry.segment_reference),
+                                       native(entry.filename.parent_reference),
+                                       entry.filename.namespace_code,
+                                       Bytes(entry.filename.name.data,
+                                             entry.filename.name.data + entry.filename.name.size)});
             if (entry.has_child)
                 enqueue(native(entry.child_vbn), depth + 1);
         }
@@ -321,8 +328,9 @@ class Collector {
     }
 
   public:
-    Collector(NtfsDirectoryLimits limits, Geometry geometry, Port port, V &out)
-        : limits_(limits), geometry_(geometry), port_(std::move(port)), out_(out) {
+    Collector(NtfsDirectoryLimits limits, Geometry geometry, Port port, V &out,
+              std::vector<Edge> *edges)
+        : limits_(limits), geometry_(geometry), port_(std::move(port)), out_(out), edges_(edges) {
     }
     void collect() {
         out_ = V::object()
@@ -352,7 +360,8 @@ class Collector {
     }
 };
 } // namespace
-void collect(NtfsDirectoryLimits limits, Geometry geometry, Port port, V &out) {
+void collect(NtfsDirectoryLimits limits, Geometry geometry, Port port, V &out,
+             std::vector<Edge> *edges) {
     if (!port.stream || !port.read || !port.charge || !limits.entries || limits.entries > 4096 ||
         !limits.blocks || limits.blocks > 128 || !limits.bitmap_bytes ||
         limits.bitmap_bytes > 65536 || !(geometry.reference >> 48) || geometry.major != 3 ||
@@ -360,9 +369,9 @@ void collect(NtfsDirectoryLimits limits, Geometry geometry, Port port, V &out) {
         geometry.cluster_bytes > DE_NTFS_MAX_CLUSTER ||
         (geometry.cluster_bytes & (geometry.cluster_bytes - 1)) || geometry.index_bytes < 512 ||
         geometry.index_bytes > DE_NTFS_MAX_RECORD ||
-        (geometry.index_bytes & (geometry.index_bytes - 1)))
+        (geometry.index_bytes & (geometry.index_bytes - 1)) || (edges && !edges->empty()))
         throw std::invalid_argument("ntfs_directory_port");
-    Collector(limits, geometry, std::move(port), out).collect();
+    Collector(limits, geometry, std::move(port), out, edges).collect();
 }
 } // namespace ntfs_directory_detail
 } // namespace disked

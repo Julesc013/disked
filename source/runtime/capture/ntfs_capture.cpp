@@ -2,6 +2,8 @@
 #include "ntfs_directory.h"
 #include "ntfs_directory_detail.h"
 #include "ntfs_stream.h"
+#include "ntfs_membership.h"
+#include "ntfs_membership_detail.h"
 #include "portable/hash/sha256.h"
 #include "portable/ntfs/ntfs.h"
 #include <algorithm>
@@ -121,13 +123,15 @@ struct Closure {
     V list_facts = V::object(), join_facts;
     std::size_t join_bytes = 0;
 };
-enum class RecordKind { File, Directory, Extension };
+enum class RecordKind { File, Directory, Extension, Target };
+enum class CaptureKind { Bootstrap, Directory, Membership };
 class Observer {
     // Own both controls before the first callback; callbacks cannot widen scope.
     const NtfsCaptureRequest request_;
     const RegionReader reader_;
-    const bool directory_mode_ = false;
+    const CaptureKind kind_ = CaptureKind::Bootstrap;
     const NtfsDirectoryRequest directory_request_;
+    const NtfsMembershipRequest membership_request_;
     de_block_space source_{};
     de_ntfs_boot boot_{};
     std::deque<Region> regions_;
@@ -141,12 +145,21 @@ class Observer {
     Closure directory_closure_;
     std::vector<Mapping> directory_stream_runs_;
     V directory_facts_, directory_queries_ = V::array();
+    std::vector<ntfs_directory_detail::Edge> directory_edges_;
+    std::vector<Mapping> membership_list_runs_;
+    V membership_facts_;
     std::size_t reads_ = 0, bytes_ = 0, retained_ = 0, attributes_ = 0, runs_ = 0;
     std::size_t output_ = 8192, reread_start_ = 0;
     bool rereading_ = false, reread_equal_ = false, complete_ = false;
     bool mirror_equal_ = false, version_matches_ = false;
     std::string diagnostic_;
 
+    bool directory_mode() const {
+        return kind_ != CaptureKind::Bootstrap;
+    }
+    bool membership_mode() const {
+        return kind_ == CaptureKind::Membership;
+    }
     void charge(std::size_t n) {
         if (n > request_.limits.output_bytes - output_)
             stop("ntfs_output_budget");
@@ -320,9 +333,10 @@ class Observer {
         record.report.put("attributes_complete", flag(complete))
             .put("attribute_issues", exact(cursor.issues))
             .put("mappings_valid", flag(!record.mapping_error));
-        const bool flags_match = kind == RecordKind::Directory   ? h.flags == 3
-                                 : kind == RecordKind::Extension ? (h.flags == 1 || h.flags == 3)
-                                                                 : h.flags == 1;
+        const bool flags_match = kind == RecordKind::Directory ? h.flags == 3
+                                 : (kind == RecordKind::Extension || kind == RecordKind::Target)
+                                     ? (h.flags == 1 || h.flags == 3)
+                                     : h.flags == 1;
         record.good = complete && !record.mapping_error && flags_match && h.sequence &&
                       native(h.base_reference) == expected_base && number_matches &&
                       (!expected_sequence || h.sequence == expected_sequence);
@@ -464,6 +478,17 @@ class Observer {
                 physical_ranges(list->runs, &mft_closure_.list_runs);
             if (&closure == &directory_closure_ && !volume_closure_.list_runs.empty())
                 physical_ranges(list->runs, &volume_closure_.list_runs);
+            if (membership_mode()) {
+                if (&closure != &volume_closure_ && !volume_closure_.list_runs.empty())
+                    physical_ranges(list->runs, &volume_closure_.list_runs,
+                                    "ntfs_membership_physical_alias");
+                if (&closure != &directory_closure_ && !directory_closure_.list_runs.empty())
+                    physical_ranges(list->runs, &directory_closure_.list_runs,
+                                    "ntfs_membership_physical_alias");
+                for (const auto *other : {&directory_stream_runs_, &membership_list_runs_})
+                    if (!other->empty())
+                        physical_ranges(list->runs, other, "ntfs_membership_physical_alias");
+            }
             closure.list_runs = list->runs;
             closure.list_value = logical_read(list->runs, 0, static_cast<std::size_t>(data));
             value = de_view{closure.list_value.data(), closure.list_value.size()};
@@ -482,16 +507,13 @@ class Observer {
                                  .put("base_record_sha256",
                                       V::string(digest(base.original.data, base.original.size)));
     }
-    NtfsStreamJoinResult join_records(const Record &base, Closure &closure, unsigned type,
-                                      const Bytes &name = {}) {
-        NtfsStreamJoinRequest request;
+    template <typename Request> Request record_request(const Record &base) {
+        Request request;
         request.context = join_context();
         request.base_reference = reference(base);
         request.volume_clusters = native(boot_.clusters);
         request.cluster_bytes = boot_.cluster_bytes;
         request.record_bytes = boot_.record_bytes;
-        request.type = type;
-        request.name = name;
         request.major = request_.major;
         request.minor = request_.minor;
         request.limits.records = std::min<std::size_t>(256, request_.limits.read_requests);
@@ -501,14 +523,26 @@ class Observer {
         request.limits.runs = request_.limits.runs;
         request.limits.output_bytes = request_.limits.output_bytes;
         request.limits.list_bytes = std::min<std::size_t>(262144, request_.limits.retained_bytes);
+        return request;
+    }
+    std::vector<NtfsCapturedRecord> record_inputs(const Record &base, const Closure &closure,
+                                                  const NtfsStreamContext &context) {
         std::vector<NtfsCapturedRecord> inputs;
         for (const auto *record : closure_records(base, closure)) {
             NtfsCapturedRecord input;
-            input.context = request.context;
+            input.context = context;
             input.number = record->number;
             input.bytes = record->original;
             inputs.push_back(std::move(input));
         }
+        return inputs;
+    }
+    NtfsStreamJoinResult join_records(const Record &base, Closure &closure, unsigned type,
+                                      const Bytes &name = {}) {
+        auto request = record_request<NtfsStreamJoinRequest>(base);
+        request.type = type;
+        request.name = name;
+        auto inputs = record_inputs(base, closure, request.context);
         const auto *list = closure.captured_list.value.data ? &closure.captured_list : nullptr;
         auto joined = join_ntfs_stream(request, inputs, list);
         const auto bytes = json::dump(joined.observation, json_limits()).size() + 2;
@@ -774,9 +808,73 @@ class Observer {
                                                        boot_.cluster_bytes, boot_.index_bytes,
                                                        request_.major, request_.minor};
         ntfs_directory_detail::collect(directory_request_.limits, geometry, std::move(port),
-                                       directory_facts_);
+                                       directory_facts_,
+                                       membership_mode() ? &directory_edges_ : nullptr);
         if (!directory_facts_.fields.at("index_complete").boolean)
             stop(directory_facts_.fields.at("diagnostic").text);
+    }
+    NtfsFilenamesResult collect_target(std::uint64_t wanted, const StreamMapping &mft, V &row) {
+        charge(1024); // Target FILE header and closure controls, before any source read.
+        const auto ordinal = wanted & ((std::uint64_t(1) << 48) - 1),
+                   start = mul(ordinal, boot_.record_bytes), end = add(start, boot_.record_bytes);
+        if (end > mft.initialized || end > mft.data)
+            stop("ntfs_membership_reference_bounds");
+        Bytes original;
+        Record record;
+        Closure closure;
+        std::size_t inventory_bytes = 0;
+        auto sync = [&] {
+            row.put("record", record.report)
+                .put("attribute_list", closure.list_facts)
+                .put("extensions", closure_report(closure).fields.at("extensions"));
+        };
+        try {
+            original = logical_read(mft.runs, start, boot_.record_bytes);
+            parse(record, original, ordinal, 0, static_cast<unsigned>(wanted >> 48),
+                  RecordKind::Target);
+            if (record.mapping_error)
+                stop("ntfs_membership_target_mapping");
+            if (!record.good)
+                stop("ntfs_membership_target_record");
+            acquire_list(closure, record, mft.runs);
+            membership_list_runs_.insert(membership_list_runs_.end(), closure.list_runs.begin(),
+                                         closure.list_runs.end());
+            for (;;) {
+                auto request = record_request<NtfsFilenameRequest>(record);
+                auto inputs = record_inputs(record, closure, request.context);
+                const auto *list =
+                    closure.captured_list.value.data ? &closure.captured_list : nullptr;
+                auto names = collect_ntfs_filenames(request, inputs, list);
+                const auto size = json::dump(names.observation, json_limits()).size() + 2;
+                if (size > inventory_bytes) {
+                    charge(size - inventory_bytes);
+                    inventory_bytes = size;
+                }
+                row.put("inventory", names.observation);
+                sync();
+                if (names.names ||
+                    names.observation.fields.at("diagnostic").text != "ntfs_join_record_missing")
+                    return names;
+                if (names.required_records.empty())
+                    throw std::logic_error("ntfs_membership_dependencies");
+                fetch_reachable(closure, names.required_records, mft, "membership",
+                                RecordKind::Extension);
+            }
+        } catch (...) {
+            sync();
+            throw;
+        }
+    }
+    void collect_membership(const StreamMapping &mft) {
+        ntfs_membership_detail::Port port;
+        port.target = [&](std::uint64_t reference, V &row) {
+            return collect_target(reference, mft, row);
+        };
+        port.charge = [&](std::size_t bytes) { charge(bytes); };
+        ntfs_membership_detail::collect(directory_edges_, membership_request_.targets,
+                                        std::move(port), membership_facts_);
+        if (!membership_facts_.fields.at("collection_complete").boolean)
+            stop(membership_facts_.fields.at("diagnostic").text);
     }
     void collect() {
         const auto &prefix = read(0, 512);
@@ -854,8 +952,10 @@ class Observer {
             .put("value_bytes", exact(value.size))
             .put("sha256", V::string(digest(value.data, value.size)))
             .put("profile_matches", flag(version_matches_));
-        if (directory_mode_)
+        if (directory_mode())
             collect_directory(data);
+        if (membership_mode())
+            collect_membership(data);
         rereading_ = true;
         reread_start_ = reads_;
         for (const auto &region : regions_) {
@@ -873,6 +973,8 @@ class Observer {
             diagnostic_ = "ntfs_mirror_disagreement";
         else if (!version_matches_)
             diagnostic_ = "ntfs_volume_version";
+        else if (membership_mode())
+            diagnostic_ = membership_facts_.fields.at("diagnostic").text;
     }
     V closure_report(const Closure &closure) const {
         auto extensions = V::array();
@@ -892,7 +994,9 @@ class Observer {
     V report() const {
         auto value =
             V::object()
-                .put("schema", V::string(directory_mode_
+                .put("schema", V::string(membership_mode()
+                                             ? "org.disked.ntfs-membership-observation-prototype/1"
+                                         : directory_mode()
                                              ? "org.disked.ntfs-directory-observation-prototype/1"
                                              : "org.disked.ntfs-bootstrap-observation-prototype/1"))
                 .put("source_id", V::string(request_.source_id))
@@ -923,21 +1027,24 @@ class Observer {
                 .put("runs", exact(runs_))
                 .put("reread_requests", exact(rereading_ ? reads_ - reread_start_ : 0));
         if (mft_closure_.active || volume_closure_.active ||
-            (directory_mode_ && directory_record_.good)) {
+            (directory_mode() && directory_record_.good)) {
             auto closures = V::object();
             if (mft_closure_.active)
                 closures.put("mft", closure_report(mft_closure_));
             if (volume_closure_.active)
                 closures.put("volume", closure_report(volume_closure_));
-            if (directory_mode_ && directory_record_.good)
+            if (directory_mode() && directory_record_.good)
                 closures.put("directory", closure_report(directory_closure_));
             value.put("record_closures", std::move(closures));
         }
-        if (directory_mode_)
+        if (directory_mode())
             value.put("requested_directory_reference", exact(directory_request_.reference))
                 .put("directory_record", directory_record_.report)
                 .put("directory", directory_facts_)
                 .put("directory_stream_queries", directory_queries_);
+        if (membership_mode())
+            value.put("requested_target_limit", exact(membership_request_.targets))
+                .put("membership", membership_facts_);
         return value;
     }
 
@@ -952,9 +1059,19 @@ class Observer {
                                     &source_));
     }
     Observer(const NtfsDirectoryRequest &request, const RegionReader &reader)
-        : request_(request.capture), reader_(reader), directory_mode_(true),
+        : request_(request.capture), reader_(reader), kind_(CaptureKind::Directory),
           directory_request_(request) {
         validate_ntfs_directory_request(directory_request_);
+        if (!reader_)
+            throw std::invalid_argument("ntfs_capture_reader");
+        const auto size = portable(request_.source_bytes);
+        checked(de_space_from_bytes(request_.source_id.data(), request_.source_id.size(), &size, 1,
+                                    &source_));
+    }
+    Observer(const NtfsMembershipRequest &request, const RegionReader &reader)
+        : request_(request.directory.capture), reader_(reader), kind_(CaptureKind::Membership),
+          directory_request_(request.directory), membership_request_(request) {
+        validate_ntfs_membership_request(membership_request_);
         if (!reader_)
             throw std::invalid_argument("ntfs_capture_reader");
         const auto size = portable(request_.source_bytes);
@@ -988,6 +1105,9 @@ void validate_ntfs_capture_request(const NtfsCaptureRequest &r) {
         throw std::invalid_argument("ntfs_capture_limits");
 }
 V observe_ntfs_bootstrap(const NtfsCaptureRequest &request, const RegionReader &reader) {
+    return Observer(request, reader).run();
+}
+V observe_ntfs_membership(const NtfsMembershipRequest &request, const RegionReader &reader) {
     return Observer(request, reader).run();
 }
 V observe_ntfs_directory(const NtfsDirectoryRequest &request, const RegionReader &reader) {

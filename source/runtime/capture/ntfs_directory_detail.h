@@ -7,6 +7,12 @@
 namespace disked {
 struct NtfsJoinedStream;
 namespace ntfs_directory_detail {
+struct Edge {
+    std::size_t header;
+    std::uint64_t reference, parent;
+    unsigned namespace_code;
+    std::vector<unsigned char> name;
+};
 struct Geometry {
     std::uint64_t reference;
     std::uint32_t cluster_bytes, index_bytes;
@@ -22,6 +28,6 @@ struct Port {
 };
 // Output owns completed prefixes even if a source callback throws. The caller
 // retains that source diagnostic; index_complete remains false on interruption.
-void collect(NtfsDirectoryLimits, Geometry, Port, json::Value &);
+void collect(NtfsDirectoryLimits, Geometry, Port, json::Value &, std::vector<Edge> * = nullptr);
 } // namespace ntfs_directory_detail
 } // namespace disked

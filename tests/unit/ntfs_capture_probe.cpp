@@ -1,5 +1,6 @@
 #include "runtime/capture/ntfs_capture.h"
 #include "runtime/capture/ntfs_directory.h"
+#include "runtime/capture/ntfs_membership.h"
 #include "ntfs_probe_support.h"
 #include <algorithm>
 #include <memory>
@@ -22,6 +23,7 @@ struct Region {
 static V observe(const V &input) {
     NtfsCaptureRequest request;
     disked::NtfsDirectoryRequest directory;
+    disked::NtfsMembershipRequest membership;
     request.source_id = get(input, "source_id").text;
     if (input.find("invalid_utf8_id"))
         request.source_id.assign(1, static_cast<char>(255));
@@ -47,6 +49,10 @@ static V observe(const V &input) {
     }
     std::vector<Region> regions;
     const auto *directory_input = input.find("directory");
+    const auto *membership_input = input.find("membership");
+    if (membership_input)
+        if (const auto *v = membership_input->find("targets"))
+            membership.targets = static_cast<std::size_t>(integer(*v));
     if (directory_input) {
         if (const auto *value = directory_input->find("reference"))
             directory.reference = integer(*value);
@@ -89,6 +95,10 @@ static V observe(const V &input) {
             request.major = 99;
             directory.reference = 1;
             directory.limits.entries = directory.limits.blocks = directory.limits.bitmap_bytes = 1;
+            membership.targets = 0;
+            membership.directory.reference = 1;
+            membership.directory.capture.source_id = "changed-membership";
+            membership.directory.capture.limits.read_requests = 1;
             reader = {};
         }
         const auto length = static_cast<std::size_t>(last - first);
@@ -119,7 +129,11 @@ static V observe(const V &input) {
     V report;
     std::string refusal;
     try {
-        if (directory_input) {
+        if (membership_input) {
+            directory.capture = request;
+            membership.directory = directory;
+            report = disked::observe_ntfs_membership(membership, reader);
+        } else if (directory_input) {
             directory.capture = request;
             report = disked::observe_ntfs_directory(directory, reader);
         } else {
